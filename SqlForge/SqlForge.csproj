@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Query\From.cs" />
+    <Compile Include="Query\GroupBy.cs" />
     <Compile Include="Query\Join.cs" />
     <Compile Include="Query\OrderBy.cs" />
     <Compile Include="Query\Paging.cs" />

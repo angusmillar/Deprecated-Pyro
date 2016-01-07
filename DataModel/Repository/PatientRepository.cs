@@ -130,10 +130,8 @@ namespace DataModel.Repository
       }
     }
 
-    public Fhir.Bundle SearchByFamily(string family)
+    public Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, int PageRequired = 1)
     {
-      string given = "Zachary";
-
       //Tables            
       var TRes = new SqlTable(DbInfo.Resource.TableNameIs, "R");
       var TPatRes = new SqlTable(DbInfo.PatientResource.TableNameIs, "PR");
@@ -155,48 +153,67 @@ namespace DataModel.Repository
       Join.AddJoin(TGiven, THuman.Prop(DbInfo.HumanName.Id), TGiven.Prop(DbInfo.Given.HumanNameId));      
 
       var Where = new Where();
-      if (family != string.Empty)
+
+      Where.AddCondition(TRes.Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
+      Where.AddOperator(Enums.Operator.AND);
+
+      if (Family != string.Empty)
       {
         Where.AddCondition(TFamily.Prop(DbInfo.Family.Value), Enums.Sign.Equal, "@family");
         Where.AddOperator(Enums.Operator.AND);
       }
 
-      if (given != string.Empty)
+      if (Given != string.Empty)
       {
         Where.AddCondition(TGiven.Prop(DbInfo.Given.Value), Enums.Sign.Equal, "@given");
         Where.AddOperator(Enums.Operator.AND);
-      }     
-      
+      }
+
+      var GroupBy = new GroupBy();
+      GroupBy.AddGroup(TPatRes.Prop(DbInfo.PatientResource.FhirResourceId));
+      GroupBy.AddGroup(TRes.Prop(DbInfo.Resource.Received));
+      GroupBy.AddGroup(TRes.Prop(DbInfo.Resource.Xml));
 
       var OrderBy = new OrderBy();
-      OrderBy.AddOrder(TRes.Prop(DbInfo.Resource.Received));      
-      
-      var Paging = new Paging(1, 10);
-      
-      var sql = new Query();
-      sql.Select = Select;
-      sql.From = From;
-      sql.Join = Join;
-      sql.Where = Where;
-      sql.OrderBy = OrderBy;
-      sql.Paging = Paging;
+      OrderBy.AddOrder(TRes.Prop(DbInfo.Resource.Received));
 
-      string SqlQueryGetXml = sql.CreateQuery();
+      int NumberOfRecordsPerPage = 10;            
+      var Paging = new Paging(PageRequired, NumberOfRecordsPerPage);
+      
+      //Main SQL Query to get records
+      var MainSQL = new Query();
+      MainSQL.Select = Select;
+      MainSQL.From = From;
+      MainSQL.Join = Join;
+      MainSQL.Where = Where;
+      MainSQL.GroupBy = GroupBy;
+      MainSQL.OrderBy = OrderBy;
+      MainSQL.Paging = Paging;
+      string SqlQueryGetXml = MainSQL.CreateQuery();
+
+      //Query to get total Record count for previous query
+      var CountSQL = new Query();
+      
+      //Clear Paging and OrderBy for the count query
+      MainSQL.Paging = null;
+      MainSQL.OrderBy = null;
 
       var SelectCount = new Select();
       SelectCount.AddCountAll();
-      sql.Select = SelectCount;
-      sql.OrderBy = null;
-      sql.Paging = null;
+      CountSQL.Select = SelectCount;
+      //New From that takes the previous query as the sub query
+      var CountFrom = new From();
+      CountFrom.AddSubQuery(MainSQL.CreateQuery());
+      CountSQL.From = CountFrom;
 
-      string SqlQueryCount = sql.CreateQuery();
+      string SqlQueryCount = CountSQL.CreateQuery();
 
 
-      SqlParameter FamilyParam1 = new SqlParameter("family", family);
-      SqlParameter GivenParam1 = new SqlParameter("given", given);
+      SqlParameter FamilyParam1 = new SqlParameter("family", Family);
+      SqlParameter GivenParam1 = new SqlParameter("given", Given);
 
-      SqlParameter FamilyParam2 = new SqlParameter("family", family);
-      SqlParameter GivenParam2 = new SqlParameter("given", given);
+      SqlParameter FamilyParam2 = new SqlParameter("family", Family);
+      SqlParameter GivenParam2 = new SqlParameter("given", Given);
       
       object[] parameters1 = new object[] { FamilyParam1, GivenParam1};
       object[] parameters2 = new object[] { FamilyParam2, GivenParam2 };
@@ -207,12 +224,41 @@ namespace DataModel.Repository
       oBundle.Total = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
       
       oBundle.Link = new List<Fhir.Bundle.BundleLinkComponent>();
-      var TestLink = new Fhir.Bundle.BundleLinkComponent();
-      TestLink.Relation = "first";
-      //If I have the request URL I can just append the page=? info.
-      TestLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=1";
 
-      oBundle.Link.Add(TestLink);
+      var FirstPageLink = new Fhir.Bundle.BundleLinkComponent();
+      FirstPageLink.Relation = "first";
+      //If I have the request URL I can just append the page=? info.
+      FirstPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=1";
+
+      var LastPageLink = new Fhir.Bundle.BundleLinkComponent();
+      LastPageLink.Relation = "last";
+      int LastPageNumber = ((int)oBundle.Total / NumberOfRecordsPerPage) + 1;
+      LastPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + LastPageNumber.ToString();
+
+      var NextPageLink = new Fhir.Bundle.BundleLinkComponent();
+      NextPageLink.Relation = "next";
+      int NextPagenumber = PageRequired + 1;
+      if (NextPagenumber > LastPageNumber) 
+        NextPagenumber = LastPageNumber;
+      NextPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + NextPagenumber.ToString();
+
+
+      var PreviousPageLink = new Fhir.Bundle.BundleLinkComponent();
+      PreviousPageLink.Relation = "previous";
+      int PreviousPagenumber = PageRequired - 1;
+      if (PreviousPagenumber < 1)
+        PreviousPagenumber = 1;
+      if (PreviousPagenumber > LastPageNumber)
+        if (LastPageNumber > 1)
+          PreviousPagenumber = LastPageNumber - 1;
+        else
+          PreviousPagenumber = LastPageNumber;
+      PreviousPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + PreviousPagenumber.ToString();
+
+      oBundle.Link.Add(FirstPageLink);
+      oBundle.Link.Add(PreviousPageLink);
+      oBundle.Link.Add(NextPageLink);      
+      oBundle.Link.Add(LastPageLink);
 
       var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters2);
 

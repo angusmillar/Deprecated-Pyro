@@ -9,8 +9,8 @@ namespace SqlForge.Query
 {
   public class From : StatmentBase
   {
-    private const string _FromCommand = "FROM";    
-
+    private const string _FromCommand = "FROM";
+    private string _SubQueryString = string.Empty;
     private Queue<String> FromQueue = new Queue<String>();
 
     public void AddTable(SqlTable Table)
@@ -24,12 +24,36 @@ namespace SqlForge.Query
       FromQueue.Enqueue(item);
     }
 
+    public void AddSubQuery(Query Query)
+    {
+      this.ResetCache();
+      _SubQueryString = Query.CreateQuery();
+    }
+    
+    public void AddSubQuery(string Query)
+    {
+      this.ResetCache();
+      _SubQueryString = Query;
+    }
+
     public override string GetStatment()
     {
       if (CachedStatment != string.Empty)
         return CachedStatment;
 
       var Statment = new StringBuilder(_FromCommand);
+
+      if (_SubQueryString != string.Empty)
+      {
+        Statment.Append(" (");
+        Statment.NewLine();
+        Statment.Append(_SubQueryString);
+        Statment.NewLine();
+        Statment.Append(" )");
+        Statment.As();
+        Statment.Append(" Agg");
+        return Statment.ToString();
+      }
 
       do
       {

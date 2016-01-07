@@ -27,8 +27,7 @@ namespace Blaze.Engine.Services
           {
             case BlazeImplementation.SupportedFhirResource.Patient:
               return new PatientResourceServices();
-            default:
-              //throw new ApplicationException(String.Format("Internal error, BlazeImplementation.SupportedFhirResource indicates this Resource is supported yet not Service was found for the Resource type.", type));
+            default:              
               throw new BlazeException(HttpStatusCode.BadRequest, String.Format("Internal error, BlazeImplementation.SupportedFhirResource indicates this Resource is supported yet not Service was found for the Resource type.", type));    
           }          
         }

@@ -12,9 +12,9 @@ namespace SqlForge.Query
     public From From { get; set; }
     public Join Join { get; set; }
     public Where Where { get; set; }
+    public GroupBy GroupBy { get; set; }
     public OrderBy OrderBy { get; set; }
     public Paging Paging { get; set; }
-
     public string CreateQuery()
     {
       if (Select == null || From == null)
@@ -32,6 +32,9 @@ namespace SqlForge.Query
 
       if (Where != null)
         Query.Append(Where.GetStatment());
+
+      if (GroupBy != null)
+        Query.Append(GroupBy.GetStatment());
 
       if (OrderBy != null)
         Query.Append(OrderBy.GetStatment());

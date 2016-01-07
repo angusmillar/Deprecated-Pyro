@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using Fhir = Hl7.Fhir;
+using Hl7.Fhir.Model;
 using DataModel;
 using Blaze.Engine.CustomException;
 
@@ -23,7 +23,7 @@ namespace Blaze.Engine.Services
     {
       try
       {
-        Fhir.Model.Patient FhirPatient = _UnitOfWork.PatientRepository.GetCurrentResource(FhirResourceId);
+        Patient FhirPatient = _UnitOfWork.PatientRepository.GetCurrentResource(FhirResourceId);
         if (FhirPatient != null)
         {
           return new Response.FhirRestResponse(System.Net.HttpStatusCode.OK, FhirPatient);
@@ -45,86 +45,43 @@ namespace Blaze.Engine.Services
       }
     }
 
-    public Response.FhirRestResponse Get(Uri uri, Fhir.Rest.SearchParams searchParameters)
+    public Response.FhirRestResponse Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
-      //##Issues# this implementation is very basic as a proof of concept. 
-      //Need to implement a proper SQL search plan with dynamic search queries 
-      try
-      {        
-        var oSerachDic = searchParameters.Parameters.ToDictionary(x => x.Item1, x => x.Item2);
-        
+      List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
+      
+      //Validate the search terms passed in a implemented for this Resource Type
+      var oSearchTerm = Search.SearchUriValidator.Validate(ResourceType.Patient, searchParameters);
 
-        var test2 = searchParameters.ToParameters();
-        var SearchList = Fhir.Model.ModelInfo.SearchParameters;
-
-
-        List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
-
-          
-
-
-        var SearchDefinitionList = new List<Fhir.Model.ModelInfo.SearchParamDefinition>();
-        
-        foreach(var item in searchParameters.Parameters)
-        {
-          var SearchDefinition = SearchList.SingleOrDefault(x => x.Name == item.Item1 && x.Resource == "Patient");
-          if (SearchDefinition != null)
-            SearchDefinitionList.Add(SearchDefinition);
-          else
-          {
-            if (BaseResourceSearchParameters.Contains(item.Item1))
-            {
-
-            }
-            else
-            {
-              //Check any custom search terms and if not found then
-              //return error as search terms is not a FHIR search term
-            }
-
-          }
-        }
-
-
-        Fhir.Model.Bundle oBundle = null;
-
-        if (oSerachDic.ContainsKey("family"))
-        {
-          oBundle = _UnitOfWork.PatientRepository.SearchByFamily(oSerachDic["family"]);          
-        }
-        else if (oSerachDic.ContainsKey("_id"))
-        {
-          //Need this to return a list possibly?
-         // PatientList = _UnitOfWork.PatientRepository.GetCurrentResource(oSerachDic["_id"]);
-        }
-
-
-        if (oBundle != null)
-        {          
-          return new Response.FhirRestResponse(System.Net.HttpStatusCode.OK, oBundle);
-        }
-        else
-        {
-          //##Issues# need more here, should return a OperationOutcome resource 
-          return new Response.FhirRestResponse(System.Net.HttpStatusCode.Forbidden, "No supported search terms found");
-        }
-      }
-      catch (Exception Exec)
+      //Retrieve and create the search plan for this Resource Type
+      var SearchPlan = Search.SearchPlanNegotiator.GetSearchPlan(ResourceType.Patient, _UnitOfWork);
+      
+      //Performed the search with the search plan
+      var oSearchResults = SearchPlan.Search(oSearchTerm);
+      
+      if (!oSearchResults.HasError)
       {
-        return new Response.FhirRestResponse(System.Net.HttpStatusCode.InternalServerError, Exec.Message);
+        return new Response.FhirRestResponse(System.Net.HttpStatusCode.OK, oSearchResults.FhirBundle);
       }
+      else
+      {
+        //##Issues# need more here, should return a OperationOutcome resource 
+        var Sb = new StringBuilder();
+        oSearchResults.ErrorMessageList.ForEach(x => Sb.Append(x));
+        return new Response.FhirRestResponse(System.Net.HttpStatusCode.Forbidden, Sb.ToString());
+      }      
+      
     }
 
-    public Response.FhirRestResponse Post(Fhir.Model.Resource FhirResource)
+    public Response.FhirRestResponse Post(Resource FhirResource)
     {
       try
       {
-        var FhirPatientResource = FhirResource as Fhir.Model.Patient;
+        var FhirPatientResource = FhirResource as Patient;
 
         //Update the resource XML before committing to storage.
         FhirPatientResource.Id = Guid.NewGuid().ToString();
         if (FhirPatientResource.Meta == null)
-          FhirPatientResource.Meta = new Fhir.Model.Meta();
+          FhirPatientResource.Meta = new Meta();
         int Version = 1;
         FhirPatientResource.Meta.VersionId = Version.ToString();
         FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
@@ -137,9 +94,9 @@ namespace Blaze.Engine.Services
       }
     }
 
-    public Response.FhirRestResponse Put(string FhirResourceId, Fhir.Model.Resource FhirResource)
+    public Response.FhirRestResponse Put(string FhirResourceId, Resource FhirResource)
     {
-      var FhirPatientResource = FhirResource as Fhir.Model.Patient;
+      var FhirPatientResource = FhirResource as Patient;
       if (FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != FhirResourceId)
       {
         throw new BlazeException(System.Net.HttpStatusCode.BadRequest,
@@ -151,7 +108,7 @@ namespace Blaze.Engine.Services
       {
         //The resource has been found so update it and return 200 OK
         if (FhirPatientResource.Meta == null)
-          FhirPatientResource.Meta = new Fhir.Model.Meta();
+          FhirPatientResource.Meta = new Meta();
         int CurrentResourceVersion = _UnitOfWork.PatientRepository.GetResourceCurrentVersion(FhirResourceId) + 1;
         FhirPatientResource.Meta.VersionId = CurrentResourceVersion.ToString();
         FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;

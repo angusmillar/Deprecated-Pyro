@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Fhir = Hl7.Fhir.Model;
 
+
 namespace DataModel.Interface
 {
   public interface IPatientRepository : IBaseRepository
@@ -14,7 +15,7 @@ namespace DataModel.Interface
     bool ResourceExists(string FhirResourceId);       
     int GetResourceCurrentVersion(string FhirResourceId);
     string UpdateResource(int ResourceVersion, Fhir.Patient Patient);
-    Fhir.Bundle SearchByFamily(string family);
+    Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, int Page);
     bool IsCurrentResourceDeleted(string FhirResourceId);
     int LastDeletedResourceVersion(string FhirResourceId);
     void UpdateResouceAsDeleted(string FhirResourceId);
