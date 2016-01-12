@@ -11,7 +11,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
   {    
     public SearchTermString()
     {
-      this.SearchParameterType = Conformance.SearchParamType.String;
+      this.SearchParameterType = SearchParamType.String;
     }
     
     public override bool TryParseValue(string Value)

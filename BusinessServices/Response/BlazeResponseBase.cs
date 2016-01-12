@@ -19,13 +19,13 @@ namespace Blaze.Engine.Response
           return false;
       }
     }
-    public void AddOperationOutcomeIssue(OperationOutcome.OperationOutcomeIssueComponent item, System.Net.HttpStatusCode HttpStatusCode)
+    public void AddOperationOutcomeIssue(OperationOutcome.IssueComponent item, System.Net.HttpStatusCode HttpStatusCode)
     {
       this.HttpStatusCode = HttpStatusCode;
       if (this.OperationOutcome == null)
       {
         this.OperationOutcome = new OperationOutcome();
-        this.OperationOutcome.Issue = new List<OperationOutcome.OperationOutcomeIssueComponent>();
+        this.OperationOutcome.Issue = new List<OperationOutcome.IssueComponent>();
       }
       this.OperationOutcome.Issue.Add(item);
     }    

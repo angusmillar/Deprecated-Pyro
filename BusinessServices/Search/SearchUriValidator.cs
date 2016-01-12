@@ -45,19 +45,21 @@ namespace Blaze.Engine.Search
             }
             else
             {              
-              var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+              var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
               OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-              OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-              OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format("Unsupported search Term for the resource '{0}' found in URL, term was: {1}={2}", Result.ResourceTarget.ToString(), Parameter.Item1, Parameter.Item2));            
+              OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+              OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}={1}' content is invalid", Parameter.Item1, Parameter.Item2));
+              OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter for the resource '{0}' found in URL, parameter was: {1}={2}", Result.ResourceTarget.ToString(), Parameter.Item1, Parameter.Item2);             
               Result.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);
             }
           }
           else
           {
-            var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+            var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
             OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-            OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-            OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format("Unsupported search term found in URL, term was: {0}={1}", Parameter.Item1, Parameter.Item2));                        
+            OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+            OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}={1}' content is invalid", Parameter.Item1, Parameter.Item2));
+            OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter found in URL, term was: {0}={1}", Parameter.Item1, Parameter.Item2);            
             Result.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);           
           }
         }
@@ -71,10 +73,11 @@ namespace Blaze.Engine.Search
       {
         if (!oSupported.ModifierList.Contains(oInboundSearch.Modifier))
         {
-          var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-          OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-          OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format(String.Format("Unsupported search Modifier found in URL, Modifier was: '{0}' in parameter '{1}'.", oInboundSearch.Modifier.ToString(), oInboundSearch.RawValue)));
+          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_MODIFIER_INVALID", String.Format("Parameter '{0}' modifier is invalid", oInboundSearch.RawValue));      
+          OpOutComeIssueComp.Details.Text = String.Format("Unsupported search Modifier found in URL, Modifier was: '{0}' in parameter '{1}'.", oInboundSearch.Modifier.ToString(), oInboundSearch.RawValue);
           oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);                     
         }
       }
@@ -83,10 +86,11 @@ namespace Blaze.Engine.Search
       {
         if (!oSupported.PrefixList.Contains(oInboundSearch.Prefix))
         {
-          var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-          OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-          OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format(String.Format("Unsupported search Prefix found in URL, Prefix was: '{0}' in parameter '{1}'.", oInboundSearch.Prefix.ToString(), oInboundSearch.RawValue)));
+          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
+          OpOutComeIssueComp.Details.Text = String.Format(String.Format("Unsupported search Prefix found in URL, Prefix was: '{0}' in parameter '{1}'.", oInboundSearch.Prefix.ToString(), oInboundSearch.RawValue));
           oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);                     
         }
       }
@@ -95,10 +99,11 @@ namespace Blaze.Engine.Search
       {
         if (oSupported.TypeModifierResourceList.Contains((Hl7.Fhir.Model.ResourceType)oInboundSearch.TypeModifierResource))
         {          
-          var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-          OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-          OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format("Unsupported search, the 'Resource' type found in the 'Type[]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'.", oInboundSearch.TypeModifierResource.ToString(), oInboundSearch.RawValue));
+          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;          
+          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
+          OpOutComeIssueComp.Details.Text = String.Format("Unsupported search, the 'Resource' type found in the 'Type[]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'.", oInboundSearch.TypeModifierResource.ToString(), oInboundSearch.RawValue);
           oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);                     
         }
       }

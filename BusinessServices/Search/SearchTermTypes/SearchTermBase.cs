@@ -21,7 +21,11 @@ namespace Blaze.Engine.Search.SearchTermTypes
     public Support.EnumSupport.SearchTermName Name { get; set; }
     public ResourceType Resource { get; set; }
     public string RawValue { get; set; }
-    public Conformance.SearchParamType SearchParameterType { get; set; }
+
+    //Change from re-base DSTU2.1
+    //public SearchParamType SearchParameterType { get; set; }
+    public SearchParamType SearchParameterType { get; set; }
+
     public SearchModifierType Modifier { get; set; }
     public ResourceType? TypeModifierResource { get; set; }
     public SearchPrefixType Prefix { get; set; }
@@ -35,7 +39,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
 
     public static SearchTermBase CreateSearchTerm(ResourceType Resource, Support.EnumSupport.SearchTermName SearchTermName,
                   Tuple<string, string> Parameter,
-                  Conformance.SearchParamType SearchParameterType)
+                  SearchParamType SearchParameterType)
     {
       SearchTermBase oSearchTerm = InitalizeSearchTerm(SearchParameterType);
       oSearchTerm.Resource = Resource;
@@ -97,28 +101,28 @@ namespace Blaze.Engine.Search.SearchTermTypes
           break;
       }
     }
-    private static SearchTermBase InitalizeSearchTerm(Conformance.SearchParamType SearchParameterType)
+    private static SearchTermBase InitalizeSearchTerm(SearchParamType SearchParameterType)
     {
       SearchTermBase oSearchTerm = null;
       switch (SearchParameterType)
       {
-        case Conformance.SearchParamType.Composite:
+        case SearchParamType.Composite:
           break;
-        case Conformance.SearchParamType.Date:
+        case SearchParamType.Date:
           break;
-        case Conformance.SearchParamType.Number:
+        case SearchParamType.Number:
           oSearchTerm = new SearchTermNumber();
           break;
-        case Conformance.SearchParamType.Quantity:
+        case SearchParamType.Quantity:
           break;
-        case Conformance.SearchParamType.Reference:
+        case SearchParamType.Reference:
           break;
-        case Conformance.SearchParamType.String:
+        case SearchParamType.String:
           oSearchTerm = new SearchTermString();
           break;
-        case Conformance.SearchParamType.Token:
+        case SearchParamType.Token:
           break;
-        case Conformance.SearchParamType.Uri:
+        case SearchParamType.Uri:
           break;
         default:
           break;
@@ -139,9 +143,9 @@ namespace Blaze.Engine.Search.SearchTermTypes
     }
     private static string ParsePrefix(string Value, SearchTermBase oSearchTerm)
     {
-      if (oSearchTerm.SearchParameterType == Conformance.SearchParamType.Date ||
-        oSearchTerm.SearchParameterType == Conformance.SearchParamType.Number ||
-        oSearchTerm.SearchParameterType == Conformance.SearchParamType.Quantity)
+      if (oSearchTerm.SearchParameterType == SearchParamType.Date ||
+        oSearchTerm.SearchParameterType == SearchParamType.Number ||
+        oSearchTerm.SearchParameterType == SearchParamType.Quantity)
       {
         if (Value.Length > 2)
         {

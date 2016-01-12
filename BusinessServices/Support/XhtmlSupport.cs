@@ -18,8 +18,12 @@ namespace Blaze.Engine.Support
       // Put HtmlTextWriter in using block because it needs to call Dispose.
       using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
       {
-        writer.RenderBeginTag(HtmlTextWriterTag.Div);        
+        writer.RenderBeginTag(HtmlTextWriterTag.Div);
+        //##Issues## if I and the <p> tag I get an empty name-space on the tag like this: <p xmlns="">
+        //It is the Hl7.Fhir API adding this, not sure why or even if it is wrong.
+        //writer.RenderBeginTag(HtmlTextWriterTag.P);
         writer.WriteEncodedText(text);        
+        //writer.RenderEndTag();
         writer.RenderEndTag(); 
       }
       // Return the result.

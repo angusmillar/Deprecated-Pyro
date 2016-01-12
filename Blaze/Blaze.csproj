@@ -39,8 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hl7.Fhir.Core">
-      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Release\Net45\Hl7.Fhir.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.DSTU2.Core, Version=0.90.4.19664, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Release\Net45\Hl7.Fhir.DSTU2.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

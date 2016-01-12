@@ -129,11 +129,18 @@ namespace Blaze.Engine.Search
           }
         }
       }
-      var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+      var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
       OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
-      OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
-      OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format("This search parameter combination provided is not supported by the server."));      
-      oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp,System.Net.HttpStatusCode.Forbidden);     
+      OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+      string ParameterListForErrorMessage = string.Empty;
+      foreach(var item in oSearchTerms.SearchTermList)
+      {
+        ParameterListForErrorMessage += item.RawValue + " & "; 
+      }
+      ParameterListForErrorMessage = ParameterListForErrorMessage.Substring(0, ParameterListForErrorMessage.Length - 3);
+      OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_UNKNOWN", String.Format("Parameter '{0}' not understood", ParameterListForErrorMessage));
+      OpOutComeIssueComp.Details.Text = String.Format("This search parameter combination provided is not supported by the server. Parameters were: {0}", ParameterListForErrorMessage);
+      oSearchResult.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);     
       return oSearchResult;
     }
   }

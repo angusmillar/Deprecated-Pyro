@@ -21,7 +21,7 @@ namespace Blaze.Engine.Support.ExtensionMethods
       string Narrative = string.Empty;
       foreach(var item in oOperationOutcome.Issue)
       {
-        Narrative += "    " + item.Details;
+        Narrative += "    " + item.Details.Text;
       }
       oOperationOutcome.Text = new Hl7.Fhir.Model.Narrative();
       oOperationOutcome.Text.Status = Hl7.Fhir.Model.Narrative.NarrativeStatus.Generated;

@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hl7.Fhir.Core">
-      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Release\Net45\Hl7.Fhir.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.DSTU2.Core">
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Release\Net45\Hl7.Fhir.DSTU2.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

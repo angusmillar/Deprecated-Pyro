@@ -17,7 +17,7 @@ namespace Blaze.Engine.Search
   {
     public Blaze.Engine.Support.EnumSupport.SearchTermName Name { get; set; }
     public ResourceType Resource { get; set; }
-    public Conformance.SearchParamType SearchParameterType { get; set; }
+    public SearchParamType SearchParameterType { get; set; }
     public List<SearchModifierType> ModifierList { get; set; }
     public List<ResourceType> TypeModifierResourceList { get; set; }
     public List<SearchPrefixType> PrefixList { get; set; }    
@@ -27,7 +27,7 @@ namespace Blaze.Engine.Search
       var Page = new SupportedSearchTerm();
       Page.Name = Support.EnumSupport.SearchTermName.Page;
       Page.Resource = ResourceType.Resource;
-      Page.SearchParameterType = Conformance.SearchParamType.Number;
+      Page.SearchParameterType = SearchParamType.Number;
       Page.ModifierList = new List<SearchModifierType>();
       Page.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
       Page.PrefixList = new List<SearchPrefixType>();
@@ -36,7 +36,7 @@ namespace Blaze.Engine.Search
       var _Id = new SupportedSearchTerm();
       _Id.Name = Support.EnumSupport.SearchTermName._Id;
       _Id.Resource = ResourceType.Resource;
-      _Id.SearchParameterType = Conformance.SearchParamType.String;
+      _Id.SearchParameterType = SearchParamType.String;
       _Id.ModifierList = new List<SearchModifierType>();
       _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
       _Id.PrefixList = new List<SearchPrefixType>();
@@ -55,7 +55,7 @@ namespace Blaze.Engine.Search
             var Family = new SupportedSearchTerm();
             Family.Name = Support.EnumSupport.SearchTermName.Family;
             Family.Resource = ResourceType;
-            Family.SearchParameterType = Conformance.SearchParamType.String;
+            Family.SearchParameterType = SearchParamType.String;
             Family.ModifierList = new List<SearchModifierType>();
             Family.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Family.PrefixList = new List<SearchPrefixType>();
@@ -64,7 +64,7 @@ namespace Blaze.Engine.Search
             var Given = new SupportedSearchTerm();
             Given.Name = Support.EnumSupport.SearchTermName.Given;
             Given.Resource = ResourceType;
-            Given.SearchParameterType = Conformance.SearchParamType.String;
+            Given.SearchParameterType = SearchParamType.String;
             Given.ModifierList = new List<SearchModifierType>();
             Given.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Given.PrefixList = new List<SearchPrefixType>();            
@@ -73,7 +73,7 @@ namespace Blaze.Engine.Search
             var Name = new SupportedSearchTerm();
             Name.Name = Support.EnumSupport.SearchTermName.Name;
             Name.Resource = ResourceType;
-            Name.SearchParameterType = Conformance.SearchParamType.String;
+            Name.SearchParameterType = SearchParamType.String;
             Name.ModifierList = new List<SearchModifierType>();
             Name.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Name.PrefixList = new List<SearchPrefixType>();
@@ -82,7 +82,7 @@ namespace Blaze.Engine.Search
             var Phonetic = new SupportedSearchTerm();
             Phonetic.Name = Support.EnumSupport.SearchTermName.Phonetic;
             Phonetic.Resource = ResourceType;
-            Phonetic.SearchParameterType = Conformance.SearchParamType.String;
+            Phonetic.SearchParameterType = SearchParamType.String;
             Phonetic.ModifierList = new List<SearchModifierType>();
             Phonetic.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Phonetic.PrefixList = new List<SearchPrefixType>();

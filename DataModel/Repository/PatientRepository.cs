@@ -168,11 +168,18 @@ namespace DataModel.Repository
       foreach (var Xml in PatientXmlList)
       {
         var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
-        Fhir.Bundle.BundleEntryComponent oResEntry = new Fhir.Bundle.BundleEntryComponent();
-        oResEntry.Search = new Fhir.Bundle.BundleEntrySearchComponent();
+        
+        //Three Changes below implemented on re-base to DSTU 2.1
+        //Fhir.Bundle.BundleEntryComponent oResEntry = new Fhir.Bundle.BundleEntryComponent();
+        Fhir.Bundle.EntryComponent oResEntry = new Fhir.Bundle.EntryComponent();
+
+        //oResEntry.Search = new Fhir.Bundle.BundleEntrySearchComponent();
+        oResEntry.Search = new Fhir.Bundle.SearchComponent();
+
         oResEntry.Search.Mode = Fhir.Bundle.SearchEntryMode.Match;
         oResEntry.Resource = PatientResource;
-        oResEntry.Link = new List<Fhir.Bundle.BundleLinkComponent>();
+        //oResEntry.Link = new List<Fhir.Bundle.BundleLinkComponent>();
+        oResEntry.Link = new List<Fhir.Bundle.LinkComponent>();
         oBundle.Entry.Add(oResEntry);
       }
 
@@ -317,11 +324,11 @@ namespace DataModel.Repository
       foreach (var Xml in PatientXmlList)
       {
         var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
-        Fhir.Bundle.BundleEntryComponent oResEntry = new Fhir.Bundle.BundleEntryComponent();
-        oResEntry.Search = new Fhir.Bundle.BundleEntrySearchComponent();
+        Fhir.Bundle.EntryComponent oResEntry = new Fhir.Bundle.EntryComponent();
+        oResEntry.Search = new Fhir.Bundle.SearchComponent();
         oResEntry.Search.Mode = Fhir.Bundle.SearchEntryMode.Match;
         oResEntry.Resource = PatientResource;
-        oResEntry.Link = new List<Fhir.Bundle.BundleLinkComponent>();
+        oResEntry.Link = new List<Fhir.Bundle.LinkComponent>();
 
         oBundle.Entry.Add(oResEntry);
       }

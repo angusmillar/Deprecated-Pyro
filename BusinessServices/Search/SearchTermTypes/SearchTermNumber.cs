@@ -11,7 +11,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
   {
     public SearchTermNumber() : base()
     {      
-      this.SearchParameterType = Conformance.SearchParamType.Number;
+      this.SearchParameterType = SearchParamType.Number;
       
     }
 
