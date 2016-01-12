@@ -4,27 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Blaze.Engine.Support.ExtensionMethods;
 
 namespace Blaze.Engine.Search
 {
-  public class SearchResult
+  public class SearchResult : Response.BlazeResponseBase
   {
-    public List<string> ErrorMessageList { get; set; }
-    public bool HasError
-    {
-      get
-      {
-        if (this.ErrorMessageList.Count > 0)
-          return true;
-        else
-          return false;
-      }
-    }
     public Bundle FhirBundle { get; set; }
-
-    public SearchResult()
+    public override Resource ResourceToReturn()
     {
-      this.ErrorMessageList = new List<string>();
+      if (this.HasError)
+      {
+        this.OperationOutcome.GenerateNarrative();
+        return this.OperationOutcome;
+      }
+      else
+      {
+        return this.FhirBundle;
+      }
     }
   }
 }

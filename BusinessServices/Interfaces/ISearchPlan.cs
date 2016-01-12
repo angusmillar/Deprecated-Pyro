@@ -11,6 +11,7 @@ namespace Blaze.Engine.Interfaces
   public interface ISearchPlan
   {
     UnitOfWork UnitOfWork { set; }
+    Uri RequestUri { get; set; }
     SearchResult Search(SearchTerms oSearchTerms);    
   }
 }

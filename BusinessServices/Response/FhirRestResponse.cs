@@ -131,7 +131,10 @@ namespace Blaze.Engine.Response
       //Forbidden: 403
       else if (this.StatusCode == HttpStatusCode.Forbidden)
       {
-        return request.CreateResponse(this.StatusCode, this.ErrorMessage);
+        if (this.Resource != null)
+          return request.CreateResponse(this.StatusCode, this.Resource);
+        else
+          return request.CreateResponse(this.StatusCode, "What the?");
       }
       else
         return request.CreateResponse(this.StatusCode, this.ErrorMessage);

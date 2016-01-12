@@ -23,6 +23,7 @@ namespace Blaze.Controllers
       _FhirServiceNegotiator = new FhirServiceNegotiator();
     }
     
+    // Get By id
     // GET: http://localhost:50579/FhirApi/Patient/5
     [HttpGet, Route("{type}/{id}")]
     public HttpResponseMessage Get(string type, string id)
@@ -31,6 +32,7 @@ namespace Blaze.Controllers
       return Response.GetHttpResponseMessage(this.Request);     
     }
 
+    //Search
     // GET: http://localhost:50579/FhirApi/Patient/5
     [HttpGet, Route("{type}")]
     public HttpResponseMessage Search(string type)
@@ -39,7 +41,8 @@ namespace Blaze.Controllers
       return Response.GetHttpResponseMessage(this.Request);     
     }
 
-    // POST: http://localhost:50579/FhirApi/Patient/1
+    // Add
+    // POST: URL/FhirApi/Patient/1
     [HttpPost, Route("{type}")]
     public HttpResponseMessage Post(string type, FhirModel.Resource resource)
     {
@@ -47,7 +50,8 @@ namespace Blaze.Controllers
       return Response.GetHttpResponseMessage(this.Request);              
     }
 
-    // PUT: http://localhost:50579/FhirApi/Patient/5
+    //Update
+    // PUT: URL/FhirApi/Patient/5
     [HttpPut, Route("{type}/{id}")]
     public HttpResponseMessage Put(string type, string id, FhirModel.Resource resource)
     {
@@ -56,7 +60,8 @@ namespace Blaze.Controllers
 
     }
 
-    // DELETE: api/FhirApi/5
+    //Delete
+    // DELETE: URL/FhirApi/Patient/5
     [HttpDelete, Route("{type}/{id}")]
     public HttpResponseMessage Delete(string type, string id)
     {

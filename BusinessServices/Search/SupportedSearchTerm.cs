@@ -33,6 +33,15 @@ namespace Blaze.Engine.Search
       Page.PrefixList = new List<SearchPrefixType>();
       List.Add(Page);
 
+      var _Id = new SupportedSearchTerm();
+      _Id.Name = Support.EnumSupport.SearchTermName._Id;
+      _Id.Resource = ResourceType.Resource;
+      _Id.SearchParameterType = Conformance.SearchParamType.String;
+      _Id.ModifierList = new List<SearchModifierType>();
+      _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+      _Id.PrefixList = new List<SearchPrefixType>();
+      List.Add(_Id);
+
     }
 
     public static List<SupportedSearchTerm> GetSupportedTermList(ResourceType ResourceType)
@@ -58,10 +67,26 @@ namespace Blaze.Engine.Search
             Given.SearchParameterType = Conformance.SearchParamType.String;
             Given.ModifierList = new List<SearchModifierType>();
             Given.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
-            Given.PrefixList = new List<SearchPrefixType>();
-            
+            Given.PrefixList = new List<SearchPrefixType>();            
             List.Add(Given);
 
+            var Name = new SupportedSearchTerm();
+            Name.Name = Support.EnumSupport.SearchTermName.Name;
+            Name.Resource = ResourceType;
+            Name.SearchParameterType = Conformance.SearchParamType.String;
+            Name.ModifierList = new List<SearchModifierType>();
+            Name.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            Name.PrefixList = new List<SearchPrefixType>();
+            List.Add(Name);
+
+            var Phonetic = new SupportedSearchTerm();
+            Phonetic.Name = Support.EnumSupport.SearchTermName.Phonetic;
+            Phonetic.Resource = ResourceType;
+            Phonetic.SearchParameterType = Conformance.SearchParamType.String;
+            Phonetic.ModifierList = new List<SearchModifierType>();
+            Phonetic.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            Phonetic.PrefixList = new List<SearchPrefixType>();
+            List.Add(Phonetic);
           }
           break;
         default:

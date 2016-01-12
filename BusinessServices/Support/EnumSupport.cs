@@ -9,14 +9,17 @@ namespace Blaze.Engine.Support
 {
   public static class EnumSupport
   {
-    public enum SearchTermName { None, Family, Given, Page };
+    public enum SearchTermName { None, _Id, Family, Given, Name, Phonetic, Page};
 
     public static Dictionary<string, SearchTermName> GetSearchTermNameDictionary()
     {
       return new Dictionary<string, SearchTermName>()
       {
+        {"_id",SearchTermName._Id},
         {"family",SearchTermName.Family},
-        {"given",SearchTermName.Given},
+        {"given",SearchTermName.Given},        
+        {"name",SearchTermName.Name}, 
+        {"phonetic",SearchTermName.Phonetic}, 
         {"page",SearchTermName.Page}
       };
     }

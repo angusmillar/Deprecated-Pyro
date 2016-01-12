@@ -7,6 +7,10 @@ using System.Net.Http;
 using Hl7.Fhir.Model;
 using DataModel;
 using Blaze.Engine.CustomException;
+using System.Web.UI;
+using System.IO;
+
+
 
 namespace Blaze.Engine.Services
 {
@@ -18,7 +22,7 @@ namespace Blaze.Engine.Services
     {
       _UnitOfWork = new UnitOfWork();
     }
-
+    
     public Response.FhirRestResponse Get(string FhirResourceId)
     {
       try
@@ -45,31 +49,28 @@ namespace Blaze.Engine.Services
       }
     }
 
-    public Response.FhirRestResponse Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParameters)
+    public Response.FhirRestResponse Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
       List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
       
       //Validate the search terms passed in a implemented for this Resource Type
       var oSearchTerm = Search.SearchUriValidator.Validate(ResourceType.Patient, searchParameters);
 
-      //Retrieve and create the search plan for this Resource Type
+      if (oSearchTerm.HasError)
+      {        
+        return new Response.FhirRestResponse(oSearchTerm.HttpStatusCode, oSearchTerm.ResourceToReturn());
+      }
+
+      //Retrieve the search plan for this Resource Type
       var SearchPlan = Search.SearchPlanNegotiator.GetSearchPlan(ResourceType.Patient, _UnitOfWork);
-      
+      SearchPlan.RequestUri = Uri;
+
       //Performed the search with the search plan
       var oSearchResults = SearchPlan.Search(oSearchTerm);
-      
-      if (!oSearchResults.HasError)
-      {
-        return new Response.FhirRestResponse(System.Net.HttpStatusCode.OK, oSearchResults.FhirBundle);
-      }
-      else
-      {
-        //##Issues# need more here, should return a OperationOutcome resource 
-        var Sb = new StringBuilder();
-        oSearchResults.ErrorMessageList.ForEach(x => Sb.Append(x));
-        return new Response.FhirRestResponse(System.Net.HttpStatusCode.Forbidden, Sb.ToString());
-      }      
-      
+
+      //ResourceToReturn dynamical returns a OperationOutcome if error detected.
+      return new Response.FhirRestResponse(oSearchResults.HttpStatusCode, oSearchResults.ResourceToReturn());
+              
     }
 
     public Response.FhirRestResponse Post(Resource FhirResource)

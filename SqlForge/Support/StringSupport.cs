@@ -30,6 +30,10 @@ namespace SqlForge.Support
           return "NOT LIKE";
         case Enums.Sign.Not:
           return "NOT";
+        case Enums.Sign.Plus:
+          return "+";
+        case Enums.Sign.None:
+          return "";
         default:
           throw new ApplicationException("Internal error SQL sign of '" + sign.ToString() + "' Not found in extensions for SqlQueryForge.");
       }
@@ -59,6 +63,14 @@ namespace SqlForge.Support
         default:
           throw new ApplicationException("Internal error SQL Sort Order of '" + SortOrder.ToString() + "' Not found in extensions for SqlQueryForge.");
       }
+    }
+
+    public static string Property(SqlTable TableProperty)
+    {
+      if (TableProperty.TableAlias != string.Empty)
+        return String.Format("{0}.{1}", TableProperty.TableAlias, TableProperty.PropertyName);
+      else
+        return String.Format("{0}", TableProperty.PropertyName);
     }
   }
 }

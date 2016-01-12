@@ -8,24 +8,15 @@ using Blaze.Engine.Search.SearchTermTypes;
 
 namespace Blaze.Engine.Search
 {
-  public class PatientSearchPlan : Interfaces.ISearchPlan
+  public class PatientSearchPlan : SearchPlanBase, Interfaces.ISearchPlan
   {
-    private DataModel.UnitOfWork _UnitOfWork;
-    public DataModel.UnitOfWork UnitOfWork 
-    { 
-      set
-      {
-        _UnitOfWork = value;
-      }
-    }
-    
     public SearchResult Search(SearchTerms oSearchTerms)
     {
       //Check that the SearchTerms have not already thrown an error 
       var oSearchResult = new SearchResult();
       if (oSearchTerms.HasError)
       {
-        oSearchResult.ErrorMessageList = oSearchTerms.ErrorMessageList;
+        oSearchResult.OperationOutcome = oSearchTerms.OperationOutcome;
         return oSearchResult;
       }
 
@@ -36,16 +27,34 @@ namespace Blaze.Engine.Search
         {
           if (!oSearchTerms.SearchTermList.Any(x => x.HasLogicalOrProperties == true))
           {
-            if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Family)
+            if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName._Id)
+            {
+              Search.SearchTermTypes.SearchTermString _Id = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0]);
+              return oSearchResult;
+            }
+            else if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Family)
             {
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, 1);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, 1, RequestUri);
               return oSearchResult;
             }
             else if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Given)
             {
               Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], 1);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, 1, RequestUri);
+              return oSearchResult;
+            }
+            else if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Name)
+            {
+              Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, 1, RequestUri);
+              return oSearchResult;
+            }
+            else if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Phonetic)
+            {
+              Search.SearchTermTypes.SearchTermString Phonetic = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], 1, RequestUri);
               return oSearchResult;
             }
           }
@@ -62,7 +71,7 @@ namespace Blaze.Engine.Search
             {
               Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], 1);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, 1, RequestUri);
               return oSearchResult;
             }
 
@@ -72,7 +81,7 @@ namespace Blaze.Engine.Search
               Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
               Search.SearchTermTypes.SearchTermNumber Page = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Page) as Search.SearchTermTypes.SearchTermNumber;
               int Pagenumber = Convert.ToInt32(Page.Values[0]);
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], Pagenumber);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, Pagenumber, RequestUri);
               return oSearchResult;
             }
 
@@ -82,9 +91,21 @@ namespace Blaze.Engine.Search
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
               Search.SearchTermTypes.SearchTermNumber Page = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Page) as Search.SearchTermTypes.SearchTermNumber;
               int Pagenumber = Convert.ToInt32(Page.Values[0]);
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, Pagenumber);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, Pagenumber, RequestUri);
               return oSearchResult;
             }
+            if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Name)
+              && oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Page))
+            {
+              Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Name) as Search.SearchTermTypes.SearchTermString;
+              Search.SearchTermTypes.SearchTermNumber Page = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Page) as Search.SearchTermTypes.SearchTermNumber;
+              int Pagenumber = Convert.ToInt32(Page.Values[0]);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, Pagenumber, RequestUri);
+              return oSearchResult;
+            }
+
+
+
           }
         }
       }
@@ -102,13 +123,17 @@ namespace Blaze.Engine.Search
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
               Search.SearchTermTypes.SearchTermNumber Page = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Page) as Search.SearchTermTypes.SearchTermNumber;
               int Pagenumber = Convert.ToInt32(Page.Values[0]);
-              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], Pagenumber);
+              oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, Pagenumber, RequestUri);
               return oSearchResult;
             }
           }
         }
       }
-      oSearchResult.ErrorMessageList.Add(String.Format("This search parameter combination provided is not supported by the server."));
+      var OpOutComeIssueComp = new OperationOutcome.OperationOutcomeIssueComponent();
+      OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
+      OpOutComeIssueComp.Code = new CodeableConcept("http://hl7.org/fhir/issue-type", "error", "The issue is sufficiently important to cause the action to fail.");
+      OpOutComeIssueComp.Details = Support.XhtmlSupport.EncodeToString(String.Format("This search parameter combination provided is not supported by the server."));      
+      oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp,System.Net.HttpStatusCode.Forbidden);     
       return oSearchResult;
     }
   }

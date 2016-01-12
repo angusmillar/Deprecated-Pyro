@@ -130,136 +130,188 @@ namespace DataModel.Repository
       }
     }
 
-    public Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, int PageRequired = 1)
+    public Fhir.Bundle SearchByFhirId(string _Id)
     {
-      //Tables            
-      var TRes = new SqlTable(DbInfo.Resource.TableNameIs, "R");
-      var TPatRes = new SqlTable(DbInfo.PatientResource.TableNameIs, "PR");
-      var THuman = new SqlTable(DbInfo.HumanName.TableNameIs, "H");
-      var TFamily = new SqlTable(DbInfo.Family.TableNameIs, "F");
-      var TGiven = new SqlTable(DbInfo.Given.TableNameIs, "G");
+      Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
+      TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
+      TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
+
+      var Query = new Query();
 
       var Select = new Select();
-      Select.AddProp(TRes.Prop(DbInfo.Resource.Xml));     
-      
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
+      Query.Select = Select;
+
       var From = new From();
-      From.AddTable(TRes);
-      
+      From.AddTable(TableDic[DbInfo.Resource.TableNameIs]);
+      Query.From = From;
 
       var Join = new Join();
-      Join.AddJoin(TPatRes, TRes.Prop(DbInfo.Resource.PatientResourceId), TPatRes.Prop(DbInfo.PatientResource.Id));
-      Join.AddJoin(THuman, TPatRes.Prop(DbInfo.PatientResource.Id), THuman.Prop(DbInfo.HumanName.PatientResourceId));
-      Join.AddJoin(TFamily, THuman.Prop(DbInfo.HumanName.Id), TFamily.Prop(DbInfo.Family.HumanNameId));
-      Join.AddJoin(TGiven, THuman.Prop(DbInfo.HumanName.Id), TGiven.Prop(DbInfo.Given.HumanNameId));      
+      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResourceId), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+      Query.Join = Join;
 
       var Where = new Where();
+      Where.AddCondition(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
+      Where.AddOperator(Enums.Operator.AND);
+      Where.AddCondition(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId), Enums.Sign.Equal, "@FhirId");
+      Query.Where = Where;
 
-      Where.AddCondition(TRes.Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
+      string SqlQueryGetXml = Query.CreateQuery();
+
+      var FhirID = new SqlParameter("FhirId", _Id);
+      object[] parameters = new object[] { FhirID };
+
+      Fhir.Bundle oBundle = new Fhir.Bundle() { Type = Fhir.Bundle.BundleType.Searchset};
+
+      var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters);
+
+      foreach (var Xml in PatientXmlList)
+      {
+        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
+        Fhir.Bundle.BundleEntryComponent oResEntry = new Fhir.Bundle.BundleEntryComponent();
+        oResEntry.Search = new Fhir.Bundle.BundleEntrySearchComponent();
+        oResEntry.Search.Mode = Fhir.Bundle.SearchEntryMode.Match;
+        oResEntry.Resource = PatientResource;
+        oResEntry.Link = new List<Fhir.Bundle.BundleLinkComponent>();
+        oBundle.Entry.Add(oResEntry);
+      }
+
+      return oBundle;
+
+    }
+
+    public Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, int PageRequired, Uri RequestUri)
+    {
+      //Tables            
+      Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
+      TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
+      TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
+      TableDic.Add(DbInfo.HumanName.TableNameIs, new SqlTable(DbInfo.HumanName.TableNameIs, "H"));
+      TableDic.Add(DbInfo.Family.TableNameIs, new SqlTable(DbInfo.Family.TableNameIs, "F"));
+      TableDic.Add(DbInfo.Given.TableNameIs, new SqlTable(DbInfo.Given.TableNameIs, "G"));
+
+      var HumanNameQuery = SetupHumanNameQuery(TableDic);
+      
+      var Where = new Where();
+
+      Where.AddCondition(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
       Where.AddOperator(Enums.Operator.AND);
 
       if (Family != string.Empty)
       {
-        Where.AddCondition(TFamily.Prop(DbInfo.Family.Value), Enums.Sign.Equal, "@family");
+        Where.AddCondition(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value), Enums.Sign.Equal, "@family");
         Where.AddOperator(Enums.Operator.AND);
       }
 
       if (Given != string.Empty)
       {
-        Where.AddCondition(TGiven.Prop(DbInfo.Given.Value), Enums.Sign.Equal, "@given");
+        Where.AddCondition(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value), Enums.Sign.Equal, "@given");
         Where.AddOperator(Enums.Operator.AND);
       }
 
+      if (Name != string.Empty)
+      {
+        //Condition = F.Value + ' ' +  G.Value LIKE '%Zachary MIllar%
+        string Condition = "{0} + ' ' + {1} {2} '%'+{3}+'%'";
+        string ConditionFamilyGiven = String.Format(Condition, StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)),
+                                                                                 StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)),
+                                                                                 StringSupport.SignToString(Enums.Sign.Like),
+                                                                                 "@name");
+
+        //F.Value + ' ' +  G.Value LIKE '%Zachary MIllar%
+        string ConditionGivenFamily = String.Format(Condition, StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)),
+                                                                                 StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)),
+                                                                                 StringSupport.SignToString(Enums.Sign.Like),
+                                                                                 "@name");
+
+        Where.AddCondition(ConditionFamilyGiven);
+        Where.AddOperator(Enums.Operator.OR);
+        Where.AddCondition(ConditionGivenFamily);
+      }
+
+      if (Phonetic != string.Empty)
+      {                
+        string Condition = "SOUNDEX({0}) = SOUNDEX({1} + ' ' + {2})";
+        string ConditionFamilyGiven = String.Format(Condition, "@Phonetic", 
+                                                                StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)),
+                                                                StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)));
+
+        
+        string ConditionGivenFamily = String.Format(Condition, "@Phonetic",
+                                                                StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)),
+                                                                StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)));
+
+        Where.AddCondition(ConditionFamilyGiven);
+        Where.AddOperator(Enums.Operator.OR);
+        Where.AddCondition(ConditionGivenFamily);
+      }
+
+      HumanNameQuery.Where = Where;
+
+     
+
       var GroupBy = new GroupBy();
-      GroupBy.AddGroup(TPatRes.Prop(DbInfo.PatientResource.FhirResourceId));
-      GroupBy.AddGroup(TRes.Prop(DbInfo.Resource.Received));
-      GroupBy.AddGroup(TRes.Prop(DbInfo.Resource.Xml));
+      GroupBy.AddGroup(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId));
+      GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
+      GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
+      HumanNameQuery.GroupBy = GroupBy;
+     
 
       var OrderBy = new OrderBy();
-      OrderBy.AddOrder(TRes.Prop(DbInfo.Resource.Received));
-
+      OrderBy.AddOrder(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
+      HumanNameQuery.OrderBy = OrderBy;
+     
       int NumberOfRecordsPerPage = 10;            
       var Paging = new Paging(PageRequired, NumberOfRecordsPerPage);
-      
-      //Main SQL Query to get records
-      var MainSQL = new Query();
-      MainSQL.Select = Select;
-      MainSQL.From = From;
-      MainSQL.Join = Join;
-      MainSQL.Where = Where;
-      MainSQL.GroupBy = GroupBy;
-      MainSQL.OrderBy = OrderBy;
-      MainSQL.Paging = Paging;
-      string SqlQueryGetXml = MainSQL.CreateQuery();
+      HumanNameQuery.Paging = Paging;
+
+
+
+      string SqlQueryGetXml = HumanNameQuery.CreateQuery();
 
       //Query to get total Record count for previous query
       var CountSQL = new Query();
       
       //Clear Paging and OrderBy for the count query
-      MainSQL.Paging = null;
-      MainSQL.OrderBy = null;
+      HumanNameQuery.Paging = null;
+      HumanNameQuery.OrderBy = null;
 
       var SelectCount = new Select();
       SelectCount.AddCountAll();
       CountSQL.Select = SelectCount;
       //New From that takes the previous query as the sub query
       var CountFrom = new From();
-      CountFrom.AddSubQuery(MainSQL.CreateQuery());
+      CountFrom.AddSubQuery(HumanNameQuery.CreateQuery());
       CountSQL.From = CountFrom;
 
       string SqlQueryCount = CountSQL.CreateQuery();
 
+      //Silly but each SqlParameter instance must be unique to a SqlQuery.
+      var FamilyParam1 = new SqlParameter("family", Family);
+      var GivenParam1 = new SqlParameter("given", Given);
+      var NameParam1 = new SqlParameter("name", Name);
+      var PhoneticParam1 = new SqlParameter("phonetic", Phonetic);
 
-      SqlParameter FamilyParam1 = new SqlParameter("family", Family);
-      SqlParameter GivenParam1 = new SqlParameter("given", Given);
+      var FamilyParam2 = new SqlParameter("family", Family);
+      var GivenParam2 = new SqlParameter("given", Given);
+      var NameParam2 = new SqlParameter("name", Name);
+      var PhoneticParam2 = new SqlParameter("phonetic", Phonetic);
 
-      SqlParameter FamilyParam2 = new SqlParameter("family", Family);
-      SqlParameter GivenParam2 = new SqlParameter("given", Given);
-      
-      object[] parameters1 = new object[] { FamilyParam1, GivenParam1};
-      object[] parameters2 = new object[] { FamilyParam2, GivenParam2 };
+      object[] parameters1 = new object[] { FamilyParam1, GivenParam1, NameParam1, PhoneticParam1 };
+      object[] parameters2 = new object[] { FamilyParam2, GivenParam2, NameParam2, PhoneticParam2 };
 
 
       Fhir.Bundle oBundle = new Fhir.Bundle() { Type = Fhir.Bundle.BundleType.Searchset };
       
       oBundle.Total = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
+
+      //Paging   
+      int LastPageNumber = Paging.GetLastPageNumber(NumberOfRecordsPerPage, oBundle.Total ?? 0);
+      oBundle.FirstLink = Paging.GetPageNavigationUri(RequestUri, 1);
+      oBundle.LastLink = Paging.GetPageNavigationUri(RequestUri, LastPageNumber);
+      oBundle.NextLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetNextPageNumber(PageRequired, LastPageNumber));
+      oBundle.PreviousLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetPreviousPageNumber(PageRequired, LastPageNumber));
       
-      oBundle.Link = new List<Fhir.Bundle.BundleLinkComponent>();
-
-      var FirstPageLink = new Fhir.Bundle.BundleLinkComponent();
-      FirstPageLink.Relation = "first";
-      //If I have the request URL I can just append the page=? info.
-      FirstPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=1";
-
-      var LastPageLink = new Fhir.Bundle.BundleLinkComponent();
-      LastPageLink.Relation = "last";
-      int LastPageNumber = ((int)oBundle.Total / NumberOfRecordsPerPage) + 1;
-      LastPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + LastPageNumber.ToString();
-
-      var NextPageLink = new Fhir.Bundle.BundleLinkComponent();
-      NextPageLink.Relation = "next";
-      int NextPagenumber = PageRequired + 1;
-      if (NextPagenumber > LastPageNumber) 
-        NextPagenumber = LastPageNumber;
-      NextPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + NextPagenumber.ToString();
-
-
-      var PreviousPageLink = new Fhir.Bundle.BundleLinkComponent();
-      PreviousPageLink.Relation = "previous";
-      int PreviousPagenumber = PageRequired - 1;
-      if (PreviousPagenumber < 1)
-        PreviousPagenumber = 1;
-      if (PreviousPagenumber > LastPageNumber)
-        if (LastPageNumber > 1)
-          PreviousPagenumber = LastPageNumber - 1;
-        else
-          PreviousPagenumber = LastPageNumber;
-      PreviousPageLink.Url = "http://ThisNeedsToBeMyBlazeServerURL/Patient?name=peter&stateid=23&page=" + PreviousPagenumber.ToString();
-
-      oBundle.Link.Add(FirstPageLink);
-      oBundle.Link.Add(PreviousPageLink);
-      oBundle.Link.Add(NextPageLink);      
-      oBundle.Link.Add(LastPageLink);
-
       var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters2);
 
       foreach (var Xml in PatientXmlList)
@@ -276,6 +328,28 @@ namespace DataModel.Repository
 
       return oBundle;
 
+    }
+
+    private Query SetupHumanNameQuery(Dictionary<string, SqlTable> TableDic)
+    {
+      var Query = new Query();
+      
+      var Select = new Select();
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
+      Query.Select = Select;
+
+      var From = new From();
+      From.AddTable(TableDic[DbInfo.Resource.TableNameIs]);
+      Query.From = From;
+
+      var Join = new Join();
+      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResourceId), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+      Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResourceId));
+      Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanNameId));
+      Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanNameId));
+      Query.Join = Join;
+
+      return Query;
     }
 
     private PatientResource PopulatePatientResourceEntity(int ResourceVersion, Fhir.Patient Patient)

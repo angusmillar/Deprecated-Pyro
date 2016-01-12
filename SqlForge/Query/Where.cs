@@ -31,6 +31,19 @@ namespace SqlForge.Query
       WhereQueue.Enqueue(item);
 
     }
+    public void AddCondition(string RawString)
+    {
+      this.ResetCache();
+      string item = string.Empty;
+
+      item = RawString;
+
+      if (PendingOperator != Enums.Operator.None)
+        item = String.Format("{0} {1}", StringSupport.OperatorToString(PendingOperator), item);
+      PendingOperator = Enums.Operator.None;
+
+      WhereQueue.Enqueue(item);
+    }
 
     public void AddSubCondition(Where SubWhere)
     {
