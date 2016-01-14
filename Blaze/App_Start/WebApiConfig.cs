@@ -18,9 +18,16 @@ namespace Blaze
       config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
       
       //Add the Fhir Media Formatters to the Web API Pipeline
-      config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
-      config.Formatters.Add(new Formatters.FhirJsonMediaTypeFormatter());
+      //The order matters here, and remember the requester asks for the format they want in the request header with:
+        //Content-Type: application/fhir+xml
+        //Accept: application/fhir+xml
 
+      config.Formatters.Clear();
+      config.Formatters.Add(new Formatters.FhirJsonMediaTypeFormatter());
+      config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
+      config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
+      config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
+      
       //Add Exception Handler
       config.Filters.Add(new Blaze.Engine.CustomException.FhirExceptionFilter());
 

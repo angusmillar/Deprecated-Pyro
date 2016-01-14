@@ -16,6 +16,15 @@ namespace SqlForge.Support
       _PropertyAlias = string.Empty;
     }
 
+    public SqlTable(string TableName)
+    {
+      this.TableName = TableName;
+      this.TableAlias = string.Empty;
+      _PropertyName = string.Empty;
+      _PropertyAlias = string.Empty;
+    }
+
+
     public string TableName { get; set; }
     public string TableAlias { get; set; }
 

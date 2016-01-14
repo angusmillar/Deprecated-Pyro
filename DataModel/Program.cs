@@ -24,7 +24,7 @@ namespace DataModel
           Console.ReadKey();
         }
 
-        Model.PatientResource oPatRes = new Model.PatientResource();
+        //Model.PatientResource oPatRes = new Model.PatientResource();
         
 
       }

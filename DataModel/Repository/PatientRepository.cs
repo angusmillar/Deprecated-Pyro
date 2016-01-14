@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Data.SqlClient;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using DataModel.Interface;
 using DataModel.Model;
-using Fhir = Hl7.Fhir.Model;
+using Hl7.Fhir.Model;
 using SqlForge.Query;
 using SqlForge.Support;
 
@@ -21,7 +22,7 @@ namespace DataModel.Repository
       _Context = Context;
     }
 
-    public string AddResource(Fhir.Patient Patient)
+    public string AddResource(Patient Patient)
     {
       var NewPatientResource = this.PopulatePatientResourceEntity(1, Patient);
       using (var scope = new TransactionScope())
@@ -33,11 +34,11 @@ namespace DataModel.Repository
       return NewPatientResource.FhirResourceId;
     }
 
-    public Fhir.Patient GetCurrentResource(string FhirResourceId)
+    public Patient GetCurrentResource(string FhirResourceId)
     {
       var Xml = (from x in _Context.Resource where x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == false select x.Xml).SingleOrDefault();
       if (Xml != null)
-        return Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
+        return Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
       else
         return null;
     }
@@ -68,15 +69,22 @@ namespace DataModel.Repository
       return _Context.Resource.SingleOrDefault(x => x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true).Version;
     }
 
-    public string UpdateResource(int ResourceVersion, Fhir.Patient Patient)
+    public string UpdateResource(int ResourceVersion, Patient Patient)
     {
       //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
       var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
-      var DbPatientResource = _Context.PatientResource.Single(x => x.FhirResourceId == Patient.Id);
+
+      //Load the Patient Resource db record, remember this is the single Patient not the many history versions on the Resource so no need for IsCurrent
+      var DbPatientResource = (from p in _Context.PatientResource
+                                .Include(x => x.HumanName)
+                                .Include(x => x.Identifier.Select(y => y.Type).Select(b => b.Coding))
+                               where p.FhirResourceId == Patient.Id
+                               select p).FirstOrDefault();
+
       using (var scope = new TransactionScope())
       {
         //Delete the old HumanNames and any Periods 
-        foreach (var Name in DbPatientResource.HumanNames)
+        foreach (var Name in DbPatientResource.HumanName.ToList())
         {
           if (Name.Period != null)
             _Context.Period.Remove(Name.Period);
@@ -84,8 +92,35 @@ namespace DataModel.Repository
         }
 
         //Add the new HumanNames
-        DbPatientResource.HumanNames = NewPatientResource.HumanNames;
+        DbPatientResource.HumanName = NewPatientResource.HumanName;
 
+        //Delete the old Identifiers
+        if (DbPatientResource.Identifier != null)
+        {
+          foreach (var Identifier in DbPatientResource.Identifier.ToList())
+          {
+            if (Identifier.Type != null)
+            {
+              if (Identifier.Type.Coding != null)
+              {
+                foreach (var Code in Identifier.Type.Coding.ToList())
+                  _Context.Codeing.Remove(Code);
+              }
+              _Context.CodeableConcept.Remove(Identifier.Type);
+            }
+            if (Identifier.Period != null)
+              _Context.Period.Remove(Identifier.Period);
+
+            _Context.Identifier.Remove(Identifier);
+          }
+        }
+
+        //Add the new Identifiers
+        DbPatientResource.Identifier = NewPatientResource.Identifier;
+        
+        //Birth date
+        DbPatientResource.BirthDate = NewPatientResource.BirthDate;
+        
         //Set the past Current resource to not current
         DbPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true).IsCurrent = false;
 
@@ -106,7 +141,6 @@ namespace DataModel.Repository
 
     public void UpdateResouceAsDeleted(string FhirResourceId)
     {
-
       var DbResource = _Context.Resource.SingleOrDefault(x => x.IsCurrent && x.PatientResource.FhirResourceId == FhirResourceId);
       //var DbPatientResource = _Context.PatientResource.Single(x => x.FhirResourceId == FhirResourceId);
 
@@ -115,7 +149,7 @@ namespace DataModel.Repository
 
         DbResource.IsCurrent = false;
 
-        var NewResource = new Resource();
+        var NewResource = new DataModel.Model.Resource();
         NewResource.IsDeleted = true;
         NewResource.IsCurrent = true;
         NewResource.Xml = string.Empty;
@@ -130,13 +164,13 @@ namespace DataModel.Repository
       }
     }
 
-    public Fhir.Bundle SearchByFhirId(string _Id)
+    public Bundle SearchByFhirId(string _Id)
     {
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
       TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
       TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
 
-      var Query = new Query();
+      var Query = new SqlForge.Query.Query();
 
       var Select = new Select();
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
@@ -147,7 +181,7 @@ namespace DataModel.Repository
       Query.From = From;
 
       var Join = new Join();
-      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResourceId), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
       Query.Join = Join;
 
       var Where = new Where();
@@ -161,25 +195,25 @@ namespace DataModel.Repository
       var FhirID = new SqlParameter("FhirId", _Id);
       object[] parameters = new object[] { FhirID };
 
-      Fhir.Bundle oBundle = new Fhir.Bundle() { Type = Fhir.Bundle.BundleType.Searchset};
+      Bundle oBundle = new Bundle() { Type = Bundle.BundleType.Searchset};
 
       var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters);
 
       foreach (var Xml in PatientXmlList)
       {
-        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
+        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
         
         //Three Changes below implemented on re-base to DSTU 2.1
-        //Fhir.Bundle.BundleEntryComponent oResEntry = new Fhir.Bundle.BundleEntryComponent();
-        Fhir.Bundle.EntryComponent oResEntry = new Fhir.Bundle.EntryComponent();
+        //Bundle.BundleEntryComponent oResEntry = new Bundle.BundleEntryComponent();
+        Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
 
-        //oResEntry.Search = new Fhir.Bundle.BundleEntrySearchComponent();
-        oResEntry.Search = new Fhir.Bundle.SearchComponent();
+        //oResEntry.Search = new Bundle.BundleEntrySearchComponent();
+        oResEntry.Search = new Bundle.SearchComponent();
 
-        oResEntry.Search.Mode = Fhir.Bundle.SearchEntryMode.Match;
+        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
         oResEntry.Resource = PatientResource;
-        //oResEntry.Link = new List<Fhir.Bundle.BundleLinkComponent>();
-        oResEntry.Link = new List<Fhir.Bundle.LinkComponent>();
+        //oResEntry.Link = new List<Bundle.BundleLinkComponent>();
+        oResEntry.Link = new List<Bundle.LinkComponent>();
         oBundle.Entry.Add(oResEntry);
       }
 
@@ -187,7 +221,7 @@ namespace DataModel.Repository
 
     }
 
-    public Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, int PageRequired, Uri RequestUri)
+    public Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, int PageRequired, Uri RequestUri)
     {
       //Tables            
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
@@ -277,7 +311,7 @@ namespace DataModel.Repository
       string SqlQueryGetXml = HumanNameQuery.CreateQuery();
 
       //Query to get total Record count for previous query
-      var CountSQL = new Query();
+      var CountSQL = new SqlForge.Query.Query();
       
       //Clear Paging and OrderBy for the count query
       HumanNameQuery.Paging = null;
@@ -308,7 +342,7 @@ namespace DataModel.Repository
       object[] parameters2 = new object[] { FamilyParam2, GivenParam2, NameParam2, PhoneticParam2 };
 
 
-      Fhir.Bundle oBundle = new Fhir.Bundle() { Type = Fhir.Bundle.BundleType.Searchset };
+      Bundle oBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
       
       oBundle.Total = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
 
@@ -323,12 +357,12 @@ namespace DataModel.Repository
 
       foreach (var Xml in PatientXmlList)
       {
-        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Fhir.Patient;
-        Fhir.Bundle.EntryComponent oResEntry = new Fhir.Bundle.EntryComponent();
-        oResEntry.Search = new Fhir.Bundle.SearchComponent();
-        oResEntry.Search.Mode = Fhir.Bundle.SearchEntryMode.Match;
+        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
+        Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
+        oResEntry.Search = new Bundle.SearchComponent();
+        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
         oResEntry.Resource = PatientResource;
-        oResEntry.Link = new List<Fhir.Bundle.LinkComponent>();
+        oResEntry.Link = new List<Bundle.LinkComponent>();
 
         oBundle.Entry.Add(oResEntry);
       }
@@ -337,9 +371,9 @@ namespace DataModel.Repository
 
     }
 
-    private Query SetupHumanNameQuery(Dictionary<string, SqlTable> TableDic)
+    private SqlForge.Query.Query SetupHumanNameQuery(Dictionary<string, SqlTable> TableDic)
     {
-      var Query = new Query();
+      var Query = new SqlForge.Query.Query();
       
       var Select = new Select();
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
@@ -350,74 +384,121 @@ namespace DataModel.Repository
       Query.From = From;
 
       var Join = new Join();
-      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResourceId), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
-      Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResourceId));
-      Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanNameId));
-      Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanNameId));
+      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+      Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResource_Id));
+      Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanName_Id));
+      Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanName_Id));
       Query.Join = Join;
 
       return Query;
     }
 
-    private PatientResource PopulatePatientResourceEntity(int ResourceVersion, Fhir.Patient Patient)
+    private PatientResource PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient)
     {
-      var ResourceXml = new Resource();
-      ResourceXml.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Patient);
-      ResourceXml.Received = (DateTimeOffset)Patient.Meta.LastUpdated;
+      var ResourceXml = new DataModel.Model.Resource();
+      ResourceXml.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(FhirPatient);
+      ResourceXml.Received = (DateTimeOffset)FhirPatient.Meta.LastUpdated;
       ResourceXml.Version = ResourceVersion;
       ResourceXml.IsCurrent = true;
       ResourceXml.IsDeleted = false;
 
-      var oResourcePatient = new PatientResource();
-      oResourcePatient.Resources.Add(ResourceXml);
-      oResourcePatient.FhirResourceId = Patient.Id;
-      oResourcePatient.Gender = Patient.Gender;
+      var DbResourcePatient = new PatientResource();
+      DbResourcePatient.Resources.Add(ResourceXml);
+      DbResourcePatient.FhirResourceId = FhirPatient.Id;
+      DbResourcePatient.Gender = FhirPatient.Gender;
 
-      foreach (var Name in Patient.Name)
+      if (FhirPatient.Identifier != null)
       {
-        var HumanName = new Model.HumanName();
-
-        if (Name.Text != null)
-          HumanName.Text = Name.Text;
-
-        if (Name.Family != null)
-          foreach (var family in Name.Family)
-            HumanName.Family.Add(new Family() { Value = family });
-
-        if (Name.Given != null)
-          foreach (var Given in Name.Given)
-            HumanName.Given.Add(new Given() { Value = Given });
-
-        if (Name.Prefix != null)
-          foreach (var Prefix in Name.Prefix)
-            HumanName.Prefix.Add(new Prefix() { Value = Prefix });
-
-        if (Name.Suffix != null)
-          foreach (var Suffix in Name.Suffix)
-            HumanName.Suffix.Add(new Suffix() { Value = Suffix });
-
-        if (Name.Use != null)
-          HumanName.Use = Name.Use;
-        else
-          HumanName.Use = null;
-
-        if (Name.Period != null)
+        DbResourcePatient.Identifier = new List<Model.Identifier>();
+        foreach (var FhirIdentifier in FhirPatient.Identifier)
         {
-          HumanName.Period = new Period();
-          if (Name.Period.StartElement != null)
-            HumanName.Period.Start = DateTimeOffset.Parse(Name.Period.Start);
-          else
-            HumanName.Period.Start = null;
+          var DbIdentifier = new Model.Identifier();
 
-          if (Name.Period.EndElement != null)
-            HumanName.Period.End = DateTimeOffset.Parse(Name.Period.End);
+          DbIdentifier.Use = FhirIdentifier.Use;
+          DbIdentifier.System = FhirIdentifier.System;
+          DbIdentifier.Value = FhirIdentifier.Value;
+
+          if (FhirIdentifier.Type != null)
+          {
+            DbIdentifier.Type = new Model.CodeableConcept();
+            DbIdentifier.Type.Text = FhirIdentifier.Type.Text;
+
+            if (FhirIdentifier.Type.Coding != null)
+            {
+              DbIdentifier.Type.Coding = new List<Model.Coding>();
+              foreach (var FhirCodeing in FhirIdentifier.Type.Coding)
+              {
+                var DbCoding = new Model.Coding();
+                DbCoding.System = FhirCodeing.System;
+                DbCoding.Version = FhirCodeing.Version;
+                DbCoding.Code = FhirCodeing.Code;
+                DbCoding.Display = FhirCodeing.Display;
+                if (FhirCodeing.UserSelected != null)
+                  DbCoding.UserSelected = (bool)FhirCodeing.UserSelected;
+                DbIdentifier.Type.Coding.Add(DbCoding);
+              }
+            }
+          }
+
+          if (FhirIdentifier.Period != null)
+          {
+            DbIdentifier.Period = new Model.Period();
+            if (FhirIdentifier.Period.Start != null && FhirDateTime.IsValidValue(FhirIdentifier.Period.Start))
+              DbIdentifier.Period.Start = FhirIdentifier.Period.StartElement.ToDateTimeOffset();
+            if (FhirIdentifier.Period.End != null && FhirDateTime.IsValidValue(FhirIdentifier.Period.End))
+              DbIdentifier.Period.End = FhirIdentifier.Period.EndElement.ToDateTimeOffset();
+          }
+          DbResourcePatient.Identifier.Add(DbIdentifier);
+        }
+      }
+
+      foreach (var FhirName in FhirPatient.Name)
+      {
+        var DbHumanName = new Model.HumanName();
+
+        if (FhirName.Text != null)
+          DbHumanName.Text = FhirName.Text;
+
+        if (FhirName.Family != null)
+          foreach (var family in FhirName.Family)
+            DbHumanName.Family.Add(new Family() { Value = family });
+
+        if (FhirName.Given != null)
+          foreach (var Given in FhirName.Given)
+            DbHumanName.Given.Add(new Given() { Value = Given });
+        
+        if (FhirName.Use != null)
+          DbHumanName.Use = FhirName.Use;
+        else
+          DbHumanName.Use = null;
+
+        if (FhirName.Period != null)
+        {
+          DbHumanName.Period = new DataModel.Model.Period();
+
+          if (FhirName.Period.StartElement != null)
+            if (FhirDateTime.IsValidValue(FhirName.Period.Start))
+              DbHumanName.Period.Start = DateTimeOffset.Parse(FhirName.Period.Start);
           else
-            HumanName.Period.End = null;
+            DbHumanName.Period.Start = null;
+
+          if (FhirName.Period.EndElement != null)
+            if (FhirDateTime.IsValidValue(FhirName.Period.End))
+              DbHumanName.Period.End = DateTimeOffset.Parse(FhirName.Period.End);
+          else
+            DbHumanName.Period.End = null;
+
         }
 
-        oResourcePatient.HumanNames.Add(HumanName);
+        DbResourcePatient.HumanName.Add(DbHumanName);
+        
+        DateTime FhirBirthDate;
+        if (DateTime.TryParse(FhirPatient.BirthDate, out FhirBirthDate))
+          DbResourcePatient.BirthDate = FhirBirthDate;
+        //else
+          //throw error
       }
-      return oResourcePatient;
+      return DbResourcePatient;
     }
 
 

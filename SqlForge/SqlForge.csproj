@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Query\Delete.cs" />
     <Compile Include="Query\From.cs" />
     <Compile Include="Query\GroupBy.cs" />
     <Compile Include="Query\Join.cs" />

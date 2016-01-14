@@ -10,7 +10,8 @@ namespace DataModel.Model
   {
     public int Id { get; set; }
     public string Value { get; set; }
-    public int HumanNameId { get; set; }
+    
+    //ForwardLinks
     public virtual HumanName HumanName { get; set; }     
   }
 
@@ -22,7 +23,7 @@ namespace DataModel.Model
 
       public static readonly string Id = "Id";
       public static readonly string Value = "Value";
-      public static readonly string HumanNameId = "HumanNameId";
+      public static readonly string HumanName_Id = "HumanName_Id";
     }
   }
 

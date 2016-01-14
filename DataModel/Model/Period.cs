@@ -11,7 +11,10 @@ namespace DataModel.Model
     public int Id { get; set; }
     public DateTimeOffset? Start { get; set; }
     public DateTimeOffset? End { get; set; }    
-    public virtual HumanName OfHumanName { get; set; } 
+
+    //BackLinks
+    public virtual HumanName HumanName { get; set; }
+    public virtual Identifier Identifier { get; set; } 
   }
 
   public static partial class DbInfo
@@ -19,6 +22,7 @@ namespace DataModel.Model
     public static partial class Period
     {
       public static readonly string TableNameIs = "Period";
+
       public static readonly string Id = "Id";
       public static readonly string Start = "Start";
       public static readonly string End = "End";

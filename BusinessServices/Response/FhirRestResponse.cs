@@ -100,9 +100,17 @@ namespace Blaze.Engine.Response
           return Response;
         }
         else
-          throw new Blaze.Engine.CustomException.BlazeException(HttpStatusCode.InternalServerError, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
+        {
+          var oIssueComponent = new OperationOutcome.IssueComponent();
+          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+          oIssueComponent.Code = OperationOutcome.IssueType.Exception;
+          oIssueComponent.Diagnostics = "Internal Error. FhirRestResponse contains no FHIR Resource or Id.";
+          var oOperationOutcome = new OperationOutcome();
+          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+          throw new Blaze.Engine.CustomException.BlazeException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
+        }
       }
-      //Created: 201
+      //Created: 201 
       else if (this.StatusCode == HttpStatusCode.Created)
       {
         HttpResponseMessage Response = request.CreateResponse(this.StatusCode, this.Resource.Id);
@@ -113,7 +121,7 @@ namespace Blaze.Engine.Response
         Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, this.Resource.Id));
         return Response;
       }
-      //Gone: 410
+      //Gone: 410 
       else if (this.StatusCode == HttpStatusCode.Gone)
       {
         HttpResponseMessage Response = request.CreateResponse(this.StatusCode, this.ErrorMessage);
@@ -124,20 +132,15 @@ namespace Blaze.Engine.Response
         return Response;
       }
       //No Content: 204
-      else if (this.StatusCode == HttpStatusCode.NoContent)
-      {
-        return request.CreateResponse(this.StatusCode, this.FhirResourceId);
-      }
       //Forbidden: 403
-      else if (this.StatusCode == HttpStatusCode.Forbidden)
+      else
       {
         if (this.Resource != null)
           return request.CreateResponse(this.StatusCode, this.Resource);
         else
-          return request.CreateResponse(this.StatusCode, "What the?");
+          return request.CreateResponse(this.StatusCode, this.ErrorMessage);
       }
-      else
-        return request.CreateResponse(this.StatusCode, this.ErrorMessage);
+      
     }
 
   }

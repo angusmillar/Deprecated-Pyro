@@ -50,12 +50,30 @@ namespace Blaze.Formatters
             Resource resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(body);
             return resource;
           }
-          else            
-            throw new BlazeException(HttpStatusCode.BadRequest, String.Format("FHIR resource type error, the resource does not appear to be a FHIR resource, type found was: " + type.Name));                      
+          else
+          {
+            var oIssueComponent = new OperationOutcome.IssueComponent();
+            oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+            oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
+            oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", type.Name));
+            oIssueComponent.Details.Text = String.Format("FHIR resource type error, the resource does not appear to be a FHIR resource, type found was: " + type.Name);
+            oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+            var oOperationOutcome = new OperationOutcome();
+            oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+            throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);        
+          }            
         }
-        catch (FormatException exc)
+        catch (FormatException Exec)
         {
-          throw new BlazeException(HttpStatusCode.BadRequest, String.Format("FHIR parser failed with the following error: " + exc.Message), exc);                      
+          var oIssueComponent = new OperationOutcome.IssueComponent();
+          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+          oIssueComponent.Code = OperationOutcome.IssueType.Structure;
+          oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_CANT_PARSE_ROOT", String.Format("Unable to parse feed (root element name = '{0}')", "[Unknown]"));
+          oIssueComponent.Details.Text = String.Format("FHIR parser failed with the following error message: " + Exec.Message);
+          oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+          var oOperationOutcome = new OperationOutcome();
+          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+          throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);
         }
       });
     }

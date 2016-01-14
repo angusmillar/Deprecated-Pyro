@@ -24,7 +24,7 @@ namespace Blaze.Controllers
     }
     
     // Get By id
-    // GET: http://localhost:50579/FhirApi/Patient/5
+    // GET URL/FhirApi/Patient/5
     [HttpGet, Route("{type}/{id}")]
     public HttpResponseMessage Get(string type, string id)
     {      
@@ -33,7 +33,7 @@ namespace Blaze.Controllers
     }
 
     //Search
-    // GET: http://localhost:50579/FhirApi/Patient/5
+    // GET: URL//FhirApi/Patient&family=Smith&given=John
     [HttpGet, Route("{type}")]
     public HttpResponseMessage Search(string type)
     {
@@ -42,7 +42,7 @@ namespace Blaze.Controllers
     }
 
     // Add
-    // POST: URL/FhirApi/Patient/1
+    // POST: URL/FhirApi/Patient
     [HttpPost, Route("{type}")]
     public HttpResponseMessage Post(string type, FhirModel.Resource resource)
     {

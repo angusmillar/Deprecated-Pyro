@@ -14,8 +14,9 @@ namespace DataModel.Model
     public int Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }
-    public int PatientResourceId { get; set; }
+    public DateTimeOffset Received { get; set; }    
+
+    //Forward Links
     public virtual PatientResource PatientResource { get; set; } 
    
   }
@@ -32,7 +33,9 @@ namespace DataModel.Model
       public static readonly string IsCurrent = "IsCurrent";
       public static readonly string IsDeleted = "IsDeleted";
       public static readonly string Received = "Received";
-      public static readonly string PatientResourceId = "PatientResourceId";
+
+      public static readonly string PatientResource_Id = "PatientResource_Id";
+      
     }
   }
 }

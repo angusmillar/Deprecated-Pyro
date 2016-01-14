@@ -59,14 +59,15 @@
     <Compile Include="Interface\IBaseRepository.cs" />
     <Compile Include="Interface\IPatientRepository.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
+    <Compile Include="Model\CodeableConcept.cs" />
+    <Compile Include="Model\Coding.cs" />
     <Compile Include="Model\Family.cs" />
     <Compile Include="Model\Given.cs" />
     <Compile Include="Model\HumanName.cs" />
     <Compile Include="ModelSupport\ModelInfo.cs" />
+    <Compile Include="Model\Identifier .cs" />
     <Compile Include="Model\Period.cs" />
-    <Compile Include="Model\Prefix.cs" />
     <Compile Include="Model\Resource.cs" />
-    <Compile Include="Model\Suffix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\PatientResource.cs" />

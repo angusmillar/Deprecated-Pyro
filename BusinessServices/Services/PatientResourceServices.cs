@@ -22,9 +22,11 @@ namespace Blaze.Engine.Services
     {
       _UnitOfWork = new UnitOfWork();
     }
-    
+
+    // Get By id
+    // GET URL/FhirApi/Patient/5    
     public Response.FhirRestResponse Get(string FhirResourceId)
-    {
+    {      
       try
       {
         Patient FhirPatient = _UnitOfWork.PatientRepository.GetCurrentResource(FhirResourceId);
@@ -49,6 +51,8 @@ namespace Blaze.Engine.Services
       }
     }
 
+    //Search
+    // GET: URL//FhirApi/Patient&family=Smith&given=John
     public Response.FhirRestResponse Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
       List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
@@ -73,12 +77,21 @@ namespace Blaze.Engine.Services
               
     }
 
+    // Add
+    // POST: URL/FhirApi/Patient
     public Response.FhirRestResponse Post(Resource FhirResource)
     {
+      var Validation = new Validation.PatientResourceValidation();
+      var oValidationResult = Validation.Validate(FhirResource);
+      if (oValidationResult.HasError)
+      {
+        return new Response.FhirRestResponse(oValidationResult.HttpStatusCode, oValidationResult.ResourceToReturn());
+      }
+
       try
       {
         var FhirPatientResource = FhirResource as Patient;
-
+        
         //Update the resource XML before committing to storage.
         FhirPatientResource.Id = Guid.NewGuid().ToString();
         if (FhirPatientResource.Meta == null)
@@ -95,15 +108,23 @@ namespace Blaze.Engine.Services
       }
     }
 
+    //Update
+    // PUT: URL/FhirApi/Patient/5
     public Response.FhirRestResponse Put(string FhirResourceId, Resource FhirResource)
     {
       var FhirPatientResource = FhirResource as Patient;
       if (FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != FhirResourceId)
       {
-        throw new BlazeException(System.Net.HttpStatusCode.BadRequest,
-          String.Format("The Patient resource id value in the resource must be provided and must match the id given in the URL for all PUT requests.\n The id in the resource was: '{0}' and the id in the URL was: '{1}'", FhirPatientResource.Id, FhirResourceId));
+        var oIssueComponent = new OperationOutcome.IssueComponent();
+        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
+        oIssueComponent.Code = OperationOutcome.IssueType.Required;
+        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
+        oIssueComponent.Details.Text = String.Format("The Patient resource id value in the resource must be provided and must match the id given in the URL for all PUT requests.\n The id in the resource was: '{0}' and the id in the URL was: '{1}'", FhirPatientResource.Id, FhirResourceId);
+        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+        var oOperationOutcome = new OperationOutcome();
+        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+        throw new BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);             
       }
-
 
       if (_UnitOfWork.PatientRepository.ResourceExists(FhirResourceId))
       {
@@ -128,9 +149,10 @@ namespace Blaze.Engine.Services
         }
         return Response;
       }
-
     }
 
+    //Delete
+    // DELETE: URL/FhirApi/Patient/5
     public Response.FhirRestResponse Delete(string FhirResourceId)
     {
       if (_UnitOfWork.PatientRepository.ResourceExists(FhirResourceId))

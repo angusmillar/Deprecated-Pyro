@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Net;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.CustomException
 {
   public class BlazeException : Exception
   {
-    public HttpStatusCode StatusCode;
+    public HttpStatusCode HttpStatusCode;
+    public OperationOutcome OperationOutcome;
 
-    public BlazeException(HttpStatusCode statuscode, string message)
+    public BlazeException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message)
       : base(message)
     {
-      this.StatusCode = statuscode;
+      this.HttpStatusCode = statuscode;
+      this.OperationOutcome = OperationOutcome;
     }
 
-    public BlazeException(HttpStatusCode statuscode, string message, Exception inner)
+    public BlazeException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message, Exception inner)
       : base(message, inner)
     {
-      this.StatusCode = statuscode;
+      this.HttpStatusCode = statuscode;
+      this.OperationOutcome = OperationOutcome;
     }
   }
 }

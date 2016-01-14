@@ -140,7 +140,7 @@ namespace Blaze.Engine.Search
       ParameterListForErrorMessage = ParameterListForErrorMessage.Substring(0, ParameterListForErrorMessage.Length - 3);
       OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_UNKNOWN", String.Format("Parameter '{0}' not understood", ParameterListForErrorMessage));
       OpOutComeIssueComp.Details.Text = String.Format("This search parameter combination provided is not supported by the server. Parameters were: {0}", ParameterListForErrorMessage);
-      oSearchResult.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.Forbidden);     
+      oSearchResult.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);     
       return oSearchResult;
     }
   }

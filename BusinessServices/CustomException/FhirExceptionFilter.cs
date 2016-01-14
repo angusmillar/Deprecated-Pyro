@@ -19,8 +19,11 @@ namespace Blaze.Engine.CustomException
 
       if (context.Exception is BlazeException)
       {
-        var e = (BlazeException)context.Exception;
-        response = context.Request.CreateResponse(e.StatusCode, e.Message);
+        var oBlazeException = (BlazeException)context.Exception;
+        if (oBlazeException.OperationOutcome != null)
+          response = context.Request.CreateResponse(oBlazeException.HttpStatusCode, oBlazeException.OperationOutcome);
+        else
+          response = context.Request.CreateResponse(oBlazeException.HttpStatusCode, oBlazeException.Message);
       }      
       else
       {

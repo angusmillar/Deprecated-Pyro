@@ -8,6 +8,7 @@ namespace SqlForge.Query
 {
   public class Query
   {
+    public Delete Delete { get; set; }
     public Select Select { get; set; }
     public From From { get; set; }
     public Join Join { get; set; }
@@ -17,10 +18,14 @@ namespace SqlForge.Query
     public Paging Paging { get; set; }
     public string CreateQuery()
     {
-      if (Select == null || From == null)
-        throw new ArgumentException("Must set both Select and From before calling CreateQuery.");
+      if ((Select == null || From == null) && (Delete == null))
+        throw new ArgumentException("Must set both Select and From or Delete before calling CreateQuery.");
 
       StringBuilder Query = new StringBuilder();
+
+      if (Delete != null)
+        Query.Append(Delete.GetStatment());
+
       if (Select != null)
         Query.Append(Select.GetStatment());
 

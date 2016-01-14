@@ -49,7 +49,17 @@ namespace Blaze.Engine.Search.SearchTermTypes
       ParseModifier(Parameter.Item1, oSearchTerm);
       string Value = ParsePrefix(Parameter.Item2, oSearchTerm);
       if (!oSearchTerm.TryParseValue(Value))
-        throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.Forbidden, "unable to parse the given search parameter value for parameter = value: " + oSearchTerm.RawValue);
+      {
+        var oIssueComponent = new OperationOutcome.IssueComponent();
+        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+        oIssueComponent.Code = OperationOutcome.IssueType.Exception;
+        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", Resource.ToString(), oSearchTerm.RawValue));
+        oIssueComponent.Details.Text = String.Format("Unable to parse the given search parameter value for parameter = value: {0}", oSearchTerm.RawValue);
+        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+        var oOperationOutcome = new OperationOutcome();
+        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+        throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);        
+      }        
       return oSearchTerm;
     }
 
