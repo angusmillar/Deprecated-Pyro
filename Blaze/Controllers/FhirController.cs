@@ -22,7 +22,14 @@ namespace Blaze.Controllers
     {
       _FhirServiceNegotiator = new FhirServiceNegotiator();
     }
-    
+
+    //Constructor for dependence injection 
+    public FhirController(IFhirServiceNegotiator FhirServiceNegotiator)
+    {
+      _FhirServiceNegotiator = FhirServiceNegotiator;
+    }
+
+
     // Get By id
     // GET URL/FhirApi/Patient/5
     [HttpGet, Route("{type}/{id}")]

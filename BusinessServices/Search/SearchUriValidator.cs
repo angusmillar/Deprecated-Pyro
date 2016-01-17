@@ -40,7 +40,7 @@ namespace Blaze.Engine.Search
             if (oSupportedSearchTerm != null)
             {
               var oSearchTerm = SearchTermBase.CreateSearchTerm(oSupportedSearchTerm.Resource, SearchTermName, Parameter, oSupportedSearchTerm.SearchParameterType);
-              ValidateSearchTermSupported(oSupportedSearchTerm, oSearchTerm, Result);
+              ValidateSearchTermSupported(oSupportedSearchTerm, oSearchTerm, Result);              
               oInboundSearchTermList.Add(oSearchTerm);
             }
             else
@@ -107,6 +107,23 @@ namespace Blaze.Engine.Search
           oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);                     
         }
       }
+
+      if (oInboundSearch.Name == Support.EnumSupport.SearchTermName.Active)
+      {
+        var oActive = oInboundSearch as Search.SearchTermTypes.SearchTermToken;
+        bool OutBool;
+        if (!Boolean.TryParse(oActive.Values[0].Code, out OutBool))
+        {
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
+          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
+          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
+          OpOutComeIssueComp.Details.Text = String.Format("The parameter 'active' must be a boolean value either [true | false]. Value found was: '{0}'.", oActive.Values[0].Code);
+          oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);
+        }
+      }
+
+
     }
   }
 }

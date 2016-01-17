@@ -9,7 +9,7 @@ using Blaze.Engine.Support.ExtensionMethods;
 namespace Blaze.Engine.Search
 {
   public class SearchTerms : Response.BlazeResponseBase
-  {
+  {    
     public Hl7.Fhir.Model.ResourceType ResourceTarget { get; set; }
     public List<SearchTermTypes.SearchTermBase> SearchTermList { get; set; }
     public override Resource ResourceToReturn()

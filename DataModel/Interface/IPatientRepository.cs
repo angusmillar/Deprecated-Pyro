@@ -15,8 +15,9 @@ namespace DataModel.Interface
     bool ResourceExists(string FhirResourceId);       
     int GetResourceCurrentVersion(string FhirResourceId);
     string UpdateResource(int ResourceVersion, Fhir.Patient Patient);
-    Fhir.Bundle SearchByFhirId(string FhirId);
-    Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, int Page, Uri RequestUri);
+    Fhir.Bundle SearchByFhirId(string FhirId, Tuple<string, string> ActiveSystemAndCode);
+    Fhir.Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, Tuple<string, string> ActiveSystemAndCode, int Page, Uri RequestUri);
+    Fhir.Bundle SearchByIdentifier(Tuple<string, string> IdentiferSystemAndCode, Tuple<string, string> ActiveSystemAndCode, int PageRequired, Uri RequestUri);
     bool IsCurrentResourceDeleted(string FhirResourceId);
     int LastDeletedResourceVersion(string FhirResourceId);
     void UpdateResouceAsDeleted(string FhirResourceId);

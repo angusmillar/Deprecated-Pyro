@@ -117,23 +117,24 @@ namespace Blaze.Engine.Search.SearchTermTypes
       switch (SearchParameterType)
       {
         case SearchParamType.Composite:
-          break;
+          throw new NotImplementedException("SearchParamType.Composite");          
         case SearchParamType.Date:
-          break;
+          throw new NotImplementedException("SearchParamType.Date");
         case SearchParamType.Number:
           oSearchTerm = new SearchTermNumber();
           break;
         case SearchParamType.Quantity:
-          break;
+          throw new NotImplementedException("SearchParamType.Quantity");
         case SearchParamType.Reference:
-          break;
+          throw new NotImplementedException("SearchParamType.Reference");
         case SearchParamType.String:
           oSearchTerm = new SearchTermString();
           break;
         case SearchParamType.Token:
+          oSearchTerm = new SearchTermToken();
           break;
         case SearchParamType.Uri:
-          break;
+          throw new NotImplementedException("SearchParamType.Uri");
         default:
           break;
       }

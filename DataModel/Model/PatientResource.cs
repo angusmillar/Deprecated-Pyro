@@ -10,7 +10,8 @@ namespace DataModel.Model
   public class PatientResource
   {
     public int Id { get; set; }
-    public string FhirResourceId { get; set; }    
+    public string FhirResourceId { get; set; }
+    public bool? Active { get; set; }
     public Fhir.AdministrativeGender? Gender { get; set; }
     public DateTime BirthDate { get; set; }
 
@@ -33,7 +34,8 @@ namespace DataModel.Model
       public static readonly string TableNameIs = "PatientResource";
      
       public static readonly string Id = "Id";
-      public static readonly string FhirResourceId = "FhirResourceId";                  
+      public static readonly string FhirResourceId = "FhirResourceId";
+      public static readonly string Active = "Active";                
       public static readonly string Gender = "Gender";
       public static readonly string BirthDate = "BirthDate";
 

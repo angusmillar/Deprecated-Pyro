@@ -87,6 +87,25 @@ namespace Blaze.Engine.Search
             Phonetic.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Phonetic.PrefixList = new List<SearchPrefixType>();
             List.Add(Phonetic);
+
+            var Identifier = new SupportedSearchTerm();
+            Identifier.Name = Support.EnumSupport.SearchTermName.Identifier;
+            Identifier.Resource = ResourceType;
+            Identifier.SearchParameterType = SearchParamType.Token;
+            Identifier.ModifierList = new List<SearchModifierType>();
+            Identifier.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            Identifier.PrefixList = new List<SearchPrefixType>();
+            List.Add(Identifier);
+
+            var Active = new SupportedSearchTerm();
+            Active.Name = Support.EnumSupport.SearchTermName.Active;
+            Active.Resource = ResourceType;
+            Active.SearchParameterType = SearchParamType.Token;
+            Active.ModifierList = new List<SearchModifierType>();
+            Active.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            Active.PrefixList = new List<SearchPrefixType>();
+            List.Add(Active);
+
           }
           break;
         default:

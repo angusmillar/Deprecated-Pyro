@@ -50,6 +50,7 @@
     <Compile Include="Query\StatmentBase.cs" />
     <Compile Include="Query\Where.cs" />
     <Compile Include="Support\Enums.cs" />
+    <Compile Include="Support\ParameterSupport.cs" />
     <Compile Include="Support\SqlTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\StringBulderExtentions.cs" />
