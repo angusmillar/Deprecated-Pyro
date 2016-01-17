@@ -396,7 +396,7 @@ namespace DataModel.Repository
 
       DatabaseSearchResult oResult = new DatabaseSearchResult();
       oResult.ResourceList = dbResourceList;
-      //oResult.TotalResource = 
+      //oResult.TotalResource = 2
 
       foreach (Model.Resource dbResource in dbResourceList)
       {
