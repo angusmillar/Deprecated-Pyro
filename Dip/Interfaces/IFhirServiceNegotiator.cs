@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataModel.Interface
+
+namespace Dip.Interfaces
 {
-  public interface IBaseRepository
+  public interface IFhirServiceNegotiator
   {
-    void Save();
+    IResourceServices GetService(string type);
   }
 }

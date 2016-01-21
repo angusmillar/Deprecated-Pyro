@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using DataModel.Interface;
+using Dip.Interfaces;
 
 namespace DataModel
 {
-  public class UnitOfWork : IUnitOfWork, IDisposable
+  public class UnitOfWork : Dip.Interfaces.IUnitOfWork, IDisposable
   {
     private BlazeDbContext _context = null;
 
@@ -19,7 +19,7 @@ namespace DataModel
       _context = new BlazeDbContext();
     }
 
-    public IPatientRepository PatientRepository
+    public Dip.Interfaces.IPatientRepository PatientRepository
     {
       get
       {

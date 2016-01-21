@@ -21,11 +21,14 @@ namespace Blaze.Engine.Support.ExtensionMethods
       string Narrative = string.Empty;
       foreach(var item in oOperationOutcome.Issue)
       {
-        Narrative += "    " + item.Details.Text;
+        if (item.Details != null)
+          Narrative += "    " + item.Details.Text;
+        else if (String.IsNullOrWhiteSpace(item.Diagnostics))
+          Narrative += "    " + item.Diagnostics;
       }
       oOperationOutcome.Text = new Hl7.Fhir.Model.Narrative();
-      oOperationOutcome.Text.Status = Hl7.Fhir.Model.Narrative.NarrativeStatus.Generated;
-      oOperationOutcome.Text.Div = Support.XhtmlSupport.EncodeToDiv(Narrative);      
+      oOperationOutcome.Text.Status = Hl7.Fhir.Model.Narrative.NarrativeStatus.Generated;      
+      oOperationOutcome.Text.Div = Support.XhtmlSupport.EncodeToDiv(Narrative);            
     }
   }
 }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataModel.Interface
+namespace Dip.Interfaces
 {
   public interface IUnitOfWork
   {
-    Interface.IPatientRepository PatientRepository { get; }
+    IPatientRepository PatientRepository { get; }
   }
 }
+
