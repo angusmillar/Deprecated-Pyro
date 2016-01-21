@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze
+namespace Blaze.BlazeService
 {
   public static class BlazeImplementation
   {

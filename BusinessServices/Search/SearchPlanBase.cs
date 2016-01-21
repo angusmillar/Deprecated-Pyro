@@ -8,8 +8,8 @@ namespace Blaze.Engine.Search
 {
   public abstract class SearchPlanBase
   {
-    protected DataModel.UnitOfWork _UnitOfWork;
-    public DataModel.UnitOfWork UnitOfWork
+    protected Dip.Interfaces.IUnitOfWork _UnitOfWork;
+    public Dip.Interfaces.IUnitOfWork UnitOfWork
     {
       set
       {

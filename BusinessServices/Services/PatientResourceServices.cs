@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Hl7.Fhir.Model;
-using DataModel;
 using Blaze.Engine.CustomException;
 using System.Web.UI;
 using System.IO;
@@ -14,25 +13,27 @@ using System.IO;
 
 namespace Blaze.Engine.Services
 {
-  public class PatientResourceServices : Interfaces.IPatientResourceServices, Interfaces.IResourceServices
+  public class PatientResourceServices : Dip.Interfaces.IPatientResourceServices, Dip.Interfaces.IResourceServices
   {
-    private readonly UnitOfWork _UnitOfWork;
+    private readonly Dip.Interfaces.IUnitOfWork _UnitOfWork;
 
-    public PatientResourceServices()
+    //Constructor for dependency injection
+    public PatientResourceServices(Dip.Interfaces.IUnitOfWork IUnitOfWork)
     {
-      _UnitOfWork = new UnitOfWork();
+      _UnitOfWork = IUnitOfWork;
     }
 
     // Get By id
     // GET URL/FhirApi/Patient/5    
-    public Response.FhirRestResponse Get(string FhirResourceId)
+    public Dip.Interfaces.IFhirRestResponse Get(string FhirResourceId)
     {      
       try
       {
-        Patient FhirPatient = _UnitOfWork.PatientRepository.GetCurrentResource(FhirResourceId);
-        if (FhirPatient != null)
+        Search.SearchResult oSearchResult = new Search.SearchResult();
+        oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.GetCurrentResource(FhirResourceId);
+        if (oSearchResult.DbSearchResult.ResourceMatchingSearch != null)
         {
-          return new Response.FhirRestResponse(System.Net.HttpStatusCode.OK, FhirPatient);
+          return new Response.FhirRestResponse(oSearchResult.HttpStatusCode, oSearchResult.ResourceToReturn());
         }
         else
         {
@@ -53,11 +54,11 @@ namespace Blaze.Engine.Services
 
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John
-    public Response.FhirRestResponse Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
+    public Dip.Interfaces.IFhirRestResponse Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
-      List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
+      //List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
       
-      //Validate the search terms passed in a implemented for this Resource Type
+      //Validate the search terms passed in are implemented for this Resource Type
       var oSearchTerm = Search.SearchUriValidator.Validate(ResourceType.Patient, searchParameters);
 
       if (oSearchTerm.HasError)
@@ -67,19 +68,19 @@ namespace Blaze.Engine.Services
 
       //Retrieve the search plan for this Resource Type
       var SearchPlan = Search.SearchPlanNegotiator.GetSearchPlan(ResourceType.Patient, _UnitOfWork);
-      SearchPlan.RequestUri = Uri;
-
+      
       //Performed the search with the search plan
       var oSearchResults = SearchPlan.Search(oSearchTerm);
+      oSearchResults.RequestUri = Uri;
 
-      //ResourceToReturn dynamical returns a OperationOutcome if error detected.
+      //ResourceToReturn dynamical returns a OperationOutcome if error detected or the desired if no errors Resource.
       return new Response.FhirRestResponse(oSearchResults.HttpStatusCode, oSearchResults.ResourceToReturn());
               
     }
 
     // Add
     // POST: URL/FhirApi/Patient
-    public Response.FhirRestResponse Post(Resource FhirResource)
+    public Dip.Interfaces.IFhirRestResponse Post(Resource FhirResource)
     {
       var Validation = new Validation.PatientResourceValidation();
       var oValidationResult = Validation.Validate(FhirResource);
@@ -110,7 +111,7 @@ namespace Blaze.Engine.Services
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    public Response.FhirRestResponse Put(string FhirResourceId, Resource FhirResource)
+    public Dip.Interfaces.IFhirRestResponse Put(string FhirResourceId, Resource FhirResource)
     {
       var FhirPatientResource = FhirResource as Patient;
       if (FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != FhirResourceId)
@@ -141,7 +142,7 @@ namespace Blaze.Engine.Services
       else
       {
         //The resource is not found in the database so add it here and return 201 Created status code
-        Response.FhirRestResponse Response = this.Post(FhirResource);
+        Dip.Interfaces.IFhirRestResponse Response = this.Post(FhirResource);
         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
         {
           Response.Resource = FhirResource;
@@ -153,7 +154,7 @@ namespace Blaze.Engine.Services
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5
-    public Response.FhirRestResponse Delete(string FhirResourceId)
+    public Dip.Interfaces.IFhirRestResponse Delete(string FhirResourceId)
     {
       if (_UnitOfWork.PatientRepository.ResourceExists(FhirResourceId))
       {

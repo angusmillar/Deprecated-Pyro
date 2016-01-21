@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Interfaces;
-using DataModel;
+using Dip.Interfaces;
 
 namespace Blaze.Engine.Search
 {
   public static class SearchPlanNegotiator
   {
-    public static ISearchPlan GetSearchPlan(ResourceType ResourceType, UnitOfWork UnitOfWork)
+    public static ISearchPlan GetSearchPlan(ResourceType ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {

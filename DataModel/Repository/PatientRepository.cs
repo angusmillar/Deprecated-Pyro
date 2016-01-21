@@ -7,16 +7,20 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using DataModel.Interface;
 using DataModel.Model;
 using Hl7.Fhir.Model;
+using BusinessEntities;
+using Dip.Interfaces;
 using SqlForge.Query;
 using SqlForge.Support;
+using DataModel.ModelExtend;
 
 namespace DataModel.Repository
 {
-  class PatientRepository : BaseRepository, IPatientRepository
+  class PatientRepository : BaseRepository, Dip.Interfaces.IPatientRepository
   {
+    private int _NumberOfRecordsPerPage = 10;
+
     public PatientRepository(BlazeDbContext Context)
     {
       _Context = Context;
@@ -34,13 +38,31 @@ namespace DataModel.Repository
       return NewPatientResource.FhirResourceId;
     }
 
-    public Patient GetCurrentResource(string FhirResourceId)
+    public IDatabaseSearchResult GetCurrentResource(string FhirResourceId)
     {
-      var Xml = (from x in _Context.Resource where x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == false select x.Xml).SingleOrDefault();
-      if (Xml != null)
-        return Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
-      else
-        return null;
+      IDatabaseSearchResult oResult = new DatabaseSearchResult();             
+      try
+      {        
+        var oResource = (from x in _Context.Resource where x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == false select x).SingleOrDefault();
+        if (oResource != null)
+        {
+          oResult.ResourceMatchingSearch = new DtoResource();
+          oResult.ResourceMatchingSearch.Id = oResource.Id;
+          oResult.ResourceMatchingSearch.IsCurrent = oResource.IsCurrent;
+          oResult.ResourceMatchingSearch.IsDeleted = oResource.IsDeleted;
+          oResult.ResourceMatchingSearch.Received = oResource.Received;
+          oResult.ResourceMatchingSearch.Version = oResource.Version;
+          oResult.ResourceMatchingSearch.Xml = oResource.Xml;          
+        }
+        return oResult;
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
+      }      
     }
 
     public bool IsCurrentResourceDeleted(string FhirResourceId)
@@ -92,9 +114,9 @@ namespace DataModel.Repository
 
         //Gender (Sex)
         DbPatientResource.Gender = NewPatientResource.Gender;
-        
 
-        
+
+
         //Delete the old HumanNames and any Periods 
         foreach (var Name in DbPatientResource.HumanName.ToList())
         {
@@ -129,7 +151,7 @@ namespace DataModel.Repository
 
         //Add the new Identifiers
         DbPatientResource.Identifier = NewPatientResource.Identifier;
-                
+
         //Set the past Current resource to not current
         DbPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true).IsCurrent = false;
 
@@ -150,13 +172,64 @@ namespace DataModel.Repository
 
     public void UpdateResouceAsDeleted(string FhirResourceId)
     {
-      var DbResource = _Context.Resource.SingleOrDefault(x => x.IsCurrent && x.PatientResource.FhirResourceId == FhirResourceId);
+
+      var DbResource = (from r in _Context.Resource
+                                .Include(x => x.PatientResource)
+                                .Include(x => x.PatientResource.HumanName)
+                                .Include(x => x.PatientResource.Identifier.Select(y => y.Type).Select(b => b.Coding))
+                               where r.PatientResource.FhirResourceId == FhirResourceId
+                               select r).FirstOrDefault();
+
+      //var DbResource = _Context.Resource.SingleOrDefault(x => x.IsCurrent && x.PatientResource.FhirResourceId == FhirResourceId);
       //var DbPatientResource = _Context.PatientResource.Single(x => x.FhirResourceId == FhirResourceId);
 
       using (var scope = new TransactionScope())
       {
-
+        //=======================================================================
         DbResource.IsCurrent = false;
+        
+        //Active
+        DbResource.PatientResource.Active = null;
+
+        //Birth date
+        DbResource.PatientResource.BirthDate = null;
+
+        //Gender (Sex)
+        DbResource.PatientResource.Gender = null;
+
+
+
+        //Delete the old HumanNames and any Periods 
+        foreach (var Name in DbResource.PatientResource.HumanName.ToList())
+        {
+          if (Name.Period != null)
+            _Context.Period.Remove(Name.Period);
+          _Context.HumanName.Remove(Name);
+        }
+        
+        //Delete the old Identifiers
+        if (DbResource.PatientResource.Identifier != null)
+        {
+          foreach (var Identifier in DbResource.PatientResource.Identifier.ToList())
+          {
+            if (Identifier.Type != null)
+            {
+              if (Identifier.Type.Coding != null)
+              {
+                foreach (var Code in Identifier.Type.Coding.ToList())
+                  _Context.Codeing.Remove(Code);
+              }
+              _Context.CodeableConcept.Remove(Identifier.Type);
+            }
+            if (Identifier.Period != null)
+              _Context.Period.Remove(Identifier.Period);
+
+            _Context.Identifier.Remove(Identifier);
+          }
+        }
+
+        //=======================================================================
+        //DbResource.IsCurrent = false;
 
         var NewResource = new DataModel.Model.Resource();
         NewResource.IsDeleted = true;
@@ -173,7 +246,7 @@ namespace DataModel.Repository
       }
     }
 
-    public Bundle SearchByFhirId(string _Id, Tuple<string, string> ActiveSystemAndCode)
+    public IDatabaseSearchResult SearchByFhirId(string _Id, Tuple<string, string> ActiveSystemAndCode)
     {
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
       TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
@@ -182,7 +255,14 @@ namespace DataModel.Repository
       var Query = new SqlForge.Query.Query();
 
       var Select = new Select();
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Version));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
+
       Query.Select = Select;
 
       var From = new From();
@@ -203,7 +283,7 @@ namespace DataModel.Repository
 
       var oParameterDictionary = new Dictionary<string, object>();
 
-      oParameterDictionary.Add("FhirId", _Id);      
+      oParameterDictionary.Add("FhirId", _Id);
 
       if (ActiveSystemAndCode != null)
       {
@@ -217,34 +297,35 @@ namespace DataModel.Repository
           Where.AddOperator(Enums.Operator.AND);
         }
       }
-     
+
       object[] parameters = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
-      var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters);
 
-      Bundle oBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
-      foreach (var Xml in PatientXmlList)
+      DatabaseSearchResult oResult;
+      var dbResourceList = new List<Model.Resource>();
+      try
       {
-        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
-        
-        //Three Changes below implemented on re-base to DSTU 2.1
-        //Bundle.BundleEntryComponent oResEntry = new Bundle.BundleEntryComponent();
-        Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
-
-        //oResEntry.Search = new Bundle.BundleEntrySearchComponent();
-        oResEntry.Search = new Bundle.SearchComponent();
-
-        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
-        oResEntry.Resource = PatientResource;
-        //oResEntry.Link = new List<Bundle.BundleLinkComponent>();
-        oResEntry.Link = new List<Bundle.LinkComponent>();
-        oBundle.Entry.Add(oResEntry);
+        dbResourceList = _Context.Resource.SqlQuery(SqlQueryGetXml, parameters).ToList();
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
       }
 
-      return oBundle;
+      oResult = new DatabaseSearchResult();
+      oResult.ResourcesMatchingSearchList = new List<DtoResource>(); 
+      dbResourceList.ForEach( x => oResult.ResourcesMatchingSearchList.Add(x.GetDto()));
+      oResult.NumberOfRecordsPerPage = _NumberOfRecordsPerPage;
+      oResult.PageRequested = 1;
+      oResult.ResourcesMatchingSearchCount = 1;
+
+      return oResult;
 
     }
 
-    public Bundle SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, Tuple<string, string> ActiveSystemAndCode, int PageRequired, Uri RequestUri)
+    public IDatabaseSearchResult SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, Tuple<string, string> ActiveSystemAndCode, int PageRequired)
     {
       //Tables            
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
@@ -255,7 +336,7 @@ namespace DataModel.Repository
       TableDic.Add(DbInfo.Given.TableNameIs, new SqlTable(DbInfo.Given.TableNameIs, "G"));
 
       var HumanNameQuery = SetupHumanNameQuery(TableDic);
-      
+
       var Where = new Where();
 
       Where.AddCondition(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
@@ -306,11 +387,11 @@ namespace DataModel.Repository
         var PhoneticWhere = new Where();
         oParameterDictionary.Add("Phonetic", Phonetic);
         string Condition = "SOUNDEX({0}) = SOUNDEX({1} + ' ' + {2})";
-        string ConditionFamilyGiven = String.Format(Condition, "@Phonetic", 
+        string ConditionFamilyGiven = String.Format(Condition, "@Phonetic",
                                                                 StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)),
                                                                 StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)));
 
-        
+
         string ConditionGivenFamily = String.Format(Condition, "@Phonetic",
                                                                 StringSupport.Property(TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.Value)),
                                                                 StringSupport.Property(TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.Value)));
@@ -339,7 +420,7 @@ namespace DataModel.Repository
 
       var GroupBy = new GroupBy();
       GroupBy.AddGroup(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId));
-      GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));      
+      GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
@@ -349,21 +430,21 @@ namespace DataModel.Repository
 
 
       HumanNameQuery.GroupBy = GroupBy;
-     
+
 
       var OrderBy = new OrderBy();
       OrderBy.AddOrder(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
       HumanNameQuery.OrderBy = OrderBy;
-     
-      int NumberOfRecordsPerPage = 10;            
-      var Paging = new Paging(PageRequired, NumberOfRecordsPerPage);
+
+      var Paging = new Paging(PageRequired, _NumberOfRecordsPerPage);
       HumanNameQuery.Paging = Paging;
 
       string SqlQueryGetXml = HumanNameQuery.CreateQuery();
 
+
       //Query to get total Record count for previous query
       var CountSQL = new SqlForge.Query.Query();
-      
+
       //Clear Paging and OrderBy for the count query
       HumanNameQuery.Paging = null;
       HumanNameQuery.OrderBy = null;
@@ -371,55 +452,58 @@ namespace DataModel.Repository
       var SelectCount = new Select();
       SelectCount.AddCountAll();
       CountSQL.Select = SelectCount;
-      //New From that takes the previous query as the sub query
+
+      //New 'From' that takes the previous query as the sub query
       var CountFrom = new From();
       CountFrom.AddSubQuery(HumanNameQuery.CreateQuery());
       CountSQL.From = CountFrom;
 
-      string SqlQueryCount = CountSQL.CreateQuery();
-
-      Bundle oBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
-
-      object[] parameters1 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
-      oBundle.Total = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
-
-      //Paging   
-      int LastPageNumber = Paging.GetLastPageNumber(NumberOfRecordsPerPage, oBundle.Total ?? 0);
-      oBundle.FirstLink = Paging.GetPageNavigationUri(RequestUri, 1);
-      oBundle.LastLink = Paging.GetPageNavigationUri(RequestUri, LastPageNumber);
-      oBundle.NextLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetNextPageNumber(PageRequired, LastPageNumber));
-      oBundle.PreviousLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetPreviousPageNumber(PageRequired, LastPageNumber));
-
+      DatabaseSearchResult oResult;
+      var dbResourceList = new List<Model.Resource>();
       object[] parameters2 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
-      //var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters2);
-      List<Model.Resource> dbResourceList = _Context.Resource.SqlQuery(SqlQueryGetXml, parameters2).ToList();
-
-      DatabaseSearchResult oResult = new DatabaseSearchResult();
-      oResult.ResourceList = dbResourceList;
-      //oResult.TotalResource = 2
-
-      foreach (Model.Resource dbResource in dbResourceList)
+      try
       {
-        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(dbResource.Xml) as Patient;
-        Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
-        oResEntry.Search = new Bundle.SearchComponent();
-        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
-        oResEntry.Resource = PatientResource;
-        oResEntry.Link = new List<Bundle.LinkComponent>();
-
-        oBundle.Entry.Add(oResEntry);
+        dbResourceList = _Context.Resource.SqlQuery(SqlQueryGetXml, parameters2).ToList();
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
       }
 
-      return oBundle;
+      string SqlQueryCount = CountSQL.CreateQuery();
+      object[] parameters1 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
+      int SearchResultCount = 0;
+      try
+      {
+        SearchResultCount = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
+      }
+
+      oResult = new DatabaseSearchResult();
+      oResult.ResourcesMatchingSearchList = new List<DtoResource>();
+      dbResourceList.ForEach(x => oResult.ResourcesMatchingSearchList.Add(x.GetDto()));
+      oResult.NumberOfRecordsPerPage = _NumberOfRecordsPerPage;
+      oResult.PageRequested = PageRequired;
+      oResult.ResourcesMatchingSearchCount = SearchResultCount;
+
+      return oResult;
 
     }
 
     private SqlForge.Query.Query SetupHumanNameQuery(Dictionary<string, SqlTable> TableDic)
     {
       var Query = new SqlForge.Query.Query();
-      
+
       var Select = new Select();
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
@@ -443,7 +527,7 @@ namespace DataModel.Repository
       return Query;
     }
 
-    public Bundle SearchByIdentifier(Tuple<string, string> IdentiferSystemAndCode, Tuple<string, string> ActiveSystemAndCode, int PageRequired, Uri RequestUri)
+    public IDatabaseSearchResult SearchByIdentifier(Tuple<string, string> IdentiferSystemAndCode, Tuple<string, string> ActiveSystemAndCode, int PageRequired, Uri RequestUri)
     {
 
       //Tables            
@@ -455,6 +539,12 @@ namespace DataModel.Repository
       var Query = new SqlForge.Query.Query();
 
       var Select = new Select();
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
+      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Version));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
       Query.Select = Select;
 
@@ -463,7 +553,7 @@ namespace DataModel.Repository
       Query.From = From;
 
       var Join = new Join();
-      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));      
+      Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
       Join.AddJoin(TableDic[DbInfo.Identifier.TableNameIs], TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id), TableDic[DbInfo.Identifier.TableNameIs].Prop(DbInfo.Identifier.PatientResource_Id));
       Query.Join = Join;
 
@@ -537,37 +627,44 @@ namespace DataModel.Repository
       CountFrom.AddSubQuery(Query.CreateQuery());
       CountSQL.From = CountFrom;
 
-      string SqlQueryCount = CountSQL.CreateQuery();
-
-      Bundle oBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
-
-      object[] parameters1 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
-      oBundle.Total = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
-
-      //Paging   
-      int LastPageNumber = Paging.GetLastPageNumber(NumberOfRecordsPerPage, oBundle.Total ?? 0);
-      oBundle.FirstLink = Paging.GetPageNavigationUri(RequestUri, 1);
-      oBundle.LastLink = Paging.GetPageNavigationUri(RequestUri, LastPageNumber);
-      oBundle.NextLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetNextPageNumber(PageRequired, LastPageNumber));
-      oBundle.PreviousLink = Paging.GetPageNavigationUri(RequestUri, Paging.GetPreviousPageNumber(PageRequired, LastPageNumber));
-
+      DatabaseSearchResult oResult;
+      var dbResourceList = new List<Model.Resource>();
       object[] parameters2 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
-      var PatientXmlList = _Context.Database.SqlQuery<string>(SqlQueryGetXml, parameters2);
-
-      foreach (var Xml in PatientXmlList)
+      try
       {
-        var PatientResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(Xml) as Patient;
-        Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
-        oResEntry.Search = new Bundle.SearchComponent();
-        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
-        oResEntry.Resource = PatientResource;
-        oResEntry.Link = new List<Bundle.LinkComponent>();
-
-        oBundle.Entry.Add(oResEntry);
+        dbResourceList = _Context.Resource.SqlQuery(SqlQueryGetXml, parameters2).ToList();
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
       }
 
-      return oBundle;
+      string SqlQueryCount = CountSQL.CreateQuery();
+      object[] parameters1 = SqlForge.Support.ParameterSupport.GetParameter(oParameterDictionary);
+      int SearchResultCount = 0;
+      try
+      {
+        SearchResultCount = _Context.Database.SqlQuery<int>(SqlQueryCount, parameters1).SingleOrDefault();
+      }
+      catch (Exception Exec)
+      {
+        oResult = new DatabaseSearchResult();
+        oResult.HasDbError = true;
+        oResult.ErrorMessage = Exec.Message;
+        return oResult;
+      }
 
+      oResult = new DatabaseSearchResult();
+      oResult.ResourcesMatchingSearchList = new List<DtoResource>();
+      dbResourceList.ForEach(x => oResult.ResourcesMatchingSearchList.Add(x.GetDto()));
+      oResult.NumberOfRecordsPerPage = _NumberOfRecordsPerPage;
+      oResult.PageRequested = PageRequired;
+      oResult.ResourcesMatchingSearchCount = SearchResultCount;
+
+      return oResult;
     }
 
     private PatientResource PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient)

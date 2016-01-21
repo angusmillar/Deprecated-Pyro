@@ -13,7 +13,7 @@ namespace DataModel.Model
     public string FhirResourceId { get; set; }
     public bool? Active { get; set; }
     public Fhir.AdministrativeGender? Gender { get; set; }
-    public DateTime BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 
     public ICollection<Identifier> Identifier { get; set; }
     public ICollection<HumanName> HumanName { get; set; }

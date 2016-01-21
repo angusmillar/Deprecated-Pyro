@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
-using DataModel.Interface;
 
 namespace DataModel.Repository 
 {
-  public class BaseRepository : IBaseRepository
+  public class BaseRepository : Dip.Interfaces.IBaseRepository
   {
     internal BlazeDbContext _Context = null;
     
