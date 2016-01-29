@@ -14,11 +14,15 @@ namespace DataModel.Model
     public int Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }    
+    public DateTimeOffset Received { get; set; }
+    public int ResourceIdentity_Id { get; set; }
+    public int? PatientResource_Id { get; set; }
+    public int? ValueSetResource_Id { get; set; }
 
-    //Forward Links
-    public virtual PatientResource PatientResource { get; set; } 
-   
+    //Forward Links    
+    public ResourceIdentity ResourceIdentity { get; set; }
+    public virtual PatientResource PatientResource { get; set; }
+    public virtual ValueSetResource ValueSetResource { get; set; }    
   }
 
   public static partial class DbInfo
@@ -34,7 +38,9 @@ namespace DataModel.Model
       public static readonly string IsDeleted = "IsDeleted";
       public static readonly string Received = "Received";
 
+      public static readonly string ResourceIdentity_Id = "ResourceIdentity_Id";      
       public static readonly string PatientResource_Id = "PatientResource_Id";
+      public static readonly string ValueSetResource_Id = "ValueSetResource_Id";
       
     }
   }

@@ -6,96 +6,36 @@ using System.Threading.Tasks;
 using Dip.Interfaces;
 using System.Net.Http;
 using System.Net;
-
-
-
+using BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Response
 {
-  public class FhirRestResponse : IFhirRestResponse
-  {
-    public HttpStatusCode StatusCode { get; set; }
-    public int Version { get; set; }
-    public Resource Resource { get; set; }
-    public string FhirResourceId { get; set; }
-    public string ErrorMessage { get; set; }
-    public DateTimeOffset? LastModified { get; set; }
-
-    public FhirRestResponse()
+  public static class FhirRestResponse
+  {    
+    public static HttpResponseMessage GetHttpResponseMessage(IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, HttpRequestMessage Request)
     {
-      this.StatusCode = HttpStatusCode.InternalServerError;
-      this.Version = 0;
-      this.Resource = null;
-      this.FhirResourceId = string.Empty;
-      this.ErrorMessage = string.Empty;
-      this.LastModified = null;
-    }
-
-    public FhirRestResponse(HttpStatusCode code, Resource resource)
-    {
-      this.StatusCode = code;
-      this.Version = 0;
-      this.Resource = resource;
-      this.FhirResourceId = resource.Id;
-      this.ErrorMessage = string.Empty;
-      this.LastModified = null;
-    }
-
-    public FhirRestResponse(HttpStatusCode code, Resource resource, int version, string errormessage)
-    {
-      this.StatusCode = code;
-      this.Version = version;
-      this.Resource = resource;
-      this.FhirResourceId = resource.Id;
-      this.ErrorMessage = errormessage;
-      this.LastModified = null;
-    }
-
-    public FhirRestResponse(HttpStatusCode code, int version, string errormessage)
-    {
-      this.StatusCode = code;
-      this.Version = version;
-      this.Resource = null;
-      this.FhirResourceId = string.Empty;
-      this.ErrorMessage = errormessage;
-      this.LastModified = null;
-    }
-
-    public FhirRestResponse(HttpStatusCode code, string errormessage)
-    {
-      this.StatusCode = code;
-      this.Version = 0;
-      this.Resource = null;
-      this.FhirResourceId = string.Empty;
-      this.ErrorMessage = errormessage;
-      this.LastModified = null;
-    }
-
-    public FhirRestResponse(HttpStatusCode code, string fhirResourceId, int version, DateTimeOffset? lastModified)
-    {
-      this.StatusCode = code;
-      this.Version = version;
-      this.Resource = null;
-      this.FhirResourceId = fhirResourceId;
-      this.ErrorMessage = string.Empty;
-      this.LastModified = lastModified;
-    }    
-
-    public HttpResponseMessage GetHttpResponseMessage(HttpRequestMessage request)
-    {
+      HttpStatusCode HttpStatusCode = oBlazeServiceOperationOutcome.HttpStatusCodeToReturn;
+      Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn; 
+      
       //OK: 200
-      if (this.StatusCode == HttpStatusCode.OK)
+      if (HttpStatusCode == HttpStatusCode.OK)
       {
-        if (this.Resource != null)
-          return request.CreateResponse(this.StatusCode, this.Resource);
-        else if (this.Version != 0)
+        if (Resource != null)
         {
-          HttpResponseMessage Response = request.CreateResponse(this.StatusCode, this.FhirResourceId);
-          if (this.LastModified != null)
+          return Request.CreateResponse(HttpStatusCode, Resource);
+        }
+        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Update)
+        {
+          return Request.CreateResponse(HttpStatusCode, string.Empty);
+        }
+        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
+        {
+          HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, oBlazeServiceOperationOutcome.FhirResourceId);
+          if (oBlazeServiceOperationOutcome.LastModified != null)
           {
-            Response.Content.Headers.LastModified = this.LastModified;
-            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + this.Version.ToString() + "\"");
+            Response.Content.Headers.LastModified = oBlazeServiceOperationOutcome.LastModified;
+            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");
           }
           return Response;
         }
@@ -107,41 +47,60 @@ namespace Blaze.Engine.Response
           oIssueComponent.Diagnostics = "Internal Error. FhirRestResponse contains no FHIR Resource or Id.";
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new Blaze.Engine.CustomException.BlazeException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
+          throw new DtoBlazeException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
         }
       }
       //Created: 201 
-      else if (this.StatusCode == HttpStatusCode.Created)
+      else if (HttpStatusCode == HttpStatusCode.Created)
       {
-        HttpResponseMessage Response = request.CreateResponse(this.StatusCode, this.Resource.Id);
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, oBlazeServiceOperationOutcome.FhirResourceId);
 
-        string BaseURLPath = String.Format("{0}://{1}{2}", request.RequestUri.Scheme, request.RequestUri.Authority, request.RequestUri.LocalPath);
+        string BaseURLPath = String.Format("{0}://{1}{2}", Request.RequestUri.Scheme, Request.RequestUri.Authority, Request.RequestUri.LocalPath);
         BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
 
-        Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, this.Resource.Id));
+        Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, oBlazeServiceOperationOutcome.FhirResourceId));
         return Response;
       }
       //Gone: 410 
-      else if (this.StatusCode == HttpStatusCode.Gone)
+      else if (HttpStatusCode == HttpStatusCode.Gone)
       {
-        HttpResponseMessage Response = request.CreateResponse(this.StatusCode, this.ErrorMessage);
-        if (this.Version != 0)
-        {                 
-          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + this.Version.ToString() + "\"");          
+        //##issues## need to return operation outcome here
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, string.Empty);
+        if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
+        {
+          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");          
         }
         return Response;
       }
       //No Content: 204
-      //Forbidden: 403
+      else if (HttpStatusCode == HttpStatusCode.NoContent)
+      {
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, string.Empty);
+        if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
+        {
+          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");
+        }
+        return Response;
+      }      
+      //Forbidden: 403..and others
       else
       {
-        if (this.Resource != null)
-          return request.CreateResponse(this.StatusCode, this.Resource);
+        if (Resource != null)
+        {
+          return Request.CreateResponse(HttpStatusCode, Resource);
+        }
         else
-          return request.CreateResponse(this.StatusCode, this.ErrorMessage);
+        {
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
+          OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
+          var OpOutCome = new OperationOutcome();
+          OpOutCome.Issue.Add(OpOutComeIssueComp);
+          return Request.CreateResponse(HttpStatusCode, OpOutCome);
+        }
       }
       
     }
-
   }
 }

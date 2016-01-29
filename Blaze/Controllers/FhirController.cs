@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
+using Dip.Interfaces.Services;
 using Dip.Interfaces;
 using Blaze.Extensions;
+using Blaze.Engine.Response;
 
 namespace Blaze.Controllers
 {
@@ -26,9 +28,9 @@ namespace Blaze.Controllers
     [HttpGet, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Get(string ResourceName, string id)
     {
-      IResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirRestResponse Response = oService.Get(id);
-      return Response.GetHttpResponseMessage(this.Request);     
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(id);
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);      
     }
 
     //Search
@@ -36,9 +38,9 @@ namespace Blaze.Controllers
     [HttpGet, Route("{ResourceName}")]
     public HttpResponseMessage Search(string ResourceName)
     {
-      IResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirRestResponse Response = oService.Get(Request.RequestUri, Request.GetSearchParams());
-      return Response.GetHttpResponseMessage(this.Request);     
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(Request.RequestUri, Request.GetSearchParams());
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);   
     }
 
     // Add
@@ -46,9 +48,9 @@ namespace Blaze.Controllers
     [HttpPost, Route("{ResourceName}")]
     public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
     {
-      IResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirRestResponse Response = oService.Post(resource);
-      return Response.GetHttpResponseMessage(this.Request);              
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(resource);      
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
 
     //Update
@@ -56,9 +58,9 @@ namespace Blaze.Controllers
     [HttpPut, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Put(string ResourceName, string id, FhirModel.Resource resource)
     {
-      IResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirRestResponse Response = oService.Put(id, resource);
-      return Response.GetHttpResponseMessage(this.Request);          
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(id, resource);
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
 
     //Delete
@@ -66,9 +68,9 @@ namespace Blaze.Controllers
     [HttpDelete, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
-      IResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirRestResponse Response = oService.Delete(id);
-      return Response.GetHttpResponseMessage(this.Request);
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Delete(id);
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
   }
 }

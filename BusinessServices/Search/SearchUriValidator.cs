@@ -6,23 +6,27 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Search.SearchTermTypes;
+using Dip.Interfaces;
 
 namespace Blaze.Engine.Search
 {
   class SearchUriValidator
   {
-    public static SearchTerms Validate(ResourceType ResourceType, SearchParams SearchParameter)
+    private static SearchTermValidationOperationOutcome _SearchTermValidationOperationOutcome;
+    private static ResourceType _ResourceType;
+
+    public static SearchTermValidationOperationOutcome Validate(ResourceType ResourceType, SearchParams SearchParameter)
     {
-      var Result = new SearchTerms();
-      Result.ResourceTarget = ResourceType;      
-      ParseToSupportedSearchTerms(SearchParameter, Result);
-      return Result;
+      _ResourceType = ResourceType;
+      _SearchTermValidationOperationOutcome = new SearchTermValidationOperationOutcome();
+      _SearchTermValidationOperationOutcome.SearchTerms = ParseToSupportedSearchTerms(SearchParameter);      
+      return _SearchTermValidationOperationOutcome;      
     }
 
-    private static void ParseToSupportedSearchTerms(SearchParams SearchParameter, SearchTerms Result)
-    {
+    private static SearchTerms ParseToSupportedSearchTerms(SearchParams SearchParameter)
+    {      
       var oInboundSearchTermList = new List<SearchTermBase>();
-      var oSupportedSearchTermList = Search.SupportedSearchTerm.GetSupportedTermList(Result.ResourceTarget);
+      var oSupportedSearchTermList = Search.SupportedSearchTerm.GetSupportedTermList(_ResourceType);
       var oSearchTermNameDictionary = Support.EnumSupport.GetSearchTermNameDictionary();
 
       foreach (var Parameter in SearchParameter.Parameters)
@@ -40,34 +44,40 @@ namespace Blaze.Engine.Search
             if (oSupportedSearchTerm != null)
             {
               var oSearchTerm = SearchTermBase.CreateSearchTerm(oSupportedSearchTerm.Resource, SearchTermName, Parameter, oSupportedSearchTerm.SearchParameterType);
-              ValidateSearchTermSupported(oSupportedSearchTerm, oSearchTerm, Result);              
+              ValidateSearchTermSupported(oSupportedSearchTerm, oSearchTerm);              
               oInboundSearchTermList.Add(oSearchTerm);
             }
             else
-            {              
+            {
+              if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+                _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
               var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
               OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
               OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
               OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}={1}' content is invalid", Parameter.Item1, Parameter.Item2));
-              OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter for the resource '{0}' found in URL, parameter was: {1}={2}", Result.ResourceTarget.ToString(), Parameter.Item1, Parameter.Item2);             
-              Result.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);
+              OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter for the resource '{0}' found in URL, parameter was: {1}={2}", _ResourceType.ToString(), Parameter.Item1, Parameter.Item2);
+              _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+              _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;              
             }
           }
           else
           {
+            if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+              _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
             var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
             OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
             OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
             OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}={1}' content is invalid", Parameter.Item1, Parameter.Item2));
-            OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter found in URL, term was: {0}={1}", Parameter.Item1, Parameter.Item2);            
-            Result.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);           
+            OpOutComeIssueComp.Details.Text = String.Format("Unsupported search parameter found in URL, term was: {0}={1}", Parameter.Item1, Parameter.Item2);
+            _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+            _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;             
           }
         }
       }
-
-      Result.SearchTermList = oInboundSearchTermList;
+      return new SearchTerms() { ResourceTarget = _ResourceType, SearchTermList = oInboundSearchTermList };
     }
-    private static void ValidateSearchTermSupported(SupportedSearchTerm oSupported, SearchTermBase oInboundSearch, SearchTerms oSearchTerms)
+
+    private static void ValidateSearchTermSupported(SupportedSearchTerm oSupported, SearchTermBase oInboundSearch)
     {
       if (oInboundSearch.Modifier != SearchModifierType.None)
       {
@@ -78,7 +88,10 @@ namespace Blaze.Engine.Search
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
           OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_MODIFIER_INVALID", String.Format("Parameter '{0}' modifier is invalid", oInboundSearch.RawValue));      
           OpOutComeIssueComp.Details.Text = String.Format("Unsupported search Modifier found in URL, Modifier was: '{0}' in parameter '{1}'.", oInboundSearch.Modifier.ToString(), oInboundSearch.RawValue);
-          oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);                     
+          if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+            _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;          
         }
       }
 
@@ -91,7 +104,10 @@ namespace Blaze.Engine.Search
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
           OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
           OpOutComeIssueComp.Details.Text = String.Format(String.Format("Unsupported search Prefix found in URL, Prefix was: '{0}' in parameter '{1}'.", oInboundSearch.Prefix.ToString(), oInboundSearch.RawValue));
-          oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);                     
+          if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+            _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;      
         }
       }
 
@@ -104,7 +120,10 @@ namespace Blaze.Engine.Search
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;          
           OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
           OpOutComeIssueComp.Details.Text = String.Format("Unsupported search, the 'Resource' type found in the 'Type[]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'.", oInboundSearch.TypeModifierResource.ToString(), oInboundSearch.RawValue);
-          oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);                     
+          if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+            _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;      
         }
       }
 
@@ -119,11 +138,12 @@ namespace Blaze.Engine.Search
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
           OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_INVALID", String.Format("Parameter '{0}' content is invalid", oInboundSearch.RawValue));
           OpOutComeIssueComp.Details.Text = String.Format("The parameter 'active' must be a boolean value either [true | false]. Value found was: '{0}'.", oActive.Values[0].Code);
-          oSearchTerms.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);
+          if (_SearchTermValidationOperationOutcome.FhirOperationOutcome == null)
+            _SearchTermValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          _SearchTermValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          _SearchTermValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;      
         }
       }
-
-
     }
   }
 }

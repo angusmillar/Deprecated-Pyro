@@ -5,6 +5,7 @@ namespace Blaze.App_Start
   using System.Web.Http;
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
+  using Dip.Interfaces.Services;
   using Dip.Interfaces;
   using DataModel;
   
@@ -32,7 +33,8 @@ namespace Blaze.App_Start
       //Register interfaces with simple injector
       container.Register<IUnitOfWork, DataModel.UnitOfWork>(Lifestyle.Scoped);
       container.Register<IFhirServiceNegotiator, Blaze.BlazeService.FhirServiceNegotiator>(Lifestyle.Singleton);      
-      container.Register<IPatientResourceServices, Blaze.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);            
+      container.Register<IPatientResourceServices, Blaze.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);
+      container.Register<IValueSetResourceServices, Blaze.Engine.Services.ValueSetResourceServices>(Lifestyle.Scoped);            
 
     }
   }

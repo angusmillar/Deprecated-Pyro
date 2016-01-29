@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Fhir = Hl7.Fhir;
 using System.Net;
 using System.Net.Http;
-using Dip.Interfaces;
-using Blaze.Engine.CustomException;
+using Dip.Interfaces.Services;
+using BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.BlazeService
@@ -24,7 +24,7 @@ namespace Blaze.BlazeService
       _Container = Container;
     }
 
-    public  IResourceServices GetService(string ResourceName)
+    public  IBaseResourceServices GetService(string ResourceName)
     {
       if (Fhir.Model.ModelInfo.IsKnownResource(ResourceName))
       {
@@ -36,7 +36,9 @@ namespace Blaze.BlazeService
           switch (SupportedResource)
           {
             case BlazeImplementation.SupportedFhirResource.Patient:
-              return _Container.GetInstance<IPatientResourceServices>();              
+              return _Container.GetInstance<IPatientResourceServices>();
+            case BlazeImplementation.SupportedFhirResource.ValueSet:
+              return _Container.GetInstance<IValueSetResourceServices>();              
             default:
               {
                 var oIssueComponent = new OperationOutcome.IssueComponent();
@@ -47,7 +49,7 @@ namespace Blaze.BlazeService
                 oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
                 var oOperationOutcome = new OperationOutcome();
                 oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                throw new BlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+                throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
               }
           }
         }
@@ -61,7 +63,7 @@ namespace Blaze.BlazeService
           oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new BlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+          throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
         }
       }
       else
@@ -74,7 +76,7 @@ namespace Blaze.BlazeService
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new BlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                     
+        throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                     
       }
     }
 

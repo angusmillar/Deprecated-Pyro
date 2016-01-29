@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7458636F-B6A9-4F11-8921-1F70F717E1A9}</ProjectGuid>
+    <ProjectGuid>{4018873A-129D-41B7-858F-D8ECE9D13CBC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dip</RootNamespace>
-    <AssemblyName>Dip</AssemblyName>
+    <RootNamespace>TestBlaze</RootNamespace>
+    <AssemblyName>TestBlaze</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hl7.Fhir.DSTU2.Core">
+    <Reference Include="Hl7.Fhir.DSTU2.Core, Version=0.90.4.19664, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Release\Net45\Hl7.Fhir.DSTU2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,26 +51,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IBaseRepository.cs" />
-    <Compile Include="Interfaces\IBlazeServiceOperationOutcome.cs" />
-    <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
-    <Compile Include="Interfaces\IFhirRestResponse.cs" />
-    <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
-    <Compile Include="Interfaces\IPatientRepository.cs" />
-    <Compile Include="Interfaces\Services\IPatientResourceServices.cs" />
-    <Compile Include="Interfaces\Services\IBaseResourceServices.cs" />
-    <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\ISearchTermValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
+    <Compile Include="ResourceSupport\PatientResource.cs" />
+    <Compile Include="Test_PatientResourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessEntities\BusinessEntities.csproj">
-      <Project>{74e4cccd-93df-4646-8110-dfe373343960}</Project>
-      <Name>BusinessEntities</Name>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessServices\Blaze.Engine.csproj">
+      <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
+      <Name>Blaze.Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dip\Dip.csproj">
+      <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
+      <Name>Dip</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

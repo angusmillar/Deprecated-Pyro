@@ -13,7 +13,7 @@ namespace Dip.Interfaces
     System.Net.Http.HttpResponseMessage GetHttpResponseMessage(System.Net.Http.HttpRequestMessage request);
     DateTimeOffset? LastModified { get; set; }
     Hl7.Fhir.Model.Resource Resource { get; set; }
-    System.Net.HttpStatusCode StatusCode { get; set; }
+    System.Net.HttpStatusCode HttpStatusCode { get; set; }
     int Version { get; set; }
   }
 }

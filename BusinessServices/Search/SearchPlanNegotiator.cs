@@ -7,6 +7,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Interfaces;
 using Dip.Interfaces;
+using BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
@@ -30,7 +31,7 @@ namespace Blaze.Engine.Search
             oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
             var oOperationOutcome = new OperationOutcome();
             oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                 
+            throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                 
           }
       }      
     }

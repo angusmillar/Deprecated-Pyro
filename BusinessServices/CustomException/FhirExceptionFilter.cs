@@ -7,7 +7,8 @@ using System.Web.Http.Filters;
 using System.Web.Http;
 using System.Net;
 using System.Net.Http;
-using Blaze.Engine.CustomException;
+using System.Data.SqlClient;
+using BusinessEntities;
 
 namespace Blaze.Engine.CustomException
 {
@@ -15,21 +16,25 @@ namespace Blaze.Engine.CustomException
   {
     public override void OnException(HttpActionExecutedContext context)
     {
-      HttpResponseMessage response;
+      HttpResponseMessage response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, context.Exception.ToString());
 
-      if (context.Exception is BlazeException)
+      if (context.Exception is DtoBlazeException)
       {
-        var oBlazeException = (BlazeException)context.Exception;
-        if (oBlazeException.OperationOutcome != null)
-          response = context.Request.CreateResponse(oBlazeException.HttpStatusCode, oBlazeException.OperationOutcome);
+        var oDtoBlazeException = (DtoBlazeException)context.Exception;
+        if (oDtoBlazeException.OperationOutcome != null)
+          response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.OperationOutcome);
         else
-          response = context.Request.CreateResponse(oBlazeException.HttpStatusCode, oBlazeException.Message);
-      }      
-      else
-      {
-        response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, context.Exception.Message);
+          response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.Message);
       }
-
+      else if (context.Exception is System.Data.UpdateException)
+      {
+        if (context.Exception.InnerException is SqlException)
+        {
+          DtoBlazeException oDtoBlazeException = SqlExceptionSupport.GenerateDtoBlazeException((SqlException)context.Exception.InnerException);
+          response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.OperationOutcome);
+        }
+      }      
+      
       throw new HttpResponseException(response);
     }
   }

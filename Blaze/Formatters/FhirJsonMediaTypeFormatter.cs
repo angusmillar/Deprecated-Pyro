@@ -11,7 +11,7 @@ using Hl7.Fhir.Serialization;
 using Newtonsoft.Json;
 using Hl7.Fhir.Rest;
 using Blaze.Extensions;
-using Blaze.Engine.CustomException;
+using BusinessEntities;
 
 namespace Blaze.Formatters
 {
@@ -53,7 +53,7 @@ namespace Blaze.Formatters
             oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
             var oOperationOutcome = new OperationOutcome();
             oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                    
+            throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                    
           }
         }
         catch (FormatException Exec)
@@ -66,7 +66,7 @@ namespace Blaze.Formatters
           oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);                     
+          throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);                     
         }
       });
     }

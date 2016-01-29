@@ -9,6 +9,7 @@ namespace BusinessEntities
 {
   public class DtoResource
   {
+    public Type FhirResourceType { get; set; }
     public int Id { get; set; }
     public string Xml { get; set; }
     public int Version { get; set; }

@@ -13,11 +13,13 @@ namespace Blaze.BlazeService
             new Dictionary<Type,SupportedFhirResource>()
             {
                 { typeof(Patient),SupportedFhirResource.Patient },               
+                { typeof(ValueSet),SupportedFhirResource.ValueSet },               
             };
 
     public enum SupportedFhirResource
     {
-      Patient
+      Patient,
+      ValueSet
     };
   }
 }

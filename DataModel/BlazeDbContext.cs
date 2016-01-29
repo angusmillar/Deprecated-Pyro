@@ -18,9 +18,12 @@ namespace DataModel
       //Database.SetInitializer<BlazeDbContext>(new DropCreateDatabaseAlways<BlazeDbContext>());       
     }
 
+    public DbSet<Model.ResourceIdentity> ResourceIdentity { get; set; }
+
     public DbSet<Model.Resource> Resource { get; set; }
 
     public DbSet<Model.PatientResource> PatientResource { get; set; }
+    public DbSet<Model.ValueSetResource> ValueSetResource { get; set; }
 
     public DbSet<Model.Identifier> Identifier { get; set; }
     public DbSet<Model.CodeableConcept> CodeableConcept { get; set; }
@@ -38,25 +41,47 @@ namespace DataModel
       //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
       //Resource
-      modelBuilder.Entity<Model.Resource>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-      modelBuilder.Entity<Model.Resource>().Property(x => x.Version).IsRequired();
-      modelBuilder.Entity<Model.Resource>().Property(x => x.Xml).IsRequired();
-      modelBuilder.Entity<Model.Resource>().Property(x => x.Received).IsRequired();
-      modelBuilder.Entity<Model.Resource>().Property(x => x.IsCurrent).IsRequired();
-      modelBuilder.Entity<Model.Resource>().Property(x => x.IsDeleted).IsRequired();
-      modelBuilder.Entity<Model.Resource>()
-          .HasOptional(x => x.PatientResource)
-          .WithMany(x => x.Resources);
-      
-      //PatientResource
-      modelBuilder.Entity<Model.PatientResource>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();      
-      modelBuilder.Entity<Model.PatientResource>().Property(x => x.Gender).IsOptional();
-      modelBuilder.Entity<Model.PatientResource>().Property(x => x.BirthDate).IsOptional();
-      modelBuilder.Entity<Model.PatientResource>().Property(x => x.FhirResourceId).IsRequired().HasMaxLength(500)
+      modelBuilder.Entity<Model.ResourceIdentity>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      modelBuilder.Entity<Model.ResourceIdentity>().Property(x => x.FhirResourceId).IsRequired().HasMaxLength(500)
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(
-          new IndexAttribute("IX_FhirResourceId") { IsUnique = true }));
+          new IndexAttribute("IX_FhirResourceId") { IsUnique = true }));;
+
+      //Resource
+      modelBuilder.Entity<Model.Resource>().HasKey(x => x.Id).Property(x => x.Id).IsRequired().HasColumnOrder(0);
+      //modelBuilder.Entity<Model.Resource>().Property(x => x.ResourceIdentity_Id).IsRequired().HasColumnOrder(1);      
+      modelBuilder.Entity<Model.Resource>().Property(x => x.Version).IsRequired().HasColumnOrder(2);            
+      modelBuilder.Entity<Model.Resource>().Property(x => x.IsCurrent).IsRequired().HasColumnOrder(3);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.IsDeleted).IsRequired().HasColumnOrder(4);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.Received).IsRequired().HasColumnOrder(5);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.Xml).IsRequired().HasColumnOrder(6);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.PatientResource_Id).IsOptional().HasColumnOrder(7);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ValueSetResource_Id).IsOptional().HasColumnOrder(8);
+      modelBuilder.Entity<Model.Resource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.Resource).HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.Resource>()
+          .HasOptional(x => x.PatientResource)
+          .WithMany(x => x.Resources).HasForeignKey(x => x.PatientResource_Id);
+      modelBuilder.Entity<Model.Resource>()
+          .HasOptional(x => x.ValueSetResource)
+          .WithMany(x => x.Resources).HasForeignKey(x => x.ValueSetResource_Id);
+      
+
+      //PatientResource
+      modelBuilder.Entity<Model.PatientResource>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
       modelBuilder.Entity<Model.PatientResource>().Property(x => x.Gender).IsOptional();
+      modelBuilder.Entity<Model.PatientResource>().Property(x => x.BirthDate).IsOptional();
+      modelBuilder.Entity<Model.PatientResource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.PatientResource).HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.PatientResource>()
+        .HasMany(x => x.Resources);
+
+      //ValueSetResource
+      modelBuilder.Entity<Model.ValueSetResource>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.ValueSetResource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.ValueSetResource).HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.ValueSetResource>()
+        .HasMany(x => x.Resources);
+        
+
+
 
       //Identifier
       modelBuilder.Entity<Model.Identifier>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();

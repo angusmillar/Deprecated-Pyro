@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlForge", "SqlForge\SqlFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dip", "Dip\Dip.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBlaze", "TestBlaze\TestBlaze.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

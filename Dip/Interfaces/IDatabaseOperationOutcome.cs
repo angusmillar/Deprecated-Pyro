@@ -4,17 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessEntities;
-
+using System.Net;
 namespace Dip.Interfaces
 {
-  public interface IDatabaseSearchResult
+  public interface IDatabaseOperationOutcome
   {
-    string ErrorMessage { get; set; }
-    bool HasDbError { get; set; }
+    
     int NumberOfRecordsPerPage { get; set; }
-    int PageRequested { get; set; }
-    DtoResource ResourceMatchingSearch { get; set; }
+    int PageRequested { get; set; }    
     int ResourcesMatchingSearchCount { get; set; }
     List<DtoResource> ResourcesMatchingSearchList { get; set; }
+    
+    bool SingleResourceRead { get; set; }
+    DtoResource ResourceMatchingSearch { get; set; }
+    bool RecourceFoundDeleted { get; set; }
+    int DeletedResourceVersionNumber { get; set; }
   }
 }

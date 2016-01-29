@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DtoBlazeException.cs" />
+    <Compile Include="DtoDataBaseExceptionInfomation.cs" />
     <Compile Include="DtoResource.cs" />
+    <Compile Include="DtoEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

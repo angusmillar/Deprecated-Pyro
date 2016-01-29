@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Dip.Interfaces
+namespace Dip.Interfaces.Services
 {
   public interface IFhirServiceNegotiator
   {
-    IResourceServices GetService(string type);
+    IBaseResourceServices GetService(string type);
   }
 }

@@ -6,22 +6,14 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Engine.Search.SearchTermTypes;
 using Blaze.Engine.Support;
+using Dip.Interfaces;
 
 namespace Blaze.Engine.Search
 {
   public class PatientSearchPlan : SearchPlanBase, Interfaces.ISearchPlan
   {
-    public SearchResult Search(SearchTerms oSearchTerms)
+    public IBlazeServiceOperationOutcome Search(SearchTerms oSearchTerms, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome)
     {
-
-      //Check that the SearchTerms have not already thrown an error 
-      var oSearchResult = new SearchResult();
-      if (oSearchTerms.HasError)
-      {
-        oSearchResult.OperationOutcome = oSearchTerms.OperationOutcome;
-        return oSearchResult;
-      }
-
       //The search plan;
       if (oSearchTerms.SearchTermList.Count == 1)
       {
@@ -33,44 +25,44 @@ namespace Blaze.Engine.Search
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName._Id)
             {
               Search.SearchTermTypes.SearchTermString _Id = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0], null);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0], null);
+              return oBlazeServiceOperationOutcome;
             }
             //Family
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Family)
             {
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, null, 1);              
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, null, 1);              
+              return oBlazeServiceOperationOutcome;
             }
             //Given
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Given)
             {
               Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, null, 1);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, null, 1);
+              return oBlazeServiceOperationOutcome;
             }
             //Name
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Name)
             {              
               Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, null, 1);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, null, 1);
+              return oBlazeServiceOperationOutcome;
             }
             //Phonetic
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Phonetic)
             {
               Search.SearchTermTypes.SearchTermString Phonetic = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], null, 1);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], null, 1);
+              return oBlazeServiceOperationOutcome;
             }
             //Identifier 
             if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Identifier)
             {
               Search.SearchTermTypes.SearchTermToken Identifier = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermToken;
               var IdentiferSystemAndCode = new Tuple<string, string>(Identifier.Values[0].System, Identifier.Values[0].Code);
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, null, 1, RequestUri);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, null, 1, RequestUri);
+              return oBlazeServiceOperationOutcome;
             }
           }
         }
@@ -88,8 +80,8 @@ namespace Blaze.Engine.Search
             {              
               Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
               Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
-              oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, null, 1);
-              return oSearchResult;
+              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, null, 1);
+              return oBlazeServiceOperationOutcome;
             }
 
             //------ Active ---------
@@ -102,8 +94,8 @@ namespace Blaze.Engine.Search
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName._Id)
               {
                 Search.SearchTermTypes.SearchTermString _Id = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName._Id) as Search.SearchTermTypes.SearchTermString;                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0], ActiverSystemAndCode);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0], ActiverSystemAndCode);
+                return oBlazeServiceOperationOutcome;
               }
 
               //Active, Identifier 
@@ -111,44 +103,44 @@ namespace Blaze.Engine.Search
               {
                 Search.SearchTermTypes.SearchTermToken Identifier = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Identifier) as Search.SearchTermTypes.SearchTermToken;                                
                 var IdentiferSystemAndCode = new Tuple<string, string>(Identifier.Values[0].System, Identifier.Values[0].Code);
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, ActiverSystemAndCode, 1, RequestUri);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, ActiverSystemAndCode, 1, RequestUri);
+                return oBlazeServiceOperationOutcome;
               }
 
               //Active, _Id
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName._Id)
               {
                 //                Search.SearchTermTypes.SearchTermString _Id = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
-                //                oSearchResult.FhirBundle = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0]);
-                //                return oSearchResult;
+                //                oBlazeServiceOperationOutcome.FhirBundle = _UnitOfWork.PatientRepository.SearchByFhirId(_Id.Values[0]);
+                //                return oBlazeServiceOperationOutcome;
               }
               //Active, Family
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Family)
               {
                 Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;                                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, ActiverSystemAndCode, 1);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, ActiverSystemAndCode, 1);
+                return oBlazeServiceOperationOutcome;
               }
               //Active, Given
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Given)
               {
                 Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;                                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, 1);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, 1);
+                return oBlazeServiceOperationOutcome;
               }
               //Active, Name
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Name)
               {                
                 Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Name) as Search.SearchTermTypes.SearchTermString;                                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, ActiverSystemAndCode, 1);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, ActiverSystemAndCode, 1);
+                return oBlazeServiceOperationOutcome;
               }
               //Active, Phonetic
               if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Phonetic)
               {
                 Search.SearchTermTypes.SearchTermString Phonetic = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Phonetic) as Search.SearchTermTypes.SearchTermString;                                                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], ActiverSystemAndCode, 1);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], ActiverSystemAndCode, 1);
+                return oBlazeServiceOperationOutcome;
               }
             }
             //------ Page ----------
@@ -161,36 +153,36 @@ namespace Blaze.Engine.Search
               {
                 Search.SearchTermTypes.SearchTermToken Identifier = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Identifier) as Search.SearchTermTypes.SearchTermToken;
                 var IdentiferSystemAndCode = new Tuple<string, string>(Identifier.Values[0].System, Identifier.Values[0].Code);
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, null, Pagenumber, RequestUri);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, null, Pagenumber, RequestUri);
+                return oBlazeServiceOperationOutcome;
               }
               //Page, Given
               if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Given))
               {
                 Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, null, Pagenumber);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, null, Pagenumber);
+                return oBlazeServiceOperationOutcome;
               }
               //Page, Family
               if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Family))
               {
                 Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, null, Pagenumber);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], string.Empty, string.Empty, string.Empty, null, Pagenumber);
+                return oBlazeServiceOperationOutcome;
               }
               //Page, Name
               if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Name))
               {
                 Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Name) as Search.SearchTermTypes.SearchTermString;
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, null, Pagenumber);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, null, Pagenumber);
+                return oBlazeServiceOperationOutcome;
               }
               //Page, Phonetic
               if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Phonetic))
               {
                 Search.SearchTermTypes.SearchTermString Phonetic = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Phonetic) as Search.SearchTermTypes.SearchTermString;                
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], null, Pagenumber);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], null, Pagenumber);
+                return oBlazeServiceOperationOutcome;
               }
 
             }
@@ -215,8 +207,8 @@ namespace Blaze.Engine.Search
               {
                 Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
                 Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
-                oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, 1);
-                return oSearchResult;
+                oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, 1);
+                return oBlazeServiceOperationOutcome;
               }
 
 
@@ -230,37 +222,37 @@ namespace Blaze.Engine.Search
                 if (oSearchTerms.SearchTermList.Exists(x => x.Name == Support.EnumSupport.SearchTermName.Family))
                 {
                   Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], null, string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], null, string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
+                  return oBlazeServiceOperationOutcome;
                 }
                 //Active, Page, Given
                 if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Given)
                 {
                   Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
+                  return oBlazeServiceOperationOutcome;
                 }
                 //Active, Page, Name
                 if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Name)
                 {
                   Search.SearchTermTypes.SearchTermString Name = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Name) as Search.SearchTermTypes.SearchTermString;                                  
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, ActiverSystemAndCode, Pagenumber);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, Name.Values[0], string.Empty, ActiverSystemAndCode, Pagenumber);
+                  return oBlazeServiceOperationOutcome;
                 }
                 //Active, Page, Phonetic
                 if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Phonetic)
                 {
                   Search.SearchTermTypes.SearchTermString Phonetic = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Phonetic) as Search.SearchTermTypes.SearchTermString;                  
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], ActiverSystemAndCode, Pagenumber);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(string.Empty, string.Empty, string.Empty, Phonetic.Values[0], ActiverSystemAndCode, Pagenumber);
+                  return oBlazeServiceOperationOutcome;
                 }
                 //Active, Page, Identifier
                 if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName.Identifier)
                 {
                   Search.SearchTermTypes.SearchTermToken Identifier = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Phonetic) as Search.SearchTermTypes.SearchTermToken;                                    
                   var IdentiferSystemAndCode = new Tuple<string, string>(Identifier.Values[0].System, Identifier.Values[0].Code);
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, ActiverSystemAndCode, Pagenumber, RequestUri);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByIdentifier(IdentiferSystemAndCode, ActiverSystemAndCode, Pagenumber, RequestUri);
+                  return oBlazeServiceOperationOutcome;
                 }
               }
             }
@@ -291,8 +283,8 @@ namespace Blaze.Engine.Search
                 {
                   Search.SearchTermTypes.SearchTermString Family = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Family) as Search.SearchTermTypes.SearchTermString;
                   Search.SearchTermTypes.SearchTermString Given = oSearchTerms.SearchTermList.FirstOrDefault(x => x.Name == Support.EnumSupport.SearchTermName.Given) as Search.SearchTermTypes.SearchTermString;
-                  oSearchResult.DbSearchResult = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
-                  return oSearchResult;
+                  oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.SearchByFamilyAndGiven(Family.Values[0], Given.Values[0], string.Empty, string.Empty, ActiverSystemAndCode, Pagenumber);
+                  return oBlazeServiceOperationOutcome;
                 }
                             
               }            
@@ -312,10 +304,14 @@ namespace Blaze.Engine.Search
       }
       ParameterListForErrorMessage = ParameterListForErrorMessage.Substring(0, ParameterListForErrorMessage.Length - 3);
       OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_PARAM_UNKNOWN", String.Format("Parameter '{0}' not understood", ParameterListForErrorMessage));
-      OpOutComeIssueComp.Details.Text = String.Format("This search parameter combination provided is not supported by the server. Parameters were: {0}", ParameterListForErrorMessage);
-      oSearchResult.AddOperationOutcomeIssue(OpOutComeIssueComp, System.Net.HttpStatusCode.BadRequest);
+      OpOutComeIssueComp.Details.Text = String.Format("This search parameter combination provided is not supported by the server. Parameters were: {0}", ParameterListForErrorMessage);            
       
-      return oSearchResult;
+      oBlazeServiceOperationOutcome.SearchPlanValidationOperationOutcome = new SearchPlanValidationOperationOutcome();
+      oBlazeServiceOperationOutcome.SearchPlanValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      oBlazeServiceOperationOutcome.SearchPlanValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      oBlazeServiceOperationOutcome.SearchPlanValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+      
+      return oBlazeServiceOperationOutcome;
     }
   }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Hl7.Fhir.Model;
+using BusinessEntities;
 
 //string input = @"aaa;bb;cccc\;dd\;eee\\;ff\\;ggg\\\;hhh";
 //var res = Regex.Split (input, @"(?<!($|[^\\])(\\\\)*?\\);");
@@ -58,7 +59,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new Blaze.Engine.CustomException.BlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);        
+        throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);        
       }        
       return oSearchTerm;
     }
