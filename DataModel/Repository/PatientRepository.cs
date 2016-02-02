@@ -164,87 +164,6 @@ namespace DataModel.Repository
     }
 
     //Stay in Patient
-    public string UpdateResourceOLD(int ResourceVersion, Patient Patient)
-    {
-      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
-      var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
-
-      //Load the Patient Resource db record, remember this is the single Patient not the many history versions on the Resource so no need for IsCurrent
-      var DbPatientResource = (from p in _Context.PatientResource
-                               .Include(x => x.ResourceIdentity)
-                                .Include(x => x.HumanName)
-                                .Include(x => x.Identifier.Select(y => y.Type).Select(b => b.Coding))
-                               where p.ResourceIdentity.FhirResourceId == Patient.Id
-                               select p).FirstOrDefault();
-
-
-      using (var scope = new TransactionScope())
-      {
-
-        //Active
-        DbPatientResource.Active = NewPatientResource.Active;        
-
-        //Birth date
-        DbPatientResource.BirthDate = NewPatientResource.BirthDate;        
-
-        //Gender (Sex)        
-        DbPatientResource.Gender = NewPatientResource.Gender;
-
-        //Delete the old HumanNames and any Periods         
-        foreach (var Name in DbPatientResource.HumanName.ToList())
-        {
-          if (Name.Period != null)
-            _Context.Period.Remove(Name.Period);
-          _Context.HumanName.Remove(Name);
-        }
-
-        //Add the new HumanNames        
-        DbPatientResource.HumanName = NewPatientResource.HumanName;
-
-        //Delete the old Identifiers
-        if (DbPatientResource.Identifier != null)
-        {
-          foreach (var Identifier in DbPatientResource.Identifier.ToList())
-          {
-            if (Identifier.Type != null)
-            {
-              if (Identifier.Type.Coding != null)
-              {
-                foreach (var Code in Identifier.Type.Coding.ToList())
-                  _Context.Codeing.Remove(Code);
-              }
-              _Context.CodeableConcept.Remove(Identifier.Type);
-            }
-            if (Identifier.Period != null)
-              _Context.Period.Remove(Identifier.Period);
-
-            _Context.Identifier.Remove(Identifier);
-          }
-        }
-
-        //Add the new Identifiers
-        DbPatientResource.Identifier = NewPatientResource.Identifier;
-
-        //Set the past Current resource to not current
-        DbPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true).IsCurrent = false;
-
-        //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
-        //It is also set to current as the instance is populated.
-        var InboundResource = NewPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true);
-        InboundResource.Version = ResourceVersion;
-        InboundResource.Received = (DateTimeOffset)Patient.Meta.LastUpdated;
-        InboundResource.IsCurrent = true;
-        InboundResource.ResourceIdentity = DbPatientResource.ResourceIdentity;
-        DbPatientResource.Resources.Add(InboundResource);
-
-        this.Save();
-
-        scope.Complete();
-      }
-      return "";
-    }
-
-    //Stay in Patient
     public void UpdateResouceAsDeleted(string FhirResourceId)
     {
 
@@ -393,22 +312,20 @@ namespace DataModel.Repository
     {
       var DbResource = (from r in _Context.Resource select r);
 
-      DbResource = (from f in DbResource
-                     where f.PatientResource.HumanName.Any(x => x.Family.Any(y => y.Value == Family))
-                     select f);
+      if (Family != string.Empty)
+      {
+        DbResource = (from f in DbResource
+                      where f.PatientResource.HumanName.Any(x => x.Family.Any(y => y.Value == Family))
+                      select f);
+      }
 
-      DbResource = (from g in DbResource
-                    where g.PatientResource.HumanName.Any(x => x.Given.Any(y => y.Value == Given))
-                    select g);
+      if (Given != string.Empty)
+      {
+        DbResource = (from g in DbResource
+                      where g.PatientResource.HumanName.Any(x => x.Given.Any(y => y.Value == Given))
+                      select g);
+      }
 
-      DbResource = (from g in DbResource
-                    where g.PatientResource.HumanName.Any(x => x.Given.Any(y => y.Value == Given))
-                    select g);
-
-
-      DbResource = (from g in DbResource
-                    where g.IsCurrent == true && g.IsDeleted == false 
-                    select g);
 
 
       var Listof = DbResource.ToList();

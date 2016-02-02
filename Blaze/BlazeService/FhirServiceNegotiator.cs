@@ -31,25 +31,28 @@ namespace Blaze.BlazeService
         var ResourceType = Fhir.Model.ModelInfo.GetTypeForResourceName(ResourceName);
         if (BlazeImplementation.SupportedFhirResourceTypeDictionary.ContainsKey(ResourceType))
         {
-          BlazeImplementation.SupportedFhirResource SupportedResource = BlazeImplementation.SupportedFhirResourceTypeDictionary[ResourceType];
+          DtoEnums.SupportedFhirResource SupportedResource = BlazeImplementation.SupportedFhirResourceTypeDictionary[ResourceType];
           //On adding new services remember to register the service interface with simple injector
           switch (SupportedResource)
           {
-            case BlazeImplementation.SupportedFhirResource.Patient:
+            case DtoEnums.SupportedFhirResource.Patient:
               return _Container.GetInstance<IPatientResourceServices>();
-            case BlazeImplementation.SupportedFhirResource.ValueSet:
+            case DtoEnums.SupportedFhirResource.ValueSet:
               return _Container.GetInstance<IValueSetResourceServices>();              
             default:
               {
-                var oIssueComponent = new OperationOutcome.IssueComponent();
-                oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-                oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-                oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_NO_MODULE", String.Format("No module could be found to handle the request for Resource: '{0}'", ResourceName));
-                oIssueComponent.Details.Text = String.Format("Internal Server Error, The server believes it supports the resource type '{0}' yet has no resource service to act on the resource", ResourceName);
-                oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-                var oOperationOutcome = new OperationOutcome();
-                oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+                IDefaultResourceServices DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+                DefaultResourceServices.SetCurrentResourceType = SupportedResource;
+                return DefaultResourceServices;
+                //var oIssueComponent = new OperationOutcome.IssueComponent();
+                //oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+                //oIssueComponent.Code = OperationOutcome.IssueType.Exception;
+                //oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_NO_MODULE", String.Format("No module could be found to handle the request for Resource: '{0}'", ResourceName));
+                //oIssueComponent.Details.Text = String.Format("Internal Server Error, The server believes it supports the resource type '{0}' yet has no resource service to act on the resource", ResourceName);
+                //oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+                //var oOperationOutcome = new OperationOutcome();
+                //oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+                //throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
               }
           }
         }

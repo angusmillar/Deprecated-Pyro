@@ -14,7 +14,8 @@ namespace Blaze
             new Dictionary<Type, DtoEnums.SupportedFhirResource>()
             {
                 { typeof(Patient),DtoEnums.SupportedFhirResource.Patient },  
-                { typeof(ValueSet),DtoEnums.SupportedFhirResource.ValueSet }  
+                { typeof(ValueSet),DtoEnums.SupportedFhirResource.ValueSet }, 
+                { typeof(ConceptMap),DtoEnums.SupportedFhirResource.ConceptMap } 
             };
 
     

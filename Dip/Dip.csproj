@@ -49,6 +49,7 @@
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
+    <Compile Include="Interfaces\Services\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
     <Compile Include="Interfaces\Repositories\IPatientRepository.cs" />
     <Compile Include="Interfaces\Services\IPatientResourceServices.cs" />

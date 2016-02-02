@@ -100,10 +100,10 @@ namespace Blaze.Engine.Search.SearchTermTypes
               var ResourceName = value.Split(delimiters)[1];
               if (ModelInfo.IsKnownResource(ResourceName))
               {
-                var FhirResourceTypeDictionary = Support.EnumSupport.GetFhirResourceTypeByNameDictionary();
+                var FhirResourceTypeDictionary = DtoEnums.GetFhirResourceTypeByNameDictionary();
                 if (FhirResourceTypeDictionary.ContainsKey(ResourceName))
                 {
-                  var BlazeSupportedResourceTypeDictionary = Support.EnumSupport.GetBlazeSupportedResorceTypeByFhirResourceTypeDictionary();
+                  var BlazeSupportedResourceTypeDictionary = DtoEnums.GetBlazeSupportedResorceTypeByFhirResourceTypeDictionary();
                   var BlazeSupportedResourceType = FhirResourceTypeDictionary[ResourceName];
                   if (BlazeSupportedResourceTypeDictionary.ContainsKey(BlazeSupportedResourceType))
                   {
