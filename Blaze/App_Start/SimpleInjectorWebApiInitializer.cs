@@ -5,6 +5,7 @@ namespace Blaze.App_Start
   using System.Web.Http;
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
+  using Dip.Interfaces.Repositories;
   using Dip.Interfaces.Services;
   using Dip.Interfaces;
   using DataModel;

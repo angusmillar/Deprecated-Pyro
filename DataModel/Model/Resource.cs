@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessEntities;
 
 namespace DataModel.Model
 {
@@ -15,6 +16,7 @@ namespace DataModel.Model
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset Received { get; set; }
+    public DtoEnums.SupportedFhirResource ResourceType { get; set; }
     public int ResourceIdentity_Id { get; set; }
     public int? PatientResource_Id { get; set; }
     public int? ValueSetResource_Id { get; set; }

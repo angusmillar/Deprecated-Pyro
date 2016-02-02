@@ -54,9 +54,11 @@ namespace DataModel
       modelBuilder.Entity<Model.Resource>().Property(x => x.IsCurrent).IsRequired().HasColumnOrder(3);
       modelBuilder.Entity<Model.Resource>().Property(x => x.IsDeleted).IsRequired().HasColumnOrder(4);
       modelBuilder.Entity<Model.Resource>().Property(x => x.Received).IsRequired().HasColumnOrder(5);
-      modelBuilder.Entity<Model.Resource>().Property(x => x.Xml).IsRequired().HasColumnOrder(6);
-      modelBuilder.Entity<Model.Resource>().Property(x => x.PatientResource_Id).IsOptional().HasColumnOrder(7);
-      modelBuilder.Entity<Model.Resource>().Property(x => x.ValueSetResource_Id).IsOptional().HasColumnOrder(8);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ResourceType).IsRequired().HasColumnOrder(6);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.Xml).IsRequired().HasColumnOrder(7);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ResourceIdentity_Id).IsRequired().HasColumnOrder(8);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.PatientResource_Id).IsOptional().HasColumnOrder(9);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ValueSetResource_Id).IsOptional().HasColumnOrder(10);      
       modelBuilder.Entity<Model.Resource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.Resource).HasForeignKey(x => x.ResourceIdentity_Id);
       modelBuilder.Entity<Model.Resource>()
           .HasOptional(x => x.PatientResource)

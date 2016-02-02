@@ -7,15 +7,16 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Search.SearchTermTypes;
 using Dip.Interfaces;
+using BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
   class SearchUriValidator
   {
     private static SearchTermValidationOperationOutcome _SearchTermValidationOperationOutcome;
-    private static ResourceType _ResourceType;
+    private static DtoEnums.SupportedFhirResource _ResourceType;
 
-    public static SearchTermValidationOperationOutcome Validate(ResourceType ResourceType, SearchParams SearchParameter)
+    public static SearchTermValidationOperationOutcome Validate(DtoEnums.SupportedFhirResource ResourceType, SearchParams SearchParameter)
     {
       _ResourceType = ResourceType;
       _SearchTermValidationOperationOutcome = new SearchTermValidationOperationOutcome();

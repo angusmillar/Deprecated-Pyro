@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using BusinessEntities;
 
 namespace Blaze.Engine.Support
 {
@@ -53,7 +54,18 @@ namespace Blaze.Engine.Support
         {"sa", Search.SearchTermTypes.SearchPrefixType.StartsAfter}
       };
     }
-    public static Dictionary<string, ResourceType> GetResourceTypeDictionary()
+
+    public static Dictionary<ResourceType, DtoEnums.SupportedFhirResource> GetBlazeSupportedResorceTypeByFhirResourceTypeDictionary()
+    {
+      return new Dictionary<ResourceType, DtoEnums.SupportedFhirResource>()
+      {
+        {ResourceType.Patient,DtoEnums.SupportedFhirResource.Patient},
+        {ResourceType.ValueSet,DtoEnums.SupportedFhirResource.ValueSet},
+        {ResourceType.Resource,DtoEnums.SupportedFhirResource.Resource}
+      };
+    }
+
+    public static Dictionary<string, ResourceType> GetFhirResourceTypeByNameDictionary()
     {
       return new Dictionary<string, ResourceType>()
       {

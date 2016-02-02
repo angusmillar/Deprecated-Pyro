@@ -20,7 +20,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
     protected const char OrDelimiter = ',';
 
     public Support.EnumSupport.SearchTermName Name { get; set; }
-    public ResourceType Resource { get; set; }
+    public DtoEnums.SupportedFhirResource Resource { get; set; }
     public string RawValue { get; set; }
 
     //Change from re-base DSTU2.1
@@ -38,7 +38,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
       this.HasLogicalOrProperties = false;
     }
 
-    public static SearchTermBase CreateSearchTerm(ResourceType Resource, Support.EnumSupport.SearchTermName SearchTermName,
+    public static SearchTermBase CreateSearchTerm(DtoEnums.SupportedFhirResource Resource, Support.EnumSupport.SearchTermName SearchTermName,
                   Tuple<string, string> Parameter,
                   SearchParamType SearchParameterType)
     {
@@ -100,9 +100,16 @@ namespace Blaze.Engine.Search.SearchTermTypes
               var ResourceName = value.Split(delimiters)[1];
               if (ModelInfo.IsKnownResource(ResourceName))
               {
-                var ResourceTypeDictionary = Support.EnumSupport.GetResourceTypeDictionary();
-                if (ResourceTypeDictionary.ContainsKey(ResourceName))
-                  SearchTerm.Resource = ResourceTypeDictionary[(ResourceName)];
+                var FhirResourceTypeDictionary = Support.EnumSupport.GetFhirResourceTypeByNameDictionary();
+                if (FhirResourceTypeDictionary.ContainsKey(ResourceName))
+                {
+                  var BlazeSupportedResourceTypeDictionary = Support.EnumSupport.GetBlazeSupportedResorceTypeByFhirResourceTypeDictionary();
+                  var BlazeSupportedResourceType = FhirResourceTypeDictionary[ResourceName];
+                  if (BlazeSupportedResourceTypeDictionary.ContainsKey(BlazeSupportedResourceType))
+                  {
+                    SearchTerm.Resource = BlazeSupportedResourceTypeDictionary[BlazeSupportedResourceType];
+                  }
+                }
               }
               SearchTerm.Modifier = SearchModifierType.Type;
             }

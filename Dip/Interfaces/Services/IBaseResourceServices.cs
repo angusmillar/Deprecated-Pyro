@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BusinessEntities;
 
 namespace Dip.Interfaces.Services
 {
   public interface IBaseResourceServices
   {
+
+    DtoEnums.SupportedFhirResource CurrentResourceType { get; }
+
     // Get By id
     // GET URL/FhirApi/Patient/5    
     IBlazeServiceOperationOutcome Get(string FhirResourceId);

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dip.Interfaces.Repositories;
 
 namespace Blaze.Engine.Search
 {
   public abstract class SearchPlanBase
   {
-    protected Dip.Interfaces.IUnitOfWork _UnitOfWork;
-    public Dip.Interfaces.IUnitOfWork UnitOfWork
+    protected IUnitOfWork _UnitOfWork;
+    public IUnitOfWork UnitOfWork
     {
       set
       {

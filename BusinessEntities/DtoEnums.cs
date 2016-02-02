@@ -8,6 +8,12 @@ namespace BusinessEntities
 {
   public static class DtoEnums
   {
-    public enum CrudOperationType { None, Create, Read, Update, Delete }; 
+    public enum CrudOperationType { None, Create, Read, Update, Delete };
+    public enum SupportedFhirResource
+    {
+      Patient,
+      ValueSet,
+      Resource
+    };
   }
 }

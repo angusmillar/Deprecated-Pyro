@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Engine.Search.SearchTermTypes;
+using BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
@@ -16,7 +17,7 @@ namespace Blaze.Engine.Search
   public class SupportedSearchTerm
   {
     public Blaze.Engine.Support.EnumSupport.SearchTermName Name { get; set; }
-    public ResourceType Resource { get; set; }
+    public DtoEnums.SupportedFhirResource Resource { get; set; }
     public SearchParamType SearchParameterType { get; set; }
     public List<SearchModifierType> ModifierList { get; set; }
     public List<ResourceType> TypeModifierResourceList { get; set; }
@@ -26,7 +27,7 @@ namespace Blaze.Engine.Search
     {
       var Page = new SupportedSearchTerm();
       Page.Name = Support.EnumSupport.SearchTermName.Page;
-      Page.Resource = ResourceType.Resource;
+      Page.Resource = DtoEnums.SupportedFhirResource.Resource;
       Page.SearchParameterType = SearchParamType.Number;
       Page.ModifierList = new List<SearchModifierType>();
       Page.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -35,7 +36,7 @@ namespace Blaze.Engine.Search
 
       var _Id = new SupportedSearchTerm();
       _Id.Name = Support.EnumSupport.SearchTermName._Id;
-      _Id.Resource = ResourceType.Resource;
+      _Id.Resource = DtoEnums.SupportedFhirResource.Resource;
       _Id.SearchParameterType = SearchParamType.String;
       _Id.ModifierList = new List<SearchModifierType>();
       _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -44,13 +45,13 @@ namespace Blaze.Engine.Search
 
     }
 
-    public static List<SupportedSearchTerm> GetSupportedTermList(ResourceType ResourceType)
+    public static List<SupportedSearchTerm> GetSupportedTermList(DtoEnums.SupportedFhirResource ResourceType)
     {
       var List = new List<SupportedSearchTerm>();
       AddSupportedTermsForAllResources(List);
       switch (ResourceType)
       {
-        case ResourceType.Patient:
+        case DtoEnums.SupportedFhirResource.Patient:
           {
             var Family = new SupportedSearchTerm();
             Family.Name = Support.EnumSupport.SearchTermName.Family;

@@ -4,28 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Dip.Interfaces;
+using Dip.Interfaces.Repositories;
 
 namespace DataModel
 {
-  public class UnitOfWork : Dip.Interfaces.IUnitOfWork, IDisposable
+  public class UnitOfWork : IUnitOfWork, IDisposable
   {
     private BlazeDbContext _context = null;
 
+    private Repository.ResourceRepository _ResourceRepository;
     private Repository.PatientRepository _PatientRepository;
+    private Repository.ValueSetRepository _ValueSetRepository;
 
     public UnitOfWork()
     {
       _context = new BlazeDbContext();
     }
 
-    public Dip.Interfaces.IPatientRepository PatientRepository
+    public IResourceRepository ResourceRepository
+    {
+      get
+      {
+        if (this._ResourceRepository == null)
+          this._ResourceRepository = new Repository.ResourceRepository(_context);
+        return _ResourceRepository;
+      }
+    }
+    public IPatientRepository PatientRepository
     {
       get
       {
         if (this._PatientRepository == null)
           this._PatientRepository = new Repository.PatientRepository(_context);
         return _PatientRepository;
+      }
+    }
+    public IValueSetRepository ValueSetRepository
+    {
+      get
+      {
+        if (this._ValueSetRepository == null)
+          this._ValueSetRepository = new Repository.ValueSetRepository(_context);
+        return _ValueSetRepository;
       }
     }
 

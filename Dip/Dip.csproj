@@ -43,18 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IBaseRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
     <Compile Include="Interfaces\IBlazeServiceOperationOutcome.cs" />
     <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
+    <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
-    <Compile Include="Interfaces\IPatientRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPatientRepository.cs" />
     <Compile Include="Interfaces\Services\IPatientResourceServices.cs" />
     <Compile Include="Interfaces\Services\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchTermValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

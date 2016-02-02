@@ -7,12 +7,13 @@ using Hl7.Fhir.Model;
 using Blaze.Engine.Search.SearchTermTypes;
 using Blaze.Engine.Support;
 using Dip.Interfaces;
+using BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
   public class PatientSearchPlan : SearchPlanBase, Interfaces.ISearchPlan
   {
-    public IBlazeServiceOperationOutcome Search(SearchTerms oSearchTerms, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome)
+    public IBlazeServiceOperationOutcome Search(SearchTerms oSearchTerms, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource ResourceType)
     {
       //The search plan;
       if (oSearchTerms.SearchTermList.Count == 1)

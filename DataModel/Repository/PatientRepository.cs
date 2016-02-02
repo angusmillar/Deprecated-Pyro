@@ -11,16 +11,17 @@ using DataModel.Model;
 using Hl7.Fhir.Model;
 using BusinessEntities;
 using Dip.Interfaces;
+using Dip.Interfaces.Repositories;
 using SqlForge.Query;
 using SqlForge.Support;
 using DataModel.ModelExtend;
 
+
 namespace DataModel.Repository
 {
-  class PatientRepository : BaseRepository, Dip.Interfaces.IPatientRepository
+  class PatientRepository : BaseRepository, IPatientRepository
   {
-    private int _NumberOfRecordsPerPage = 10;
-
+    
     public PatientRepository(BlazeDbContext Context)
     {
       _Context = Context;
@@ -38,31 +39,132 @@ namespace DataModel.Repository
       return Patient.Id;
     }
 
-    public IDatabaseOperationOutcome GetCurrentResource(string FhirResourceId)
-    {
-      IDatabaseOperationOutcome oDatabaseOperationOutcome = new DatabaseOperationOutcome();             
-      //var oResource = (from x in _Context.Resource where x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == false select x).SingleOrDefault();
-      var oResource = (from x in _Context.Resource where x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == false select x).SingleOrDefault();
-      if (oResource != null)
-      {          
-        oDatabaseOperationOutcome.ResourceMatchingSearch = new DtoResource();
-        oDatabaseOperationOutcome.ResourceMatchingSearch.FhirResourceType = typeof(Patient);
-        oDatabaseOperationOutcome.ResourceMatchingSearch.Id = oResource.Id;
-        oDatabaseOperationOutcome.ResourceMatchingSearch.IsCurrent = oResource.IsCurrent;
-        oDatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted = oResource.IsDeleted;
-        oDatabaseOperationOutcome.ResourceMatchingSearch.Received = oResource.Received;
-        oDatabaseOperationOutcome.ResourceMatchingSearch.Version = oResource.Version;
-        oDatabaseOperationOutcome.ResourceMatchingSearch.Xml = oResource.Xml;          
-      }
-      return oDatabaseOperationOutcome;
-    }
-
-    public int GetResourceCurrentVersion(string FhirResourceId)
-    {
-      return _Context.Resource.SingleOrDefault(x => x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true).Version;
-    }
-
+    //Stay in Patient
     public string UpdateResource(int ResourceVersion, Patient Patient)
+    {
+      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
+      var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
+
+      //Load the Patient Resource db record, remember this is the single Patient not the many history versions on the Resource so no need for IsCurrent
+      //var DbPatientResource = (from p in _Context.PatientResource
+      //                         .Include(x => x.ResourceIdentity)
+      //                          .Include(x => x.HumanName)
+      //                          .Include(x => x.Identifier.Select(y => y.Type).Select(b => b.Coding))
+      //                         where p.ResourceIdentity.FhirResourceId == Patient.Id
+      //                         select p).FirstOrDefault();
+
+      var DbResource =   (from r in _Context.Resource
+                          .Include(x => x.ResourceIdentity)
+                          .Include(x => x.PatientResource)
+                          .Include(x => x.PatientResource.HumanName)
+                          .Include(x => x.PatientResource.Identifier.Select(y => y.Type).Select(b => b.Coding))
+                               where r.ResourceIdentity.FhirResourceId == Patient.Id && r.IsCurrent == true
+                               select r).FirstOrDefault();
+
+      if (DbResource.IsDeleted == true)
+      {
+        using (var scope = new TransactionScope())
+        {
+          //== Add the ValueSet Structure as required =============================================          
+          NewPatientResource.ResourceIdentity = DbResource.ResourceIdentity;
+          DbResource.IsCurrent = false;
+          //Value Set has nothing at present
+
+          //==========================================================================================
+
+          //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
+          //It is also set to current as the instance is populated.
+          var InboundResource = NewPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true);
+          InboundResource.Version = ResourceVersion;
+          InboundResource.Received = (DateTimeOffset)Patient.Meta.LastUpdated;
+          InboundResource.IsCurrent = true;
+          InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
+          InboundResource.PatientResource = NewPatientResource;
+          _Context.Resource.Add(InboundResource);          
+
+          this.Save();
+
+          scope.Complete();
+        }
+        return string.Empty;
+      }
+      else
+      {
+        using (var scope = new TransactionScope())
+        {
+
+          //Active
+          DbResource.PatientResource.Active = NewPatientResource.Active;
+
+          //Birth date
+          DbResource.PatientResource.BirthDate = NewPatientResource.BirthDate;
+
+          //Gender (Sex)        
+          DbResource.PatientResource.Gender = NewPatientResource.Gender;
+
+          //Delete the old HumanNames and any Periods         
+          foreach (var Name in DbResource.PatientResource.HumanName.ToList())
+          {
+            if (Name.Period != null)
+              _Context.Period.Remove(Name.Period);
+            _Context.HumanName.Remove(Name);
+          }
+
+          //Add the new HumanNames        
+          DbResource.PatientResource.HumanName = NewPatientResource.HumanName;
+
+          //Delete the old Identifiers
+          if (DbResource.PatientResource.Identifier != null)
+          {
+            foreach (var Identifier in DbResource.PatientResource.Identifier.ToList())
+            {
+              if (Identifier.Type != null)
+              {
+                if (Identifier.Type.Coding != null)
+                {
+                  foreach (var Code in Identifier.Type.Coding.ToList())
+                    _Context.Codeing.Remove(Code);
+                }
+                _Context.CodeableConcept.Remove(Identifier.Type);
+              }
+              if (Identifier.Period != null)
+                _Context.Period.Remove(Identifier.Period);
+
+              _Context.Identifier.Remove(Identifier);
+            }
+          }
+
+          //Add the new Identifiers
+          DbResource.PatientResource.Identifier = NewPatientResource.Identifier;
+
+          //Set the past Current resource to not current
+          //DbResource.PatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true).IsCurrent = false;
+
+          //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
+          //It is also set to current as the instance is populated.
+          var InboundResource = NewPatientResource.Resources.SingleOrDefault(x => x.IsCurrent == true);
+          InboundResource.Version = ResourceVersion;
+          InboundResource.Received = (DateTimeOffset)Patient.Meta.LastUpdated;
+          InboundResource.IsCurrent = true;
+          InboundResource.ResourceIdentity = DbResource.PatientResource.ResourceIdentity;
+          InboundResource.PatientResource = DbResource.PatientResource;
+          _Context.Resource.Add(InboundResource);
+
+          //Set the past Current Resource to not current
+          DbResource.IsCurrent = false;
+          //DbResource.ValueSetResource_Id = null;
+          DbResource.PatientResource = null;
+
+          this.Save();
+
+          scope.Complete();
+        }
+        return string.Empty;
+      }
+    }
+
+    //Stay in Patient
+    public string UpdateResourceOLD(int ResourceVersion, Patient Patient)
     {
       //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
       var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
@@ -80,25 +182,15 @@ namespace DataModel.Repository
       {
 
         //Active
-        DbPatientResource.Active = NewPatientResource.Active;
-        //DbPatientResource.Active = NewPatientResource.Active;
+        DbPatientResource.Active = NewPatientResource.Active;        
 
         //Birth date
-        DbPatientResource.BirthDate = NewPatientResource.BirthDate;
-        //DbPatientResource.BirthDate = NewPatientResource.BirthDate;
+        DbPatientResource.BirthDate = NewPatientResource.BirthDate;        
 
-        //Gender (Sex)
-        //DbPatientResource.Gender = NewPatientResource.Gender;
+        //Gender (Sex)        
         DbPatientResource.Gender = NewPatientResource.Gender;
 
-        //Delete the old HumanNames and any Periods 
-        //foreach (var Name in DbPatientResource.HumanName.ToList())
-        //{
-        //  if (Name.Period != null)
-        //    _Context.Period.Remove(Name.Period);
-        //  _Context.HumanName.Remove(Name);
-        //}
-
+        //Delete the old HumanNames and any Periods         
         foreach (var Name in DbPatientResource.HumanName.ToList())
         {
           if (Name.Period != null)
@@ -106,8 +198,7 @@ namespace DataModel.Repository
           _Context.HumanName.Remove(Name);
         }
 
-        //Add the new HumanNames
-        //DbPatientResource.HumanName = NewPatientResource.HumanName;
+        //Add the new HumanNames        
         DbPatientResource.HumanName = NewPatientResource.HumanName;
 
         //Delete the old Identifiers
@@ -153,6 +244,7 @@ namespace DataModel.Repository
       return "";
     }
 
+    //Stay in Patient
     public void UpdateResouceAsDeleted(string FhirResourceId)
     {
 
@@ -171,15 +263,15 @@ namespace DataModel.Repository
       {
         //=======================================================================
         DbResource.IsCurrent = false;
-        
+        DbResource.PatientResource = null;
         //Active
-        DbResource.PatientResource.Active = null;
+        //DbResource.PatientResource.Active = null;
 
         //Birth date
-        DbResource.PatientResource.BirthDate = null;
+        //DbResource.PatientResource.BirthDate = null;
 
         //Gender (Sex)
-        DbResource.PatientResource.Gender = null;
+        //DbResource.PatientResource.Gender = null;
 
         //Delete the old HumanNames and any Periods 
         foreach (var Name in DbResource.PatientResource.HumanName.ToList())
@@ -209,8 +301,9 @@ namespace DataModel.Repository
             _Context.Identifier.Remove(Identifier);
           }
         }
-                
-        
+
+        _Context.PatientResource.Remove(DbResource.PatientResource);
+
         //=======================================================================
         //DbResource.IsCurrent = false;
 
@@ -220,12 +313,10 @@ namespace DataModel.Repository
         NewResource.Xml = string.Empty;
         NewResource.Version = DbResource.Version + 1;
         NewResource.Received = DateTimeOffset.Now;
+        NewResource.ResourceType = DtoEnums.SupportedFhirResource.Patient;
         NewResource.ResourceIdentity = DbResource.ResourceIdentity;
         NewResource.PatientResource = DbResource.PatientResource;
-        
-        //DbResource.PatientResource.Resources.Add(NewResource);
-        //DbResource.ResourceIdentity.Resource.Add(NewResource);
-        
+
         _Context.Resource.Add(NewResource);
         
         this.Save();
@@ -234,6 +325,7 @@ namespace DataModel.Repository
       }
     }
 
+    //Stay in Patient
     public IDatabaseOperationOutcome SearchByFhirId(string _Id, Tuple<string, string> ActiveSystemAndCode)
     {
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
@@ -304,6 +396,39 @@ namespace DataModel.Repository
 
     }
 
+    //Stay in Patient
+    public IDatabaseOperationOutcome SearchByFamilyAndGiven2(string Family, string Given, string Name, string Phonetic, Tuple<string, string> ActiveSystemAndCode, int PageRequired)
+    {
+      var DbResource = (from r in _Context.Resource select r);
+
+      DbResource = (from f in DbResource
+                     where f.PatientResource.HumanName.Any(x => x.Family.Any(y => y.Value == Family))
+                     select f);
+
+      DbResource = (from g in DbResource
+                    where g.PatientResource.HumanName.Any(x => x.Given.Any(y => y.Value == Given))
+                    select g);
+
+      DbResource = (from g in DbResource
+                    where g.PatientResource.HumanName.Any(x => x.Given.Any(y => y.Value == Given))
+                    select g);
+
+
+      DbResource = (from g in DbResource
+                    where g.IsCurrent == true && g.IsDeleted == false 
+                    select g);
+
+
+      var Listof = DbResource.ToList();
+
+      var oDatabaseOperationOutcome = new DatabaseOperationOutcome();
+
+      return oDatabaseOperationOutcome;
+
+
+    }
+
+    //Stay in Patient
     public IDatabaseOperationOutcome SearchByFamilyAndGiven(string Family, string Given, string Name, string Phonetic, Tuple<string, string> ActiveSystemAndCode, int PageRequired)
     {
       //Tables            
@@ -458,6 +583,7 @@ namespace DataModel.Repository
 
     }
 
+    //Stay in Patient
     public IDatabaseOperationOutcome SearchByIdentifier(Tuple<string, string> IdentiferSystemAndCode, Tuple<string, string> ActiveSystemAndCode, int PageRequired, Uri RequestUri)
     {
 
@@ -620,6 +746,7 @@ namespace DataModel.Repository
       ResourceXml.Version = ResourceVersion;
       ResourceXml.IsCurrent = true;
       ResourceXml.IsDeleted = false;
+      ResourceXml.ResourceType = DtoEnums.SupportedFhirResource.Patient;
       ResourceXml.ResourceIdentity = ResourceIdentity;            
 
       var DbResourcePatient = new PatientResource();

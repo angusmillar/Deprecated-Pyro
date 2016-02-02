@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dip.Interfaces
+namespace Dip.Interfaces.Repositories
 {
   public interface IUnitOfWork
   {
+    IResourceRepository ResourceRepository { get; }
     IPatientRepository PatientRepository { get; }
+    IValueSetRepository ValueSetRepository { get; }    
   }
 }
 

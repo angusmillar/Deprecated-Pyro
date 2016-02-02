@@ -8,35 +8,16 @@ using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Hl7.Fhir.Model;
 using BusinessEntities;
+using Dip.Interfaces;
+using Dip.Interfaces.Repositories;
 
 namespace DataModel.Repository 
 {
-  public class BaseRepository : Dip.Interfaces.IBaseRepository
+  public class BaseRepository : IBaseRepository
   {
     internal BlazeDbContext _Context = null;
 
-    public bool IsCurrentResourceDeleted(string FhirResourceId)
-    {
-      //if (_Context.Resource.Any(x => x.PatientResource.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == true))
-      if (_Context.Resource.Any(x => x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == true))
-        return true;
-      else
-        return false;
-    }
-
-    public int LastDeletedResourceVersion(string FhirResourceId)
-    {
-      return _Context.Resource.SingleOrDefault(x => x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true && x.IsDeleted == true).Version;
-    }
-
-    public bool ResourceExists(string FhirResourceId)
-    {
-      //if (_Context.PatientResource.Any(x => x.FhirResourceId == FhirResourceId))
-      if (_Context.ResourceIdentity.Any(x => x.FhirResourceId == FhirResourceId))
-        return true;
-      else
-        return false;
-    }
+    protected int _NumberOfRecordsPerPage = 10;
 
     /// <summary>
     /// Save method.

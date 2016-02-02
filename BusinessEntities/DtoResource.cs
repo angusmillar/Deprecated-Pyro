@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace BusinessEntities
 {
   public class DtoResource
-  {
-    public Type FhirResourceType { get; set; }
+  {    
     public int Id { get; set; }
     public string Xml { get; set; }
     public int Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }    
+    public DateTimeOffset Received { get; set; }
+    public DtoEnums.SupportedFhirResource FhirResourceType { get; set; }
   }
 }

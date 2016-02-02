@@ -7,32 +7,21 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Interfaces;
 using Dip.Interfaces;
+using Dip.Interfaces.Repositories;
 using BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
   public static class SearchPlanNegotiator
   {
-    public static ISearchPlan GetSearchPlan(ResourceType ResourceType, IUnitOfWork UnitOfWork)
+    public static ISearchPlan GetSearchPlan(DtoEnums.SupportedFhirResource ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {
-        case ResourceType.Patient:
-          {
-            return new Search.PatientSearchPlan() { UnitOfWork = UnitOfWork };            
-          }
+        case DtoEnums.SupportedFhirResource.Patient:
+          return new Search.PatientSearchPlan() { UnitOfWork = UnitOfWork };            
         default:
-          {
-            var oIssueComponent = new OperationOutcome.IssueComponent();
-            oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-            oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-            oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", ResourceType.ToString(), "No search parameters are implemented"));
-            oIssueComponent.Details.Text = String.Format("System Error: no SearchPlan has been implemented for ResourceType: " + ResourceType.ToString());
-            oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-            var oOperationOutcome = new OperationOutcome();
-            oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                 
-          }
+          return new Search.DefaultResourceSearchPlan() { UnitOfWork = UnitOfWork };                      
       }      
     }
   }
