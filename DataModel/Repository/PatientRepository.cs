@@ -262,17 +262,7 @@ namespace DataModel.Repository
       using (var scope = new TransactionScope())
       {
         //=======================================================================
-        DbResource.IsCurrent = false;
-        DbResource.PatientResource = null;
-        //Active
-        //DbResource.PatientResource.Active = null;
-
-        //Birth date
-        //DbResource.PatientResource.BirthDate = null;
-
-        //Gender (Sex)
-        //DbResource.PatientResource.Gender = null;
-
+                
         //Delete the old HumanNames and any Periods 
         foreach (var Name in DbResource.PatientResource.HumanName.ToList())
         {
@@ -302,10 +292,12 @@ namespace DataModel.Repository
           }
         }
 
+        
         _Context.PatientResource.Remove(DbResource.PatientResource);
+        DbResource.IsCurrent = false;        
+        DbResource.PatientResource = null;
 
-        //=======================================================================
-        //DbResource.IsCurrent = false;
+        //=======================================================================        
 
         var NewResource = new DataModel.Model.Resource();
         NewResource.IsDeleted = true;
