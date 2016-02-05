@@ -38,8 +38,7 @@ namespace DataModel.Repository
     }
     
     public string UpdateResource(int ResourceVersion, ValueSet ValueSet)
-    {
-      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
+    {      
       var NewValueSetResource = this.PopulateDbResourceEntity(ResourceVersion, ValueSet);
 
       var DbResource = (from x in _Context.Resource

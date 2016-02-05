@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlazeImplementation.cs" />
     <Compile Include="CustomException\FhirExceptionFilter.cs" />
     <Compile Include="CustomException\SqlExceptionSupport.cs" />
     <Compile Include="Interfaces\IResourceValidation.cs" />
@@ -80,7 +79,7 @@
     <Compile Include="Services\PatientResourceServices.cs" />
     <Compile Include="Services\ValueSetResourceServices.cs" />
     <Compile Include="Support\EnumSupport.cs" />
-    <Compile Include="Support\OperationOutcomeSupport.cs" />
+    <Compile Include="Support\FhirOperationOutComeSupport.cs" />
     <Compile Include="Support\PagingSupport.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
     <Compile Include="Validation\PatientResourceValidation.cs" />

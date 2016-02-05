@@ -89,13 +89,18 @@ namespace Blaze.Formatters
     {
       return Task.Factory.StartNew(() =>
       {
-        XmlWriter writer = new XmlTextWriter(writeStream, System.Text.Encoding.UTF8);
-        if (type.IsAssignableFrom(typeof(Resource)))
+        //Todo:
+        //bool summary = requestMessage.RequestSummary();
+
+        using (XmlWriter writer = new XmlTextWriter(writeStream, System.Text.Encoding.UTF8))
         {
-          Resource resource = (Resource)value;
-          FhirSerializer.SerializeResource(resource, writer, false);
-        }    
-        writer.Flush();
+          if (type.IsAssignableFrom(typeof(Resource)))
+          {
+            Resource resource = (Resource)value;
+            FhirSerializer.SerializeResource(resource, writer, false);
+          }
+          writer.Flush();
+        }
       });
     }
   }

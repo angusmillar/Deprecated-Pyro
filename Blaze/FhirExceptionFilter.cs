@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 using BusinessEntities;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.CustomException
+namespace Blaze
 {
   public class FhirExceptionFilter : ExceptionFilterAttribute
   {
@@ -19,7 +19,7 @@ namespace Blaze.Engine.CustomException
     {
       HttpResponseMessage response = null; 
       //context.Request.CreateResponse(HttpStatusCode.InternalServerError, context.Exception.ToString());
-      
+
       
 
       if (context.Exception is DtoBlazeException)
@@ -39,14 +39,14 @@ namespace Blaze.Engine.CustomException
           response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, OpOutCome);
         }          
       }
-      else if (context.Exception is System.Data.UpdateException)
-      {
-        if (context.Exception.InnerException is SqlException)
-        {
-          DtoBlazeException oDtoBlazeException = SqlExceptionSupport.GenerateDtoBlazeException((SqlException)context.Exception.InnerException);
-          response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.OperationOutcome);
-        }
-      }
+      //else if (context.Exception is System.Data.UpdateException)
+      //{
+      //  if (context.Exception.InnerException is SqlException)
+      //  {
+      //    DtoBlazeException oDtoBlazeException = SqlExceptionSupport.GenerateDtoBlazeException((SqlException)context.Exception.InnerException);
+      //    response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.OperationOutcome);
+      //  }
+      //}
       else if (context.Exception is Exception)
       {
         OperationOutcome OpOutCome = new OperationOutcome();
@@ -56,8 +56,18 @@ namespace Blaze.Engine.CustomException
         oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
         oIssue.Code = OperationOutcome.IssueType.Unknown;
         OpOutCome.Issue.Add(oIssue);
-        Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
-        response = context.Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, OpOutCome);
+        //Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
+        
+        //var XML = new Blaze.Formatters.FhirXmlMediaTypeFormatter();
+
+        response = context.Request.CreateResponse<Resource>(HttpStatusCode.InternalServerError, OpOutCome);
+
+        //response = new HttpResponseMessage();
+        //response.Headers
+        //response.Content = new ObjectContent(System.Net.HttpStatusCode.InternalServerError, typeof(Resource), OpOutCome, XML);
+
+
+        //response = context.Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, OpOutCome);
       }
       
       throw new HttpResponseException(response);

@@ -41,8 +41,7 @@ namespace DataModel.Repository
 
     //Stay in Patient
     public string UpdateResource(int ResourceVersion, Patient Patient)
-    {
-      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
+    {      
       var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
 
       //Load the Patient Resource db record, remember this is the single Patient not the many history versions on the Resource so no need for IsCurrent

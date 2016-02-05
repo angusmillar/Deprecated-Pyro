@@ -99,7 +99,7 @@ namespace Blaze.Engine.Search.SearchTermTypes
               char[] delimiters = { '[', ']' };
               var ResourceName = value.Split(delimiters)[1];
               if (ModelInfo.IsKnownResource(ResourceName))
-              {
+              {                
                 var FhirResourceTypeDictionary = DtoEnums.GetFhirResourceTypeByNameDictionary();
                 if (FhirResourceTypeDictionary.ContainsKey(ResourceName))
                 {

@@ -224,6 +224,7 @@
     <Compile Include="Extensions\HttpHeadersExtensions.cs" />
     <Compile Include="Extensions\HttpRequestFhirExtensions.cs" />
     <Compile Include="BlazeService\FhirServiceNegotiator.cs" />
+    <Compile Include="FhirExceptionFilter.cs" />
     <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirXmlMediaTypeFormatter.cs" />
