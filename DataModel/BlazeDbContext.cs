@@ -29,6 +29,10 @@ namespace DataModel
     public DbSet<Model.CodeableConcept> CodeableConcept { get; set; }
     public DbSet<Model.Coding> Codeing { get; set; }
 
+    public DbSet<Model.Concept> Concept { get; set; }
+    public DbSet<Model.CodeSystem> CodeSystem { get; set; }
+    public DbSet<Model.Expansion> Expansion { get; set; }
+
     public DbSet<Model.Period> Period { get; set; }
 
     public DbSet<Model.HumanName> HumanName { get; set; }
@@ -40,7 +44,7 @@ namespace DataModel
       modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
       //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-      //Resource
+      //ResourceIdentity
       modelBuilder.Entity<Model.ResourceIdentity>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       modelBuilder.Entity<Model.ResourceIdentity>().Property(x => x.FhirResourceId).IsRequired().HasMaxLength(500)
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
@@ -65,7 +69,7 @@ namespace DataModel
           .WithMany(x => x.Resources).HasForeignKey(x => x.PatientResource_Id);
       modelBuilder.Entity<Model.Resource>()
           .HasOptional(x => x.ValueSetResource)
-          .WithMany(x => x.Resources).HasForeignKey(x => x.ValueSetResource_Id);
+          .WithMany(x => x.Resource).HasForeignKey(x => x.ValueSetResource_Id);
       
 
       //PatientResource
@@ -78,12 +82,44 @@ namespace DataModel
 
       //ValueSetResource
       modelBuilder.Entity<Model.ValueSetResource>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
-      modelBuilder.Entity<Model.ValueSetResource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.ValueSetResource).HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Date).IsOptional();      
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Name).IsOptional();
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Description).IsOptional();            
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Publisher).IsOptional();
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Version).IsOptional();
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Url).IsOptional();
+      modelBuilder.Entity<Model.ValueSetResource>().Property(x => x.Status).IsRequired();
       modelBuilder.Entity<Model.ValueSetResource>()
-        .HasMany(x => x.Resources);
-        
+        .HasOptional(x => x.Identifier)
+        .WithOptionalDependent(x => x.ValueSetResource);
+      modelBuilder.Entity<Model.ValueSetResource>()
+        .HasOptional(x => x.Expansion)
+        .WithOptionalDependent(x => x.ValueSetResource);
+      modelBuilder.Entity<Model.ValueSetResource>()
+        .HasOptional(x => x.CodeSystem)
+        .WithOptionalDependent(x => x.ValueSetResource); // Note: the ValueSetResource keyed to this CodeSystem is dependant on the ValueSetResource
+      modelBuilder.Entity<Model.ValueSetResource>()
+        .HasMany(x => x.UseContext)
+        .WithOptional(x => x.ValueSetResource);        
+      modelBuilder.Entity<Model.ValueSetResource>().HasRequired(x => x.ResourceIdentity)
+        .WithMany(x => x.ValueSetResource)
+        .HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.ValueSetResource>()
+        .HasMany(x => x.Resource);
+              
+      //CodeSystem
+      modelBuilder.Entity<Model.CodeSystem>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.CodeSystem>().Property(x => x.System).IsRequired();
+      modelBuilder.Entity<Model.CodeSystem>()
+        .HasMany(x => x.Concept);
+      
+      //Concept
+      modelBuilder.Entity<Model.Concept>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.Concept>().Property(x => x.Code).IsRequired();
 
-
+      //Expansion
+      modelBuilder.Entity<Model.Expansion>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.Expansion>().Property(x => x.Identifier).IsRequired();
 
       //Identifier
       modelBuilder.Entity<Model.Identifier>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();

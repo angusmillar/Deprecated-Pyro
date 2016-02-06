@@ -19,7 +19,8 @@ namespace DataModel.Model
     //ForwardLinks
     public CodeableConcept Type { get; set; }
     public virtual Period Period { get; set; }
-    public virtual PatientResource PatientResource { get; set; } 
+    public virtual PatientResource PatientResource { get; set; }
+    public virtual ValueSetResource ValueSetResource { get; set; } 
 
     public Identifier()
     {      

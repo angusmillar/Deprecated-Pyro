@@ -29,8 +29,7 @@ namespace Blaze
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
       
       //Add Exception Handler
-      //config.Filters.Add(new Blaze.Engine.CustomException.FhirExceptionFilter());
-      config.Filters.Add(new Blaze.FhirExceptionFilter());
+      config.Filters.Add(new Blaze.Engine.CustomException.FhirExceptionFilter());      
 
       // Web API routes
       config.MapHttpAttributeRoutes();

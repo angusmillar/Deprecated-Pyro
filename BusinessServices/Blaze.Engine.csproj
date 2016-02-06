@@ -71,6 +71,7 @@
     <Compile Include="Search\SearchTermTypes\SearchTermString.cs" />
     <Compile Include="Search\SearchPlanNegotiator.cs" />
     <Compile Include="Search\SearchTermTypes\SearchTermToken.cs" />
+    <Compile Include="Search\ValueSetSearchPlan.cs" />
     <Compile Include="Search\SearchUriValidator.cs" />
     <Compile Include="Search\SearchTermValidationOperationOutcome.cs" />
     <Compile Include="Search\SupportedSearchTerm.cs" />

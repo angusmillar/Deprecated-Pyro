@@ -57,9 +57,7 @@ namespace Blaze.Engine.Services
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     public IBlazeServiceOperationOutcome Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
-      //List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
-      //throw new Exception("Test exception & that is an and 'this in comma' and this \"in quote\"");
-      throw new Exception("Test exception Angus");
+      //List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };      
 
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Read;      

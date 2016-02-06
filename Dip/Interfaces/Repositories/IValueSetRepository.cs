@@ -9,6 +9,8 @@ namespace Dip.Interfaces.Repositories
 {
   public interface IValueSetRepository : IBaseRepository
   {
+    void Search();
+
     string AddResource(ValueSet ValueSet);
     string UpdateResource(int ResourceVersion, ValueSet ValueSet);
     void UpdateResouceAsDeleted(string FhirResourceId);

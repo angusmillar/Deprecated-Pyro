@@ -13,7 +13,8 @@ namespace DataModel.Model
     public ICollection<Coding> Coding { get; set; }
     
     //BackLinks
-    public virtual Identifier Identifier { get; set; } 
+    public virtual Identifier Identifier { get; set; }
+    public virtual ValueSetResource ValueSetResource { get; set; } 
     
     public CodeableConcept()
     {
