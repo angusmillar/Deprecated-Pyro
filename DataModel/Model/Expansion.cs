@@ -11,6 +11,7 @@ namespace DataModel.Model
     public int Id { get; set; }
     public string Identifier { get; set; }
 
+    //BackLink
     public virtual ValueSetResource ValueSetResource { get; set; } 
   }
 

@@ -11,7 +11,7 @@ namespace DataModel.Model
     public int Id { get; set; }
     public string FhirResourceId { get; set; }
 
-    //ForwardLinks
+    //BackLinks
     public ICollection<Resource> Resource { get; set; }
     public ICollection<PatientResource> PatientResource { get; set; }
     public ICollection<ValueSetResource> ValueSetResource { get; set; }
@@ -32,6 +32,7 @@ namespace DataModel.Model
 
       public static readonly string Id = "Id";
       public static readonly string FhirResourceId = "FhirResourceId";
+
       public static readonly string List_Resource = "Resource";
       public static readonly string List_PatientResource = "PatientResource";
       public static readonly string List_ValueSetResource = "ValueSetResource";

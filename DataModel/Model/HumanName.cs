@@ -15,7 +15,7 @@ namespace DataModel.Model
     public ICollection<Family> Family { get; set; }
     public ICollection<Given> Given { get; set; }    
 
-    //Forward Links
+    //Keyed
     public virtual Period Period { get; set; }    
     public virtual PatientResource PatientResource { get; set; } 
 

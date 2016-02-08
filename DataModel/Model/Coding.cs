@@ -15,7 +15,7 @@ namespace DataModel.Model
     public string Display { get; set; }
     public bool? UserSelected { get; set; }    
 
-    //ForwardLinks
+    //Keyed
     public virtual CodeableConcept CodeableConcept { get; set; } 
   }
 

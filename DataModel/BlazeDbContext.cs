@@ -32,6 +32,8 @@ namespace DataModel
     public DbSet<Model.Concept> Concept { get; set; }
     public DbSet<Model.CodeSystem> CodeSystem { get; set; }
     public DbSet<Model.Expansion> Expansion { get; set; }
+    public DbSet<Model.Compose> Compose { get; set; }
+    public DbSet<Model.Include> Include { get; set; }
 
     public DbSet<Model.Period> Period { get; set; }
 
@@ -99,6 +101,9 @@ namespace DataModel
         .HasOptional(x => x.CodeSystem)
         .WithOptionalDependent(x => x.ValueSetResource); // Note: the ValueSetResource keyed to this CodeSystem is dependant on the ValueSetResource
       modelBuilder.Entity<Model.ValueSetResource>()
+        .HasOptional(x => x.Compose)
+        .WithOptionalDependent(x => x.ValueSetResource); // Note: the ValueSetResource keyed to this Compose is dependant on the ValueSetResource
+      modelBuilder.Entity<Model.ValueSetResource>()
         .HasMany(x => x.UseContext)
         .WithOptional(x => x.ValueSetResource);        
       modelBuilder.Entity<Model.ValueSetResource>().HasRequired(x => x.ResourceIdentity)
@@ -110,17 +115,39 @@ namespace DataModel
       //CodeSystem
       modelBuilder.Entity<Model.CodeSystem>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
       modelBuilder.Entity<Model.CodeSystem>().Property(x => x.System).IsRequired();
-      modelBuilder.Entity<Model.CodeSystem>()
-        .HasMany(x => x.Concept);
-      
+   
       //Concept
       modelBuilder.Entity<Model.Concept>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
-      modelBuilder.Entity<Model.Concept>().Property(x => x.Code).IsRequired();
+      modelBuilder.Entity<Model.Concept>().Property(x => x.Code).IsRequired().HasMaxLength(128);
+      modelBuilder.Entity<Model.Concept>()
+        .HasRequired(x => x.CodeSystem)
+        .WithMany(x => x.Concept)
+        .HasForeignKey(x => x.CodeSystem_Id);
+      modelBuilder.Entity<Model.Concept>()
+        .HasMany(x => x.ConceptChild)
+        .WithOptional(x => x.ConceptParent);
+      //Create an constraint that Code + CodeSystem_Id must be unique, a code must be unique within a single CodeSystem  
+      //FHIR Spec DSTU 2.1: vsd-3: On ValueSet.codeSystem: Within a code system definition, all the codes SHALL be unique (xpath on f:ValueSet/f:codeSystem: count(distinct-values(descendant::f:concept/f:code/@value))=count(descendant::f:concept))
+      modelBuilder.Entity<Model.Concept>().Property(t => t.Code)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_Code_CodeSystem", 1) { IsUnique = true }));
+      modelBuilder.Entity<Model.Concept>().Property(t => t.CodeSystem_Id)
+                   .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_Code_CodeSystem", 2) { IsUnique = true }));
+
 
       //Expansion
       modelBuilder.Entity<Model.Expansion>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
       modelBuilder.Entity<Model.Expansion>().Property(x => x.Identifier).IsRequired();
 
+      //Compose
+      modelBuilder.Entity<Model.Compose>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.Compose>()
+        .HasMany(x => x.Include)
+        .WithOptional(x => x.Compose);
+
+      //Include
+      modelBuilder.Entity<Model.Include>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.Include>().Property(x => x.System).IsRequired();
+      
       //Identifier
       modelBuilder.Entity<Model.Identifier>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       modelBuilder.Entity<Model.Identifier>().Property(x => x.Use).IsOptional();

@@ -14,11 +14,11 @@ namespace DataModel.Model
     public Fhir.AdministrativeGender? Gender { get; set; }
     public DateTime? BirthDate { get; set; }
     public int ResourceIdentity_Id { get; set; }
-
     public ICollection<Identifier> Identifier { get; set; }
     public ICollection<HumanName> HumanName { get; set; }
     public ICollection<Resource> Resources { get; set; }
 
+    //Keyed
     public ResourceIdentity ResourceIdentity { get; set; }
 
     public PatientResource()
@@ -35,11 +35,11 @@ namespace DataModel.Model
     {
       public static readonly string TableNameIs = "PatientResource";
      
-      public static readonly string Id = "Id";
-      public static readonly string FhirResourceId = "FhirResourceId";
+      public static readonly string Id = "Id";      
       public static readonly string Active = "Active";                
       public static readonly string Gender = "Gender";
       public static readonly string BirthDate = "BirthDate";
+
       public static readonly string ResourceIdentity_Id = "ResourceIdentity_Id";      
 
       public static readonly string List_Identifier = "Identifier";

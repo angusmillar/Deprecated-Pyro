@@ -86,6 +86,8 @@ namespace Blaze.Engine.Response
       {
         if (Resource != null)
         {
+          if (Resource is OperationOutcome)
+            Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(Resource as OperationOutcome);
           return Request.CreateResponse(HttpStatusCode, Resource);
         }
         else
@@ -96,6 +98,7 @@ namespace Blaze.Engine.Response
           OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
           var OpOutCome = new OperationOutcome();
           OpOutCome.Issue.Add(OpOutComeIssueComp);
+          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
           return Request.CreateResponse(HttpStatusCode, OpOutCome);
         }
       }
