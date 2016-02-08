@@ -12,8 +12,6 @@ using Hl7.Fhir.Model;
 using BusinessEntities;
 using Dip.Interfaces;
 using Dip.Interfaces.Repositories;
-using SqlForge.Query;
-using SqlForge.Support;
 using DataModel.ModelExtend;
 using DataModel.DynamicExpression;
 
@@ -42,22 +40,22 @@ namespace DataModel.Repository
     {
       var NewValueSetResource = this.PopulateDbResourceEntity(ResourceVersion, ValueSet);
 
-      var DbResource = (from x in _Context.Resource
+      Model.Resource DbResource = (from x in _Context.Resource
                           .Include(y => y.ResourceIdentity)
-                          .Include(y => y.ValueSetResource)
-                        where x.IsCurrent == true && x.ResourceIdentity.FhirResourceId == ValueSet.Id
-                        select x).SingleOrDefault();
+                          .Include(y => y.ValueSetResource.CodeSystem)
+
+                                   where x.IsCurrent == true && x.ResourceIdentity.FhirResourceId == ValueSet.Id
+                                   select x).SingleOrDefault();
 
       //The last update to the resource was a delete so no ValueSetResource to be found need to add one
-      if (DbResource.IsDeleted == true)
+        if (DbResource.IsDeleted == true)
       {
         using (var scope = new TransactionScope())
         {
           //== Add the ValueSet Structure as required =============================================          
           NewValueSetResource.ResourceIdentity = DbResource.ResourceIdentity;
           DbResource.IsCurrent = false;
-          //Value Set has nothing at present
-
+                    
           //==========================================================================================
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
@@ -69,8 +67,7 @@ namespace DataModel.Repository
           InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
           InboundResource.ValueSetResource = NewValueSetResource;
           _Context.Resource.Add(InboundResource);
-          //DbValueSetResource.Resources.Add(InboundResource);
-
+          
           this.Save();
 
           scope.Complete();
@@ -85,8 +82,8 @@ namespace DataModel.Repository
         {
           //== Update the ValueSet Structure as required =============================================
 
-          //Value Set has nothing at present
-
+          RemoveValueSetStructure(DbResource);
+         
           //==========================================================================================
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
@@ -96,9 +93,10 @@ namespace DataModel.Repository
           InboundResource.Received = (DateTimeOffset)ValueSet.Meta.LastUpdated;
           InboundResource.IsCurrent = true;
           InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
-          InboundResource.ValueSetResource = DbResource.ValueSetResource;
+          NewValueSetResource.ResourceIdentity = DbResource.ResourceIdentity;          
+          InboundResource.ValueSetResource = NewValueSetResource;
           _Context.Resource.Add(InboundResource);
-
+          
           //Set the past Current Resource to not current
           DbResource.IsCurrent = false;
           DbResource.ValueSetResource_Id = null;
@@ -115,7 +113,9 @@ namespace DataModel.Repository
     public void UpdateResouceAsDeleted(string FhirResourceId)
     {
       var DbResource = (from r in _Context.Resource
-                                .Include(x => x.ResourceIdentity)
+                          .Include(y => y.ResourceIdentity)
+                          .Include(y => y.ValueSetResource)
+                          .Include(y => y.ValueSetResource.CodeSystem)
                         where r.ResourceIdentity.FhirResourceId == FhirResourceId && r.IsCurrent == true
                         select r).FirstOrDefault();
 
@@ -123,9 +123,10 @@ namespace DataModel.Repository
       {
 
         //=== Clean Up ==========================================================
+        RemoveValueSetStructure(DbResource);
         DbResource.IsCurrent = false;
         DbResource.ValueSetResource = null;
-        _Context.ValueSetResource.Remove(DbResource.ValueSetResource);
+        //_Context.ValueSetResource.Remove(DbResource.ValueSetResource);
 
         //=== Add Delete Record =================================================        
         var NewResource = new DataModel.Model.Resource();
@@ -176,10 +177,145 @@ namespace DataModel.Repository
         DbValueSetResource.Resource = new List<Model.Resource>();
       DbValueSetResource.Resource.Add(ResourceXml);
       DbValueSetResource.ResourceIdentity = ResourceIdentity;
+      //ToDo: Validate the Date in the validator
+      if (FhirValueSet.Date != null)
+        DbValueSetResource.Date = DateTime.Parse(FhirValueSet.Date);
+      else
+        DbValueSetResource.Date = null;
+      DbValueSetResource.Description = FhirValueSet.Description;
+      DbValueSetResource.Name = FhirValueSet.Name;
+      DbValueSetResource.Publisher = FhirValueSet.Publisher;
+      //ToDo: Validate the status is not null, FHIR standard says it is 1..1 for ValueSet Resource
+      DbValueSetResource.Status = (ConformanceResourceStatus)FhirValueSet.Status;
+      DbValueSetResource.Url = FhirValueSet.Url;
+      DbValueSetResource.Version = FhirValueSet.Version;
 
+      if (FhirValueSet.CodeSystem != null)
+      {
+        DbValueSetResource.CodeSystem = new Model.CodeSystem();
+        DbValueSetResource.CodeSystem.System = FhirValueSet.CodeSystem.System;
+        if (FhirValueSet.CodeSystem.Concept != null)
+        {
+          DbValueSetResource.CodeSystem.Concept = new List<Model.Concept>();
+          foreach (var FhirConcept in FhirValueSet.CodeSystem.Concept)
+          {
+            //ToDo: Concept look as if they can have child Concepts, need to add this feature
+            var DbConcept = new Concept();
+            DbConcept.Code = FhirConcept.Code;
+            DbValueSetResource.CodeSystem.Concept.Add(DbConcept);
+          }
+        }        
+      }
+      if (FhirValueSet.Expansion != null)
+      {
+        DbValueSetResource.Expansion = new Expansion();
+        DbValueSetResource.Expansion.Identifier = FhirValueSet.Expansion.Identifier;
+      }
+      if (FhirValueSet.Identifier != null)
+      {
+        DbValueSetResource.Identifier = new Model.Identifier();
+        DbValueSetResource.Identifier.System = FhirValueSet.Identifier.System;
+        DbValueSetResource.Identifier.Value = FhirValueSet.Identifier.Value;
+        DbValueSetResource.Identifier.Use = FhirValueSet.Identifier.Use;
+        if (FhirValueSet.Identifier.Period != null)
+        {
+          DbValueSetResource.Identifier.Period = new Model.Period();
+          if (FhirValueSet.Identifier.Period.Start != null && FhirDateTime.IsValidValue(FhirValueSet.Identifier.Period.Start))
+            DbValueSetResource.Identifier.Period.Start = FhirValueSet.Identifier.Period.StartElement.ToDateTimeOffset();
+          if (FhirValueSet.Identifier.Period.End != null && FhirDateTime.IsValidValue(FhirValueSet.Identifier.Period.End))
+            DbValueSetResource.Identifier.Period.End = FhirValueSet.Identifier.Period.EndElement.ToDateTimeOffset();          
+        }
+        if (FhirValueSet.Identifier.Type != null)
+        {
+          DbValueSetResource.Identifier.Type = new Model.CodeableConcept();
+          DbValueSetResource.Identifier.Type.Text = FhirValueSet.Identifier.Type.Text;
+          if (FhirValueSet.Identifier.Type.Coding != null)
+          {
+            DbValueSetResource.Identifier.Type.Coding = new List<Model.Coding>();
+            foreach(var FhirCoding in FhirValueSet.Identifier.Type.Coding)
+            {
+              var DbCoding = new Model.Coding();
+              DbCoding.Code = FhirCoding.Code;
+              DbCoding.Display = FhirCoding.Display;
+              DbCoding.System = FhirCoding.System;
+              DbCoding.UserSelected = FhirCoding.UserSelected;
+              DbCoding.Version = FhirCoding.Version;
+              DbValueSetResource.Identifier.Type.Coding.Add(DbCoding);
+            }
+          }          
+        }
+      }
+      
+      if (FhirValueSet.UseContext != null)
+      {
+        DbValueSetResource.UseContext = new List<Model.CodeableConcept>();
+        foreach(var FhirUseContext in FhirValueSet.UseContext)
+        {
+          var DbUseContext = new Model.CodeableConcept();
+          DbUseContext.Text = FhirUseContext.Text;
+          if (FhirUseContext.Coding != null)
+          {
+            DbUseContext.Coding = new List<Model.Coding>();
+            foreach(var FhirCoding in FhirUseContext.Coding)
+            {
+              var DbCoding = new Model.Coding();
+              DbCoding.Code = FhirCoding.Code;
+              DbCoding.Display = FhirCoding.Display;
+              DbCoding.System = FhirCoding.System;
+              DbCoding.UserSelected = FhirCoding.UserSelected;
+              DbCoding.Version = FhirCoding.Version;              
+              DbUseContext.Coding.Add(DbCoding);
+            }           
+          }
+          DbValueSetResource.UseContext.Add(DbUseContext);
+        }        
+      }
+      
       return DbValueSetResource;
     }
+    private void RemoveValueSetStructure(Model.Resource DbResource)
+    {
+      //Remove old structure
+      if (DbResource.ValueSetResource.CodeSystem != null)
+      {
+        if (DbResource.ValueSetResource.CodeSystem.Concept != null)
+        {
+          //I had to do this here to improve performance. If I include the concepts in  the main
+          //query then the performance is terrible. Doing this here is a lot faster.  
+          var ConceptList = (from x in _Context.Concept
+                        where x.CodeSystem.Id == DbResource.ValueSetResource.CodeSystem.Id
+                        select x);
+          _Context.Concept.RemoveRange(ConceptList);
+        }
+        _Context.CodeSystem.Remove(DbResource.ValueSetResource.CodeSystem);
+      }
 
+
+      if (DbResource.ValueSetResource.Expansion != null)
+      {
+        _Context.Expansion.Remove(DbResource.ValueSetResource.Expansion);
+      }
+
+      if (DbResource.ValueSetResource.Identifier != null)
+      {
+        if (DbResource.ValueSetResource.Identifier.Period != null)
+        {
+          _Context.Period.Remove(DbResource.ValueSetResource.Identifier.Period);
+        }
+        if (DbResource.ValueSetResource.Identifier.Type != null)
+        {
+          _Context.CodeableConcept.Remove(DbResource.ValueSetResource.Identifier.Type);
+        }
+        _Context.Identifier.Remove(DbResource.ValueSetResource.Identifier);
+      }
+
+      if (DbResource.ValueSetResource.UseContext != null)
+      {
+        _Context.CodeableConcept.RemoveRange(DbResource.ValueSetResource.UseContext);
+      }
+
+      _Context.ValueSetResource.Remove(DbResource.ValueSetResource);
+    }
 
   }
 }

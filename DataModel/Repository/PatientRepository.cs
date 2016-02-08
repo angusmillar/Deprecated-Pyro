@@ -64,7 +64,7 @@ namespace DataModel.Repository
       {
         using (var scope = new TransactionScope())
         {
-          //== Add the ValueSet Structure as required =============================================          
+          //== Add the Patient Structure as required =============================================          
           NewPatientResource.ResourceIdentity = DbResource.ResourceIdentity;
           DbResource.IsCurrent = false;
           //Value Set has nothing at present
@@ -673,7 +673,7 @@ namespace DataModel.Repository
           DbIdentifier.Use = FhirIdentifier.Use;
           DbIdentifier.System = FhirIdentifier.System;
           DbIdentifier.Value = FhirIdentifier.Value;
-
+          
           if (FhirIdentifier.Type != null)
           {
             DbIdentifier.Type = new Model.CodeableConcept();

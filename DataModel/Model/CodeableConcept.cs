@@ -30,6 +30,7 @@ namespace DataModel.Model
 
       public static readonly string Id = "Id";            
       public static readonly string Text = "Text";
+      public static readonly string ValueSetResource = "ValueSetResource";
       public static readonly string List_Codeing = "Coding";
           
     }

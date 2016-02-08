@@ -125,17 +125,17 @@ namespace DataModel
       modelBuilder.Entity<Model.Identifier>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       modelBuilder.Entity<Model.Identifier>().Property(x => x.Use).IsOptional();
       modelBuilder.Entity<Model.Identifier>().Property(x => x.System).IsOptional();
-      modelBuilder.Entity<Model.Identifier>().Property(x => x.Value).IsOptional();
-      modelBuilder.Entity<Model.Identifier>().Property(x => x.Assigner).IsOptional();
+      modelBuilder.Entity<Model.Identifier>().Property(x => x.Value).IsOptional();      
+      modelBuilder.Entity<Model.Identifier>()
+        .HasOptional(x => x.Type)
+        .WithOptionalDependent(x => x.Identifier);
+
       modelBuilder.Entity<Model.Identifier>()
         .HasOptional(x => x.Period)
         .WithOptionalDependent(x => x.Identifier); // Note: the Period keyed to this Identifier is dependant on the Identifier
       modelBuilder.Entity<Model.Identifier>()
         .HasOptional(x => x.PatientResource)
         .WithMany(x => x.Identifier);             //Note: PatientResource_ID key on Identifier so PatientResource can have many Identifiers
-      modelBuilder.Entity<Model.Identifier>()
-        .HasOptional(x => x.Type)
-        .WithOptionalDependent(x => x.Identifier); // Note: the Type(CodableConcept) keyed to this Identifier is dependant on the Identifier          
 
       //CodeableConcept
       modelBuilder.Entity<Model.CodeableConcept>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
