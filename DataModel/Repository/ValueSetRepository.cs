@@ -43,7 +43,7 @@ namespace DataModel.Repository
       Model.Resource DbResource = (from x in _Context.Resource
                           .Include(y => y.ResourceIdentity)
                           .Include(y => y.ValueSetResource.CodeSystem)
-
+                          .Include(y => y.ValueSetResource.Compose.Include)
                                    where x.IsCurrent == true && x.ResourceIdentity.FhirResourceId == ValueSet.Id
                                    select x).SingleOrDefault();
 
@@ -116,6 +116,7 @@ namespace DataModel.Repository
                           .Include(y => y.ResourceIdentity)
                           .Include(y => y.ValueSetResource)
                           .Include(y => y.ValueSetResource.CodeSystem)
+                          .Include(y => y.ValueSetResource.Compose.Include)
                         where r.ResourceIdentity.FhirResourceId == FhirResourceId && r.IsCurrent == true
                         select r).FirstOrDefault();
 
@@ -176,16 +177,14 @@ namespace DataModel.Repository
       if (DbValueSetResource.Resource == null)
         DbValueSetResource.Resource = new List<Model.Resource>();
       DbValueSetResource.Resource.Add(ResourceXml);
-      DbValueSetResource.ResourceIdentity = ResourceIdentity;
-      //ToDo: Validate the Date in the validator
+      DbValueSetResource.ResourceIdentity = ResourceIdentity;      
       if (FhirValueSet.Date != null)
         DbValueSetResource.Date = DateTime.Parse(FhirValueSet.Date);
       else
         DbValueSetResource.Date = null;
       DbValueSetResource.Description = FhirValueSet.Description;
       DbValueSetResource.Name = FhirValueSet.Name;
-      DbValueSetResource.Publisher = FhirValueSet.Publisher;
-      //ToDo: Validate the status is not null, FHIR standard says it is 1..1 for ValueSet Resource
+      DbValueSetResource.Publisher = FhirValueSet.Publisher;      
       DbValueSetResource.Status = (ConformanceResourceStatus)FhirValueSet.Status;
       DbValueSetResource.Url = FhirValueSet.Url;
       DbValueSetResource.Version = FhirValueSet.Version;
@@ -199,13 +198,27 @@ namespace DataModel.Repository
           DbValueSetResource.CodeSystem.Concept = new List<Model.Concept>();
           foreach (var FhirConcept in FhirValueSet.CodeSystem.Concept)
           {
-            //ToDo: Concept look as if they can have child Concepts, need to add this feature
-            var DbConcept = new Concept();
-            DbConcept.Code = FhirConcept.Code;
-            DbValueSetResource.CodeSystem.Concept.Add(DbConcept);
+            //Method Recursively adds all the child concepts      
+            RecursivelyResolveConcepts(DbValueSetResource.CodeSystem, FhirConcept);            
           }
         }        
       }
+
+      if (FhirValueSet.Compose != null)
+      {
+        DbValueSetResource.Compose = new Model.Compose();
+        if (FhirValueSet.Compose.Include != null)
+        {
+          DbValueSetResource.Compose.Include = new List<Model.Include>();
+          foreach(var FhirInclude in FhirValueSet.Compose.Include)
+          {
+            var DbInclude = new Model.Include();
+            DbInclude.System = FhirInclude.System;
+            DbValueSetResource.Compose.Include.Add(DbInclude);
+          }
+        }
+      }
+
       if (FhirValueSet.Expansion != null)
       {
         DbValueSetResource.Expansion = new Expansion();
@@ -290,6 +303,14 @@ namespace DataModel.Repository
         _Context.CodeSystem.Remove(DbResource.ValueSetResource.CodeSystem);
       }
 
+      if (DbResource.ValueSetResource.Compose != null)
+      {
+        if (DbResource.ValueSetResource.Compose.Include != null)
+        {
+          _Context.Include.RemoveRange(DbResource.ValueSetResource.Compose.Include);
+        }
+        _Context.Compose.Remove(DbResource.ValueSetResource.Compose);
+      }
 
       if (DbResource.ValueSetResource.Expansion != null)
       {
@@ -317,5 +338,29 @@ namespace DataModel.Repository
       _Context.ValueSetResource.Remove(DbResource.ValueSetResource);
     }
 
+    /// <summary>
+    /// Recursively add all the Concept children
+    /// </summary>
+    /// <param name="FhirConcept"></param>
+    /// <returns></returns>
+    private Model.Concept RecursivelyResolveConcepts(Model.CodeSystem DbCodeSystem, ValueSet.ConceptDefinitionComponent FhirConcept)
+    {
+      var DBConcept = new Model.Concept();
+      DBConcept.Code = FhirConcept.Code;
+      DbCodeSystem.Concept.Add(DBConcept);
+      if (FhirConcept.Concept != null)
+      {
+        DBConcept.ConceptChild = new List<Model.Concept>();
+        foreach (var FhirChildConcept in FhirConcept.Concept)
+        {
+          var Concept = RecursivelyResolveConcepts(DbCodeSystem, FhirChildConcept);          
+          DBConcept.ConceptChild.Add(Concept);
+          DbCodeSystem.Concept.Add(Concept);
+        }
+      }
+
+      return DBConcept;
+    }
+   
   }
 }

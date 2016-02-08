@@ -23,6 +23,15 @@ namespace Blaze.Engine.Support
             Code.Display = XhtmlSupport.EncodeToString(Code.Display);
           }
         }
+        var EscapedLocation = new List<string>();
+        if (Issue.Location != null)
+        {
+          foreach (var Location in Issue.Location)
+          {
+            EscapedLocation.Add(XhtmlSupport.EncodeToString(Location));
+          }
+          Issue.Location = EscapedLocation;
+        }
        }
     }
   }

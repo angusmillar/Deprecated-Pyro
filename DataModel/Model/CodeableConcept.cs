@@ -14,6 +14,8 @@ namespace DataModel.Model
     
     //BackLinks
     public virtual Identifier Identifier { get; set; }
+    
+    //Keyed
     public virtual ValueSetResource ValueSetResource { get; set; } 
     
     public CodeableConcept()
@@ -30,7 +32,7 @@ namespace DataModel.Model
 
       public static readonly string Id = "Id";            
       public static readonly string Text = "Text";
-      public static readonly string ValueSetResource = "ValueSetResource";
+      public static readonly string ValueSetResource_Id = "ValueSetResource_Id";
       public static readonly string List_Codeing = "Coding";
           
     }

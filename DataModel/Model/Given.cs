@@ -11,7 +11,7 @@ namespace DataModel.Model
     public int Id { get; set; }
     public string Value { get; set; }
     
-    //ForwardLinks
+    //Keyed
     public virtual HumanName HumanName { get; set; }   
   }
 

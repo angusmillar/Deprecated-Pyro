@@ -21,7 +21,7 @@ namespace DataModel.Model
     public int? PatientResource_Id { get; set; }
     public int? ValueSetResource_Id { get; set; }
 
-    //Forward Links    
+    //BackLinks   
     public ResourceIdentity ResourceIdentity { get; set; }
     public virtual PatientResource PatientResource { get; set; }
     public virtual ValueSetResource ValueSetResource { get; set; }    
@@ -39,6 +39,7 @@ namespace DataModel.Model
       public static readonly string IsCurrent = "IsCurrent";
       public static readonly string IsDeleted = "IsDeleted";
       public static readonly string Received = "Received";
+      public static readonly string ResourceType = "ResourceType";
 
       public static readonly string ResourceIdentity_Id = "ResourceIdentity_Id";      
       public static readonly string PatientResource_Id = "PatientResource_Id";

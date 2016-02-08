@@ -241,6 +241,7 @@ namespace DataModel.Repository
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
       TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
       TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
+      TableDic.Add(DbInfo.ResourceIdentity.TableNameIs, new SqlTable(DbInfo.ResourceIdentity.TableNameIs, "RID"));
 
       var Query = new SqlForge.Query.Query();
 
@@ -261,12 +262,13 @@ namespace DataModel.Repository
 
       var Join = new Join();
       Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+      Join.AddJoin(TableDic[DbInfo.ResourceIdentity.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.PatientResource.ResourceIdentity_Id), TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.Id));
       Query.Join = Join;
 
       var Where = new Where();
       Where.AddCondition(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent), Enums.Sign.Equal, "1");
       Where.AddOperator(Enums.Operator.AND);
-      Where.AddCondition(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId), Enums.Sign.Equal, "@FhirId");
+      Where.AddCondition(TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.FhirResourceId), Enums.Sign.Equal, "@FhirId");
       Query.Where = Where;
 
       string SqlQueryGetXml = Query.CreateQuery();
@@ -431,7 +433,7 @@ namespace DataModel.Repository
       HumanNameQuery.Where = Where;
 
       var GroupBy = new GroupBy();
-      GroupBy.AddGroup(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId));
+      GroupBy.AddGroup(TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.FhirResourceId));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
@@ -500,6 +502,7 @@ namespace DataModel.Repository
       TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
       TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
       TableDic.Add(DbInfo.Identifier.TableNameIs, new SqlTable(DbInfo.Identifier.TableNameIs, "I"));
+      //TableDic.Add(DbInfo.ResourceIdentity.TableNameIs, new SqlTable(DbInfo.ResourceIdentity.TableNameIs, "RID"));
 
       var Query = new SqlForge.Query.Query();
 
@@ -561,7 +564,7 @@ namespace DataModel.Repository
       Query.Where = Where;
 
       var GroupBy = new GroupBy();
-      GroupBy.AddGroup(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.FhirResourceId));
+      GroupBy.AddGroup(TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
       GroupBy.AddGroup(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
       Query.GroupBy = GroupBy;

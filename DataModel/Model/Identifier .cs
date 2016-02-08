@@ -15,10 +15,12 @@ namespace DataModel.Model
     public string System { get; set; }
     public string Value { get; set; }            
     
-    //ForwardLinks
+    //Keyed
     public CodeableConcept Type { get; set; }
     public virtual Period Period { get; set; }
     public virtual PatientResource PatientResource { get; set; }
+
+    //BackLinks
     public virtual ValueSetResource ValueSetResource { get; set; } 
 
     public Identifier()

@@ -63,6 +63,7 @@
     <Compile Include="Model\CodeableConcept.cs" />
     <Compile Include="Model\CodeSystem.cs" />
     <Compile Include="Model\Coding.cs" />
+    <Compile Include="Model\Compose.cs" />
     <Compile Include="Model\Concept.cs" />
     <Compile Include="Model\Expansion.cs" />
     <Compile Include="Model\Family.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Model\HumanName.cs" />
     <Compile Include="ModelSupport\DbInfo.cs" />
     <Compile Include="Model\Identifier .cs" />
+    <Compile Include="Model\Include.cs" />
     <Compile Include="Model\Period.cs" />
     <Compile Include="Model\Resource.cs" />
     <Compile Include="Model\ResourceIdentity.cs" />
