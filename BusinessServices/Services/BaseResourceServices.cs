@@ -57,12 +57,10 @@ namespace Blaze.Engine.Services
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     public IBlazeServiceOperationOutcome Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
     {
-      //List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };
+      //List<string> BaseResourceSearchParameters = new List<string>() { "_id", "_lastUpdated", "_tag", "_profile", "_security", "_text", "_content", "_list", "_query" };      
 
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Read;
-      
-      //##issues## Do we need to set Uri here or from the caller, does this method need the Uri?
+      oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Read;      
       oBlazeServiceOperationOutcome.RequestUri = Uri;
 
       //Validate the search Parameters passed in are implemented for this Resource Type      

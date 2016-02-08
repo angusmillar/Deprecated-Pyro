@@ -27,7 +27,7 @@ namespace Blaze.Engine.Response
         }
         else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Update)
         {
-          return Request.CreateResponse(HttpStatusCode, string.Empty);
+          return Request.CreateResponse(HttpStatusCode);          
         }
         else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
         {
@@ -61,11 +61,10 @@ namespace Blaze.Engine.Response
         Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, oBlazeServiceOperationOutcome.FhirResourceId));
         return Response;
       }
-      //Gone: 410 
+      //Gone: 410 - Search for a resource that no longer there, it is deleted or has never existed. 
       else if (HttpStatusCode == HttpStatusCode.Gone)
-      {
-        //##issues## need to return operation outcome here
-        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, string.Empty);
+      {        
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
         if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
         {
           Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");          
@@ -75,7 +74,7 @@ namespace Blaze.Engine.Response
       //No Content: 204
       else if (HttpStatusCode == HttpStatusCode.NoContent)
       {
-        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, string.Empty);
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
         if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
         {
           Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");

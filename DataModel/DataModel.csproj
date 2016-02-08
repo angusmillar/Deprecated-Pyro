@@ -56,9 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlazeDbContext.cs" />
+    <Compile Include="DynamicExpression\ExpressionBuilder.cs" />
+    <Compile Include="DynamicExpression\Filter.cs" />
     <Compile Include="ModelExtend\ModelExtended.cs" />
     <Compile Include="Model\CodeableConcept.cs" />
+    <Compile Include="Model\CodeSystem.cs" />
     <Compile Include="Model\Coding.cs" />
+    <Compile Include="Model\Concept.cs" />
+    <Compile Include="Model\Expansion.cs" />
     <Compile Include="Model\Family.cs" />
     <Compile Include="Model\Given.cs" />
     <Compile Include="Model\HumanName.cs" />

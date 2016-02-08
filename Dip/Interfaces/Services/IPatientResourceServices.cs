@@ -13,10 +13,6 @@ namespace Dip.Interfaces.Services
   public interface IPatientResourceServices : IBaseResourceServices
   {
 
-    //Delete
-    // DELETE: URL/FhirApi/Patient/5    
-    IBlazeServiceOperationOutcome Delete(string FhirResourceId);
-
 
   }
 }

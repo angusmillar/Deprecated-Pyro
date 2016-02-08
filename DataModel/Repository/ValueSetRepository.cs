@@ -15,6 +15,7 @@ using Dip.Interfaces.Repositories;
 using SqlForge.Query;
 using SqlForge.Support;
 using DataModel.ModelExtend;
+using DataModel.DynamicExpression;
 
 namespace DataModel.Repository
 {
@@ -36,10 +37,9 @@ namespace DataModel.Repository
       }
       return ValueSet.Id;
     }
-    
+
     public string UpdateResource(int ResourceVersion, ValueSet ValueSet)
     {
-      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
       var NewValueSetResource = this.PopulateDbResourceEntity(ResourceVersion, ValueSet);
 
       var DbResource = (from x in _Context.Resource
@@ -62,7 +62,7 @@ namespace DataModel.Repository
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
           //It is also set to current as the instance is populated.
-          var InboundResource = NewValueSetResource.Resources.SingleOrDefault(x => x.IsCurrent == true);
+          var InboundResource = NewValueSetResource.Resource.SingleOrDefault(x => x.IsCurrent == true);
           InboundResource.Version = ResourceVersion;
           InboundResource.Received = (DateTimeOffset)ValueSet.Meta.LastUpdated;
           InboundResource.IsCurrent = true;
@@ -78,32 +78,32 @@ namespace DataModel.Repository
         return string.Empty;
 
       }
-      else 
+      else
       {
         //The last update to the resource was a found not deleted
         using (var scope = new TransactionScope())
-        {          
+        {
           //== Update the ValueSet Structure as required =============================================
-          
+
           //Value Set has nothing at present
 
           //==========================================================================================
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
           //It is also set to current as the instance is populated.
-          var InboundResource = NewValueSetResource.Resources.SingleOrDefault(x => x.IsCurrent == true);
+          var InboundResource = NewValueSetResource.Resource.SingleOrDefault(x => x.IsCurrent == true);
           InboundResource.Version = ResourceVersion;
           InboundResource.Received = (DateTimeOffset)ValueSet.Meta.LastUpdated;
           InboundResource.IsCurrent = true;
           InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
           InboundResource.ValueSetResource = DbResource.ValueSetResource;
-          _Context.Resource.Add(InboundResource);          
+          _Context.Resource.Add(InboundResource);
 
           //Set the past Current Resource to not current
           DbResource.IsCurrent = false;
           DbResource.ValueSetResource_Id = null;
           DbResource.ValueSetResource = null;
-         
+
           this.Save();
 
           scope.Complete();
@@ -121,12 +121,12 @@ namespace DataModel.Repository
 
       using (var scope = new TransactionScope())
       {
-        
+
         //=== Clean Up ==========================================================
         DbResource.IsCurrent = false;
         DbResource.ValueSetResource = null;
         _Context.ValueSetResource.Remove(DbResource.ValueSetResource);
-        
+
         //=== Add Delete Record =================================================        
         var NewResource = new DataModel.Model.Resource();
         NewResource.ResourceType = DtoEnums.SupportedFhirResource.ValueSet;
@@ -145,6 +145,18 @@ namespace DataModel.Repository
       }
     }
 
+    public void Search()
+    {
+      
+      List<Filter> oFilterList = new List<Filter>();
+      oFilterList.Add(new Filter() { Property = DbInfo.Resource.IsCurrent, Operation = Op.Equals, Value = true });
+      oFilterList.Add(new Filter() { Property = DbInfo.Resource.Version, Operation = Op.Equals, Value = 6 });
+      var deleg = ExpressionBuilder.GetExpression<Model.Resource>(oFilterList).Compile();
+
+      Model.Resource oResource = new Model.Resource();
+      var testsearch2 = _Context.Resource.Where(deleg).ToList();
+    }
+
     private ValueSetResource PopulateDbResourceEntity(int ResourceVersion, ValueSet FhirValueSet)
     {
       var ResourceIdentity = new Model.ResourceIdentity();
@@ -160,12 +172,14 @@ namespace DataModel.Repository
       ResourceXml.ResourceIdentity = ResourceIdentity;
 
       var DbValueSetResource = new ValueSetResource();
-      if (DbValueSetResource.Resources == null)
-        DbValueSetResource.Resources = new List<Model.Resource>(); 
-      DbValueSetResource.Resources.Add(ResourceXml);
+      if (DbValueSetResource.Resource == null)
+        DbValueSetResource.Resource = new List<Model.Resource>();
+      DbValueSetResource.Resource.Add(ResourceXml);
       DbValueSetResource.ResourceIdentity = ResourceIdentity;
 
       return DbValueSetResource;
     }
+
+
   }
 }

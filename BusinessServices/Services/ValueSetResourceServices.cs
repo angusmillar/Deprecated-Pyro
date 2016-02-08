@@ -61,6 +61,9 @@ namespace Blaze.Engine.Services
     // PUT: URL/FhirApi/Patient/5
     public override IBlazeServiceOperationOutcome Put(string FhirResourceId, Resource FhirResource)
     {
+      //Dummy test below only
+      //_UnitOfWork.ValueSetRepository.Search();
+
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Update;
       var FhirResourceTyped = FhirResource as ValueSet;

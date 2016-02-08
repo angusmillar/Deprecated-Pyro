@@ -79,8 +79,8 @@ namespace Blaze.Formatters
         using (StreamWriter streamwriter = new StreamWriter(writeStream))
         using (JsonWriter writer = new JsonTextWriter(streamwriter))
         {
-          
-          bool summary = requestMessage.RequestSummary();
+          //Todo:
+          //bool summary = requestMessage.RequestSummary();
 
           if (typeof(Resource).IsAssignableFrom(type))
           {

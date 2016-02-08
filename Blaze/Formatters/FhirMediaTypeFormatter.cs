@@ -41,7 +41,13 @@ namespace Blaze.Formatters
     public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, MediaTypeHeaderValue mediaType)
     {
       //this.entry = request.GetEntry();
-      this.requestMessage = request;
+      //MediaTypeHeaderValue MediaThing = null;
+      //foreach(var thing in  request.Headers.Accept)
+      //{
+      //  MediaThing = thing;
+      //}
+      //return base.GetPerRequestFormatterInstance(type, request, MediaThing);
+      
       return base.GetPerRequestFormatterInstance(type, request, mediaType);
     }
 

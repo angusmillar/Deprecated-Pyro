@@ -37,7 +37,7 @@ namespace Blaze.Engine.Services
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Create;
 
-      ////Validation of resource        
+      ////Validation of resource - Need a validator for default resource       
       //Interfaces.IResourceValidation Validation = Blaze.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
       //IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(FhirResource);
       //if (oResourceValidationOperationOutcome.HasError)
@@ -97,7 +97,7 @@ namespace Blaze.Engine.Services
           FhirResource.Meta.VersionId = NewResourceVersionNumber.ToString();
           FhirResource.Meta.LastUpdated = DateTimeOffset.Now;
 
-          ////Validation of resource        
+          ////Validation of resource - Need a basic validation for Resource default       
           //Interfaces.IResourceValidation Validation = Blaze.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
           //IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(FhirResource);
           //if (oResourceValidationOperationOutcome.HasError)

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Engine.Support.ExtensionMethods;
 using BusinessEntities;
 
 namespace Blaze.Engine.Search

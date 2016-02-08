@@ -18,7 +18,7 @@ namespace DataModel.Repository
 {
   class ResourceRepository : BaseRepository, IResourceRepository
   {
-        
+
     public string AddResource(Hl7.Fhir.Model.Resource Resource)
     {
       var NewResource = this.PopulateResourceEntity(1, Resource);
@@ -32,74 +32,36 @@ namespace DataModel.Repository
     }
 
     public string UpdateResource(int ResourceVersion, Hl7.Fhir.Model.Resource FhirResource)
-    {
-      //##issues## Check  if (entry.State != EntityState.Modified) here to see if not change results in modified
+    {      
       var NewInboundResource = this.PopulateResourceEntity(ResourceVersion, FhirResource);
 
       var DbResource = (from x in _Context.Resource
-                          .Include(y => y.ResourceIdentity)                          
+                          .Include(y => y.ResourceIdentity)
                         where x.IsCurrent == true && x.ResourceIdentity.FhirResourceId == FhirResource.Id
                         select x).SingleOrDefault();
 
       //The last update to the resource was a delete so no ValueSetResource to be found need to add one
-      if (DbResource.IsDeleted == true)
+      using (var scope = new TransactionScope())
       {
-        using (var scope = new TransactionScope())
-        {
-          //== Add the ValueSet Structure as required =============================================          
-          NewInboundResource.ResourceIdentity = DbResource.ResourceIdentity;
-          DbResource.IsCurrent = false;
-          //Plan Resource has nothing at present
+        //== Update the old Resource ============================================================
 
-          //==========================================================================================
+        DbResource.IsCurrent = false;
 
-          //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
-          //It is also set to current as the instance is populated.
+        //== Add the Resource Structure as required =============================================                    
 
-          NewInboundResource.Version = ResourceVersion;
-          NewInboundResource.Received = (DateTimeOffset)FhirResource.Meta.LastUpdated;
-          NewInboundResource.IsCurrent = true;
-          NewInboundResource.ResourceIdentity = DbResource.ResourceIdentity;          
-          _Context.Resource.Add(NewInboundResource);
-          //DbValueSetResource.Resources.Add(InboundResource);
+        //Plan Resource has no structure to update or remove
 
-          this.Save();
+        //== Update the new Resource and save ===================================================       
+        NewInboundResource.Version = ResourceVersion;
+        NewInboundResource.Received = (DateTimeOffset)FhirResource.Meta.LastUpdated;
+        NewInboundResource.IsCurrent = true;
+        NewInboundResource.ResourceIdentity = DbResource.ResourceIdentity;
+        _Context.Resource.Add(NewInboundResource);
 
-          scope.Complete();
-        }
-        return string.Empty;
-
+        this.Save();
+        scope.Complete();
       }
-      else
-      {
-        //The last update to the resource was a found not deleted
-        using (var scope = new TransactionScope())
-        {
-          //== Update the ValueSet Structure as required =============================================
-
-          //Value Set has nothing at present
-
-          //==========================================================================================
-
-          //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
-          //It is also set to current as the instance is populated.
-
-          NewInboundResource.Version = ResourceVersion;
-          NewInboundResource.Received = (DateTimeOffset)FhirResource.Meta.LastUpdated;
-          NewInboundResource.IsCurrent = true;
-          NewInboundResource.ResourceIdentity = DbResource.ResourceIdentity;
-
-          _Context.Resource.Add(NewInboundResource);
-
-          //Set the past Current Resource to not current
-          DbResource.IsCurrent = false;
-
-          this.Save();
-
-          scope.Complete();
-        }
-        return string.Empty;
-      }
+      return string.Empty;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId)
@@ -111,11 +73,16 @@ namespace DataModel.Repository
 
       using (var scope = new TransactionScope())
       {
+        //== Update the old Resource ============================================================        
 
-        //=== Clean Up ==========================================================
         DbResource.IsCurrent = false;
-                
-        //=== Add Delete Record =================================================        
+
+        //== Update the Resource Structure as required =============================================                    
+
+        //Plan Resource has no structure to update or remove
+
+        //== Update the new Resource and save ===================================================       
+
         var NewResource = new DataModel.Model.Resource();
         NewResource.ResourceType = DbResource.ResourceType;
         NewResource.IsDeleted = true;
@@ -128,7 +95,6 @@ namespace DataModel.Repository
         _Context.Resource.Add(NewResource);
 
         this.Save();
-
         scope.Complete();
       }
     }
@@ -149,7 +115,7 @@ namespace DataModel.Repository
         DatabaseOperationOutcome.NumberOfRecordsPerPage = _NumberOfRecordsPerPage;
         DatabaseOperationOutcome.PageRequested = 1;
         DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
-        DatabaseOperationOutcome.SingleResourceRead = false;       
+        DatabaseOperationOutcome.SingleResourceRead = false;
       }
       return DatabaseOperationOutcome;
     }
@@ -175,11 +141,11 @@ namespace DataModel.Repository
     public DtoResource GetCurrentResourceWithOutXml(string FhirResourceId)
     {
       DtoResource oDtoResource = null;
-      var oResource = (from x in _Context.Resource 
-                       where x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true 
-                       select 
-                       new 
-                       { 
+      var oResource = (from x in _Context.Resource
+                       where x.ResourceIdentity.FhirResourceId == FhirResourceId && x.IsCurrent == true
+                       select
+                       new
+                       {
                          Id = x.Id,
                          ResourceType = x.ResourceType,
                          IsCurrent = x.IsCurrent,
@@ -198,7 +164,7 @@ namespace DataModel.Repository
         oDtoResource.IsCurrent = oResource.IsCurrent;
         oDtoResource.IsDeleted = oResource.IsDeleted;
         oDtoResource.Received = oResource.Received;
-        oDtoResource.Version = oResource.Version;        
+        oDtoResource.Version = oResource.Version;
       }
       return oDtoResource;
     }
