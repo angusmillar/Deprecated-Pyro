@@ -54,15 +54,19 @@ namespace DataModel.Repository
       }
       catch (DbUpdateException Exec)
       {
-
+        if (Exec.InnerException != null && Exec.InnerException.InnerException != null &&
+        Exec.InnerException.InnerException is System.Data.SqlClient.SqlException)
+        {
+          throw Exec.InnerException.InnerException;
+        }
         var OpOutCome = new OperationOutcome();
         OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = Exec.ToString();
+        OpOutComeIssueComp.Diagnostics = Exec.InnerException.InnerException.ToString();
         OpOutCome.Issue.Add(OpOutComeIssueComp);
-        throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.Message, Exec);
+        throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
       }
 
     }

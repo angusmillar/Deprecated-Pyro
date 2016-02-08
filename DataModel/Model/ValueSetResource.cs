@@ -11,7 +11,7 @@ namespace DataModel.Model
   {
     public int Id { get; set; }
     public int ResourceIdentity_Id { get; set; }
-    public DateTimeOffset? Date { get; set; }
+    public DateTime? Date { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Publisher { get; set; }

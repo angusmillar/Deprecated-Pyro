@@ -13,8 +13,7 @@ namespace DataModel.Model
     public Hl7.Fhir.Model.Identifier.IdentifierUse? Use { get; set; }    
     
     public string System { get; set; }
-    public string Value { get; set; }        
-    public string Assigner { get; set; }
+    public string Value { get; set; }            
     
     //ForwardLinks
     public CodeableConcept Type { get; set; }

@@ -22,8 +22,7 @@ namespace DataModel.Model
       public static readonly string TableNameIs = "Concept";
 
       public static readonly string Id = "Id";
-      public static readonly string Code = "Code";
-      public static readonly string CodeSystem_Id = "CodeSystem_Id";
+      public static readonly string Code = "Code";      
     }
   }
 }

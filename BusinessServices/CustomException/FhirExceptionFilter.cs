@@ -40,26 +40,11 @@ namespace Blaze.Engine.CustomException
           response = context.Request.CreateResponse(oDtoBlazeException.HttpStatusCode, OpOutCome);
         }          
       }
-      else if (context.Exception is System.Data.UpdateException)
+      else if (context.Exception is SqlException)
       {
-        if (context.Exception.InnerException is SqlException)
-        {
-          DtoBlazeException oDtoBlazeException = SqlExceptionSupport.GenerateDtoBlazeException((SqlException)context.Exception.InnerException, System.Diagnostics.Debugger.IsAttached);
+          DtoBlazeException oDtoBlazeException = SqlExceptionSupport.GenerateDtoBlazeException((SqlException)context.Exception, System.Diagnostics.Debugger.IsAttached);
           Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(oDtoBlazeException.OperationOutcome);
           response = context.Request.CreateResponse<Resource>(oDtoBlazeException.HttpStatusCode, oDtoBlazeException.OperationOutcome);         
-        }
-        else
-        {
-          OperationOutcome OpOutCome = new OperationOutcome();
-          OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
-          var oIssue = new OperationOutcome.IssueComponent();
-          oIssue.Diagnostics = context.Exception.ToString();
-          oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssue.Code = OperationOutcome.IssueType.Unknown;
-          OpOutCome.Issue.Add(oIssue);
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
-          response = context.Request.CreateResponse<Resource>(HttpStatusCode.InternalServerError, OpOutCome);
-        }
       }
       else if (context.Exception is Exception)
       {
