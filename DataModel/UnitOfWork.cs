@@ -15,6 +15,7 @@ namespace DataModel
     private Repository.ResourceRepository _ResourceRepository;
     private Repository.PatientRepository _PatientRepository;
     private Repository.ValueSetRepository _ValueSetRepository;
+    private Repository.ConceptMapRepository _ConceptMapRepository;
 
     public UnitOfWork()
     {
@@ -46,6 +47,15 @@ namespace DataModel
         if (this._ValueSetRepository == null)
           this._ValueSetRepository = new Repository.ValueSetRepository(_context);
         return _ValueSetRepository;
+      }
+    }
+    public IConceptMapRepository ConceptMapRepository
+        {
+      get
+      {
+        if (this._ConceptMapRepository == null)
+          this._ConceptMapRepository = new Repository.ConceptMapRepository(_context);
+        return _ConceptMapRepository;
       }
     }
 
