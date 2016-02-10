@@ -22,6 +22,7 @@ namespace DataModel.Model
 
     //BackLinks
     public virtual ValueSetResource ValueSetResource { get; set; } 
+    public virtual ConceptMapResource ConceptMapResource { get; set; } 
 
     public Identifier()
     {      

@@ -20,11 +20,13 @@ namespace DataModel.Model
     public int ResourceIdentity_Id { get; set; }
     public int? PatientResource_Id { get; set; }
     public int? ValueSetResource_Id { get; set; }
+    public int? ConceptMapResource_Id { get; set; }
 
     //BackLinks   
     public ResourceIdentity ResourceIdentity { get; set; }
     public virtual PatientResource PatientResource { get; set; }
     public virtual ValueSetResource ValueSetResource { get; set; }    
+    public virtual ConceptMapResource ConceptMapResource { get; set; }    
   }
 
   public static partial class DbInfo

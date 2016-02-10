@@ -15,6 +15,7 @@ namespace DataModel.Model
     public ICollection<Resource> Resource { get; set; }
     public ICollection<PatientResource> PatientResource { get; set; }
     public ICollection<ValueSetResource> ValueSetResource { get; set; }
+    public ICollection<ConceptMapResource> ConceptMapResource { get; set; }
     
     public ResourceIdentity()
     {
