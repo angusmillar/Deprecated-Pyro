@@ -5,26 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Search.SearchTermTypes
+namespace BusinessEntities.Search
 {
-  public class SearchTermNumber : SearchTermBase
+  public class DtoSearchParameterNumber : DtoSearchParameterBase
   {
-    public SearchTermNumber() : base()
+    #region Constructor
+    public DtoSearchParameterNumber(): base()
     {      
-      this.SearchParameterType = SearchParamType.Number;
-      
+      this.SearchParameterType = SearchParamType.Number;      
     }
-
+    #endregion
     public override bool TryParseValue(string Value)
     {
-      
+
       double TempDouble;
       List<double> TempDoubleList = new List<double>();
       foreach (var item in Value.Split(OrDelimiter))
       {
         if (Double.TryParse(Value, out TempDouble))
         {
-          TempDoubleList.Add(TempDouble);          
+          TempDoubleList.Add(TempDouble);
         }
         else
         {
@@ -33,12 +33,11 @@ namespace Blaze.Engine.Search.SearchTermTypes
       }
 
       if (TempDoubleList.Count() > 1)
-        this.HasLogicalOrProperties = true;      
-      
+        this.HasLogicalOrProperties = true;
+
       this.Values = TempDoubleList.ToArray();
       return true;
     }
-
     public double[] Values { get; set; }
   }
 }

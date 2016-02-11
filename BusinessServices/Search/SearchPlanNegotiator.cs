@@ -19,7 +19,9 @@ namespace Blaze.Engine.Search
       switch (ResourceType)
       {
         case DtoEnums.SupportedFhirResource.Patient:
-          return new Search.PatientSearchPlan() { UnitOfWork = UnitOfWork };            
+          return new Search.PatientSearchPlan() { UnitOfWork = UnitOfWork };
+        case DtoEnums.SupportedFhirResource.ValueSet:
+          return new Search.ValueSetSearchPlan() { UnitOfWork = UnitOfWork };                  
         default:
           return new Search.DefaultResourceSearchPlan() { UnitOfWork = UnitOfWork };                      
       }      

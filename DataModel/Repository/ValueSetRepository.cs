@@ -7,13 +7,16 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using LinqKit;
 using DataModel.Model;
 using Hl7.Fhir.Model;
 using BusinessEntities;
+using BusinessEntities.Search;
 using Dip.Interfaces;
 using Dip.Interfaces.Repositories;
 using DataModel.ModelExtend;
 using DataModel.DynamicExpression;
+
 
 namespace DataModel.Repository
 {
@@ -44,18 +47,19 @@ namespace DataModel.Repository
                           .Include(y => y.ResourceIdentity)
                           .Include(y => y.ValueSetResource.CodeSystem)
                           .Include(y => y.ValueSetResource.Compose.Include)
+                          .Include(y => y.ValueSetResource.UseContext)
                                    where x.IsCurrent == true && x.ResourceIdentity.FhirResourceId == ValueSet.Id
                                    select x).SingleOrDefault();
 
       //The last update to the resource was a delete so no ValueSetResource to be found need to add one
-        if (DbResource.IsDeleted == true)
+      if (DbResource.IsDeleted == true)
       {
         using (var scope = new TransactionScope())
         {
           //== Add the ValueSet Structure as required =============================================          
           NewValueSetResource.ResourceIdentity = DbResource.ResourceIdentity;
           DbResource.IsCurrent = false;
-                    
+
           //==========================================================================================
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
@@ -67,7 +71,7 @@ namespace DataModel.Repository
           InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
           InboundResource.ValueSetResource = NewValueSetResource;
           _Context.Resource.Add(InboundResource);
-          
+
           this.Save();
 
           scope.Complete();
@@ -83,7 +87,7 @@ namespace DataModel.Repository
           //== Update the ValueSet Structure as required =============================================
 
           RemoveValueSetStructure(DbResource);
-         
+
           //==========================================================================================
 
           //Get the new Resource from the list, it will be the only one as this instance is the single inbound instance
@@ -93,10 +97,10 @@ namespace DataModel.Repository
           InboundResource.Received = (DateTimeOffset)ValueSet.Meta.LastUpdated;
           InboundResource.IsCurrent = true;
           InboundResource.ResourceIdentity = DbResource.ResourceIdentity;
-          NewValueSetResource.ResourceIdentity = DbResource.ResourceIdentity;          
+          NewValueSetResource.ResourceIdentity = DbResource.ResourceIdentity;
           InboundResource.ValueSetResource = NewValueSetResource;
           _Context.Resource.Add(InboundResource);
-          
+
           //Set the past Current Resource to not current
           DbResource.IsCurrent = false;
           DbResource.ValueSetResource_Id = null;
@@ -147,17 +151,124 @@ namespace DataModel.Repository
       }
     }
 
-    public void Search()
+    public IDatabaseOperationOutcome Search(DtoSearchParameters oSearchParameters)
     {
-      
-      List<Filter> oFilterList = new List<Filter>();
-      oFilterList.Add(new Filter() { Property = DbInfo.Resource.IsCurrent, Operation = Op.Equals, Value = true });
-      oFilterList.Add(new Filter() { Property = DbInfo.Resource.Version, Operation = Op.Equals, Value = 6 });
-      var deleg = ExpressionBuilder.GetExpression<Model.Resource>(oFilterList).Compile();
+      var oDatabaseOperationOutcome = new DatabaseOperationOutcome();
 
-      Model.Resource oResource = new Model.Resource();
-      var testsearch2 = _Context.Resource.Where(deleg).ToList();
+      var ResourceFilter = _Context.Resource.AsExpandable();
+
+      var FinalResourceExpression = ExpressionForge.Resource.ResourceTrue();
+
+      //Parameter: Description
+      foreach (var Parameter in oSearchParameters.SearchParametersList.FindAll(x => x.Name == DtoEnums.Search.SearchParameterName.Description))
+      {
+        var DescriptionParameter = Parameter as DtoSearchParameterString;
+        var DescriptionExpression = ExpressionForge.Resource.ResourceFalse();
+        foreach (string item in DescriptionParameter.Values)
+        {
+          if (DescriptionParameter.Modifier == SearchModifierType.None || DescriptionParameter.Modifier == SearchModifierType.Exact)
+          {
+            //(Description = "text")
+            DescriptionExpression = DescriptionExpression.Or(ExpressionForge.Resource.ValueSet.Equals_Description(item));
+          }
+          else if (DescriptionParameter.Modifier == SearchModifierType.Contains)
+          {
+            //Description.Contains("Text1") or Description.Contains("Text2")..etc
+            DescriptionExpression = DescriptionExpression.Or(ExpressionForge.Resource.ValueSet.Contains_Description(item));           
+          }
+        }
+        FinalResourceExpression = FinalResourceExpression.And(DescriptionExpression);
+      }
+
+      //Parameter: Code
+      foreach (var Parameter in oSearchParameters.SearchParametersList.FindAll(x => x.Name == DtoEnums.Search.SearchParameterName.Code))
+      {
+        var CodeParameter = Parameter as DtoSearchParameterToken;        
+        var CodeSystemCodeSearchList = new List<Tuple<string, string>>();
+        if (CodeParameter.Values.Count() > 0)
+        {
+          foreach (var item in CodeParameter.Values)
+          {
+            CodeSystemCodeSearchList.Add(new Tuple<string, string>(item.System, item.Code));
+          }
+          var CodeExpression = ExpressionForge.Resource.ValueSet.Any_ConceptCodeSystemAndCode(CodeSystemCodeSearchList);
+          FinalResourceExpression = FinalResourceExpression.And(CodeExpression);
+        }
+      }
+
+      //Parameter: Date
+      foreach (var Parameter in oSearchParameters.SearchParametersList.FindAll(x => x.Name == DtoEnums.Search.SearchParameterName.Date))
+      {
+        var DateExpression = ExpressionForge.Resource.ResourceTrue();
+        var DateParameter = Parameter as DtoSearchParameterDate;
+        switch (DateParameter.Prefix)
+        {
+          case SearchPrefixType.None:
+            break;
+          case SearchPrefixType.Equal:
+            DateExpression = ExpressionForge.Resource.ValueSet.Equals_Date(DateParameter.Value.DateTime);
+            break;
+          case SearchPrefixType.NotEqual:
+            DateExpression = ExpressionForge.Resource.ValueSet.NotEqualTo_Date(DateParameter.Value.DateTime);
+            break;
+          case SearchPrefixType.Greater:
+            DateExpression = ExpressionForge.Resource.ValueSet.GreaterThan_Date(DateParameter.Value.DateTime);
+            break;
+          case SearchPrefixType.Less:
+            DateExpression = ExpressionForge.Resource.ValueSet.LessThan_Date(DateParameter.Value.DateTime);
+            break;
+          case SearchPrefixType.GreaterOrEqual:
+            DateExpression = ExpressionForge.Resource.ValueSet.GreaterThanEqualTo_Date(DateParameter.Value.DateTime);
+            break;
+          case SearchPrefixType.LessOrEqual:
+            DateExpression = ExpressionForge.Resource.ValueSet.LessThanEqualTo_Date(DateParameter.Value.DateTime);
+            break;          
+          default:
+            //ToDo: how do we handle date with no prefix?
+            break;
+        }
+        FinalResourceExpression = FinalResourceExpression.And(DateExpression);        
+      }
+
+      //Parameter: Date
+      foreach (var Parameter in oSearchParameters.SearchParametersList.FindAll(x => x.Name == DtoEnums.Search.SearchParameterName.Context))
+      {       
+        var ContextParameter = Parameter as DtoSearchParameterToken;
+        var ContextSearchList = new List<Tuple<string, string>>();
+        if (ContextParameter.Values.Count() > 0)
+        {
+          foreach (var item in ContextParameter.Values)
+          {
+            ContextSearchList.Add(new Tuple<string, string>(item.System, item.Code));
+          }
+          var UseContextExpression = ExpressionForge.Resource.ValueSet.Any_UserContext(ContextSearchList);
+          FinalResourceExpression = FinalResourceExpression.And(UseContextExpression);        
+        }
+      }
+      
+
+
+      int PageRequired = 0;
+      foreach (var Parameter in oSearchParameters.SearchParametersList.FindAll(x => x.Name == DtoEnums.Search.SearchParameterName.Page))
+      {
+        var PageParameter = Parameter as DtoSearchParameterNumber;
+        PageRequired = Convert.ToInt32(PageParameter.Values[0]);        
+      }
+
+      int SearchResultCount = ResourceFilter.Where(FinalResourceExpression).Count();
+      ResourceFilter = ResourceFilter.Where(FinalResourceExpression).OrderBy(x => x.Received).Skip(PageRequired).Take(_NumberOfRecordsPerPage);
+
+      var dbResourceList = ResourceFilter.ToList();
+
+      oDatabaseOperationOutcome.ResourcesMatchingSearchList = new List<DtoResource>();
+      dbResourceList.ForEach(x => oDatabaseOperationOutcome.ResourcesMatchingSearchList.Add(x.GetDto()));
+      oDatabaseOperationOutcome.NumberOfRecordsPerPage = _NumberOfRecordsPerPage;
+      oDatabaseOperationOutcome.PageRequested = PageRequired;
+      oDatabaseOperationOutcome.ResourcesMatchingSearchCount = SearchResultCount;
+      return oDatabaseOperationOutcome;
     }
+
+
 
     private ValueSetResource PopulateDbResourceEntity(int ResourceVersion, ValueSet FhirValueSet)
     {
@@ -177,14 +288,14 @@ namespace DataModel.Repository
       if (DbValueSetResource.Resource == null)
         DbValueSetResource.Resource = new List<Model.Resource>();
       DbValueSetResource.Resource.Add(ResourceXml);
-      DbValueSetResource.ResourceIdentity = ResourceIdentity;      
+      DbValueSetResource.ResourceIdentity = ResourceIdentity;
       if (FhirValueSet.Date != null)
         DbValueSetResource.Date = DateTime.Parse(FhirValueSet.Date);
       else
         DbValueSetResource.Date = null;
       DbValueSetResource.Description = FhirValueSet.Description;
       DbValueSetResource.Name = FhirValueSet.Name;
-      DbValueSetResource.Publisher = FhirValueSet.Publisher;      
+      DbValueSetResource.Publisher = FhirValueSet.Publisher;
       DbValueSetResource.Status = (ConformanceResourceStatus)FhirValueSet.Status;
       DbValueSetResource.Url = FhirValueSet.Url;
       DbValueSetResource.Version = FhirValueSet.Version;
@@ -199,9 +310,9 @@ namespace DataModel.Repository
           foreach (var FhirConcept in FhirValueSet.CodeSystem.Concept)
           {
             //Method Recursively adds all the child concepts      
-            RecursivelyResolveConcepts(DbValueSetResource.CodeSystem, FhirConcept);            
+            RecursivelyResolveConcepts(DbValueSetResource.CodeSystem, FhirConcept);
           }
-        }        
+        }
       }
 
       if (FhirValueSet.Compose != null)
@@ -210,7 +321,7 @@ namespace DataModel.Repository
         if (FhirValueSet.Compose.Include != null)
         {
           DbValueSetResource.Compose.Include = new List<Model.Include>();
-          foreach(var FhirInclude in FhirValueSet.Compose.Include)
+          foreach (var FhirInclude in FhirValueSet.Compose.Include)
           {
             var DbInclude = new Model.Include();
             DbInclude.System = FhirInclude.System;
@@ -236,7 +347,7 @@ namespace DataModel.Repository
           if (FhirValueSet.Identifier.Period.Start != null && FhirDateTime.IsValidValue(FhirValueSet.Identifier.Period.Start))
             DbValueSetResource.Identifier.Period.Start = FhirValueSet.Identifier.Period.StartElement.ToDateTimeOffset();
           if (FhirValueSet.Identifier.Period.End != null && FhirDateTime.IsValidValue(FhirValueSet.Identifier.Period.End))
-            DbValueSetResource.Identifier.Period.End = FhirValueSet.Identifier.Period.EndElement.ToDateTimeOffset();          
+            DbValueSetResource.Identifier.Period.End = FhirValueSet.Identifier.Period.EndElement.ToDateTimeOffset();
         }
         if (FhirValueSet.Identifier.Type != null)
         {
@@ -245,7 +356,7 @@ namespace DataModel.Repository
           if (FhirValueSet.Identifier.Type.Coding != null)
           {
             DbValueSetResource.Identifier.Type.Coding = new List<Model.Coding>();
-            foreach(var FhirCoding in FhirValueSet.Identifier.Type.Coding)
+            foreach (var FhirCoding in FhirValueSet.Identifier.Type.Coding)
             {
               var DbCoding = new Model.Coding();
               DbCoding.Code = FhirCoding.Code;
@@ -255,35 +366,35 @@ namespace DataModel.Repository
               DbCoding.Version = FhirCoding.Version;
               DbValueSetResource.Identifier.Type.Coding.Add(DbCoding);
             }
-          }          
+          }
         }
       }
-      
+
       if (FhirValueSet.UseContext != null)
       {
         DbValueSetResource.UseContext = new List<Model.CodeableConcept>();
-        foreach(var FhirUseContext in FhirValueSet.UseContext)
+        foreach (var FhirUseContext in FhirValueSet.UseContext)
         {
           var DbUseContext = new Model.CodeableConcept();
           DbUseContext.Text = FhirUseContext.Text;
           if (FhirUseContext.Coding != null)
           {
             DbUseContext.Coding = new List<Model.Coding>();
-            foreach(var FhirCoding in FhirUseContext.Coding)
+            foreach (var FhirCoding in FhirUseContext.Coding)
             {
               var DbCoding = new Model.Coding();
               DbCoding.Code = FhirCoding.Code;
               DbCoding.Display = FhirCoding.Display;
               DbCoding.System = FhirCoding.System;
               DbCoding.UserSelected = FhirCoding.UserSelected;
-              DbCoding.Version = FhirCoding.Version;              
+              DbCoding.Version = FhirCoding.Version;
               DbUseContext.Coding.Add(DbCoding);
-            }           
+            }
           }
           DbValueSetResource.UseContext.Add(DbUseContext);
-        }        
+        }
       }
-      
+
       return DbValueSetResource;
     }
     private void RemoveValueSetStructure(Model.Resource DbResource)
@@ -296,8 +407,8 @@ namespace DataModel.Repository
           //I had to do this here to improve performance. If I include the concepts in  the main
           //query then the performance is terrible. Doing this here is a lot faster.  
           var ConceptList = (from x in _Context.Concept
-                        where x.CodeSystem.Id == DbResource.ValueSetResource.CodeSystem.Id
-                        select x);
+                             where x.CodeSystem.Id == DbResource.ValueSetResource.CodeSystem.Id
+                             select x);
           _Context.Concept.RemoveRange(ConceptList);
         }
         _Context.CodeSystem.Remove(DbResource.ValueSetResource.CodeSystem);
@@ -332,7 +443,24 @@ namespace DataModel.Repository
 
       if (DbResource.ValueSetResource.UseContext != null)
       {
+        foreach (var CodeableConcept in DbResource.ValueSetResource.UseContext)
+        {
+          var CodingList = (from x in _Context.Codeing
+                            where x.CodeableConcept.Id == CodeableConcept.Id
+                            select x);
+          _Context.Codeing.RemoveRange(CodingList);
+
+          //foreach (var Coding in CodeableConcept.Coding)
+          //{
+          //  _Context.Codeing.Remove(Coding);
+          //}
+          
+        }
         _Context.CodeableConcept.RemoveRange(DbResource.ValueSetResource.UseContext);
+        DbResource.ValueSetResource.UseContext = null;
+       
+
+        
       }
 
       _Context.ValueSetResource.Remove(DbResource.ValueSetResource);
@@ -353,7 +481,7 @@ namespace DataModel.Repository
         DBConcept.ConceptChild = new List<Model.Concept>();
         foreach (var FhirChildConcept in FhirConcept.Concept)
         {
-          var Concept = RecursivelyResolveConcepts(DbCodeSystem, FhirChildConcept);          
+          var Concept = RecursivelyResolveConcepts(DbCodeSystem, FhirChildConcept);
           DBConcept.ConceptChild.Add(Concept);
           DbCodeSystem.Concept.Add(Concept);
         }
@@ -361,6 +489,6 @@ namespace DataModel.Repository
 
       return DBConcept;
     }
-   
+
   }
 }

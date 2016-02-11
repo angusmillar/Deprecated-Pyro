@@ -18,6 +18,22 @@ namespace Blaze.Engine.Services
   /// </summary>
   public class ValueSetResourceServices: BaseResourceServices, IValueSetResourceServices, IBaseResourceServices
   {
+
+    /// <summary>
+    /// Services needed 
+    /// 
+    /// Expansion:
+    /// Need to implement this expand URL, takes a valueset and uses the compose/include/filter to build the 
+    /// expansion. See url for expansion below:
+    /// http://terminology.hl7.org.au/open/ValueSet/care-plan-category/$expand
+    /// 
+    /// Validate:
+    /// Subsumption testing = validate that a code is in a system ??? Ask GG more
+    /// 
+    /// Search:
+    /// 
+    /// 
+    /// </summary>
     public override DtoEnums.SupportedFhirResource CurrentResourceType
     {
       get

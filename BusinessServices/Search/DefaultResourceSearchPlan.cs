@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Engine.Search.SearchTermTypes;
 using Dip.Interfaces;
 using Hl7.Fhir.Model;
 using BusinessEntities;
+using BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
 {
   class DefaultResourceSearchPlan : SearchPlanBase, Interfaces.ISearchPlan
   {
-    public IBlazeServiceOperationOutcome Search(SearchTerms oSearchTerms, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource CurrentResourceType)
+    public IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource CurrentResourceType)
     {
         //The search plan;
-      if (oSearchTerms.SearchTermList.Count == 1)
+      if (oSearchParameters.SearchParametersList.Count == 1)
       {
-        if (oSearchTerms.SearchTermList.TrueForAll(x => x.Modifier == SearchModifierType.None && x.Prefix == SearchPrefixType.None))
+        if (oSearchParameters.SearchParametersList.TrueForAll(x => x.Modifier == SearchModifierType.None && x.Prefix == SearchPrefixType.None))
         {
-          if (!oSearchTerms.SearchTermList.Any(x => x.HasLogicalOrProperties == true))
+          if (!oSearchParameters.SearchParametersList.Any(x => x.HasLogicalOrProperties == true))
           {
             //_Id
-            if (oSearchTerms.SearchTermList[0].Name == Support.EnumSupport.SearchTermName._Id)
+            if (oSearchParameters.SearchParametersList[0].Name == DtoEnums.Search.SearchParameterName._Id)
             {
-              Search.SearchTermTypes.SearchTermString _Id = oSearchTerms.SearchTermList[0] as Search.SearchTermTypes.SearchTermString;
+              DtoSearchParameterString _Id = oSearchParameters.SearchParametersList[0] as DtoSearchParameterString;
               oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.ResourceRepository.GetCurrentResourceList(_Id.Values[0], CurrentResourceType);
               return oBlazeServiceOperationOutcome;
             }
@@ -37,7 +37,7 @@ namespace Blaze.Engine.Search
       OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Error;
       OpOutComeIssueComp.Code = OperationOutcome.IssueType.Invalid;
       string ParameterListForErrorMessage = string.Empty;
-      foreach (var item in oSearchTerms.SearchTermList)
+      foreach (var item in oSearchParameters.SearchParametersList)
       {
         ParameterListForErrorMessage += item.RawValue + " & ";
       }

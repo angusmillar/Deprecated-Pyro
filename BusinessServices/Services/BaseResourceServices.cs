@@ -64,10 +64,10 @@ namespace Blaze.Engine.Services
       oBlazeServiceOperationOutcome.RequestUri = Uri;
 
       //Validate the search Parameters passed in are implemented for this Resource Type      
-      Search.SearchTermValidationOperationOutcome oISearchTermValidationOperationOutcome = Search.SearchUriValidator.Validate(CurrentResourceType, searchParameters);
-      if (oISearchTermValidationOperationOutcome.FhirOperationOutcome != null)
+      Search.SearchParametersValidationOperationOutcome oISearchParametersValidationOperationOutcome = Search.SearchUriValidator.Validate(CurrentResourceType, searchParameters);
+      if (oISearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
       {
-        oBlazeServiceOperationOutcome.SearchValidationOperationOutcome = oISearchTermValidationOperationOutcome;
+        oBlazeServiceOperationOutcome.SearchValidationOperationOutcome = oISearchParametersValidationOperationOutcome;
         return oBlazeServiceOperationOutcome;
       }
 
@@ -75,7 +75,7 @@ namespace Blaze.Engine.Services
       Interfaces.ISearchPlan SearchPlan = Search.SearchPlanNegotiator.GetSearchPlan(CurrentResourceType, _UnitOfWork);
 
       //Performed the search with the search plan
-      oBlazeServiceOperationOutcome = SearchPlan.Search(oISearchTermValidationOperationOutcome.SearchTerms, oBlazeServiceOperationOutcome, CurrentResourceType);
+      oBlazeServiceOperationOutcome = SearchPlan.Search(oISearchParametersValidationOperationOutcome.SearchParameters, oBlazeServiceOperationOutcome, CurrentResourceType);
 
       return oBlazeServiceOperationOutcome;
     }
