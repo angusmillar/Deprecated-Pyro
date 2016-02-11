@@ -24,6 +24,7 @@ namespace DataModel
 
     public DbSet<Model.PatientResource> PatientResource { get; set; }
     public DbSet<Model.ValueSetResource> ValueSetResource { get; set; }
+    public DbSet<Model.ConceptMapResource> ConceptMapResource { get; set; }
 
     public DbSet<Model.Identifier> Identifier { get; set; }
     public DbSet<Model.CodeableConcept> CodeableConcept { get; set; }
@@ -64,7 +65,8 @@ namespace DataModel
       modelBuilder.Entity<Model.Resource>().Property(x => x.Xml).IsRequired().HasColumnOrder(7);
       modelBuilder.Entity<Model.Resource>().Property(x => x.ResourceIdentity_Id).IsRequired().HasColumnOrder(8);
       modelBuilder.Entity<Model.Resource>().Property(x => x.PatientResource_Id).IsOptional().HasColumnOrder(9);
-      modelBuilder.Entity<Model.Resource>().Property(x => x.ValueSetResource_Id).IsOptional().HasColumnOrder(10);      
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ValueSetResource_Id).IsOptional().HasColumnOrder(10);
+      modelBuilder.Entity<Model.Resource>().Property(x => x.ConceptMapResource_Id).IsOptional().HasColumnOrder(11);
       modelBuilder.Entity<Model.Resource>().HasRequired(x => x.ResourceIdentity).WithMany(x => x.Resource).HasForeignKey(x => x.ResourceIdentity_Id);
       modelBuilder.Entity<Model.Resource>()
           .HasOptional(x => x.PatientResource)
@@ -72,6 +74,9 @@ namespace DataModel
       modelBuilder.Entity<Model.Resource>()
           .HasOptional(x => x.ValueSetResource)
           .WithMany(x => x.Resource).HasForeignKey(x => x.ValueSetResource_Id);
+      modelBuilder.Entity<Model.Resource>()
+          .HasOptional(x => x.ConceptMapResource)
+          .WithMany(x => x.Resource).HasForeignKey(x => x.ConceptMapResource_Id);
       
 
       //PatientResource
@@ -110,6 +115,27 @@ namespace DataModel
         .WithMany(x => x.ValueSetResource)
         .HasForeignKey(x => x.ResourceIdentity_Id);
       modelBuilder.Entity<Model.ValueSetResource>()
+        .HasMany(x => x.Resource);
+
+      // ConceptMapResource
+      modelBuilder.Entity<Model.ConceptMapResource>().HasKey(k => k.Id).Property(p => p.Id).IsRequired();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Date).IsOptional();      
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Name).IsOptional();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Description).IsOptional();            
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Publisher).IsOptional();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Version).IsOptional();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Url).IsOptional();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Status).IsRequired();
+      modelBuilder.Entity<Model.ConceptMapResource>()
+        .HasOptional(x => x.Identifier)
+        .WithOptionalDependent(x => x.ConceptMapResource);
+      modelBuilder.Entity<Model.ConceptMapResource>()
+        .HasMany(x => x.UseContext)
+        .WithOptional(x => x.ConceptMapResource);        
+      modelBuilder.Entity<Model.ConceptMapResource>().HasRequired(x => x.ResourceIdentity)
+        .WithMany(x => x.ConceptMapResource)
+        .HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.ConceptMapResource>()
         .HasMany(x => x.Resource);
               
       //CodeSystem

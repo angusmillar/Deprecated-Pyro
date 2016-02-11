@@ -17,6 +17,7 @@ namespace DataModel.Model
     
     //Keyed
     public virtual ValueSetResource ValueSetResource { get; set; } 
+    public virtual ConceptMapResource ConceptMapResource { get; set; } 
     
     public CodeableConcept()
     {
