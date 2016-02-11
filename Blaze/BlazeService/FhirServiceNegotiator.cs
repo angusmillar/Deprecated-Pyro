@@ -11,7 +11,7 @@ using BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.BlazeService
-{  
+{
   /// <summary>
   /// Negotiates the required Resource server based on the Resource name provided 
   /// </summary>
@@ -24,7 +24,7 @@ namespace Blaze.BlazeService
       _Container = Container;
     }
 
-    public  IBaseResourceServices GetService(string ResourceName)
+    public IBaseResourceServices GetService(string ResourceName)
     {
       if (Fhir.Model.ModelInfo.IsKnownResource(ResourceName))
       {
@@ -38,12 +38,14 @@ namespace Blaze.BlazeService
             case DtoEnums.SupportedFhirResource.Patient:
               return _Container.GetInstance<IPatientResourceServices>();
             case DtoEnums.SupportedFhirResource.ValueSet:
-              return _Container.GetInstance<IValueSetResourceServices>();              
+              return _Container.GetInstance<IValueSetResourceServices>();
+            case DtoEnums.SupportedFhirResource.ConceptMap:
+              return _Container.GetInstance<IConceptMapResourceServices>();
             default:
               {
                 IDefaultResourceServices DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
                 DefaultResourceServices.SetCurrentResourceType = SupportedResource;
-                return DefaultResourceServices;                
+                return DefaultResourceServices;
               }
           }
         }
@@ -70,7 +72,7 @@ namespace Blaze.BlazeService
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                     
+        throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
       }
     }
 
