@@ -18,6 +18,8 @@ namespace Blaze.Engine.Validation
           return new PatientResourceValidation();
         case DtoEnums.SupportedFhirResource.ValueSet:
           return new ValueSetResourceValidation();
+        case DtoEnums.SupportedFhirResource.ConceptMap:
+          return new ConceptMapResourceValidation();
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(SupportedFhirResource.ToString(), (int)SupportedFhirResource,typeof(DtoEnums.SupportedFhirResource));
       }

@@ -11,6 +11,7 @@ namespace Dip.Interfaces.Repositories
     IResourceRepository ResourceRepository { get; }
     IPatientRepository PatientRepository { get; }
     IValueSetRepository ValueSetRepository { get; }    
+    IConceptMapRepository ConceptMapRepository { get; }  
   }
 }
 
