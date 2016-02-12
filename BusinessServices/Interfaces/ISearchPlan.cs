@@ -7,12 +7,13 @@ using Blaze.Engine.Search;
 using Dip.Interfaces;
 using Dip.Interfaces.Repositories;
 using BusinessEntities;
+using BusinessEntities.Search;
 
 namespace Blaze.Engine.Interfaces
 {
   public interface ISearchPlan
   {
     IUnitOfWork UnitOfWork { set; }
-    IBlazeServiceOperationOutcome Search(SearchTerms oSearchTerms, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource ResourceType);    
+    IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource ResourceType);    
   }
 }

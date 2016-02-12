@@ -343,6 +343,7 @@ namespace DataModel.Repository
     {
       //Tables            
       Dictionary<string, SqlTable> TableDic = new Dictionary<string, SqlTable>();
+      TableDic.Add(DbInfo.ResourceIdentity.TableNameIs, new SqlTable(DbInfo.ResourceIdentity.TableNameIs, "RI"));
       TableDic.Add(DbInfo.Resource.TableNameIs, new SqlTable(DbInfo.Resource.TableNameIs, "R"));
       TableDic.Add(DbInfo.PatientResource.TableNameIs, new SqlTable(DbInfo.PatientResource.TableNameIs, "PR"));
       TableDic.Add(DbInfo.HumanName.TableNameIs, new SqlTable(DbInfo.HumanName.TableNameIs, "H"));
@@ -625,7 +626,7 @@ namespace DataModel.Repository
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
-      Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id));
+      //Select.AddProp(TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.FhirResourceId));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Version));
       Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
@@ -637,7 +638,8 @@ namespace DataModel.Repository
 
       var Join = new Join();
       Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
-      Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResource_Id));
+      Join.AddJoin(TableDic[DbInfo.ResourceIdentity.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.ResourceIdentity_Id), TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.Id));
+      Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResource_Id));
       Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanName_Id));
       Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanName_Id));
       Query.Join = Join;

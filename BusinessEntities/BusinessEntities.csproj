@@ -50,6 +50,12 @@
     <Compile Include="DtoResource.cs" />
     <Compile Include="DtoEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\DtoSearchParameterBase.cs" />
+    <Compile Include="Search\DtoSearchParameterDate.cs" />
+    <Compile Include="Search\DtoSearchParameterNumber.cs" />
+    <Compile Include="Search\DtoSearchParameters.cs" />
+    <Compile Include="Search\DtoSearchParameterString.cs" />
+    <Compile Include="Search\DtoSearchParameterToken.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

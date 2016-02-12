@@ -20,7 +20,7 @@ namespace Blaze.Engine.Response
     public int ResourceVersionNumber { get; set; }
     public DtoEnums.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
-    public ISearchTermValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
+    public ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
     public IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     public ISearchPlanValidationOperationOutcome SearchPlanValidationOperationOutcome { get; set; }
     public IDatabaseOperationOutcome DatabaseOperationOutcome { get; set; }
@@ -112,6 +112,10 @@ namespace Blaze.Engine.Response
       else if (this.SearchValidationOperationOutcome != null)
       {
         return this.SearchValidationOperationOutcome.FhirOperationOutcome;
+      }
+      else if (this.SearchPlanValidationOperationOutcome != null)
+      {
+        return this.SearchPlanValidationOperationOutcome.FhirOperationOutcome;
       }
       else if (this.ResourceValidationOperationOutcome != null)
       {

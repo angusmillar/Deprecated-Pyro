@@ -57,7 +57,7 @@
     <Compile Include="Interfaces\Services\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\ISearchTermValidationOperationOutcome.cs" />
+    <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

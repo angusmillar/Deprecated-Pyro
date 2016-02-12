@@ -18,7 +18,7 @@ namespace Dip.Interfaces
     Uri RequestUri { get; set; }
     Hl7.Fhir.Model.Resource ResourceToReturn { get; }
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
-    ISearchTermValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
+    ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
     ISearchPlanValidationOperationOutcome SearchPlanValidationOperationOutcome { get; set; }
   }
 }

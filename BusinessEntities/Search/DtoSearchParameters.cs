@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hl7.Fhir.Model;
-using BusinessEntities;
 
-namespace Blaze.Engine.Search
+namespace BusinessEntities.Search
 {
-  public class SearchTerms
-  {    
+  public class DtoSearchParameters
+  {
     public DtoEnums.SupportedFhirResource ResourceTarget { get; set; }
-    public List<SearchTermTypes.SearchTermBase> SearchTermList { get; set; }
+    public List<DtoSearchParameterBase> SearchParametersList { get; set; }
   }
 }

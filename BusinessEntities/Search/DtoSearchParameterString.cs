@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Search.SearchTermTypes
+namespace BusinessEntities.Search
 {
-  public class SearchTermString : SearchTermBase
-  {    
-    public SearchTermString()
-    {
-      this.SearchParameterType = SearchParamType.String;
+  public class DtoSearchParameterString : DtoSearchParameterBase
+  {
+     #region Constructor
+    public DtoSearchParameterString()
+      : base()
+    {      
+      this.SearchParameterType = SearchParamType.String;      
     }
-    
+    #endregion
     public override bool TryParseValue(string Value)
     {
       this.Values = Value.Split(OrDelimiter);

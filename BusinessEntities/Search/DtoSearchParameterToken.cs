@@ -5,15 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Search.SearchTermTypes
+namespace BusinessEntities.Search
 {
-  public class SearchTermToken : SearchTermBase
+  public class DtoSearchParameterToken : DtoSearchParameterBase
   {
-    public SearchTermToken()
-    {
-      this.SearchParameterType = SearchParamType.Token;
+    protected const char TokenDelimiter = '|';
+
+     #region Constructor
+    public DtoSearchParameterToken()
+      : base()
+    {      
+      this.SearchParameterType = SearchParamType.Token;      
     }
-    
+    #endregion
+
     public override bool TryParseValue(string Value)
     {
       var Temp = Value.Split(OrDelimiter);
@@ -24,9 +29,9 @@ namespace Blaze.Engine.Search.SearchTermTypes
       foreach (var item in Temp)
       {
         var oTokenValue = new TokenValue();
-        if (item.Contains('|'))
+        if (item.Contains(TokenDelimiter))
         {
-          var oSplit = item.Split('|');
+          var oSplit = item.Split(TokenDelimiter);
           oTokenValue.System = oSplit[0];
           oTokenValue.Code = oSplit[1];
         }

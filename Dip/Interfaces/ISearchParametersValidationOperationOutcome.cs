@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dip.Interfaces
 {
-  public interface ISearchTermValidationOperationOutcome
+  public interface ISearchParametersValidationOperationOutcome
   {
     Hl7.Fhir.Model.OperationOutcome FhirOperationOutcome { get; set; }    
     System.Net.HttpStatusCode HttpStatusCode { get; set; }
