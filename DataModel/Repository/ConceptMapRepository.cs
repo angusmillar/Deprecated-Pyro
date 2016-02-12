@@ -146,13 +146,13 @@ namespace DataModel.Repository
         public void Search()
         {
 
-            List<Filter> oFilterList = new List<Filter>();
-            oFilterList.Add(new Filter() { Property = DbInfo.Resource.IsCurrent, Operation = Op.Equals, Value = true });
-            oFilterList.Add(new Filter() { Property = DbInfo.Resource.Version, Operation = Op.Equals, Value = 6 });
-            var deleg = ExpressionBuilder.GetExpression<Model.Resource>(oFilterList).Compile();
+            //List<Filter> oFilterList = new List<Filter>();
+            //oFilterList.Add(new Filter() { Property = DbInfo.Resource.IsCurrent, Operation = Op.Equals, Value = true });
+            //oFilterList.Add(new Filter() { Property = DbInfo.Resource.Version, Operation = Op.Equals, Value = 6 });
+            //var deleg = ExpressionBuilder.GetExpression<Model.Resource>(oFilterList).Compile();
 
-            Model.Resource oResource = new Model.Resource();
-            var testsearch2 = _Context.Resource.Where(deleg).ToList();
+            //Model.Resource oResource = new Model.Resource();
+            //var testsearch2 = _Context.Resource.Where(deleg).ToList();
         }
 
         private ConceptMapResource PopulateDbResourceEntity(int ResourceVersion, ConceptMap FhirConceptMap)

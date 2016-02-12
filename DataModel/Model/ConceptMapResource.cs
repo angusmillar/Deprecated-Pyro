@@ -21,7 +21,7 @@ namespace DataModel.Model
     public ICollection<Resource> Resource { get; set; }
     public ICollection<CodeableConcept> UseContext { get; set; }
     public string SourceUri { get; set; }
-    public Reference? SourceReference { get; set; }
+    //public Reference? SourceReference { get; set; }
 
     //Key Links
     public virtual ResourceIdentity ResourceIdentity { get; set; }

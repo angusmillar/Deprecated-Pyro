@@ -51,7 +51,7 @@
     <Compile Include="Interfaces\Repositories\IConceptMapRepository.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
-    <Compile Include="Interfaces\Services\IConceptMapServices.cs" />
+    <Compile Include="Interfaces\Services\IConceptMapResourceServices.cs" />
     <Compile Include="Interfaces\Services\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
     <Compile Include="Interfaces\Repositories\IPatientRepository.cs" />

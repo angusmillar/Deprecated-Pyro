@@ -136,9 +136,9 @@ namespace DataModel
       modelBuilder.Entity<Model.ConceptMapResource>().HasRequired(x => x.ResourceIdentity)
         .WithMany(x => x.ConceptMapResource)
         .HasForeignKey(x => x.ResourceIdentity_Id);
-      modelBuilder.Entity<Model.ConceptMapResource>()
-        .HasOptional(x => x.SourceReference)
-        .HasForeignKey(x => x.ConceptMapResource);
+      //modelBuilder.Entity<Model.ConceptMapResource>()
+      //  .HasOptional(x => x.SourceReference)
+      //  .HasForeignKey(x => x.ConceptMapResource);
       modelBuilder.Entity<Model.ConceptMapResource>()
         .HasMany(x => x.Resource);
               
