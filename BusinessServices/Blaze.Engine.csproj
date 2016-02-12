@@ -73,18 +73,24 @@
     <Compile Include="Search\SearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Search\SupportedSearchParameters.cs" />
     <Compile Include="Services\BaseResourceServices.cs" />
+    <Compile Include="Services\ConceptMapResourceServices.cs" />
     <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
     <Compile Include="Services\ValueSetResourceServices.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
     <Compile Include="Support\PagingSupport.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
+    <Compile Include="Validation\ConceptMapResourceValidation.cs" />
     <Compile Include="Validation\PatientResourceValidation.cs" />
     <Compile Include="Validation\ResourceValidationFactory.cs" />
     <Compile Include="Validation\ResourceValidationOperationOutcome.cs" />
     <Compile Include="Validation\ValueSetResourceValidation.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Documents\fhir-net-api\src\Hl7.Fhir.Core\Hl7.Fhir.Core.csproj">
+      <Project>{92cc9186-0a21-4e06-b11f-907584fbfd81}</Project>
+      <Name>Hl7.Fhir.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BusinessEntities\BusinessEntities.csproj">
       <Project>{74e4cccd-93df-4646-8110-dfe373343960}</Project>
       <Name>BusinessEntities</Name>

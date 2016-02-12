@@ -126,6 +126,7 @@ namespace DataModel
       modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Version).IsOptional();
       modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Url).IsOptional();
       modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.Status).IsRequired();
+      modelBuilder.Entity<Model.ConceptMapResource>().Property(x => x.SourceUri).IsOptional();
       modelBuilder.Entity<Model.ConceptMapResource>()
         .HasOptional(x => x.Identifier)
         .WithOptionalDependent(x => x.ConceptMapResource);
@@ -135,6 +136,9 @@ namespace DataModel
       modelBuilder.Entity<Model.ConceptMapResource>().HasRequired(x => x.ResourceIdentity)
         .WithMany(x => x.ConceptMapResource)
         .HasForeignKey(x => x.ResourceIdentity_Id);
+      modelBuilder.Entity<Model.ConceptMapResource>()
+        .HasOptional(x => x.SourceReference)
+        .HasForeignKey(x => x.ConceptMapResource);
       modelBuilder.Entity<Model.ConceptMapResource>()
         .HasMany(x => x.Resource);
               
