@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dip", "Dip\Dip.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBlaze", "TestBlaze\TestBlaze.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerationSupport", "CodeGenerationSupport\CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4018873A-129D-41B7-858F-D8ECE9D13CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

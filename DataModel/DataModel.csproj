@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7EA4191F-1D14-4435-A857-1A462844C8DF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataModel</RootNamespace>
     <AssemblyName>DataModel</AssemblyName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -68,6 +71,16 @@
     <Compile Include="BlazeDbContext.cs" />
     <Compile Include="DynamicExpression\ExpressionForge.cs" />
     <Compile Include="ModelExtend\ModelExtended.cs" />
+    <Compile Include="ModelGeneration\BlazeDbModelCodeGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelGeneration\BlazeDbContextCodeGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlazeDbContextCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Reference.cs" />
     <Compile Include="Model\CodeableConcept.cs" />
     <Compile Include="Model\CodeSystem.cs" />
@@ -99,12 +112,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ModelGeneration\BlazeDbModelCodeGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BlazeDbModelCodeGenerator.cs</LastGenOutput>
+    </None>
+    <None Include="ModelGeneration\BlazeDbContextCodeGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BlazeDbContextCodeGenerator.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessEntities\BusinessEntities.csproj">
       <Project>{74e4cccd-93df-4646-8110-dfe373343960}</Project>
       <Name>BusinessEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerationSupport\CodeGenerationSupport.csproj">
+      <Project>{dfe33b5b-4ebd-4479-87f4-aea690c3829a}</Project>
+      <Name>CodeGenerationSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dip\Dip.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
@@ -117,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SqlSupport\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
