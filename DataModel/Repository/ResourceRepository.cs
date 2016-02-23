@@ -19,7 +19,7 @@ namespace DataModel.Repository
   class ResourceRepository : BaseRepository, IResourceRepository
   {
 
-    public string AddResource(Hl7.Fhir.Model.Resource Resource)
+    public string AddResource(DtoEnums.SupportedFhirResource SupportedFhirResource, Hl7.Fhir.Model.Resource Resource)
     {
       var NewResource = this.PopulateResourceEntity(1, Resource);
       using (var scope = new TransactionScope())

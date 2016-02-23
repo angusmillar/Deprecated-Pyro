@@ -8,7 +8,7 @@
 <#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.DSTU2.0.90.4\lib\net45\Hl7.Fhir.DSTU2.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)CodeGenerationSupport\bin\Debug\CodeGenerationSupport.dll"#>
+<#@ Assembly Name="$(SolutionDir)CodeGenerationSupport\bin\Release\CodeGenerationSupport.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
@@ -48,6 +48,7 @@ namespace DataModel.BlazeDbModel2
     public BlazeDbContext()
       : base("BlazeConnectionString")
     {
+      Database.SetInitializer<BlazeDbContext>(new CreateDatabaseIfNotExists<BlazeDbContext>());
       //Database.SetInitializer<BlazeDbContext>(new DropCreateDatabaseAlways<BlazeDbContext>());       
     }
 
@@ -67,7 +68,7 @@ namespace DataModel.BlazeDbModel2
 #>    public DbSet<<#=ClassNameResource#>> <#=ClassNameResource#> { get; set; }
 <#        foreach(var SearchParameter in CollectionParameters)
           {
-            ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, SearchParameter.SearchName);
+            ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, SearchParameter);
 
 #>    public DbSet<<#=ClassNameResourceSearch#>> <#=ClassNameResourceSearch#> { get; set; }
 <#
@@ -117,10 +118,21 @@ namespace DataModel.BlazeDbModel2
         foreach(var CollectionItem in CollectionParameters)
         {
           ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
-          ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem.SearchName);            
-#>      Mb.Entity<<#=ClassNameResourceSearch#>>().HasRequired(x => x.<#=ClassNameResource#>);
+          ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);            
+#>      Mb.Entity<<#=ClassNameResourceSearch#>>().HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      Mb.Entity<<#=ClassNameResourceSearch#>>().HasRequired(x => x.<#=ClassNameResource#>);
 <#
-          GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResourceSearch, string.Empty, CollectionItem.SearchParamType);           
+          if (CollectionItem.SearchParamType == Hl7.Fhir.Model.SearchParamType.Composite)
+          { 
+            foreach(var Composite in CollectionItem.CompositeSearchParameterList)
+            {
+              GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResourceSearch, Composite.SearchName.Replace("-","_"), Composite.SearchParamType);           
+            }
+          }
+          else
+          {
+            GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResourceSearch, string.Empty, CollectionItem.SearchParamType);           
+          }
         }
 #>
 
@@ -138,9 +150,9 @@ namespace DataModel.BlazeDbModel2
            {
              case Hl7.Fhir.Model.SearchParamType.Composite:
                {
-
-                //ToDo: this one looks hard
-
+                //Nothing to do for this type as composite type is a composite of the other types
+                //We should never get here
+                throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
                }
                break;
              case Hl7.Fhir.Model.SearchParamType.Date:

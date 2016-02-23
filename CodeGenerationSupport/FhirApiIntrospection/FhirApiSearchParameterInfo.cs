@@ -23,5 +23,6 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     }
     public bool IsCollection { get; set; }
     public bool IsChoice { get; set; }
+    public List<FhirApiSearchParameterInfo> CompositeSearchParameterList { get; set; }
   }
 }

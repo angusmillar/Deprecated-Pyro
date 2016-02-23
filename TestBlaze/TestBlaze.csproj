@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hl7.Fhir.DSTU2.Core, Version=0.90.4.20849, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
@@ -56,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerationSupport\Test_FhirApiSearchParameterInfoFactory.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Test_PatientResourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +69,10 @@
     <ProjectReference Include="..\BusinessServices\Blaze.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
       <Name>Blaze.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerationSupport\CodeGenerationSupport.csproj">
+      <Project>{dfe33b5b-4ebd-4479-87f4-aea690c3829a}</Project>
+      <Name>CodeGenerationSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dip\Dip.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>

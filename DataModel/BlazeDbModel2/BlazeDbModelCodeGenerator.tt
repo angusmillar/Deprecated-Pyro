@@ -5,7 +5,7 @@
 <#@ Assembly Name="System.Threading.Tasks" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.DSTU2.0.90.4\lib\net45\Hl7.Fhir.DSTU2.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)CodeGenerationSupport\bin\Debug\CodeGenerationSupport.dll"#>
+<#@ Assembly Name="$(SolutionDir)CodeGenerationSupport\bin\Release\CodeGenerationSupport.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
@@ -71,12 +71,12 @@ namespace DataModel.BlazeDbModel2
 #>
 
 <#
-          foreach( var CollectionItem in CollectionParameters)
+          foreach(FhirApiSearchParameterInfo CollectionItem in CollectionParameters)
           {
-            ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem.SearchName);   
+            ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);   
 #>
-    public ICollection<<#=ClassNameResourceSearch#>> <#=FhirApiSearchParameterInfoFactory.ConstructCollectionListName(CollectionItem.SearchName)#> { get; set; }   
-<#
+    public ICollection<<#=ClassNameResourceSearch#>> <#=FhirApiSearchParameterInfoFactory.ConstructCollectionListName(CollectionItem)#> { get; set; }   
+<#            
           }
 
 #>
@@ -86,9 +86,9 @@ namespace DataModel.BlazeDbModel2
 <#
           foreach( var CollectionItem in CollectionParameters)
           {
-          ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem.SearchName);   
+          ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);   
 #>
-      this.<#=FhirApiSearchParameterInfoFactory.ConstructCollectionListName(CollectionItem.SearchName)#> = new HashSet<<#=ClassNameResourceSearch#>>();
+      this.<#=FhirApiSearchParameterInfoFactory.ConstructCollectionListName(CollectionItem)#> = new HashSet<<#=ClassNameResourceSearch#>>();
 <#
           }
 #>
@@ -100,14 +100,23 @@ namespace DataModel.BlazeDbModel2
 <#
          foreach( var CollectionItem in CollectionParameters)
          {
-           ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem.SearchName);           
+           ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);           
 #>  
   public class <#= ClassNameResourceSearch #>
   {
     public int Id {get; set;}
 <#
-           GenerateClassPropertiesForSearchParameterDataType(string.Empty, CollectionItem.SearchParamType);           
-           
+            if (CollectionItem.SearchParamType == Hl7.Fhir.Model.SearchParamType.Composite)
+            {
+              foreach(var Composite in CollectionItem.CompositeSearchParameterList)
+              {
+                GenerateClassPropertiesForSearchParameterDataType(Composite.SearchName.Replace("-","_"), Composite.SearchParamType);           
+              }
+            }
+            else
+            {           
+              GenerateClassPropertiesForSearchParameterDataType(string.Empty, CollectionItem.SearchParamType);           
+            }           
 #>    
     //Keyed
     public virtual <#= ClassNameResource#> <#= ClassNameResource#> { get; set; }                     
@@ -136,9 +145,9 @@ namespace DataModel.BlazeDbModel2
            {
              case Hl7.Fhir.Model.SearchParamType.Composite:
                {
-
-                //ToDo: this one looks hard
-
+                  //Nothing to do for this type as composite type is a composite of the other types
+                  //We should never get here
+                  throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");                
                }
                break;
              case Hl7.Fhir.Model.SearchParamType.Date:

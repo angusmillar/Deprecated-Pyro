@@ -584,6 +584,7 @@ namespace DataModel.BlazeDbModel2
     public ICollection<Resource_CarePlan_Search_performer> performer_List { get; set; }   
     public ICollection<Resource_CarePlan_Search_relatedcode> relatedcode_List { get; set; }   
     public ICollection<Resource_CarePlan_Search_relatedplan> relatedplan_List { get; set; }   
+    public ICollection<Resource_CarePlan_Search_related> related_List { get; set; }   
 
     public Resource_CarePlan()
     {
@@ -596,6 +597,7 @@ namespace DataModel.BlazeDbModel2
       this.performer_List = new HashSet<Resource_CarePlan_Search_performer>();
       this.relatedcode_List = new HashSet<Resource_CarePlan_Search_relatedcode>();
       this.relatedplan_List = new HashSet<Resource_CarePlan_Search_relatedplan>();
+      this.related_List = new HashSet<Resource_CarePlan_Search_related>();
     }
   }
   
@@ -693,6 +695,19 @@ namespace DataModel.BlazeDbModel2
     //Keyed
     public virtual Resource_CarePlan Resource_CarePlan { get; set; }                     
   }
+  
+  public class Resource_CarePlan_Search_related
+  {
+    public int Id {get; set;}
+    public string relatedcodeCode {get; set;}                  
+    public string relatedcodeSystem {get; set;}                
+    public string relatedplanFhirId {get; set;}     
+    public string relatedplanType {get; set;}     
+    public string relatedplanUrl {get; set;}     
+    
+    //Keyed
+    public virtual Resource_CarePlan Resource_CarePlan { get; set; }                     
+  }
 
   public class Resource_Claim
   {
@@ -772,6 +787,11 @@ namespace DataModel.BlazeDbModel2
     public string previous_Url {get; set;}     
     public string status_Code {get; set;}                  
     public string status_System {get; set;}                
+    public string trigger_FhirId {get; set;}     
+    public string trigger_Type {get; set;}     
+    public string trigger_Url {get; set;}     
+    public string trigger_code_Code {get; set;}                  
+    public string trigger_code_System {get; set;}                
 
     public ICollection<Resource_ClinicalImpression_Search_action> action_List { get; set; }   
     public ICollection<Resource_ClinicalImpression_Search_finding> finding_List { get; set; }   
@@ -966,6 +986,7 @@ namespace DataModel.BlazeDbModel2
     public string subject_FhirId {get; set;}     
     public string subject_Type {get; set;}     
     public string subject_Url {get; set;}     
+    public DateTimeOffset time_DateTimeOffset {get; set;}              
 
     public ICollection<Resource_CommunicationRequest_Search_identifier> identifier_List { get; set; }   
     public ICollection<Resource_CommunicationRequest_Search_medium> medium_List { get; set; }   
@@ -1130,8 +1151,17 @@ namespace DataModel.BlazeDbModel2
     public string identifier_System {get; set;}                
     public string name_String {get; set;}                  
     public string publisher_String {get; set;}                  
+    public string source_FhirId {get; set;}     
+    public string source_Type {get; set;}     
+    public string source_Url {get; set;}     
+    public string sourceuri_FhirId {get; set;}     
+    public string sourceuri_Type {get; set;}     
+    public string sourceuri_Url {get; set;}     
     public string status_Code {get; set;}                  
     public string status_System {get; set;}                
+    public string target_FhirId {get; set;}     
+    public string target_Type {get; set;}     
+    public string target_Url {get; set;}     
     public string url_Uri {get; set;}     
     public string version_Code {get; set;}                  
     public string version_System {get; set;}                
@@ -1241,6 +1271,8 @@ namespace DataModel.BlazeDbModel2
     public string encounter_FhirId {get; set;}     
     public string encounter_Type {get; set;}     
     public string encounter_Url {get; set;}     
+    public DateTimeOffset onset_DateTimeOffset {get; set;}              
+    public string onset_info_String {get; set;}                  
     public string patient_FhirId {get; set;}     
     public string patient_Type {get; set;}     
     public string patient_Url {get; set;}     
@@ -1776,6 +1808,8 @@ namespace DataModel.BlazeDbModel2
     public ICollection<Resource_DiagnosticOrder_Search_item_past_status> item_past_status_List { get; set; }   
     public ICollection<Resource_DiagnosticOrder_Search_item_status> item_status_List { get; set; }   
     public ICollection<Resource_DiagnosticOrder_Search_specimen> specimen_List { get; set; }   
+    public ICollection<Resource_DiagnosticOrder_Search_event_status_date> event_status_date_List { get; set; }   
+    public ICollection<Resource_DiagnosticOrder_Search_item_status_date> item_status_date_List { get; set; }   
 
     public Resource_DiagnosticOrder()
     {
@@ -1789,6 +1823,8 @@ namespace DataModel.BlazeDbModel2
       this.item_past_status_List = new HashSet<Resource_DiagnosticOrder_Search_item_past_status>();
       this.item_status_List = new HashSet<Resource_DiagnosticOrder_Search_item_status>();
       this.specimen_List = new HashSet<Resource_DiagnosticOrder_Search_specimen>();
+      this.event_status_date_List = new HashSet<Resource_DiagnosticOrder_Search_event_status_date>();
+      this.item_status_date_List = new HashSet<Resource_DiagnosticOrder_Search_item_status_date>();
     }
   }
   
@@ -1891,6 +1927,28 @@ namespace DataModel.BlazeDbModel2
     //Keyed
     public virtual Resource_DiagnosticOrder Resource_DiagnosticOrder { get; set; }                     
   }
+  
+  public class Resource_DiagnosticOrder_Search_event_status_date
+  {
+    public int Id {get; set;}
+    public string event_statusCode {get; set;}                  
+    public string event_statusSystem {get; set;}                
+    public DateTimeOffset event_dateDateTimeOffset {get; set;}              
+    
+    //Keyed
+    public virtual Resource_DiagnosticOrder Resource_DiagnosticOrder { get; set; }                     
+  }
+  
+  public class Resource_DiagnosticOrder_Search_item_status_date
+  {
+    public int Id {get; set;}
+    public string item_past_statusCode {get; set;}                  
+    public string item_past_statusSystem {get; set;}                
+    public DateTimeOffset item_dateDateTimeOffset {get; set;}              
+    
+    //Keyed
+    public virtual Resource_DiagnosticOrder Resource_DiagnosticOrder { get; set; }                     
+  }
 
   public class Resource_DiagnosticReport
   {
@@ -1902,6 +1960,7 @@ namespace DataModel.BlazeDbModel2
     public string category_System {get; set;}                
     public string code_Code {get; set;}                  
     public string code_System {get; set;}                
+    public DateTimeOffset date_DateTimeOffset {get; set;}              
     public string encounter_FhirId {get; set;}     
     public string encounter_Type {get; set;}     
     public string encounter_Url {get; set;}     
@@ -2153,6 +2212,7 @@ namespace DataModel.BlazeDbModel2
     public ICollection<Resource_DocumentReference_Search_relatesto> relatesto_List { get; set; }   
     public ICollection<Resource_DocumentReference_Search_relation> relation_List { get; set; }   
     public ICollection<Resource_DocumentReference_Search_securitylabel> securitylabel_List { get; set; }   
+    public ICollection<Resource_DocumentReference_Search_relationship> relationship_List { get; set; }   
 
     public Resource_DocumentReference()
     {
@@ -2167,6 +2227,7 @@ namespace DataModel.BlazeDbModel2
       this.relatesto_List = new HashSet<Resource_DocumentReference_Search_relatesto>();
       this.relation_List = new HashSet<Resource_DocumentReference_Search_relation>();
       this.securitylabel_List = new HashSet<Resource_DocumentReference_Search_securitylabel>();
+      this.relationship_List = new HashSet<Resource_DocumentReference_Search_relationship>();
     }
   }
   
@@ -2277,6 +2338,19 @@ namespace DataModel.BlazeDbModel2
     public int Id {get; set;}
     public string Code {get; set;}                  
     public string System {get; set;}                
+    
+    //Keyed
+    public virtual Resource_DocumentReference Resource_DocumentReference { get; set; }                     
+  }
+  
+  public class Resource_DocumentReference_Search_relationship
+  {
+    public int Id {get; set;}
+    public string relationCode {get; set;}                  
+    public string relationSystem {get; set;}                
+    public string relatestoFhirId {get; set;}     
+    public string relatestoType {get; set;}     
+    public string relatestoUrl {get; set;}     
     
     //Keyed
     public virtual Resource_DocumentReference Resource_DocumentReference { get; set; }                     
@@ -2787,6 +2861,7 @@ namespace DataModel.BlazeDbModel2
     public string subject_FhirId {get; set;}     
     public string subject_Type {get; set;}     
     public string subject_Url {get; set;}     
+    public DateTimeOffset targetdate_DateTimeOffset {get; set;}              
 
     public ICollection<Resource_Goal_Search_category> category_List { get; set; }   
     public ICollection<Resource_Goal_Search_identifier> identifier_List { get; set; }   
@@ -2836,6 +2911,7 @@ namespace DataModel.BlazeDbModel2
     public ICollection<Resource_Group_Search_identifier> identifier_List { get; set; }   
     public ICollection<Resource_Group_Search_member> member_List { get; set; }   
     public ICollection<Resource_Group_Search_value> value_List { get; set; }   
+    public ICollection<Resource_Group_Search_characteristic_value> characteristic_value_List { get; set; }   
 
     public Resource_Group()
     {
@@ -2844,6 +2920,7 @@ namespace DataModel.BlazeDbModel2
       this.identifier_List = new HashSet<Resource_Group_Search_identifier>();
       this.member_List = new HashSet<Resource_Group_Search_member>();
       this.value_List = new HashSet<Resource_Group_Search_value>();
+      this.characteristic_value_List = new HashSet<Resource_Group_Search_characteristic_value>();
     }
   }
   
@@ -2893,6 +2970,18 @@ namespace DataModel.BlazeDbModel2
     public int Id {get; set;}
     public string Code {get; set;}                  
     public string System {get; set;}                
+    
+    //Keyed
+    public virtual Resource_Group Resource_Group { get; set; }                     
+  }
+  
+  public class Resource_Group_Search_characteristic_value
+  {
+    public int Id {get; set;}
+    public string characteristicCode {get; set;}                  
+    public string characteristicSystem {get; set;}                
+    public string valueCode {get; set;}                  
+    public string valueSystem {get; set;}                
     
     //Keyed
     public virtual Resource_Group Resource_Group { get; set; }                     
@@ -3545,9 +3634,15 @@ namespace DataModel.BlazeDbModel2
     public string FhirId {get; set;}    
     public DateTimeOffset Received {get; set;}
     public string XmlBlob {get; set;}    
+    public string code_Code {get; set;}                  
+    public string code_System {get; set;}                
+    public DateTimeOffset effectivetime_DateTimeOffset {get; set;}              
     public string encounter_FhirId {get; set;}     
     public string encounter_Type {get; set;}     
     public string encounter_Url {get; set;}     
+    public string medication_FhirId {get; set;}     
+    public string medication_Type {get; set;}     
+    public string medication_Url {get; set;}     
     public string notgiven_Code {get; set;}                  
     public string notgiven_System {get; set;}                
     public string patient_FhirId {get; set;}     
@@ -3599,6 +3694,8 @@ namespace DataModel.BlazeDbModel2
     public string FhirId {get; set;}    
     public DateTimeOffset Received {get; set;}
     public string XmlBlob {get; set;}    
+    public string code_Code {get; set;}                  
+    public string code_System {get; set;}                
     public string destination_FhirId {get; set;}     
     public string destination_Type {get; set;}     
     public string destination_Url {get; set;}     
@@ -3607,6 +3704,9 @@ namespace DataModel.BlazeDbModel2
     public string dispenser_Url {get; set;}     
     public string identifier_Code {get; set;}                  
     public string identifier_System {get; set;}                
+    public string medication_FhirId {get; set;}     
+    public string medication_Type {get; set;}     
+    public string medication_Url {get; set;}     
     public string patient_FhirId {get; set;}     
     public string patient_Type {get; set;}     
     public string patient_Url {get; set;}     
@@ -3668,10 +3768,15 @@ namespace DataModel.BlazeDbModel2
     public string FhirId {get; set;}    
     public DateTimeOffset Received {get; set;}
     public string XmlBlob {get; set;}    
+    public string code_Code {get; set;}                  
+    public string code_System {get; set;}                
     public DateTimeOffset datewritten_DateTimeOffset {get; set;}              
     public string encounter_FhirId {get; set;}     
     public string encounter_Type {get; set;}     
     public string encounter_Url {get; set;}     
+    public string medication_FhirId {get; set;}     
+    public string medication_Type {get; set;}     
+    public string medication_Url {get; set;}     
     public string patient_FhirId {get; set;}     
     public string patient_Type {get; set;}     
     public string patient_Url {get; set;}     
@@ -3705,6 +3810,12 @@ namespace DataModel.BlazeDbModel2
     public string FhirId {get; set;}    
     public DateTimeOffset Received {get; set;}
     public string XmlBlob {get; set;}    
+    public string code_Code {get; set;}                  
+    public string code_System {get; set;}                
+    public DateTimeOffset effectivedate_DateTimeOffset {get; set;}              
+    public string medication_FhirId {get; set;}     
+    public string medication_Type {get; set;}     
+    public string medication_Url {get; set;}     
     public string patient_FhirId {get; set;}     
     public string patient_Type {get; set;}     
     public string patient_Url {get; set;}     
@@ -3986,6 +4097,7 @@ namespace DataModel.BlazeDbModel2
     public string code_System {get; set;}                
     public string data_absent_reason_Code {get; set;}                  
     public string data_absent_reason_System {get; set;}                
+    public DateTimeOffset date_DateTimeOffset {get; set;}              
     public string device_FhirId {get; set;}     
     public string device_Type {get; set;}     
     public string device_Url {get; set;}     
@@ -4003,6 +4115,13 @@ namespace DataModel.BlazeDbModel2
     public string subject_FhirId {get; set;}     
     public string subject_Type {get; set;}     
     public string subject_Url {get; set;}     
+    public string value_concept_Code {get; set;}                  
+    public string value_concept_System {get; set;}                
+    public DateTimeOffset value_date_DateTimeOffset {get; set;}              
+    public decimal value_quantity_Quantity {get; set;}     
+    public string value_quantity_System {get; set;}     
+    public string value_quantity_Code {get; set;}     
+    public string value_string_String {get; set;}                  
 
     public ICollection<Resource_Observation_Search_component_code> component_code_List { get; set; }   
     public ICollection<Resource_Observation_Search_component_data_absent_reason> component_data_absent_reason_List { get; set; }   
@@ -4013,6 +4132,9 @@ namespace DataModel.BlazeDbModel2
     public ICollection<Resource_Observation_Search_performer> performer_List { get; set; }   
     public ICollection<Resource_Observation_Search_related_target> related_target_List { get; set; }   
     public ICollection<Resource_Observation_Search_related_type> related_type_List { get; set; }   
+    public ICollection<Resource_Observation_Search_code_value> code_value_List { get; set; }   
+    public ICollection<Resource_Observation_Search_component_code_value> component_code_value_List { get; set; }   
+    public ICollection<Resource_Observation_Search_related> related_List { get; set; }   
 
     public Resource_Observation()
     {
@@ -4025,6 +4147,9 @@ namespace DataModel.BlazeDbModel2
       this.performer_List = new HashSet<Resource_Observation_Search_performer>();
       this.related_target_List = new HashSet<Resource_Observation_Search_related_target>();
       this.related_type_List = new HashSet<Resource_Observation_Search_related_type>();
+      this.code_value_List = new HashSet<Resource_Observation_Search_code_value>();
+      this.component_code_value_List = new HashSet<Resource_Observation_Search_component_code_value>();
+      this.related_List = new HashSet<Resource_Observation_Search_related>();
     }
   }
   
@@ -4115,6 +4240,52 @@ namespace DataModel.BlazeDbModel2
     public int Id {get; set;}
     public string Code {get; set;}                  
     public string System {get; set;}                
+    
+    //Keyed
+    public virtual Resource_Observation Resource_Observation { get; set; }                     
+  }
+  
+  public class Resource_Observation_Search_code_value
+  {
+    public int Id {get; set;}
+    public string codeCode {get; set;}                  
+    public string codeSystem {get; set;}                
+    public string value_conceptCode {get; set;}                  
+    public string value_conceptSystem {get; set;}                
+    public DateTimeOffset value_dateDateTimeOffset {get; set;}              
+    public decimal value_quantityQuantity {get; set;}     
+    public string value_quantitySystem {get; set;}     
+    public string value_quantityCode {get; set;}     
+    public string value_stringString {get; set;}                  
+    
+    //Keyed
+    public virtual Resource_Observation Resource_Observation { get; set; }                     
+  }
+  
+  public class Resource_Observation_Search_component_code_value
+  {
+    public int Id {get; set;}
+    public string component_codeCode {get; set;}                  
+    public string component_codeSystem {get; set;}                
+    public string component_value_conceptCode {get; set;}                  
+    public string component_value_conceptSystem {get; set;}                
+    public decimal component_value_quantityQuantity {get; set;}     
+    public string component_value_quantitySystem {get; set;}     
+    public string component_value_quantityCode {get; set;}     
+    public string component_value_stringString {get; set;}                  
+    
+    //Keyed
+    public virtual Resource_Observation Resource_Observation { get; set; }                     
+  }
+  
+  public class Resource_Observation_Search_related
+  {
+    public int Id {get; set;}
+    public string related_typeCode {get; set;}                  
+    public string related_typeSystem {get; set;}                
+    public string related_targetFhirId {get; set;}     
+    public string related_targetType {get; set;}     
+    public string related_targetUrl {get; set;}     
     
     //Keyed
     public virtual Resource_Observation Resource_Observation { get; set; }                     
@@ -4418,6 +4589,9 @@ namespace DataModel.BlazeDbModel2
     public string animal_species_Code {get; set;}                  
     public string animal_species_System {get; set;}                
     public DateTimeOffset birthdate_DateTimeOffset {get; set;}              
+    public DateTimeOffset deathdate_DateTimeOffset {get; set;}              
+    public string deceased_Code {get; set;}                  
+    public string deceased_System {get; set;}                
     public string gender_Code {get; set;}                  
     public string gender_System {get; set;}                
     public string organization_FhirId {get; set;}     
@@ -5037,6 +5211,7 @@ namespace DataModel.BlazeDbModel2
     public string XmlBlob {get; set;}    
     public string code_Code {get; set;}                  
     public string code_System {get; set;}                
+    public DateTimeOffset date_DateTimeOffset {get; set;}              
     public string encounter_FhirId {get; set;}     
     public string encounter_Type {get; set;}     
     public string encounter_Url {get; set;}     

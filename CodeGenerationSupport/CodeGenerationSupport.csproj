@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hl7.Fhir.DSTU2.Core, Version=0.90.4.20849, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">

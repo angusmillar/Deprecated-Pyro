@@ -9,7 +9,7 @@ using Dip.Interfaces.Repositories;
 namespace DataModel
 {
   public class UnitOfWork : IUnitOfWork, IDisposable
-  {
+  {    
     private BlazeDbContext _context = null;
 
     private Repository.ResourceRepository _ResourceRepository;
@@ -18,7 +18,7 @@ namespace DataModel
     private Repository.ConceptMapRepository _ConceptMapRepository;
 
     public UnitOfWork()
-    {
+    {      
       _context = new BlazeDbContext();
     }
 

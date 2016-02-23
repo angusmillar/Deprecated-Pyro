@@ -55,7 +55,7 @@ namespace Blaze.Engine.Services
       int ResourceVersionNumber = 1;
       FhirResource.Meta.VersionId = ResourceVersionNumber.ToString();
       FhirResource.Meta.LastUpdated = DateTimeOffset.Now;
-      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.ResourceRepository.AddResource(FhirResource);
+      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.ResourceRepository.AddResource(_CurrentResourceType, FhirResource);
       oBlazeServiceOperationOutcome.LastModified = FhirResource.Meta.LastUpdated;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
       return oBlazeServiceOperationOutcome;

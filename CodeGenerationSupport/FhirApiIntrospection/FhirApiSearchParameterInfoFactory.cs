@@ -12,13 +12,14 @@ namespace CodeGenerationSupport.FhirApiIntrospection
   {
     #region Private Properties
     private static int _CollectionCounter = 0;
+    private static List<FhirApiSearchParameterInfo> ResourceSearchInfoList;
     #endregion
 
     #region Public Methods
 
     public static List<FhirApiSearchParameterInfo> GetApiSearchParameterInfo()
     {      
-      var ResourceSearchInfoList = new List<FhirApiSearchParameterInfo>();
+      ResourceSearchInfoList = new List<FhirApiSearchParameterInfo>();
       var ResourceList = ModelInfo.SupportedResources;
       var SearchParameterList = ModelInfo.SearchParameters;
       ApiSearchParameterCorrections(SearchParameterList);
@@ -28,69 +29,53 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       {
         ClassMapping ResourceMap = ClassMapping.Create(ModelInfo.GetTypeForFhirType(ResourceName));
 
-        var ResourceSearchParameterList = (from x in SearchParameterList
+        List<ModelInfo.SearchParamDefinition> ResourceSearchParameterList = (from x in SearchParameterList
                                            where x.Resource == ResourceName
-                                           select x);
+                                           select x).ToList();
 
-        foreach (var SearchParameterDef in ResourceSearchParameterList)
-        {          
-          //Some Search parameters have many paths due to the property being a choice type.
-          List<string> SearchPathChoice = SearchParameterDef.Path.ToList();
-          foreach (string SearchPath in SearchPathChoice)
+        List<ModelInfo.SearchParamDefinition> CompositeSearchParameterList = new List<ModelInfo.SearchParamDefinition>();
+    
+        foreach (ModelInfo.SearchParamDefinition SearchParameterDef in ResourceSearchParameterList)
+        {
+          string test = string.Empty;
+          if (SearchParameterDef.Type == SearchParamType.Composite)
           {
-            //reset the Collection counter before we start iterating a resource's properties for this search property
-            _CollectionCounter = 0;
-            string[] PathElements = SearchPath.Split('.');
-            //PathElement[0] is the Resource it's self.
-            //Info: Turple<string,Bool, int> RemoveIndexesFromSearchPathElement
-            //item1 = string (the Element with no index info)
-            //item2 = Bool (true if an index was found n the element)
-            //item3 = int (The index integer found, only relevant if item2 is true, will be zero if false)              
-            var ElementIndexParse = RemoveIndexesFromSearchPathElement(PathElements[1]);
-
-            //these are the properties directly off the root resource 
-            foreach (var Property in ResourceMap.PropertyMappings)
-            {
-              if (Property.Name == ElementIndexParse.Item1)
-              {
-                var info = new FhirApiSearchParameterInfo();
-
-                if (Property.IsCollection)
-                {
-                  SetCollectionCountUsingElementIndexInfo(ElementIndexParse);                  
-                }                
-                //The path is n deep so recursively travel the path and increment 'CollectionCounter' 
-                //for any elements property along the path that are have IsCollection set to true.
-                if (PathElements.Count() > 2)
-                {
-                  RecursivelySearchForIsColectionOnPropertyPath(PathElements, 2, Property.ElementType);                                  
-                }                
-                info.IsCollection = (_CollectionCounter > 0);
-                info.Resource = ResourceName;
-                info.SearchParamType = SearchParameterDef.Type;
-                info.SearchName = SearchParameterDef.Name;
-                info.IsChoice = (SearchParameterDef.Path.Count() > 1);
-                info.SearchPath = SearchPath;
-                ResourceSearchInfoList.Add(info);               
-              }
-            }
+            //Composite are added to this list and processed after all other search parameters for the resource are processed
+            CompositeSearchParameterList.Add(SearchParameterDef);            
+          }
+          else
+          {
+            ResolveSearchParameter(ResourceName, ResourceMap, SearchParameterDef);
           }
         }
+        foreach(var CompositeSearchParameter in CompositeSearchParameterList)
+        {
+          //For each Composite we collect the sub search parameters that this composite is a composition of and add them to the
+          //CompositeSearchParameterList. This is why it is processed last.
+          var info = new FhirApiSearchParameterInfo();
+          info.IsCollection = true;
+          info.Resource = ResourceName;
+          info.SearchParamType = CompositeSearchParameter.Type;
+          info.SearchName = CompositeSearchParameter.Name;
+          info.IsChoice = false;
+          info.SearchPath = string.Empty;
+          info.CompositeSearchParameterList = ResolveCompositeSearchParameterList(ResourceName, CompositeSearchParameter);
+          ResourceSearchInfoList.Add(info);
+        }
       }
-      int TotalCount = ResourceSearchInfoList.Count();
-      int CollectionCount = ResourceSearchInfoList.Where(x => x.IsCollection == true).Count();
-      int NonCollectionCount = ResourceSearchInfoList.Where(x => x.IsCollection == false).Count();
-
-      var StringBuild = new StringBuilder();
-      StringBuild.AppendLine(String.Format("ResourceName, SearchParameterName, IsCollection, Type, Path "));
-      foreach(var item in ResourceSearchInfoList)
-      {
-        StringBuild.AppendLine(String.Format("{0},{1},{2},{3},{4}", item.Resource, item.SearchName, item.IsCollection, item.SearchParamType.ToString(), item.SearchPath));
-      }
-      System.IO.File.WriteAllText(@"C:\temp\FHIRSearchParameters.csv",StringBuild.ToString());
+      #region Debugging Purpose
+      //OutPut For Debugging purpose only
+      //var StringBuild = new StringBuilder();
+      //StringBuild.AppendLine(String.Format("ResourceName, SearchParameterName, IsCollection, Type, Path "));
+      //foreach(var item in ResourceSearchInfoList)
+      //{
+      //  StringBuild.AppendLine(String.Format("{0},{1},{2},{3},{4}", item.Resource, item.SearchName, item.IsCollection, item.SearchParamType.ToString(), item.SearchPath));
+      //}
+      //System.IO.File.WriteAllText(@"C:\temp\FHIRSearchParameters.csv",StringBuild.ToString());
+      #endregion
+      
       return ResourceSearchInfoList;
     }
-
     
     /// <summary>
     /// This removes all the duplicate search parameters that are found when the search parameter is part of a choice in the FHIR resource structure.
@@ -136,9 +121,12 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     /// <param name="ResourceName"></param>
     /// <param name="SearchParameterName"></param>
     /// <returns></returns>
-    public static string ConstructClassNameForResourceSearchClass(string ResourceName, string SearchParameterName)
-    {      
-      return String.Format("Resource_{0}_Search_{1}", ResourceName, SearchParameterName.Replace('-','_'));
+    public static string ConstructClassNameForResourceSearchClass(string ResourceName, FhirApiSearchParameterInfo SearchParameterInfo)
+    {
+      if (SearchParameterInfo.SearchParamType == SearchParamType.Composite)
+        return String.Format("Resource_{0}_Search_{1}", ResourceName, SearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]",""));
+      else
+        return String.Format("Resource_{0}_Search_{1}", ResourceName, SearchParameterInfo.SearchName.Replace('-', '_'));
     }
 
     /// <summary>
@@ -146,16 +134,53 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     /// </summary>
     /// <param name="SearchParameterName"></param>
     /// <returns></returns>
-    public static string ConstructCollectionListName(string SearchParameterName)
-    {      
-      return SearchParameterName.Replace('-','_') + "_List";
+    public static string ConstructCollectionListName(FhirApiSearchParameterInfo oFhirApiSearchParameterInfo)
+    {
+      if (oFhirApiSearchParameterInfo.SearchParamType == SearchParamType.Composite)
+        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]", "") + "_List";
+      else
+        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_') + "_List";
     }
-
-
 
     #endregion
 
     #region Private Methods
+    
+    private static void RecursivelySearchForIsColectionOnPropertyPath(string[] PathElements, int CurrentElement, Type Type)
+    {
+      ClassMapping ClassMap = ClassMapping.Create(Type);
+      //Info: Turple<string,Bool, int> RemoveIndexesFromSearchPathElement
+      //item1 = string (the Element with no index info)
+      //item2 = Bool (true if an index was found n the element)
+      //item3 = int (The index integer found, only relevant if item2 is true, will be zero if false)              
+      var ElementIndexParse = RemoveIndexesFromSearchPathElement(PathElements[CurrentElement]);
+
+      foreach (var Property in ClassMap.PropertyMappings)
+      {
+        if (Property.Name == ElementIndexParse.Item1 || (Property.Choice == ChoiceType.DatatypeChoice && ElementIndexParse.Item1.StartsWith(Property.Name)))
+        {
+          if (Property.IsCollection)
+          {
+            SetCollectionCountUsingElementIndexInfo(ElementIndexParse);
+          }
+
+          if (PathElements.Count() == CurrentElement + 1)
+          {
+            //We have reached the end of the path.
+            return;
+          }
+          else
+          {
+            //Move to the next element in the path and recursively call this method again until path end reached.
+            CurrentElement = CurrentElement + 1;
+            RecursivelySearchForIsColectionOnPropertyPath(PathElements, CurrentElement, Property.ElementType);
+            return;
+          }
+        }
+      }
+      throw new Exception("The search path did not match the API Model. Do we have an incorrect search path or an incorrect API Model?");
+    }
+
     private static void SetCollectionCountUsingElementIndexInfo(Tuple<string, bool, int> ElementIndexParse)
     {
       if (ElementIndexParse.Item2)
@@ -171,45 +196,158 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       }            
     }
 
-    private static void RecursivelySearchForIsColectionOnPropertyPath(string[] PathElements, int CurrentElement, Type Type)
-    {            
-      ClassMapping ClassMap = ClassMapping.Create(Type);
-      //Info: Turple<string,Bool, int> RemoveIndexesFromSearchPathElement
-      //item1 = string (the Element with no index info)
-      //item2 = Bool (true if an index was found n the element)
-      //item3 = int (The index integer found, only relevant if item2 is true, will be zero if false)              
-      var ElementIndexParse = RemoveIndexesFromSearchPathElement(PathElements[CurrentElement]);
-
-      foreach (var Property in ClassMap.PropertyMappings)
+    /// <summary>
+    /// The Composite search parameters are actually made up of a set of non-composite parameters, thus why they are called Composites.
+    /// They are also not able to be resolved by inspecting the FHIR API as it is only the description that explains what non-composites make
+    /// up a given composite. For this reason they are hard coded here. There are only 8 of these in the whole FHIR standard to date, FHIR DSTU 2.1
+    /// If new ones are in countered with a new FHIR API version this code will throw an exception telling the user that this code needs updating.
+    /// This should only happen on T4 template code generation not when the application is running.
+    /// </summary>
+    /// <param name="ResourceName"></param>
+    /// <param name="CompositeSearchParameterDef"></param>
+    /// <returns></returns>
+    private static List<FhirApiSearchParameterInfo> ResolveCompositeSearchParameterList(string ResourceName, ModelInfo.SearchParamDefinition CompositeSearchParameterDef)
+    {
+      var oList = new List<FhirApiSearchParameterInfo>();
+      switch (String.Format("{0}_{1}", ResourceName, CompositeSearchParameterDef.Name))
       {
-        if (Property.Choice == ChoiceType.DatatypeChoice)
-        {
-
-        }
-
-        if (Property.Name == ElementIndexParse.Item1 || (Property.Choice == ChoiceType.DatatypeChoice && ElementIndexParse.Item1.StartsWith(Property.Name)))
-        {
-          if (Property.IsCollection)
+        case "CarePlan_related":
           {
-            SetCollectionCountUsingElementIndexInfo(ElementIndexParse);                              
+            //FHIR Spec DSTU 2.1: related,	composite,	A combination of the type of relationship and the related plan
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "relatedcode" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "relatedplan" select x).SingleOrDefault();
+            oList.Add(SearchParameterTwo);
+            return oList;
+          }
+        case "DiagnosticOrder_event-status-date":
+          {
+            //FHIR Spec DSTU 2.1: event-status-date,	composite,	A combination of past-status and date
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "event-status" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "event-date" select x).SingleOrDefault();
+            oList.Add(SearchParameterTwo);
+            return oList;
+          }
+        case "DiagnosticOrder_item-status-date":
+          {
+            //FHIR Spec DSTU 2.1: item-status-date,	composite,	A combination of item-past-status and item-date
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "item-past-status" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "item-date" select x).SingleOrDefault();
+            oList.Add(SearchParameterTwo);
+            return oList;
+          }
+        case "Group_characteristic-value":
+          {
+            //FHIR Spec DSTU 2.1: characteristic-value,	composite,	A composite of both characteristic and value	
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "characteristic" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            //It does not mater which value we add as all are of the same search datatype, i.e Token 
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "value" select x).First();
+            oList.Add(SearchParameterTwo);
+            return oList;
+          }
+        case "Observation_code-value-[x]":
+          {
+            //FHIR Spec DSTU 2.1: code-value-[x],	composite,	Both code and one of the value parameters
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "code" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "value-concept" select x).Single();
+            oList.Add(SearchParameterTwo);
+            //It does not mater which value we add as all are of the same search datatype.
+            FhirApiSearchParameterInfo SearchParameterThree = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "value-date" select x).First();
+            oList.Add(SearchParameterThree);
+            FhirApiSearchParameterInfo SearchParameterFour = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "value-quantity" select x).Single();
+            oList.Add(SearchParameterFour);
+            FhirApiSearchParameterInfo SearchParameterFive = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "value-string" select x).Single();
+            oList.Add(SearchParameterFive);
+            return oList;
+          }
+        case "Observation_component-code-value-[x]":
+          {
+            //FHIR Spec DSTU 2.1: component-code-value-[x],	composite,	Both component code and one of the component value parameters
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "component-code" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "component-value-concept" select x).Single();
+            oList.Add(SearchParameterTwo);
+            //It does not mater which value we add as all are of the same search datatype.
+            FhirApiSearchParameterInfo SearchParameterThree = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "component-value-quantity" select x).Single();
+            oList.Add(SearchParameterThree);
+            FhirApiSearchParameterInfo SearchParameterFour = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "component-value-string" select x).Single();
+            oList.Add(SearchParameterFour);
+            return oList;
+          }
+        case "Observation_related":
+          {
+            //FHIR Spec DSTU 2.1: related,	composite,	Related Observations - search on related-type and related-target together
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "related-type" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "related-target" select x).Single();
+            oList.Add(SearchParameterTwo);
+            return oList;
           }
 
-          if (PathElements.Count() == CurrentElement + 1)
+        case "DocumentReference_relationship":
           {
-            //We have reached the end of the path.
-            return;
+            //FHIR Spec DSTU 2.1: relationship,	composite	Combination of relation and relatesTo
+            FhirApiSearchParameterInfo SearchParameterOne = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "relation" select x).SingleOrDefault();
+            oList.Add(SearchParameterOne);
+            FhirApiSearchParameterInfo SearchParameterTwo = (from x in ResourceSearchInfoList where x.Resource == ResourceName && x.SearchName == "relatesto" select x).SingleOrDefault();
+            oList.Add(SearchParameterTwo);
+            return oList;
           }
-          else
-          {
-            //Move to the next element in the path and recursively call this method again until path end reached.
-            CurrentElement = CurrentElement + 1 ;
-            RecursivelySearchForIsColectionOnPropertyPath(PathElements, CurrentElement, Property.ElementType);
-            return;
-          }
-        }        
+
+        default:
+          throw new ApplicationException(String.Format("A composite search parameter was found in the FHIR API search parameters which has not been catered for. This will need to be analysed and programmed for to proceed. The Resource was: {0}, and the parameter was: {1}", ResourceName, CompositeSearchParameterDef.Name));
       }
-      throw new Exception("The search path did not match the API Model. Do we have an incorrect search path or an incorrect API Model?");
     }
+
+    private static void ResolveSearchParameter(string ResourceName, ClassMapping ResourceMap, ModelInfo.SearchParamDefinition SearchParameterDef)
+    {
+      //Some Search parameters have many paths due to the property being a choice type.
+      List<string> SearchPathChoice = SearchParameterDef.Path.ToList();
+      foreach (string SearchPath in SearchPathChoice)
+      {
+        //reset the Collection counter before we start iterating a resource's properties for this search property
+        _CollectionCounter = 0;
+        string[] PathElements = SearchPath.Split('.');
+        //PathElement[0] is the Resource it's self.
+        //Info: Turple<string,Bool, int> RemoveIndexesFromSearchPathElement
+        //item1 = string (the Element with no index info)
+        //item2 = Bool (true if an index was found n the element)
+        //item3 = int (The index integer found, only relevant if item2 is true, will be zero if false)              
+        var ElementIndexParse = RemoveIndexesFromSearchPathElement(PathElements[1]);
+
+        //these are the properties directly off the root resource 
+        foreach (var Property in ResourceMap.PropertyMappings)
+        {
+          if (Property.Name == ElementIndexParse.Item1 || (Property.Choice == ChoiceType.DatatypeChoice && ElementIndexParse.Item1.StartsWith(Property.Name)))
+          //if (Property.Name == ElementIndexParse.Item1)
+          {
+            if (Property.IsCollection)
+            {
+              SetCollectionCountUsingElementIndexInfo(ElementIndexParse);
+            }
+            //The path is n deep so recursively travel the path and increment 'CollectionCounter' 
+            //for any elements property along the path that are have IsCollection set to true.
+            if (PathElements.Count() > 2)
+            {
+              RecursivelySearchForIsColectionOnPropertyPath(PathElements, 2, Property.ElementType);
+            }
+            var info = new FhirApiSearchParameterInfo();
+            info.IsCollection = (_CollectionCounter > 0);
+            info.Resource = ResourceName;
+            info.SearchParamType = SearchParameterDef.Type;
+            info.SearchName = SearchParameterDef.Name;
+            info.IsChoice = (SearchParameterDef.Path.Count() > 1);
+            info.SearchPath = SearchPath;
+            ResourceSearchInfoList.Add(info);
+          }
+        }
+      }
+    }
+    
 
     /// <summary>
     /// Strip out any index i the search path elements, e.g resource[0]
@@ -262,7 +400,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     private static void ApiSearchParameterCorrections(List<ModelInfo.SearchParamDefinition> SearchParameterList)
     {
 
-      //--- Remove these from the search parameter list  -----------------------------------------------------
+      //--- Remove these from the FHIR API search parameter list  -----------------------------------------------------
 
       //These two search parameters I assume are an error in the API, they both are not documented in FHIR and their paths are garbage  
       var DataElement_objectClass = SearchParameterList.SingleOrDefault(x => x.Resource == "DataElement" && x.Name == "objectClass");

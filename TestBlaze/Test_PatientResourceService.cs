@@ -199,7 +199,7 @@ namespace TestBlaze
 
       //Assert
       MokIUnitOfWork.Verify(x => x.ResourceRepository.ResourceExists(FhirResourceId), Times.Exactly(1));
-      MokIUnitOfWork.Verify(x => x.ResourceRepository.GetResourceCurrentVersion(FhirResourceId), Times.Exactly(1));
+      MokIUnitOfWork.Verify(x => x.ResourceRepository.GetResourceCurrentVersion(FhirResourceId), Times.Never());
       MokIUnitOfWork.Verify(x => x.PatientRepository.AddResource(oPatient), Times.Never());
       MokIUnitOfWork.Verify(x => x.ResourceRepository.IsCurrentResourceDeleted(FhirResourceId), Times.Never());
       MokIUnitOfWork.Verify(x => x.PatientRepository.UpdateResouceAsDeleted(FhirResourceId), Times.Never());
@@ -210,7 +210,7 @@ namespace TestBlaze
       OperationOutcome oOperationOutcome = oResourceToReturn as OperationOutcome;
       Assert.AreEqual(1, oOperationOutcome.Issue.Count);
       Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, oOperationOutcome.Issue[0].Severity);
-      Assert.AreEqual(OperationOutcome.IssueType.Value, oOperationOutcome.Issue[0].Code);
+      Assert.AreEqual(OperationOutcome.IssueType.Processing, oOperationOutcome.Issue[0].Code);
       Assert.NotNull(oOperationOutcome.Issue[0].Details);
     }
 

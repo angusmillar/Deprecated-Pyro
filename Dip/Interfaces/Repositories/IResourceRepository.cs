@@ -10,7 +10,7 @@ namespace Dip.Interfaces.Repositories
 {
   public interface IResourceRepository
   {
-    string AddResource(Hl7.Fhir.Model.Resource Resource);
+    string AddResource(DtoEnums.SupportedFhirResource SupportedFhirResource, Hl7.Fhir.Model.Resource Resource);
     string UpdateResource(int ResourceVersion, Hl7.Fhir.Model.Resource FhirResource);
     void UpdateResouceAsDeleted(string FhirResourceId);
     int GetResourceCurrentVersion(string FhirResourceId);
