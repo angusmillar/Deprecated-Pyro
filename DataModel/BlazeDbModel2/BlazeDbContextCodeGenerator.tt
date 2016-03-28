@@ -154,7 +154,7 @@ namespace DataModel.BlazeDbModel2
                 //We should never get here
                 throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
                }
-               break;
+               //break;
              case Hl7.Fhir.Model.SearchParamType.Date:
                {
 #>      Mb.Entity<<#=ClassName#>>().Property(x => x.<#= Prefix #>DateTimeOffset).IsRequired();

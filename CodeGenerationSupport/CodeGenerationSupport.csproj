@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfo.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfoFactory.cs" />
+    <Compile Include="FhirApiIntrospection\FhirSearchParameterSearchPathElement.cs" />
+    <Compile Include="FhirApiIntrospection\FhirXPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
   {
     public string Resource { get; set; }
     public SearchParamType SearchParamType { get; set; }
+    public Type TargetFhirElementType { get; set; }
     public string SearchName { get; set; }
     public string SearchPath { get; set; }
     public bool SearchPathHasIndexes
@@ -23,6 +24,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     }
     public bool IsCollection { get; set; }
     public bool IsChoice { get; set; }
+    public FhirSearchParameterSearchPathElement SearchParameterNavigationPath { get; set; }
     public List<FhirApiSearchParameterInfo> CompositeSearchParameterList { get; set; }
   }
 }
