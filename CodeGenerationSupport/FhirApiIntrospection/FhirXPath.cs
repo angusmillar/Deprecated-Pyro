@@ -11,14 +11,16 @@ namespace CodeGenerationSupport.FhirApiIntrospection
   /// </summary>
   public static class FhirXPathFactory
   {
+    private static string _InternalEscapeSeqence = "?&*";
     private static char _ElementDelimiter = '/';
     private static char _NamespaceDilimeter = ':';
     private static char _ChoiceBracketOpen = '[';
-    private static char _ChoiceBracketClosed = ']';    
+    private static char _ChoiceBracketClosed = ']';
     private static char _AttributeDelimiter = '@';
     private static char _EqualsDelimiter = '=';
+    private static Dictionary<string, string> LiteralStringDictornary;
 
-    private static  string[] SplitElements(string Path)
+    private static string[] SplitElements(string Path)
     {
       var ElementInitalSplit = Path.Split(_ElementDelimiter);
       var FinalList = new List<string>();
@@ -47,7 +49,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       }
       return FinalList.ToArray();
     }
-    private static  FhirXPathComponent ParseComponent(string ComponentString)
+    private static FhirXPathComponent ParseComponent(string ComponentString)
     {
       //XPath = "f:Patient/f:telecom[system/@value='email']"
       //XPath = "f:Patient/f:extension[@url='http://h l7.org/fhir/StructureDefinition/us-core-race'] | f:Patient/f:extension[@url='http://hl7.org/fhir/StructureDefinition/us-core-race']"
@@ -60,19 +62,19 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       {
         if (i == 0)
         {
-          NewComponent.NameSpace = ElementsList[i];
+          NewComponent.NameSpace = ElementsList[i].Trim();
         }
         else if (i == 1)
         {
           if (ElementsList[i].Contains(_ChoiceBracketOpen) && ElementsList[i].Contains(_ChoiceBracketClosed))
           {
-            NewComponent.Name = ElementsList[i].Substring(0, ElementsList[i].IndexOf(_ChoiceBracketOpen));
-            string ChoiceSpecifierString = ElementsList[i].Substring(ElementsList[i].IndexOf(_ChoiceBracketOpen) + 1, ElementsList[i].IndexOf(_ChoiceBracketClosed) - ElementsList[i].IndexOf(_ChoiceBracketOpen) - 1);
-            NewComponent.ChoiceSpecifier = ChoiceSpecifierParse(ChoiceSpecifierString);            
+            NewComponent.Name = ElementsList[i].Substring(0, ElementsList[i].IndexOf(_ChoiceBracketOpen)).Trim();
+            string ChoiceSpecifierString = ElementsList[i].Substring(ElementsList[i].IndexOf(_ChoiceBracketOpen) + 1, ElementsList[i].IndexOf(_ChoiceBracketClosed) - ElementsList[i].IndexOf(_ChoiceBracketOpen) - 1).Trim();
+            NewComponent.ChoiceSpecifier = ChoiceSpecifierParse(ChoiceSpecifierString);
           }
           else
           {
-            NewComponent.Name = ElementsList[i];
+            NewComponent.Name = ElementsList[i].Trim();
           }
         }
         else
@@ -88,20 +90,20 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       string tempAttribute = string.Empty;
       if (!ChoiceString.Contains(_ElementDelimiter) && !ChoiceString.Contains(_AttributeDelimiter))
       {
-        oChoiceSpecifierDetails.Value = ChoiceString;
+        oChoiceSpecifierDetails.Value = ChoiceString.Trim();
       }
       else if (ChoiceString.Contains(_ElementDelimiter))
       {
         if (ChoiceString.ToArray().Count(x => x == _ElementDelimiter) > 1)
           throw new FormatException(String.Format("Found more then one separator of type '{0}' within the Choice specifier of: {1}", _ElementDelimiter, ChoiceString));
-        oChoiceSpecifierDetails.ElementName = ChoiceString.Split(_ElementDelimiter)[0];
-        tempAttribute = ChoiceString.Split(_ElementDelimiter)[1];
+        oChoiceSpecifierDetails.ElementName = ChoiceString.Split(_ElementDelimiter)[0].Trim();
+        tempAttribute = ChoiceString.Split(_ElementDelimiter)[1].Trim();
         if (tempAttribute.StartsWith(_AttributeDelimiter.ToString()))
         {
           if (tempAttribute.Contains(_EqualsDelimiter))
           {
-            oChoiceSpecifierDetails.AttributeName = tempAttribute.Split(_EqualsDelimiter)[0].Remove(tempAttribute.IndexOf(_AttributeDelimiter), 1);
-            oChoiceSpecifierDetails.Value = tempAttribute.Split(_EqualsDelimiter)[1];
+            oChoiceSpecifierDetails.AttributeName = tempAttribute.Split(_EqualsDelimiter)[0].Remove(tempAttribute.IndexOf(_AttributeDelimiter), 1).Trim();
+            oChoiceSpecifierDetails.Value = tempAttribute.Split(_EqualsDelimiter)[1].Trim();
           }
           else
           {
@@ -109,12 +111,13 @@ namespace CodeGenerationSupport.FhirApiIntrospection
           }
         }
       }
-      else if (tempAttribute.StartsWith(_AttributeDelimiter.ToString()))
+      else if (ChoiceString.StartsWith(_AttributeDelimiter.ToString()))
       {
-        if (tempAttribute.Contains(_EqualsDelimiter))
+        ChoiceString = ChoiceString.Trim().Remove(0, 1);
+        if (ChoiceString.Contains(_EqualsDelimiter))
         {
-          oChoiceSpecifierDetails.AttributeName = tempAttribute.Split(_EqualsDelimiter)[0];
-          oChoiceSpecifierDetails.Value = tempAttribute.Split(_EqualsDelimiter)[1];
+          oChoiceSpecifierDetails.AttributeName = ChoiceString.Split(_EqualsDelimiter)[0].Trim();
+          oChoiceSpecifierDetails.Value = ChoiceString.Split(_EqualsDelimiter)[1].Trim();
         }
         else
         {
@@ -125,17 +128,49 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       {
         oChoiceSpecifierDetails.Value = oChoiceSpecifierDetails.Value.Replace("\'", "");
       }
+      if (oChoiceSpecifierDetails.Value.Contains(_InternalEscapeSeqence))
+      {
+        if (LiteralStringDictornary.ContainsKey(oChoiceSpecifierDetails.Value))
+          oChoiceSpecifierDetails.Value = LiteralStringDictornary[oChoiceSpecifierDetails.Value];
+        else
+          throw new ApplicationException(String.Format("The internal LiteralStringDictornary does not contain a value that it should ave contained, value was: '{0}'",oChoiceSpecifierDetails.Value));
+      }
       return oChoiceSpecifierDetails;
     }
-
-    public static FhirXPath FhirXPathFactoryParse(string FhirXPathString) 
+    private static string LiteralStringEscaping(string FhirXPathString)
     {
+      string ReturnString = string.Empty;
+      LiteralStringDictornary = new Dictionary<string, string>();
+      var Split = FhirXPathString.Split('\'');
+      if (Split.Count() > 1)
+      {
+        for (int i = 0; i < Split.Length; i++)
+        {
+          if ((i % 2) == 1)
+          {
+            string EscapeString = string.Format("{0}{1}{2}", _InternalEscapeSeqence, i.ToString(), _InternalEscapeSeqence);
+            LiteralStringDictornary.Add(EscapeString, Split[i]);
+            Split[i] = EscapeString;
+          }
+          ReturnString = ReturnString + Split[i];
+        }
+        return ReturnString;
+      }
+      else
+      {
+        return FhirXPathString;
+      }
+    }
+
+    public static FhirXPath FhirXPathFactoryParse(string FhirXPathString)
+    {
+      FhirXPathString = LiteralStringEscaping(FhirXPathString);
       var oRoot = new FhirXPath();
       oRoot.FhirXPathComponentList = new List<FhirXPathComponent>();
 
       var ElementsList = SplitElements(FhirXPathString);
       for (int i = 0; i < ElementsList.Length; i++)
-      {        
+      {
         FhirXPathComponent oComponent = ParseComponent(ElementsList[i]);
         oRoot.FhirXPathComponentList.Add(oComponent);
       }
@@ -163,14 +198,14 @@ namespace CodeGenerationSupport.FhirApiIntrospection
   {
     public string NameSpace { get; set; }
     public string Name { get; set; }
-    public bool HasChoiceSpecifier 
-    { 
+    public bool HasChoiceSpecifier
+    {
       get
       {
         return (this.ChoiceSpecifier != null);
       }
     }
-    public ChoiceSpecifierDetails ChoiceSpecifier { get; set; }            
+    public ChoiceSpecifierDetails ChoiceSpecifier { get; set; }
   }
 
   /// <summary>
@@ -181,6 +216,6 @@ namespace CodeGenerationSupport.FhirApiIntrospection
   {
     public string ElementName { get; set; }
     public string AttributeName { get; set; }
-    public string Value { get; set; }   
+    public string Value { get; set; }
   }
 }

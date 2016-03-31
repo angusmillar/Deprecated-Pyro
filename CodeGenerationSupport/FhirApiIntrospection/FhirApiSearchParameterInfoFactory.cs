@@ -40,11 +40,12 @@ namespace CodeGenerationSupport.FhirApiIntrospection
         foreach (ModelInfo.SearchParamDefinition SearchParameterDef in ResourceSearchParameterList)
         {
           _CurrentSearchParameterDef = SearchParameterDef;
-          if (SearchParameterDef.Resource == "Basic")
-          {
+          
+          //For debugging a specific resource
+          //if (SearchParameterDef.Resource == "AllergyIntolerance")
+          //{
+          //}
 
-
-          }
           //##Issue## We are skipping search parameters that have no paths at all, what good are they if they have no path?
           if (_CurrentSearchParameterDef.XPath != null && _CurrentSearchParameterDef.Path.Count() > 0)
           {
@@ -159,30 +160,31 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     
     private static void ResolveSearchParameter(string ResourceName)
     {
-      //ClassMapping ResourceMap = ClassMapping.Create(ModelInfo.GetTypeForFhirType(ResourceName));
-      //Some Search parameters have many paths due to the property being a choice type.
+      
+      //Testing FhirXPath parser over all search paths
+      //try
+      //{
+      //  foreach (var Test in _CurrentSearchParameterDef.XPath.Split('|'))
+      //  {
+      //    if (oFhirXPathList.Count() == 662)
+      //    {
 
-      //New work on Xpath no Path
+      //    }
+      //    FhirXPath oFhirXpath = FhirXPathFactory.FhirXPathFactoryParse(Test);
+      //    oFhirXPathList.Add(oFhirXpath);
+      //  }
+      //}
+      //catch (Exception Exec)
+      //{ 
+      //}
 
-      try
+      string[] FhirXPathChoiceList = _CurrentSearchParameterDef.XPath.Split('|');
+      foreach (string SearchXPath in FhirXPathChoiceList)
       {
-        foreach (var Test in _CurrentSearchParameterDef.XPath.Split('|'))
-        {
-          FhirXPath oFhirXpath = FhirXPathFactory.FhirXPathFactoryParse(Test);
-          oFhirXPathList.Add(oFhirXpath);
-        }
-      }
-      catch (Exception Exec)
-      { 
-      }
-
-      List<string> SearchPathChoice = _CurrentSearchParameterDef.Path.ToList();
-      foreach (string SearchPath in SearchPathChoice)
-      {
+        FhirXPath oFhirXpath = FhirXPathFactory.FhirXPathFactoryParse(SearchXPath);
         //reset the Collection counter before we start iterating a resource's properties for this search property
         _CollectionCounter = 0;
-        _SearchParameterInfo = new FhirApiSearchParameterInfo();          
-        string[] PathElements = SearchPath.Split('.');
+        _SearchParameterInfo = new FhirApiSearchParameterInfo();                  
  
         var RootElement = new FhirSearchParameterSearchPathElement(null);
         RootElement.IsCollection = false;
@@ -191,30 +193,24 @@ namespace CodeGenerationSupport.FhirApiIntrospection
         RootElement.ParentElement = null;        
         _SearchParameterInfo.SearchParameterNavigationPath = RootElement;
 
-        RecursivelySearchForIsColectionOnPropertyPath(PathElements, 1, ModelInfo.GetTypeForFhirType(ResourceName));
+        RecursivelySearchForIsColectionOnPropertyPath(oFhirXpath, 1, ModelInfo.GetTypeForFhirType(ResourceName));
 
         _SearchParameterInfo.IsCollection = (_CollectionCounter > 0);
         _SearchParameterInfo.Resource = ResourceName;
         _SearchParameterInfo.SearchParamType = _CurrentSearchParameterDef.Type;
         _SearchParameterInfo.SearchName = _CurrentSearchParameterDef.Name;
         _SearchParameterInfo.IsChoice = (_CurrentSearchParameterDef.Path.Count() > 1);
-        _SearchParameterInfo.SearchPath = SearchPath;
+        _SearchParameterInfo.SearchPath = SearchXPath;
         _ResourceSearchInfoList.Add(_SearchParameterInfo);
       }
     }
 
-    private static void RecursivelySearchForIsColectionOnPropertyPath(string[] PathElements, int CurrentElement, Type Type)
+    private static void RecursivelySearchForIsColectionOnPropertyPath(FhirXPath oFhirXPath, int CurrentElement, Type Type)
     {
-      ClassMapping ClassMap = ClassMapping.Create(Type);
-      //Info: Turple<string,Bool, int> RemoveIndexesFromSearchPathElement
-      //item1 = string (the Element with no index info)
-      //item2 = Bool (true if an index was found n the element)
-      //item3 = int (The index integer found, only relevant if item2 is true, will be zero if false)              
-      var ElementIndexParse = RemoveIndexesFromSearchPathElement(PathElements[CurrentElement]);
-      
+      ClassMapping ClassMap = ClassMapping.Create(Type);      
       foreach (var Property in ClassMap.PropertyMappings)
       {
-        if (Property.Name == ElementIndexParse.Item1 || (Property.Choice == ChoiceType.DatatypeChoice && ElementIndexParse.Item1.StartsWith(Property.Name)))
+        if (Property.Name == oFhirXPath.FhirXPathComponentList[CurrentElement].Name || (Property.Choice == ChoiceType.DatatypeChoice && oFhirXPath.FhirXPathComponentList[CurrentElement].Name.StartsWith(Property.Name)))
         {
           FhirSearchParameterSearchPathElement ChildPathElement = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
           ChildPathElement.IsCollection = Property.IsCollection;
@@ -223,26 +219,39 @@ namespace CodeGenerationSupport.FhirApiIntrospection
           
           if (Property.IsCollection)
           {
-            SetCollectionCountUsingElementIndexInfo(ElementIndexParse);
+            SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
           }
 
 
-          if (PathElements.Count() == CurrentElement + 1)
+          if (oFhirXPath.FhirXPathComponentList.Count() == CurrentElement + 1)
           {
             //We have reached the end of the path.
-            //Check is the final target type is that which has collections , e.g CodableConcept has many Coding            
-            //_SearchParameterInfo.TargetFhirElementType = typeof(CodeableConcept);
-            if (Property.ElementType == typeof(CodeableConcept))
+            //Check is the final target Fhir type (Not search type) to see if it contains collections , e.g CodableConcept has many Coding           
+            //We only need to check the complextypes. Each below has been manually added after inspecting 
+            //How search works on each, if search has to deal with many for these types then they are added here.
+            
+            if (Property.ElementType == typeof(CodeableConcept) || 
+              Property.ElementType == typeof(Timing) ||
+              Property.ElementType == typeof(Address) ||
+              Property.ElementType == typeof(HumanName))
             {
-              ClassMapping ClassMap2 = ClassMapping.Create(Property.ElementType);
+              ChildPathElement.IsCollection = true;              
+              SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
+              
+              //use this to inspect the properties of the Type when debugging
+              //ClassMapping ClassMap2 = ClassMapping.Create(Property.ElementType);
             }
+            if (Property.ElementType == typeof(Signature))
+            {
+              throw new ApplicationException("Type 'Signature' has not been used as a search parameter before. Need to check if the search path using this type need to be a collection. Signature/Type is 1..*. Does the search intend to index Signature/Type?");
+            }            
             return;
           }
           else
           {
             //Move to the next element in the path and recursively call this method again until path end reached.
             CurrentElement = CurrentElement + 1;
-            RecursivelySearchForIsColectionOnPropertyPath(PathElements, CurrentElement, Property.ElementType);
+            RecursivelySearchForIsColectionOnPropertyPath(oFhirXPath, CurrentElement, Property.ElementType);
             return;
           }
         }
@@ -250,13 +259,13 @@ namespace CodeGenerationSupport.FhirApiIntrospection
       throw new Exception("The search path did not match the API Model. Do we have an incorrect search path or an incorrect API Model?");
     }
 
-    private static void SetCollectionCountUsingElementIndexInfo(Tuple<string, bool, int> ElementIndexParse)
+    private static void SetCollectionCountUsingElementIndexInfo(FhirXPathComponent oFhirXPathComponent)
     {
-      if (ElementIndexParse.Item2)
+      if (oFhirXPathComponent.HasChoiceSpecifier)
       {
-        //If we are here we must have a single integer for the index of this element which implies that although
-        //We have a collection we are only to store one item of that collection, that item being the one found 
-        //at the collection index equal to the integer in ElementIndexParse.Item3.
+        //If we are here we must have a Choice Specifier for the element component which implies that although
+        //we have a collection we are only to store one item of that collection, that item being the one specified 
+        //by the Choice Specifier.
         //In this case there is no need to increment _CollectionCounter .
       }
       else
@@ -370,50 +379,6 @@ namespace CodeGenerationSupport.FhirApiIntrospection
         default:
           throw new ApplicationException(String.Format("A composite search parameter was found in the FHIR API search parameters which has not been catered for. This will need to be analysed and programmed for to proceed. The Resource was: {0}, and the parameter was: {1}", ResourceName, CompositeSearchParameterDef.Name));
       }
-    }
-
-    /// <summary>
-    /// Strip out any index i the search path elements, e.g resource[0]
-    /// </summary>
-    /// <param name="Element"></param>
-    /// <returns></returns>
-    private static Tuple<string, bool, int> RemoveIndexesFromSearchPathElement(string Element)
-    {
-      string ReturnString = string.Empty;
-      if (Element.Contains('[') && Element.Contains(']'))
-      {
-        string IndexNumberString = string.Empty;
-        bool open = false;
-        foreach(var Char in Element.ToArray())
-        {
-          if (Char == '[')
-          {
-            open = true;
-          }
-          else if (Char == ']')
-          {
-            open = false;
-          }
-          else if (open)
-          {
-            IndexNumberString = IndexNumberString + Char;
-          }
-          else if (!open)
-          {
-            ReturnString = ReturnString + Char;
-          }
-        }        
-        int ReturnIndexNumber = 0; 
-        if (int.TryParse(IndexNumberString,out ReturnIndexNumber))
-        {
-          return new Tuple<string, bool, int>(ReturnString, true, ReturnIndexNumber);
-        }
-        else
-        {
-          throw new FormatException("A search path appeared to have a index on one element yet the integer in the brackets [] was not able to be converted to an integer. The "); 
-        }        
-      }
-      return new Tuple<string, bool, int>(Element, false, 0);
     }
 
     /// <summary>
