@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessEntities;
+using Common.BusinessEntities;
 
 
 namespace DataModel.Repository
 {
-  public class DatabaseOperationOutcome : Dip.Interfaces.IDatabaseOperationOutcome
+  public class DatabaseOperationOutcome : Common.Interfaces.IDatabaseOperationOutcome
   {    
     public List<DtoResource> ResourcesMatchingSearchList { get; set; }    
     public int ResourcesMatchingSearchCount { get; set; }

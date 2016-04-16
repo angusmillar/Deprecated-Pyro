@@ -22,7 +22,7 @@ namespace TestBlaze.CodeGenerationSupport
     public void Test_ConstructClassNameForResourceClass_ReturnsTheCorrectString()
     {
       string ResourceClassName = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass("MyResourceName");
-      Assert.AreEqual("Resource_MyResourceName", ResourceClassName);         
+      Assert.AreEqual("Res_MyResourceName", ResourceClassName);         
     }
 
     [Test]
@@ -32,7 +32,7 @@ namespace TestBlaze.CodeGenerationSupport
       oFhirApiSearchParameterInfo.SearchName = "MyParameter-thing-[x]";
       oFhirApiSearchParameterInfo.SearchParamType = SearchParamType.Composite;
       string ResourceClassName = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass("MyResourceName", oFhirApiSearchParameterInfo);
-      Assert.AreEqual("Resource_MyResourceName_Search_MyParameter_thing", ResourceClassName);
+      Assert.AreEqual("Res_MyResourceName_Index_MyParameter_thing", ResourceClassName);
     }
 
     [Test]

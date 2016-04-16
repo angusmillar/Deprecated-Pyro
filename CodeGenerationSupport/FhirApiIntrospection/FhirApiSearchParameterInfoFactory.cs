@@ -16,6 +16,10 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     private static FhirApiSearchParameterInfo _SearchParameterInfo;
     private static ModelInfo.SearchParamDefinition _CurrentSearchParameterDef;
     private static List<FhirXPath> oFhirXPathList;
+    private static readonly string ResourcePrefixText = "Res";
+    private static readonly string IndexPrefixText = "Index";
+
+
     #endregion
 
     #region Public Methods
@@ -124,7 +128,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     /// <returns></returns>
     public static string ConstructClassNameForResourceClass(string ResourceName)
     {          
-      return String.Format("Resource_{0}", ResourceName);
+      return String.Format("{0}_{1}", ResourcePrefixText, ResourceName);
     }
 
     /// <summary>
@@ -136,9 +140,9 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     public static string ConstructClassNameForResourceSearchClass(string ResourceName, FhirApiSearchParameterInfo SearchParameterInfo)
     {
       if (SearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return String.Format("Resource_{0}_Search_{1}", ResourceName, SearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]",""));
+        return String.Format("{0}_{1}_{2}_{3}", ResourcePrefixText, ResourceName, IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]",""));
       else
-        return String.Format("Resource_{0}_Search_{1}", ResourceName, SearchParameterInfo.SearchName.Replace('-', '_'));
+        return String.Format("{0}_{1}_{2}_{3}", ResourcePrefixText, ResourceName, IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_'));
     }
 
     /// <summary>
@@ -263,10 +267,28 @@ namespace CodeGenerationSupport.FhirApiIntrospection
     {
       if (oFhirXPathComponent.HasChoiceSpecifier)
       {
-        //If we are here we must have a Choice Specifier for the element component which implies that although
-        //we have a collection we are only to store one item of that collection, that item being the one specified 
-        //by the Choice Specifier.
-        //In this case there is no need to increment _CollectionCounter .
+        //If we are here we must have a Choice Specifier for the element component. Something like this example: "f:Patient/f:telecom[system/@value='email']"
+        //In this case of that example we still need a collection because there maybe many in the list labelled as 'email'. Yet sometimes 
+        //the choice specifier is an integer, such as this example: "f:Bundle/f:entry/f:resource[0]". Here their is not collection because
+        //we have an index = 0 meaning the first entry of the collection and only the first entry.
+        //In this 'index' case there is no need to increment _CollectionCounter, yet in the other case their is a need too.
+        if (oFhirXPathComponent.ChoiceSpecifier.AttributeName == null && oFhirXPathComponent.ChoiceSpecifier.ElementName == null)
+        {          
+          int temp = 0;
+          if (int.TryParse(oFhirXPathComponent.ChoiceSpecifier.Value, out temp))
+          {
+            //do nothing, don't increment the counter.
+          }
+          else
+          {
+            _CollectionCounter = _CollectionCounter + 1;
+          }
+        }
+        else
+        {
+          _CollectionCounter = _CollectionCounter + 1;
+        }
+
       }
       else
       {

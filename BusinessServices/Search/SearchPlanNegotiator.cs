@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Engine.Interfaces;
-using Dip.Interfaces;
-using Dip.Interfaces.Repositories;
-using BusinessEntities;
+using Common.Interfaces;
+using Common.Interfaces.Repositories;
+using Common.BusinessEntities;
 
 namespace Blaze.Engine.Search
 {
@@ -18,10 +18,6 @@ namespace Blaze.Engine.Search
     {
       switch (ResourceType)
       {
-        case DtoEnums.SupportedFhirResource.Patient:
-          return new Search.PatientSearchPlan() { UnitOfWork = UnitOfWork };
-        case DtoEnums.SupportedFhirResource.ValueSet:
-          return new Search.ValueSetSearchPlan() { UnitOfWork = UnitOfWork };                  
         default:
           return new Search.DefaultResourceSearchPlan() { UnitOfWork = UnitOfWork };                      
       }      

@@ -12,7 +12,7 @@ using System.Web;
 using System.Xml;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
-using BusinessEntities;
+using Common.BusinessEntities;
 
 
 namespace Blaze.Formatters

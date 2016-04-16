@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Dip.Interfaces;
-using BusinessEntities;
-using BusinessEntities.Search;
+using Common.Interfaces;
+using Common.BusinessEntities;
+using Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using BusinessEntities;
-using BusinessEntities.Search;
+using Common.BusinessEntities;
+using Common.BusinessEntities.Search;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Search

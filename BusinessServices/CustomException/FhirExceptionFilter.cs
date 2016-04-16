@@ -8,7 +8,7 @@ using System.Web.Http;
 using System.Net;
 using System.Net.Http;
 using System.Data.SqlClient;
-using BusinessEntities;
+using Common.BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.CustomException

@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="CodeGenerationSupport\Test_FhirApiSearchParameterInfoFactory.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
-    <Compile Include="Test_PatientResourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,9 +73,9 @@
       <Project>{dfe33b5b-4ebd-4479-87f4-aea690c3829a}</Project>
       <Name>CodeGenerationSupport</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dip\Dip.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Dip</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

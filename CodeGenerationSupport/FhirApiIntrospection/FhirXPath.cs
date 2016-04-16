@@ -107,7 +107,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
           }
           else
           {
-            throw new FormatException(String.Format("Found choice specifier which has an attribute but no '{0}' delimiter character  to be equal to. Choice specifier was : {0}", _EqualsDelimiter, ChoiceString));
+            throw new FormatException(String.Format("Found choice specifier which has an attribute but no '{0}' delimiter character  to be equal to. Choice specifier was : {1}", _EqualsDelimiter, ChoiceString));
           }
         }
       }
@@ -121,7 +121,7 @@ namespace CodeGenerationSupport.FhirApiIntrospection
         }
         else
         {
-          throw new FormatException(String.Format("Found choice specifier which has an attribute but no '{0}' delimiter character  to be equal to. Choice specifier was : {0}", _EqualsDelimiter, ChoiceString));
+          throw new FormatException(String.Format("Found choice specifier which has an attribute but no '{0}' delimiter character  to be equal to. Choice specifier was : {1}", _EqualsDelimiter, ChoiceString));
         }
       }
       if (oChoiceSpecifierDetails.Value.Count(x => x == '\'') == 2)

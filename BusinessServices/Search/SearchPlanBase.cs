@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dip.Interfaces.Repositories;
+using Common.Interfaces.Repositories;
 
 namespace Blaze.Engine.Search
 {

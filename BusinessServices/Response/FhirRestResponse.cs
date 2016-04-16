@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dip.Interfaces;
+using Common.Interfaces;
 using System.Net.Http;
 using System.Net;
-using BusinessEntities;
+using Common.BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Response

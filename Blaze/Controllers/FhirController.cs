@@ -5,8 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
-using Dip.Interfaces.Services;
-using Dip.Interfaces;
+using Common.Interfaces.Services;
+using Common.Interfaces;
 using Blaze.Extensions;
 using Blaze.Engine.Response;
 
@@ -49,7 +49,8 @@ namespace Blaze.Controllers
     public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(resource);      
+      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, Request.RequestUri);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(BlazeServiceRequest);      
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
 
@@ -59,7 +60,8 @@ namespace Blaze.Controllers
     public HttpResponseMessage Put(string ResourceName, string id, FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(id, resource);
+      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, Request.RequestUri);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(BlazeServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
 

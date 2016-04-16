@@ -9,11 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Engine", "BusinessServices\Blaze.Engine.csproj", "{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessEntities", "BusinessEntities\BusinessEntities.csproj", "{74E4CCCD-93DF-4646-8110-DFE373343960}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlForge", "SqlForge\SqlForge.csproj", "{B4E9B79B-30F2-42C6-9031-20EA5A905826}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dip", "Dip\Dip.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBlaze", "TestBlaze\TestBlaze.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
 EndProject
@@ -37,14 +33,6 @@ Global
 		{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74E4CCCD-93DF-4646-8110-DFE373343960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74E4CCCD-93DF-4646-8110-DFE373343960}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74E4CCCD-93DF-4646-8110-DFE373343960}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74E4CCCD-93DF-4646-8110-DFE373343960}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4E9B79B-30F2-42C6-9031-20EA5A905826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4E9B79B-30F2-42C6-9031-20EA5A905826}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4E9B79B-30F2-42C6-9031-20EA5A905826}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4E9B79B-30F2-42C6-9031-20EA5A905826}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7458636F-B6A9-4F11-8921-1F70F717E1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -60,5 +48,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

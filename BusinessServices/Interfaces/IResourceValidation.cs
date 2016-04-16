@@ -9,6 +9,6 @@ namespace Blaze.Engine.Interfaces
 {
   public interface IResourceValidation 
   {
-    Dip.Interfaces.IResourceValidationOperationOutcome Validate(Resource Resource);
+    Common.Interfaces.IResourceValidationOperationOutcome Validate(Resource Resource);
   }
 }

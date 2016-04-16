@@ -7,15 +7,15 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Hl7.Fhir.Model;
-using BusinessEntities;
-using Dip.Interfaces;
-using Dip.Interfaces.Repositories;
+using Common.BusinessEntities;
+using Common.Interfaces;
+using Common.Interfaces.Repositories;
 
 namespace DataModel.Repository 
 {
   public class BaseRepository : IBaseRepository
   {
-    internal BlazeDbContext _Context = null;
+    internal DataModel.BlazeDbModel.BlazeDbContext _Context = null;
 
     protected int _NumberOfRecordsPerPage = 10;
 

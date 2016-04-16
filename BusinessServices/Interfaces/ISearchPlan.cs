@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blaze.Engine.Search;
-using Dip.Interfaces;
-using Dip.Interfaces.Repositories;
-using BusinessEntities;
-using BusinessEntities.Search;
+using Common.Interfaces;
+using Common.Interfaces.Repositories;
+using Common.BusinessEntities;
+using Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Interfaces
 {

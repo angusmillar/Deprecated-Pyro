@@ -221,6 +221,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="BlazeService\BlazeImplementation.cs" />
+    <Compile Include="BlazeService\BlazeServiceRequest.cs" />
+    <Compile Include="BlazeService\BlazeServiceRequestFactory.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FhirController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -310,10 +312,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessEntities\BusinessEntities.csproj">
-      <Project>{74e4cccd-93df-4646-8110-dfe373343960}</Project>
-      <Name>BusinessEntities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BusinessServices\Blaze.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
       <Name>Blaze.Engine</Name>
@@ -322,9 +320,9 @@
       <Project>{7ea4191f-1d14-4435-a857-1a462844c8df}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dip\Dip.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Dip</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

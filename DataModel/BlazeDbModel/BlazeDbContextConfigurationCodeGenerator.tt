@@ -1,0 +1,254 @@
+﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="$(SolutionDir)DataModel\BlazeDbModel\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="System.Linq" #>
+<#@ Assembly Name="System.Threading.Tasks" #>
+<#@ Assembly Name="System.ComponentModel.DataAnnotations" #>
+<#@ Assembly Name="System.Data" #>
+<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.DSTU2.0.90.4\lib\net45\Hl7.Fhir.DSTU2.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)CodeGenerationSupport\bin\Release\CodeGenerationSupport.dll"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Threading.Tasks" #>
+<#@ import namespace="System.ComponentModel" #> 
+<#@ import namespace="System.ComponentModel.DataAnnotations.Schema" #> 
+<#@ import namespace="System.Data.Entity.ModelConfiguration.Conventions" #> 
+<#@ import namespace="System.Data.Entity.Infrastructure.Annotations" #> 
+<#@ import namespace="CodeGenerationSupport.FhirApiIntrospection" #>
+
+<#
+      var manager = TemplateFileManager.Create(this);
+    
+      // Any output below here will go to the BlazeDbModelCodeGenerator.cs
+
+      var ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
+      List<FhirApiSearchParameterInfo> ListOfSearchParameters = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
+      
+      string ClassNameResource = string.Empty;
+      string ClassNameResourceSearch = string.Empty;
+
+      foreach(var ResourceName in ResourceList)
+      {
+        List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in ListOfSearchParameters
+                                        where x.Resource == ResourceName
+                                        select x).ToList();
+
+        List<FhirApiSearchParameterInfo> CollectionParameters = (from x in SearchParametersForResource
+                                  where x.IsCollection == true
+                                  select x).ToList();
+
+        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
+
+        List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
+                                  where x.IsCollection == false
+                                  select x).ToList();               
+
+        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
+
+        ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
+
+        manager.StartNewFile(string.Format("{0}{1}.cs",ClassNameResource,"_Configuration"));
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Infrastructure.Annotations;
+
+//This is an Auto generated file do not change it's contents!!.
+
+namespace DataModel.BlazeDbModel
+{
+  public class <#=ClassNameResource#>_Configuration : EntityTypeConfiguration<<#=ClassNameResource#>>
+  {
+
+    public <#=ClassNameResource#>_Configuration()
+    {
+      HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));;
+      Property(x => x.Received).IsRequired();
+      Property(x => x.XmlBlob).IsRequired();      
+<#      foreach(var NonCollectionItem in NonCollectionParameters)
+        {
+          GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResource, NonCollectionItem.SearchName.Replace('-','_') + '_', NonCollectionItem.SearchParamType, false);           
+        }
+#>     
+     }
+  }
+}
+<#
+        foreach(var CollectionItem in CollectionParameters)
+        {
+          ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
+          ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);            
+          
+          manager.StartNewFile(string.Format("{0}{1}.cs",ClassNameResourceSearch, "_Configuration"));
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Infrastructure.Annotations;
+
+//This is an Auto generated file do not change it's contents!!.
+
+namespace DataModel.BlazeDbModel
+{
+  public class <#=ClassNameResourceSearch#>_Configuration : EntityTypeConfiguration<<#=ClassNameResourceSearch#>>
+  {
+    public <#=ClassNameResourceSearch#>_Configuration()
+    {
+      HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      HasRequired(x => x.<#=ClassNameResource#>);
+<#
+          if (CollectionItem.SearchParamType == Hl7.Fhir.Model.SearchParamType.Composite)
+          { 
+            foreach(var Composite in CollectionItem.CompositeSearchParameterList)
+            {
+              GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResourceSearch, Composite.SearchName.Replace("-","_"), Composite.SearchParamType, true);           
+            }
+          }
+          else
+          {
+            GenerateClassPropertyFluentStatmentForSearchParameterDataType(ClassNameResourceSearch, string.Empty, CollectionItem.SearchParamType, true);           
+          }
+#>
+     }
+  }
+}<#
+        }
+      }
+        manager.Process();    
+#>
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+<#+
+    void GenerateClassPropertyFluentStatmentForSearchParameterDataType(string ClassName, string Prefix, Hl7.Fhir.Model.SearchParamType DataType,bool IsIndex)
+    {
+      switch (DataType)
+           {
+             case Hl7.Fhir.Model.SearchParamType.Composite:
+               {
+                //Nothing to do for this type as composite type is a composite of the other types
+                //We should never get here
+                throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
+               }
+               //break;
+             case Hl7.Fhir.Model.SearchParamType.Date:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>DateTimeOffset).IsRequired();
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>DateTimeOffset).IsOptional();
+<#+              }
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.Number:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>Number).IsRequired();       
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>Number).IsOptional();       
+<#+
+                 }
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.Quantity:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>Quantity).IsRequired();
+      Property(x => x.<#= Prefix #>System).IsOptional();
+      Property(x => x.<#= Prefix #>Code).IsOptional();              
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>Quantity).IsOptional();
+      Property(x => x.<#= Prefix #>System).IsOptional();
+      Property(x => x.<#= Prefix #>Code).IsOptional();
+<#+
+                 } 
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.Reference:
+               {
+                 if (IsIndex)
+                 { 
+#>      Property(x => x.<#= Prefix #>FhirId).IsRequired();
+      Property(x => x.<#= Prefix #>Type).IsRequired();
+      Property(x => x.<#= Prefix #>Url).IsOptional();
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>FhirId).IsOptional();
+      Property(x => x.<#= Prefix #>Type).IsOptional();
+      Property(x => x.<#= Prefix #>Url).IsOptional();
+<#+              }                  
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.String:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>String).IsRequired();
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>String).IsOptional();
+<#+              }      
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.Token:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>Code).IsRequired();
+      Property(x => x.<#= Prefix #>System).IsOptional();
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>Code).IsOptional();
+      Property(x => x.<#= Prefix #>System).IsOptional();
+<#+              }
+               }
+               break;
+             case Hl7.Fhir.Model.SearchParamType.Uri:
+               {
+                 if (IsIndex)
+                 {
+#>      Property(x => x.<#= Prefix #>Uri).IsRequired();
+<#+              }
+                 else
+                 {
+#>      Property(x => x.<#= Prefix #>Uri).IsOptional();
+<#+              }
+               }
+               break;
+             default:
+               throw new InvalidEnumArgumentException(DataType.ToString(), (int)DataType, typeof(Hl7.Fhir.Model.SearchParamType));
+           }
+    }
+
+
+#>

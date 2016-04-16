@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Dip.Interfaces;
+using Common.Interfaces;
 using System.Net;
 using Blaze.Engine.Search;
-using BusinessEntities;
+using Common.BusinessEntities;
 
 namespace Blaze.Engine.Response
 {  
-  public class BlazeServiceOperationOutcome : Dip.Interfaces.IBlazeServiceOperationOutcome
+  public class BlazeServiceOperationOutcome : Common.Interfaces.IBlazeServiceOperationOutcome
   {    
     #region Public Properties
     
@@ -200,7 +200,7 @@ namespace Blaze.Engine.Response
       FhirBundle.NextLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetNextPageNumber(this.DatabaseOperationOutcome.PageRequested, LastPageNumber));
       FhirBundle.PreviousLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetPreviousPageNumber(this.DatabaseOperationOutcome.PageRequested, LastPageNumber));
 
-      foreach (BusinessEntities.DtoResource DtoResource in this.DatabaseOperationOutcome.ResourcesMatchingSearchList)
+      foreach (DtoResource DtoResource in this.DatabaseOperationOutcome.ResourcesMatchingSearchList)
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
         try

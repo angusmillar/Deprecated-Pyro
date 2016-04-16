@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Fhir = Hl7.Fhir;
 using System.Net;
 using System.Net.Http;
-using Dip.Interfaces.Services;
-using BusinessEntities;
+using Common.Interfaces.Services;
+using Common.BusinessEntities;
 using Hl7.Fhir.Model;
 
 namespace Blaze.BlazeService
@@ -28,7 +28,7 @@ namespace Blaze.BlazeService
     {
       if (Fhir.Model.ModelInfo.IsKnownResource(ResourceName))
       {
-        var ResourceType = Fhir.Model.ModelInfo.GetTypeForResourceName(ResourceName);
+        var ResourceType = Fhir.Model.ModelInfo.GetTypeForResourceName(ResourceName);                
         if (DtoEnums.GetBlazeSupportedResorceType_ByTypeOf_FhirResourceDictionary.ContainsKey(ResourceType))
         {
           DtoEnums.SupportedFhirResource SupportedResource = DtoEnums.GetBlazeSupportedResorceType_ByTypeOf_FhirResourceDictionary[ResourceType];

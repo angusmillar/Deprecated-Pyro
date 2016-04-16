@@ -8,11 +8,11 @@ using Hl7.Fhir.Model;
 using Blaze.Engine.CustomException;
 using System.Web.UI;
 using System.IO;
-using Dip.Interfaces;
-using Dip.Interfaces.Services;
-using Dip.Interfaces.Repositories;
+using Common.Interfaces;
+using Common.Interfaces.Services;
+using Common.Interfaces.Repositories;
 using Blaze.Engine.Response;
-using BusinessEntities;
+using Common.BusinessEntities;
 
 
 namespace Blaze.Engine.Services
@@ -33,21 +33,22 @@ namespace Blaze.Engine.Services
 
     // Add
     // POST: URL/FhirApi/Patient
-    public override IBlazeServiceOperationOutcome Post(Resource FhirResource)
+    public override IBlazeServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest)
     {
+
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Create;
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Create;
 
       //Validation of resource        
       Interfaces.IResourceValidation Validation = Blaze.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
-      IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(FhirResource);
+      IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(BlazeServiceRequest.Resource);
       if (oResourceValidationOperationOutcome.HasError)
       {
         oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
         return oBlazeServiceOperationOutcome;
       }
 
-      var FhirPatientResource = FhirResource as Patient;
+      var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
 
       //Update the resource XML before committing to storage.
       FhirPatientResource.Id = Guid.NewGuid().ToString();
@@ -56,7 +57,12 @@ namespace Blaze.Engine.Services
       int ResourceVersionNumber = 1;
       FhirPatientResource.Meta.VersionId = ResourceVersionNumber.ToString();
       FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
-      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.PatientRepository.AddResource(FhirPatientResource);
+
+      
+      var FhirUri = new Rest.FhirUriModel(BlazeServiceRequest.RequestUri);
+      
+
+      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.PatientRepository.AddResource(FhirPatientResource, FhirUri.RootFhirUri);
       oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
       return oBlazeServiceOperationOutcome;
@@ -64,18 +70,18 @@ namespace Blaze.Engine.Services
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    public override IBlazeServiceOperationOutcome Put(string FhirResourceId, Resource FhirResource)
+    public override IBlazeServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Update;
-      var FhirPatientResource = FhirResource as Patient;
-      if (FhirPatientResource.Id == null || FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != FhirResourceId)
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
+      var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
+      if (FhirPatientResource.Id == null || FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != BlazeServiceRequest.ResourceId)
       {
         var oIssueComponent = new OperationOutcome.IssueComponent();
         oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
         oIssueComponent.Code = OperationOutcome.IssueType.Required;
         oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
-        oIssueComponent.Details.Text = String.Format("The {0} resource id value in the resource must be provided and must match the id given in the URL for all PUT requests.\n The id in the resource was: '{1}' and the id in the URL was: '{2}'", CurrentResourceType.ToString(), FhirPatientResource.Id, FhirResourceId);
+        oIssueComponent.Details.Text = String.Format("The {0} resource id value in the resource must be provided and must match the id given in the URL for all PUT requests.\n The id in the resource was: '{1}' and the id in the URL was: '{2}'", CurrentResourceType.ToString(), FhirPatientResource.Id, BlazeServiceRequest.ResourceId);
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
@@ -85,30 +91,30 @@ namespace Blaze.Engine.Services
         return oBlazeServiceOperationOutcome;
       }
 
-      if (_UnitOfWork.ResourceRepository.ResourceExists(FhirResourceId))
+      if (_UnitOfWork.PatientRepository.ResourceExists(BlazeServiceRequest.ResourceId))
       {
         //Check that the Id given is for the same resource type attempting to be updated.
-        DtoEnums.SupportedFhirResource ExsistingResourceTypeForFhirID = _UnitOfWork.ResourceRepository.GetSupportedResourceTypeForFhirResourceId(FhirResourceId);
+        DtoEnums.SupportedFhirResource ExsistingResourceTypeForFhirID = _UnitOfWork.ResourceRepository.GetSupportedResourceTypeForFhirResourceId(BlazeServiceRequest.ResourceId);
         if (ExsistingResourceTypeForFhirID == CurrentResourceType)
         {
           //The resource has been found so update it and return 200 OK        
           if (FhirPatientResource.Meta == null)
             FhirPatientResource.Meta = new Meta();
-          int NewResourceVersionNumber = _UnitOfWork.ResourceRepository.GetResourceCurrentVersion(FhirResourceId) + 1;
+          int NewResourceVersionNumber = _UnitOfWork.ResourceRepository.GetResourceCurrentVersion(BlazeServiceRequest.ResourceId) + 1;
           FhirPatientResource.Meta.VersionId = NewResourceVersionNumber.ToString();
           FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
 
           //Validation of resource        
           var Validation = new Validation.PatientResourceValidation();
-          IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(FhirResource);
+          IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(BlazeServiceRequest.Resource);
           if (oResourceValidationOperationOutcome.HasError)
           {
             oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
             return oBlazeServiceOperationOutcome;
           }
           _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, FhirPatientResource);
-          oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Update;
-          oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
+          oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
+          oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
           oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
           oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
           return oBlazeServiceOperationOutcome;
@@ -119,7 +125,7 @@ namespace Blaze.Engine.Services
           oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
           oIssueComponent.Code = OperationOutcome.IssueType.Processing;
           oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
-          oIssueComponent.Details.Text = String.Format("The Resource id provided already exists on this server for another resource type. Server has id: '{0}' associated to a Resource of type: '{1}'. You are attempting to update a '{2}' Resource Type with the same Id.", FhirResourceId, ExsistingResourceTypeForFhirID.ToString(), CurrentResourceType.ToString());
+          oIssueComponent.Details.Text = String.Format("The Resource id provided already exists on this server for another resource type. Server has id: '{0}' associated to a Resource of type: '{1}'. You are attempting to update a '{2}' Resource Type with the same Id.", BlazeServiceRequest.ResourceId, ExsistingResourceTypeForFhirID.ToString(), CurrentResourceType.ToString());
           oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
@@ -132,7 +138,7 @@ namespace Blaze.Engine.Services
       else
       {
         //The resource is not found in the database so add it here and return 201 Created status code
-        return this.Post(FhirResource);
+        return this.Post(BlazeServiceRequest);
       }
     }
 
@@ -141,7 +147,7 @@ namespace Blaze.Engine.Services
     public override IBlazeServiceOperationOutcome Delete(string FhirResourceId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = BusinessEntities.DtoEnums.CrudOperationType.Delete;
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = 0;
       if (_UnitOfWork.ResourceRepository.ResourceExists(FhirResourceId))

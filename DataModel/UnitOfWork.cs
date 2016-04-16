@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Dip.Interfaces.Repositories;
+using Common.Interfaces.Repositories;
+using DataModel.BlazeDbModel;
 
 namespace DataModel
 {
   public class UnitOfWork : IUnitOfWork, IDisposable
-  {    
-    private BlazeDbContext _context = null;
+  {
+    private DataModel.BlazeDbModel.BlazeDbContext _context = null;
 
     private Repository.ResourceRepository _ResourceRepository;
     private Repository.PatientRepository _PatientRepository;
-    private Repository.ValueSetRepository _ValueSetRepository;
-    private Repository.ConceptMapRepository _ConceptMapRepository;
 
     public UnitOfWork()
-    {      
-      _context = new BlazeDbContext();
+    {
+      _context = new DataModel.BlazeDbModel.BlazeDbContext();
     }
+
 
     public IResourceRepository ResourceRepository
     {
@@ -31,6 +31,7 @@ namespace DataModel
         return _ResourceRepository;
       }
     }
+
     public IPatientRepository PatientRepository
     {
       get
@@ -38,24 +39,6 @@ namespace DataModel
         if (this._PatientRepository == null)
           this._PatientRepository = new Repository.PatientRepository(_context);
         return _PatientRepository;
-      }
-    }
-    public IValueSetRepository ValueSetRepository
-    {
-      get
-      {
-        if (this._ValueSetRepository == null)
-          this._ValueSetRepository = new Repository.ValueSetRepository(_context);
-        return _ValueSetRepository;
-      }
-    }
-    public IConceptMapRepository ConceptMapRepository
-        {
-      get
-      {
-        if (this._ConceptMapRepository == null)
-          this._ConceptMapRepository = new Repository.ConceptMapRepository(_context);
-        return _ConceptMapRepository;
       }
     }
 

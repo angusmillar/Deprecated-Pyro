@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dip.Interfaces;
+using Common.Interfaces;
 using Hl7.Fhir.Model;
-using BusinessEntities;
-using BusinessEntities.Search;
+using Common.BusinessEntities;
+using Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
 {
@@ -25,7 +25,7 @@ namespace Blaze.Engine.Search
             if (oSearchParameters.SearchParametersList[0].Name == DtoEnums.Search.SearchParameterName._Id)
             {
               DtoSearchParameterString _Id = oSearchParameters.SearchParametersList[0] as DtoSearchParameterString;
-              oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.ResourceRepository.GetCurrentResourceList(_Id.Values[0], CurrentResourceType);
+              //oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.ResourceRepository.GetCurrentResourceList(_Id.Values[0], CurrentResourceType);
               return oBlazeServiceOperationOutcome;
             }
           }
