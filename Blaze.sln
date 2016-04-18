@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze", "Blaze\Blaze.csproj", "{25051945-A08F-4E51-A7DC-C6190624A93F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Web", "Blaze.Web\Blaze.Web.csproj", "{25051945-A08F-4E51-A7DC-C6190624A93F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{7EA4191F-1D14-4435-A857-1A462844C8DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.DataModel", "Blaze.DataModel\Blaze.DataModel.csproj", "{7EA4191F-1D14-4435-A857-1A462844C8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Engine", "BusinessServices\Blaze.Engine.csproj", "{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Engine", "Blaze.Engine\Blaze.Engine.csproj", "{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Common", "Blaze.Common\Blaze.Common.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBlaze", "TestBlaze\TestBlaze.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Test", "Blaze.Test\Blaze.Test.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerationSupport", "CodeGenerationSupport\CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.CodeGenerationSupport", "Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,8 +48,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
