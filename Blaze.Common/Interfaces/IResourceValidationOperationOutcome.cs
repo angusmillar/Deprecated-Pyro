@@ -9,7 +9,7 @@ namespace Blaze.Common.Interfaces
   public interface IResourceValidationOperationOutcome
   {
     bool HasError { get; }     
-    Hl7.Fhir.Model.OperationOutcome FhieOperationOutcome { get; set; }    
+    Hl7.Fhir.Model.OperationOutcome FhirOperationOutcome { get; set; }    
     System.Net.HttpStatusCode HttpStatusCode { get; set; }
   }
 }

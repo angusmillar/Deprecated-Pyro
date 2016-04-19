@@ -81,7 +81,7 @@ namespace Blaze.Engine.Services
       //  var oOperationOutcome = new OperationOutcome();
       //  oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
       //  oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-      //  oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhieOperationOutcome = oOperationOutcome;
+      //  oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
       //  oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
       //  return oBlazeServiceOperationOutcome;
       //}
@@ -126,7 +126,7 @@ namespace Blaze.Engine.Services
       //    var oOperationOutcome = new OperationOutcome();
       //    oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
       //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-      //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhieOperationOutcome = oOperationOutcome;
+      //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
       //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
       //    return oBlazeServiceOperationOutcome;
       //  }
@@ -171,7 +171,7 @@ namespace Blaze.Engine.Services
       //    var oOperationOutcome = new OperationOutcome();
       //    oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
       //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-      //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhieOperationOutcome = oOperationOutcome;
+      //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
       //    oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
       //    return oBlazeServiceOperationOutcome;
       //  }

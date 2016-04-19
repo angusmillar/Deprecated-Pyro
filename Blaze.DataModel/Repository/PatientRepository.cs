@@ -13,6 +13,7 @@ using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
+using Blaze.Common.Interfaces.FhirUri;
 using Hl7.Fhir.Introspection;
 
 namespace Blaze.DataModel.Repository
@@ -25,9 +26,9 @@ namespace Blaze.DataModel.Repository
       _Context = Context;
     }
 
-    public string AddResource(Patient Patient, Uri RootUri)
+    public string AddResource(Patient Patient, IFhirUri RequestFhirUri)
     {
-      var NewPatientResource = this.PopulatePatientResourceEntity(1, Patient, RootUri);
+      var NewPatientResource = this.PopulatePatientResourceEntity(1, Patient, RequestFhirUri);
       using (var scope = new TransactionScope())
       {        
         //_Context.PatientResource.Add(NewPatientResource);
@@ -384,7 +385,7 @@ namespace Blaze.DataModel.Repository
 
     //}    
 
-    private Res_Patient PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient, Uri RootUri)
+    private Res_Patient PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient, IFhirUri RequestFhirUri)
     {
 
       var oResourse = new DataModel.BlazeDbModel.Res_Patient();

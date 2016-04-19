@@ -15,7 +15,7 @@ namespace Blaze.Engine.Validation
     {
       get
       {
-        if (this.FhieOperationOutcome == null)
+        if (this.FhirOperationOutcome == null)
           return false;
         else
           return true;
@@ -23,6 +23,6 @@ namespace Blaze.Engine.Validation
 
     }
     public HttpStatusCode HttpStatusCode { get; set; }
-    public OperationOutcome FhieOperationOutcome { get; set; }
+    public OperationOutcome FhirOperationOutcome { get; set; }
   }
 }

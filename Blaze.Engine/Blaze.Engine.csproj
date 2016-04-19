@@ -68,7 +68,6 @@
     <Compile Include="Response\BlazeServiceOperationOutcome.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Rest\ContentType.cs" />
-    <Compile Include="Rest\FhirUriModel.cs" />
     <Compile Include="Search\DefaultResourceSearchPlan.cs" />
     <Compile Include="Search\SearchParameterFactory.cs" />
     <Compile Include="Search\SearchPlanBase.cs" />

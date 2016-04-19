@@ -119,7 +119,7 @@ namespace Blaze.Engine.Response
       }
       else if (this.ResourceValidationOperationOutcome != null)
       {
-        return this.ResourceValidationOperationOutcome.FhieOperationOutcome;
+        return this.ResourceValidationOperationOutcome.FhirOperationOutcome;
       }
       else if (this.DatabaseOperationOutcome != null)
       {

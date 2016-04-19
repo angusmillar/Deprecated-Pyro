@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
+using Blaze.Common.Interfaces.FhirUri;
 
 namespace Blaze.Common.Interfaces.Repositories
 {
   public interface IPatientRepository : IBaseRepository
   {
-    string AddResource(Patient Patient, Uri RootUri);        
+    string AddResource(Patient Patient, IFhirUri RootUri);        
     string UpdateResource(int ResourceVersion, Patient Patient);
     bool ResourceExists(string FhirResourceId);
     IDatabaseOperationOutcome SearchByFhirId(string FhirId, Tuple<string, string> ActiveSystemAndCode);

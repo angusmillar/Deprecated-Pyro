@@ -32,9 +32,9 @@ namespace Blaze.Engine.Validation
           OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} was not able to be parsed to a FhirDate.", oValueSet.TypeName, PropertyName);
           OpOutComeIssueComp.Diagnostics = String.Format("{0} {1} was not able to be parsed to a FhirDate. The value found was {2}. An example of a correctly formatted date would be: '<birthDate value=\"1973-09-30\">' for the 30th of September 1973.", oValueSet.TypeName, PropertyName, oValueSet.Date);
           OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oValueSet.TypeName, PropertyName) };
-          if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-            oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-          oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+            oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
           oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         }
       }
@@ -49,9 +49,9 @@ namespace Blaze.Engine.Validation
         OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} was not found. All {0} resources must have a populated {1} property.", oValueSet.TypeName, PropertyName);
         OpOutComeIssueComp.Diagnostics = String.Format("{0}'s {1} was not found. All {0} resources must have a populated {1} property.", oValueSet.TypeName, PropertyName);
         OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oValueSet.TypeName, PropertyName) };
-        if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
         oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;       
       }
 
@@ -70,9 +70,9 @@ namespace Blaze.Engine.Validation
          OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} SHALL have an include or an import. Not both or neither.", oValueSet.TypeName, PropertyName);
          OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
          OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oValueSet.TypeName, PropertyName) };
-         if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-           oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-         oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+         if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+           oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+         oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
          oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;   
        }
       }
@@ -96,9 +96,9 @@ namespace Blaze.Engine.Validation
               OpOutComeIssueComp.Details.Text = String.Format("{0}{1}: Must have a system if a code is present", oValueSet.TypeName, PropertyName);
               OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
               OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:expansion/f:contains[{0}]", counter.ToString()) };
-              if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-              oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+              if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+              oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
               oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;   
             }
             counter++;
@@ -124,9 +124,9 @@ namespace Blaze.Engine.Validation
               OpOutComeIssueComp.Details.Text = String.Format("{0}{1}: Cannot have both concept and filter", oValueSet.TypeName, PropertyName);
               OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
               OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:compose/f:include[{0}]", counter.ToString()) };
-              if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-              oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+              if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+              oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
               oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
             }
             counter++;
@@ -152,9 +152,9 @@ namespace Blaze.Engine.Validation
               OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
               OpOutComeIssueComp.Location = new List<string>() 
               { String.Format("not(exists(f:compose)) or (count(f:compose/f:import)!=1 or exists(f:compose/f:include) or exists(f:compose/f:exclude) or exists(f:codeSystem)))")};
-              if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-              oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+              if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+              oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
               oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
             }
           }
@@ -191,9 +191,9 @@ namespace Blaze.Engine.Validation
           OpOutComeIssueComp.Details.Text = String.Format("On {0}{1}: Within a code system definition, all the codes SHALL be unique.", oValueSet.TypeName, PropertyName);
           OpOutComeIssueComp.Diagnostics = ErrorMessage;
           OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:codeSystem: count(distinct-values(descendant::f:concept/f:code/@value))=count(descendant::f:concept))") };
-          if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-            oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-          oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+          if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+            oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+          oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
           oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
         }
       }
@@ -209,9 +209,9 @@ namespace Blaze.Engine.Validation
         OpOutComeIssueComp.Details.Text = String.Format("{0} SHALL contain at least one of a codeSystem, a compose, or an expansion element ", oValueSet.TypeName);
         OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
         OpOutComeIssueComp.Location = new List<string>() { String.Format("exists(f:codeSystem) or exists(f:compose) or exists(f:expansion)") };
-        if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
         oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
       }
 
@@ -234,9 +234,9 @@ namespace Blaze.Engine.Validation
               OpOutComeIssueComp.Details.Text = String.Format("{0}{1}: SHALL have a code or a display", oValueSet.TypeName, PropertyName);
               OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
               OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:expansion/f:contains[{0}]: exists(f:code) or exists(f:display)", counter.ToString()) };
-              if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-              oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+              if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+              oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
               oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
             }
             counter++;
@@ -255,9 +255,9 @@ namespace Blaze.Engine.Validation
         OpOutComeIssueComp.Details.Text = String.Format("A {0}'s defined code system (if present) SHALL have a different url than the value set url", oValueSet.TypeName);
         OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
         OpOutComeIssueComp.Location = new List<string>() { String.Format("not(f:codeSystem/f:system/@value = f:url/@value)") };
-        if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
         oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
       }
 
@@ -282,9 +282,9 @@ namespace Blaze.Engine.Validation
             OpOutComeIssueComp.Details.Text = String.Format("On {0} ValueSet.expansion.contains: Must have a code if not abstract ", oValueSet.TypeName);
             OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
             OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:expansion/f:contains: exists(f:code) or (f:abstract/@value = true())") };
-            if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-              oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-            oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+            if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+              oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+            oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
             oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
           }
         }
@@ -307,9 +307,9 @@ namespace Blaze.Engine.Validation
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", Resource.GetType().ToString()));
         OpOutComeIssueComp.Details.Text = String.Format("Internal server error: Unable to cast Resource to Patient Resource in validation method.");
-        if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
         oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.InternalServerError;
         return null;
       }

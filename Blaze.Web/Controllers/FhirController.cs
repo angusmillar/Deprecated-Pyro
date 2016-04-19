@@ -6,17 +6,18 @@ using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 using Blaze.Common.Interfaces.Services;
+using Blaze.Common.Interfaces.FhirUri;
 using Blaze.Common.Interfaces;
 using Blaze.Web.Extensions;
 using Blaze.Engine.Response;
 
 namespace Blaze.Web.Controllers
 {
-  [RoutePrefix("FhirApi")]
+  [RoutePrefix("fhirapi")]
   public class FhirController : ApiController
   {
     private readonly IFhirServiceNegotiator _FhirServiceNegotiator;
-
+    private readonly string RoutePrefix = "fhirapi"; 
     //Constructor for dependence injection 
     public FhirController(IFhirServiceNegotiator FhirServiceNegotiator)
     {
@@ -49,7 +50,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, Request.RequestUri);
+      IFhirUri FhirUri = new Blaze.Common.BusinessEntities.FhirUri.DtoFhirUri(Request.RequestUri, RoutePrefix);
+      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, FhirUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(BlazeServiceRequest);      
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
@@ -60,7 +62,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Put(string ResourceName, string id, FhirModel.Resource resource)
     {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, Request.RequestUri);
+      IFhirUri FhirUri = new Blaze.Common.BusinessEntities.FhirUri.DtoFhirUri(Request.RequestUri, RoutePrefix);
+      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, FhirUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(BlazeServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }

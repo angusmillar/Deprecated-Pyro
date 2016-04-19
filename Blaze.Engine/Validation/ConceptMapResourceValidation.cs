@@ -32,9 +32,9 @@ namespace Blaze.Engine.Validation
                     OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} was not able to be parsed to a FhirDate.", oConceptMap.TypeName, PropertyName);
                     OpOutComeIssueComp.Diagnostics = String.Format("{0} {1} was not able to be parsed to a FhirDate. The value found was {2}. An example of a correctly formatted date would be: '<birthDate value=\"1973-09-30\">' for the 30th of September 1973.", oConceptMap.TypeName, PropertyName, oConceptMap.Date);
                     OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oConceptMap.TypeName, PropertyName) };
-                    if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                        oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-                    oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+                    if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                        oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+                    oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
                     oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                 }
             }
@@ -49,9 +49,9 @@ namespace Blaze.Engine.Validation
                 OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} was not found. All {0} resources must have a populated {1} property.", oConceptMap.TypeName, PropertyName);
                 OpOutComeIssueComp.Diagnostics = String.Format("{0}'s {1} was not found. All {0} resources must have a populated {1} property.", oConceptMap.TypeName, PropertyName);
                 OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oConceptMap.TypeName, PropertyName) };
-                if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                    oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-                oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+                if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                    oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+                oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
                 oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             }
 
@@ -73,9 +73,9 @@ namespace Blaze.Engine.Validation
                 OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
                 OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", Resource.GetType().ToString()));
                 OpOutComeIssueComp.Details.Text = String.Format("Internal server error: Unable to cast Resource to ConceptMap Resource in validation method.");
-                if (oResourceValidationOperationOutcome.FhieOperationOutcome == null)
-                    oResourceValidationOperationOutcome.FhieOperationOutcome = new OperationOutcome();
-                oResourceValidationOperationOutcome.FhieOperationOutcome.Issue.Add(OpOutComeIssueComp);
+                if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+                    oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+                oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
                 oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 return null;
             }
