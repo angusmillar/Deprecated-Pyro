@@ -25,6 +25,8 @@
       
       string ClassNameResource = string.Empty;
       string ClassNameResourceSearch = string.Empty;
+      string ClassNameResourceHistory = string.Empty;
+
       foreach(var ResourceName in ResourceList)
       {
         List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in ListOfSearchParameters
@@ -48,7 +50,8 @@
         {
           ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
           CurrentResourceName = ResourceName;
-
+          ClassNameResourceHistory = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceHistory(ResourceName);
+          //Create model class for each resource
           manager.StartNewFile(string.Format("{0}.cs",ClassNameResource));
 #>using System;
 using System.Collections.Generic;
@@ -104,9 +107,42 @@ namespace Blaze.DataModel.BlazeDbModel
 #>
   }
 }<#
+          //Create model class for each resource history 
+          manager.StartNewFile(string.Format("{0}.cs",ClassNameResourceHistory));          
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+//This source file has been auto generated.
+
+namespace Blaze.DataModel.BlazeDbModel
+{
+
+  public class <#=ClassNameResourceHistory#>
+  {
+    public int Id {get; set;}
+    public string FhirId {get; set;}    
+    public int Version {get; set;}
+    public DateTimeOffset Received {get; set;}
+    public string XmlBlob {get; set;}    
+
+    public <#=ClassNameResourceHistory#>()
+    {
+
+    }
+<#
+
+#>
+  }
+}<#
+
+         
          foreach( var CollectionItem in CollectionParameters)
          {
            ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);           
+           //Create model class for each resource's collection item
            manager.StartNewFile(string.Format("{0}.cs",ClassNameResourceSearch));
 #>using System;
 using System.Collections.Generic;

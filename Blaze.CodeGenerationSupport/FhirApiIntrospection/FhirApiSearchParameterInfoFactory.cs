@@ -18,6 +18,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     private static List<FhirXPath> oFhirXPathList;
     private static readonly string ResourcePrefixText = "Res";
     private static readonly string IndexPrefixText = "Index";
+    private static readonly string HistoryPrefixText = "History";
 
 
     #endregion
@@ -157,6 +158,17 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       else
         return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_') + "_List";
     }
+
+    /// <summary>
+    /// Construct the class name string for the Resource History
+    /// </summary>
+    /// <param name="ResourceName"></param>
+    /// <returns></returns>
+    public static string ConstructClassNameForResourceHistory(string ResourceName)
+    {
+      return String.Format("{0}_{1}_{2}", ResourcePrefixText, ResourceName, HistoryPrefixText);
+    }
+
 
     #endregion
 

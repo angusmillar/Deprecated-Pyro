@@ -39,6 +39,7 @@ namespace Blaze.DataModel.BlazeDbModel
       
       string ClassNameResource = string.Empty;
       string ClassNameResourceSearch = string.Empty;
+      string ClassNameResourceHistory = string.Empty;
 
         
 #>
@@ -63,7 +64,9 @@ namespace Blaze.DataModel.BlazeDbModel
 
           CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
           ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
+          ClassNameResourceHistory = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceHistory(ResourceName);
 #>    public DbSet<<#=ClassNameResource#>> <#=ClassNameResource#> { get; set; }
+    public DbSet<<#=ClassNameResourceHistory#>> <#=ClassNameResourceHistory#> { get; set; }
 <#        foreach(var SearchParameter in CollectionParameters)
           {
             ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, SearchParameter);
@@ -103,7 +106,9 @@ namespace Blaze.DataModel.BlazeDbModel
         NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
 
         ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
+        ClassNameResourceHistory = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceHistory(ResourceName);
 #>      Mb.Configurations.Add(new <#=ClassNameResource#>_Configuration());
+      Mb.Configurations.Add(new <#=ClassNameResourceHistory#>_Configuration());
 <#      
         foreach(var CollectionItem in CollectionParameters)
         {

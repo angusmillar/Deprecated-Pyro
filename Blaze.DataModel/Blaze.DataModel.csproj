@@ -90,6 +90,12 @@
     <Compile Include="BlazeDbModel\Res_Account_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Account_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Account_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Account_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -106,6 +112,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_AllergyIntolerance_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_AllergyIntolerance_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_AllergyIntolerance_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_AllergyIntolerance_Index_identifier.cs">
@@ -153,6 +165,12 @@
     <Compile Include="BlazeDbModel\Res_AppointmentResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_AppointmentResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_AppointmentResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_AppointmentResponse_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -160,6 +178,12 @@
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Appointment_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Appointment_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Appointment_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Appointment_Index_actor.cs">
@@ -202,6 +226,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_AuditEvent_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_AuditEvent_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_AuditEvent_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_AuditEvent_Index_address.cs">
@@ -282,6 +312,12 @@
     <Compile Include="BlazeDbModel\Res_Basic_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Basic_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Basic_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Basic_Index_code.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -300,10 +336,22 @@
     <Compile Include="BlazeDbModel\Res_Binary_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Binary_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Binary_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_BodySite.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_BodySite_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_BodySite_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_BodySite_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_BodySite_Index_code.cs">
@@ -324,10 +372,22 @@
     <Compile Include="BlazeDbModel\Res_Bundle_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Bundle_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Bundle_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_CarePlan.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_CarePlan_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_CarePlan_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_CarePlan_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_CarePlan_Index_activitycode.cs">
@@ -393,6 +453,12 @@
     <Compile Include="BlazeDbModel\Res_ClaimResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ClaimResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ClaimResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ClaimResponse_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -400,6 +466,12 @@
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Claim_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Claim_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Claim_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Claim_Index_identifier.cs">
@@ -412,6 +484,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ClinicalImpression_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ClinicalImpression_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ClinicalImpression_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ClinicalImpression_Index_action.cs">
@@ -465,6 +543,12 @@
     <Compile Include="BlazeDbModel\Res_CommunicationRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_CommunicationRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_CommunicationRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_CommunicationRequest_Index_category.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -498,6 +582,12 @@
     <Compile Include="BlazeDbModel\Res_Communication_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Communication_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Communication_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Communication_Index_category.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -526,6 +616,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Composition_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Composition_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Composition_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Composition_Index_attester.cs">
@@ -582,6 +678,12 @@
     <Compile Include="BlazeDbModel\Res_ConceptMap_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ConceptMap_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ConceptMap_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ConceptMap_Index_context.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -628,6 +730,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Condition_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Condition_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Condition_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Condition_Index_body_site.cs">
@@ -678,6 +786,12 @@
     <Compile Include="BlazeDbModel\Res_Conformance_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Conformance_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Conformance_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Conformance_Index_event.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -726,6 +840,12 @@
     <Compile Include="BlazeDbModel\Res_Contract_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Contract_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Contract_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Contract_Index_actor.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -756,6 +876,12 @@
     <Compile Include="BlazeDbModel\Res_Coverage_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Coverage_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Coverage_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Coverage_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -766,6 +892,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DataElement_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DataElement_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DataElement_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DataElement_Index_code.cs">
@@ -798,6 +930,12 @@
     <Compile Include="BlazeDbModel\Res_DetectedIssue_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DetectedIssue_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DetectedIssue_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_DetectedIssue_Index_category.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -819,6 +957,12 @@
     <Compile Include="BlazeDbModel\Res_DeviceComponent_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceComponent_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceComponent_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_DeviceComponent_Index_type.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -829,6 +973,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DeviceMetric_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceMetric_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceMetric_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DeviceMetric_Index_type.cs">
@@ -843,13 +993,31 @@
     <Compile Include="BlazeDbModel\Res_DeviceUseRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceUseRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceUseRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_DeviceUseStatement.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DeviceUseStatement_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceUseStatement_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DeviceUseStatement_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Device_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Device_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Device_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Device_Index_identifier.cs">
@@ -868,6 +1036,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DiagnosticOrder_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DiagnosticOrder_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DiagnosticOrder_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DiagnosticOrder_Index_actor.cs">
@@ -936,6 +1110,12 @@
     <Compile Include="BlazeDbModel\Res_DiagnosticReport_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DiagnosticReport_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DiagnosticReport_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_DiagnosticReport_Index_category.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -990,6 +1170,12 @@
     <Compile Include="BlazeDbModel\Res_DocumentManifest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_DocumentManifest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DocumentManifest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_DocumentManifest_Index_author.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1036,6 +1222,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DocumentReference_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DocumentReference_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_DocumentReference_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_DocumentReference_Index_author.cs">
@@ -1134,6 +1326,12 @@
     <Compile Include="BlazeDbModel\Res_EligibilityRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_EligibilityRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EligibilityRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_EligibilityRequest_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1146,6 +1344,12 @@
     <Compile Include="BlazeDbModel\Res_EligibilityResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_EligibilityResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EligibilityResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_EligibilityResponse_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1156,6 +1360,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Encounter_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Encounter_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Encounter_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Encounter_Index_condition.cs">
@@ -1248,6 +1458,12 @@
     <Compile Include="BlazeDbModel\Res_EnrollmentRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_EnrollmentRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EnrollmentRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_EnrollmentRequest_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1260,6 +1476,12 @@
     <Compile Include="BlazeDbModel\Res_EnrollmentResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_EnrollmentResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EnrollmentResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_EnrollmentResponse_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1270,6 +1492,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_EpisodeOfCare_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EpisodeOfCare_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_EpisodeOfCare_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_EpisodeOfCare_Index_condition.cs">
@@ -1308,6 +1536,12 @@
     <Compile Include="BlazeDbModel\Res_ExplanationOfBenefit_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ExplanationOfBenefit_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ExplanationOfBenefit_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ExplanationOfBenefit_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1318,6 +1552,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_FamilyMemberHistory_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_FamilyMemberHistory_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_FamilyMemberHistory_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_FamilyMemberHistory_Index_code.cs">
@@ -1344,10 +1584,22 @@
     <Compile Include="BlazeDbModel\Res_Flag_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Flag_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Flag_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Goal.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Goal_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Goal_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Goal_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Goal_Index_category.cs">
@@ -1366,6 +1618,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Group_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Group_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Group_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Group_Index_characteristic.cs">
@@ -1410,6 +1668,12 @@
     <Compile Include="BlazeDbModel\Res_HealthcareService_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_HealthcareService_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_HealthcareService_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_HealthcareService_Index_characteristic.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1446,6 +1710,12 @@
     <Compile Include="BlazeDbModel\Res_ImagingObjectSelection_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ImagingObjectSelection_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImagingObjectSelection_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ImagingObjectSelection_Index_selected_study.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1462,6 +1732,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ImagingStudy_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImagingStudy_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImagingStudy_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ImagingStudy_Index_bodysite.cs">
@@ -1507,6 +1783,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ImmunizationRecommendation_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImmunizationRecommendation_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImmunizationRecommendation_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ImmunizationRecommendation_Index_date.cs">
@@ -1560,6 +1842,12 @@
     <Compile Include="BlazeDbModel\Res_Immunization_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Immunization_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Immunization_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Immunization_Index_dose_sequence.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1608,6 +1896,12 @@
     <Compile Include="BlazeDbModel\Res_ImplementationGuide_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ImplementationGuide_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ImplementationGuide_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ImplementationGuide_Index_context.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1624,6 +1918,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_List_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_List_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_List_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_List_Index_code.cs">
@@ -1650,6 +1950,12 @@
     <Compile Include="BlazeDbModel\Res_Location_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Location_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Location_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Location_Index_address.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1672,6 +1978,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Media_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Media_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Media_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Media_Index_identifier.cs">
@@ -1701,6 +2013,12 @@
     <Compile Include="BlazeDbModel\Res_MedicationAdministration_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationAdministration_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationAdministration_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_MedicationAdministration_Index_device.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1717,6 +2035,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_MedicationDispense_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationDispense_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationDispense_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_MedicationDispense_Index_prescription.cs">
@@ -1749,6 +2073,12 @@
     <Compile Include="BlazeDbModel\Res_MedicationOrder_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationOrder_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationOrder_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_MedicationOrder_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1761,6 +2091,12 @@
     <Compile Include="BlazeDbModel\Res_MedicationStatement_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationStatement_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MedicationStatement_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_MedicationStatement_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1768,6 +2104,12 @@
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Medication_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Medication_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Medication_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Medication_Index_code.cs">
@@ -1806,6 +2148,12 @@
     <Compile Include="BlazeDbModel\Res_MessageHeader_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_MessageHeader_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_MessageHeader_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_MessageHeader_Index_data.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1834,6 +2182,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_NamingSystem_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_NamingSystem_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_NamingSystem_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_NamingSystem_Index_contact.cs">
@@ -1884,6 +2238,12 @@
     <Compile Include="BlazeDbModel\Res_NutritionOrder_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_NutritionOrder_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_NutritionOrder_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_NutritionOrder_Index_additive.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -1918,6 +2278,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Observation_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Observation_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Observation_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Observation_Index_category.cs">
@@ -1998,6 +2364,12 @@
     <Compile Include="BlazeDbModel\Res_OperationDefinition_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_OperationDefinition_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_OperationDefinition_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_OperationDefinition_Index_profile.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2016,6 +2388,12 @@
     <Compile Include="BlazeDbModel\Res_OperationOutcome_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_OperationOutcome_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_OperationOutcome_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Order.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2023,6 +2401,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_OrderResponse_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_OrderResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_OrderResponse_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_OrderResponse_Index_fulfillment.cs">
@@ -2038,6 +2422,12 @@
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Order_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Order_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Order_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Order_Index_detail.cs">
@@ -2068,6 +2458,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Organization_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Organization_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Organization_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Organization_Index_address.cs">
@@ -2124,10 +2520,22 @@
     <Compile Include="BlazeDbModel\Res_Parameters_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Parameters_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Parameters_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Patient.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Patient_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Patient_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Patient_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Patient_Index_address.cs">
@@ -2262,6 +2670,12 @@
     <Compile Include="BlazeDbModel\Res_PaymentNotice_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_PaymentNotice_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_PaymentNotice_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_PaymentNotice_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2274,6 +2688,12 @@
     <Compile Include="BlazeDbModel\Res_PaymentReconciliation_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_PaymentReconciliation_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_PaymentReconciliation_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_PaymentReconciliation_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2284,6 +2704,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Person_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Person_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Person_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Person_Index_address.cs">
@@ -2386,6 +2812,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Practitioner_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Practitioner_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Practitioner_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Practitioner_Index_address.cs">
@@ -2511,6 +2943,12 @@
     <Compile Include="BlazeDbModel\Res_ProcedureRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcedureRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcedureRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ProcedureRequest_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2518,6 +2956,12 @@
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Procedure_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Procedure_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Procedure_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Procedure_Index_code.cs">
@@ -2544,6 +2988,12 @@
     <Compile Include="BlazeDbModel\Res_ProcessRequest_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcessRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcessRequest_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ProcessRequest_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2556,6 +3006,12 @@
     <Compile Include="BlazeDbModel\Res_ProcessResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcessResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ProcessResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ProcessResponse_Index_identifier.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2566,6 +3022,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Provenance_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Provenance_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Provenance_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Provenance_Index_agent.cs">
@@ -2619,7 +3081,19 @@
     <Compile Include="BlazeDbModel\Res_QuestionnaireResponse_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_QuestionnaireResponse_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_QuestionnaireResponse_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Questionnaire_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Questionnaire_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Questionnaire_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Questionnaire_Index_code.cs">
@@ -2638,6 +3112,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ReferralRequest_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ReferralRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ReferralRequest_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_ReferralRequest_Index_priority.cs">
@@ -2668,6 +3148,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_RelatedPerson_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_RelatedPerson_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_RelatedPerson_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_RelatedPerson_Index_address.cs">
@@ -2748,6 +3234,12 @@
     <Compile Include="BlazeDbModel\Res_RiskAssessment_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_RiskAssessment_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_RiskAssessment_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_RiskAssessment_Index_method.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2758,6 +3250,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Schedule_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Schedule_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Schedule_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Schedule_Index_identifier.cs">
@@ -2778,6 +3276,12 @@
     <Compile Include="BlazeDbModel\Res_SearchParameter_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_SearchParameter_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_SearchParameter_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_SearchParameter_Index_target.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2788,6 +3292,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Slot_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Slot_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Slot_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Slot_Index_identifier.cs">
@@ -2806,6 +3316,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Specimen_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Specimen_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Specimen_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Specimen_Index_bodysite.cs">
@@ -2848,6 +3364,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_StructureDefinition_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_StructureDefinition_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_StructureDefinition_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_StructureDefinition_Index_base_path.cs">
@@ -2898,6 +3420,12 @@
     <Compile Include="BlazeDbModel\Res_Subscription_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_Subscription_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Subscription_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_Subscription_Index_contact.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2914,6 +3442,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Substance_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Substance_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_Substance_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_Substance_Index_category.cs">
@@ -2964,6 +3498,12 @@
     <Compile Include="BlazeDbModel\Res_SupplyDelivery_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_SupplyDelivery_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_SupplyDelivery_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_SupplyDelivery_Index_receiver.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -2974,6 +3514,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_SupplyRequest_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_SupplyRequest_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_SupplyRequest_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_SupplyRequest_Index_kind.cs">
@@ -2992,6 +3538,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_TestScript_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_TestScript_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_TestScript_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_TestScript_Index_testscript_capability.cs">
@@ -3018,6 +3570,12 @@
     <Compile Include="BlazeDbModel\Res_ValueSet_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="BlazeDbModel\Res_ValueSet_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_ValueSet_History_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="BlazeDbModel\Res_ValueSet_Index_code.cs">
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
@@ -3040,6 +3598,12 @@
       <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_VisionPrescription_Configuration.cs">
+      <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_VisionPrescription_History.cs">
+      <DependentUpon>BlazeDbModelCodeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlazeDbModel\Res_VisionPrescription_History_Configuration.cs">
       <DependentUpon>BlazeDbContextConfigurationCodeGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="BlazeDbModel\Res_VisionPrescription_Index_identifier.cs">

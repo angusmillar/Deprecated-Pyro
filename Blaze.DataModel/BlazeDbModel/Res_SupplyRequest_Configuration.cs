@@ -21,6 +21,7 @@ namespace Blaze.DataModel.BlazeDbModel
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));;
       Property(x => x.Received).IsRequired();
+      Property(x => x.Version).IsRequired();
       Property(x => x.XmlBlob).IsRequired();      
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.identifier_Code).IsOptional();

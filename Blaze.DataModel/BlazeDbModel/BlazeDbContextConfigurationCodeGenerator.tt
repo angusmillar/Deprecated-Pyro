@@ -31,6 +31,7 @@
       
       string ClassNameResource = string.Empty;
       string ClassNameResourceSearch = string.Empty;
+      string ClassNameResourceHistory = string.Empty;
 
       foreach(var ResourceName in ResourceList)
       {
@@ -51,7 +52,8 @@
         NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
 
         ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
-
+        ClassNameResourceHistory = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceHistory(ResourceName);
+        //Begin the Main resource configuration class file
         manager.StartNewFile(string.Format("{0}{1}.cs",ClassNameResource,"_Configuration"));
 #>using System;
 using System.Collections.Generic;
@@ -76,6 +78,7 @@ namespace Blaze.DataModel.BlazeDbModel
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));;
       Property(x => x.Received).IsRequired();
+      Property(x => x.Version).IsRequired();
       Property(x => x.XmlBlob).IsRequired();      
 <#      foreach(var NonCollectionItem in NonCollectionParameters)
         {
@@ -86,11 +89,42 @@ namespace Blaze.DataModel.BlazeDbModel
   }
 }
 <#
+//Begin the Main resource's history configuration class file
+manager.StartNewFile(string.Format("{0}{1}.cs",ClassNameResourceHistory, "_Configuration"));
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Infrastructure.Annotations;
+
+//This is an Auto generated file do not change it's contents!!.
+
+namespace Blaze.DataModel.BlazeDbModel
+{
+  public class <#=ClassNameResourceHistory#>_Configuration : EntityTypeConfiguration<<#=ClassNameResourceHistory#>>
+  {
+
+    public <#=ClassNameResourceHistory#>_Configuration()
+    {
+      HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));;
+      Property(x => x.Received).IsRequired();
+      Property(x => x.Version).IsRequired();
+      Property(x => x.XmlBlob).IsRequired();      
+     }
+  }
+}
+<#
         foreach(var CollectionItem in CollectionParameters)
         {
           ClassNameResource = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass(ResourceName);
           ClassNameResourceSearch = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);            
-          
+          //Begin each resource's search index configuration class file
           manager.StartNewFile(string.Format("{0}{1}.cs",ClassNameResourceSearch, "_Configuration"));
 #>using System;
 using System.Collections.Generic;
