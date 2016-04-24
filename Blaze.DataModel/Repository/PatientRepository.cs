@@ -7,7 +7,7 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using Blaze.DataModel.BlazeDbModel;
+using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.SearchParameterType;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -21,7 +21,7 @@ namespace Blaze.DataModel.Repository
   public class PatientRepository : BaseRepository, IPatientRepository
   {
     
-    public PatientRepository(DataModel.BlazeDbModel.BlazeDbContext Context)
+    public PatientRepository(DataModel.DatabaseModel.DatabaseContext Context)
     {
       _Context = Context;
     }
@@ -388,7 +388,7 @@ namespace Blaze.DataModel.Repository
     private Res_Patient PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient, IFhirUri RequestFhirUri)
     {
 
-      var oResourse = new DataModel.BlazeDbModel.Res_Patient();
+      var oResourse = new DataModel.DatabaseModel.Res_Patient();
       oResourse.FhirId = FhirPatient.Id;
       oResourse.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(FhirPatient);
       oResourse.Received = (DateTimeOffset)FhirPatient.Meta.LastUpdated;
@@ -436,7 +436,7 @@ namespace Blaze.DataModel.Repository
             //FhirUri.
             oResourse.organization_Type = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[0];
             oResourse.organization_FhirId = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[1];
-            oResourse.organization_Url = null;
+            oResourse.organization_Aux_RootUrlStoreID = null;
           }
           else
           {
@@ -444,7 +444,7 @@ namespace Blaze.DataModel.Repository
             //FhirUri.
             oResourse.organization_Type = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[0];
             oResourse.organization_FhirId = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[1];
-            oResourse.organization_Url = null;
+            oResourse.organization_Aux_RootUrlStoreID = null;
           }
         }        
       }

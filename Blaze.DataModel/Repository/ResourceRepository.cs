@@ -7,7 +7,6 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using Blaze.DataModel.BlazeDbModel;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -227,7 +226,7 @@ namespace Blaze.DataModel.Repository
     //}
 
     #region Constructor
-    public ResourceRepository(DataModel.BlazeDbModel.BlazeDbContext Context)
+    public ResourceRepository(DataModel.DatabaseModel.DatabaseContext Context)
     {
       _Context = Context;
     }

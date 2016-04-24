@@ -15,7 +15,7 @@ namespace Blaze.DataModel.Repository
 {
   public class BaseRepository : IBaseRepository
   {
-    internal DataModel.BlazeDbModel.BlazeDbContext _Context = null;
+    internal DataModel.DatabaseModel.DatabaseContext _Context = null;
 
     protected int _NumberOfRecordsPerPage = 10;
 

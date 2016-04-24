@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+//This source file has been auto generated.
+
+namespace Blaze.DataModel.DatabaseModel
+{
+
+  public class Res_TestScript_Index_testscript_test_capability
+  {
+    public int Res_TestScript_Index_testscript_test_capabilityID {get; set;}
+    public string String {get; set;}
+    public virtual Res_TestScript Res_TestScript { get; set; }
+   
+    public Res_TestScript_Index_testscript_test_capability()
+    {
+    }
+  }
+}
+

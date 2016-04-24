@@ -15,6 +15,10 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_GetApiSearchParameterInfo()
     {
+
+      Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
+      List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+
       List<FhirApiSearchParameterInfo> oSearchParameterList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
     }
 

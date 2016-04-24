@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerationDatabaseModelCreate.cs" />
+    <Compile Include="CodeGenerationDbTableModel.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfo.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfoFactory.cs" />
     <Compile Include="FhirApiIntrospection\FhirSearchParameterSearchPathElement.cs" />

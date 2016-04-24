@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.DataModel.Repository;
-using Blaze.DataModel.BlazeDbModel;
 
 namespace Blaze.DataModel
 {
   public class UnitOfWork : IUnitOfWork, IDisposable
   {
-    private Blaze.DataModel.BlazeDbModel.BlazeDbContext _context = null;
+    private Blaze.DataModel.DatabaseModel.DatabaseContext _context = null;
 
     private ResourceRepository _ResourceRepository;
     private PatientRepository _PatientRepository;
 
     public UnitOfWork()
     {
-      _context = new Blaze.DataModel.BlazeDbModel.BlazeDbContext();
+      _context = new Blaze.DataModel.DatabaseModel.DatabaseContext();
     }
 
 

@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+//This source file has been auto generated.
+
+namespace Blaze.DataModel.DatabaseModel
+{
+
+  public class Res_StructureDefinition_Index_base_path
+  {
+    public int Res_StructureDefinition_Index_base_pathID {get; set;}
+    public string Code {get; set;}
+    public string System {get; set;}
+    public virtual Res_StructureDefinition Res_StructureDefinition { get; set; }
+   
+    public Res_StructureDefinition_Index_base_path()
+    {
+    }
+  }
+}
+
