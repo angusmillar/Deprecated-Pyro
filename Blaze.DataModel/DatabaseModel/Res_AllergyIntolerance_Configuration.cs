@@ -20,8 +20,8 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_AllergyIntoleranceID).Property(x => x.Res_AllergyIntoleranceID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.category_Code).IsOptional();
       Property(x => x.category_System).IsOptional();
@@ -31,13 +31,16 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.last_date_DateTimeOffset).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
-      HasOptional(x => x.patient_Aux_RootUrlStoreID);
+      HasOptional(x => x.patient_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
       Property(x => x.recorder_FhirId).IsOptional();
       Property(x => x.recorder_Type).IsOptional();
-      HasOptional(x => x.recorder_Aux_RootUrlStoreID);
+      HasOptional(x => x.recorder_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.recorder_Url).WithMany().HasForeignKey(x => x.recorder_Url_Blaze_RootUrlStoreID);
       Property(x => x.reporter_FhirId).IsOptional();
       Property(x => x.reporter_Type).IsOptional();
-      HasOptional(x => x.reporter_Aux_RootUrlStoreID);
+      HasOptional(x => x.reporter_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.reporter_Url).WithMany().HasForeignKey(x => x.reporter_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.type_Code).IsOptional();

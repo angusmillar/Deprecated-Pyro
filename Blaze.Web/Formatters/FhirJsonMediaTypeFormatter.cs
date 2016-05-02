@@ -11,7 +11,7 @@ using Hl7.Fhir.Serialization;
 using Newtonsoft.Json;
 using Hl7.Fhir.Rest;
 using Blaze.Web.Extensions;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.Web.Formatters
 {

@@ -13,27 +13,31 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_MessageHeaderID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
-    public virtual Aux_RootUrlStore author_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore author_Url { get; set; }
+    public int? author_Url_Blaze_RootUrlStoreID { get; set; }
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public string enterer_FhirId {get; set;}
     public string enterer_Type {get; set;}
-    public virtual Aux_RootUrlStore enterer_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore enterer_Url { get; set; }
+    public int? enterer_Url_Blaze_RootUrlStoreID { get; set; }
     public string event_Code {get; set;}
     public string event_System {get; set;}
     public string receiver_FhirId {get; set;}
     public string receiver_Type {get; set;}
-    public virtual Aux_RootUrlStore receiver_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore receiver_Url { get; set; }
+    public int? receiver_Url_Blaze_RootUrlStoreID { get; set; }
     public string response_id_Code {get; set;}
     public string response_id_System {get; set;}
     public string responsible_FhirId {get; set;}
     public string responsible_Type {get; set;}
-    public virtual Aux_RootUrlStore responsible_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore responsible_Url { get; set; }
+    public int? responsible_Url_Blaze_RootUrlStoreID { get; set; }
     public string source_String {get; set;}
     public string source_uri_Uri {get; set;}
     public DateTimeOffset? timestamp_DateTimeOffset {get; set;}

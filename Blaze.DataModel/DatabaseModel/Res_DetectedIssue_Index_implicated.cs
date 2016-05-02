@@ -14,7 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_DetectedIssue_Index_implicatedID {get; set;}
     public string FhirId {get; set;}
     public string Type {get; set;}
-    public virtual Aux_RootUrlStore Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore Url { get; set; }
+    public int? Url_Blaze_RootUrlStoreID { get; set; }
     public virtual Res_DetectedIssue Res_DetectedIssue { get; set; }
    
     public Res_DetectedIssue_Index_implicated()

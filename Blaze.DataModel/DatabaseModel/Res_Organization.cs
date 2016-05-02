@@ -13,15 +13,16 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_OrganizationID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string active_Code {get; set;}
     public string active_System {get; set;}
     public string name_String {get; set;}
     public string partof_FhirId {get; set;}
     public string partof_Type {get; set;}
-    public virtual Aux_RootUrlStore partof_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore partof_Url { get; set; }
+    public int? partof_Url_Blaze_RootUrlStoreID { get; set; }
     public string phonetic_String {get; set;}
     public ICollection<Res_Organization_Index_address> address_List { get; set; }
     public ICollection<Res_Organization_Index_address_city> address_city_List { get; set; }

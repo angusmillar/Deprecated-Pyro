@@ -13,21 +13,25 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_ProcessResponseID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
-    public virtual Aux_RootUrlStore organization_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore organization_Url { get; set; }
+    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
     public string request_FhirId {get; set;}
     public string request_Type {get; set;}
-    public virtual Aux_RootUrlStore request_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore request_Url { get; set; }
+    public int? request_Url_Blaze_RootUrlStoreID { get; set; }
     public string requestorganization_FhirId {get; set;}
     public string requestorganization_Type {get; set;}
-    public virtual Aux_RootUrlStore requestorganization_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore requestorganization_Url { get; set; }
+    public int? requestorganization_Url_Blaze_RootUrlStoreID { get; set; }
     public string requestprovider_FhirId {get; set;}
     public string requestprovider_Type {get; set;}
-    public virtual Aux_RootUrlStore requestprovider_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore requestprovider_Url { get; set; }
+    public int? requestprovider_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_ProcessResponse_Index_identifier> identifier_List { get; set; }
    
     public Res_ProcessResponse()

@@ -12,21 +12,18 @@ using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Services;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Engine.Response;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.Engine.Services
 {
-  public abstract class BaseResourceServices : IBaseResourceServices
+  public abstract class BaseResourceServices : CommonServices, IBaseResourceServices, ICommonServices, IBaseServices
   {
-    protected readonly IUnitOfWork _UnitOfWork;
-
     public abstract DtoEnums.SupportedFhirResource CurrentResourceType { get; }
 
+    
      //Constructor for dependency injection
     public BaseResourceServices(IUnitOfWork IUnitOfWork)
-    {
-      _UnitOfWork = IUnitOfWork;
-    }
+      : base(IUnitOfWork){}
 
     // Get By id
     // GET URL/FhirApi/Patient/5    

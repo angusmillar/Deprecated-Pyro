@@ -14,7 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_StructureDefinition_Index_valuesetID {get; set;}
     public string FhirId {get; set;}
     public string Type {get; set;}
-    public virtual Aux_RootUrlStore Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore Url { get; set; }
+    public int? Url_Blaze_RootUrlStoreID { get; set; }
     public virtual Res_StructureDefinition Res_StructureDefinition { get; set; }
    
     public Res_StructureDefinition_Index_valueset()

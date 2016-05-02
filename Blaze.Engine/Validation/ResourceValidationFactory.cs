@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blaze.Engine.Interfaces;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.Engine.Validation
 {

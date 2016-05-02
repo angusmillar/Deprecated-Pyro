@@ -20,8 +20,8 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_LocationID).Property(x => x.Res_LocationID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.address_city_String).IsOptional();
       Property(x => x.address_country_String).IsOptional();
@@ -36,10 +36,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.near_distance_System).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();
-      HasOptional(x => x.organization_Aux_RootUrlStoreID);
+      HasOptional(x => x.organization_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_Url_Blaze_RootUrlStoreID);
       Property(x => x.partof_FhirId).IsOptional();
       Property(x => x.partof_Type).IsOptional();
-      HasOptional(x => x.partof_Aux_RootUrlStoreID);
+      HasOptional(x => x.partof_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.partof_Url).WithMany().HasForeignKey(x => x.partof_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
     }

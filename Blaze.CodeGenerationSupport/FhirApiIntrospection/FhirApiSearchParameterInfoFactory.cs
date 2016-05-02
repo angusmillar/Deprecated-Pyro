@@ -16,10 +16,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     private static FhirApiSearchParameterInfo _SearchParameterInfo;
     private static ModelInfo.SearchParamDefinition _CurrentSearchParameterDef;
     private static List<FhirXPath> oFhirXPathList;
-    private static readonly string ResourcePrefixText = "Res";
-    private static readonly string IndexPrefixText = "Index";
-    private static readonly string HistoryPrefixText = "History";
-
 
     #endregion
 
@@ -121,54 +117,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       }
       return TempList;
     }
-
-    /// <summary>
-    /// Construct the class name string for the Resource classes
-    /// </summary>
-    /// <param name="ResourceName"></param>
-    /// <returns></returns>
-    public static string ConstructClassNameForResourceClass(string ResourceName)
-    {          
-      return String.Format("{0}_{1}", ResourcePrefixText, ResourceName);
-    }
-
-    /// <summary>
-    /// Construct the class name string for the Resource Search Classes
-    /// </summary>
-    /// <param name="ResourceName"></param>
-    /// <param name="SearchParameterName"></param>
-    /// <returns></returns>
-    public static string ConstructClassNameForResourceSearchClass(string ResourceName, FhirApiSearchParameterInfo SearchParameterInfo)
-    {
-      if (SearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return String.Format("{0}_{1}_{2}_{3}", ResourcePrefixText, ResourceName, IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]",""));
-      else
-        return String.Format("{0}_{1}_{2}_{3}", ResourcePrefixText, ResourceName, IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_'));
-    }
-
-    /// <summary>
-    /// Construct the property name string for the Collection lists of the Resource classes
-    /// </summary>
-    /// <param name="SearchParameterName"></param>
-    /// <returns></returns>
-    public static string ConstructCollectionListName(FhirApiSearchParameterInfo oFhirApiSearchParameterInfo)
-    {
-      if (oFhirApiSearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]", "") + "_List";
-      else
-        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_') + "_List";
-    }
-
-    /// <summary>
-    /// Construct the class name string for the Resource History
-    /// </summary>
-    /// <param name="ResourceName"></param>
-    /// <returns></returns>
-    public static string ConstructClassNameForResourceHistory(string ResourceName)
-    {
-      return String.Format("{0}_{1}_{2}", ResourcePrefixText, ResourceName, HistoryPrefixText);
-    }
-
 
     #endregion
 

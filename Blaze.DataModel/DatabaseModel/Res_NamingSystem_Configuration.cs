@@ -20,8 +20,8 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_NamingSystemID).Property(x => x.Res_NamingSystemID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.kind_Code).IsOptional();
@@ -30,7 +30,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.publisher_String).IsOptional();
       Property(x => x.replaced_by_FhirId).IsOptional();
       Property(x => x.replaced_by_Type).IsOptional();
-      HasOptional(x => x.replaced_by_Aux_RootUrlStoreID);
+      HasOptional(x => x.replaced_by_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.replaced_by_Url).WithMany().HasForeignKey(x => x.replaced_by_Url_Blaze_RootUrlStoreID);
       Property(x => x.responsible_String).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();

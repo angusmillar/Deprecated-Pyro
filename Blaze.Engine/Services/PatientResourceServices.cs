@@ -12,7 +12,7 @@ using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Services;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Engine.Response;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 
 namespace Blaze.Engine.Services
@@ -21,7 +21,7 @@ namespace Blaze.Engine.Services
   /// This Class is here to handle any unique methods required for Patient resource beyond the basic REST operations.
   /// These might be FHIR operations on the resource such as '$expand' in the ValueSet Resource.
   /// </summary>
-  public class PatientResourceServices : BaseResourceServices, IPatientResourceServices, IBaseResourceServices
+  public class PatientResourceServices : BaseResourceServices, IPatientResourceServices, IBaseResourceServices, ICommonServices, IBaseServices 
   {
     public override DtoEnums.SupportedFhirResource CurrentResourceType
     {
@@ -59,7 +59,7 @@ namespace Blaze.Engine.Services
       FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
 
 
-      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.PatientRepository.AddResource(FhirPatientResource, BlazeServiceRequest.RequestFhirUri);
+      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.PatientRepository.AddResource(FhirPatientResource, BlazeServiceRequest.FhirRequestUri);
       oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
       return oBlazeServiceOperationOutcome;

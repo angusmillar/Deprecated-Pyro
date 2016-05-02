@@ -13,25 +13,21 @@ using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.FhirUri;
+using Blaze.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Introspection;
 
 namespace Blaze.DataModel.Repository
 {
-  public class PatientRepository : BaseRepository, IPatientRepository
+  public class PatientRepository : CommonRepository, IPatientRepository
   {
-    
-    public PatientRepository(DataModel.DatabaseModel.DatabaseContext Context)
-    {
-      _Context = Context;
-    }
+    public PatientRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Patient Patient, IFhirUri RequestFhirUri)
+    public string AddResource(Patient Patient, IDtoFhirRequestUri FhirRequestUri)
     {
-      var NewPatientResource = this.PopulatePatientResourceEntity(1, Patient, RequestFhirUri);
+      var NewPatientResource = this.PopulatePatientResourceEntity(1, Patient, FhirRequestUri);
       using (var scope = new TransactionScope())
-      {        
-        //_Context.PatientResource.Add(NewPatientResource);
+      {
+        _Context.Res_Patient.Add(NewPatientResource);        
         this.Save();
         scope.Complete();
       }
@@ -40,7 +36,7 @@ namespace Blaze.DataModel.Repository
 
     //Stay in Patient
     public string UpdateResource(int ResourceVersion, Patient Patient)
-    {      
+    {
       //var NewPatientResource = this.PopulatePatientResourceEntity(ResourceVersion, Patient);
 
 
@@ -173,7 +169,7 @@ namespace Blaze.DataModel.Repository
       //using (var scope = new TransactionScope())
       //{
       //  //=======================================================================
-                
+
       //  //Delete the old HumanNames and any Periods 
       //  foreach (var Name in DbResource.PatientResource.HumanName.ToList())
       //  {
@@ -181,7 +177,7 @@ namespace Blaze.DataModel.Repository
       //      _Context.Period.Remove(Name.Period);
       //    _Context.HumanName.Remove(Name);
       //  }
-        
+
       //  //Delete the old Identifiers
       //  if (DbResource.PatientResource.Identifier != null)
       //  {
@@ -203,7 +199,7 @@ namespace Blaze.DataModel.Repository
       //    }
       //  }
 
-        
+
       //  _Context.PatientResource.Remove(DbResource.PatientResource);
       //  DbResource.IsCurrent = false;        
       //  DbResource.PatientResource = null;
@@ -221,7 +217,7 @@ namespace Blaze.DataModel.Repository
       //  NewResource.PatientResource = DbResource.PatientResource;
 
       //  _Context.Resource.Add(NewResource);
-        
+
       //  this.Save();
 
       //  scope.Complete();
@@ -234,7 +230,7 @@ namespace Blaze.DataModel.Repository
       if (_Context.Res_Patient.Any(x => x.FhirId == FhirResourceId))
         return true;
       else
-        return false;      
+        return false;
     }
 
     //Stay in Patient
@@ -296,7 +292,7 @@ namespace Blaze.DataModel.Repository
 
       //DatabaseOperationOutcome oDatabaseOperationOutcome;
       //var dbResourceList = new List<Model.Resource>();
-      
+
       //dbResourceList = _Context.Resource.SqlQuery(SqlQueryGetXml, parameters).ToList();      
 
       //oDatabaseOperationOutcome = new DatabaseOperationOutcome();
@@ -353,46 +349,45 @@ namespace Blaze.DataModel.Repository
     {
       throw new NotImplementedException();
     }
-   
+
     //private SqlForge.Query.Query SetupHumanNameQuery(Dictionary<string, SqlTable> TableDic)
     //{
 
-      //var Query = new SqlForge.Query.Query();
+    //var Query = new SqlForge.Query.Query();
 
-      //var Select = new Select();
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
-      ////Select.AddProp(TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.FhirResourceId));
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Version));
-      //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
-      //Query.Select = Select;
+    //var Select = new Select();
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id));
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsCurrent));
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.IsDeleted));
+    ////Select.AddProp(TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.FhirResourceId));
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Received));
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Version));
+    //Select.AddProp(TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Xml));
+    //Query.Select = Select;
 
-      //var From = new From();
-      //From.AddTable(TableDic[DbInfo.Resource.TableNameIs]);
-      //Query.From = From;
+    //var From = new From();
+    //From.AddTable(TableDic[DbInfo.Resource.TableNameIs]);
+    //Query.From = From;
 
-      //var Join = new Join();
-      //Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
-      //Join.AddJoin(TableDic[DbInfo.ResourceIdentity.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.ResourceIdentity_Id), TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.Id));
-      //Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResource_Id));
-      //Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanName_Id));
-      //Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanName_Id));
-      //Query.Join = Join;
+    //var Join = new Join();
+    //Join.AddJoin(TableDic[DbInfo.PatientResource.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.PatientResource_Id), TableDic[DbInfo.PatientResource.TableNameIs].Prop(DbInfo.PatientResource.Id));
+    //Join.AddJoin(TableDic[DbInfo.ResourceIdentity.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.ResourceIdentity_Id), TableDic[DbInfo.ResourceIdentity.TableNameIs].Prop(DbInfo.ResourceIdentity.Id));
+    //Join.AddJoin(TableDic[DbInfo.HumanName.TableNameIs], TableDic[DbInfo.Resource.TableNameIs].Prop(DbInfo.Resource.Id), TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.PatientResource_Id));
+    //Join.AddJoin(TableDic[DbInfo.Family.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Family.TableNameIs].Prop(DbInfo.Family.HumanName_Id));
+    //Join.AddJoin(TableDic[DbInfo.Given.TableNameIs], TableDic[DbInfo.HumanName.TableNameIs].Prop(DbInfo.HumanName.Id), TableDic[DbInfo.Given.TableNameIs].Prop(DbInfo.Given.HumanName_Id));
+    //Query.Join = Join;
 
-      //return Query;
+    //return Query;
 
     //}    
 
-    private Res_Patient PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient, IFhirUri RequestFhirUri)
+    private Res_Patient PopulatePatientResourceEntity(int ResourceVersion, Patient FhirPatient, IDtoFhirRequestUri FhirRequestUri)
     {
-
       var oResourse = new DataModel.DatabaseModel.Res_Patient();
       oResourse.FhirId = FhirPatient.Id;
       oResourse.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(FhirPatient);
-      oResourse.Received = (DateTimeOffset)FhirPatient.Meta.LastUpdated;
-      oResourse.Version = ResourceVersion;
+      oResourse.lastUpdated = (DateTimeOffset)FhirPatient.Meta.LastUpdated;
+      oResourse.versionId = ResourceVersion;
 
       if (FhirPatient.Active != null)
       {
@@ -405,7 +400,7 @@ namespace Blaze.DataModel.Repository
       else
         oResourse.birthdate_DateTimeOffset = null;
 
-      
+
       if (FhirPatient.Deceased != null)
       {
         if (FhirPatient.Deceased.TypeName == ModelInfo.FhirCsTypeToString[typeof(FhirBoolean)])
@@ -415,70 +410,82 @@ namespace Blaze.DataModel.Repository
           oResourse.deceased_System = Token.CodeSystem;
         }
         else if (FhirPatient.Deceased.TypeName == ModelInfo.FhirCsTypeToString[typeof(FhirDateTime)])
-        {           
+        {
           oResourse.deathdate_DateTimeOffset = (FhirPatient.Deceased as FhirDateTime).ToDateTimeOffset();
-        }                  
+        }
       }
 
       if (FhirPatient.Gender != null)
       {
         oResourse.gender_Code = EnumMapping.Create(typeof(AdministrativeGender)).GetLiteral(FhirPatient.Gender);
-        oResourse.gender_System = null;                
+        oResourse.gender_System = null;
       }
 
       if (FhirPatient.ManagingOrganization != null)
       {
         if (!FhirPatient.ManagingOrganization.IsContainedReference)
         {
-          if (!FhirPatient.ManagingOrganization.Url.IsAbsoluteUri)
+          var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(FhirPatient.ManagingOrganization.Url);
+          if (FhirPatient.ManagingOrganization.Url.IsAbsoluteUri)
           {
-            var UrlTest2 = Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(FhirPatient.ManagingOrganization.Url.OriginalString);
-            //FhirUri.
-            oResourse.organization_Type = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[0];
-            oResourse.organization_FhirId = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[1];
-            oResourse.organization_Aux_RootUrlStoreID = null;
+            oResourse.organization_Type = ReferanceUri.ResourseType;
+            oResourse.organization_FhirId = ReferanceUri.FullResourceIdentity;
+            Blaze_RootUrlStore RootUrlStore = this.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+            oResourse.organization_Url = RootUrlStore;
           }
           else
           {
-            var UrlTest2 = Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(FhirPatient.ManagingOrganization.Url.OriginalString);
-            //FhirUri.
-            oResourse.organization_Type = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[0];
-            oResourse.organization_FhirId = FhirPatient.ManagingOrganization.Url.OriginalString.Split('/')[1];
-            oResourse.organization_Aux_RootUrlStoreID = null;
+            oResourse.organization_Type = ReferanceUri.ResourseType;
+            oResourse.organization_FhirId = ReferanceUri.FullResourceIdentity;
+            oResourse.organization_Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
           }
-        }        
+        }
       }
 
-      
-      
-
       if (FhirPatient.Telecom != null)
-      {        
-        foreach(var Telecom in FhirPatient.Telecom)
+      {
+        foreach (var Telecom in FhirPatient.Telecom)
         {
           if (Telecom.System != null)
           {
             if ((ContactPoint.ContactPointSystem)Telecom.System == ContactPoint.ContactPointSystem.Email)
-            {               
+            {
               if (oResourse.email_List == null)
               {
                 oResourse.email_List = new List<Res_Patient_Index_email>();
-              }              
+              }
               var Token = SearchParameterTypeFactory.CreateToken(Telecom);
               oResourse.email_List.Add(new Res_Patient_Index_email() { Code = Token.Code, System = Token.CodeSystem });
             }
           }
         }
       }
-      //oResourse.email_Code
       
-      
+      if (FhirPatient.Address != null)
+      {
+        foreach(var address in FhirPatient.Address)
+        {
+          if (!String.IsNullOrWhiteSpace(address.City))
+          {
+            if (oResourse.address_city_List == null)
+            {
+              oResourse.address_city_List = new List<Res_Patient_Index_address_city>();
+            }
+            var test = new Res_Patient_Index_address_city();
+            test.String = address.City;            
+          }
+        }
+      }
       
       
 
+
+
+
+
       //var ResourceIdentity = new Model.ResourceIdentity();
       //ResourceIdentity.FhirResourceId = FhirPatient.Id;
-      
+
       //var ResourceXml = new DataModel.Model.Resource();
       //ResourceXml.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(FhirPatient);
       //ResourceXml.Received = (DateTimeOffset)FhirPatient.Meta.LastUpdated;
@@ -504,7 +511,7 @@ namespace Blaze.DataModel.Repository
       //    DbIdentifier.Use = FhirIdentifier.Use;
       //    DbIdentifier.System = FhirIdentifier.System;
       //    DbIdentifier.Value = FhirIdentifier.Value;
-          
+
       //    if (FhirIdentifier.Type != null)
       //    {
       //      DbIdentifier.Type = new Model.CodeableConcept();
@@ -562,7 +569,7 @@ namespace Blaze.DataModel.Repository
       //  if (FhirName.Period != null)
       //  {
       //    DbHumanName.Period = new DataModel.Model.Period();
-          
+
       //    if (FhirName.Period.Start != null)
       //      DbHumanName.Period.Start = DateTimeOffset.Parse(FhirName.Period.Start);
       //    else
@@ -582,14 +589,12 @@ namespace Blaze.DataModel.Repository
       //    DbResourcePatient.BirthDate = null;
 
       //}
-      //return DbResourcePatient;
-
-      throw new NotImplementedException(); 
+      return oResourse;
 
     }
 
 
-    
+
 
   }
 }

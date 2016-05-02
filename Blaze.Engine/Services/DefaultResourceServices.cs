@@ -7,7 +7,7 @@ using Blaze.Common.Interfaces.Services;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.Interfaces;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.Engine.Services
 {

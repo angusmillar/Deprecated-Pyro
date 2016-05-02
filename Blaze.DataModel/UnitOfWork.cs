@@ -15,6 +15,8 @@ namespace Blaze.DataModel
 
     private ResourceRepository _ResourceRepository;
     private PatientRepository _PatientRepository;
+    private CommonRepository _CommonRepository;    
+
 
     public UnitOfWork()
     {
@@ -41,6 +43,17 @@ namespace Blaze.DataModel
         return _PatientRepository;
       }
     }
+
+    public ICommonRepository CommonRepository
+    {
+      get
+      {
+        if (this._CommonRepository == null)
+          this._CommonRepository = new CommonRepository(_context);
+        return _CommonRepository;
+      }
+    }
+
 
     #region Implementing IDiosposable...
 

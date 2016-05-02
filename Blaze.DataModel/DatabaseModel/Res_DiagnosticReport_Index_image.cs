@@ -14,7 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_DiagnosticReport_Index_imageID {get; set;}
     public string FhirId {get; set;}
     public string Type {get; set;}
-    public virtual Aux_RootUrlStore Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore Url { get; set; }
+    public int? Url_Blaze_RootUrlStoreID { get; set; }
     public virtual Res_DiagnosticReport Res_DiagnosticReport { get; set; }
    
     public Res_DiagnosticReport_Index_image()

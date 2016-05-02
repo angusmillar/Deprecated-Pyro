@@ -13,32 +13,37 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_DocumentReferenceID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string authenticator_FhirId {get; set;}
     public string authenticator_Type {get; set;}
-    public virtual Aux_RootUrlStore authenticator_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore authenticator_Url { get; set; }
+    public int? authenticator_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? created_DateTimeOffset {get; set;}
     public string custodian_FhirId {get; set;}
     public string custodian_Type {get; set;}
-    public virtual Aux_RootUrlStore custodian_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore custodian_Url { get; set; }
+    public int? custodian_Url_Blaze_RootUrlStoreID { get; set; }
     public string description_String {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
-    public virtual Aux_RootUrlStore encounter_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore encounter_Url { get; set; }
+    public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
     public string identifier_Code {get; set;}
     public string identifier_System {get; set;}
     public DateTimeOffset? indexed_DateTimeOffset {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? period_DateTimeOffset {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Aux_RootUrlStore subject_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore subject_Url { get; set; }
+    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_DocumentReference_Index_author> author_List { get; set; }
     public ICollection<Res_DocumentReference_Index_class> class_List { get; set; }
     public ICollection<Res_DocumentReference_Index_event> event_List { get; set; }

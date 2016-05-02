@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
 

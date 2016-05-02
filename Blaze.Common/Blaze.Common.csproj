@@ -50,25 +50,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessEntities\DtoBlazeException.cs" />
-    <Compile Include="BusinessEntities\DtoDataBaseExceptionInfomation.cs" />
-    <Compile Include="BusinessEntities\DtoEnums.cs" />
-    <Compile Include="BusinessEntities\DtoResource.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoBlazeException.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoDataBaseExceptionInfomation.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoEnums.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDate.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
-    <Compile Include="BusinessEntities\FhirUri\DtoFhirUri.cs" />
+    <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
+    <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
+    <Compile Include="Interfaces\UriSupport\IDtoFhirRequestUri.cs" />
+    <Compile Include="Interfaces\Dto\IDtoRootUrlStore.cs" />
     <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
     <Compile Include="Interfaces\IBlazeServiceOperationOutcome.cs" />
     <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
+    <Compile Include="Interfaces\Repositories\ICommonRepository.cs" />
     <Compile Include="Interfaces\Repositories\IConceptMapRepository.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
+    <Compile Include="Interfaces\Services\IBaseServices.cs" />
     <Compile Include="Interfaces\Services\IBlazeServiceRequest.cs" />
+    <Compile Include="Interfaces\Services\ICommonServices.cs" />
     <Compile Include="Interfaces\Services\IConceptMapResourceServices.cs" />
     <Compile Include="Interfaces\Services\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
@@ -80,7 +87,7 @@
     <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
-    <Compile Include="Interfaces\FhirUri\IFhirUri.cs" />
+    <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

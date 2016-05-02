@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Blaze.Engine.Search;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Interfaces

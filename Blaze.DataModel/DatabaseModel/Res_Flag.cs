@@ -13,22 +13,26 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_FlagID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
-    public virtual Aux_RootUrlStore author_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore author_Url { get; set; }
+    public int? author_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
-    public virtual Aux_RootUrlStore encounter_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore encounter_Url { get; set; }
+    public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Aux_RootUrlStore subject_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore subject_Url { get; set; }
+    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
    
     public Res_Flag()
     {

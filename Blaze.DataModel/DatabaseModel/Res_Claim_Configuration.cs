@@ -20,17 +20,19 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ClaimID).Property(x => x.Res_ClaimID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
-      HasOptional(x => x.patient_Aux_RootUrlStoreID);
+      HasOptional(x => x.patient_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
       Property(x => x.priority_Code).IsOptional();
       Property(x => x.priority_System).IsOptional();
       Property(x => x.provider_FhirId).IsOptional();
       Property(x => x.provider_Type).IsOptional();
-      HasOptional(x => x.provider_Aux_RootUrlStoreID);
+      HasOptional(x => x.provider_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.provider_Url).WithMany().HasForeignKey(x => x.provider_Url_Blaze_RootUrlStoreID);
       Property(x => x.use_Code).IsOptional();
       Property(x => x.use_System).IsOptional();
     }

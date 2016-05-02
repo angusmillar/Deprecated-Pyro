@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Blaze.Common.Interfaces;
 using System.Net.Http;
 using System.Net;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Response
@@ -15,6 +15,9 @@ namespace Blaze.Engine.Response
   {    
     public static HttpResponseMessage GetHttpResponseMessage(IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, HttpRequestMessage Request)
     {
+      //Todo: to support CORS it appears I need to return this 'Access-Control-Allow-Origin' in the HTTP header
+
+
       HttpStatusCode HttpStatusCode = oBlazeServiceOperationOutcome.HttpStatusCodeToReturn;
       Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn; 
       

@@ -13,12 +13,13 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_MedicationID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string manufacturer_FhirId {get; set;}
     public string manufacturer_Type {get; set;}
-    public virtual Aux_RootUrlStore manufacturer_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore manufacturer_Url { get; set; }
+    public int? manufacturer_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_Medication_Index_code> code_List { get; set; }
     public ICollection<Res_Medication_Index_container> container_List { get; set; }
     public ICollection<Res_Medication_Index_content> content_List { get; set; }

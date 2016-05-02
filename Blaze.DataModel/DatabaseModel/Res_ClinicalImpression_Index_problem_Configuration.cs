@@ -21,7 +21,8 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ClinicalImpression_Index_problemID).Property(x => x.Res_ClinicalImpression_Index_problemID).IsRequired();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
-      HasRequired(x => x.Aux_RootUrlStoreID);
+      HasRequired(x => x.Url);
+      HasRequired<Blaze_RootUrlStore>(x => x.Url).WithMany().HasForeignKey(x => x.Url_Blaze_RootUrlStoreID);
       HasRequired(x => x.Res_ClinicalImpression);
     }
   }

@@ -7,7 +7,7 @@ using Fhir = Hl7.Fhir;
 using System.Net;
 using System.Net.Http;
 using Blaze.Common.Interfaces.Services;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Web.BlazeService

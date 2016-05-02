@@ -19,34 +19,7 @@ namespace Blaze.Test.CodeGenerationSupport
       Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
       List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
 
-      List<FhirApiSearchParameterInfo> oSearchParameterList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
-    }
-
-    [Test]
-    public void Test_ConstructClassNameForResourceClass_ReturnsTheCorrectString()
-    {
-      string ResourceClassName = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceClass("MyResourceName");
-      Assert.AreEqual("Res_MyResourceName", ResourceClassName);         
-    }
-
-    [Test]
-    public void Test_ConstructClassNameForResourceSearchClass_ReturnsTheCorrectString()
-    {
-      var oFhirApiSearchParameterInfo = new FhirApiSearchParameterInfo();
-      oFhirApiSearchParameterInfo.SearchName = "MyParameter-thing-[x]";
-      oFhirApiSearchParameterInfo.SearchParamType = SearchParamType.Composite;
-      string ResourceClassName = FhirApiSearchParameterInfoFactory.ConstructClassNameForResourceSearchClass("MyResourceName", oFhirApiSearchParameterInfo);
-      Assert.AreEqual("Res_MyResourceName_Index_MyParameter_thing", ResourceClassName);
-    }
-
-    [Test]
-    public void Test_ConstructCollectionListName_ReturnsTheCorrectString()
-    {
-      var oFhirApiSearchParameterInfo = new FhirApiSearchParameterInfo();
-      oFhirApiSearchParameterInfo.SearchName = "MyParameter-thing-[x]";
-      oFhirApiSearchParameterInfo.SearchParamType = SearchParamType.Composite;
-      string ResourceClassName = FhirApiSearchParameterInfoFactory.ConstructCollectionListName(oFhirApiSearchParameterInfo);
-      Assert.AreEqual("MyParameter_thing_List", ResourceClassName);
+      //List<FhirApiSearchParameterInfo> oSearchParameterList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
     }
 
   }

@@ -10,6 +10,7 @@ namespace Blaze.Common.Interfaces.Repositories
   {
     IResourceRepository ResourceRepository { get; }
     IPatientRepository PatientRepository { get; }
+    ICommonRepository CommonRepository { get; }
     //IValueSetRepository ValueSetRepository { get; }    
     //IConceptMapRepository ConceptMapRepository { get; }  
   }

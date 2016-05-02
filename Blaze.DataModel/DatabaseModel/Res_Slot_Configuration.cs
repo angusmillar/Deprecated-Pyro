@@ -20,14 +20,15 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_SlotID).Property(x => x.Res_SlotID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.fb_type_Code).IsOptional();
       Property(x => x.fb_type_System).IsOptional();
       Property(x => x.schedule_FhirId).IsOptional();
       Property(x => x.schedule_Type).IsOptional();
-      HasOptional(x => x.schedule_Aux_RootUrlStoreID);
+      HasOptional(x => x.schedule_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.schedule_Url).WithMany().HasForeignKey(x => x.schedule_Url_Blaze_RootUrlStoreID);
       Property(x => x.start_DateTimeOffset).IsOptional();
     }
   }

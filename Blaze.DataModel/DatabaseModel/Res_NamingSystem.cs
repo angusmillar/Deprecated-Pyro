@@ -13,8 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_NamingSystemID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string kind_Code {get; set;}
@@ -23,7 +23,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string publisher_String {get; set;}
     public string replaced_by_FhirId {get; set;}
     public string replaced_by_Type {get; set;}
-    public virtual Aux_RootUrlStore replaced_by_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore replaced_by_Url { get; set; }
+    public int? replaced_by_Url_Blaze_RootUrlStoreID { get; set; }
     public string responsible_String {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}

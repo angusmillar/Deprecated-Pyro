@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Blaze.Common.Interfaces;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
@@ -44,7 +44,7 @@ namespace Blaze.Engine.Search
             var oSupportedSearchParameter = oSupportedSearchParametersForResourceList.SingleOrDefault(x => x.Name == SearchParameterNameType);
             if (oSupportedSearchParameter != null)
             {
-              var oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter.Resource, SearchParameterNameType, Parameter, oSupportedSearchParameter.SearchParameterType);              
+              DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter.Resource, SearchParameterNameType, Parameter, oSupportedSearchParameter.SearchParameterType);              
               ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter);              
               oInboundSearchParametersList.Add(oSearchParameter);
             }

@@ -20,8 +20,8 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_EpisodeOfCareID).Property(x => x.Res_EpisodeOfCareID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = false })); ;
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       HasRequired(x => x.Res_EpisodeOfCare);
     }

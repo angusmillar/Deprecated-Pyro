@@ -13,24 +13,28 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_ClinicalImpressionID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string assessor_FhirId {get; set;}
     public string assessor_Type {get; set;}
-    public virtual Aux_RootUrlStore assessor_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore assessor_Url { get; set; }
+    public int? assessor_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public string previous_FhirId {get; set;}
     public string previous_Type {get; set;}
-    public virtual Aux_RootUrlStore previous_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore previous_Url { get; set; }
+    public int? previous_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string trigger_FhirId {get; set;}
     public string trigger_Type {get; set;}
-    public virtual Aux_RootUrlStore trigger_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore trigger_Url { get; set; }
+    public int? trigger_Url_Blaze_RootUrlStoreID { get; set; }
     public string trigger_code_Code {get; set;}
     public string trigger_code_System {get; set;}
     public ICollection<Res_ClinicalImpression_Index_action> action_List { get; set; }

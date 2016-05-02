@@ -21,7 +21,8 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_StructureDefinition_Index_valuesetID).Property(x => x.Res_StructureDefinition_Index_valuesetID).IsRequired();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
-      HasRequired(x => x.Aux_RootUrlStoreID);
+      HasRequired(x => x.Url);
+      HasRequired<Blaze_RootUrlStore>(x => x.Url).WithMany().HasForeignKey(x => x.Url_Blaze_RootUrlStoreID);
       HasRequired(x => x.Res_StructureDefinition);
     }
   }

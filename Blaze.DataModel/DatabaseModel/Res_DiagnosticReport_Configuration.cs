@@ -20,25 +20,29 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_DiagnosticReportID).Property(x => x.Res_DiagnosticReportID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
-      HasOptional(x => x.encounter_Aux_RootUrlStoreID);
+      HasOptional(x => x.encounter_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
       Property(x => x.issued_DateTimeOffset).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
-      HasOptional(x => x.patient_Aux_RootUrlStoreID);
+      HasOptional(x => x.patient_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
       Property(x => x.performer_FhirId).IsOptional();
       Property(x => x.performer_Type).IsOptional();
-      HasOptional(x => x.performer_Aux_RootUrlStoreID);
+      HasOptional(x => x.performer_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.performer_Url).WithMany().HasForeignKey(x => x.performer_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.subject_FhirId).IsOptional();
       Property(x => x.subject_Type).IsOptional();
-      HasOptional(x => x.subject_Aux_RootUrlStoreID);
+      HasOptional(x => x.subject_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_Url_Blaze_RootUrlStoreID);
     }
   }
 }

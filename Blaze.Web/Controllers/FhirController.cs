@@ -6,22 +6,22 @@ using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.FhirUri;
+using Blaze.Common.Interfaces.UriSupport;
 using Blaze.Common.Interfaces;
 using Blaze.Web.Extensions;
 using Blaze.Engine.Response;
+using Blaze.Web.ApplicationCache;
 
 namespace Blaze.Web.Controllers
 {
   [RoutePrefix("fhirapi")]
   public class FhirController : ApiController
   {
-    private readonly IFhirServiceNegotiator _FhirServiceNegotiator;
-    private readonly string RoutePrefix = "fhirapi"; 
+    private readonly IFhirServiceNegotiator _FhirServiceNegotiator;    
     //Constructor for dependence injection 
     public FhirController(IFhirServiceNegotiator FhirServiceNegotiator)
     {
-      _FhirServiceNegotiator = FhirServiceNegotiator;
+      _FhirServiceNegotiator = FhirServiceNegotiator;      
     }
 
     // Get By id
@@ -49,9 +49,11 @@ namespace Blaze.Web.Controllers
     [HttpPost, Route("{ResourceName}")]
     public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
     {
+      //string test = System.Web.HttpContext.Current.Application["key"] as String;
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirUri FhirUri = new Blaze.Common.BusinessEntities.FhirUri.DtoFhirUri(Request.RequestUri, RoutePrefix);
-      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, FhirUri);
+      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+
+      IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, DtoFhirRequestUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(BlazeServiceRequest);      
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }
@@ -62,8 +64,10 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Put(string ResourceName, string id, FhirModel.Resource resource)
     {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IFhirUri FhirUri = new Blaze.Common.BusinessEntities.FhirUri.DtoFhirUri(Request.RequestUri, RoutePrefix);
-      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, FhirUri);
+      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+
+
+      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, DtoFhirRequestUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(BlazeServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
     }

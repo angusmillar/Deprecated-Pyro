@@ -20,19 +20,21 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_SupplyDeliveryID).Property(x => x.Res_SupplyDeliveryID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
-      HasOptional(x => x.patient_Aux_RootUrlStoreID);
+      HasOptional(x => x.patient_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.supplier_FhirId).IsOptional();
       Property(x => x.supplier_Type).IsOptional();
-      HasOptional(x => x.supplier_Aux_RootUrlStoreID);
+      HasOptional(x => x.supplier_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.supplier_Url).WithMany().HasForeignKey(x => x.supplier_Url_Blaze_RootUrlStoreID);
     }
   }
 }

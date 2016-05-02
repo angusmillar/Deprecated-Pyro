@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.FhirUri;
+using Blaze.Common.Interfaces.UriSupport;
 
 namespace Blaze.Common.Interfaces.Services
 {
@@ -12,6 +12,6 @@ namespace Blaze.Common.Interfaces.Services
   {
     string ResourceId { get; set; }
     Resource Resource { get; set; }
-    IFhirUri RequestFhirUri { get; set; }
+    IDtoFhirRequestUri FhirRequestUri { get; set; }
   }
 }

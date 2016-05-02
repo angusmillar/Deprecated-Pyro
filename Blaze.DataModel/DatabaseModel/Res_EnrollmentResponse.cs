@@ -13,8 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_EnrollmentResponseID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public ICollection<Res_EnrollmentResponse_Index_identifier> identifier_List { get; set; }
    

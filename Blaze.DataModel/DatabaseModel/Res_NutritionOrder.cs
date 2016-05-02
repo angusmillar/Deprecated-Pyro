@@ -13,19 +13,22 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_NutritionOrderID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public DateTimeOffset? datetime_DateTimeOffset {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
-    public virtual Aux_RootUrlStore encounter_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore encounter_Url { get; set; }
+    public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public string provider_FhirId {get; set;}
     public string provider_Type {get; set;}
-    public virtual Aux_RootUrlStore provider_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore provider_Url { get; set; }
+    public int? provider_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_NutritionOrder_Index_additive> additive_List { get; set; }

@@ -13,22 +13,26 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_OrderID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
-    public virtual Aux_RootUrlStore source_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore source_Url { get; set; }
+    public int? source_Url_Blaze_RootUrlStoreID { get; set; }
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Aux_RootUrlStore subject_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore subject_Url { get; set; }
+    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
     public string target_FhirId {get; set;}
     public string target_Type {get; set;}
-    public virtual Aux_RootUrlStore target_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore target_Url { get; set; }
+    public int? target_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_Order_Index_detail> detail_List { get; set; }
     public ICollection<Res_Order_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Order_Index_when> when_List { get; set; }

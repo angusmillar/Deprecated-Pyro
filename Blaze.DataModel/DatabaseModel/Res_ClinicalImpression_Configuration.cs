@@ -20,24 +20,28 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ClinicalImpressionID).Property(x => x.Res_ClinicalImpressionID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.assessor_FhirId).IsOptional();
       Property(x => x.assessor_Type).IsOptional();
-      HasOptional(x => x.assessor_Aux_RootUrlStoreID);
+      HasOptional(x => x.assessor_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.assessor_Url).WithMany().HasForeignKey(x => x.assessor_Url_Blaze_RootUrlStoreID);
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
-      HasOptional(x => x.patient_Aux_RootUrlStoreID);
+      HasOptional(x => x.patient_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
       Property(x => x.previous_FhirId).IsOptional();
       Property(x => x.previous_Type).IsOptional();
-      HasOptional(x => x.previous_Aux_RootUrlStoreID);
+      HasOptional(x => x.previous_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.previous_Url).WithMany().HasForeignKey(x => x.previous_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.trigger_FhirId).IsOptional();
       Property(x => x.trigger_Type).IsOptional();
-      HasOptional(x => x.trigger_Aux_RootUrlStoreID);
+      HasOptional(x => x.trigger_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.trigger_Url).WithMany().HasForeignKey(x => x.trigger_Url_Blaze_RootUrlStoreID);
       Property(x => x.trigger_code_Code).IsOptional();
       Property(x => x.trigger_code_System).IsOptional();
     }

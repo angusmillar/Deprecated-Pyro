@@ -13,8 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_CoverageID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string dependent_Code {get; set;}
     public string dependent_System {get; set;}
@@ -22,7 +22,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string group_System {get; set;}
     public string issuer_FhirId {get; set;}
     public string issuer_Type {get; set;}
-    public virtual Aux_RootUrlStore issuer_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore issuer_Url { get; set; }
+    public int? issuer_Url_Blaze_RootUrlStoreID { get; set; }
     public string plan_Code {get; set;}
     public string plan_System {get; set;}
     public string sequence_Code {get; set;}

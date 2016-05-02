@@ -8,7 +8,7 @@ using Hl7.Fhir.Rest;
 using Blaze.Engine.Interfaces;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.Engine.Search
 {

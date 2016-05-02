@@ -13,8 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_PatientID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string active_Code {get; set;}
     public string active_System {get; set;}
@@ -26,7 +26,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string gender_System {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
-    public virtual Aux_RootUrlStore organization_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore organization_Url { get; set; }
+    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_Patient_Index_address> address_List { get; set; }
     public ICollection<Res_Patient_Index_address_city> address_city_List { get; set; }
     public ICollection<Res_Patient_Index_address_country> address_country_List { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.FhirUri;
+using Blaze.Common.Interfaces.UriSupport;
 
 namespace Blaze.Web.BlazeService
 {
@@ -13,20 +13,20 @@ namespace Blaze.Web.BlazeService
   {
     public string ResourceId { get; set; }
     public Resource Resource { get; set; }
-    public IFhirUri RequestFhirUri { get; set; }
+    public IDtoFhirRequestUri FhirRequestUri { get; set; }
 
-    public BlazeServiceRequest(string ResourceId, Resource Resource, IFhirUri RequestFhirUri)
+    public BlazeServiceRequest(string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
       this.ResourceId = ResourceId;
       this.Resource = Resource;
-      this.RequestFhirUri = RequestFhirUri;
+      this.FhirRequestUri = DtoFhirRequestUri;
     }
 
-    public BlazeServiceRequest(Resource Resource, IFhirUri RequestFhirUri)
+    public BlazeServiceRequest(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
       this.ResourceId = null;
       this.Resource = Resource;
-      this.RequestFhirUri = RequestFhirUri;
+      this.FhirRequestUri = DtoFhirRequestUri;
     }
   }
 }

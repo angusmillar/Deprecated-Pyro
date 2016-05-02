@@ -20,8 +20,8 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ConceptMapID).Property(x => x.Res_ConceptMapID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.description_String).IsOptional();
@@ -31,15 +31,18 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.publisher_String).IsOptional();
       Property(x => x.source_FhirId).IsOptional();
       Property(x => x.source_Type).IsOptional();
-      HasOptional(x => x.source_Aux_RootUrlStoreID);
+      HasOptional(x => x.source_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.source_Url).WithMany().HasForeignKey(x => x.source_Url_Blaze_RootUrlStoreID);
       Property(x => x.sourceuri_FhirId).IsOptional();
       Property(x => x.sourceuri_Type).IsOptional();
-      HasOptional(x => x.sourceuri_Aux_RootUrlStoreID);
+      HasOptional(x => x.sourceuri_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.sourceuri_Url).WithMany().HasForeignKey(x => x.sourceuri_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.target_FhirId).IsOptional();
       Property(x => x.target_Type).IsOptional();
-      HasOptional(x => x.target_Aux_RootUrlStoreID);
+      HasOptional(x => x.target_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.target_Url).WithMany().HasForeignKey(x => x.target_Url_Blaze_RootUrlStoreID);
       Property(x => x.url_Uri).IsOptional();
       Property(x => x.version_Code).IsOptional();
       Property(x => x.version_System).IsOptional();

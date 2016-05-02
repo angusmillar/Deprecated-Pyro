@@ -20,16 +20,18 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_HealthcareServiceID).Property(x => x.Res_HealthcareServiceID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.location_FhirId).IsOptional();
       Property(x => x.location_Type).IsOptional();
-      HasOptional(x => x.location_Aux_RootUrlStoreID);
+      HasOptional(x => x.location_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.location_Url).WithMany().HasForeignKey(x => x.location_Url_Blaze_RootUrlStoreID);
       Property(x => x.name_String).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();
-      HasOptional(x => x.organization_Aux_RootUrlStoreID);
+      HasOptional(x => x.organization_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_Url_Blaze_RootUrlStoreID);
     }
   }
 }

@@ -13,15 +13,17 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_BundleID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string composition_FhirId {get; set;}
     public string composition_Type {get; set;}
-    public virtual Aux_RootUrlStore composition_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore composition_Url { get; set; }
+    public int? composition_Url_Blaze_RootUrlStoreID { get; set; }
     public string message_FhirId {get; set;}
     public string message_Type {get; set;}
-    public virtual Aux_RootUrlStore message_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore message_Url { get; set; }
+    public int? message_Url_Blaze_RootUrlStoreID { get; set; }
     public string type_Code {get; set;}
     public string type_System {get; set;}
    

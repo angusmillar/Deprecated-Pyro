@@ -20,13 +20,14 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ProvenanceID).Property(x => x.Res_ProvenanceID).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.Received).IsRequired();
-      Property(x => x.Version).IsRequired();
+      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.end_DateTimeOffset).IsOptional();
       Property(x => x.location_FhirId).IsOptional();
       Property(x => x.location_Type).IsOptional();
-      HasOptional(x => x.location_Aux_RootUrlStoreID);
+      HasOptional(x => x.location_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.location_Url).WithMany().HasForeignKey(x => x.location_Url_Blaze_RootUrlStoreID);
       Property(x => x.start_DateTimeOffset).IsOptional();
     }
   }

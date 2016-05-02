@@ -14,7 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_Composition_Index_attesterID {get; set;}
     public string FhirId {get; set;}
     public string Type {get; set;}
-    public virtual Aux_RootUrlStore Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore Url { get; set; }
+    public int? Url_Blaze_RootUrlStoreID { get; set; }
     public virtual Res_Composition Res_Composition { get; set; }
    
     public Res_Composition_Index_attester()

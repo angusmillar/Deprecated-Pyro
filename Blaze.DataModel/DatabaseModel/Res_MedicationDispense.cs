@@ -13,25 +13,29 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_MedicationDispenseID {get; set;}
     public string FhirId {get; set;}
-    public int Version {get; set;}
-    public DateTimeOffset Received {get; set;}
+    public int versionId {get; set;}
+    public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public string destination_FhirId {get; set;}
     public string destination_Type {get; set;}
-    public virtual Aux_RootUrlStore destination_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore destination_Url { get; set; }
+    public int? destination_Url_Blaze_RootUrlStoreID { get; set; }
     public string dispenser_FhirId {get; set;}
     public string dispenser_Type {get; set;}
-    public virtual Aux_RootUrlStore dispenser_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore dispenser_Url { get; set; }
+    public int? dispenser_Url_Blaze_RootUrlStoreID { get; set; }
     public string identifier_Code {get; set;}
     public string identifier_System {get; set;}
     public string medication_FhirId {get; set;}
     public string medication_Type {get; set;}
-    public virtual Aux_RootUrlStore medication_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore medication_Url { get; set; }
+    public int? medication_Url_Blaze_RootUrlStoreID { get; set; }
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Aux_RootUrlStore patient_Aux_RootUrlStoreID { get; set; }
+    public virtual Blaze_RootUrlStore patient_Url { get; set; }
+    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public DateTimeOffset? whenhandedover_DateTimeOffset {get; set;}
