@@ -37,7 +37,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
-      Property(x => x.udi_String).IsOptional();
+      Property(x => x.udicarrier_Code).IsOptional();
+      Property(x => x.udicarrier_System).IsOptional();
       Property(x => x.url_Uri).IsOptional();
     }
   }

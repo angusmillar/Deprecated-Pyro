@@ -24,9 +24,9 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? start_DateTimeOffset {get; set;}
     public ICollection<Res_Provenance_Index_agent> agent_List { get; set; }
     public ICollection<Res_Provenance_Index_entity> entity_List { get; set; }
-    public ICollection<Res_Provenance_Index_entitytype> entitytype_List { get; set; }
+    public ICollection<Res_Provenance_Index_entity_type> entity_type_List { get; set; }
     public ICollection<Res_Provenance_Index_patient> patient_List { get; set; }
-    public ICollection<Res_Provenance_Index_sigtype> sigtype_List { get; set; }
+    public ICollection<Res_Provenance_Index_sig> sig_List { get; set; }
     public ICollection<Res_Provenance_Index_target> target_List { get; set; }
     public ICollection<Res_Provenance_Index_userid> userid_List { get; set; }
    
@@ -34,9 +34,9 @@ namespace Blaze.DataModel.DatabaseModel
     {
       this.agent_List = new HashSet<Res_Provenance_Index_agent>();
       this.entity_List = new HashSet<Res_Provenance_Index_entity>();
-      this.entitytype_List = new HashSet<Res_Provenance_Index_entitytype>();
+      this.entity_type_List = new HashSet<Res_Provenance_Index_entity_type>();
       this.patient_List = new HashSet<Res_Provenance_Index_patient>();
-      this.sigtype_List = new HashSet<Res_Provenance_Index_sigtype>();
+      this.sig_List = new HashSet<Res_Provenance_Index_sig>();
       this.target_List = new HashSet<Res_Provenance_Index_target>();
       this.userid_List = new HashSet<Res_Provenance_Index_userid>();
     }

@@ -36,12 +36,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_OperationDefinition_Index_profile> profile_List { get; set; }
+    public ICollection<Res_OperationDefinition_Index_context> context_List { get; set; }
+    public ICollection<Res_OperationDefinition_Index_paramprofile> paramprofile_List { get; set; }
     public ICollection<Res_OperationDefinition_Index_type> type_List { get; set; }
    
     public Res_OperationDefinition()
     {
-      this.profile_List = new HashSet<Res_OperationDefinition_Index_profile>();
+      this.context_List = new HashSet<Res_OperationDefinition_Index_context>();
+      this.paramprofile_List = new HashSet<Res_OperationDefinition_Index_paramprofile>();
       this.type_List = new HashSet<Res_OperationDefinition_Index_type>();
     }
   }

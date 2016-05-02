@@ -18,14 +18,18 @@ namespace Blaze.DataModel.DatabaseModel
     public string XmlBlob {get; set;}
     public string action_Code {get; set;}
     public string action_System {get; set;}
-    public string organization_FhirId {get; set;}
-    public string organization_Type {get; set;}
-    public virtual Blaze_RootUrlStore organization_Url { get; set; }
-    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
-    public string provider_FhirId {get; set;}
-    public string provider_Type {get; set;}
-    public virtual Blaze_RootUrlStore provider_Url { get; set; }
-    public int? provider_Url_Blaze_RootUrlStoreID { get; set; }
+    public string organizationidentifier_Code {get; set;}
+    public string organizationidentifier_System {get; set;}
+    public string organizationreference_FhirId {get; set;}
+    public string organizationreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore organizationreference_Url { get; set; }
+    public int? organizationreference_Url_Blaze_RootUrlStoreID { get; set; }
+    public string provideridentifier_Code {get; set;}
+    public string provideridentifier_System {get; set;}
+    public string providerreference_FhirId {get; set;}
+    public string providerreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore providerreference_Url { get; set; }
+    public int? providerreference_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_ProcessRequest_Index_identifier> identifier_List { get; set; }
    
     public Res_ProcessRequest()

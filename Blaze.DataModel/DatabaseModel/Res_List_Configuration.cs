@@ -28,7 +28,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
-      Property(x => x.notes_String).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);

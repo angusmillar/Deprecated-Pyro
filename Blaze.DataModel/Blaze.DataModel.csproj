@@ -46,16 +46,16 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Hl7.Fhir.DSTU2.Core, Version=0.90.4.20849, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.DSTU2.0.90.4\lib\net45\Hl7.Fhir.DSTU2.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.STU3.Core, Version=0.90.5.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LinqKit, Version=1.1.3.1, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.3.1\lib\net45\LinqKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -186,6 +186,12 @@
     <Compile Include="DatabaseModel\Res_Appointment_Index_actor_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Appointment_Index_appointment_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Appointment_Index_appointment_type_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Appointment_Index_identifier_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -219,6 +225,12 @@
     <Compile Include="DatabaseModel\Res_Appointment_Index_practitioner_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Appointment_Index_service_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Appointment_Index_service_type_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -228,13 +240,43 @@
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_address_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_agent.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_agent_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_agent_name.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_agent_name_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_altid_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_desc_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_identity_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_id.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_id_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_name.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_name_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_AuditEvent_Index_entity_type_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_meta_profile.cs">
@@ -255,22 +297,10 @@
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_name_Configuration.cs">
-      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_object_type_Configuration.cs">
-      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_participant_Configuration.cs">
-      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_patient_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_policy_Configuration.cs">
-      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_reference_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_subtype_Configuration.cs">
@@ -369,6 +399,18 @@
     <Compile Include="DatabaseModel\Res_Bundle_History_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Bundle_Index_composition.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Bundle_Index_composition_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Bundle_Index_message.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Bundle_Index_message_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Bundle_Index_meta_profile.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -436,6 +478,60 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_CarePlan_Index_relatedplan_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_participant.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_participant_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_status.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_status_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CareTeam_Index_type_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ClaimResponse_Configuration.cs">
@@ -537,6 +633,54 @@
     <Compile Include="DatabaseModel\Res_ClinicalImpression_Index_ruledout_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_code.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_code_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_language.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_language_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CodeSystem_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_CommunicationRequest_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -610,6 +754,42 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Communication_Index_recipient_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_resource.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_CompartmentDefinition_Index_resource_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Composition_Configuration.cs">
@@ -693,16 +873,28 @@
     <Compile Include="DatabaseModel\Res_ConceptMap_Index_product_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_sourcecode_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_source_code.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_source_code_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_sourcesystem_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_source_system.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_source_system_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_targetcode_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_target_code.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_target_code_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_targetsystem_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_target_system.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ConceptMap_Index_target_system_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Condition_Configuration.cs">
@@ -756,6 +948,12 @@
     <Compile Include="DatabaseModel\Res_Conformance_History_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Conformance_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Conformance_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Conformance_Index_event_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -783,13 +981,19 @@
     <Compile Include="DatabaseModel\Res_Conformance_Index_mode_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Conformance_Index_profile_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Conformance_Index_resourceprofile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Conformance_Index_resourceprofile_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Conformance_Index_resource_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Conformance_Index_security_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Conformance_Index_securityservice.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Conformance_Index_securityservice_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Conformance_Index_supported_profile_Configuration.cs">
@@ -801,7 +1005,22 @@
     <Compile Include="DatabaseModel\Res_Contract_History_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Contract_Index_actor_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Contract_Index_agent.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_agent_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_authority.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_authority_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_domain.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_domain_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Contract_Index_meta_profile.cs">
@@ -829,6 +1048,18 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Contract_Index_subject_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_topic_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_ttopic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Contract_Index_ttopic_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Coverage_Configuration.cs">
@@ -892,6 +1123,90 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_DataElement_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportRule_Index_topic_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_DecisionSupportServiceModule_Index_topic_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_DetectedIssue_Configuration.cs">
@@ -1479,10 +1794,37 @@
     <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_team_member_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_type_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_type_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_ExpansionProfile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ExpansionProfile_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ExplanationOfBenefit_Configuration.cs">
@@ -1641,6 +1983,36 @@
     <Compile Include="DatabaseModel\Res_Group_Index_value_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_GuidanceResponse_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_HealthcareService_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -1651,6 +2023,12 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_HealthcareService_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_HealthcareService_Index_location.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_HealthcareService_Index_location_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_HealthcareService_Index_meta_profile.cs">
@@ -1678,6 +2056,48 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_HealthcareService_Index_servicetype_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_selected_study.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_selected_study_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_title.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingExcerpt_Index_title_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ImagingObjectSelection_Configuration.cs">
@@ -1720,6 +2140,12 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ImagingStudy_Index_dicom_class_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingStudy_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImagingStudy_Index_identifier_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ImagingStudy_Index_meta_profile.cs">
@@ -1875,6 +2301,96 @@
     <Compile Include="DatabaseModel\Res_ImplementationGuide_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_ImplementationGuide_Index_resource.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ImplementationGuide_Index_resource_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Library_Index_topic_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_item.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_item_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_source.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Linkage_Index_source_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_List_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -1885,6 +2401,12 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_List_Index_empty_reason_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_List_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_List_Index_identifier_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_List_Index_item_Configuration.cs">
@@ -1906,6 +2428,12 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_List_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_List_Index_notes.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_List_Index_notes_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Location_Configuration.cs">
@@ -1939,6 +2467,78 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Location_Index_type_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MeasureReport_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Measure_Index_topic_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Media_Configuration.cs">
@@ -2106,10 +2706,13 @@
     <Compile Include="DatabaseModel\Res_Medication_Index_container_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Medication_Index_content_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Medication_Index_form_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Medication_Index_form_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Medication_Index_ingredient_code.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Medication_Index_ingredient_code_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Medication_Index_ingredient_Configuration.cs">
@@ -2131,6 +2734,18 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Medication_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Medication_Index_package_item.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Medication_Index_package_item_code.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Medication_Index_package_item_code_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Medication_Index_package_item_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MessageHeader_Configuration.cs">
@@ -2167,6 +2782,36 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MessageHeader_Index_target_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ModuleDefinition_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_NamingSystem_Configuration.cs">
@@ -2319,6 +2964,12 @@
     <Compile Include="DatabaseModel\Res_OperationDefinition_History_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_OperationDefinition_Index_meta_profile.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -2337,7 +2988,10 @@
     <Compile Include="DatabaseModel\Res_OperationDefinition_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_profile_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_paramprofile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_paramprofile_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_OperationDefinition_Index_type_Configuration.cs">
@@ -2395,6 +3049,48 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_OrderResponse_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_topic.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_OrderSet_Index_topic_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Order_Configuration.cs">
@@ -2718,6 +3414,78 @@
     <Compile Include="DatabaseModel\Res_Person_Index_telecom_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_email.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_email_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_location.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_location_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_phone.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_phone_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_role.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_role_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_specialty.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_specialty_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_telecom.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_PractitionerRole_Index_telecom_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Practitioner_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -2913,6 +3681,42 @@
     <Compile Include="DatabaseModel\Res_ProcessResponse_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Protocol_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Provenance_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -2922,10 +3726,13 @@
     <Compile Include="DatabaseModel\Res_Provenance_Index_agent_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Provenance_Index_entitytype_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Provenance_Index_entity_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Provenance_Index_entity_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Provenance_Index_entity_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Provenance_Index_entity_type_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Provenance_Index_meta_profile.cs">
@@ -2949,7 +3756,10 @@
     <Compile Include="DatabaseModel\Res_Provenance_Index_patient_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Provenance_Index_sigtype_Configuration.cs">
+    <Compile Include="DatabaseModel\Res_Provenance_Index_sig.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Provenance_Index_sig_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Provenance_Index_target_Configuration.cs">
@@ -2991,6 +3801,12 @@
     <Compile Include="DatabaseModel\Res_Questionnaire_Index_code_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Questionnaire_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Questionnaire_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_Questionnaire_Index_identifier_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -3016,6 +3832,12 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ReferralRequest_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ReferralRequest_Index_basedon.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ReferralRequest_Index_basedon_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ReferralRequest_Index_meta_profile.cs">
@@ -3171,6 +3993,12 @@
     <Compile Include="DatabaseModel\Res_SearchParameter_History_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_SearchParameter_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_SearchParameter_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_SearchParameter_Index_meta_profile.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -3190,6 +4018,48 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_SearchParameter_Index_target_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_chromosome.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_chromosome_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_species.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Sequence_Index_species_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Slot_Configuration.cs">
@@ -3307,6 +4177,48 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_StructureDefinition_Index_valueset_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_context.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_context_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_identifier.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_identifier_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_StructureMap_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Subscription_Configuration.cs">
@@ -3441,6 +4353,54 @@
     <Compile Include="DatabaseModel\Res_SupplyRequest_Index_supplier_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Task.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_History.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_History_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_failure.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_failure_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_profile.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_profile_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_security.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_security_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_tag.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_meta_tag_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_performer.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_performer_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_type.cs">
+      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Task_Index_type_Configuration.cs">
+      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_TestScript_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -3478,9 +4438,6 @@
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ValueSet_History_Configuration.cs">
-      <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_ValueSet_Index_code_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ValueSet_Index_context_Configuration.cs">
@@ -3625,28 +4582,10 @@
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_altid.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_desc.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_identity.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_name.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_object_type.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_participant.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_patient.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_policy.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_AuditEvent_Index_reference.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_AuditEvent_Index_subtype.cs">
@@ -3853,18 +4792,6 @@
     <Compile Include="DatabaseModel\Res_ConceptMap_Index_product.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_sourcecode.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_sourcesystem.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_targetcode.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_ConceptMap_Index_targetsystem.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Condition.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -3907,13 +4834,7 @@
     <Compile Include="DatabaseModel\Res_Conformance_Index_mode.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Conformance_Index_profile.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Conformance_Index_resource.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Conformance_Index_security.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Conformance_Index_supported_profile.cs">
@@ -3923,9 +4844,6 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Contract_History.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Contract_Index_actor.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Contract_Index_patient.cs">
@@ -4261,9 +5179,6 @@
     <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_incomingreferral.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_team_member.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_EpisodeOfCare_Index_type.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -4564,9 +5479,6 @@
     <Compile Include="DatabaseModel\Res_Medication_Index_container.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Medication_Index_content.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Medication_Index_form.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
@@ -4685,9 +5597,6 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_OperationDefinition_History.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_OperationDefinition_Index_profile.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_OperationDefinition_Index_type.cs">
@@ -5023,13 +5932,7 @@
     <Compile Include="DatabaseModel\Res_Provenance_Index_entity.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Provenance_Index_entitytype.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Provenance_Index_patient.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Provenance_Index_sigtype.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Provenance_Index_target.cs">
@@ -5288,9 +6191,6 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ValueSet_History.cs">
-      <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_ValueSet_Index_code.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ValueSet_Index_context.cs">

@@ -32,7 +32,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.publisher_String).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
-      Property(x => x.system_Uri).IsOptional();
       Property(x => x.url_Uri).IsOptional();
       Property(x => x.version_Code).IsOptional();
       Property(x => x.version_System).IsOptional();

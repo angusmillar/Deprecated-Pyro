@@ -26,30 +26,30 @@ namespace Blaze.DataModel.DatabaseModel
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public ICollection<Res_AuditEvent_Index_address> address_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_agent> agent_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_agent_name> agent_name_List { get; set; }
     public ICollection<Res_AuditEvent_Index_altid> altid_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_desc> desc_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_identity> identity_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_name> name_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_object_type> object_type_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_participant> participant_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_entity> entity_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_entity_id> entity_id_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_entity_name> entity_name_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_entity_type> entity_type_List { get; set; }
     public ICollection<Res_AuditEvent_Index_patient> patient_List { get; set; }
     public ICollection<Res_AuditEvent_Index_policy> policy_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_reference> reference_List { get; set; }
     public ICollection<Res_AuditEvent_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_AuditEvent_Index_user> user_List { get; set; }
    
     public Res_AuditEvent()
     {
       this.address_List = new HashSet<Res_AuditEvent_Index_address>();
+      this.agent_List = new HashSet<Res_AuditEvent_Index_agent>();
+      this.agent_name_List = new HashSet<Res_AuditEvent_Index_agent_name>();
       this.altid_List = new HashSet<Res_AuditEvent_Index_altid>();
-      this.desc_List = new HashSet<Res_AuditEvent_Index_desc>();
-      this.identity_List = new HashSet<Res_AuditEvent_Index_identity>();
-      this.name_List = new HashSet<Res_AuditEvent_Index_name>();
-      this.object_type_List = new HashSet<Res_AuditEvent_Index_object_type>();
-      this.participant_List = new HashSet<Res_AuditEvent_Index_participant>();
+      this.entity_List = new HashSet<Res_AuditEvent_Index_entity>();
+      this.entity_id_List = new HashSet<Res_AuditEvent_Index_entity_id>();
+      this.entity_name_List = new HashSet<Res_AuditEvent_Index_entity_name>();
+      this.entity_type_List = new HashSet<Res_AuditEvent_Index_entity_type>();
       this.patient_List = new HashSet<Res_AuditEvent_Index_patient>();
       this.policy_List = new HashSet<Res_AuditEvent_Index_policy>();
-      this.reference_List = new HashSet<Res_AuditEvent_Index_reference>();
       this.subtype_List = new HashSet<Res_AuditEvent_Index_subtype>();
       this.user_List = new HashSet<Res_AuditEvent_Index_user>();
     }

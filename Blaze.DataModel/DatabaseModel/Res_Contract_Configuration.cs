@@ -25,6 +25,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
+      Property(x => x.issued_DateTimeOffset).IsOptional();
     }
   }
 }

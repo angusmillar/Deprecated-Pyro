@@ -22,6 +22,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string context_type_Code {get; set;}
     public string context_type_System {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public string derivation_Code {get; set;}
+    public string derivation_System {get; set;}
     public string description_String {get; set;}
     public string display_String {get; set;}
     public string experimental_Code {get; set;}

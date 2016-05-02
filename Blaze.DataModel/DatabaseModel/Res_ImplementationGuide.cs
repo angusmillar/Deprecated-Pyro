@@ -29,11 +29,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string version_System {get; set;}
     public ICollection<Res_ImplementationGuide_Index_context> context_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_dependency> dependency_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index_resource> resource_List { get; set; }
    
     public Res_ImplementationGuide()
     {
       this.context_List = new HashSet<Res_ImplementationGuide_Index_context>();
       this.dependency_List = new HashSet<Res_ImplementationGuide_Index_dependency>();
+      this.resource_List = new HashSet<Res_ImplementationGuide_Index_resource>();
     }
   }
 }

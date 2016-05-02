@@ -25,10 +25,12 @@ namespace Blaze.DataModel.DatabaseModel
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public string url_Uri {get; set;}
+    public ICollection<Res_SearchParameter_Index_context> context_List { get; set; }
     public ICollection<Res_SearchParameter_Index_target> target_List { get; set; }
    
     public Res_SearchParameter()
     {
+      this.context_List = new HashSet<Res_SearchParameter_Index_context>();
       this.target_List = new HashSet<Res_SearchParameter_Index_target>();
     }
   }

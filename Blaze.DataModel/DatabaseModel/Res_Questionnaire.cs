@@ -23,11 +23,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string title_String {get; set;}
     public string version_String {get; set;}
     public ICollection<Res_Questionnaire_Index_code> code_List { get; set; }
+    public ICollection<Res_Questionnaire_Index_context> context_List { get; set; }
     public ICollection<Res_Questionnaire_Index_identifier> identifier_List { get; set; }
    
     public Res_Questionnaire()
     {
       this.code_List = new HashSet<Res_Questionnaire_Index_code>();
+      this.context_List = new HashSet<Res_Questionnaire_Index_context>();
       this.identifier_List = new HashSet<Res_Questionnaire_Index_identifier>();
     }
   }

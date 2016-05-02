@@ -30,7 +30,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
-    public string udi_String {get; set;}
+    public string udicarrier_Code {get; set;}
+    public string udicarrier_System {get; set;}
     public string url_Uri {get; set;}
     public ICollection<Res_Device_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Device_Index_type> type_List { get; set; }

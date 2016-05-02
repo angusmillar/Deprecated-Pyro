@@ -33,10 +33,10 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.source_Type).IsOptional();
       HasOptional(x => x.source_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.source_Url).WithMany().HasForeignKey(x => x.source_Url_Blaze_RootUrlStoreID);
-      Property(x => x.sourceuri_FhirId).IsOptional();
-      Property(x => x.sourceuri_Type).IsOptional();
-      HasOptional(x => x.sourceuri_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.sourceuri_Url).WithMany().HasForeignKey(x => x.sourceuri_Url_Blaze_RootUrlStoreID);
+      Property(x => x.source_uri_FhirId).IsOptional();
+      Property(x => x.source_uri_Type).IsOptional();
+      HasOptional(x => x.source_uri_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.source_uri_Url).WithMany().HasForeignKey(x => x.source_uri_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.target_FhirId).IsOptional();

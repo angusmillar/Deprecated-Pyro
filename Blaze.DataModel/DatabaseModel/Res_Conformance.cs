@@ -28,22 +28,24 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
+    public ICollection<Res_Conformance_Index_context> context_List { get; set; }
     public ICollection<Res_Conformance_Index_event> event_List { get; set; }
     public ICollection<Res_Conformance_Index_format> format_List { get; set; }
     public ICollection<Res_Conformance_Index_mode> mode_List { get; set; }
-    public ICollection<Res_Conformance_Index_profile> profile_List { get; set; }
     public ICollection<Res_Conformance_Index_resource> resource_List { get; set; }
-    public ICollection<Res_Conformance_Index_security> security_List { get; set; }
+    public ICollection<Res_Conformance_Index_resourceprofile> resourceprofile_List { get; set; }
+    public ICollection<Res_Conformance_Index_securityservice> securityservice_List { get; set; }
     public ICollection<Res_Conformance_Index_supported_profile> supported_profile_List { get; set; }
    
     public Res_Conformance()
     {
+      this.context_List = new HashSet<Res_Conformance_Index_context>();
       this.event_List = new HashSet<Res_Conformance_Index_event>();
       this.format_List = new HashSet<Res_Conformance_Index_format>();
       this.mode_List = new HashSet<Res_Conformance_Index_mode>();
-      this.profile_List = new HashSet<Res_Conformance_Index_profile>();
       this.resource_List = new HashSet<Res_Conformance_Index_resource>();
-      this.security_List = new HashSet<Res_Conformance_Index_security>();
+      this.resourceprofile_List = new HashSet<Res_Conformance_Index_resourceprofile>();
+      this.securityservice_List = new HashSet<Res_Conformance_Index_securityservice>();
       this.supported_profile_List = new HashSet<Res_Conformance_Index_supported_profile>();
     }
   }

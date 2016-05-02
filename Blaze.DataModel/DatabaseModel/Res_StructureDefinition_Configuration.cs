@@ -29,6 +29,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.context_type_Code).IsOptional();
       Property(x => x.context_type_System).IsOptional();
       Property(x => x.date_DateTimeOffset).IsOptional();
+      Property(x => x.derivation_Code).IsOptional();
+      Property(x => x.derivation_System).IsOptional();
       Property(x => x.description_String).IsOptional();
       Property(x => x.display_String).IsOptional();
       Property(x => x.experimental_Code).IsOptional();

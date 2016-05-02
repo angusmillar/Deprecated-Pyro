@@ -34,8 +34,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.medication_Type).IsOptional();
       HasOptional(x => x.medication_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.medication_Url).WithMany().HasForeignKey(x => x.medication_Url_Blaze_RootUrlStoreID);
-      Property(x => x.notgiven_Code).IsOptional();
-      Property(x => x.notgiven_System).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
@@ -50,6 +48,8 @@ namespace Blaze.DataModel.DatabaseModel
       HasOptional<Blaze_RootUrlStore>(x => x.prescription_Url).WithMany().HasForeignKey(x => x.prescription_Url_Blaze_RootUrlStoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
+      Property(x => x.wasnotgiven_Code).IsOptional();
+      Property(x => x.wasnotgiven_System).IsOptional();
     }
   }
 }

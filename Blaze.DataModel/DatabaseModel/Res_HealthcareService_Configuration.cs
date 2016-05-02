@@ -23,10 +23,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      Property(x => x.location_FhirId).IsOptional();
-      Property(x => x.location_Type).IsOptional();
-      HasOptional(x => x.location_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.location_Url).WithMany().HasForeignKey(x => x.location_Url_Blaze_RootUrlStoreID);
       Property(x => x.name_String).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();

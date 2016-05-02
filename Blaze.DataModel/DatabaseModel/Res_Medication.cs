@@ -22,17 +22,21 @@ namespace Blaze.DataModel.DatabaseModel
     public int? manufacturer_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_Medication_Index_code> code_List { get; set; }
     public ICollection<Res_Medication_Index_container> container_List { get; set; }
-    public ICollection<Res_Medication_Index_content> content_List { get; set; }
     public ICollection<Res_Medication_Index_form> form_List { get; set; }
     public ICollection<Res_Medication_Index_ingredient> ingredient_List { get; set; }
+    public ICollection<Res_Medication_Index_ingredient_code> ingredient_code_List { get; set; }
+    public ICollection<Res_Medication_Index_package_item> package_item_List { get; set; }
+    public ICollection<Res_Medication_Index_package_item_code> package_item_code_List { get; set; }
    
     public Res_Medication()
     {
       this.code_List = new HashSet<Res_Medication_Index_code>();
       this.container_List = new HashSet<Res_Medication_Index_container>();
-      this.content_List = new HashSet<Res_Medication_Index_content>();
       this.form_List = new HashSet<Res_Medication_Index_form>();
       this.ingredient_List = new HashSet<Res_Medication_Index_ingredient>();
+      this.ingredient_code_List = new HashSet<Res_Medication_Index_ingredient_code>();
+      this.package_item_List = new HashSet<Res_Medication_Index_package_item>();
+      this.package_item_code_List = new HashSet<Res_Medication_Index_package_item_code>();
     }
   }
 }

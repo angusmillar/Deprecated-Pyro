@@ -26,10 +26,10 @@ namespace Blaze.DataModel.DatabaseModel
     public string source_Type {get; set;}
     public virtual Blaze_RootUrlStore source_Url { get; set; }
     public int? source_Url_Blaze_RootUrlStoreID { get; set; }
-    public string sourceuri_FhirId {get; set;}
-    public string sourceuri_Type {get; set;}
-    public virtual Blaze_RootUrlStore sourceuri_Url { get; set; }
-    public int? sourceuri_Url_Blaze_RootUrlStoreID { get; set; }
+    public string source_uri_FhirId {get; set;}
+    public string source_uri_Type {get; set;}
+    public virtual Blaze_RootUrlStore source_uri_Url { get; set; }
+    public int? source_uri_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string target_FhirId {get; set;}
@@ -42,20 +42,20 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ConceptMap_Index_context> context_List { get; set; }
     public ICollection<Res_ConceptMap_Index_dependson> dependson_List { get; set; }
     public ICollection<Res_ConceptMap_Index_product> product_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_sourcecode> sourcecode_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_sourcesystem> sourcesystem_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_targetcode> targetcode_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_targetsystem> targetsystem_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_source_code> source_code_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_source_system> source_system_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_target_code> target_code_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_target_system> target_system_List { get; set; }
    
     public Res_ConceptMap()
     {
       this.context_List = new HashSet<Res_ConceptMap_Index_context>();
       this.dependson_List = new HashSet<Res_ConceptMap_Index_dependson>();
       this.product_List = new HashSet<Res_ConceptMap_Index_product>();
-      this.sourcecode_List = new HashSet<Res_ConceptMap_Index_sourcecode>();
-      this.sourcesystem_List = new HashSet<Res_ConceptMap_Index_sourcesystem>();
-      this.targetcode_List = new HashSet<Res_ConceptMap_Index_targetcode>();
-      this.targetsystem_List = new HashSet<Res_ConceptMap_Index_targetsystem>();
+      this.source_code_List = new HashSet<Res_ConceptMap_Index_source_code>();
+      this.source_system_List = new HashSet<Res_ConceptMap_Index_source_system>();
+      this.target_code_List = new HashSet<Res_ConceptMap_Index_target_code>();
+      this.target_system_List = new HashSet<Res_ConceptMap_Index_target_system>();
     }
   }
 }

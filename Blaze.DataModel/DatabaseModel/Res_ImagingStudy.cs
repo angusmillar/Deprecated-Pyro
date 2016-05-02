@@ -26,6 +26,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string study_Uri {get; set;}
     public ICollection<Res_ImagingStudy_Index_bodysite> bodysite_List { get; set; }
     public ICollection<Res_ImagingStudy_Index_dicom_class> dicom_class_List { get; set; }
+    public ICollection<Res_ImagingStudy_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_ImagingStudy_Index_modality> modality_List { get; set; }
     public ICollection<Res_ImagingStudy_Index_order> order_List { get; set; }
     public ICollection<Res_ImagingStudy_Index_series> series_List { get; set; }
@@ -35,6 +36,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       this.bodysite_List = new HashSet<Res_ImagingStudy_Index_bodysite>();
       this.dicom_class_List = new HashSet<Res_ImagingStudy_Index_dicom_class>();
+      this.identifier_List = new HashSet<Res_ImagingStudy_Index_identifier>();
       this.modality_List = new HashSet<Res_ImagingStudy_Index_modality>();
       this.order_List = new HashSet<Res_ImagingStudy_Index_order>();
       this.series_List = new HashSet<Res_ImagingStudy_Index_series>();

@@ -36,10 +36,10 @@ namespace Blaze.Web.Formatters
       return type == typeof(Hl7.Fhir.Model.Resource);
     }
 
-    
-    public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
+
+    public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
     {
-      return Task.Factory.StartNew<object>(() =>
+      return System.Threading.Tasks.Task.Factory.StartNew<object>(() =>
       {
         try
         {
@@ -84,10 +84,10 @@ namespace Blaze.Web.Formatters
       return type == typeof(Hl7.Fhir.Model.Resource);
     }
 
-    
-    public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+
+    public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
-      return Task.Factory.StartNew(() =>
+      return System.Threading.Tasks.Task.Factory.StartNew(() =>
       {
         //Todo:
         //bool summary = requestMessage.RequestSummary();
@@ -97,7 +97,7 @@ namespace Blaze.Web.Formatters
           if (type.IsAssignableFrom(typeof(Resource)))
           {
             Resource resource = (Resource)value;
-            FhirSerializer.SerializeResource(resource, writer, false);
+            FhirSerializer.SerializeResource(resource, writer, Hl7.Fhir.Rest.SummaryType.False);
           }
           writer.Flush();
         }

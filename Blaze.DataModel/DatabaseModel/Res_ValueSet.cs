@@ -25,17 +25,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string publisher_String {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public string system_Uri {get; set;}
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_ValueSet_Index_code> code_List { get; set; }
     public ICollection<Res_ValueSet_Index_context> context_List { get; set; }
     public ICollection<Res_ValueSet_Index_reference> reference_List { get; set; }
    
     public Res_ValueSet()
     {
-      this.code_List = new HashSet<Res_ValueSet_Index_code>();
       this.context_List = new HashSet<Res_ValueSet_Index_context>();
       this.reference_List = new HashSet<Res_ValueSet_Index_reference>();
     }

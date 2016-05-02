@@ -27,12 +27,13 @@ namespace Blaze.Web.Formatters
     public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
     {
       base.SetDefaultContentHeaders(type, headers, mediaType);
-      headers.ContentType = Blaze.Engine.Rest.ContentType.GetMediaTypeHeaderValue(type, ResourceFormat.Json);
+      //MediaTypeHeaderValue
+      headers.ContentType = Blaze.Engine.Rest.ContentType.GetMediaTypeHeaderValue(type, Hl7.Fhir.Rest.ResourceFormat.Json);
     }
 
-    public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
+    public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
     {
-      return Task.Factory.StartNew<object>(() =>
+      return System.Threading.Tasks.Task.Factory.StartNew<object>(() =>
       {
         try
         {
@@ -71,9 +72,9 @@ namespace Blaze.Web.Formatters
       });
     }
 
-    public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+    public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
-      return Task.Factory.StartNew(() =>
+      return System.Threading.Tasks.Task.Factory.StartNew(() =>
       {
         using (StreamWriter streamwriter = new StreamWriter(writeStream))
         {

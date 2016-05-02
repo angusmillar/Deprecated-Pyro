@@ -23,22 +23,30 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      Property(x => x.organization_FhirId).IsOptional();
-      Property(x => x.organization_Type).IsOptional();
-      HasOptional(x => x.organization_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_Url_Blaze_RootUrlStoreID);
-      Property(x => x.request_FhirId).IsOptional();
-      Property(x => x.request_Type).IsOptional();
-      HasOptional(x => x.request_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.request_Url).WithMany().HasForeignKey(x => x.request_Url_Blaze_RootUrlStoreID);
-      Property(x => x.requestorganization_FhirId).IsOptional();
-      Property(x => x.requestorganization_Type).IsOptional();
-      HasOptional(x => x.requestorganization_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.requestorganization_Url).WithMany().HasForeignKey(x => x.requestorganization_Url_Blaze_RootUrlStoreID);
-      Property(x => x.requestprovider_FhirId).IsOptional();
-      Property(x => x.requestprovider_Type).IsOptional();
-      HasOptional(x => x.requestprovider_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.requestprovider_Url).WithMany().HasForeignKey(x => x.requestprovider_Url_Blaze_RootUrlStoreID);
+      Property(x => x.organizationidentifier_Code).IsOptional();
+      Property(x => x.organizationidentifier_System).IsOptional();
+      Property(x => x.organizationreference_FhirId).IsOptional();
+      Property(x => x.organizationreference_Type).IsOptional();
+      HasOptional(x => x.organizationreference_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_Url_Blaze_RootUrlStoreID);
+      Property(x => x.requestidentifier_Code).IsOptional();
+      Property(x => x.requestidentifier_System).IsOptional();
+      Property(x => x.requestorganizationidentifier_Code).IsOptional();
+      Property(x => x.requestorganizationidentifier_System).IsOptional();
+      Property(x => x.requestorganizationreference_FhirId).IsOptional();
+      Property(x => x.requestorganizationreference_Type).IsOptional();
+      HasOptional(x => x.requestorganizationreference_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.requestorganizationreference_Url).WithMany().HasForeignKey(x => x.requestorganizationreference_Url_Blaze_RootUrlStoreID);
+      Property(x => x.requestprovideridentifier_Code).IsOptional();
+      Property(x => x.requestprovideridentifier_System).IsOptional();
+      Property(x => x.requestproviderreference_FhirId).IsOptional();
+      Property(x => x.requestproviderreference_Type).IsOptional();
+      HasOptional(x => x.requestproviderreference_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.requestproviderreference_Url).WithMany().HasForeignKey(x => x.requestproviderreference_Url_Blaze_RootUrlStoreID);
+      Property(x => x.requestreference_FhirId).IsOptional();
+      Property(x => x.requestreference_Type).IsOptional();
+      HasOptional(x => x.requestreference_Url);
+      HasOptional<Blaze_RootUrlStore>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_Url_Blaze_RootUrlStoreID);
     }
   }
 }

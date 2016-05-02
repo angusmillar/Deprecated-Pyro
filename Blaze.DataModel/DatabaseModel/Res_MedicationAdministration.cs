@@ -27,8 +27,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string medication_Type {get; set;}
     public virtual Blaze_RootUrlStore medication_Url { get; set; }
     public int? medication_Url_Blaze_RootUrlStoreID { get; set; }
-    public string notgiven_Code {get; set;}
-    public string notgiven_System {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
@@ -43,6 +41,8 @@ namespace Blaze.DataModel.DatabaseModel
     public int? prescription_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public string wasnotgiven_Code {get; set;}
+    public string wasnotgiven_System {get; set;}
     public ICollection<Res_MedicationAdministration_Index_device> device_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_identifier> identifier_List { get; set; }
    

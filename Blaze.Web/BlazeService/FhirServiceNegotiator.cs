@@ -28,7 +28,8 @@ namespace Blaze.Web.BlazeService
     {
       if (Fhir.Model.ModelInfo.IsKnownResource(ResourceName))
       {
-        var ResourceType = Fhir.Model.ModelInfo.GetTypeForResourceName(ResourceName);                
+        //var ResourceType = Fhir.Model.ModelInfo.GetTypeForResourceName(ResourceName);
+        var ResourceType = Fhir.Model.ModelInfo.GetTypeForFhirType(ResourceName);
         if (DtoEnums.GetBlazeSupportedResorceType_ByTypeOf_FhirResourceDictionary.ContainsKey(ResourceType))
         {
           DtoEnums.SupportedFhirResource SupportedResource = DtoEnums.GetBlazeSupportedResorceType_ByTypeOf_FhirResourceDictionary[ResourceType];

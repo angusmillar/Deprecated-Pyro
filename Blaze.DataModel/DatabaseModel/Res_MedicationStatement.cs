@@ -18,7 +18,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string XmlBlob {get; set;}
     public string code_Code {get; set;}
     public string code_System {get; set;}
-    public DateTimeOffset? effectivedate_DateTimeOffset {get; set;}
+    public DateTimeOffset? effective_DateTimeOffset {get; set;}
     public string medication_FhirId {get; set;}
     public string medication_Type {get; set;}
     public virtual Blaze_RootUrlStore medication_Url { get; set; }

@@ -411,7 +411,7 @@ namespace Blaze.DataModel.Repository
         }
         else if (FhirPatient.Deceased.TypeName == ModelInfo.FhirCsTypeToString[typeof(FhirDateTime)])
         {
-          oResourse.deathdate_DateTimeOffset = (FhirPatient.Deceased as FhirDateTime).ToDateTimeOffset();
+          oResourse.death_date_DateTimeOffset = (FhirPatient.Deceased as FhirDateTime).ToDateTimeOffset();
         }
       }
 

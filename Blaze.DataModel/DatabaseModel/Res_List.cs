@@ -21,7 +21,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string encounter_Type {get; set;}
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
     public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
-    public string notes_String {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
@@ -39,13 +38,17 @@ namespace Blaze.DataModel.DatabaseModel
     public string title_String {get; set;}
     public ICollection<Res_List_Index_code> code_List { get; set; }
     public ICollection<Res_List_Index_empty_reason> empty_reason_List { get; set; }
+    public ICollection<Res_List_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_List_Index_item> item_List { get; set; }
+    public ICollection<Res_List_Index_notes> notes_List { get; set; }
    
     public Res_List()
     {
       this.code_List = new HashSet<Res_List_Index_code>();
       this.empty_reason_List = new HashSet<Res_List_Index_empty_reason>();
+      this.identifier_List = new HashSet<Res_List_Index_identifier>();
       this.item_List = new HashSet<Res_List_Index_item>();
+      this.notes_List = new HashSet<Res_List_Index_notes>();
     }
   }
 }

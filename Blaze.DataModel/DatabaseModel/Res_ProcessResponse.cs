@@ -16,22 +16,30 @@ namespace Blaze.DataModel.DatabaseModel
     public int versionId {get; set;}
     public DateTimeOffset lastUpdated {get; set;}
     public string XmlBlob {get; set;}
-    public string organization_FhirId {get; set;}
-    public string organization_Type {get; set;}
-    public virtual Blaze_RootUrlStore organization_Url { get; set; }
-    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
-    public string request_FhirId {get; set;}
-    public string request_Type {get; set;}
-    public virtual Blaze_RootUrlStore request_Url { get; set; }
-    public int? request_Url_Blaze_RootUrlStoreID { get; set; }
-    public string requestorganization_FhirId {get; set;}
-    public string requestorganization_Type {get; set;}
-    public virtual Blaze_RootUrlStore requestorganization_Url { get; set; }
-    public int? requestorganization_Url_Blaze_RootUrlStoreID { get; set; }
-    public string requestprovider_FhirId {get; set;}
-    public string requestprovider_Type {get; set;}
-    public virtual Blaze_RootUrlStore requestprovider_Url { get; set; }
-    public int? requestprovider_Url_Blaze_RootUrlStoreID { get; set; }
+    public string organizationidentifier_Code {get; set;}
+    public string organizationidentifier_System {get; set;}
+    public string organizationreference_FhirId {get; set;}
+    public string organizationreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore organizationreference_Url { get; set; }
+    public int? organizationreference_Url_Blaze_RootUrlStoreID { get; set; }
+    public string requestidentifier_Code {get; set;}
+    public string requestidentifier_System {get; set;}
+    public string requestorganizationidentifier_Code {get; set;}
+    public string requestorganizationidentifier_System {get; set;}
+    public string requestorganizationreference_FhirId {get; set;}
+    public string requestorganizationreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore requestorganizationreference_Url { get; set; }
+    public int? requestorganizationreference_Url_Blaze_RootUrlStoreID { get; set; }
+    public string requestprovideridentifier_Code {get; set;}
+    public string requestprovideridentifier_System {get; set;}
+    public string requestproviderreference_FhirId {get; set;}
+    public string requestproviderreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore requestproviderreference_Url { get; set; }
+    public int? requestproviderreference_Url_Blaze_RootUrlStoreID { get; set; }
+    public string requestreference_FhirId {get; set;}
+    public string requestreference_Type {get; set;}
+    public virtual Blaze_RootUrlStore requestreference_Url { get; set; }
+    public int? requestreference_Url_Blaze_RootUrlStoreID { get; set; }
     public ICollection<Res_ProcessResponse_Index_identifier> identifier_List { get; set; }
    
     public Res_ProcessResponse()

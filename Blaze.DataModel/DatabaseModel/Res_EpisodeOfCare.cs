@@ -34,7 +34,6 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_EpisodeOfCare_Index_condition> condition_List { get; set; }
     public ICollection<Res_EpisodeOfCare_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_EpisodeOfCare_Index_incomingreferral> incomingreferral_List { get; set; }
-    public ICollection<Res_EpisodeOfCare_Index_team_member> team_member_List { get; set; }
     public ICollection<Res_EpisodeOfCare_Index_type> type_List { get; set; }
    
     public Res_EpisodeOfCare()
@@ -42,7 +41,6 @@ namespace Blaze.DataModel.DatabaseModel
       this.condition_List = new HashSet<Res_EpisodeOfCare_Index_condition>();
       this.identifier_List = new HashSet<Res_EpisodeOfCare_Index_identifier>();
       this.incomingreferral_List = new HashSet<Res_EpisodeOfCare_Index_incomingreferral>();
-      this.team_member_List = new HashSet<Res_EpisodeOfCare_Index_team_member>();
       this.type_List = new HashSet<Res_EpisodeOfCare_Index_type>();
     }
   }

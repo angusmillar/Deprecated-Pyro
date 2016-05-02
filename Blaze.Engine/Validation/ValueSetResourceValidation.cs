@@ -134,86 +134,89 @@ namespace Blaze.Engine.Validation
         }
       }
 
+      //Below removed with STU3 Update
       //FHIR Spec DSTU 2.1 : vsd-2: A value set with only one import SHALL also have an include and/or an exclude unless the value set includes and inline code system 
       //(xpath: not(exists(f:compose)) or (count(f:compose/f:import)!=1 or exists(f:compose/f:include) or exists(f:compose/f:exclude) or exists(f:codeSystem)))
-      if (oValueSet.Compose != null && oValueSet.Compose.Import != null && oValueSet.Compose.Import.Count() == 1)
-      {
-        if (oValueSet.CodeSystem == null || String.IsNullOrWhiteSpace(oValueSet.CodeSystem.System))
-        {
-          if (oValueSet.Compose.Include == null || oValueSet.Compose.Include.Count() == 0)
-          {
-            if (oValueSet.Compose.Exclude == null || oValueSet.Compose.Exclude.Count() == 0)
-            {              
-              var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-              OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-              OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
-              OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
-              OpOutComeIssueComp.Details.Text = String.Format("A {0} with only one import SHALL also have an include and/or an exclude unless the value set includes and inline code system.", oValueSet.TypeName);
-              OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
-              OpOutComeIssueComp.Location = new List<string>() 
-              { String.Format("not(exists(f:compose)) or (count(f:compose/f:import)!=1 or exists(f:compose/f:include) or exists(f:compose/f:exclude) or exists(f:codeSystem)))")};
-              if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-                oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-              oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-              oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
-            }
-          }
-        }        
-      }
+      //if (oValueSet.Compose != null && oValueSet.Compose.Import != null && oValueSet.Compose.Import.Count() == 1)
+      //{
+      //  if (oValueSet.CodeSystem == null || String.IsNullOrWhiteSpace(oValueSet.CodeSystem.System))
+      //  {
+      //    if (oValueSet.Compose.Include == null || oValueSet.Compose.Include.Count() == 0)
+      //    {
+      //      if (oValueSet.Compose.Exclude == null || oValueSet.Compose.Exclude.Count() == 0)
+      //      {              
+      //        var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+      //        OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+      //        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
+      //        OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
+      //        OpOutComeIssueComp.Details.Text = String.Format("A {0} with only one import SHALL also have an include and/or an exclude unless the value set includes and inline code system.", oValueSet.TypeName);
+      //        OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
+      //        OpOutComeIssueComp.Location = new List<string>() 
+      //        { String.Format("not(exists(f:compose)) or (count(f:compose/f:import)!=1 or exists(f:compose/f:include) or exists(f:compose/f:exclude) or exists(f:codeSystem)))")};
+      //        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+      //          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      //        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      //        oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
+      //      }
+      //    }
+      //  }        
+      //}
 
+      //Below removed with STU3 Update
       //ToDo: How is this requirement any different to vsd-8 below?
       //FHIR Spec DSTU 2.1 : vsd-3: On ValueSet.codeSystem: Within a code system definition, all the codes SHALL be unique 
       //(xpath on f:ValueSet/f:codeSystem: count(distinct-values(descendant::f:concept/f:code/@value))=count(descendant::f:concept))
-      if (oValueSet.CodeSystem != null && oValueSet.CodeSystem.Concept != null && oValueSet.CodeSystem.Concept.Count() > 0)
-      {
-        string ErrorMessage = "The following codes have duplicate entries for the same CodeSystem: ( ";
-        if (oValueSet.CodeSystem.Concept.Select(x => x.Code).Distinct().Count() != oValueSet.CodeSystem.Concept.Count())
-        {
-          var Hash = new HashSet<string>();
-          foreach(var Code in oValueSet.CodeSystem.Concept)
-          {
-            if (Hash.Contains(Code.Code))
-            {
-              ErrorMessage = ErrorMessage + Code.Code + ",";
-            }
-            else
-            {
-              Hash.Add(Code.Code);
-            }
-          }
-          ErrorMessage = ErrorMessage.Substring(0, ErrorMessage.Length - 1) + " )";
+      //if (oValueSet.CodeSystem != null && oValueSet.CodeSystem.Concept != null && oValueSet.CodeSystem.Concept.Count() > 0)
+      //{
+      //  string ErrorMessage = "The following codes have duplicate entries for the same CodeSystem: ( ";
+      //  if (oValueSet.CodeSystem.Concept.Select(x => x.Code).Distinct().Count() != oValueSet.CodeSystem.Concept.Count())
+      //  {
+      //    var Hash = new HashSet<string>();
+      //    foreach(var Code in oValueSet.CodeSystem.Concept)
+      //    {
+      //      if (Hash.Contains(Code.Code))
+      //      {
+      //        ErrorMessage = ErrorMessage + Code.Code + ",";
+      //      }
+      //      else
+      //      {
+      //        Hash.Add(Code.Code);
+      //      }
+      //    }
+      //    ErrorMessage = ErrorMessage.Substring(0, ErrorMessage.Length - 1) + " )";
 
-          string PropertyName = ".codeSystem";
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
-          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
-          OpOutComeIssueComp.Details.Text = String.Format("On {0}{1}: Within a code system definition, all the codes SHALL be unique.", oValueSet.TypeName, PropertyName);
-          OpOutComeIssueComp.Diagnostics = ErrorMessage;
-          OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:codeSystem: count(distinct-values(descendant::f:concept/f:code/@value))=count(descendant::f:concept))") };
-          if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-            oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-          oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-          oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
-        }
-      }
+      //    string PropertyName = ".codeSystem";
+      //    var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+      //    OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+      //    OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
+      //    OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
+      //    OpOutComeIssueComp.Details.Text = String.Format("On {0}{1}: Within a code system definition, all the codes SHALL be unique.", oValueSet.TypeName, PropertyName);
+      //    OpOutComeIssueComp.Diagnostics = ErrorMessage;
+      //    OpOutComeIssueComp.Location = new List<string>() { String.Format("f:ValueSet/f:codeSystem: count(distinct-values(descendant::f:concept/f:code/@value))=count(descendant::f:concept))") };
+      //    if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+      //      oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      //    oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      //    oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
+      //  }
+      //}
 
+      //Below removed with STU3 Update
       //FHIR Spec DSTU 2.1 : vsd-5: Value set SHALL contain at least one of a codeSystem, a compose, or an expansion element 
       //(xpath: exists(f:codeSystem) or exists(f:compose) or exists(f:expansion))      
-      if (oValueSet.CodeSystem == null && oValueSet.Compose == null && oValueSet.Compose == null)
-      {        
-        var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-        OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
-        OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
-        OpOutComeIssueComp.Details.Text = String.Format("{0} SHALL contain at least one of a codeSystem, a compose, or an expansion element ", oValueSet.TypeName);
-        OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
-        OpOutComeIssueComp.Location = new List<string>() { String.Format("exists(f:codeSystem) or exists(f:compose) or exists(f:expansion)") };
-        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-        oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
-      }
+      //if (oValueSet.CodeSystem == null && oValueSet.Compose == null && oValueSet.Compose == null)
+      //{        
+      //  var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+      //  OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+      //  OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
+      //  OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
+      //  OpOutComeIssueComp.Details.Text = String.Format("{0} SHALL contain at least one of a codeSystem, a compose, or an expansion element ", oValueSet.TypeName);
+      //  OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
+      //  OpOutComeIssueComp.Location = new List<string>() { String.Format("exists(f:codeSystem) or exists(f:compose) or exists(f:expansion)") };
+      //  if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+      //    oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      //  oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      //  oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
+      //}
 
       //FHIR Spec DSTU 2.1 : vsd-6: On ValueSet.expansion.contains: SHALL have a code or a display 
       //(xpath on f:ValueSet/f:expansion/f:contains: exists(f:code) or exists(f:display))
@@ -243,23 +246,23 @@ namespace Blaze.Engine.Validation
           }
         }
       }
-
+      //Below removed with STU3 Update
       //FHIR Spec DSTU 2.1 : vsd-7: A defined code system (if present) SHALL have a different url than the value set url 
       //(xpath: not(f:codeSystem/f:system/@value = f:url/@value))
-      if (oValueSet.CodeSystem != null && oValueSet.CodeSystem.System == oValueSet.Url)
-      {        
-        var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-        OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
-        OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
-        OpOutComeIssueComp.Details.Text = String.Format("A {0}'s defined code system (if present) SHALL have a different url than the value set url", oValueSet.TypeName);
-        OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
-        OpOutComeIssueComp.Location = new List<string>() { String.Format("not(f:codeSystem/f:system/@value = f:url/@value)") };
-        if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-          oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-        oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-        oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
-      }
+      //if (oValueSet.CodeSystem != null && oValueSet.CodeSystem.System == oValueSet.Url)
+      //{        
+      //  var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+      //  OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+      //  OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
+      //  OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
+      //  OpOutComeIssueComp.Details.Text = String.Format("A {0}'s defined code system (if present) SHALL have a different url than the value set url", oValueSet.TypeName);
+      //  OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
+      //  OpOutComeIssueComp.Location = new List<string>() { String.Format("not(f:codeSystem/f:system/@value = f:url/@value)") };
+      //  if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+      //    oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      //  oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      //  oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;  
+      //}
 
       //ToDo: How is this requirement any different to vsd-3 above?
       //FHIR Spec DSTU 2.1 : vsd-8: On ValueSet.codeSystem: Codes must be unique 
