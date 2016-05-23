@@ -18,12 +18,13 @@ namespace Blaze.DataModel.DatabaseModel
 
     public Res_Organization_History_Configuration()
     {
-      HasKey(x => x.Res_OrganizationID).Property(x => x.Res_OrganizationID).IsRequired();
+      HasKey(x => x.Res_Organization_HistoryID).Property(x => x.Res_Organization_HistoryID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = false })); ;
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      HasRequired(x => x.Res_Organization);
+      HasRequired(x => x.Res_Organization).WithMany(x => x.Res_Organization_History_List).WillCascadeOnDelete(false);
     }
   }
 }

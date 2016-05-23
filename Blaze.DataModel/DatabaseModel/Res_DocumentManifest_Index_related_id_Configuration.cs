@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_DocumentManifest_Index_related_idID).Property(x => x.Res_DocumentManifest_Index_related_idID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_DocumentManifest);
+      HasRequired(x => x.Res_DocumentManifest).WithMany(x => x.related_id_List).WillCascadeOnDelete(true);
     }
   }
 }

@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Person_Index_address_useID).Property(x => x.Res_Person_Index_address_useID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Person);
+      HasRequired(x => x.Res_Person).WithMany(x => x.address_use_List).WillCascadeOnDelete(true);
     }
   }
 }

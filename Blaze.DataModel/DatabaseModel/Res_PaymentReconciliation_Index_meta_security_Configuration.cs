@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_PaymentReconciliation_Index_meta_security_Configuration()
     {
       HasKey(x => x.Res_PaymentReconciliation_Index_meta_securityID).Property(x => x.Res_PaymentReconciliation_Index_meta_securityID).IsRequired();
+      HasRequired(x => x.Res_PaymentReconciliation).WithMany(x => x.meta_security_List).WillCascadeOnDelete(true);
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
     }

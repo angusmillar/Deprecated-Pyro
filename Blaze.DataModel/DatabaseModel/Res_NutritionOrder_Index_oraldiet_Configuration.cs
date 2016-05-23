@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_NutritionOrder_Index_oraldietID).Property(x => x.Res_NutritionOrder_Index_oraldietID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_NutritionOrder);
+      HasRequired(x => x.Res_NutritionOrder).WithMany(x => x.oraldiet_List).WillCascadeOnDelete(true);
     }
   }
 }

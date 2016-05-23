@@ -69,15 +69,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseModel\Base\ResourceIndexBase.cs" />
+    <Compile Include="DatabaseModel\Base\NumberIndex.cs" />
+    <Compile Include="DatabaseModel\Base\QuantityIndex.cs" />
+    <Compile Include="DatabaseModel\Base\ReferenceIndex.cs" />
+    <Compile Include="DatabaseModel\Base\StringIndex.cs" />
+    <Compile Include="DatabaseModel\Base\UriIndex.cs" />
     <Compile Include="DatabaseModel\Blaze_RootUrlStore.cs">
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Blaze_RootUrlStore_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Base\DateIndex.cs" />
     <Compile Include="DatabaseModel\DatabaseContext.cs">
       <DependentUpon>_DatabaseLayerContextGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Base\ModelBase.cs" />
     <Compile Include="DatabaseModel\Res_Account_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
@@ -4491,6 +4499,7 @@
     <Compile Include="DatabaseModel\Res_VisionPrescription_Index_meta_tag_Configuration.cs">
       <DependentUpon>_DatabaseLayerContextConfigGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Base\TokenIndex.cs" />
     <Compile Include="DatabaseModel\_DatabaseLayerContextConfigGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -6214,13 +6223,358 @@
       <DependentUpon>_DatabaseLayerModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AccountRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\AllergyIntoleranceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\AppointmentRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\AppointmentResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\AuditEventRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\BasicRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\BinaryRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\BodySiteRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\BundleRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CarePlanRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CareTeamRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ClaimRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ClaimResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ClinicalImpressionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CodeSystemRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\CommonRepository.cs" />
+    <Compile Include="Repository\CommunicationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CommunicationRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CompartmentDefinitionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CompositionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ConceptMapRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ConditionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ConformanceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ContractRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\CoverageRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repository\DatabaseOutcome.cs" />
-    <Compile Include="Repository\PatientRepository.cs" />
-    <Compile Include="Repository\ResourceRepository.cs" />
-    <Compile Include="SearchParameterType\SearchParameterTypeFactory.cs" />
-    <Compile Include="SearchParameterType\Token.cs" />
+    <Compile Include="Repository\DataElementRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DecisionSupportRuleRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DecisionSupportServiceModuleRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DetectedIssueRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DeviceComponentRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DeviceMetricRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DeviceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DeviceUseRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DeviceUseStatementRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DiagnosticOrderRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DiagnosticReportRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DocumentManifestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\DocumentReferenceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EligibilityRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EligibilityResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EncounterRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EnrollmentRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EnrollmentResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\EpisodeOfCareRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ExpansionProfileRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ExplanationOfBenefitRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\FamilyMemberHistoryRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\FlagRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\GoalRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\GroupRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\GuidanceResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\HealthcareServiceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImagingExcerptRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImagingObjectSelectionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImagingStudyRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImmunizationRecommendationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImmunizationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ImplementationGuideRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\LibraryRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\LinkageRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ListRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\LocationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MeasureReportRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MeasureRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MediaRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MedicationAdministrationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MedicationDispenseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MedicationOrderRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MedicationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MedicationStatementRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\MessageHeaderRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ModuleDefinitionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\NamingSystemRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\NutritionOrderRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ObservationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OperationDefinitionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OperationOutcomeRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OrderRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OrderResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OrderSetRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\OrganizationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ParametersRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\Partial\PatientRepositoryPartial.cs" />
+    <Compile Include="Repository\PatientRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PaymentNoticeRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PaymentReconciliationRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PersonRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PractitionerRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PractitionerRoleRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProcedureRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProcedureRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProcessRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProcessResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProtocolRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ProvenanceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\QuestionnaireRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\QuestionnaireResponseRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ReferralRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\RelatedPersonRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\RiskAssessmentRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ScheduleRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SearchParameterRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SequenceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SlotRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SpecimenRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\StructureDefinitionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\StructureMapRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SubscriptionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SubstanceRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SupplyDeliveryRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\SupplyRequestRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\TaskRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\TestScriptRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ValueSetRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\VisionPrescriptionRepository.cs">
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\_RepositoryGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Support\AddressTransfer.cs" />
+    <Compile Include="Support\IndexSettingSupport.cs" />
+    <Compile Include="Support\ResourceReferenceTransfer.cs" />
+    <Compile Include="Support\TokenTransfer.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -6237,8 +6591,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_DatabaseLayerContextGenerator.cs</LastGenOutput>
     </None>
-    <None Include="DatabaseModel\TemplateFileManagerV2.1.ttinclude" />
+    <None Include="CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" />
     <None Include="packages.config" />
+    <None Include="Repository\_RepositoryGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_RepositoryGenerator.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj">

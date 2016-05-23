@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Sequence_Index_chromosomeID).Property(x => x.Res_Sequence_Index_chromosomeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Sequence);
+      HasRequired(x => x.Res_Sequence).WithMany(x => x.chromosome_List).WillCascadeOnDelete(true);
     }
   }
 }

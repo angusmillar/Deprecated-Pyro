@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Patient_Index_meta_tag_Configuration()
     {
       HasKey(x => x.Res_Patient_Index_meta_tagID).Property(x => x.Res_Patient_Index_meta_tagID).IsRequired();
+      HasRequired(x => x.Res_Patient).WithMany(x => x.meta_tag_List).WillCascadeOnDelete(true);
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
     }

@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ExpansionProfile_Configuration()
     {
       HasKey(x => x.Res_ExpansionProfileID).Property(x => x.Res_ExpansionProfileID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();

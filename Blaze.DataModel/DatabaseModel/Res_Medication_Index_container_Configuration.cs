@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Medication_Index_containerID).Property(x => x.Res_Medication_Index_containerID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Medication);
+      HasRequired(x => x.Res_Medication).WithMany(x => x.container_List).WillCascadeOnDelete(true);
     }
   }
 }

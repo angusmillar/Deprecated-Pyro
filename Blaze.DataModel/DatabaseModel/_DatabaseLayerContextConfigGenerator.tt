@@ -1,6 +1,6 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.DataModel\DatabaseModel\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="System.Linq" #>
 <#@ Assembly Name="System.Threading.Tasks" #>

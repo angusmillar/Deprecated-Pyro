@@ -12,8 +12,7 @@ namespace Blaze.DataModel
   public class UnitOfWork : IUnitOfWork, IDisposable
   {
     private Blaze.DataModel.DatabaseModel.DatabaseContext _context = null;
-
-    private ResourceRepository _ResourceRepository;
+    
     private PatientRepository _PatientRepository;
     private CommonRepository _CommonRepository;    
 
@@ -24,17 +23,7 @@ namespace Blaze.DataModel
     }
 
 
-    public IResourceRepository ResourceRepository
-    {
-      get
-      {
-        if (this._ResourceRepository == null)
-          this._ResourceRepository = new ResourceRepository(_context);
-        return _ResourceRepository;
-      }
-    }
-
-    public IPatientRepository PatientRepository
+    public IResourceRepository PatientRepository
     {
       get
       {

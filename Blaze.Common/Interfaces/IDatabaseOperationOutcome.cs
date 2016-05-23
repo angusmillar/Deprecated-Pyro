@@ -9,16 +9,12 @@ using System.Net;
 namespace Blaze.Common.Interfaces
 {
   public interface IDatabaseOperationOutcome
-  {
-    
+  {    
     int NumberOfRecordsPerPage { get; set; }
     int PageRequested { get; set; }    
     int ResourcesMatchingSearchCount { get; set; }
-    List<DtoResource> ResourcesMatchingSearchList { get; set; }
-    
+    List<DtoResource> ResourcesMatchingSearchList { get; set; }    
     bool SingleResourceRead { get; set; }
     DtoResource ResourceMatchingSearch { get; set; }
-    bool RecourceFoundDeleted { get; set; }
-    int DeletedResourceVersionNumber { get; set; }
   }
 }

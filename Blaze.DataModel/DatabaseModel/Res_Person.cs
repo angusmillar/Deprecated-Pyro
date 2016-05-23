@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Person
+  public class Res_Person : ResourceIndexBase
   {
     public int Res_PersonID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public DateTimeOffset? birthdate_DateTimeOffset {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
@@ -23,6 +20,10 @@ namespace Blaze.DataModel.DatabaseModel
     public string organization_Type {get; set;}
     public virtual Blaze_RootUrlStore organization_Url { get; set; }
     public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
+    public ICollection<Res_Person_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_Person_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_Person_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_Person_History> Res_Person_History_List { get; set; }
     public ICollection<Res_Person_Index_address> address_List { get; set; }
     public ICollection<Res_Person_Index_address_city> address_city_List { get; set; }
     public ICollection<Res_Person_Index_address_country> address_country_List { get; set; }
@@ -58,6 +59,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.practitioner_List = new HashSet<Res_Person_Index_practitioner>();
       this.relatedperson_List = new HashSet<Res_Person_Index_relatedperson>();
       this.telecom_List = new HashSet<Res_Person_Index_telecom>();
+      this.meta_tag_List = new HashSet<Res_Person_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_Person_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_Person_Index_meta_profile>();
+      this.Res_Person_History_List = new HashSet<Res_Person_History>();
     }
   }
 }

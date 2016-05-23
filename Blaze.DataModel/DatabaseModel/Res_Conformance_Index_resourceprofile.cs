@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Conformance_Index_resourceprofile
+  public class Res_Conformance_Index_resourceprofile : ReferenceIndex
   {
     public int Res_Conformance_Index_resourceprofileID {get; set;}
-    public string FhirId {get; set;}
-    public string Type {get; set;}
-    public virtual Blaze_RootUrlStore Url { get; set; }
-    public int? Url_Blaze_RootUrlStoreID { get; set; }
     public virtual Res_Conformance Res_Conformance { get; set; }
    
     public Res_Conformance_Index_resourceprofile()

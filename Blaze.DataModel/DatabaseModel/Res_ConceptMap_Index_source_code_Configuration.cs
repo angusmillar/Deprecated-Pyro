@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ConceptMap_Index_source_codeID).Property(x => x.Res_ConceptMap_Index_source_codeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_ConceptMap);
+      HasRequired(x => x.Res_ConceptMap).WithMany(x => x.source_code_List).WillCascadeOnDelete(true);
     }
   }
 }

@@ -31,6 +31,16 @@ namespace Blaze.Engine.Services
       }
     }
 
+    // Get By id
+    // GET URL/FhirApi/Patient/5    
+    public override IBlazeServiceOperationOutcome Get(string FhirResourceId)
+    {
+      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(FhirResourceId);
+      return oBlazeServiceOperationOutcome;      
+    }
+
     // Add
     // POST: URL/FhirApi/Patient
     public override IBlazeServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest)
@@ -88,49 +98,32 @@ namespace Blaze.Engine.Services
         return oBlazeServiceOperationOutcome;
       }
 
-      if (_UnitOfWork.PatientRepository.ResourceExists(BlazeServiceRequest.ResourceId))
+      IDatabaseOperationOutcome DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(BlazeServiceRequest.ResourceId);
+      if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
       {
-        //Check that the Id given is for the same resource type attempting to be updated.
-        DtoEnums.SupportedFhirResource ExsistingResourceTypeForFhirID = _UnitOfWork.ResourceRepository.GetSupportedResourceTypeForFhirResourceId(BlazeServiceRequest.ResourceId);
-        if (ExsistingResourceTypeForFhirID == CurrentResourceType)
-        {
-          //The resource has been found so update it and return 200 OK        
-          if (FhirPatientResource.Meta == null)
-            FhirPatientResource.Meta = new Meta();
-          int NewResourceVersionNumber = _UnitOfWork.ResourceRepository.GetResourceCurrentVersion(BlazeServiceRequest.ResourceId) + 1;
-          FhirPatientResource.Meta.VersionId = NewResourceVersionNumber.ToString();
-          FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
+        //The resource has been found so update it and return 200 OK        
+        if (FhirPatientResource.Meta == null)
+          FhirPatientResource.Meta = new Meta();
+        int NewResourceVersionNumber = (int)DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
+        FhirPatientResource.Meta.VersionId = NewResourceVersionNumber.ToString();
+        FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;        
 
-          //Validation of resource        
-          var Validation = new Validation.PatientResourceValidation();
-          IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(BlazeServiceRequest.Resource);
-          if (oResourceValidationOperationOutcome.HasError)
-          {
-            oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
-            return oBlazeServiceOperationOutcome;
-          }
-          _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, FhirPatientResource);
-          oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
-          oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
-          oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
-          oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
-          return oBlazeServiceOperationOutcome;
-        }
-        else
+        //Validation of resource        
+        var Validation = new Validation.PatientResourceValidation();
+        IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(BlazeServiceRequest.Resource);
+        if (oResourceValidationOperationOutcome.HasError)
         {
-          var oIssueComponent = new OperationOutcome.IssueComponent();
-          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssueComponent.Code = OperationOutcome.IssueType.Processing;
-          oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
-          oIssueComponent.Details.Text = String.Format("The Resource id provided already exists on this server for another resource type. Server has id: '{0}' associated to a Resource of type: '{1}'. You are attempting to update a '{2}' Resource Type with the same Id.", BlazeServiceRequest.ResourceId, ExsistingResourceTypeForFhirID.ToString(), CurrentResourceType.ToString());
-          oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-          var oOperationOutcome = new OperationOutcome();
-          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-          oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
-          oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+          oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
           return oBlazeServiceOperationOutcome;
         }
+
+        _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, FhirPatientResource, BlazeServiceRequest.FhirRequestUri);
+        oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
+        oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
+        oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
+        oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
+        return oBlazeServiceOperationOutcome;
+        
       }
       else
       {
@@ -147,13 +140,20 @@ namespace Blaze.Engine.Services
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = 0;
-      if (_UnitOfWork.ResourceRepository.ResourceExists(FhirResourceId))
+      IDatabaseOperationOutcome DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(FhirResourceId);
+      if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
       {
-        if (!_UnitOfWork.ResourceRepository.IsCurrentResourceDeleted(FhirResourceId))
+        //Resource exists so..
+        if (!DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
         {
-          _UnitOfWork.PatientRepository.UpdateResouceAsDeleted(FhirResourceId);
+          int NewResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
+          _UnitOfWork.PatientRepository.UpdateResouceAsDeleted(FhirResourceId, NewResourceVersionNumber);
+          oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
         }
-        oBlazeServiceOperationOutcome.ResourceVersionNumber = _UnitOfWork.ResourceRepository.LastDeletedResourceVersion(FhirResourceId);
+        else
+        {
+          oBlazeServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version;
+        }
       }
       return oBlazeServiceOperationOutcome;
     }

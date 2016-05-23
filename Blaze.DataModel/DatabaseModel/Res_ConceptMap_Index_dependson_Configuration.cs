@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ConceptMap_Index_dependsonID).Property(x => x.Res_ConceptMap_Index_dependsonID).IsRequired();
       Property(x => x.Uri).IsRequired();
-      HasRequired(x => x.Res_ConceptMap);
+      HasRequired(x => x.Res_ConceptMap).WithMany(x => x.dependson_List).WillCascadeOnDelete(true);
     }
   }
 }

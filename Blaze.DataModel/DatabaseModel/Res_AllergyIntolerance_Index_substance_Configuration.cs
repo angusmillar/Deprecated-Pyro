@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_AllergyIntolerance_Index_substanceID).Property(x => x.Res_AllergyIntolerance_Index_substanceID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_AllergyIntolerance);
+      HasRequired(x => x.Res_AllergyIntolerance).WithMany(x => x.substance_List).WillCascadeOnDelete(true);
     }
   }
 }

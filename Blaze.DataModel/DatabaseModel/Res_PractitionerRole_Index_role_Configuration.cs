@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_PractitionerRole_Index_roleID).Property(x => x.Res_PractitionerRole_Index_roleID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_PractitionerRole);
+      HasRequired(x => x.Res_PractitionerRole).WithMany(x => x.role_List).WillCascadeOnDelete(true);
     }
   }
 }

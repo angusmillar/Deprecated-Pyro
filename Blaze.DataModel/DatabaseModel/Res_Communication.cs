@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Communication
+  public class Res_Communication : ResourceIndexBase
   {
     public int Res_CommunicationID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
@@ -40,6 +37,10 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public ICollection<Res_Communication_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_Communication_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_Communication_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_Communication_History> Res_Communication_History_List { get; set; }
     public ICollection<Res_Communication_Index_category> category_List { get; set; }
     public ICollection<Res_Communication_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Communication_Index_medium> medium_List { get; set; }
@@ -51,6 +52,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_Communication_Index_identifier>();
       this.medium_List = new HashSet<Res_Communication_Index_medium>();
       this.recipient_List = new HashSet<Res_Communication_Index_recipient>();
+      this.meta_tag_List = new HashSet<Res_Communication_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_Communication_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_Communication_Index_meta_profile>();
+      this.Res_Communication_History_List = new HashSet<Res_Communication_History>();
     }
   }
 }

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_ImagingObjectSelection_Index_meta_profile
+  public class Res_ImagingObjectSelection_Index_meta_profile : UriIndex
   {
     public int Res_ImagingObjectSelection_Index_meta_profileID {get; set;}
-    public string Uri {get; set;}
+    public virtual Res_ImagingObjectSelection Res_ImagingObjectSelection { get; set; }
    
     public Res_ImagingObjectSelection_Index_meta_profile()
     {

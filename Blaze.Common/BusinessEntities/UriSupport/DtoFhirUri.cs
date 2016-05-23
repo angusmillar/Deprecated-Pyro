@@ -28,8 +28,8 @@ namespace Blaze.Common.BusinessEntities.UriSupport
 
     public DtoFhirUri(Uri Uri)
     {
-      if (HttpUtil.IsRestResourceIdentity(Uri))
-      {
+      //if (HttpUtil.IsRestResourceIdentity(Uri))
+      //{
         this.SchemaDelimiter = Uri.SchemeDelimiter;
         this.Uri = Uri;
         var ApiSegmentList = new List<string>();
@@ -99,7 +99,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
           }
         }
         this.ApiSegments = ApiSegmentList.ToArray();
-      }
+      //}
     }
 
     /// <summary>

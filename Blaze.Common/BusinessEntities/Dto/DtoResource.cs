@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 namespace Blaze.Common.BusinessEntities.Dto
 {
   public class DtoResource
-  {    
-    public int Id { get; set; }
+  {
+    public string FhirId { get; set; }
     public string Xml { get; set; }
     public int Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }
-    public DtoEnums.SupportedFhirResource FhirResourceType { get; set; }
+    public DateTimeOffset Received { get; set; }    
   }
 }

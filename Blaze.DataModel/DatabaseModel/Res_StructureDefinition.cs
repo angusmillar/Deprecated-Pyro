@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_StructureDefinition
+  public class Res_StructureDefinition : ResourceIndexBase
   {
     public int Res_StructureDefinitionID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public string abstract_Code {get; set;}
     public string abstract_System {get; set;}
     public string base_Uri {get; set;}
@@ -39,6 +36,10 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
+    public ICollection<Res_StructureDefinition_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_StructureDefinition_History> Res_StructureDefinition_History_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_base_path> base_path_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_code> code_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_context> context_List { get; set; }
@@ -56,6 +57,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_StructureDefinition_Index_identifier>();
       this.path_List = new HashSet<Res_StructureDefinition_Index_path>();
       this.valueset_List = new HashSet<Res_StructureDefinition_Index_valueset>();
+      this.meta_tag_List = new HashSet<Res_StructureDefinition_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_StructureDefinition_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_StructureDefinition_Index_meta_profile>();
+      this.Res_StructureDefinition_History_List = new HashSet<Res_StructureDefinition_History>();
     }
   }
 }

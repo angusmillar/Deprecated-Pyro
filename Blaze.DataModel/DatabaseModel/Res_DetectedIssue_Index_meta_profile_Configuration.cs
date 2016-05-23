@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DetectedIssue_Index_meta_profile_Configuration()
     {
       HasKey(x => x.Res_DetectedIssue_Index_meta_profileID).Property(x => x.Res_DetectedIssue_Index_meta_profileID).IsRequired();
+      HasRequired(x => x.Res_DetectedIssue).WithMany(x => x.meta_profile_List).WillCascadeOnDelete(true);
       Property(x => x.Uri).IsRequired();
     }
   }

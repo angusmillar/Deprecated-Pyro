@@ -43,7 +43,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           _CurrentSearchParameterDef = SearchParameterDef;
           
           //For debugging a specific resource
-          //if (SearchParameterDef.Resource == "AllergyIntolerance")
+          //if (SearchParameterDef.Resource == "Patient")
           //{
           //}
 

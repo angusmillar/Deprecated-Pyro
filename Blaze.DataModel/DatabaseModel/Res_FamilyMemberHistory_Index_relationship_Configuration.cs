@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_FamilyMemberHistory_Index_relationshipID).Property(x => x.Res_FamilyMemberHistory_Index_relationshipID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_FamilyMemberHistory);
+      HasRequired(x => x.Res_FamilyMemberHistory).WithMany(x => x.relationship_List).WillCascadeOnDelete(true);
     }
   }
 }

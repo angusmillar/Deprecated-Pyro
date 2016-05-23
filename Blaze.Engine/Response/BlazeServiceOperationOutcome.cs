@@ -31,12 +31,9 @@ namespace Blaze.Engine.Response
         return ResolveHttpStatusCodeToReturn();
       }
     }
-    public Resource ResourceToReturn
+    public Resource ResourceToReturn()
     {
-      get
-      {
-        return ResolveResourceToReturn();
-      }
+      return ResolveResourceToReturn();
     }
     #endregion
 
@@ -70,13 +67,20 @@ namespace Blaze.Engine.Response
       {
         if (this.DatabaseOperationOutcome.SingleResourceRead)
         {
-          if (this.DatabaseOperationOutcome.ResourceMatchingSearch == null)
+          if (this.DatabaseOperationOutcome.ResourceMatchingSearch != null)
           {
-            return HttpStatusCode.Gone;
+            if (this.DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
+            {
+              return HttpStatusCode.Gone;
+            }
+            else
+            {
+              return HttpStatusCode.OK;
+            }            
           }
           else
           {
-            return HttpStatusCode.OK;
+            return HttpStatusCode.NotFound;                        
           }
         }
         else
@@ -127,7 +131,14 @@ namespace Blaze.Engine.Response
         {
           if (this.DatabaseOperationOutcome.ResourceMatchingSearch != null)
           {
-            return SerializeToResource();
+            if (this.DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
+            {
+              return null;
+            }
+            else
+            {
+              return SerializeToResource();
+            }
           }
           else
           {
@@ -181,7 +192,7 @@ namespace Blaze.Engine.Response
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, Received: {1}. The parser exception error was '{2}", this.DatabaseOperationOutcome.ResourceMatchingSearch.Id, this.DatabaseOperationOutcome.ResourceMatchingSearch.Received.ToString(), oExec.Message);
+        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ResourceMatchingSearch.FhirId, this.DatabaseOperationOutcome.ResourceMatchingSearch.Version, this.DatabaseOperationOutcome.ResourceMatchingSearch.Received.ToString(), oExec.Message);
         var OpOutcome = new OperationOutcome();
         OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
         throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
@@ -213,7 +224,7 @@ namespace Blaze.Engine.Response
           var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-          OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, Received: {1}. The parser exception error was '{2}", DtoResource.Id, DtoResource.Received.ToString(), oExec.Message);
+          OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
           var OpOutcome = new OperationOutcome();
           OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
           throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);

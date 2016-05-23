@@ -18,12 +18,13 @@ namespace Blaze.DataModel.DatabaseModel
 
     public Res_RiskAssessment_History_Configuration()
     {
-      HasKey(x => x.Res_RiskAssessmentID).Property(x => x.Res_RiskAssessmentID).IsRequired();
+      HasKey(x => x.Res_RiskAssessment_HistoryID).Property(x => x.Res_RiskAssessment_HistoryID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = false })); ;
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      HasRequired(x => x.Res_RiskAssessment);
+      HasRequired(x => x.Res_RiskAssessment).WithMany(x => x.Res_RiskAssessment_History_List).WillCascadeOnDelete(false);
     }
   }
 }

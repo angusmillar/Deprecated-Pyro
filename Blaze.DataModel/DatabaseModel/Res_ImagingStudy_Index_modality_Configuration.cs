@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ImagingStudy_Index_modalityID).Property(x => x.Res_ImagingStudy_Index_modalityID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_ImagingStudy);
+      HasRequired(x => x.Res_ImagingStudy).WithMany(x => x.modality_List).WillCascadeOnDelete(true);
     }
   }
 }

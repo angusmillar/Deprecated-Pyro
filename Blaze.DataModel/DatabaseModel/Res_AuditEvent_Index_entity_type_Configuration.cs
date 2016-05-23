@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_AuditEvent_Index_entity_typeID).Property(x => x.Res_AuditEvent_Index_entity_typeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_AuditEvent);
+      HasRequired(x => x.Res_AuditEvent).WithMany(x => x.entity_type_List).WillCascadeOnDelete(true);
     }
   }
 }

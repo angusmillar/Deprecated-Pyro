@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Condition_Index_evidenceID).Property(x => x.Res_Condition_Index_evidenceID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Condition);
+      HasRequired(x => x.Res_Condition).WithMany(x => x.evidence_List).WillCascadeOnDelete(true);
     }
   }
 }

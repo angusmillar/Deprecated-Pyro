@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_Immunization_Index_dose_sequenceID).Property(x => x.Res_Immunization_Index_dose_sequenceID).IsRequired();
       Property(x => x.Number).IsRequired();
-      HasRequired(x => x.Res_Immunization);
+      HasRequired(x => x.Res_Immunization).WithMany(x => x.dose_sequence_List).WillCascadeOnDelete(true);
     }
   }
 }

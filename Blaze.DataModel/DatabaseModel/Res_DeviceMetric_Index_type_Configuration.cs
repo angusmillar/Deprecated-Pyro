@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_DeviceMetric_Index_typeID).Property(x => x.Res_DeviceMetric_Index_typeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_DeviceMetric);
+      HasRequired(x => x.Res_DeviceMetric).WithMany(x => x.type_List).WillCascadeOnDelete(true);
     }
   }
 }

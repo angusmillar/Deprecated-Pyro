@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Subscription_Index_contactID).Property(x => x.Res_Subscription_Index_contactID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Subscription);
+      HasRequired(x => x.Res_Subscription).WithMany(x => x.contact_List).WillCascadeOnDelete(true);
     }
   }
 }

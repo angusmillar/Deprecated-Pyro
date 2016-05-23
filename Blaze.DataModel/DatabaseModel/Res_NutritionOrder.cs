@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_NutritionOrder
+  public class Res_NutritionOrder : ResourceIndexBase
   {
     public int Res_NutritionOrderID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public DateTimeOffset? datetime_DateTimeOffset {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
@@ -31,6 +28,10 @@ namespace Blaze.DataModel.DatabaseModel
     public int? provider_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public ICollection<Res_NutritionOrder_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_NutritionOrder_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_NutritionOrder_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_NutritionOrder_History> Res_NutritionOrder_History_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_additive> additive_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_formula> formula_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_identifier> identifier_List { get; set; }
@@ -44,6 +45,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_NutritionOrder_Index_identifier>();
       this.oraldiet_List = new HashSet<Res_NutritionOrder_Index_oraldiet>();
       this.supplement_List = new HashSet<Res_NutritionOrder_Index_supplement>();
+      this.meta_tag_List = new HashSet<Res_NutritionOrder_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_NutritionOrder_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_NutritionOrder_Index_meta_profile>();
+      this.Res_NutritionOrder_History_List = new HashSet<Res_NutritionOrder_History>();
     }
   }
 }

@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_CommunicationRequest_Index_categoryID).Property(x => x.Res_CommunicationRequest_Index_categoryID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_CommunicationRequest);
+      HasRequired(x => x.Res_CommunicationRequest).WithMany(x => x.category_List).WillCascadeOnDelete(true);
     }
   }
 }

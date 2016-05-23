@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Practitioner_Index_emailID).Property(x => x.Res_Practitioner_Index_emailID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Practitioner);
+      HasRequired(x => x.Res_Practitioner).WithMany(x => x.email_List).WillCascadeOnDelete(true);
     }
   }
 }

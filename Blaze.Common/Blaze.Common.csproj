@@ -63,6 +63,8 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
+    <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
+    <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\UriSupport\IDtoFhirRequestUri.cs" />
     <Compile Include="Interfaces\Dto\IDtoRootUrlStore.cs" />
     <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
     <Compile Include="Interfaces\Repositories\ICommonRepository.cs" />
     <Compile Include="Interfaces\Repositories\IConceptMapRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
     <Compile Include="Interfaces\Services\IBaseServices.cs" />
     <Compile Include="Interfaces\Services\IBlazeServiceRequest.cs" />

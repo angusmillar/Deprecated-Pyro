@@ -8,8 +8,7 @@ namespace Blaze.Common.Interfaces.Repositories
 {
   public interface IUnitOfWork
   {
-    IResourceRepository ResourceRepository { get; }
-    IPatientRepository PatientRepository { get; }
+    IResourceRepository PatientRepository { get; }
     ICommonRepository CommonRepository { get; }
     //IValueSetRepository ValueSetRepository { get; }    
     //IConceptMapRepository ConceptMapRepository { get; }  

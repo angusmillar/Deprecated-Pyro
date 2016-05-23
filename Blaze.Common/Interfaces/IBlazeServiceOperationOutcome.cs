@@ -16,7 +16,7 @@ namespace Blaze.Common.Interfaces
     System.Net.HttpStatusCode HttpStatusCodeToReturn { get; }    
     DateTimeOffset? LastModified { get; set; }
     Uri RequestUri { get; set; }
-    Hl7.Fhir.Model.Resource ResourceToReturn { get; }
+    Hl7.Fhir.Model.Resource ResourceToReturn();
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
     ISearchPlanValidationOperationOutcome SearchPlanValidationOperationOutcome { get; set; }

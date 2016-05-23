@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_CommunicationRequest
+  public class Res_CommunicationRequest : ResourceIndexBase
   {
     public int Res_CommunicationRequestID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
@@ -40,6 +37,10 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? time_DateTimeOffset {get; set;}
+    public ICollection<Res_CommunicationRequest_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_CommunicationRequest_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_CommunicationRequest_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_CommunicationRequest_History> Res_CommunicationRequest_History_List { get; set; }
     public ICollection<Res_CommunicationRequest_Index_category> category_List { get; set; }
     public ICollection<Res_CommunicationRequest_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_CommunicationRequest_Index_medium> medium_List { get; set; }
@@ -53,6 +54,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.medium_List = new HashSet<Res_CommunicationRequest_Index_medium>();
       this.priority_List = new HashSet<Res_CommunicationRequest_Index_priority>();
       this.recipient_List = new HashSet<Res_CommunicationRequest_Index_recipient>();
+      this.meta_tag_List = new HashSet<Res_CommunicationRequest_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_CommunicationRequest_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_CommunicationRequest_Index_meta_profile>();
+      this.Res_CommunicationRequest_History_List = new HashSet<Res_CommunicationRequest_History>();
     }
   }
 }

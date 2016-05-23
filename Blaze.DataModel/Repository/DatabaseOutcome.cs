@@ -17,13 +17,13 @@ namespace Blaze.DataModel.Repository
 
     public bool SingleResourceRead { get; set; }
     public DtoResource ResourceMatchingSearch { get; set; }
-    public bool RecourceFoundDeleted { get; set; }
-    public int DeletedResourceVersionNumber { get; set; }
+    public bool RecourceIsDeleted { get; set; }
+    public int ResourceVersionNumber { get; set; }
 
     public DatabaseOperationOutcome()
     {
-      this.RecourceFoundDeleted = false;
-      this.DeletedResourceVersionNumber = 0;
+      this.RecourceIsDeleted = false;
+      this.ResourceVersionNumber = 0;
       SingleResourceRead = false;
     }
   }

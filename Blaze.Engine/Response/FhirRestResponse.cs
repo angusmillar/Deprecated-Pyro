@@ -19,7 +19,7 @@ namespace Blaze.Engine.Response
 
 
       HttpStatusCode HttpStatusCode = oBlazeServiceOperationOutcome.HttpStatusCodeToReturn;
-      Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn; 
+      Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn(); 
       
       //OK: 200
       if (HttpStatusCode == HttpStatusCode.OK)
@@ -67,11 +67,8 @@ namespace Blaze.Engine.Response
       //Gone: 410 - Search for a resource that no longer there, it is deleted or has never existed. 
       else if (HttpStatusCode == HttpStatusCode.Gone)
       {        
-        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
-        if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
-        {
-          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");          
-        }
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);        
+        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Version.ToString() + "\"");                  
         return Response;
       }
       //No Content: 204
@@ -83,7 +80,11 @@ namespace Blaze.Engine.Response
           Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");
         }
         return Response;
-      }      
+      }  
+      else if (HttpStatusCode == System.Net.HttpStatusCode.NotFound)
+      {
+        return Request.CreateResponse(HttpStatusCode);          
+      }
       //Forbidden: 403..and others
       else
       {

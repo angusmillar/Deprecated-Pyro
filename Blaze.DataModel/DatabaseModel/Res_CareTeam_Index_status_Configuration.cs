@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_CareTeam_Index_statusID).Property(x => x.Res_CareTeam_Index_statusID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_CareTeam);
+      HasRequired(x => x.Res_CareTeam).WithMany(x => x.status_List).WillCascadeOnDelete(true);
     }
   }
 }

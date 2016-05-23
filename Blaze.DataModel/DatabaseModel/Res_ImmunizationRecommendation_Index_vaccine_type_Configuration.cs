@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ImmunizationRecommendation_Index_vaccine_typeID).Property(x => x.Res_ImmunizationRecommendation_Index_vaccine_typeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_ImmunizationRecommendation);
+      HasRequired(x => x.Res_ImmunizationRecommendation).WithMany(x => x.vaccine_type_List).WillCascadeOnDelete(true);
     }
   }
 }

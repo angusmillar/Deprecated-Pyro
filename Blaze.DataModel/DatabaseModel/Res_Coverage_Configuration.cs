@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Coverage_Configuration()
     {
       HasKey(x => x.Res_CoverageID).Property(x => x.Res_CoverageID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();

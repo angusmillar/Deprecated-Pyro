@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_MessageHeader_Index_destination_uriID).Property(x => x.Res_MessageHeader_Index_destination_uriID).IsRequired();
       Property(x => x.Uri).IsRequired();
-      HasRequired(x => x.Res_MessageHeader);
+      HasRequired(x => x.Res_MessageHeader).WithMany(x => x.destination_uri_List).WillCascadeOnDelete(true);
     }
   }
 }

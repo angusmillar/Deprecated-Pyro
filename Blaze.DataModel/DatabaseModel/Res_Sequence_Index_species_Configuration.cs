@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Sequence_Index_speciesID).Property(x => x.Res_Sequence_Index_speciesID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Sequence);
+      HasRequired(x => x.Res_Sequence).WithMany(x => x.species_List).WillCascadeOnDelete(true);
     }
   }
 }

@@ -22,7 +22,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.Quantity).IsRequired();
       Property(x => x.System).IsOptional();
       Property(x => x.Code).IsOptional();
-      HasRequired(x => x.Res_Observation);
+      HasRequired(x => x.Res_Observation).WithMany(x => x.component_value_quantity_List).WillCascadeOnDelete(true);
     }
   }
 }

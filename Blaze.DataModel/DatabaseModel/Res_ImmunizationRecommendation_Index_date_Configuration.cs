@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_ImmunizationRecommendation_Index_dateID).Property(x => x.Res_ImmunizationRecommendation_Index_dateID).IsRequired();
       Property(x => x.DateTimeOffset).IsRequired();
-      HasRequired(x => x.Res_ImmunizationRecommendation);
+      HasRequired(x => x.Res_ImmunizationRecommendation).WithMany(x => x.date_List).WillCascadeOnDelete(true);
     }
   }
 }

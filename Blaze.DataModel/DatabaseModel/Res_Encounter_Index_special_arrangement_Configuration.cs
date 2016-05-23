@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Encounter_Index_special_arrangementID).Property(x => x.Res_Encounter_Index_special_arrangementID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Encounter);
+      HasRequired(x => x.Res_Encounter).WithMany(x => x.special_arrangement_List).WillCascadeOnDelete(true);
     }
   }
 }

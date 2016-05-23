@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_RiskAssessment_Index_methodID).Property(x => x.Res_RiskAssessment_Index_methodID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_RiskAssessment);
+      HasRequired(x => x.Res_RiskAssessment).WithMany(x => x.method_List).WillCascadeOnDelete(true);
     }
   }
 }

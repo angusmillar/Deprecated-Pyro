@@ -34,15 +34,33 @@ namespace Blaze.CodeGenerationSupport
   public class CodeGenerationDbTableClassModel
   {
     public string ClassName { get; set; }
-    public List<string> PropertyList;    
+
+    public List<string> ClassInheritanceList { get; set; }
+    public List<string> PropertyList;
     public List<string> PropertyConstructorInstantiationList;
 
-    public CodeGenerationDbTableClassModel()
+    public CodeGenerationDbTableClassModel(bool InheritFromBaseClass = true)
     {
       this.PropertyList = new List<string>();
-      this.PropertyConstructorInstantiationList = new List<string>();
+      this.PropertyConstructorInstantiationList = new List<string>();      
+      this.ClassInheritanceList = new List<string>();
+      if (InheritFromBaseClass)      
+        this.ClassInheritanceList.Add(DatabaseModelInfo.DatabaseModelBaseClassName);
+    }
+
+    /// <summary>
+    /// ConstructClassTypeStatment: "MyClassName : Inheritance, Inheritance"
+    /// </summary>
+    public string ConstructClassTypeStatment()
+    {
+      string Result = string.Empty;
+      Result = this.ClassName + " : ";
+      foreach (var item in this.ClassInheritanceList)
+      {
+        Result += item + ", ";
+      }
+      Result = Result.Substring(0, Result.Length - 2);
+      return Result;
     }
   }
-
-
 }

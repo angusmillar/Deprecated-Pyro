@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_DecisionSupportRule_Index_topicID).Property(x => x.Res_DecisionSupportRule_Index_topicID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_DecisionSupportRule);
+      HasRequired(x => x.Res_DecisionSupportRule).WithMany(x => x.topic_List).WillCascadeOnDelete(true);
     }
   }
 }

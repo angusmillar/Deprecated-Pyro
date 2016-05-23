@@ -52,7 +52,6 @@ namespace Blaze.Web.Controllers
       //string test = System.Web.HttpContext.Current.Application["key"] as String;
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
-
       IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, DtoFhirRequestUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(BlazeServiceRequest);      
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        
@@ -65,8 +64,6 @@ namespace Blaze.Web.Controllers
     {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
-
-
       var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, DtoFhirRequestUri);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(BlazeServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);                        

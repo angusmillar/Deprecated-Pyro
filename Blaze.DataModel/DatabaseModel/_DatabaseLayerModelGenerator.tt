@@ -1,6 +1,6 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.DataModel\DatabaseModel\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="System.Linq" #>
 <#@ Assembly Name="System.Threading.Tasks" #>
@@ -27,7 +27,7 @@
   Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
   List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
 
-  manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"));
+  //manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"));
 #>
 
 <# 
@@ -39,13 +39,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class <#=item.TableClassModel.ClassName#>
+  public class <#=item.TableClassModel.ConstructClassTypeStatment()#>
   {
 <#
       foreach(var property in item.TableClassModel.PropertyList)

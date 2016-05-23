@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Media_Index_viewID).Property(x => x.Res_Media_Index_viewID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Media);
+      HasRequired(x => x.Res_Media).WithMany(x => x.view_List).WillCascadeOnDelete(true);
     }
   }
 }

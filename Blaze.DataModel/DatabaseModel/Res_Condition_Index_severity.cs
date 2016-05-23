@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Condition_Index_severity
+  public class Res_Condition_Index_severity : TokenIndex
   {
     public int Res_Condition_Index_severityID {get; set;}
-    public string Code {get; set;}
-    public string System {get; set;}
     public virtual Res_Condition Res_Condition { get; set; }
    
     public Res_Condition_Index_severity()

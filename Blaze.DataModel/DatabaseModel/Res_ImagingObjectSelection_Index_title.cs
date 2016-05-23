@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_ImagingObjectSelection_Index_title
+  public class Res_ImagingObjectSelection_Index_title : TokenIndex
   {
     public int Res_ImagingObjectSelection_Index_titleID {get; set;}
-    public string Code {get; set;}
-    public string System {get; set;}
     public virtual Res_ImagingObjectSelection Res_ImagingObjectSelection { get; set; }
    
     public Res_ImagingObjectSelection_Index_title()

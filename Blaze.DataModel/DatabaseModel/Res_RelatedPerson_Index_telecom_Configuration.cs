@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_RelatedPerson_Index_telecomID).Property(x => x.Res_RelatedPerson_Index_telecomID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_RelatedPerson);
+      HasRequired(x => x.Res_RelatedPerson).WithMany(x => x.telecom_List).WillCascadeOnDelete(true);
     }
   }
 }

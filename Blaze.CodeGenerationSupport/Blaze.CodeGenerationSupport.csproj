@@ -50,11 +50,14 @@
   <ItemGroup>
     <Compile Include="CodeGenerationDatabaseModelCreate.cs" />
     <Compile Include="CodeGenerationDbTableModel.cs" />
+    <Compile Include="DatabaseModelInfo.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfo.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfoFactory.cs" />
     <Compile Include="FhirApiIntrospection\FhirSearchParameterSearchPathElement.cs" />
     <Compile Include="FhirApiIntrospection\FhirXPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryCodeGeneration\RepositoryCodeGeneration.cs" />
+    <Compile Include="RepositoryCodeGeneration\RepositoryCodeGenModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

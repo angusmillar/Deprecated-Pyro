@@ -1,0 +1,83 @@
+﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="System.Windows.Forms" #>
+<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+<#
+  var manager = TemplateFileManager.Create(this);
+  // Any output below here will go to the BlazeDbModelCodeGenerator.cs
+  var RepositoryCodeGeneration = new Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
+  Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGenModel oRepositoryCodeGenModel = RepositoryCodeGeneration.Generate();
+
+  foreach(var item in oRepositoryCodeGenModel.RepositoryItemList)
+  {  
+    manager.StartNewFile(string.Format("{0}.cs",item.ClassName));
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+using System.Data.SqlClient;
+using System.Data.Entity;
+using System.Linq.Expressions;
+using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.Support;
+using Hl7.Fhir.Model;
+using Blaze.Common.BusinessEntities;
+using Blaze.Common.Interfaces;
+using Blaze.Common.Interfaces.Repositories;
+using Blaze.Common.Interfaces.UriSupport;
+using Hl7.Fhir.Introspection;
+
+namespace Blaze.DataModel.Repository
+{
+  public partial class <#=item.ClassName#> : CommonRepository, IResourceRepository
+  {
+
+    public <#=item.ClassName#>(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
+
+    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    {
+      throw new NotImplementedException();
+    }
+
+    public string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    {
+      throw new NotImplementedException();
+    }
+
+    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, int ResourceVersionNumber)
+    {
+      throw new NotImplementedException();
+    }
+
+    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion)
+    {
+      throw new NotImplementedException();
+    }
+
+  }
+} 
+
+<#
+  }
+  manager.Process();
+#>

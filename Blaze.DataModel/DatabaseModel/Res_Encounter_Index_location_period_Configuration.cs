@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_Encounter_Index_location_periodID).Property(x => x.Res_Encounter_Index_location_periodID).IsRequired();
       Property(x => x.DateTimeOffset).IsRequired();
-      HasRequired(x => x.Res_Encounter);
+      HasRequired(x => x.Res_Encounter).WithMany(x => x.location_period_List).WillCascadeOnDelete(true);
     }
   }
 }

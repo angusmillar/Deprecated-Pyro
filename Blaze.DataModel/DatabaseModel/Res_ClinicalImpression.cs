@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_ClinicalImpression
+  public class Res_ClinicalImpression : ResourceIndexBase
   {
     public int Res_ClinicalImpressionID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public string assessor_FhirId {get; set;}
     public string assessor_Type {get; set;}
     public virtual Blaze_RootUrlStore assessor_Url { get; set; }
@@ -37,6 +34,10 @@ namespace Blaze.DataModel.DatabaseModel
     public int? trigger_Url_Blaze_RootUrlStoreID { get; set; }
     public string trigger_code_Code {get; set;}
     public string trigger_code_System {get; set;}
+    public ICollection<Res_ClinicalImpression_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_ClinicalImpression_History> Res_ClinicalImpression_History_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_action> action_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_finding> finding_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_investigation> investigation_List { get; set; }
@@ -54,6 +55,10 @@ namespace Blaze.DataModel.DatabaseModel
       this.problem_List = new HashSet<Res_ClinicalImpression_Index_problem>();
       this.resolved_List = new HashSet<Res_ClinicalImpression_Index_resolved>();
       this.ruledout_List = new HashSet<Res_ClinicalImpression_Index_ruledout>();
+      this.meta_tag_List = new HashSet<Res_ClinicalImpression_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_ClinicalImpression_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_ClinicalImpression_Index_meta_profile>();
+      this.Res_ClinicalImpression_History_List = new HashSet<Res_ClinicalImpression_History>();
     }
   }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System.Data.Entity;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.BusinessEntities.Dto;
@@ -18,6 +20,27 @@ namespace Blaze.DataModel.Repository
       _Context = Context;
     }
     #endregion
+
+
+    //MUCK AROUND ----------------------------------------------------------------------
+    //----------------------------------------------------------------------------------
+    public T DbQueryWithInclude<T>(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> IncludeList) where T : class
+    {
+      T ResourceEntity = null;
+
+      IQueryable<T> query = _Context.Set<T>();
+
+      //Apply includes
+      foreach (Expression<Func<T, object>> include in IncludeList)
+        query = query.Include<T, object>(include);
+
+      ResourceEntity = query.SingleOrDefault(predicate);
+      return ResourceEntity;
+
+    }
+
+    //----------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------
 
     public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
@@ -40,8 +63,7 @@ namespace Blaze.DataModel.Repository
       }
       this.Save();
       return this.GetPrimaryRootUrlStore();
-    }
-    
+    }    
 
     public DtoRootUrlStore GetPrimaryRootUrlStore()
     {

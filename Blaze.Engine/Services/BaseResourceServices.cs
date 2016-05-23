@@ -27,38 +27,12 @@ namespace Blaze.Engine.Services
 
     // Get By id
     // GET URL/FhirApi/Patient/5    
-    public IBlazeServiceOperationOutcome Get(string FhirResourceId)
-    {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
-      oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
-
-      
-
-      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.ResourceRepository.GetCurrentResource(FhirResourceId, CurrentResourceType);
-      oBlazeServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
-      if (oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch == null)
-      {
-        if (_UnitOfWork.ResourceRepository.IsCurrentResourceDeleted(FhirResourceId))
-        {
-          oBlazeServiceOperationOutcome.DatabaseOperationOutcome.RecourceFoundDeleted = true;
-          oBlazeServiceOperationOutcome.DatabaseOperationOutcome.DeletedResourceVersionNumber = _UnitOfWork.ResourceRepository.LastDeletedResourceVersion(FhirResourceId);
-        }
-        else
-        {
-          oBlazeServiceOperationOutcome.DatabaseOperationOutcome.RecourceFoundDeleted = false;
-        }
-      }
-      return oBlazeServiceOperationOutcome;
-      throw new NotImplementedException();
-    }
+    public abstract IBlazeServiceOperationOutcome Get(string FhirResourceId);
     
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     public IBlazeServiceOperationOutcome Get(Uri Uri, Hl7.Fhir.Rest.SearchParams searchParameters)
-    {
-      
-
+    {      
       //IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       //oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;      
       //oBlazeServiceOperationOutcome.RequestUri = Uri;
@@ -92,6 +66,7 @@ namespace Blaze.Engine.Services
     //Delete
     // DELETE: URL/FhirApi/Patient/5
     public abstract IBlazeServiceOperationOutcome Delete(string FhirResourceId);
+     
 
   }
 }

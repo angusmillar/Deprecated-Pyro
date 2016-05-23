@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_MeasureReport_History
+  public class Res_MeasureReport_History : ResourceIndexBase
   {
-    public int Res_MeasureReportID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
+    public int Res_MeasureReport_HistoryID {get; set;}
     public virtual Res_MeasureReport Res_MeasureReport { get; set; }
    
     public Res_MeasureReport_History()

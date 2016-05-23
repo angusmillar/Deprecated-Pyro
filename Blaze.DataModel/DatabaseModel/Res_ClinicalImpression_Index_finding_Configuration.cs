@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ClinicalImpression_Index_findingID).Property(x => x.Res_ClinicalImpression_Index_findingID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_ClinicalImpression);
+      HasRequired(x => x.Res_ClinicalImpression).WithMany(x => x.finding_List).WillCascadeOnDelete(true);
     }
   }
 }

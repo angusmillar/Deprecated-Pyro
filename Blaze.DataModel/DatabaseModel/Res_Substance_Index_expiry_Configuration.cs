@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_Substance_Index_expiryID).Property(x => x.Res_Substance_Index_expiryID).IsRequired();
       Property(x => x.DateTimeOffset).IsRequired();
-      HasRequired(x => x.Res_Substance);
+      HasRequired(x => x.Res_Substance).WithMany(x => x.expiry_List).WillCascadeOnDelete(true);
     }
   }
 }

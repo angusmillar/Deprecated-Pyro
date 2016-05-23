@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_EligibilityRequest_Index_identifierID).Property(x => x.Res_EligibilityRequest_Index_identifierID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_EligibilityRequest);
+      HasRequired(x => x.Res_EligibilityRequest).WithMany(x => x.identifier_List).WillCascadeOnDelete(true);
     }
   }
 }

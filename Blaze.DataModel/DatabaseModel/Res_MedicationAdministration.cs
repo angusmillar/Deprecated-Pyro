@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_MedicationAdministration
+  public class Res_MedicationAdministration : ResourceIndexBase
   {
     public int Res_MedicationAdministrationID {get; set;}
-    public string FhirId {get; set;}
-    public int versionId {get; set;}
-    public DateTimeOffset lastUpdated {get; set;}
-    public string XmlBlob {get; set;}
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public DateTimeOffset? effectivetime_DateTimeOffset {get; set;}
@@ -43,6 +40,10 @@ namespace Blaze.DataModel.DatabaseModel
     public string status_System {get; set;}
     public string wasnotgiven_Code {get; set;}
     public string wasnotgiven_System {get; set;}
+    public ICollection<Res_MedicationAdministration_Index_meta_profile> meta_profile_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index_meta_security> meta_security_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index_meta_tag> meta_tag_List { get; set; }
+    public ICollection<Res_MedicationAdministration_History> Res_MedicationAdministration_History_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_device> device_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_identifier> identifier_List { get; set; }
    
@@ -50,6 +51,10 @@ namespace Blaze.DataModel.DatabaseModel
     {
       this.device_List = new HashSet<Res_MedicationAdministration_Index_device>();
       this.identifier_List = new HashSet<Res_MedicationAdministration_Index_identifier>();
+      this.meta_tag_List = new HashSet<Res_MedicationAdministration_Index_meta_tag>();
+      this.meta_security_List = new HashSet<Res_MedicationAdministration_Index_meta_security>();
+      this.meta_profile_List = new HashSet<Res_MedicationAdministration_Index_meta_profile>();
+      this.Res_MedicationAdministration_History_List = new HashSet<Res_MedicationAdministration_History>();
     }
   }
 }

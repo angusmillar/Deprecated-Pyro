@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Immunization_Index_reason_not_givenID).Property(x => x.Res_Immunization_Index_reason_not_givenID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Immunization);
+      HasRequired(x => x.Res_Immunization).WithMany(x => x.reason_not_given_List).WillCascadeOnDelete(true);
     }
   }
 }

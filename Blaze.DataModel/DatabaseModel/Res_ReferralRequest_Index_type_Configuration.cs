@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_ReferralRequest_Index_typeID).Property(x => x.Res_ReferralRequest_Index_typeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_ReferralRequest);
+      HasRequired(x => x.Res_ReferralRequest).WithMany(x => x.type_List).WillCascadeOnDelete(true);
     }
   }
 }

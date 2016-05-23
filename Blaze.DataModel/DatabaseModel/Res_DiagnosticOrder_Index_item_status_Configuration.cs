@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_DiagnosticOrder_Index_item_statusID).Property(x => x.Res_DiagnosticOrder_Index_item_statusID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_DiagnosticOrder);
+      HasRequired(x => x.Res_DiagnosticOrder).WithMany(x => x.item_status_List).WillCascadeOnDelete(true);
     }
   }
 }

@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Appointment_Index_part_statusID).Property(x => x.Res_Appointment_Index_part_statusID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Appointment);
+      HasRequired(x => x.Res_Appointment).WithMany(x => x.part_status_List).WillCascadeOnDelete(true);
     }
   }
 }

@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_RelatedPerson_Index_phoneticID).Property(x => x.Res_RelatedPerson_Index_phoneticID).IsRequired();
       Property(x => x.String).IsRequired();
-      HasRequired(x => x.Res_RelatedPerson);
+      HasRequired(x => x.Res_RelatedPerson).WithMany(x => x.phonetic_List).WillCascadeOnDelete(true);
     }
   }
 }

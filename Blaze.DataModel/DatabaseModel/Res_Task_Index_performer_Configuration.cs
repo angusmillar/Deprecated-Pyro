@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Task_Index_performerID).Property(x => x.Res_Task_Index_performerID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Task);
+      HasRequired(x => x.Res_Task).WithMany(x => x.performer_List).WillCascadeOnDelete(true);
     }
   }
 }

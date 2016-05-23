@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_HealthcareService_Index_servicecategoryID).Property(x => x.Res_HealthcareService_Index_servicecategoryID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_HealthcareService);
+      HasRequired(x => x.Res_HealthcareService).WithMany(x => x.servicecategory_List).WillCascadeOnDelete(true);
     }
   }
 }

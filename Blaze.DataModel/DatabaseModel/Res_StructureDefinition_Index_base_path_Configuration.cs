@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_StructureDefinition_Index_base_pathID).Property(x => x.Res_StructureDefinition_Index_base_pathID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_StructureDefinition);
+      HasRequired(x => x.Res_StructureDefinition).WithMany(x => x.base_path_List).WillCascadeOnDelete(true);
     }
   }
 }

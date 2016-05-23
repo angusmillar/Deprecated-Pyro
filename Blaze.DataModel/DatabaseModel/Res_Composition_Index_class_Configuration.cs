@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasKey(x => x.Res_Composition_Index_classID).Property(x => x.Res_Composition_Index_classID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Composition);
+      HasRequired(x => x.Res_Composition).WithMany(x => x.class_List).WillCascadeOnDelete(true);
     }
   }
 }

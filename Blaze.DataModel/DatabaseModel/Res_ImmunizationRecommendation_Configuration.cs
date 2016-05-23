@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ImmunizationRecommendation_Configuration()
     {
       HasKey(x => x.Res_ImmunizationRecommendationID).Property(x => x.Res_ImmunizationRecommendationID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();

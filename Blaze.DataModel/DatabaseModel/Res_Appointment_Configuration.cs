@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Appointment_Configuration()
     {
       HasKey(x => x.Res_AppointmentID).Property(x => x.Res_AppointmentID).IsRequired();
+      Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
