@@ -39,9 +39,6 @@ namespace Blaze.DataModel.DatabaseModel
     public int? requester_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public ICollection<Res_Immunization_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Immunization_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Immunization_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Immunization_History> Res_Immunization_History_List { get; set; }
     public ICollection<Res_Immunization_Index_dose_sequence> dose_sequence_List { get; set; }
     public ICollection<Res_Immunization_Index_identifier> identifier_List { get; set; }
@@ -50,6 +47,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Immunization_Index_reason> reason_List { get; set; }
     public ICollection<Res_Immunization_Index_reason_not_given> reason_not_given_List { get; set; }
     public ICollection<Res_Immunization_Index_vaccine_code> vaccine_code_List { get; set; }
+    public ICollection<Res_Immunization_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Immunization_Index_security> security_List { get; set; }
+    public ICollection<Res_Immunization_Index_tag> tag_List { get; set; }
    
     public Res_Immunization()
     {
@@ -60,9 +60,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.reason_List = new HashSet<Res_Immunization_Index_reason>();
       this.reason_not_given_List = new HashSet<Res_Immunization_Index_reason_not_given>();
       this.vaccine_code_List = new HashSet<Res_Immunization_Index_vaccine_code>();
-      this.meta_tag_List = new HashSet<Res_Immunization_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Immunization_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Immunization_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Immunization_Index_profile>();
+      this.security_List = new HashSet<Res_Immunization_Index_security>();
+      this.tag_List = new HashSet<Res_Immunization_Index_tag>();
       this.Res_Immunization_History_List = new HashSet<Res_Immunization_History>();
     }
   }

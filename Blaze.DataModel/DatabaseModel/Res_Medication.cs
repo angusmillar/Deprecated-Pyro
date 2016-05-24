@@ -17,9 +17,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string manufacturer_Type {get; set;}
     public virtual Blaze_RootUrlStore manufacturer_Url { get; set; }
     public int? manufacturer_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_Medication_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Medication_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Medication_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Medication_History> Res_Medication_History_List { get; set; }
     public ICollection<Res_Medication_Index_code> code_List { get; set; }
     public ICollection<Res_Medication_Index_container> container_List { get; set; }
@@ -28,6 +25,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Medication_Index_ingredient_code> ingredient_code_List { get; set; }
     public ICollection<Res_Medication_Index_package_item> package_item_List { get; set; }
     public ICollection<Res_Medication_Index_package_item_code> package_item_code_List { get; set; }
+    public ICollection<Res_Medication_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Medication_Index_security> security_List { get; set; }
+    public ICollection<Res_Medication_Index_tag> tag_List { get; set; }
    
     public Res_Medication()
     {
@@ -38,9 +38,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.ingredient_code_List = new HashSet<Res_Medication_Index_ingredient_code>();
       this.package_item_List = new HashSet<Res_Medication_Index_package_item>();
       this.package_item_code_List = new HashSet<Res_Medication_Index_package_item_code>();
-      this.meta_tag_List = new HashSet<Res_Medication_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Medication_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Medication_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Medication_Index_profile>();
+      this.security_List = new HashSet<Res_Medication_Index_security>();
+      this.tag_List = new HashSet<Res_Medication_Index_tag>();
       this.Res_Medication_History_List = new HashSet<Res_Medication_History>();
     }
   }

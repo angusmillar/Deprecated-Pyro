@@ -24,22 +24,22 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_ImplementationGuide_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_ImplementationGuide_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_ImplementationGuide_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_ImplementationGuide_History> Res_ImplementationGuide_History_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_context> context_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_dependency> dependency_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_resource> resource_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index_profile> profile_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index_security> security_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index_tag> tag_List { get; set; }
    
     public Res_ImplementationGuide()
     {
       this.context_List = new HashSet<Res_ImplementationGuide_Index_context>();
       this.dependency_List = new HashSet<Res_ImplementationGuide_Index_dependency>();
       this.resource_List = new HashSet<Res_ImplementationGuide_Index_resource>();
-      this.meta_tag_List = new HashSet<Res_ImplementationGuide_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_ImplementationGuide_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_ImplementationGuide_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_ImplementationGuide_Index_profile>();
+      this.security_List = new HashSet<Res_ImplementationGuide_Index_security>();
+      this.tag_List = new HashSet<Res_ImplementationGuide_Index_tag>();
       this.Res_ImplementationGuide_History_List = new HashSet<Res_ImplementationGuide_History>();
     }
   }

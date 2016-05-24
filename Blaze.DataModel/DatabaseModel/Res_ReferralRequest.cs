@@ -32,15 +32,15 @@ namespace Blaze.DataModel.DatabaseModel
     public int? requester_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public ICollection<Res_ReferralRequest_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_ReferralRequest_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_ReferralRequest_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_ReferralRequest_History> Res_ReferralRequest_History_List { get; set; }
     public ICollection<Res_ReferralRequest_Index_basedon> basedon_List { get; set; }
     public ICollection<Res_ReferralRequest_Index_priority> priority_List { get; set; }
     public ICollection<Res_ReferralRequest_Index_recipient> recipient_List { get; set; }
     public ICollection<Res_ReferralRequest_Index_specialty> specialty_List { get; set; }
     public ICollection<Res_ReferralRequest_Index_type> type_List { get; set; }
+    public ICollection<Res_ReferralRequest_Index_profile> profile_List { get; set; }
+    public ICollection<Res_ReferralRequest_Index_security> security_List { get; set; }
+    public ICollection<Res_ReferralRequest_Index_tag> tag_List { get; set; }
    
     public Res_ReferralRequest()
     {
@@ -49,9 +49,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.recipient_List = new HashSet<Res_ReferralRequest_Index_recipient>();
       this.specialty_List = new HashSet<Res_ReferralRequest_Index_specialty>();
       this.type_List = new HashSet<Res_ReferralRequest_Index_type>();
-      this.meta_tag_List = new HashSet<Res_ReferralRequest_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_ReferralRequest_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_ReferralRequest_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_ReferralRequest_Index_profile>();
+      this.security_List = new HashSet<Res_ReferralRequest_Index_security>();
+      this.tag_List = new HashSet<Res_ReferralRequest_Index_tag>();
       this.Res_ReferralRequest_History_List = new HashSet<Res_ReferralRequest_History>();
     }
   }

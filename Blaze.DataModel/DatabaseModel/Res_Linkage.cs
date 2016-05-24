@@ -17,20 +17,20 @@ namespace Blaze.DataModel.DatabaseModel
     public string author_Type {get; set;}
     public virtual Blaze_RootUrlStore author_Url { get; set; }
     public int? author_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_Linkage_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Linkage_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Linkage_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Linkage_History> Res_Linkage_History_List { get; set; }
     public ICollection<Res_Linkage_Index_item> item_List { get; set; }
     public ICollection<Res_Linkage_Index_source> source_List { get; set; }
+    public ICollection<Res_Linkage_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Linkage_Index_security> security_List { get; set; }
+    public ICollection<Res_Linkage_Index_tag> tag_List { get; set; }
    
     public Res_Linkage()
     {
       this.item_List = new HashSet<Res_Linkage_Index_item>();
       this.source_List = new HashSet<Res_Linkage_Index_source>();
-      this.meta_tag_List = new HashSet<Res_Linkage_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Linkage_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Linkage_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Linkage_Index_profile>();
+      this.security_List = new HashSet<Res_Linkage_Index_security>();
+      this.tag_List = new HashSet<Res_Linkage_Index_tag>();
       this.Res_Linkage_History_List = new HashSet<Res_Linkage_History>();
     }
   }

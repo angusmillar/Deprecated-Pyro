@@ -260,8 +260,8 @@ namespace Blaze.DataModel.Support
     }
 
     public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase)
-    {
-      var DtoResource = new DtoResource();      
+    {      
+      var DtoResource = new DtoResource();           
       DtoResource.FhirId = ResourceIndexBase.FhirId;
       DtoResource.IsCurrent = true;
       DtoResource.IsDeleted = ResourceIndexBase.IsDeleted;

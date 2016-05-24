@@ -46,9 +46,29 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         var RepositoryItem = new RepositoryItem();
         RepositoryCodeGenModel.RepositoryItemList.Add(RepositoryItem);
 
-        RepositoryItem.ClassName = String.Format("{0}{1}", ResourceName, "Repository");
+        RepositoryItem.RepositoryClassName = String.Format("{0}{1}", ResourceName, "Repository");
+        RepositoryItem.ResourceEntityName = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
+        RepositoryItem.ResourceName = ResourceName;
+        RepositoryItem.ResourceHistoryEntityName = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);
+        RepositoryItem.ResourceHistoryEntityListName = DatabaseModelInfo.ConstructClassNameForResourceHistoryList(ResourceName);
 
-        
+        foreach (FhirApiSearchParameterInfo CollectionParameter in CollectionParameters)
+        {
+          RepositoryItem.ResourceEntityIncludesList.Add(DatabaseModelInfo.ConstructCollectionListName(CollectionParameter));
+          IndexEntity oIndexEntity = new IndexEntity();
+          RepositoryItem.ResourceEntityCollectionPropertiesInfo.Add(oIndexEntity);
+          oIndexEntity.IndexEntityClassName = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionParameter);
+          oIndexEntity.IndexEntityPropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
+        }
+
+        foreach(FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
+        {
+          List<string> Propertylist = new List<string>();
+          DatabaseModelInfo.GenerateNonCollectionPropertiesNames(Propertylist, NonCollectionParameter);
+          RepositoryItem.ResourceEntityNonCollectionProperties.AddRange(Propertylist);          
+        }
+        RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
+
       }
       return RepositoryCodeGenModel;
     }

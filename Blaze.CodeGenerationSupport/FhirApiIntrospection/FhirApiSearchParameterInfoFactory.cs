@@ -75,6 +75,100 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           _SearchParameterInfo.CompositeSearchParameterList = ResolveCompositeSearchParameterList(ResourceName, CompositeSearchParameter);
           _ResourceSearchInfoList.Add(_SearchParameterInfo);
         }
+
+        //MetaProfile
+        _SearchParameterInfo = new FhirApiSearchParameterInfo();
+        _SearchParameterInfo.IsCollection = true;
+        _SearchParameterInfo.Resource = ResourceName;
+        _SearchParameterInfo.SearchParamType = SearchParamType.Uri;
+        _SearchParameterInfo.SearchName = "profile";
+        _SearchParameterInfo.IsChoice = false;
+        _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:profile";
+        _SearchParameterInfo.CompositeSearchParameterList = null;                
+
+
+         var RootElementMetaProfile = new FhirSearchParameterSearchPathElement(null);
+        RootElementMetaProfile.IsCollection = false;
+        RootElementMetaProfile.PropertyName = ResourceName;
+        RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
+        RootElementMetaProfile.ParentElement = null;
+        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaProfile;
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaProfile = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        ChildPathElementMetaProfile.IsCollection = false;
+        ChildPathElementMetaProfile.PropertyName = "Meta";
+        ChildPathElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType("Meta");
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaProfile2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        ChildPathElementMetaProfile2.IsCollection = true;
+        ChildPathElementMetaProfile2.PropertyName = "profile";
+        ChildPathElementMetaProfile2.DataType = ModelInfo.GetTypeForFhirType("uri");
+
+        _ResourceSearchInfoList.Add(_SearchParameterInfo);
+
+
+        //MetaSecurity
+        _SearchParameterInfo = new FhirApiSearchParameterInfo();
+        _SearchParameterInfo.IsCollection = true;
+        _SearchParameterInfo.Resource = ResourceName;
+        _SearchParameterInfo.SearchParamType = SearchParamType.Token;
+        _SearchParameterInfo.SearchName = "security";
+        _SearchParameterInfo.IsChoice = false;
+        _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:security";
+        _SearchParameterInfo.CompositeSearchParameterList = null;
+
+
+        var RootElementMetaSecurity = new FhirSearchParameterSearchPathElement(null);
+        RootElementMetaSecurity.IsCollection = false;
+        RootElementMetaSecurity.PropertyName = ResourceName;
+        RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
+        RootElementMetaSecurity.ParentElement = null;
+        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaSecurity;
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaSecurity = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        ChildPathElementMetaSecurity.IsCollection = false;
+        ChildPathElementMetaSecurity.PropertyName = "Meta";
+        ChildPathElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType("Meta");
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaSecurity2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        ChildPathElementMetaSecurity2.IsCollection = true;
+        ChildPathElementMetaSecurity2.PropertyName = "security";
+        ChildPathElementMetaSecurity2.DataType = ModelInfo.GetTypeForFhirType("Coding");
+        
+        _ResourceSearchInfoList.Add(_SearchParameterInfo);
+
+        //MetaTag
+        _SearchParameterInfo = new FhirApiSearchParameterInfo();
+        _SearchParameterInfo.IsCollection = true;
+        _SearchParameterInfo.Resource = ResourceName;
+        _SearchParameterInfo.SearchParamType = SearchParamType.Token;
+        _SearchParameterInfo.SearchName = "tag";
+        _SearchParameterInfo.IsChoice = false;
+        _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:tag";
+        _SearchParameterInfo.CompositeSearchParameterList = null;
+
+
+        var RootElementMetaTag = new FhirSearchParameterSearchPathElement(null);
+        RootElementMetaTag.IsCollection = false;
+        RootElementMetaTag.PropertyName = ResourceName;
+        RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
+        RootElementMetaTag.ParentElement = null;
+        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaTag;
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaTag = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        ChildPathElementMetaTag.IsCollection = false;
+        ChildPathElementMetaTag.PropertyName = "Meta";
+        ChildPathElementMetaTag.DataType = ModelInfo.GetTypeForFhirType("Meta");
+
+        FhirSearchParameterSearchPathElement ChildPathElementMetaTag2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        ChildPathElementMetaTag2.IsCollection = true;
+        ChildPathElementMetaTag2.PropertyName = "tag";
+        ChildPathElementMetaTag2.DataType = ModelInfo.GetTypeForFhirType("Coding");
+
+        _ResourceSearchInfoList.Add(_SearchParameterInfo);
+
+
+
       }
       #region Debugging Purpose
       //OutPut For Debugging purpose only

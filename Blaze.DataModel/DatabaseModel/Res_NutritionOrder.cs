@@ -28,15 +28,15 @@ namespace Blaze.DataModel.DatabaseModel
     public int? provider_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public ICollection<Res_NutritionOrder_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_NutritionOrder_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_NutritionOrder_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_NutritionOrder_History> Res_NutritionOrder_History_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_additive> additive_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_formula> formula_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_oraldiet> oraldiet_List { get; set; }
     public ICollection<Res_NutritionOrder_Index_supplement> supplement_List { get; set; }
+    public ICollection<Res_NutritionOrder_Index_profile> profile_List { get; set; }
+    public ICollection<Res_NutritionOrder_Index_security> security_List { get; set; }
+    public ICollection<Res_NutritionOrder_Index_tag> tag_List { get; set; }
    
     public Res_NutritionOrder()
     {
@@ -45,9 +45,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_NutritionOrder_Index_identifier>();
       this.oraldiet_List = new HashSet<Res_NutritionOrder_Index_oraldiet>();
       this.supplement_List = new HashSet<Res_NutritionOrder_Index_supplement>();
-      this.meta_tag_List = new HashSet<Res_NutritionOrder_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_NutritionOrder_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_NutritionOrder_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_NutritionOrder_Index_profile>();
+      this.security_List = new HashSet<Res_NutritionOrder_Index_security>();
+      this.tag_List = new HashSet<Res_NutritionOrder_Index_tag>();
       this.Res_NutritionOrder_History_List = new HashSet<Res_NutritionOrder_History>();
     }
   }

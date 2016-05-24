@@ -20,9 +20,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string organization_Type {get; set;}
     public virtual Blaze_RootUrlStore organization_Url { get; set; }
     public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_Person_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Person_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Person_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Person_History> Res_Person_History_List { get; set; }
     public ICollection<Res_Person_Index_address> address_List { get; set; }
     public ICollection<Res_Person_Index_address_city> address_city_List { get; set; }
@@ -40,6 +37,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Person_Index_practitioner> practitioner_List { get; set; }
     public ICollection<Res_Person_Index_relatedperson> relatedperson_List { get; set; }
     public ICollection<Res_Person_Index_telecom> telecom_List { get; set; }
+    public ICollection<Res_Person_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Person_Index_security> security_List { get; set; }
+    public ICollection<Res_Person_Index_tag> tag_List { get; set; }
    
     public Res_Person()
     {
@@ -59,9 +59,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.practitioner_List = new HashSet<Res_Person_Index_practitioner>();
       this.relatedperson_List = new HashSet<Res_Person_Index_relatedperson>();
       this.telecom_List = new HashSet<Res_Person_Index_telecom>();
-      this.meta_tag_List = new HashSet<Res_Person_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Person_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Person_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Person_Index_profile>();
+      this.security_List = new HashSet<Res_Person_Index_security>();
+      this.tag_List = new HashSet<Res_Person_Index_tag>();
       this.Res_Person_History_List = new HashSet<Res_Person_History>();
     }
   }

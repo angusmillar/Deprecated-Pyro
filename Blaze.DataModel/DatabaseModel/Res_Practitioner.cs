@@ -15,9 +15,6 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_PractitionerID {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
-    public ICollection<Res_Practitioner_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Practitioner_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Practitioner_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Practitioner_History> Res_Practitioner_History_List { get; set; }
     public ICollection<Res_Practitioner_Index_address> address_List { get; set; }
     public ICollection<Res_Practitioner_Index_address_city> address_city_List { get; set; }
@@ -38,6 +35,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Practitioner_Index_role> role_List { get; set; }
     public ICollection<Res_Practitioner_Index_specialty> specialty_List { get; set; }
     public ICollection<Res_Practitioner_Index_telecom> telecom_List { get; set; }
+    public ICollection<Res_Practitioner_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Practitioner_Index_security> security_List { get; set; }
+    public ICollection<Res_Practitioner_Index_tag> tag_List { get; set; }
    
     public Res_Practitioner()
     {
@@ -60,9 +60,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.role_List = new HashSet<Res_Practitioner_Index_role>();
       this.specialty_List = new HashSet<Res_Practitioner_Index_specialty>();
       this.telecom_List = new HashSet<Res_Practitioner_Index_telecom>();
-      this.meta_tag_List = new HashSet<Res_Practitioner_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Practitioner_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Practitioner_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Practitioner_Index_profile>();
+      this.security_List = new HashSet<Res_Practitioner_Index_security>();
+      this.tag_List = new HashSet<Res_Practitioner_Index_tag>();
       this.Res_Practitioner_History_List = new HashSet<Res_Practitioner_History>();
     }
   }

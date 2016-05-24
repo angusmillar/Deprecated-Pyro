@@ -40,20 +40,20 @@ namespace Blaze.DataModel.DatabaseModel
     public string status_System {get; set;}
     public string wasnotgiven_Code {get; set;}
     public string wasnotgiven_System {get; set;}
-    public ICollection<Res_MedicationAdministration_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_MedicationAdministration_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_MedicationAdministration_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_MedicationAdministration_History> Res_MedicationAdministration_History_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_device> device_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_identifier> identifier_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index_profile> profile_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index_security> security_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index_tag> tag_List { get; set; }
    
     public Res_MedicationAdministration()
     {
       this.device_List = new HashSet<Res_MedicationAdministration_Index_device>();
       this.identifier_List = new HashSet<Res_MedicationAdministration_Index_identifier>();
-      this.meta_tag_List = new HashSet<Res_MedicationAdministration_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_MedicationAdministration_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_MedicationAdministration_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_MedicationAdministration_Index_profile>();
+      this.security_List = new HashSet<Res_MedicationAdministration_Index_security>();
+      this.tag_List = new HashSet<Res_MedicationAdministration_Index_tag>();
       this.Res_MedicationAdministration_History_List = new HashSet<Res_MedicationAdministration_History>();
     }
   }

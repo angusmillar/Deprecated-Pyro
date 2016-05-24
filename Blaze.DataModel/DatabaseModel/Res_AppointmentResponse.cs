@@ -35,18 +35,18 @@ namespace Blaze.DataModel.DatabaseModel
     public string practitioner_Type {get; set;}
     public virtual Blaze_RootUrlStore practitioner_Url { get; set; }
     public int? practitioner_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_AppointmentResponse_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_AppointmentResponse_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_AppointmentResponse_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_AppointmentResponse_History> Res_AppointmentResponse_History_List { get; set; }
     public ICollection<Res_AppointmentResponse_Index_identifier> identifier_List { get; set; }
+    public ICollection<Res_AppointmentResponse_Index_profile> profile_List { get; set; }
+    public ICollection<Res_AppointmentResponse_Index_security> security_List { get; set; }
+    public ICollection<Res_AppointmentResponse_Index_tag> tag_List { get; set; }
    
     public Res_AppointmentResponse()
     {
       this.identifier_List = new HashSet<Res_AppointmentResponse_Index_identifier>();
-      this.meta_tag_List = new HashSet<Res_AppointmentResponse_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_AppointmentResponse_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_AppointmentResponse_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_AppointmentResponse_Index_profile>();
+      this.security_List = new HashSet<Res_AppointmentResponse_Index_security>();
+      this.tag_List = new HashSet<Res_AppointmentResponse_Index_tag>();
       this.Res_AppointmentResponse_History_List = new HashSet<Res_AppointmentResponse_History>();
     }
   }

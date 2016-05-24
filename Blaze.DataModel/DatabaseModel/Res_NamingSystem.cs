@@ -25,9 +25,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string responsible_String {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public ICollection<Res_NamingSystem_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_NamingSystem_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_NamingSystem_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_NamingSystem_History> Res_NamingSystem_History_List { get; set; }
     public ICollection<Res_NamingSystem_Index_contact> contact_List { get; set; }
     public ICollection<Res_NamingSystem_Index_context> context_List { get; set; }
@@ -36,6 +33,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_NamingSystem_Index_telecom> telecom_List { get; set; }
     public ICollection<Res_NamingSystem_Index_type> type_List { get; set; }
     public ICollection<Res_NamingSystem_Index_value> value_List { get; set; }
+    public ICollection<Res_NamingSystem_Index_profile> profile_List { get; set; }
+    public ICollection<Res_NamingSystem_Index_security> security_List { get; set; }
+    public ICollection<Res_NamingSystem_Index_tag> tag_List { get; set; }
    
     public Res_NamingSystem()
     {
@@ -46,9 +46,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.telecom_List = new HashSet<Res_NamingSystem_Index_telecom>();
       this.type_List = new HashSet<Res_NamingSystem_Index_type>();
       this.value_List = new HashSet<Res_NamingSystem_Index_value>();
-      this.meta_tag_List = new HashSet<Res_NamingSystem_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_NamingSystem_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_NamingSystem_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_NamingSystem_Index_profile>();
+      this.security_List = new HashSet<Res_NamingSystem_Index_security>();
+      this.tag_List = new HashSet<Res_NamingSystem_Index_tag>();
       this.Res_NamingSystem_History_List = new HashSet<Res_NamingSystem_History>();
     }
   }

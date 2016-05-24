@@ -20,9 +20,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_RelatedPerson_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_RelatedPerson_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_RelatedPerson_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_RelatedPerson_History> Res_RelatedPerson_History_List { get; set; }
     public ICollection<Res_RelatedPerson_Index_address> address_List { get; set; }
     public ICollection<Res_RelatedPerson_Index_address_city> address_city_List { get; set; }
@@ -36,6 +33,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_RelatedPerson_Index_phone> phone_List { get; set; }
     public ICollection<Res_RelatedPerson_Index_phonetic> phonetic_List { get; set; }
     public ICollection<Res_RelatedPerson_Index_telecom> telecom_List { get; set; }
+    public ICollection<Res_RelatedPerson_Index_profile> profile_List { get; set; }
+    public ICollection<Res_RelatedPerson_Index_security> security_List { get; set; }
+    public ICollection<Res_RelatedPerson_Index_tag> tag_List { get; set; }
    
     public Res_RelatedPerson()
     {
@@ -51,9 +51,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.phone_List = new HashSet<Res_RelatedPerson_Index_phone>();
       this.phonetic_List = new HashSet<Res_RelatedPerson_Index_phonetic>();
       this.telecom_List = new HashSet<Res_RelatedPerson_Index_telecom>();
-      this.meta_tag_List = new HashSet<Res_RelatedPerson_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_RelatedPerson_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_RelatedPerson_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_RelatedPerson_Index_profile>();
+      this.security_List = new HashSet<Res_RelatedPerson_Index_security>();
+      this.tag_List = new HashSet<Res_RelatedPerson_Index_tag>();
       this.Res_RelatedPerson_History_List = new HashSet<Res_RelatedPerson_History>();
     }
   }

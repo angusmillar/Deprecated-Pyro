@@ -21,9 +21,6 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual Blaze_RootUrlStore partof_Url { get; set; }
     public int? partof_Url_Blaze_RootUrlStoreID { get; set; }
     public string phonetic_String {get; set;}
-    public ICollection<Res_Organization_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Organization_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Organization_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Organization_History> Res_Organization_History_List { get; set; }
     public ICollection<Res_Organization_Index_address> address_List { get; set; }
     public ICollection<Res_Organization_Index_address_city> address_city_List { get; set; }
@@ -33,6 +30,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Organization_Index_address_use> address_use_List { get; set; }
     public ICollection<Res_Organization_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Organization_Index_type> type_List { get; set; }
+    public ICollection<Res_Organization_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Organization_Index_security> security_List { get; set; }
+    public ICollection<Res_Organization_Index_tag> tag_List { get; set; }
    
     public Res_Organization()
     {
@@ -44,9 +44,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.address_use_List = new HashSet<Res_Organization_Index_address_use>();
       this.identifier_List = new HashSet<Res_Organization_Index_identifier>();
       this.type_List = new HashSet<Res_Organization_Index_type>();
-      this.meta_tag_List = new HashSet<Res_Organization_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Organization_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Organization_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Organization_Index_profile>();
+      this.security_List = new HashSet<Res_Organization_Index_security>();
+      this.tag_List = new HashSet<Res_Organization_Index_tag>();
       this.Res_Organization_History_List = new HashSet<Res_Organization_History>();
     }
   }

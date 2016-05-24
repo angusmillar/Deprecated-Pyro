@@ -23,6 +23,16 @@ namespace Blaze.Engine.Services
   /// </summary>
   public class PatientResourceServices : BaseResourceServices, IPatientResourceServices, IBaseResourceServices, ICommonServices, IBaseServices 
   {
+    IResourceRepository Repository = null;
+
+    //Constructor for dependency injection
+    public PatientResourceServices(IUnitOfWork IUnitOfWork)
+      : base(IUnitOfWork) 
+    {
+      Repository = _UnitOfWork.PatientRepository;
+    }
+
+
     public override DtoEnums.SupportedFhirResource CurrentResourceType
     {
       get
@@ -33,11 +43,11 @@ namespace Blaze.Engine.Services
 
     // Get By id
     // GET URL/FhirApi/Patient/5    
-    public override IBlazeServiceOperationOutcome Get(string FhirResourceId)
+    public override IBlazeServiceOperationOutcome Get(string FhirId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
-      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(FhirResourceId);
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = Repository.GetResourceByFhirID(FhirId);
       return oBlazeServiceOperationOutcome;      
     }
 
@@ -57,20 +67,16 @@ namespace Blaze.Engine.Services
         oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
         return oBlazeServiceOperationOutcome;
       }
-
-      var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
-
-      //Update the resource XML before committing to storage.
-      FhirPatientResource.Id = Guid.NewGuid().ToString();
-      if (FhirPatientResource.Meta == null)
-        FhirPatientResource.Meta = new Meta();
+     
+      BlazeServiceRequest.Resource.Id = Guid.NewGuid().ToString();
+      if (BlazeServiceRequest.Resource.Meta == null)
+        BlazeServiceRequest.Resource.Meta = new Meta();
       int ResourceVersionNumber = 1;
-      FhirPatientResource.Meta.VersionId = ResourceVersionNumber.ToString();
-      FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;
+      BlazeServiceRequest.Resource.Meta.VersionId = ResourceVersionNumber.ToString();
+      BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
-
-      oBlazeServiceOperationOutcome.FhirResourceId = _UnitOfWork.PatientRepository.AddResource(FhirPatientResource, BlazeServiceRequest.FhirRequestUri);
-      oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
+      oBlazeServiceOperationOutcome.FhirResourceId = Repository.AddResource(BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
+      oBlazeServiceOperationOutcome.LastModified = BlazeServiceRequest.Resource.Meta.LastUpdated;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
       return oBlazeServiceOperationOutcome;
     }
@@ -81,8 +87,8 @@ namespace Blaze.Engine.Services
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
-      var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
-      if (FhirPatientResource.Id == null || FhirPatientResource.Id == string.Empty || FhirPatientResource.Id != BlazeServiceRequest.ResourceId)
+      //var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
+      if (String.IsNullOrWhiteSpace(BlazeServiceRequest.Resource.Id) || BlazeServiceRequest.Resource.Id != BlazeServiceRequest.ResourceId)
       {
         var oIssueComponent = new OperationOutcome.IssueComponent();
         oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
@@ -98,18 +104,18 @@ namespace Blaze.Engine.Services
         return oBlazeServiceOperationOutcome;
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(BlazeServiceRequest.ResourceId);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Repository.GetResourceByFhirID(BlazeServiceRequest.ResourceId);
       if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
       {
         //The resource has been found so update it and return 200 OK        
-        if (FhirPatientResource.Meta == null)
-          FhirPatientResource.Meta = new Meta();
-        int NewResourceVersionNumber = (int)DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
-        FhirPatientResource.Meta.VersionId = NewResourceVersionNumber.ToString();
-        FhirPatientResource.Meta.LastUpdated = DateTimeOffset.Now;        
+        if (BlazeServiceRequest.Resource.Meta == null)
+          BlazeServiceRequest.Resource.Meta = new Meta();
+        int NewResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
+        BlazeServiceRequest.Resource.Meta.VersionId = NewResourceVersionNumber.ToString();
+        BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
         //Validation of resource        
-        var Validation = new Validation.PatientResourceValidation();
+        Interfaces.IResourceValidation Validation = Blaze.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
         IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(BlazeServiceRequest.Resource);
         if (oResourceValidationOperationOutcome.HasError)
         {
@@ -117,10 +123,10 @@ namespace Blaze.Engine.Services
           return oBlazeServiceOperationOutcome;
         }
 
-        _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, FhirPatientResource, BlazeServiceRequest.FhirRequestUri);
+        _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
         oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
         oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
-        oBlazeServiceOperationOutcome.LastModified = FhirPatientResource.Meta.LastUpdated;
+        oBlazeServiceOperationOutcome.LastModified = BlazeServiceRequest.Resource.Meta.LastUpdated;
         oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
         return oBlazeServiceOperationOutcome;
         
@@ -140,7 +146,7 @@ namespace Blaze.Engine.Services
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = 0;
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _UnitOfWork.PatientRepository.GetResourceByFhirID(FhirResourceId);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Repository.GetResourceByFhirID(FhirResourceId);
       if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
       {
         //Resource exists so..
@@ -157,10 +163,6 @@ namespace Blaze.Engine.Services
       }
       return oBlazeServiceOperationOutcome;
     }
-
-    //Constructor for dependency injection
-    public PatientResourceServices(IUnitOfWork IUnitOfWork)
-      : base(IUnitOfWork){}
 
   }
 }

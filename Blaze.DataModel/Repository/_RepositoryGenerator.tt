@@ -22,13 +22,12 @@
 
   foreach(var item in oRepositoryCodeGenModel.RepositoryItemList)
   {  
-    manager.StartNewFile(string.Format("{0}.cs",item.ClassName));
+    manager.StartNewFile(string.Format("{0}.cs",item.RepositoryClassName));
 #>
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
@@ -44,35 +43,115 @@ using Hl7.Fhir.Introspection;
 
 namespace Blaze.DataModel.Repository
 {
-  public partial class <#=item.ClassName#> : CommonRepository, IResourceRepository
+  public partial class <#=item.RepositoryClassName#> : CommonRepository, IResourceRepository
   {
 
-    public <#=item.ClassName#>(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
+    public <#=item.RepositoryClassName#>(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
     public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
-      throw new NotImplementedException();
+      var ResourceTyped = Resource as <#=item.ResourceName#>;
+      var ResourceEntity = new <#=item.ResourceEntityName#>();
+      this.PopulateResourceEntity(ResourceEntity, 1, ResourceTyped, FhirRequestUri);
+      this.DbAddEntity<<#=item.ResourceEntityName#>>(ResourceEntity);
+      return ResourceTyped.Id;
     }
 
     public string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
-      throw new NotImplementedException();
-    }
-
-    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, int ResourceVersionNumber)
-    {
-      throw new NotImplementedException();
-    }
-
-    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId)
-    {
-      throw new NotImplementedException();
+      var ResourceTyped = Resource as <#=item.ResourceName#>;
+      var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
+      var ResourceHistoryEntity = new <#=item.ResourceHistoryEntityName#>();  
+      IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
+      ResourceEntity.<#=item.ResourceHistoryEntityListName#>.Add(ResourceHistoryEntity); 
+      this.ResetResourceEntity(ResourceEntity);
+      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
+      this.Save();            
+      return ResourceTyped.Id;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion)
     {
-      throw new NotImplementedException();
+      var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
+      var ResourceHistoryEntity = new <#=item.ResourceHistoryEntityName#>();
+      IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
+      ResourceEntity.<#=item.ResourceHistoryEntityListName#>.Add(ResourceHistoryEntity);
+      this.ResetResourceEntity(ResourceEntity);
+      ResourceEntity.IsDeleted = true;
+      ResourceEntity.versionId = ResourceVersion;
+      this.Save();      
     }
+
+    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, int ResourceVersionNumber)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      var ResourceEntity = DbGet<<#=item.ResourceEntityName#>>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
+      if (WithXml)
+      {        
+        DtoResource = DbGetALL<<#=item.ResourceEntityName#>>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
+      }
+      else
+      {
+        DtoResource = DbGetALL<<#=item.ResourceEntityName#>>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
+      }
+      DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
+      return DatabaseOperationOutcome;
+    }
+
+    private <#=item.ResourceEntityName#> LoadCurrentResourceEntity(string FhirId)
+    {
+
+      var IncludeList = new List<Expression<Func<<#=item.ResourceEntityName#>, object>>>();
+<#
+      foreach(var IncludeItem in item.ResourceEntityIncludesList)
+      { 
+#>
+      IncludeList.Add(x => x.<#=IncludeItem#>);
+<#
+      }
+#>    
+      var ResourceEntity = DbQueryEntityWithInclude<<#=item.ResourceEntityName#>>(x => x.FhirId == FhirId, IncludeList);
+
+      return ResourceEntity;
+    }
+
+
+    private void ResetResourceEntity(<#=item.ResourceEntityName#> ResourceEntity)
+    {
+<#
+      foreach(var NonCollectionProperty in item.ResourceEntityNonCollectionProperties)
+      { 
+#>
+      ResourceEntity.<#=NonCollectionProperty#> = null;      
+<#
+      }
+#> 
+      
+<#
+      foreach(var CollectionPropertiesInfo in item.ResourceEntityCollectionPropertiesInfo)
+      { 
+#>
+      _Context.<#=CollectionPropertiesInfo.IndexEntityClassName#>.RemoveRange(ResourceEntity.<#=CollectionPropertiesInfo.IndexEntityPropertyName#>);            
+<#
+      }
+#> 
+    }
+
+    private void PopulateResourceEntity(<#=item.ResourceEntityName#> ResourseEntity, int ResourceVersion, <#=item.ResourceName#> ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
+    {
+       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+    }
+
 
   }
 } 

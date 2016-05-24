@@ -22,9 +22,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string source_System {get; set;}
     public string type_Code {get; set;}
     public string type_System {get; set;}
-    public ICollection<Res_AuditEvent_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_AuditEvent_History> Res_AuditEvent_History_List { get; set; }
     public ICollection<Res_AuditEvent_Index_address> address_List { get; set; }
     public ICollection<Res_AuditEvent_Index_agent> agent_List { get; set; }
@@ -38,6 +35,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_AuditEvent_Index_policy> policy_List { get; set; }
     public ICollection<Res_AuditEvent_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_AuditEvent_Index_user> user_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_profile> profile_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_security> security_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_tag> tag_List { get; set; }
    
     public Res_AuditEvent()
     {
@@ -53,9 +53,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.policy_List = new HashSet<Res_AuditEvent_Index_policy>();
       this.subtype_List = new HashSet<Res_AuditEvent_Index_subtype>();
       this.user_List = new HashSet<Res_AuditEvent_Index_user>();
-      this.meta_tag_List = new HashSet<Res_AuditEvent_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_AuditEvent_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_AuditEvent_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_AuditEvent_Index_profile>();
+      this.security_List = new HashSet<Res_AuditEvent_Index_security>();
+      this.tag_List = new HashSet<Res_AuditEvent_Index_tag>();
       this.Res_AuditEvent_History_List = new HashSet<Res_AuditEvent_History>();
     }
   }

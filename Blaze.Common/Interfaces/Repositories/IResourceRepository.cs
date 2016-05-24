@@ -15,6 +15,6 @@ namespace Blaze.Common.Interfaces.Repositories
     string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri);
     void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion);
     IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, int ResourceVersionNumber);
-    IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId);    
+    IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);
   }
 }

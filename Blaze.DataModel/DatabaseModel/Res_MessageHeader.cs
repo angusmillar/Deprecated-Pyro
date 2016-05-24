@@ -38,14 +38,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string source_String {get; set;}
     public string source_uri_Uri {get; set;}
     public DateTimeOffset? timestamp_DateTimeOffset {get; set;}
-    public ICollection<Res_MessageHeader_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_MessageHeader_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_MessageHeader_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_MessageHeader_History> Res_MessageHeader_History_List { get; set; }
     public ICollection<Res_MessageHeader_Index_data> data_List { get; set; }
     public ICollection<Res_MessageHeader_Index_destination> destination_List { get; set; }
     public ICollection<Res_MessageHeader_Index_destination_uri> destination_uri_List { get; set; }
     public ICollection<Res_MessageHeader_Index_target> target_List { get; set; }
+    public ICollection<Res_MessageHeader_Index_profile> profile_List { get; set; }
+    public ICollection<Res_MessageHeader_Index_security> security_List { get; set; }
+    public ICollection<Res_MessageHeader_Index_tag> tag_List { get; set; }
    
     public Res_MessageHeader()
     {
@@ -53,9 +53,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.destination_List = new HashSet<Res_MessageHeader_Index_destination>();
       this.destination_uri_List = new HashSet<Res_MessageHeader_Index_destination_uri>();
       this.target_List = new HashSet<Res_MessageHeader_Index_target>();
-      this.meta_tag_List = new HashSet<Res_MessageHeader_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_MessageHeader_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_MessageHeader_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_MessageHeader_Index_profile>();
+      this.security_List = new HashSet<Res_MessageHeader_Index_security>();
+      this.tag_List = new HashSet<Res_MessageHeader_Index_tag>();
       this.Res_MessageHeader_History_List = new HashSet<Res_MessageHeader_History>();
     }
   }

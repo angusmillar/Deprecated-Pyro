@@ -24,20 +24,20 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_DetectedIssue_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_DetectedIssue_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_DetectedIssue_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_DetectedIssue_History> Res_DetectedIssue_History_List { get; set; }
     public ICollection<Res_DetectedIssue_Index_category> category_List { get; set; }
     public ICollection<Res_DetectedIssue_Index_implicated> implicated_List { get; set; }
+    public ICollection<Res_DetectedIssue_Index_profile> profile_List { get; set; }
+    public ICollection<Res_DetectedIssue_Index_security> security_List { get; set; }
+    public ICollection<Res_DetectedIssue_Index_tag> tag_List { get; set; }
    
     public Res_DetectedIssue()
     {
       this.category_List = new HashSet<Res_DetectedIssue_Index_category>();
       this.implicated_List = new HashSet<Res_DetectedIssue_Index_implicated>();
-      this.meta_tag_List = new HashSet<Res_DetectedIssue_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_DetectedIssue_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_DetectedIssue_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_DetectedIssue_Index_profile>();
+      this.security_List = new HashSet<Res_DetectedIssue_Index_security>();
+      this.tag_List = new HashSet<Res_DetectedIssue_Index_tag>();
       this.Res_DetectedIssue_History_List = new HashSet<Res_DetectedIssue_History>();
     }
   }

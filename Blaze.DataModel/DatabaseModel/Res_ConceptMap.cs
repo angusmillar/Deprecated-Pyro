@@ -36,9 +36,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_ConceptMap_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_ConceptMap_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_ConceptMap_History> Res_ConceptMap_History_List { get; set; }
     public ICollection<Res_ConceptMap_Index_context> context_List { get; set; }
     public ICollection<Res_ConceptMap_Index_dependson> dependson_List { get; set; }
@@ -47,6 +44,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ConceptMap_Index_source_system> source_system_List { get; set; }
     public ICollection<Res_ConceptMap_Index_target_code> target_code_List { get; set; }
     public ICollection<Res_ConceptMap_Index_target_system> target_system_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_profile> profile_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_security> security_List { get; set; }
+    public ICollection<Res_ConceptMap_Index_tag> tag_List { get; set; }
    
     public Res_ConceptMap()
     {
@@ -57,9 +57,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.source_system_List = new HashSet<Res_ConceptMap_Index_source_system>();
       this.target_code_List = new HashSet<Res_ConceptMap_Index_target_code>();
       this.target_system_List = new HashSet<Res_ConceptMap_Index_target_system>();
-      this.meta_tag_List = new HashSet<Res_ConceptMap_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_ConceptMap_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_ConceptMap_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_ConceptMap_Index_profile>();
+      this.security_List = new HashSet<Res_ConceptMap_Index_security>();
+      this.tag_List = new HashSet<Res_ConceptMap_Index_tag>();
       this.Res_ConceptMap_History_List = new HashSet<Res_ConceptMap_History>();
     }
   }

@@ -38,22 +38,22 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_Task_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Task_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Task_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Task_History> Res_Task_History_List { get; set; }
     public ICollection<Res_Task_Index_failure> failure_List { get; set; }
     public ICollection<Res_Task_Index_performer> performer_List { get; set; }
     public ICollection<Res_Task_Index_type> type_List { get; set; }
+    public ICollection<Res_Task_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Task_Index_security> security_List { get; set; }
+    public ICollection<Res_Task_Index_tag> tag_List { get; set; }
    
     public Res_Task()
     {
       this.failure_List = new HashSet<Res_Task_Index_failure>();
       this.performer_List = new HashSet<Res_Task_Index_performer>();
       this.type_List = new HashSet<Res_Task_Index_type>();
-      this.meta_tag_List = new HashSet<Res_Task_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Task_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Task_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Task_Index_profile>();
+      this.security_List = new HashSet<Res_Task_Index_security>();
+      this.tag_List = new HashSet<Res_Task_Index_tag>();
       this.Res_Task_History_List = new HashSet<Res_Task_History>();
     }
   }

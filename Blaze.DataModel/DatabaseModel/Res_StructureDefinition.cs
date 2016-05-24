@@ -36,9 +36,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_StructureDefinition_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_StructureDefinition_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_StructureDefinition_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_StructureDefinition_History> Res_StructureDefinition_History_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_base_path> base_path_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_code> code_List { get; set; }
@@ -47,6 +44,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_StructureDefinition_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_path> path_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_valueset> valueset_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index_profile> profile_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index_security> security_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index_tag> tag_List { get; set; }
    
     public Res_StructureDefinition()
     {
@@ -57,9 +57,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_StructureDefinition_Index_identifier>();
       this.path_List = new HashSet<Res_StructureDefinition_Index_path>();
       this.valueset_List = new HashSet<Res_StructureDefinition_Index_valueset>();
-      this.meta_tag_List = new HashSet<Res_StructureDefinition_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_StructureDefinition_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_StructureDefinition_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_StructureDefinition_Index_profile>();
+      this.security_List = new HashSet<Res_StructureDefinition_Index_security>();
+      this.tag_List = new HashSet<Res_StructureDefinition_Index_tag>();
       this.Res_StructureDefinition_History_List = new HashSet<Res_StructureDefinition_History>();
     }
   }

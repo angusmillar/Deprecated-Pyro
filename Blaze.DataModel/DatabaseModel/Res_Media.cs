@@ -28,22 +28,22 @@ namespace Blaze.DataModel.DatabaseModel
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
     public string type_Code {get; set;}
     public string type_System {get; set;}
-    public ICollection<Res_Media_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Media_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Media_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Media_History> Res_Media_History_List { get; set; }
     public ICollection<Res_Media_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Media_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_Media_Index_view> view_List { get; set; }
+    public ICollection<Res_Media_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Media_Index_security> security_List { get; set; }
+    public ICollection<Res_Media_Index_tag> tag_List { get; set; }
    
     public Res_Media()
     {
       this.identifier_List = new HashSet<Res_Media_Index_identifier>();
       this.subtype_List = new HashSet<Res_Media_Index_subtype>();
       this.view_List = new HashSet<Res_Media_Index_view>();
-      this.meta_tag_List = new HashSet<Res_Media_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Media_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Media_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Media_Index_profile>();
+      this.security_List = new HashSet<Res_Media_Index_security>();
+      this.tag_List = new HashSet<Res_Media_Index_tag>();
       this.Res_Media_History_List = new HashSet<Res_Media_History>();
     }
   }

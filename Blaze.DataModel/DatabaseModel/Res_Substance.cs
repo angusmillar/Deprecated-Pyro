@@ -13,9 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Substance : ResourceIndexBase
   {
     public int Res_SubstanceID {get; set;}
-    public ICollection<Res_Substance_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Substance_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Substance_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Substance_History> Res_Substance_History_List { get; set; }
     public ICollection<Res_Substance_Index_category> category_List { get; set; }
     public ICollection<Res_Substance_Index_code> code_List { get; set; }
@@ -24,6 +21,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Substance_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Substance_Index_quantity> quantity_List { get; set; }
     public ICollection<Res_Substance_Index_substance> substance_List { get; set; }
+    public ICollection<Res_Substance_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Substance_Index_security> security_List { get; set; }
+    public ICollection<Res_Substance_Index_tag> tag_List { get; set; }
    
     public Res_Substance()
     {
@@ -34,9 +34,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_Substance_Index_identifier>();
       this.quantity_List = new HashSet<Res_Substance_Index_quantity>();
       this.substance_List = new HashSet<Res_Substance_Index_substance>();
-      this.meta_tag_List = new HashSet<Res_Substance_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Substance_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Substance_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Substance_Index_profile>();
+      this.security_List = new HashSet<Res_Substance_Index_security>();
+      this.tag_List = new HashSet<Res_Substance_Index_tag>();
       this.Res_Substance_History_List = new HashSet<Res_Substance_History>();
     }
   }

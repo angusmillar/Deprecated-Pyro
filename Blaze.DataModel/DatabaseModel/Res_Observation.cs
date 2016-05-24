@@ -43,9 +43,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string value_quantity_System {get; set;}
     public string value_quantity_Code {get; set;}
     public string value_string_String {get; set;}
-    public ICollection<Res_Observation_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Observation_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Observation_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Observation_History> Res_Observation_History_List { get; set; }
     public ICollection<Res_Observation_Index_category> category_List { get; set; }
     public ICollection<Res_Observation_Index_code> code_List { get; set; }
@@ -59,6 +56,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Observation_Index_performer> performer_List { get; set; }
     public ICollection<Res_Observation_Index_related_target> related_target_List { get; set; }
     public ICollection<Res_Observation_Index_related_type> related_type_List { get; set; }
+    public ICollection<Res_Observation_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Observation_Index_security> security_List { get; set; }
+    public ICollection<Res_Observation_Index_tag> tag_List { get; set; }
    
     public Res_Observation()
     {
@@ -74,9 +74,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.performer_List = new HashSet<Res_Observation_Index_performer>();
       this.related_target_List = new HashSet<Res_Observation_Index_related_target>();
       this.related_type_List = new HashSet<Res_Observation_Index_related_type>();
-      this.meta_tag_List = new HashSet<Res_Observation_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Observation_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Observation_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Observation_Index_profile>();
+      this.security_List = new HashSet<Res_Observation_Index_security>();
+      this.tag_List = new HashSet<Res_Observation_Index_tag>();
       this.Res_Observation_History_List = new HashSet<Res_Observation_History>();
     }
   }

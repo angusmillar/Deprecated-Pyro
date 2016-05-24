@@ -35,9 +35,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string status_System {get; set;}
     public string type_Code {get; set;}
     public string type_System {get; set;}
-    public ICollection<Res_AllergyIntolerance_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_AllergyIntolerance_History> Res_AllergyIntolerance_History_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_manifestation> manifestation_List { get; set; }
@@ -45,6 +42,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_AllergyIntolerance_Index_route> route_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_severity> severity_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_substance> substance_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index_profile> profile_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index_security> security_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index_tag> tag_List { get; set; }
    
     public Res_AllergyIntolerance()
     {
@@ -54,9 +54,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.route_List = new HashSet<Res_AllergyIntolerance_Index_route>();
       this.severity_List = new HashSet<Res_AllergyIntolerance_Index_severity>();
       this.substance_List = new HashSet<Res_AllergyIntolerance_Index_substance>();
-      this.meta_tag_List = new HashSet<Res_AllergyIntolerance_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_AllergyIntolerance_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_AllergyIntolerance_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_AllergyIntolerance_Index_profile>();
+      this.security_List = new HashSet<Res_AllergyIntolerance_Index_security>();
+      this.tag_List = new HashSet<Res_AllergyIntolerance_Index_tag>();
       this.Res_AllergyIntolerance_History_List = new HashSet<Res_AllergyIntolerance_History>();
     }
   }

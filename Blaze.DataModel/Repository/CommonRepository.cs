@@ -22,27 +22,7 @@ namespace Blaze.DataModel.Repository
     #endregion
 
 
-    //MUCK AROUND ----------------------------------------------------------------------
-    //----------------------------------------------------------------------------------
-    public T DbQueryWithInclude<T>(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> IncludeList) where T : class
-    {
-      T ResourceEntity = null;
-
-      IQueryable<T> query = _Context.Set<T>();
-
-      //Apply includes
-      foreach (Expression<Func<T, object>> include in IncludeList)
-        query = query.Include<T, object>(include);
-
-      ResourceEntity = query.SingleOrDefault(predicate);
-      return ResourceEntity;
-
-    }
-
-    //----------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------
-
-    public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
+    public  DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       Blaze_RootUrlStore ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
@@ -63,7 +43,7 @@ namespace Blaze.DataModel.Repository
       }
       this.Save();
       return this.GetPrimaryRootUrlStore();
-    }    
+    }
 
     public DtoRootUrlStore GetPrimaryRootUrlStore()
     {
@@ -77,21 +57,6 @@ namespace Blaze.DataModel.Repository
         DtoRootUrlStore.IsServersPrimaryUrlRoot = Blaze_RootUrlStore.IsServersPrimaryUrlRoot;
       }
       return DtoRootUrlStore;
-    }
-
-    public Blaze_RootUrlStore GetPrimaryBlaze_RootUrlStore()
-    {
-      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
-    }
-
-    /// <summary>
-    /// Get a RootUrlStore by Url string
-    /// </summary>
-    /// <param name="UrlString"></param>
-    /// <returns></returns>
-    public Blaze_RootUrlStore GetBlaze_RootUrlStore(string ServiceRootUrl)
-    {
-      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.RootUrl == ServiceRootUrl);
     }
 
     /// <summary>
@@ -114,5 +79,59 @@ namespace Blaze.DataModel.Repository
         return Blaze_RootUrlStore;
       }
     }
+
+    protected Blaze_RootUrlStore GetPrimaryBlaze_RootUrlStore()
+    {
+      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
+    }
+
+    /// <summary>
+    /// Get a RootUrlStore by Url string
+    /// </summary>
+    /// <param name="UrlString"></param>
+    /// <returns></returns>
+    protected Blaze_RootUrlStore GetBlaze_RootUrlStore(string ServiceRootUrl)
+    {
+      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.RootUrl == ServiceRootUrl);
+    }
+
+    protected T DbGet<T>(Expression<Func<T, bool>> predicate) where T : class
+    {
+      T ResourceEntity = null;
+      ResourceEntity = _Context.Set<T>().SingleOrDefault(predicate);
+      return ResourceEntity;
+    }
+
+
+    protected IEnumerable<T> DbGetALL<T>(Expression<Func<T, bool>> predicate) where T : class
+    {
+      IEnumerable<T> ResourceEntity = null;
+      ResourceEntity = _Context.Set<T>().Where(predicate);
+      return ResourceEntity;
+    }
+
+
+
+    protected void DbAddEntity<T>(T Entity) where T : class
+    {
+      _Context.Set<T>().Add(Entity);
+      this.Save();
+    }
+
+    protected T DbQueryEntityWithInclude<T>(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> IncludeList) where T : class
+    {
+      T ResourceEntity = null;
+
+      IQueryable<T> query = _Context.Set<T>();
+
+      //Apply includes
+      foreach (Expression<Func<T, object>> include in IncludeList)
+        query = query.Include<T, object>(include);
+
+      ResourceEntity = query.SingleOrDefault(predicate);
+      return ResourceEntity;
+
+    }
+
   }
 }

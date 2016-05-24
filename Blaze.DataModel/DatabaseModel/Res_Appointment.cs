@@ -16,9 +16,6 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
-    public ICollection<Res_Appointment_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Appointment_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Appointment_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Appointment_History> Res_Appointment_History_List { get; set; }
     public ICollection<Res_Appointment_Index_actor> actor_List { get; set; }
     public ICollection<Res_Appointment_Index_appointment_type> appointment_type_List { get; set; }
@@ -28,6 +25,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Appointment_Index_patient> patient_List { get; set; }
     public ICollection<Res_Appointment_Index_practitioner> practitioner_List { get; set; }
     public ICollection<Res_Appointment_Index_service_type> service_type_List { get; set; }
+    public ICollection<Res_Appointment_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Appointment_Index_security> security_List { get; set; }
+    public ICollection<Res_Appointment_Index_tag> tag_List { get; set; }
    
     public Res_Appointment()
     {
@@ -39,9 +39,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.patient_List = new HashSet<Res_Appointment_Index_patient>();
       this.practitioner_List = new HashSet<Res_Appointment_Index_practitioner>();
       this.service_type_List = new HashSet<Res_Appointment_Index_service_type>();
-      this.meta_tag_List = new HashSet<Res_Appointment_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Appointment_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Appointment_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Appointment_Index_profile>();
+      this.security_List = new HashSet<Res_Appointment_Index_security>();
+      this.tag_List = new HashSet<Res_Appointment_Index_tag>();
       this.Res_Appointment_History_List = new HashSet<Res_Appointment_History>();
     }
   }

@@ -22,9 +22,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_CarePlan_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_CarePlan_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_CarePlan_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_CarePlan_History> Res_CarePlan_History_List { get; set; }
     public ICollection<Res_CarePlan_Index_activitycode> activitycode_List { get; set; }
     public ICollection<Res_CarePlan_Index_activitydate> activitydate_List { get; set; }
@@ -35,6 +32,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_CarePlan_Index_performer> performer_List { get; set; }
     public ICollection<Res_CarePlan_Index_relatedcode> relatedcode_List { get; set; }
     public ICollection<Res_CarePlan_Index_relatedplan> relatedplan_List { get; set; }
+    public ICollection<Res_CarePlan_Index_profile> profile_List { get; set; }
+    public ICollection<Res_CarePlan_Index_security> security_List { get; set; }
+    public ICollection<Res_CarePlan_Index_tag> tag_List { get; set; }
    
     public Res_CarePlan()
     {
@@ -47,9 +47,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.performer_List = new HashSet<Res_CarePlan_Index_performer>();
       this.relatedcode_List = new HashSet<Res_CarePlan_Index_relatedcode>();
       this.relatedplan_List = new HashSet<Res_CarePlan_Index_relatedplan>();
-      this.meta_tag_List = new HashSet<Res_CarePlan_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_CarePlan_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_CarePlan_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_CarePlan_Index_profile>();
+      this.security_List = new HashSet<Res_CarePlan_Index_security>();
+      this.tag_List = new HashSet<Res_CarePlan_Index_tag>();
       this.Res_CarePlan_History_List = new HashSet<Res_CarePlan_History>();
     }
   }

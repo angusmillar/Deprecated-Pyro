@@ -37,14 +37,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
-    public ICollection<Res_Communication_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_Communication_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_Communication_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_Communication_History> Res_Communication_History_List { get; set; }
     public ICollection<Res_Communication_Index_category> category_List { get; set; }
     public ICollection<Res_Communication_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Communication_Index_medium> medium_List { get; set; }
     public ICollection<Res_Communication_Index_recipient> recipient_List { get; set; }
+    public ICollection<Res_Communication_Index_profile> profile_List { get; set; }
+    public ICollection<Res_Communication_Index_security> security_List { get; set; }
+    public ICollection<Res_Communication_Index_tag> tag_List { get; set; }
    
     public Res_Communication()
     {
@@ -52,9 +52,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_Communication_Index_identifier>();
       this.medium_List = new HashSet<Res_Communication_Index_medium>();
       this.recipient_List = new HashSet<Res_Communication_Index_recipient>();
-      this.meta_tag_List = new HashSet<Res_Communication_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_Communication_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_Communication_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_Communication_Index_profile>();
+      this.security_List = new HashSet<Res_Communication_Index_security>();
+      this.tag_List = new HashSet<Res_Communication_Index_tag>();
       this.Res_Communication_History_List = new HashSet<Res_Communication_History>();
     }
   }

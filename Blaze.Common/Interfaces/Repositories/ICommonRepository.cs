@@ -10,6 +10,6 @@ namespace Blaze.Common.Interfaces.Repositories
   public interface ICommonRepository
   {
     DtoRootUrlStore GetPrimaryRootUrlStore();
-    DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
+    DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);    
   }
 }

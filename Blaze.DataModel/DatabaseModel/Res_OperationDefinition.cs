@@ -33,22 +33,22 @@ namespace Blaze.DataModel.DatabaseModel
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}
-    public ICollection<Res_OperationDefinition_Index_meta_profile> meta_profile_List { get; set; }
-    public ICollection<Res_OperationDefinition_Index_meta_security> meta_security_List { get; set; }
-    public ICollection<Res_OperationDefinition_Index_meta_tag> meta_tag_List { get; set; }
     public ICollection<Res_OperationDefinition_History> Res_OperationDefinition_History_List { get; set; }
     public ICollection<Res_OperationDefinition_Index_context> context_List { get; set; }
     public ICollection<Res_OperationDefinition_Index_paramprofile> paramprofile_List { get; set; }
     public ICollection<Res_OperationDefinition_Index_type> type_List { get; set; }
+    public ICollection<Res_OperationDefinition_Index_profile> profile_List { get; set; }
+    public ICollection<Res_OperationDefinition_Index_security> security_List { get; set; }
+    public ICollection<Res_OperationDefinition_Index_tag> tag_List { get; set; }
    
     public Res_OperationDefinition()
     {
       this.context_List = new HashSet<Res_OperationDefinition_Index_context>();
       this.paramprofile_List = new HashSet<Res_OperationDefinition_Index_paramprofile>();
       this.type_List = new HashSet<Res_OperationDefinition_Index_type>();
-      this.meta_tag_List = new HashSet<Res_OperationDefinition_Index_meta_tag>();
-      this.meta_security_List = new HashSet<Res_OperationDefinition_Index_meta_security>();
-      this.meta_profile_List = new HashSet<Res_OperationDefinition_Index_meta_profile>();
+      this.profile_List = new HashSet<Res_OperationDefinition_Index_profile>();
+      this.security_List = new HashSet<Res_OperationDefinition_Index_security>();
+      this.tag_List = new HashSet<Res_OperationDefinition_Index_tag>();
       this.Res_OperationDefinition_History_List = new HashSet<Res_OperationDefinition_History>();
     }
   }
