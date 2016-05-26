@@ -14,7 +14,7 @@ namespace Blaze.Engine.Search
 {
   public static class SearchPlanNegotiator
   {
-    public static ISearchPlan GetSearchPlan(DtoEnums.SupportedFhirResource ResourceType, IUnitOfWork UnitOfWork)
+    public static ISearchPlan GetSearchPlan(FHIRDefinedType ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {

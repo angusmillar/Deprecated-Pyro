@@ -17,7 +17,7 @@ namespace Blaze.Engine.Search
     private static string _CurrentResourceName = string.Empty;
     private static string _RawSearchParameterAndValueString = string.Empty;
 
-    public static DtoSearchParameterBase CreateSearchParameter(DtoEnums.SupportedFhirResource Resource, DtoEnums.Search.SearchParameterName SearchParameterName,
+    public static DtoSearchParameterBase CreateSearchParameter(FHIRDefinedType Resource, DtoEnums.Search.SearchParameterName SearchParameterName,
                   Tuple<string, string> Parameter,
                   SearchParamType SearchParameterType)
     {
@@ -80,45 +80,13 @@ namespace Blaze.Engine.Search
             if (value.Contains('[') && value.Contains(']'))
             {
               char[] delimiters = { '[', ']' };
-              var TypedResourceName = value.Split(delimiters)[1];
-              if (ModelInfo.IsKnownResource(TypedResourceName))
-              {
-                var FhirResourceTypeDictionary = DtoEnums.GetFhirResourceTypeByNameDictionary();
-                if (FhirResourceTypeDictionary.ContainsKey(TypedResourceName))
-                {
-                  var BlazeSupportedResourceTypeDictionary = DtoEnums.GetBlazeSupportedResorceTypeByFhirResourceTypeDictionary();
-                  var BlazeSupportedResourceType = FhirResourceTypeDictionary[TypedResourceName];
-                  if (BlazeSupportedResourceTypeDictionary.ContainsKey(BlazeSupportedResourceType))
-                  {
-                    SearchParameter.Resource = BlazeSupportedResourceTypeDictionary[BlazeSupportedResourceType];
-                  }
-                  else
-                  {
-                    //The Resource stated in the Type is not a Blaze supported FHIR resource so throw an error;
-                    var oIssueComponent = new OperationOutcome.IssueComponent();
-                    oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-                    oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-                    oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", _CurrentResourceName, _RawSearchParameterAndValueString));
-                    oIssueComponent.Details.Text = String.Format("Unable to parse the given search parameter value for parameter = value: {0}. The Resource stated in the brackets [{1}] is not a Blaze supported resource type.", _RawSearchParameterAndValueString, TypedResourceName);
-                    oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-                    var oOperationOutcome = new OperationOutcome();
-                    oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                    throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-                  }
-                }
-                else
-                {
-                  //The Resource stated in the Type is not a Blaze supported FHIR resource so throw an error;
-                  var oIssueComponent = new OperationOutcome.IssueComponent();
-                  oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-                  oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-                  oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", _CurrentResourceName, _RawSearchParameterAndValueString));
-                  oIssueComponent.Details.Text = String.Format("Unable to parse the given search parameter value for parameter = value: {0}. The Resource stated in the brackets [{1}] was not able to be converted to a known blaze FHIR resource type.", _RawSearchParameterAndValueString, TypedResourceName);
-                  oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-                  var oOperationOutcome = new OperationOutcome();
-                  oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                  throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-                }
+              string TypedResourceName = value.Split(delimiters)[1].Trim();
+
+              Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
+              if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+              {                
+                FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(TypedResourceName);
+                SearchParameter.Resource = FHIRDefinedType;                                  
               }
               else
               {

@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blaze.Common.BusinessEntities.Dto;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Common.Interfaces.Services
 {
   public interface IBaseResourceServices
   {
 
-    DtoEnums.SupportedFhirResource CurrentResourceType { get; }
+    FHIRDefinedType CurrentResourceType { get; }
 
     // Get By id
     // GET URL/FhirApi/Patient/5    
-    IBlazeServiceOperationOutcome Get(string FhirResourceId);
+    IBlazeServiceOperationOutcome Get(string FhirId);
 
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John

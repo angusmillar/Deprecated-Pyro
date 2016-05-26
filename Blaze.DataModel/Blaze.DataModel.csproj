@@ -6569,7 +6569,7 @@
     <Compile Include="Support\IndexSettingSupport.cs" />
     <Compile Include="Support\ResourceReferenceTransfer.cs" />
     <Compile Include="Support\TokenTransfer.cs" />
-    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWork2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,0 +1,115 @@
+﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+<#
+  var manager = TemplateFileManager.Create(this);
+  List<string> _ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
+#>
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using Blaze.Common.Interfaces.Repositories;
+using Blaze.DataModel.Repository;
+
+namespace Blaze.DataModel
+{
+  public class UnitOfWork : IUnitOfWork, IDisposable
+  {
+    private Blaze.DataModel.DatabaseModel.DatabaseContext _context = null;
+
+    private CommonRepository _CommonRepository;    
+<#
+  foreach(var Resource in _ResourceList)
+  {  
+    manager.StartNewFile(string.Format("{0}.cs","UnitOfWork"),"Blaze.DataModel");
+#>
+    private <#=Resource#>Repository _<#=Resource#>Repository;
+<#
+  }
+#>
+
+    public UnitOfWork()
+    {
+      _context = new Blaze.DataModel.DatabaseModel.DatabaseContext();
+    }
+
+    public ICommonRepository CommonRepository
+    {
+      get
+      {
+        if (this._CommonRepository == null)
+          this._CommonRepository = new CommonRepository(_context);
+        return _CommonRepository;
+      }
+    }
+
+<#
+  foreach(var Resource in _ResourceList)
+  {  
+    manager.StartNewFile(string.Format("{0}.cs","UnitOfWork"),"Blaze.DataModel");
+#>
+    public IResourceRepository <#=Resource#>Repository
+    {
+      get
+      {
+        if (this._<#=Resource#>Repository == null)
+          this._<#=Resource#>Repository = new <#=Resource#>Repository(_context);
+        return _<#=Resource#>Repository;
+      }
+    }
+<#
+  }
+#>
+
+    #region Implementing IDiosposable...
+
+    #region private dispose variable declaration...
+    private bool disposed = false;
+    #endregion
+
+    /// <summary>
+    /// Protected Virtual Dispose method
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected virtual void Dispose(bool disposing)
+    {
+      if (!this.disposed)
+      {
+        if (disposing)
+        {
+          Debug.WriteLine("UnitOfWork is being disposed");
+          _context.Dispose();
+        }
+      }
+      this.disposed = true;
+    }
+
+    /// <summary>
+    /// Dispose method
+    /// </summary>
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+    #endregion
+
+  }
+}
+
+

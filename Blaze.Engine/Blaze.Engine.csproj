@@ -81,6 +81,7 @@
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
+    <Compile Include="Services\RepositorySwitcher.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
     <Compile Include="Support\PagingSupport.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />

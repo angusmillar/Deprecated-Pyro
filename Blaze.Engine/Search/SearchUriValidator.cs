@@ -14,9 +14,9 @@ namespace Blaze.Engine.Search
   class SearchUriValidator
   {
     private static SearchParametersValidationOperationOutcome _SearchParametersValidationOperationOutcome;
-    private static DtoEnums.SupportedFhirResource _ResourceType;
+    private static FHIRDefinedType _ResourceType;
 
-    public static SearchParametersValidationOperationOutcome Validate(DtoEnums.SupportedFhirResource ResourceType, SearchParams SearchParameter)
+    public static SearchParametersValidationOperationOutcome Validate(FHIRDefinedType ResourceType, SearchParams SearchParameter)
     {
       _ResourceType = ResourceType;
       _SearchParametersValidationOperationOutcome = new SearchParametersValidationOperationOutcome();

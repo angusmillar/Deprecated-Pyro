@@ -15,7 +15,7 @@ namespace Blaze.Common.BusinessEntities.Search
   {
     protected const char OrDelimiter = ',';
     public DtoEnums.Search.SearchParameterName Name { get; set; }
-    public DtoEnums.SupportedFhirResource Resource { get; set; }
+    public FHIRDefinedType Resource { get; set; }
     public string RawValue { get; set; }
     public SearchParamType SearchParameterType { get; set; }
     public SearchModifierType Modifier { get; set; }

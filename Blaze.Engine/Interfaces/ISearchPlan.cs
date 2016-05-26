@@ -8,12 +8,13 @@ using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.BusinessEntities.Search;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Interfaces
 {
   public interface ISearchPlan
   {
     IUnitOfWork UnitOfWork { set; }
-    IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource ResourceType);    
+    IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, FHIRDefinedType ResourceType);    
   }
 }

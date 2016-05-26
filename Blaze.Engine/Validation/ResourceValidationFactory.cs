@@ -5,23 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Blaze.Engine.Interfaces;
 using Blaze.Common.BusinessEntities.Dto;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Validation
 {
   public static class ResourceValidationFactory
   {
-    public static IResourceValidation GetValidationInstance(DtoEnums.SupportedFhirResource SupportedFhirResource)
+    public static IResourceValidation GetValidationInstance(FHIRDefinedType FhirResourceType)
     {
-      switch (SupportedFhirResource)
+      switch (FhirResourceType)
       {
-        case DtoEnums.SupportedFhirResource.Patient:
+        case FHIRDefinedType.Patient:
           return new PatientResourceValidation();
-        case DtoEnums.SupportedFhirResource.ValueSet:
+        case FHIRDefinedType.ValueSet:
           return new ValueSetResourceValidation();
-        case DtoEnums.SupportedFhirResource.ConceptMap:
+        case FHIRDefinedType.ConceptMap:
           return new ConceptMapResourceValidation();
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(SupportedFhirResource.ToString(), (int)SupportedFhirResource,typeof(DtoEnums.SupportedFhirResource));
+          throw new System.ComponentModel.InvalidEnumArgumentException(FhirResourceType.ToString(), (int)FhirResourceType, typeof(FHIRDefinedType));
       }
     }
   }

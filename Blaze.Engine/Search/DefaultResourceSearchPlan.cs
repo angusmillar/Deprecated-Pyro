@@ -12,7 +12,7 @@ namespace Blaze.Engine.Search
 {
   class DefaultResourceSearchPlan : SearchPlanBase, Interfaces.ISearchPlan
   {
-    public IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, DtoEnums.SupportedFhirResource CurrentResourceType)
+    public IBlazeServiceOperationOutcome Search(DtoSearchParameters oSearchParameters, IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, FHIRDefinedType CurrentResourceType)
     {
         //The search plan;
       if (oSearchParameters.SearchParametersList.Count == 1)

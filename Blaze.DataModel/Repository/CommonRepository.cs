@@ -13,14 +13,12 @@ namespace Blaze.DataModel.Repository
 {
   public class CommonRepository : BaseRepository, ICommonRepository
   {
-
     #region Constructor
     public CommonRepository(DataModel.DatabaseModel.DatabaseContext Context)
     {
       _Context = Context;
     }
     #endregion
-
 
     public  DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
@@ -102,15 +100,12 @@ namespace Blaze.DataModel.Repository
       return ResourceEntity;
     }
 
-
     protected IEnumerable<T> DbGetALL<T>(Expression<Func<T, bool>> predicate) where T : class
     {
       IEnumerable<T> ResourceEntity = null;
       ResourceEntity = _Context.Set<T>().Where(predicate);
       return ResourceEntity;
     }
-
-
 
     protected void DbAddEntity<T>(T Entity) where T : class
     {

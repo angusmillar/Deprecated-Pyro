@@ -17,7 +17,7 @@ namespace Blaze.Engine.Search
   public class SupportedSearchParameters
   {
     public DtoEnums.Search.SearchParameterName Name { get; set; }
-    public DtoEnums.SupportedFhirResource Resource { get; set; }
+    public FHIRDefinedType Resource { get; set; }
     public SearchParamType SearchParameterType { get; set; }
     public List<SearchModifierType> ModifierList { get; set; }
     public List<ResourceType> TypeModifierResourceList { get; set; }
@@ -27,7 +27,7 @@ namespace Blaze.Engine.Search
     {
       var Page = new SupportedSearchParameters();
       Page.Name = DtoEnums.Search.SearchParameterName.Page;
-      Page.Resource = DtoEnums.SupportedFhirResource.Resource;
+      Page.Resource = FHIRDefinedType.Resource;
       Page.SearchParameterType = SearchParamType.Number;
       Page.ModifierList = new List<SearchModifierType>();
       Page.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -36,7 +36,7 @@ namespace Blaze.Engine.Search
 
       var _Id = new SupportedSearchParameters();
       _Id.Name = DtoEnums.Search.SearchParameterName._Id;
-      _Id.Resource = DtoEnums.SupportedFhirResource.Resource;
+      _Id.Resource = FHIRDefinedType.Resource;
       _Id.SearchParameterType = SearchParamType.String;
       _Id.ModifierList = new List<SearchModifierType>();
       _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -45,13 +45,13 @@ namespace Blaze.Engine.Search
 
     }
 
-    public static List<SupportedSearchParameters> GetSupportedParametersForResourceTypeList(DtoEnums.SupportedFhirResource ResourceType)
+    public static List<SupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRDefinedType ResourceType)
     {
       var List = new List<SupportedSearchParameters>();
       AddSupportedParametersForAllResources(List);
       switch (ResourceType)
       {
-        case DtoEnums.SupportedFhirResource.Patient:
+        case FHIRDefinedType.Patient:
           {
             var Family = new SupportedSearchParameters();
             Family.Name = DtoEnums.Search.SearchParameterName.Family;
@@ -109,7 +109,7 @@ namespace Blaze.Engine.Search
 
           }
           break;
-        case DtoEnums.SupportedFhirResource.ValueSet:
+        case FHIRDefinedType.ValueSet:
           {
             var Description = new SupportedSearchParameters();
             Description.Name = DtoEnums.Search.SearchParameterName.Description;

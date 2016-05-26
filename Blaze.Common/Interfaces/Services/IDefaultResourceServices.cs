@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blaze.Common.BusinessEntities.Dto;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Common.Interfaces.Services
 {
@@ -12,6 +13,6 @@ namespace Blaze.Common.Interfaces.Services
   /// </summary>
   public interface IDefaultResourceServices : IBaseResourceServices
   {
-    DtoEnums.SupportedFhirResource SetCurrentResourceType { set; }
+    FHIRDefinedType SetCurrentResourceType { set; }   
   }
 }
