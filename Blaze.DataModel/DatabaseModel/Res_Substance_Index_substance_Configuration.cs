@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Substance_Index_substance_Configuration()
     {
       HasKey(x => x.Res_Substance_Index_substanceID).Property(x => x.Res_Substance_Index_substanceID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

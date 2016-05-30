@@ -32,13 +32,13 @@ namespace Blaze.Engine.Response
         {
           return Request.CreateResponse(HttpStatusCode);          
         }
-        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
+        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
         {
           HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, oBlazeServiceOperationOutcome.FhirResourceId);
           if (oBlazeServiceOperationOutcome.LastModified != null)
           {
             Response.Content.Headers.LastModified = oBlazeServiceOperationOutcome.LastModified;
-            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");
+            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber + "\"");
           }
           return Response;
         }
@@ -75,9 +75,9 @@ namespace Blaze.Engine.Response
       else if (HttpStatusCode == HttpStatusCode.NoContent)
       {
         HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
-        if (oBlazeServiceOperationOutcome.ResourceVersionNumber != 0)
+        if (oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
         {
-          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber.ToString() + "\"");
+          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber + "\"");
         }
         return Response;
       }  

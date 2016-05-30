@@ -13,10 +13,12 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_DeviceComponent : ResourceIndexBase
   {
     public int Res_DeviceComponentID {get; set;}
+    public string parent_VersionId {get; set;}
     public string parent_FhirId {get; set;}
     public string parent_Type {get; set;}
     public virtual Blaze_RootUrlStore parent_Url { get; set; }
     public int? parent_Url_Blaze_RootUrlStoreID { get; set; }
+    public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
     public virtual Blaze_RootUrlStore source_Url { get; set; }

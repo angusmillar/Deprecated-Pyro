@@ -1,11 +1,10 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
-<#@ Assembly Name="System.Windows.Forms" #>
-<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
 <#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
@@ -21,8 +20,8 @@
   Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGenModel oRepositoryCodeGenModel = RepositoryCodeGeneration.Generate();
 
   foreach(var item in oRepositoryCodeGenModel.RepositoryItemList)
-  {  
-    manager.StartNewFile(string.Format("{0}.cs",item.RepositoryClassName));
+  {      
+    manager.StartNewFile(string.Format("{0}.cs",item.RepositoryClassName), "Blaze.DataModel", "Repository");
 #>
 using System;
 using System.Collections.Generic;
@@ -52,12 +51,12 @@ namespace Blaze.DataModel.Repository
     {
       var ResourceTyped = Resource as <#=item.ResourceName#>;
       var ResourceEntity = new <#=item.ResourceEntityName#>();
-      this.PopulateResourceEntity(ResourceEntity, 1, ResourceTyped, FhirRequestUri);
+      this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<<#=item.ResourceEntityName#>>(ResourceEntity);
       return ResourceTyped.Id;
     }
 
-    public string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as <#=item.ResourceName#>;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -70,7 +69,7 @@ namespace Blaze.DataModel.Repository
       return ResourceTyped.Id;
     }
 
-    public void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion)
+    public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
     {
       var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
       var ResourceHistoryEntity = new <#=item.ResourceHistoryEntityName#>();
@@ -82,7 +81,7 @@ namespace Blaze.DataModel.Repository
       this.Save();      
     }
 
-    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, int ResourceVersionNumber)
+    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
@@ -147,7 +146,7 @@ namespace Blaze.DataModel.Repository
 #> 
     }
 
-    private void PopulateResourceEntity(<#=item.ResourceEntityName#> ResourseEntity, int ResourceVersion, <#=item.ResourceName#> ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
+    private void PopulateResourceEntity(<#=item.ResourceEntityName#> ResourseEntity, string ResourceVersion, <#=item.ResourceName#> ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
     }

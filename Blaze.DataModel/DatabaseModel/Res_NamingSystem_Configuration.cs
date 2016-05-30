@@ -29,6 +29,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.kind_System).IsOptional();
       Property(x => x.name_String).IsOptional();
       Property(x => x.publisher_String).IsOptional();
+      Property(x => x.replaced_by_VersionId).IsOptional();
       Property(x => x.replaced_by_FhirId).IsOptional();
       Property(x => x.replaced_by_Type).IsOptional();
       HasOptional(x => x.replaced_by_Url);

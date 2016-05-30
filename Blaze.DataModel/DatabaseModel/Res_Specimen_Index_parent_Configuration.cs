@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Specimen_Index_parent_Configuration()
     {
       HasKey(x => x.Res_Specimen_Index_parentID).Property(x => x.Res_Specimen_Index_parentID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

@@ -19,16 +19,19 @@ namespace Blaze.DataModel.DatabaseModel
     public string identifier_System {get; set;}
     public string name_String {get; set;}
     public string publisher_String {get; set;}
+    public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
     public virtual Blaze_RootUrlStore source_Url { get; set; }
     public int? source_Url_Blaze_RootUrlStoreID { get; set; }
+    public string source_uri_VersionId {get; set;}
     public string source_uri_FhirId {get; set;}
     public string source_uri_Type {get; set;}
     public virtual Blaze_RootUrlStore source_uri_Url { get; set; }
     public int? source_uri_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public string target_VersionId {get; set;}
     public string target_FhirId {get; set;}
     public string target_Type {get; set;}
     public virtual Blaze_RootUrlStore target_Url { get; set; }

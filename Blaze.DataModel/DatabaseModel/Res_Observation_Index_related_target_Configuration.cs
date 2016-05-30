@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Observation_Index_related_target_Configuration()
     {
       HasKey(x => x.Res_Observation_Index_related_targetID).Property(x => x.Res_Observation_Index_related_targetID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

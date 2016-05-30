@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DiagnosticReport_Index_result_Configuration()
     {
       HasKey(x => x.Res_DiagnosticReport_Index_resultID).Property(x => x.Res_DiagnosticReport_Index_resultID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

@@ -17,7 +17,7 @@ namespace Blaze.Engine.Response
     
     public string FhirResourceId { get; set; }
     public Uri RequestUri { get; set; }
-    public int ResourceVersionNumber { get; set; }
+    public string ResourceVersionNumber { get; set; }
     public DtoEnums.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
     public ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }

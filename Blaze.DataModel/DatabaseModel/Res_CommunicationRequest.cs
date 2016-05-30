@@ -13,25 +13,30 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_CommunicationRequest : ResourceIndexBase
   {
     public int Res_CommunicationRequestID {get; set;}
+    public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
     public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? requested_DateTimeOffset {get; set;}
+    public string requester_VersionId {get; set;}
     public string requester_FhirId {get; set;}
     public string requester_Type {get; set;}
     public virtual Blaze_RootUrlStore requester_Url { get; set; }
     public int? requester_Url_Blaze_RootUrlStoreID { get; set; }
+    public string sender_VersionId {get; set;}
     public string sender_FhirId {get; set;}
     public string sender_Type {get; set;}
     public virtual Blaze_RootUrlStore sender_Url { get; set; }
     public int? sender_Url_Blaze_RootUrlStoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }

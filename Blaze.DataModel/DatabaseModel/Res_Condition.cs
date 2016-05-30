@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Condition : ResourceIndexBase
   {
     public int Res_ConditionID {get; set;}
+    public string asserter_VersionId {get; set;}
     public string asserter_FhirId {get; set;}
     public string asserter_Type {get; set;}
     public virtual Blaze_RootUrlStore asserter_Url { get; set; }
@@ -20,12 +21,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string clinicalstatus_Code {get; set;}
     public string clinicalstatus_System {get; set;}
     public DateTimeOffset? date_recorded_DateTimeOffset {get; set;}
+    public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
     public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? onset_DateTimeOffset {get; set;}
     public string onset_info_String {get; set;}
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

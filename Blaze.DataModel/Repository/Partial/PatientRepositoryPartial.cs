@@ -20,22 +20,24 @@ namespace Blaze.DataModel.Repository
 {
   public partial class PatientRepository : CommonRepository, IResourceRepository
   {
-    private void PopulateResourceEntity(Res_Patient ResourseEntity, int ResourceVersion, Patient ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
+    //This is an example of a Partial Repository. When you need to extend the database access for a particular 
+    //Resource type then a class like this can be created to develop any custom db queries required for that resources Repository.
+
+    private void PopulateResourceEntity(Res_Patient ResourseEntity, string ResourceVersion, Patient ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {      
       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
       if (ResourceTyped.Active != null)
       {
         var token = IndexSettingSupport.CreateToken(ResourceTyped.ActiveElement);
-        ResourseEntity.active_Code = ResourceTyped.Active.ToString();
-        ResourseEntity.active_System = "http://hl7.org/fhir/ValueSet/special-values";
+        ResourseEntity.active_Code = token.Code;
+        ResourseEntity.active_System = token.CodeSystem;
       }
 
       if (ResourceTyped.BirthDate != null)
+      {
         ResourseEntity.birthdate_DateTimeOffset = IndexSettingSupport.CreateDateTime(ResourceTyped.BirthDateElement);
-      else
-        ResourseEntity.birthdate_DateTimeOffset = null;
-
+      }      
 
       if (ResourceTyped.Deceased != null)
       {

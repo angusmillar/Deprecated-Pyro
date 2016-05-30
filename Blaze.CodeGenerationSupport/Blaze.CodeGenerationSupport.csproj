@@ -48,9 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerationDatabaseModelCreate.cs" />
-    <Compile Include="CodeGenerationDbTableModel.cs" />
+    <Compile Include="DbEntityCodeGeneration\CodeGenerationDatabaseModelCreate.cs" />
+    <Compile Include="DbEntityCodeGeneration\CodeGenerationDbTableModel.cs" />
     <Compile Include="DatabaseModelInfo.cs" />
+    <Compile Include="DbEntityCodeGeneration\_DbContextConfigGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DbContextConfigGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntityCodeGeneration\_DbContextGenerator.cs">
+      <DependentUpon>_DbContextGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DbEntityCodeGeneration\_DbEntityModelGenerator1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DbEntityModelGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfo.cs" />
     <Compile Include="FhirApiIntrospection\FhirApiSearchParameterInfoFactory.cs" />
     <Compile Include="FhirApiIntrospection\FhirSearchParameterSearchPathElement.cs" />
@@ -58,6 +73,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryCodeGeneration\RepositoryCodeGeneration.cs" />
     <Compile Include="RepositoryCodeGeneration\RepositoryCodeGenModel.cs" />
+    <Compile Include="RepositoryCodeGeneration\_RepositoryGenerator1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,7 +87,23 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" />
+    <None Include="DbEntityCodeGeneration\_DbContextConfigGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_DbContextConfigGenerator.cs</LastGenOutput>
+    </None>
+    <None Include="DbEntityCodeGeneration\_DbContextGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_DbContextGenerator.cs</LastGenOutput>
+    </None>
+    <None Include="DbEntityCodeGeneration\_DbEntityModelGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_DbEntityModelGenerator1.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
+    <None Include="RepositoryCodeGeneration\_RepositoryGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_RepositoryGenerator1.cs</LastGenOutput>
+    </None>
     <None Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_UnitOfWorkGenerator.cs</LastGenOutput>

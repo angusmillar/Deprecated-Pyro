@@ -26,6 +26,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.beneficiaryidentifier_Code).IsOptional();
       Property(x => x.beneficiaryidentifier_System).IsOptional();
+      Property(x => x.beneficiaryreference_VersionId).IsOptional();
       Property(x => x.beneficiaryreference_FhirId).IsOptional();
       Property(x => x.beneficiaryreference_Type).IsOptional();
       HasOptional(x => x.beneficiaryreference_Url);
@@ -36,6 +37,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.group_System).IsOptional();
       Property(x => x.issueridentifier_Code).IsOptional();
       Property(x => x.issueridentifier_System).IsOptional();
+      Property(x => x.issuerreference_VersionId).IsOptional();
       Property(x => x.issuerreference_FhirId).IsOptional();
       Property(x => x.issuerreference_Type).IsOptional();
       HasOptional(x => x.issuerreference_Url);
@@ -44,6 +46,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.plan_System).IsOptional();
       Property(x => x.planholderidentifier_Code).IsOptional();
       Property(x => x.planholderidentifier_System).IsOptional();
+      Property(x => x.planholderreference_VersionId).IsOptional();
       Property(x => x.planholderreference_FhirId).IsOptional();
       Property(x => x.planholderreference_Type).IsOptional();
       HasOptional(x => x.planholderreference_Url);

@@ -17,12 +17,14 @@ namespace Blaze.DataModel.DatabaseModel
     public string action_System {get; set;}
     public string organizationidentifier_Code {get; set;}
     public string organizationidentifier_System {get; set;}
+    public string organizationreference_VersionId {get; set;}
     public string organizationreference_FhirId {get; set;}
     public string organizationreference_Type {get; set;}
     public virtual Blaze_RootUrlStore organizationreference_Url { get; set; }
     public int? organizationreference_Url_Blaze_RootUrlStoreID { get; set; }
     public string provideridentifier_Code {get; set;}
     public string provideridentifier_System {get; set;}
+    public string providerreference_VersionId {get; set;}
     public string providerreference_FhirId {get; set;}
     public string providerreference_Type {get; set;}
     public virtual Blaze_RootUrlStore providerreference_Url { get; set; }

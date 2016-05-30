@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Provenance_Index_target_Configuration()
     {
       HasKey(x => x.Res_Provenance_Index_targetID).Property(x => x.Res_Provenance_Index_targetID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

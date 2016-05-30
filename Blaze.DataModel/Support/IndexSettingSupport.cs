@@ -205,32 +205,31 @@ namespace Blaze.DataModel.Support
 
       var ResourceReference = CreateResourceReference(FhirElement);      
       var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ResourceReference.Url);
+      ResourceReferenceTransfer.Type = ReferanceUri.ResourseType;
+      ResourceReferenceTransfer.VersionId = ReferanceUri.VersionId;
+      ResourceReferenceTransfer.FhirId = ReferanceUri.FullResourceIdentity;
       if (ResourceReference.Url.IsAbsoluteUri)
       {
-        ResourceReferenceTransfer.Type = ReferanceUri.ResourseType;
-        ResourceReferenceTransfer.FhirId = ReferanceUri.FullResourceIdentity;
         ResourceReferenceTransfer.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
       }
       else
       {
-        ResourceReferenceTransfer.Type = ReferanceUri.ResourseType;
-        ResourceReferenceTransfer.FhirId = ReferanceUri.FullResourceIdentity;
         ResourceReferenceTransfer.Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
       }
       return ResourceReferenceTransfer;
     }
 
-    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, int Version)
+    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version)
     {
       SetResourceBase(null, ResourceIndexBase, FhirResourceId, Version, true);
     }
 
-    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, int Version, bool IsDeleted)
+    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, string Version, bool IsDeleted)
     {
       SetResourceBase(Resource, ResourceIndexBase, null, Version, false);
     }
 
-    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, int Version, bool IsDeleted)
+    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, bool IsDeleted)
     {
       if (!IsDeleted)
       {

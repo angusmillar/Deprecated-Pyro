@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Composition_Index_attester_Configuration()
     {
       HasKey(x => x.Res_Composition_Index_attesterID).Property(x => x.Res_Composition_Index_attesterID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

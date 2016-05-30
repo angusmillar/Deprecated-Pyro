@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Appointment_Index_practitioner_Configuration()
     {
       HasKey(x => x.Res_Appointment_Index_practitionerID).Property(x => x.Res_Appointment_Index_practitionerID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

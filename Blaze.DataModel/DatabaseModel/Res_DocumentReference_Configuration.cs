@@ -24,16 +24,19 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.authenticator_VersionId).IsOptional();
       Property(x => x.authenticator_FhirId).IsOptional();
       Property(x => x.authenticator_Type).IsOptional();
       HasOptional(x => x.authenticator_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.authenticator_Url).WithMany().HasForeignKey(x => x.authenticator_Url_Blaze_RootUrlStoreID);
       Property(x => x.created_DateTimeOffset).IsOptional();
+      Property(x => x.custodian_VersionId).IsOptional();
       Property(x => x.custodian_FhirId).IsOptional();
       Property(x => x.custodian_Type).IsOptional();
       HasOptional(x => x.custodian_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.custodian_Url).WithMany().HasForeignKey(x => x.custodian_Url_Blaze_RootUrlStoreID);
       Property(x => x.description_String).IsOptional();
+      Property(x => x.encounter_VersionId).IsOptional();
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
@@ -41,6 +44,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
       Property(x => x.indexed_DateTimeOffset).IsOptional();
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
@@ -48,6 +52,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.period_DateTimeOffset).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
+      Property(x => x.subject_VersionId).IsOptional();
       Property(x => x.subject_FhirId).IsOptional();
       Property(x => x.subject_Type).IsOptional();
       HasOptional(x => x.subject_Url);

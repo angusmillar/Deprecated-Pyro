@@ -8,6 +8,7 @@ using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.Interfaces;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Engine.RepositorySupport;
 
 namespace Blaze.Engine.Services
 {
@@ -17,17 +18,13 @@ namespace Blaze.Engine.Services
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork){}
 
-
     public new FHIRDefinedType SetCurrentResourceType
     {
       set
       {
         _CurrentResourceType = value;
-        //ToDo: how do we set this below based on the resource type passed in and make it dynamic?
-        _ResourceRepository = _UnitOfWork.PatientRepository;
+        _ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);
       }
     }
-
-
   }
 }

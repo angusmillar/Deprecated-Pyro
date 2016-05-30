@@ -30,14 +30,17 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.criticality_System).IsOptional();
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.last_date_DateTimeOffset).IsOptional();
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      Property(x => x.recorder_VersionId).IsOptional();
       Property(x => x.recorder_FhirId).IsOptional();
       Property(x => x.recorder_Type).IsOptional();
       HasOptional(x => x.recorder_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.recorder_Url).WithMany().HasForeignKey(x => x.recorder_Url_Blaze_RootUrlStoreID);
+      Property(x => x.reporter_VersionId).IsOptional();
       Property(x => x.reporter_FhirId).IsOptional();
       Property(x => x.reporter_Type).IsOptional();
       HasOptional(x => x.reporter_Url);

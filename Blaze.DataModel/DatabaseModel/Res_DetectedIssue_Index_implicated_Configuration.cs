@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DetectedIssue_Index_implicated_Configuration()
     {
       HasKey(x => x.Res_DetectedIssue_Index_implicatedID).Property(x => x.Res_DetectedIssue_Index_implicatedID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

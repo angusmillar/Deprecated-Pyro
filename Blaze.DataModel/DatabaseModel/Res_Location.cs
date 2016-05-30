@@ -24,10 +24,12 @@ namespace Blaze.DataModel.DatabaseModel
     public string near_System {get; set;}
     public string near_distance_Code {get; set;}
     public string near_distance_System {get; set;}
+    public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
     public virtual Blaze_RootUrlStore organization_Url { get; set; }
     public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
+    public string partof_VersionId {get; set;}
     public string partof_FhirId {get; set;}
     public string partof_Type {get; set;}
     public virtual Blaze_RootUrlStore partof_Url { get; set; }

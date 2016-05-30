@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Encounter_Index_procedure_Configuration()
     {
       HasKey(x => x.Res_Encounter_Index_procedureID).Property(x => x.Res_Encounter_Index_procedureID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

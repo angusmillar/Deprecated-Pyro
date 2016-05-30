@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_ImmunizationRecommendation : ResourceIndexBase
   {
     public int Res_ImmunizationRecommendationID {get; set;}
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

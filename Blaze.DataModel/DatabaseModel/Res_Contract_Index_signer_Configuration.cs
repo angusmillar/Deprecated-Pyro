@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Contract_Index_signer_Configuration()
     {
       HasKey(x => x.Res_Contract_Index_signerID).Property(x => x.Res_Contract_Index_signerID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

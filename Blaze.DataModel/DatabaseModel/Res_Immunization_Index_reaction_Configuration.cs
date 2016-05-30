@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Immunization_Index_reaction_Configuration()
     {
       HasKey(x => x.Res_Immunization_Index_reactionID).Property(x => x.Res_Immunization_Index_reactionID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

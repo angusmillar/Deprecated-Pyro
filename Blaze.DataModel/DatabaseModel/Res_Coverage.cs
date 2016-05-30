@@ -15,6 +15,7 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_CoverageID {get; set;}
     public string beneficiaryidentifier_Code {get; set;}
     public string beneficiaryidentifier_System {get; set;}
+    public string beneficiaryreference_VersionId {get; set;}
     public string beneficiaryreference_FhirId {get; set;}
     public string beneficiaryreference_Type {get; set;}
     public virtual Blaze_RootUrlStore beneficiaryreference_Url { get; set; }
@@ -25,6 +26,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string group_System {get; set;}
     public string issueridentifier_Code {get; set;}
     public string issueridentifier_System {get; set;}
+    public string issuerreference_VersionId {get; set;}
     public string issuerreference_FhirId {get; set;}
     public string issuerreference_Type {get; set;}
     public virtual Blaze_RootUrlStore issuerreference_Url { get; set; }
@@ -33,6 +35,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string plan_System {get; set;}
     public string planholderidentifier_Code {get; set;}
     public string planholderidentifier_System {get; set;}
+    public string planholderreference_VersionId {get; set;}
     public string planholderreference_FhirId {get; set;}
     public string planholderreference_Type {get; set;}
     public virtual Blaze_RootUrlStore planholderreference_Url { get; set; }

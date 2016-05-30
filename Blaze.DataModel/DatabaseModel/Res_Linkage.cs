@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Linkage : ResourceIndexBase
   {
     public int Res_LinkageID {get; set;}
+    public string author_VersionId {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
     public virtual Blaze_RootUrlStore author_Url { get; set; }

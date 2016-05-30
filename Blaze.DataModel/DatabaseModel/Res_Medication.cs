@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Medication : ResourceIndexBase
   {
     public int Res_MedicationID {get; set;}
+    public string manufacturer_VersionId {get; set;}
     public string manufacturer_FhirId {get; set;}
     public string manufacturer_Type {get; set;}
     public virtual Blaze_RootUrlStore manufacturer_Url { get; set; }

@@ -14,6 +14,7 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_ProvenanceID {get; set;}
     public DateTimeOffset? end_DateTimeOffset {get; set;}
+    public string location_VersionId {get; set;}
     public string location_FhirId {get; set;}
     public string location_Type {get; set;}
     public virtual Blaze_RootUrlStore location_Url { get; set; }

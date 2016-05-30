@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Conformance_Index_supported_profile_Configuration()
     {
       HasKey(x => x.Res_Conformance_Index_supported_profileID).Property(x => x.Res_Conformance_Index_supported_profileID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

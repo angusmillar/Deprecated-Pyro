@@ -28,10 +28,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.balance_System).IsOptional();
       Property(x => x.balance_Code).IsOptional();
       Property(x => x.name_String).IsOptional();
+      Property(x => x.owner_VersionId).IsOptional();
       Property(x => x.owner_FhirId).IsOptional();
       Property(x => x.owner_Type).IsOptional();
       HasOptional(x => x.owner_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.owner_Url).WithMany().HasForeignKey(x => x.owner_Url_Blaze_RootUrlStoreID);
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
@@ -39,6 +41,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.period_DateTimeOffset).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
+      Property(x => x.subject_VersionId).IsOptional();
       Property(x => x.subject_FhirId).IsOptional();
       Property(x => x.subject_Type).IsOptional();
       HasOptional(x => x.subject_Url);

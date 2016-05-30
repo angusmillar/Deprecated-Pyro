@@ -7,7 +7,7 @@ using System.ComponentModel;
 using Hl7.Fhir.Model;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 
-namespace Blaze.CodeGenerationSupport
+namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 {
   public class CodeGenerationDatabaseModelCreate
   {
@@ -54,10 +54,10 @@ namespace Blaze.CodeGenerationSupport
 
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "Patient")
-        {
+        //if (ResourceName == "SupplyRequest")
+        //{
 
-        }
+        //}
         List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
                                                                         where x.Resource == ResourceName
                                                                         select x).ToList();
@@ -79,15 +79,6 @@ namespace Blaze.CodeGenerationSupport
         //The Resource History Table
         _CodeGenerationDbTableModelList.Add(CreateModelResourceHistoryTable(ResourceName, CollectionParameters, NonCollectionParameters));        
 
-        //The Resource's Meta_Profile Table
-        //_CodeGenerationDbTableModelList.Add(Create_Blaze_ResourceMetaProfile_Table(ResourceName));
-
-        //The Resource's Meta_Security Table
-        //_CodeGenerationDbTableModelList.Add(Create_Blaze_ResourceMeta_Security_Table(ResourceName));
-
-        //The Resource's Meta_Tag Table
-        //_CodeGenerationDbTableModelList.Add(Create_Blaze_ResourceMeta_Tag_Table(ResourceName));
-
         //The Resource Search Index tables
         foreach (FhirApiSearchParameterInfo CollectionItem in CollectionParameters)
         {
@@ -99,6 +90,12 @@ namespace Blaze.CodeGenerationSupport
     private CodeGenerationDbTableModel Create_ModelResourceSearchIndexTable(string ResourceName, FhirApiSearchParameterInfo CollectionItem)
     {
       string ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
+      //Below used for Debug
+      //if (CollectionItem.SearchName == "supplier")
+      //{
+      //  ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
+      //}
+      //string ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
       string ClassNameSearchIndex = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);
       var TableModel = new CodeGenerationDbTableModel();
       TableModel.TableName = ClassNameSearchIndex;
@@ -156,18 +153,6 @@ namespace Blaze.CodeGenerationSupport
       GenerateTableClassModelPropertiesForResource(TableModel.TableClassModel.PropertyList, NonCollectionParameters, CollectionParameters, ResourceName, false);
       GenerateTableClassModelPropertyConstructorInstantiationForMainResource(TableModel.TableClassModel.PropertyConstructorInstantiationList, NonCollectionParameters, CollectionParameters, ResourceName);
 
-      //MetaTag
-      //string ResouceMetaTagTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaTagName);
-      //TableModel.TableClassModel.PropertyConstructorInstantiationList.Add(String.Format("this.{0}_List = new HashSet<{1}>();", DatabaseModelInfo.DatabaseModelMetaTagName, ResouceMetaTagTableClassName));
-      
-      //MetaSecurity
-      //string ResouceMetaSecurityTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaSecurityName);
-      //TableModel.TableClassModel.PropertyConstructorInstantiationList.Add(String.Format("this.{0}_List = new HashSet<{1}>();", DatabaseModelInfo.DatabaseModelMetaSecurityName, ResouceMetaSecurityTableClassName));
-
-      //MetaProfile
-      //string ResouceMetaProfileTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaProfileName);
-      //TableModel.TableClassModel.PropertyConstructorInstantiationList.Add(String.Format("this.{0}_List = new HashSet<{1}>();", DatabaseModelInfo.DatabaseModelMetaProfileName, ResouceMetaProfileTableClassName));
-
       //History
       string ClassNameResourceHistory = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);      
       TableModel.TableClassModel.PropertyConstructorInstantiationList.Add(String.Format("this.{0}_List = new HashSet<{1}>();", ClassNameResourceHistory, ClassNameResourceHistory));
@@ -202,80 +187,6 @@ namespace Blaze.CodeGenerationSupport
       return TableModel;
     }
 
-    //private CodeGenerationDbTableModel Create_Blaze_ResourceMetaProfile_Table(string ResourceName)
-    //{
-    //  string ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
-    //  string ResouceMetaProfileTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaProfileName);
-    //  var TableModel = new CodeGenerationDbTableModel();
-    //  TableModel.TableName = ResouceMetaProfileTableClassName;
-    //  TableModel.TableCreateSyntax = GererateTableCreateSyntax(ResouceMetaProfileTableClassName, ResouceMetaProfileTableClassName);
-    //  TableModel.TableConfiguratonSyntax = GererateTableConfigurationSyntax(ResouceMetaProfileTableClassName);
-
-    //  TableModel.TableConfigurationClassModel = new CodeGenerationDbTableConfigurationClassModel();
-    //  TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(ResouceMetaProfileTableClassName);
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ResouceMetaProfileTableClassName));
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format(String.Format("HasRequired(x => x.{0}).WithMany(x => x.{1}_List).WillCascadeOnDelete(true);", ClassNameResource, DatabaseModelInfo.DatabaseModelMetaProfileName)));                                                                                                             
-    //  GenerateClassPropertyFluentStatmentForSearchParameterDataType(string.Empty, SearchParamType.Uri, true, TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList);
-
-    //  TableModel.TableClassModel = new CodeGenerationDbTableClassModel(false);
-    //  TableModel.TableClassModel.ClassName = ResouceMetaProfileTableClassName;
-    //  GenerateClassInheritancesByFhirSearchParameterType(TableModel.TableClassModel.ClassInheritanceList, SearchParamType.Uri);      
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public int {0}ID {{get; set;}}", ResouceMetaProfileTableClassName));
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public virtual {0} {0} {{ get; set; }}", ClassNameResource));
-    //  //GenerateClassPropertiesForSearchParameterDataType(TableModel.TableClassModel.PropertyList, string.Empty, SearchParamType.Uri, true);
-      
-    //  return TableModel;
-    //}
-
-    //private CodeGenerationDbTableModel Create_Blaze_ResourceMeta_Security_Table(string ResourceName)
-    //{
-    //  string ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
-    //  string ResouceMetaSecurityTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaSecurityName);
-    //  var TableModel = new CodeGenerationDbTableModel();
-    //  TableModel.TableName = ResouceMetaSecurityTableClassName;
-    //  TableModel.TableCreateSyntax = GererateTableCreateSyntax(ResouceMetaSecurityTableClassName, ResouceMetaSecurityTableClassName);
-    //  TableModel.TableConfiguratonSyntax = GererateTableConfigurationSyntax(ResouceMetaSecurityTableClassName);
-
-    //  TableModel.TableConfigurationClassModel = new CodeGenerationDbTableConfigurationClassModel();
-    //  TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(ResouceMetaSecurityTableClassName);
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ResouceMetaSecurityTableClassName));
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format(String.Format("HasRequired(x => x.{0}).WithMany(x => x.{1}_List).WillCascadeOnDelete(true);", ClassNameResource, DatabaseModelInfo.DatabaseModelMetaSecurityName)));
-    //  GenerateClassPropertyFluentStatmentForSearchParameterDataType(string.Empty, SearchParamType.Token, true, TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList);
-
-    //  TableModel.TableClassModel = new CodeGenerationDbTableClassModel(false);
-    //  TableModel.TableClassModel.ClassName = ResouceMetaSecurityTableClassName;
-    //  GenerateClassInheritancesByFhirSearchParameterType(TableModel.TableClassModel.ClassInheritanceList, SearchParamType.Token);      
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public int {0}ID {{get; set;}}", ResouceMetaSecurityTableClassName));
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public virtual {0} {0} {{ get; set; }}", ClassNameResource));
-    //  //GenerateClassPropertiesForSearchParameterDataType(TableModel.TableClassModel.PropertyList, string.Empty, SearchParamType.Token, true);
-      
-    //  return TableModel;
-    //}
-
-    //private CodeGenerationDbTableModel Create_Blaze_ResourceMeta_Tag_Table(string ResourceName)
-    //{
-    //  string ClassNameResource = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
-    //  string ResouceMetaTagTableClassName = String.Format("{0}_{1}_{2}", ClassNameResource, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaTagName);
-    //  var TableModel = new CodeGenerationDbTableModel();
-    //  TableModel.TableName = ResouceMetaTagTableClassName;
-    //  TableModel.TableCreateSyntax = GererateTableCreateSyntax(ResouceMetaTagTableClassName, ResouceMetaTagTableClassName);
-    //  TableModel.TableConfiguratonSyntax = GererateTableConfigurationSyntax(ResouceMetaTagTableClassName);
-
-    //  TableModel.TableConfigurationClassModel = new CodeGenerationDbTableConfigurationClassModel();
-    //  TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(ResouceMetaTagTableClassName);
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ResouceMetaTagTableClassName));
-    //  TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format(String.Format("HasRequired(x => x.{0}).WithMany(x => x.{1}_List).WillCascadeOnDelete(true);", ClassNameResource, DatabaseModelInfo.DatabaseModelMetaTagName)));
-    //  GenerateClassPropertyFluentStatmentForSearchParameterDataType(string.Empty, SearchParamType.Token, true, TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList);
-
-    //  TableModel.TableClassModel = new CodeGenerationDbTableClassModel(false);
-    //  TableModel.TableClassModel.ClassName = ResouceMetaTagTableClassName;
-    //  GenerateClassInheritancesByFhirSearchParameterType(TableModel.TableClassModel.ClassInheritanceList, SearchParamType.Token);
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public int {0}ID {{get; set;}}", ResouceMetaTagTableClassName));
-    //  TableModel.TableClassModel.PropertyList.Add(String.Format("public virtual {0} {0} {{ get; set; }}", ClassNameResource));
-    //  GenerateClassPropertiesForSearchParameterDataType(TableModel.TableClassModel.PropertyList, string.Empty, SearchParamType.Token, true);
-
-    //  return TableModel;
-    //}
 
     private void GenerateClassInheritancesByFhirSearchParameterType(List<string> list, SearchParamType Type)
     {
@@ -442,6 +353,7 @@ namespace Blaze.CodeGenerationSupport
             string RootUrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
             if (IsIndex)
             {
+              FluentPathList.Add(String.Format("Property(x => x.{0}VersionId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsRequired();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsRequired();", Prefix));              
               FluentPathList.Add(String.Format("HasRequired(x => x.{0}Url);", Prefix));
@@ -449,6 +361,7 @@ namespace Blaze.CodeGenerationSupport
             }
             else
             {
+              FluentPathList.Add(String.Format("Property(x => x.{0}VersionId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("HasOptional(x => x.{0}Url);", Prefix));
@@ -518,17 +431,6 @@ namespace Blaze.CodeGenerationSupport
           string FormatedPrefix = NonCollectionItem.SearchName.Replace('-', '_') + '_';
           GenerateClassPropertiesForSearchParameterDataType(Propertylist, FormatedPrefix, NonCollectionItem.SearchParamType, false);
         }
-        //Meta_Profile        
-        //string ResouceMetaProfileTableClassName = String.Format("{0}_{1}_{2}", MainResourceClassName, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaProfileName);
-        //Propertylist.Add(String.Format("public ICollection<{0}> {1}_List {{ get; set; }}", ResouceMetaProfileTableClassName, DatabaseModelInfo.DatabaseModelMetaProfileName));
-
-        //meta_security
-        //string ResouceMetaSecurityTableClassName = String.Format("{0}_{1}_{2}", MainResourceClassName, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaSecurityName);
-        //Propertylist.Add(String.Format("public ICollection<{0}> {1}_List {{ get; set; }}", ResouceMetaSecurityTableClassName, DatabaseModelInfo.DatabaseModelMetaSecurityName));
-
-        //meta_tag
-        //string ResouceMetaTagTableClassName = String.Format("{0}_{1}_{2}", MainResourceClassName, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.DatabaseModelMetaTagName);
-        //Propertylist.Add(String.Format("public ICollection<{0}> {1}_List {{ get; set; }}", ResouceMetaTagTableClassName, DatabaseModelInfo.DatabaseModelMetaTagName));
 
         //Resource History        
         Propertylist.Add(String.Format("public ICollection<{0}> {1}_List {{ get; set; }}", ClassNameResourceHistory, ClassNameResourceHistory));
@@ -561,6 +463,8 @@ namespace Blaze.CodeGenerationSupport
       }
       else
       {
+        //Remember this method is not required as each index in inherited of a base index class that gives
+        //it its properties.
         //GenerateClassPropertiesForSearchParameterDataType(Propertylist, string.Empty, CollectionItem.SearchParamType, true);
       }
       Propertylist.Add(String.Format("public virtual {0} {0} {{ get; set; }}", MainResourceClassName));
@@ -630,6 +534,7 @@ namespace Blaze.CodeGenerationSupport
                break;
              case Hl7.Fhir.Model.SearchParamType.Reference:
                {
+                 Propertylist.Add(String.Format("public string {0}VersionId {{get; set;}}", Prefix));    
                  Propertylist.Add(String.Format("public string {0}FhirId {{get; set;}}", Prefix));    
                  Propertylist.Add(String.Format("public string {0}Type {{get; set;}}", Prefix));
                  Propertylist.Add(String.Format("public virtual {1}_RootUrlStore {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));

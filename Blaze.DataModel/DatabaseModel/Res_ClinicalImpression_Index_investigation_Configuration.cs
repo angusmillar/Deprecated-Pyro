@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ClinicalImpression_Index_investigation_Configuration()
     {
       HasKey(x => x.Res_ClinicalImpression_Index_investigationID).Property(x => x.Res_ClinicalImpression_Index_investigationID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

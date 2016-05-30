@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Order_Index_detail_Configuration()
     {
       HasKey(x => x.Res_Order_Index_detailID).Property(x => x.Res_Order_Index_detailID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

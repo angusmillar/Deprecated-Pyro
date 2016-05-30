@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Protocol : ResourceIndexBase
   {
     public int Res_ProtocolID {get; set;}
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }

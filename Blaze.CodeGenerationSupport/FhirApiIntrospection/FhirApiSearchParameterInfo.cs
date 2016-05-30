@@ -10,6 +10,11 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 {
   public class FhirApiSearchParameterInfo
   {
+    public FhirApiSearchParameterInfo()
+    {
+      this.SearchParameterNavigationPathList = new List<FhirSearchParameterSearchPathElement>();
+    }
+
     public string Resource { get; set; }
     public SearchParamType SearchParamType { get; set; }
     public Type TargetFhirElementType { get; set; }
@@ -23,8 +28,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       }
     }
     public bool IsCollection { get; set; }
-    public bool IsChoice { get; set; }
-    public FhirSearchParameterSearchPathElement SearchParameterNavigationPath { get; set; }
+    public bool IsChoice { get; set; }    
+    public List<FhirSearchParameterSearchPathElement> SearchParameterNavigationPathList { get; set; }
     public List<FhirApiSearchParameterInfo> CompositeSearchParameterList { get; set; }
   }
 }

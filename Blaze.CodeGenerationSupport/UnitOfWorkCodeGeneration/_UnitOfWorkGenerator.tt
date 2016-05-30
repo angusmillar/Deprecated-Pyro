@@ -14,10 +14,8 @@
 <#
   var manager = TemplateFileManager.Create(this);
   List<string> _ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
-#>
-
-
-using System;
+  manager.StartNewFile(string.Format("{0}.cs","UnitOfWork"),"Blaze.DataModel");
+#>using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,8 +33,7 @@ namespace Blaze.DataModel
     private CommonRepository _CommonRepository;    
 <#
   foreach(var Resource in _ResourceList)
-  {  
-    manager.StartNewFile(string.Format("{0}.cs","UnitOfWork"),"Blaze.DataModel");
+  {      
 #>
     private <#=Resource#>Repository _<#=Resource#>Repository;
 <#
@@ -60,8 +57,7 @@ namespace Blaze.DataModel
 
 <#
   foreach(var Resource in _ResourceList)
-  {  
-    manager.StartNewFile(string.Format("{0}.cs","UnitOfWork"),"Blaze.DataModel");
+  {      
 #>
     public IResourceRepository <#=Resource#>Repository
     {
@@ -72,6 +68,7 @@ namespace Blaze.DataModel
         return _<#=Resource#>Repository;
       }
     }
+
 <#
   }
 #>
@@ -112,4 +109,68 @@ namespace Blaze.DataModel
   }
 }
 
+<#
+  manager.StartNewFile(string.Format("{0}.cs","IUnitOfWork"),"Blaze.Common",@"Repositories");
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Blaze.Common.Interfaces.Repositories
+{
+  public interface IUnitOfWork
+  {
+    ICommonRepository CommonRepository { get; }
+<#
+  foreach(var Resource in _ResourceList)
+  {      
+#>
+    IResourceRepository <#=Resource#>Repository { get; }    
+<#
+  }
+#>
+  }
+}
+
+<#
+  manager.StartNewFile(string.Format("{0}.cs","RepositorySwitcher"),"Blaze.Engine","RepositorySupport");
+#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Hl7.Fhir.Model;
+using Blaze.Common.Interfaces.Repositories;
+
+namespace Blaze.Engine.RepositorySupport
+{
+  static class RepositorySwitcher
+  {
+    public static IResourceRepository GetRepository(FHIRDefinedType ResourceType, IUnitOfWork UnitOfWork)
+    {
+      switch (ResourceType)
+      {
+<#
+  foreach(var Resource in _ResourceList)
+  {      
+#>        case FHIRDefinedType.<#=Resource#>:
+            return UnitOfWork.<#=Resource#>Repository;        
+<#
+  }
+#>
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRDefinedType));
+      }      
+    }
+  }
+}
+
+<#
+
+
+
+  manager.Process();
+#>
 

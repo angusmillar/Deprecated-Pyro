@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Linkage_Index_source_Configuration()
     {
       HasKey(x => x.Res_Linkage_Index_sourceID).Property(x => x.Res_Linkage_Index_sourceID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

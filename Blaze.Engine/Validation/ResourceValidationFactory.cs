@@ -22,7 +22,8 @@ namespace Blaze.Engine.Validation
         case FHIRDefinedType.ConceptMap:
           return new ConceptMapResourceValidation();
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(FhirResourceType.ToString(), (int)FhirResourceType, typeof(FHIRDefinedType));
+          return new DefaultResourceValidation();
+          
       }
     }
   }

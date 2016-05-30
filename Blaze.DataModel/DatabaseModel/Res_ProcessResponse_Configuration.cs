@@ -26,6 +26,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.organizationidentifier_Code).IsOptional();
       Property(x => x.organizationidentifier_System).IsOptional();
+      Property(x => x.organizationreference_VersionId).IsOptional();
       Property(x => x.organizationreference_FhirId).IsOptional();
       Property(x => x.organizationreference_Type).IsOptional();
       HasOptional(x => x.organizationreference_Url);
@@ -34,16 +35,19 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.requestidentifier_System).IsOptional();
       Property(x => x.requestorganizationidentifier_Code).IsOptional();
       Property(x => x.requestorganizationidentifier_System).IsOptional();
+      Property(x => x.requestorganizationreference_VersionId).IsOptional();
       Property(x => x.requestorganizationreference_FhirId).IsOptional();
       Property(x => x.requestorganizationreference_Type).IsOptional();
       HasOptional(x => x.requestorganizationreference_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.requestorganizationreference_Url).WithMany().HasForeignKey(x => x.requestorganizationreference_Url_Blaze_RootUrlStoreID);
       Property(x => x.requestprovideridentifier_Code).IsOptional();
       Property(x => x.requestprovideridentifier_System).IsOptional();
+      Property(x => x.requestproviderreference_VersionId).IsOptional();
       Property(x => x.requestproviderreference_FhirId).IsOptional();
       Property(x => x.requestproviderreference_Type).IsOptional();
       HasOptional(x => x.requestproviderreference_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.requestproviderreference_Url).WithMany().HasForeignKey(x => x.requestproviderreference_Url_Blaze_RootUrlStoreID);
+      Property(x => x.requestreference_VersionId).IsOptional();
       Property(x => x.requestreference_FhirId).IsOptional();
       Property(x => x.requestreference_Type).IsOptional();
       HasOptional(x => x.requestreference_Url);

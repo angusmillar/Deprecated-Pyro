@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_List_Index_item_Configuration()
     {
       HasKey(x => x.Res_List_Index_itemID).Property(x => x.Res_List_Index_itemID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

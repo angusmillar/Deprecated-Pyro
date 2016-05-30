@@ -24,6 +24,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.base_VersionId).IsOptional();
       Property(x => x.base_FhirId).IsOptional();
       Property(x => x.base_Type).IsOptional();
       HasOptional(x => x.base_Url);

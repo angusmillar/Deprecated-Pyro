@@ -6,6 +6,7 @@
 
 
 // Generated helper templates
+// Blaze\Blaze.DataModel\DatabaseModel\_DbEntityModelGenerator.txt4
 // Generated items
 // Blaze\Blaze.DataModel\DatabaseModel\Res_VisionPrescription_Index_tag.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_VisionPrescription_Index_security.cs

@@ -26,12 +26,12 @@ namespace Blaze.DataModel.Repository
     {
       var ResourceTyped = Resource as ImplementationGuide;
       var ResourceEntity = new Res_ImplementationGuide();
-      this.PopulateResourceEntity(ResourceEntity, 1, ResourceTyped, FhirRequestUri);
+      this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_ImplementationGuide>(ResourceEntity);
       return ResourceTyped.Id;
     }
 
-    public string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as ImplementationGuide;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -44,7 +44,7 @@ namespace Blaze.DataModel.Repository
       return ResourceTyped.Id;
     }
 
-    public void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion)
+    public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
     {
       var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
       var ResourceHistoryEntity = new Res_ImplementationGuide_History();
@@ -56,7 +56,7 @@ namespace Blaze.DataModel.Repository
       this.Save();      
     }
 
-    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, int ResourceVersionNumber)
+    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
@@ -124,7 +124,7 @@ namespace Blaze.DataModel.Repository
  
     }
 
-    private void PopulateResourceEntity(Res_ImplementationGuide ResourseEntity, int ResourceVersion, ImplementationGuide ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
+    private void PopulateResourceEntity(Res_ImplementationGuide ResourseEntity, string ResourceVersion, ImplementationGuide ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
     }

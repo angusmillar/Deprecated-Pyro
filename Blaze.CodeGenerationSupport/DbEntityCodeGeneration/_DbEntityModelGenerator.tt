@@ -1,16 +1,16 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ import namespace="System" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="System.Linq" #>
 <#@ Assembly Name="System.Threading.Tasks" #>
 <#@ Assembly Name="System.ComponentModel.DataAnnotations" #>
 <#@ Assembly Name="System.Data" #>
-<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
-<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -24,16 +24,20 @@
   var manager = TemplateFileManager.Create(this);
   // Any output below here will go to the BlazeDbModelCodeGenerator.cs
   
-  Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
-  List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
+  Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
 
   //manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"));
 #>
 
 <# 
+  //int counter = 0;
   foreach(var item in DbModelList)
   {
-    manager.StartNewFile(string.Format("{0}.cs",item.TableClassModel.ClassName));
+    manager.StartNewFile(string.Format("{0}.cs",item.TableClassModel.ClassName),"Blaze.DataModel","DatabaseModel");
+    //if (counter == 1150)
+    //  break;
+    //counter++;
 #>using System;
 using System.Collections.Generic;
 using System.Linq;

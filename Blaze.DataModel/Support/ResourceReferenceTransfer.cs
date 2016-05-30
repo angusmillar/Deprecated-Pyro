@@ -10,6 +10,7 @@ namespace Blaze.DataModel.Support
   public class ResourceReferenceTransfer
   {
     public string Type { get; set; }
+    public string VersionId { get; set; }
     public string FhirId { get; set; }
     public Blaze_RootUrlStore Url { get; set; }
     public int? Blaze_RootUrlStoreID { get; set; }

@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DiagnosticOrder_Index_specimen_Configuration()
     {
       HasKey(x => x.Res_DiagnosticOrder_Index_specimenID).Property(x => x.Res_DiagnosticOrder_Index_specimenID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

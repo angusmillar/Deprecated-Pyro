@@ -1,16 +1,17 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.DataModel\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ Assembly Name="System.Core" #>
+<#@ import namespace="System" #>
 <#@ Assembly Name="System.Linq" #>
 <#@ Assembly Name="System.Threading.Tasks" #>
 <#@ Assembly Name="System.ComponentModel.DataAnnotations" #>
 <#@ Assembly Name="System.Data" #>
-<#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
-<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -26,18 +27,16 @@
   
   Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
   List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
-  
-  foreach(var item in DbModelList)
-  {  
-    manager.StartNewFile(string.Format("{0}.cs",item.TableConfigurationClassModel.ClassName));
-#>using System;
+
+  manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"), "Blaze.DataModel","DatabaseModel");
+#>
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure.Annotations;
 
@@ -45,21 +44,38 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 namespace Blaze.DataModel.DatabaseModel
 {
-  public class <#=item.TableConfigurationClassModel.ClassName#> : EntityTypeConfiguration<<#=item.TableName#>>
-  {
 
-    public <#=item.TableConfigurationClassModel.ClassName#>()
+  public class DatabaseContext: DbContext
+  {
+    public DatabaseContext()
+      : base("BlazeConnectionString")
     {
-<#     
-    foreach(var FluentItem in item.TableConfigurationClassModel.FluentPropertyConfigurationList)
-    {#>
-      <#=FluentItem#>
+      this.Database.CreateIfNotExists();      
+    }
+
+<#  foreach(var item in DbModelList)
+    {
+#>
+    <#=item.TableCreateSyntax#>
 <#
-    }        
-#>    }
+    }
+#>
+
+    protected override void OnModelCreating(DbModelBuilder Mb)
+    {
+      base.OnModelCreating(Mb);
+      Mb.Conventions.Remove<PluralizingTableNameConvention>();
+      
+<#  foreach(var item in DbModelList)
+    {
+#>
+      <#=item.TableConfiguratonSyntax#>
+<#
+    }
+#>
+    }
   }
 }
-<# 
-  }
+<#
   manager.Process();
 #>

@@ -91,18 +91,20 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         RootElementMetaProfile.IsCollection = false;
         RootElementMetaProfile.PropertyName = ResourceName;
         RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElementMetaProfile.ParentElement = null;
-        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaProfile;
+        RootElementMetaProfile.ParentElement = null;        
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaProfile);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaProfile = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        var ChildPathElementMetaProfile = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaProfile.IsCollection = false;
         ChildPathElementMetaProfile.PropertyName = "Meta";
         ChildPathElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType("Meta");
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaProfile);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaProfile2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        var ChildPathElementMetaProfile2 = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaProfile2.IsCollection = true;
         ChildPathElementMetaProfile2.PropertyName = "profile";
         ChildPathElementMetaProfile2.DataType = ModelInfo.GetTypeForFhirType("uri");
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaProfile2);
 
         _ResourceSearchInfoList.Add(_SearchParameterInfo);
 
@@ -118,23 +120,25 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.CompositeSearchParameterList = null;
 
 
-        var RootElementMetaSecurity = new FhirSearchParameterSearchPathElement(null);
+        var RootElementMetaSecurity = new FhirSearchParameterSearchPathElement();
         RootElementMetaSecurity.IsCollection = false;
         RootElementMetaSecurity.PropertyName = ResourceName;
         RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElementMetaSecurity.ParentElement = null;
-        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaSecurity;
+        RootElementMetaSecurity.ParentElement = null;        
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaSecurity);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaSecurity = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        var ChildPathElementMetaSecurity = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaSecurity.IsCollection = false;
         ChildPathElementMetaSecurity.PropertyName = "Meta";
         ChildPathElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType("Meta");
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaSecurity);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaSecurity2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        var ChildPathElementMetaSecurity2 = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaSecurity2.IsCollection = true;
         ChildPathElementMetaSecurity2.PropertyName = "security";
         ChildPathElementMetaSecurity2.DataType = ModelInfo.GetTypeForFhirType("Coding");
-        
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaSecurity2);
+
         _ResourceSearchInfoList.Add(_SearchParameterInfo);
 
         //MetaTag
@@ -148,22 +152,24 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.CompositeSearchParameterList = null;
 
 
-        var RootElementMetaTag = new FhirSearchParameterSearchPathElement(null);
+        var RootElementMetaTag = new FhirSearchParameterSearchPathElement();
         RootElementMetaTag.IsCollection = false;
         RootElementMetaTag.PropertyName = ResourceName;
         RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
         RootElementMetaTag.ParentElement = null;
-        _SearchParameterInfo.SearchParameterNavigationPath = RootElementMetaTag;
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaTag);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaTag = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+        var ChildPathElementMetaTag = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaTag.IsCollection = false;
         ChildPathElementMetaTag.PropertyName = "Meta";
         ChildPathElementMetaTag.DataType = ModelInfo.GetTypeForFhirType("Meta");
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaTag);
 
-        FhirSearchParameterSearchPathElement ChildPathElementMetaTag2 = _SearchParameterInfo.SearchParameterNavigationPath.ChildElement.CreateChildElement();
+        var ChildPathElementMetaTag2 = new FhirSearchParameterSearchPathElement();
         ChildPathElementMetaTag2.IsCollection = true;
         ChildPathElementMetaTag2.PropertyName = "tag";
         ChildPathElementMetaTag2.DataType = ModelInfo.GetTypeForFhirType("Coding");
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElementMetaTag2);
 
         _ResourceSearchInfoList.Add(_SearchParameterInfo);
 
@@ -248,8 +254,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         RootElement.IsCollection = false;
         RootElement.PropertyName = ResourceName;
         RootElement.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElement.ParentElement = null;        
-        _SearchParameterInfo.SearchParameterNavigationPath = RootElement;
+        RootElement.ParentElement = null;                
+        _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElement);
 
         RecursivelySearchForIsColectionOnPropertyPath(oFhirXpath, 1, ModelInfo.GetTypeForFhirType(ResourceName));
 
@@ -268,13 +274,23 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       ClassMapping ClassMap = ClassMapping.Create(Type);      
       foreach (var Property in ClassMap.PropertyMappings)
       {
+
         if (Property.Name == oFhirXPath.FhirXPathComponentList[CurrentElement].Name || (Property.Choice == ChoiceType.DatatypeChoice && oFhirXPath.FhirXPathComponentList[CurrentElement].Name.StartsWith(Property.Name)))
         {
-          FhirSearchParameterSearchPathElement ChildPathElement = _SearchParameterInfo.SearchParameterNavigationPath.CreateChildElement();
+
+          var ChildPathElement = new FhirSearchParameterSearchPathElement();
           ChildPathElement.IsCollection = Property.IsCollection;
           ChildPathElement.PropertyName = Property.Name;
           ChildPathElement.DataType = Property.ElementType;
-          
+          _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElement);
+
+          var SearchPathElement = new FhirSearchParameterSearchPathElement();
+          SearchPathElement.IsCollection = Property.IsCollection;
+          SearchPathElement.PropertyName = Property.Name;
+          SearchPathElement.DataType = Property.ElementType;
+          _SearchParameterInfo.SearchParameterNavigationPathList.Add(SearchPathElement);
+
+
           if (Property.IsCollection)
           {
             SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);

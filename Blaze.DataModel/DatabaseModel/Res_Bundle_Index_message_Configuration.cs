@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Bundle_Index_message_Configuration()
     {
       HasKey(x => x.Res_Bundle_Index_messageID).Property(x => x.Res_Bundle_Index_messageID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

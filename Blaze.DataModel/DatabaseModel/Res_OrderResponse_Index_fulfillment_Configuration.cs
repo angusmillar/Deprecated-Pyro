@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_OrderResponse_Index_fulfillment_Configuration()
     {
       HasKey(x => x.Res_OrderResponse_Index_fulfillmentID).Property(x => x.Res_OrderResponse_Index_fulfillmentID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

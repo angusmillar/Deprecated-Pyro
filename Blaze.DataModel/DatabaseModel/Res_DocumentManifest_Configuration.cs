@@ -28,6 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.description_String).IsOptional();
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
@@ -35,6 +36,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.source_Uri).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
+      Property(x => x.subject_VersionId).IsOptional();
       Property(x => x.subject_FhirId).IsOptional();
       Property(x => x.subject_Type).IsOptional();
       HasOptional(x => x.subject_Url);

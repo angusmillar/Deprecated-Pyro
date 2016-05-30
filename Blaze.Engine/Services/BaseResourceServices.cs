@@ -78,8 +78,8 @@ namespace Blaze.Engine.Services
       BlazeServiceRequest.Resource.Id = Guid.NewGuid().ToString();
       if (BlazeServiceRequest.Resource.Meta == null)
         BlazeServiceRequest.Resource.Meta = new Meta();
-      int ResourceVersionNumber = 1;
-      BlazeServiceRequest.Resource.Meta.VersionId = ResourceVersionNumber.ToString();
+      string ResourceVersionNumber = "1";
+      BlazeServiceRequest.Resource.Meta.VersionId = ResourceVersionNumber;
       BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
       oBlazeServiceOperationOutcome.FhirResourceId = _ResourceRepository.AddResource(BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
@@ -117,8 +117,8 @@ namespace Blaze.Engine.Services
         //The resource has been found so update it and return 200 OK        
         if (BlazeServiceRequest.Resource.Meta == null)
           BlazeServiceRequest.Resource.Meta = new Meta();
-        int NewResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
-        BlazeServiceRequest.Resource.Meta.VersionId = NewResourceVersionNumber.ToString();
+        string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ResourceMatchingSearch.Version);
+        BlazeServiceRequest.Resource.Meta.VersionId = NewResourceVersionNumber;
         BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
         //Validation of resource        
@@ -130,7 +130,7 @@ namespace Blaze.Engine.Services
           return oBlazeServiceOperationOutcome;
         }
 
-        _UnitOfWork.PatientRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
+        _ResourceRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
         oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
         oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
         oBlazeServiceOperationOutcome.LastModified = BlazeServiceRequest.Resource.Meta.LastUpdated;
@@ -152,15 +152,15 @@ namespace Blaze.Engine.Services
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
-      oBlazeServiceOperationOutcome.ResourceVersionNumber = 0;
+      oBlazeServiceOperationOutcome.ResourceVersionNumber = null;
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirResourceId);
       if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
       {
         //Resource exists so..
         if (!DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
         {
-          int NewResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version + 1;
-          _UnitOfWork.PatientRepository.UpdateResouceAsDeleted(FhirResourceId, NewResourceVersionNumber);
+          string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ResourceMatchingSearch.Version);          
+          _ResourceRepository.UpdateResouceAsDeleted(FhirResourceId, NewResourceVersionNumber);
           oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
         }
         else

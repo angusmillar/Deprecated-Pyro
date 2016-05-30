@@ -28,6 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.disposition_String).IsOptional();
       Property(x => x.organizationidentifier_Code).IsOptional();
       Property(x => x.organizationidentifier_System).IsOptional();
+      Property(x => x.organizationreference_VersionId).IsOptional();
       Property(x => x.organizationreference_FhirId).IsOptional();
       Property(x => x.organizationreference_Type).IsOptional();
       HasOptional(x => x.organizationreference_Url);
@@ -37,6 +38,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.paymentdate_DateTimeOffset).IsOptional();
       Property(x => x.requestidentifier_Code).IsOptional();
       Property(x => x.requestidentifier_System).IsOptional();
+      Property(x => x.requestreference_VersionId).IsOptional();
       Property(x => x.requestreference_FhirId).IsOptional();
       Property(x => x.requestreference_Type).IsOptional();
       HasOptional(x => x.requestreference_Url);

@@ -13,14 +13,17 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_DeviceUseStatement : ResourceIndexBase
   {
     public int Res_DeviceUseStatementID {get; set;}
+    public string device_VersionId {get; set;}
     public string device_FhirId {get; set;}
     public string device_Type {get; set;}
     public virtual Blaze_RootUrlStore device_Url { get; set; }
     public int? device_Url_Blaze_RootUrlStoreID { get; set; }
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }

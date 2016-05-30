@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_SupplyDelivery_Index_receiver_Configuration()
     {
       HasKey(x => x.Res_SupplyDelivery_Index_receiverID).Property(x => x.Res_SupplyDelivery_Index_receiverID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

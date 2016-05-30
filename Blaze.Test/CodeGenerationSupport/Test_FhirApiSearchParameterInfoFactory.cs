@@ -17,8 +17,8 @@ namespace Blaze.Test.CodeGenerationSupport
     public void Test_GetApiSearchParameterInfo()
     {
 
-      Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
-      List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
     }
 
     [Test]
@@ -31,13 +31,15 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_ConstructClassTypeStatment_Items_Are_Not_Empty()
     {
-      Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
-      List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
-      foreach(var item in ModelList)
+      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+      foreach (var item in ModelList)
       {
         Assert.IsTrue(!String.IsNullOrWhiteSpace(item.TableClassModel.ConstructClassTypeStatment()));
       }
     }
+
+
 
   }
 }

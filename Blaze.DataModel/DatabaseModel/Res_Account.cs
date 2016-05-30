@@ -17,10 +17,12 @@ namespace Blaze.DataModel.DatabaseModel
     public string balance_System {get; set;}
     public string balance_Code {get; set;}
     public string name_String {get; set;}
+    public string owner_VersionId {get; set;}
     public string owner_FhirId {get; set;}
     public string owner_Type {get; set;}
     public virtual Blaze_RootUrlStore owner_Url { get; set; }
     public int? owner_Url_Blaze_RootUrlStoreID { get; set; }
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
@@ -28,6 +30,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? period_DateTimeOffset {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }

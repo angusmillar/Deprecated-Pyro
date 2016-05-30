@@ -16,6 +16,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string active_Code {get; set;}
     public string active_System {get; set;}
     public string name_String {get; set;}
+    public string partof_VersionId {get; set;}
     public string partof_FhirId {get; set;}
     public string partof_Type {get; set;}
     public virtual Blaze_RootUrlStore partof_Url { get; set; }

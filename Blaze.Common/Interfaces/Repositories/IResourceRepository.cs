@@ -12,9 +12,9 @@ namespace Blaze.Common.Interfaces.Repositories
   public interface IResourceRepository
   {
     string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri);
-    string UpdateResource(int ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri);
-    void UpdateResouceAsDeleted(string FhirResourceId, int ResourceVersion);
-    IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, int ResourceVersionNumber);
+    string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri);
+    void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion);
+    IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber);
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);
   }
 }

@@ -12,7 +12,7 @@ namespace Blaze.Common.Interfaces
     string FhirResourceId { get; set; }
     Common.Interfaces.IDatabaseOperationOutcome DatabaseOperationOutcome { get; set; }
     DtoEnums.CrudOperationType OperationType { get; set; }
-    int ResourceVersionNumber { get; set; }    
+    string ResourceVersionNumber { get; set; }    
     System.Net.HttpStatusCode HttpStatusCodeToReturn { get; }    
     DateTimeOffset? LastModified { get; set; }
     Uri RequestUri { get; set; }

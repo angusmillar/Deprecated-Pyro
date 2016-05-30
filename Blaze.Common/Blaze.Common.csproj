@@ -65,6 +65,9 @@
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IUnitOfWork.cs">
+      <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\UriSupport\IDtoFhirRequestUri.cs" />
     <Compile Include="Interfaces\Dto\IDtoRootUrlStore.cs" />
     <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
@@ -86,13 +89,13 @@
     <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Interfaces\Repositories\_UnitOfWorkGenerator.txt4" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

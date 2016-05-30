@@ -10,6 +10,7 @@ namespace Blaze.DataModel.DatabaseModel.Base
   {
     public string FhirId { get; set; }
     public string Type { get; set; }
+    public string VersionId { get; set; }
     public Blaze_RootUrlStore Url { get; set; }
     public int? Url_Blaze_RootUrlStoreID { get; set; }
   }

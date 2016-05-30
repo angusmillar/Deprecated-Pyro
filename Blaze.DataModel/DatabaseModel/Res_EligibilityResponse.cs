@@ -17,6 +17,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string disposition_String {get; set;}
     public string organizationidentifier_Code {get; set;}
     public string organizationidentifier_System {get; set;}
+    public string organizationreference_VersionId {get; set;}
     public string organizationreference_FhirId {get; set;}
     public string organizationreference_Type {get; set;}
     public virtual Blaze_RootUrlStore organizationreference_Url { get; set; }
@@ -27,16 +28,19 @@ namespace Blaze.DataModel.DatabaseModel
     public string requestidentifier_System {get; set;}
     public string requestorganizationidentifier_Code {get; set;}
     public string requestorganizationidentifier_System {get; set;}
+    public string requestorganizationreference_VersionId {get; set;}
     public string requestorganizationreference_FhirId {get; set;}
     public string requestorganizationreference_Type {get; set;}
     public virtual Blaze_RootUrlStore requestorganizationreference_Url { get; set; }
     public int? requestorganizationreference_Url_Blaze_RootUrlStoreID { get; set; }
     public string requestprovideridentifier_Code {get; set;}
     public string requestprovideridentifier_System {get; set;}
+    public string requestproviderreference_VersionId {get; set;}
     public string requestproviderreference_FhirId {get; set;}
     public string requestproviderreference_Type {get; set;}
     public virtual Blaze_RootUrlStore requestproviderreference_Url { get; set; }
     public int? requestproviderreference_Url_Blaze_RootUrlStoreID { get; set; }
+    public string requestreference_VersionId {get; set;}
     public string requestreference_FhirId {get; set;}
     public string requestreference_Type {get; set;}
     public virtual Blaze_RootUrlStore requestreference_Url { get; set; }

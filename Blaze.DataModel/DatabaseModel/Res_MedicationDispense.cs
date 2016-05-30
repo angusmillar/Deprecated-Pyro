@@ -15,20 +15,24 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_MedicationDispenseID {get; set;}
     public string code_Code {get; set;}
     public string code_System {get; set;}
+    public string destination_VersionId {get; set;}
     public string destination_FhirId {get; set;}
     public string destination_Type {get; set;}
     public virtual Blaze_RootUrlStore destination_Url { get; set; }
     public int? destination_Url_Blaze_RootUrlStoreID { get; set; }
+    public string dispenser_VersionId {get; set;}
     public string dispenser_FhirId {get; set;}
     public string dispenser_Type {get; set;}
     public virtual Blaze_RootUrlStore dispenser_Url { get; set; }
     public int? dispenser_Url_Blaze_RootUrlStoreID { get; set; }
     public string identifier_Code {get; set;}
     public string identifier_System {get; set;}
+    public string medication_VersionId {get; set;}
     public string medication_FhirId {get; set;}
     public string medication_Type {get; set;}
     public virtual Blaze_RootUrlStore medication_Url { get; set; }
     public int? medication_Url_Blaze_RootUrlStoreID { get; set; }
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

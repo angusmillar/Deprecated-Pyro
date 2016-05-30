@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DocumentManifest_Index_author_Configuration()
     {
       HasKey(x => x.Res_DocumentManifest_Index_authorID).Property(x => x.Res_DocumentManifest_Index_authorID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

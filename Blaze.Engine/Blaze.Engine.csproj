@@ -65,6 +65,9 @@
     <Compile Include="Interfaces\IResourceValidation.cs" />
     <Compile Include="Interfaces\ISearchPlan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositorySupport\RepositorySwitcher.cs">
+      <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="Response\BlazeServiceOperationOutcome.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Rest\ContentType.cs" />
@@ -81,11 +84,12 @@
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
-    <Compile Include="Services\RepositorySwitcher.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
     <Compile Include="Support\PagingSupport.cs" />
+    <Compile Include="Support\ResourceVersionNumber.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />
+    <Compile Include="Validation\DefaultResourceValidation.cs" />
     <Compile Include="Validation\PatientResourceValidation.cs" />
     <Compile Include="Validation\ResourceValidationFactory.cs" />
     <Compile Include="Validation\ResourceValidationOperationOutcome.cs" />
@@ -100,6 +104,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="RepositorySupport\_UnitOfWorkGenerator.txt4" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

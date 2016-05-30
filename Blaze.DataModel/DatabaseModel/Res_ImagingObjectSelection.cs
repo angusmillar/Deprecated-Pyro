@@ -13,12 +13,14 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_ImagingObjectSelection : ResourceIndexBase
   {
     public int Res_ImagingObjectSelectionID {get; set;}
+    public string author_VersionId {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
     public virtual Blaze_RootUrlStore author_Url { get; set; }
     public int? author_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? authoring_time_DateTimeOffset {get; set;}
     public string identifier_Uri {get; set;}
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

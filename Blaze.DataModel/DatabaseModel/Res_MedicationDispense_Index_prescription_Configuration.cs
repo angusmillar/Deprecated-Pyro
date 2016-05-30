@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_MedicationDispense_Index_prescription_Configuration()
     {
       HasKey(x => x.Res_MedicationDispense_Index_prescriptionID).Property(x => x.Res_MedicationDispense_Index_prescriptionID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

@@ -15,91 +15,124 @@ namespace Blaze.Common.BusinessEntities.UriSupport
   {
    //Absolute
    //value="http://angusmilllar.com.au/someApi/Organization/f001"
-   
-    //Relative
+
+   //Absolute with _history
+   //value="http://angusmilllar.com.au/someApi/Organization/f001/_history/2"   
+
+   //Relative
    //value="Organization/f001"
    
-    //Contained
+    //Contained, this object does not need to parse these
    //value="#org1"
 
-    private readonly char UriDelimieter = '/';
-    //private readonly char UriSearchParameterDelimieter = '?';
+    private readonly char UriDelimieter = '/';    
     private readonly string HistorySegmentName = "_history";
+    private readonly string RegexResourceDilimeter = "|";
 
     public DtoFhirUri(Uri Uri)
     {
+      //bool temp = false;
       //if (HttpUtil.IsRestResourceIdentity(Uri))
       //{
-        this.SchemaDelimiter = Uri.SchemeDelimiter;
-        this.Uri = Uri;
-        var ApiSegmentList = new List<string>();
-        string FhirResourceRegexPattern = string.Empty;
-        FhirResourceRegexPattern += String.Join("|", ModelInfo.SupportedResources);
-        string[] AbsolutePathArray = null;
-        if (Uri.IsAbsoluteUri)
-        {
-          this.Schema = Uri.Scheme;
-          this.Authority = Uri.Authority;
-          AbsolutePathArray = Uri.AbsolutePath.Split(UriDelimieter);
-        }
-        else
-        {
-          AbsolutePathArray = Uri.OriginalString.Split(UriDelimieter);
-        }
+      //  temp = true;
+      //}
+      this.SchemaDelimiter = Uri.SchemeDelimiter;
+      this.Uri = Uri;
+      var ApiSegmentList = new List<string>();
+      string FhirResourceRegexPattern = string.Empty;
+      FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+      string[] AbsolutePathArray = null;
+      if (Uri.IsAbsoluteUri)
+      { 
+        this.Schema = Uri.Scheme;
+        this.Authority = Uri.Authority;
+        AbsolutePathArray = Uri.AbsolutePath.Split(UriDelimieter);        
+      }
+      else
+      {
+        AbsolutePathArray = Uri.OriginalString.Split(UriDelimieter);
+      }
 
-        for (int i = 0; i < AbsolutePathArray.Length; i++)
+      for (int i = 0; i < AbsolutePathArray.Length; i++)
+      {
+        if (this.ResourseType == null)
         {
-          if (this.ResourseType == null)
+          if (Regex.IsMatch(AbsolutePathArray[i], FhirResourceRegexPattern))
           {
-            if (Regex.IsMatch(AbsolutePathArray[i], FhirResourceRegexPattern))
-            {
-              this.ResourseType = AbsolutePathArray[i];
-            }
-            else
-            {
-              if (i > 0)
-              {
-                ApiSegmentList.Add(AbsolutePathArray[i]);
-              }
-            }
+            this.ResourseType = AbsolutePathArray[i];
           }
           else
           {
-            if (this.Id == null)
+            if (i > 0)
             {
-              //for now I am amusing Id could contain the _historyversion as well, e.g Patient/123?_history=2
-              this.Id = AbsolutePathArray[i];
+              ApiSegmentList.Add(AbsolutePathArray[i]);
+            }
+          }
+        }
+        else
+        {
+          if (this.Id == null)
+          {
+            //for now I am amusing Id could contain the _historyversion as well, e.g Patient/123?_history=2
+            this.Id = AbsolutePathArray[i];
+          }
+          else
+          {
+            if (this.IsHistory)
+            {
+              this.VersionId = AbsolutePathArray[i];
             }
             else
             {
-              if (this.IsHistory)
+              if (Regex.IsMatch(AbsolutePathArray[i], HistorySegmentName, RegexOptions.IgnoreCase))
               {
-                this.VersionId = AbsolutePathArray[i];
+                this.IsHistory = true;
               }
               else
               {
-                if (Regex.IsMatch(AbsolutePathArray[i], HistorySegmentName, RegexOptions.IgnoreCase))
-                {
-                  this.IsHistory = true;
-                }
-                else
-                {
-                  var oIssueComponent = new OperationOutcome.IssueComponent();
-                  oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-                  oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
-                  oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted"));
-                  oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a _history segment in the URL yet found '{0}' in the URL: {1}", AbsolutePathArray[i], Uri.AbsoluteUri);
-                  oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-                  var oOperationOutcome = new OperationOutcome();
-                  oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                  throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-                }
+                var oIssueComponent = new OperationOutcome.IssueComponent();
+                oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+                oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
+                oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted"));
+                oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a _history segment in the URL yet found '{0}' in the URL: {1}", AbsolutePathArray[i], Uri.AbsoluteUri);
+                oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+                var oOperationOutcome = new OperationOutcome();
+                oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+                throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
               }
             }
           }
         }
-        this.ApiSegments = ApiSegmentList.ToArray();
-      //}
+      }
+      if (this.ResourseType == null)
+      {
+        var oIssueComponent = new OperationOutcome.IssueComponent();
+        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+        oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
+        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_RESOURCE_TYPE_MISMATCH", String.Format("Resource Type Mismatch"));
+        oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type in the URL and yet did not find one in the URL: {1}", Uri.AbsoluteUri);
+        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+        var oOperationOutcome = new OperationOutcome();
+        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+        throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+      }
+
+      if (this.Id != null)
+      {
+        if (!HttpUtil.IsRestResourceIdentity(Uri))
+        {
+          var oIssueComponent = new OperationOutcome.IssueComponent();
+          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+          oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
+          oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted"));
+          oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a FHIR Resource Identity URL yet found: '{0}'", Uri.AbsoluteUri);
+          oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+          var oOperationOutcome = new OperationOutcome();
+          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+          throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+        }
+      }
+      this.ApiSegments = ApiSegmentList.ToArray();      
     }
 
     /// <summary>
@@ -130,12 +163,10 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     /// example: '123456789'
     /// </summary>
     public string Id { get; private set; }
-
     /// <summary>
     /// example: True if the identity points to a history resource
     /// </summary>
     public bool IsHistory { get; private set; }
-
     /// <summary>
     /// The Version Id of the identity, null unless IsHistory is true 
     /// </summary>

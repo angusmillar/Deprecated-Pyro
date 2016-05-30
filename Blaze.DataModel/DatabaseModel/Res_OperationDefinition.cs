@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_OperationDefinition : ResourceIndexBase
   {
     public int Res_OperationDefinitionID {get; set;}
+    public string base_VersionId {get; set;}
     public string base_FhirId {get; set;}
     public string base_Type {get; set;}
     public virtual Blaze_RootUrlStore base_Url { get; set; }

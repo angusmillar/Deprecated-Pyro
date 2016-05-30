@@ -16,10 +16,12 @@ namespace Blaze.DataModel.DatabaseModel
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public string request_VersionId {get; set;}
     public string request_FhirId {get; set;}
     public string request_Type {get; set;}
     public virtual Blaze_RootUrlStore request_Url { get; set; }
     public int? request_Url_Blaze_RootUrlStoreID { get; set; }
+    public string who_VersionId {get; set;}
     public string who_FhirId {get; set;}
     public string who_Type {get; set;}
     public virtual Blaze_RootUrlStore who_Url { get; set; }

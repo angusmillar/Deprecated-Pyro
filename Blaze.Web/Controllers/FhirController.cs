@@ -28,7 +28,7 @@ namespace Blaze.Web.Controllers
     // GET URL/FhirApi/Patient/5
     [HttpGet, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Get(string ResourceName, string id)
-    {
+    {     
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(id);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);      

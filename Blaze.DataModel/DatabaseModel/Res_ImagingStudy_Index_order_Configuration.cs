@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ImagingStudy_Index_order_Configuration()
     {
       HasKey(x => x.Res_ImagingStudy_Index_orderID).Property(x => x.Res_ImagingStudy_Index_orderID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

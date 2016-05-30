@@ -22,10 +22,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "Patient")
-        {
-
-        }
         List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
                                                                         where x.Resource == ResourceName
                                                                         select x).ToList();
@@ -68,6 +64,30 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           RepositoryItem.ResourceEntityNonCollectionProperties.AddRange(Propertylist);          
         }
         RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
+
+
+        if (ResourceName == "Patient")
+        {
+          foreach (FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
+          {
+            StringBuilder Sb = new StringBuilder();
+            foreach (var Element in NonCollectionParameter.SearchParameterNavigationPathList)
+            {
+
+            }
+
+
+              //if (ResourceTyped.Active != null)
+              //{
+              //  var token = IndexSettingSupport.CreateToken(ResourceTyped.ActiveElement);
+              //  ResourseEntity.active_Code = ResourceTyped.Active.ToString();
+              //  ResourseEntity.active_System = "http://hl7.org/fhir/ValueSet/special-values";
+              //}
+
+            
+          }
+        }
+ 
 
       }
       return RepositoryCodeGenModel;

@@ -18,6 +18,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string kind_System {get; set;}
     public string name_String {get; set;}
     public string publisher_String {get; set;}
+    public string replaced_by_VersionId {get; set;}
     public string replaced_by_FhirId {get; set;}
     public string replaced_by_Type {get; set;}
     public virtual Blaze_RootUrlStore replaced_by_Url { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.CodeGenerationSupport
+namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 {
   public class CodeGenerationDbTableModel
   {

@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_StructureDefinition_Index_valueset_Configuration()
     {
       HasKey(x => x.Res_StructureDefinition_Index_valuesetID).Property(x => x.Res_StructureDefinition_Index_valuesetID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

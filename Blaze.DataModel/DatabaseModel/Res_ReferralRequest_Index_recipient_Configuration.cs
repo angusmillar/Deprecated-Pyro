@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ReferralRequest_Index_recipient_Configuration()
     {
       HasKey(x => x.Res_ReferralRequest_Index_recipientID).Property(x => x.Res_ReferralRequest_Index_recipientID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

@@ -13,16 +13,19 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Encounter : ResourceIndexBase
   {
     public int Res_EncounterID {get; set;}
+    public string appointment_VersionId {get; set;}
     public string appointment_FhirId {get; set;}
     public string appointment_Type {get; set;}
     public virtual Blaze_RootUrlStore appointment_Url { get; set; }
     public int? appointment_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public decimal? length_Number {get; set;}
+    public string part_of_VersionId {get; set;}
     public string part_of_FhirId {get; set;}
     public string part_of_Type {get; set;}
     public virtual Blaze_RootUrlStore part_of_Url { get; set; }
     public int? part_of_Url_Blaze_RootUrlStoreID { get; set; }
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

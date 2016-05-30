@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_CarePlan_Index_activityreference_Configuration()
     {
       HasKey(x => x.Res_CarePlan_Index_activityreferenceID).Property(x => x.Res_CarePlan_Index_activityreferenceID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_OperationDefinition_Index_paramprofile_Configuration()
     {
       HasKey(x => x.Res_OperationDefinition_Index_paramprofileID).Property(x => x.Res_OperationDefinition_Index_paramprofileID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

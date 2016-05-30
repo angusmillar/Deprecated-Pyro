@@ -11,7 +11,7 @@ namespace Blaze.DataModel.DatabaseModel.Base
   {
     public string FhirId { get; set; }
     public bool IsDeleted { get; set; }
-    public int versionId { get; set; }
+    public string versionId { get; set; }
     public DateTimeOffset lastUpdated { get; set; }    
     public string XmlBlob { get; set; }
   }

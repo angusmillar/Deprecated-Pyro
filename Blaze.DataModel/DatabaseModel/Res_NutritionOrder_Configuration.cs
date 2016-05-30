@@ -25,14 +25,17 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.datetime_DateTimeOffset).IsOptional();
+      Property(x => x.encounter_VersionId).IsOptional();
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      Property(x => x.provider_VersionId).IsOptional();
       Property(x => x.provider_FhirId).IsOptional();
       Property(x => x.provider_Type).IsOptional();
       HasOptional(x => x.provider_Url);

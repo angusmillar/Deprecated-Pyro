@@ -14,18 +14,22 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_OrderID {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
     public virtual Blaze_RootUrlStore source_Url { get; set; }
     public int? source_Url_Blaze_RootUrlStoreID { get; set; }
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public string target_VersionId {get; set;}
     public string target_FhirId {get; set;}
     public string target_Type {get; set;}
     public virtual Blaze_RootUrlStore target_Url { get; set; }

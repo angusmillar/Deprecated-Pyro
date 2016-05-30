@@ -27,6 +27,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.birthdate_DateTimeOffset).IsOptional();
       Property(x => x.gender_Code).IsOptional();
       Property(x => x.gender_System).IsOptional();
+      Property(x => x.organization_VersionId).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();
       HasOptional(x => x.organization_Url);

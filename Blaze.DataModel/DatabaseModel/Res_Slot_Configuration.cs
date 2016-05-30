@@ -24,6 +24,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.schedule_VersionId).IsOptional();
       Property(x => x.schedule_FhirId).IsOptional();
       Property(x => x.schedule_Type).IsOptional();
       HasOptional(x => x.schedule_Url);

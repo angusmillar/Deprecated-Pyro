@@ -16,6 +16,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
+    public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }

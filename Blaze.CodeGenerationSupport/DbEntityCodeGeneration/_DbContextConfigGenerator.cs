@@ -5,6 +5,7 @@
  
 
 // Generated helper templates
+// Blaze\Blaze.DataModel\DatabaseModel\_DbContextConfigGenerator.txt4
 // Generated items
 // Blaze\Blaze.DataModel\DatabaseModel\Res_VisionPrescription_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_VisionPrescription_Index_security_Configuration.cs

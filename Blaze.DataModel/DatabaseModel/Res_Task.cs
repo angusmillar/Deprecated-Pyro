@@ -14,6 +14,7 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_TaskID {get; set;}
     public DateTimeOffset? created_DateTimeOffset {get; set;}
+    public string creator_VersionId {get; set;}
     public string creator_FhirId {get; set;}
     public string creator_Type {get; set;}
     public virtual Blaze_RootUrlStore creator_Url { get; set; }
@@ -22,10 +23,12 @@ namespace Blaze.DataModel.DatabaseModel
     public string identifier_Code {get; set;}
     public string identifier_System {get; set;}
     public DateTimeOffset? modified_DateTimeOffset {get; set;}
+    public string owner_VersionId {get; set;}
     public string owner_FhirId {get; set;}
     public string owner_Type {get; set;}
     public virtual Blaze_RootUrlStore owner_Url { get; set; }
     public int? owner_Url_Blaze_RootUrlStoreID { get; set; }
+    public string parent_VersionId {get; set;}
     public string parent_FhirId {get; set;}
     public string parent_Type {get; set;}
     public virtual Blaze_RootUrlStore parent_Url { get; set; }
@@ -34,6 +37,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string priority_System {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
+    public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }

@@ -14,6 +14,7 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_HealthcareServiceID {get; set;}
     public string name_String {get; set;}
+    public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
     public virtual Blaze_RootUrlStore organization_Url { get; set; }

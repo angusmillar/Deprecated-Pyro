@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Slot : ResourceIndexBase
   {
     public int Res_SlotID {get; set;}
+    public string schedule_VersionId {get; set;}
     public string schedule_FhirId {get; set;}
     public string schedule_Type {get; set;}
     public virtual Blaze_RootUrlStore schedule_Url { get; set; }

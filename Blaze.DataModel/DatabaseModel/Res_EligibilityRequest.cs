@@ -16,24 +16,28 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? created_DateTimeOffset {get; set;}
     public string facilityidentifier_Code {get; set;}
     public string facilityidentifier_System {get; set;}
+    public string facilityreference_VersionId {get; set;}
     public string facilityreference_FhirId {get; set;}
     public string facilityreference_Type {get; set;}
     public virtual Blaze_RootUrlStore facilityreference_Url { get; set; }
     public int? facilityreference_Url_Blaze_RootUrlStoreID { get; set; }
     public string organizationidentifier_Code {get; set;}
     public string organizationidentifier_System {get; set;}
+    public string organizationreference_VersionId {get; set;}
     public string organizationreference_FhirId {get; set;}
     public string organizationreference_Type {get; set;}
     public virtual Blaze_RootUrlStore organizationreference_Url { get; set; }
     public int? organizationreference_Url_Blaze_RootUrlStoreID { get; set; }
     public string patientidentifier_Code {get; set;}
     public string patientidentifier_System {get; set;}
+    public string patientreference_VersionId {get; set;}
     public string patientreference_FhirId {get; set;}
     public string patientreference_Type {get; set;}
     public virtual Blaze_RootUrlStore patientreference_Url { get; set; }
     public int? patientreference_Url_Blaze_RootUrlStoreID { get; set; }
     public string provideridentifier_Code {get; set;}
     public string provideridentifier_System {get; set;}
+    public string providerreference_VersionId {get; set;}
     public string providerreference_FhirId {get; set;}
     public string providerreference_Type {get; set;}
     public virtual Blaze_RootUrlStore providerreference_Url { get; set; }

@@ -24,6 +24,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.asserter_VersionId).IsOptional();
       Property(x => x.asserter_FhirId).IsOptional();
       Property(x => x.asserter_Type).IsOptional();
       HasOptional(x => x.asserter_Url);
@@ -31,12 +32,14 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.clinicalstatus_Code).IsOptional();
       Property(x => x.clinicalstatus_System).IsOptional();
       Property(x => x.date_recorded_DateTimeOffset).IsOptional();
+      Property(x => x.encounter_VersionId).IsOptional();
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
       Property(x => x.onset_DateTimeOffset).IsOptional();
       Property(x => x.onset_info_String).IsOptional();
+      Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);

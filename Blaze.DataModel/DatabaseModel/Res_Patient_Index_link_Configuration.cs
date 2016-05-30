@@ -19,6 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Patient_Index_link_Configuration()
     {
       HasKey(x => x.Res_Patient_Index_linkID).Property(x => x.Res_Patient_Index_linkID).IsRequired();
+      Property(x => x.VersionId).IsOptional();
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);

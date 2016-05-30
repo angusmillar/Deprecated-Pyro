@@ -21,6 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string deceased_System {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
+    public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
     public virtual Blaze_RootUrlStore organization_Url { get; set; }

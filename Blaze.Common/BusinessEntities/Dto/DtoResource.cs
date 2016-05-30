@@ -11,7 +11,7 @@ namespace Blaze.Common.BusinessEntities.Dto
   {
     public string FhirId { get; set; }
     public string Xml { get; set; }
-    public int Version { get; set; }
+    public string Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset Received { get; set; }    

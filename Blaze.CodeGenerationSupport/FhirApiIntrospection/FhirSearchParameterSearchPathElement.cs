@@ -40,6 +40,11 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     {
       this.ParentElement = Parent;
     }
+
+    public FhirSearchParameterSearchPathElement()
+    {      
+    }
+
   }
 }
  

@@ -35,10 +35,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.near_System).IsOptional();
       Property(x => x.near_distance_Code).IsOptional();
       Property(x => x.near_distance_System).IsOptional();
+      Property(x => x.organization_VersionId).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();
       HasOptional(x => x.organization_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_Url_Blaze_RootUrlStoreID);
+      Property(x => x.partof_VersionId).IsOptional();
       Property(x => x.partof_FhirId).IsOptional();
       Property(x => x.partof_Type).IsOptional();
       HasOptional(x => x.partof_Url);
