@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public PractitionerRoleRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as PractitionerRole;
       var ResourceEntity = new Res_PractitionerRole();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_PractitionerRole>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as PractitionerRole;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_PractitionerRole>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_PractitionerRole_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_PractitionerRole>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -132,6 +150,167 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_PractitionerRole ResourseEntity, string ResourceVersion, PractitionerRole ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Organization != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Organization, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.organization_Type = Index.Type;
+            ResourseEntity.organization_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.organization_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.organization_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Practitioner != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Practitioner, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.practitioner_Type = Index.Type;
+            ResourseEntity.practitioner_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.practitioner_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.practitioner_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      foreach (var item2 in ResourceTyped.Telecom)
+      {
+        if (item2.System != null)
+        {
+          if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Email)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_email(), item2) as Res_PractitionerRole_Index_email;
+            ResourseEntity.email_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_identifier(), item3) as Res_PractitionerRole_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Location != null)
+      {
+        foreach (var item in ResourceTyped.Location)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_PractitionerRole_Index_location(), item, FhirRequestUri, this) as Res_PractitionerRole_Index_location;
+          if (Index != null)
+          {
+            ResourseEntity.location_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item2 in ResourceTyped.Telecom)
+      {
+        if (item2.System != null)
+        {
+          if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Phone)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_phone(), item2) as Res_PractitionerRole_Index_phone;
+            ResourseEntity.phone_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Role != null)
+      {
+        foreach (var item3 in ResourceTyped.Role)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_role(), item4) as Res_PractitionerRole_Index_role;
+              ResourseEntity.role_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Specialty != null)
+      {
+        foreach (var item3 in ResourceTyped.Specialty)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_specialty(), item4) as Res_PractitionerRole_Index_specialty;
+              ResourseEntity.specialty_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item2 in ResourceTyped.Telecom)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_telecom(), item2) as Res_PractitionerRole_Index_telecom;
+        ResourseEntity.telecom_List.Add(Index);
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_PractitionerRole_Index_profile(), item4) as Res_PractitionerRole_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_security(), item4) as Res_PractitionerRole_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_tag(), item4) as Res_PractitionerRole_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

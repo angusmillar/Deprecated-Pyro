@@ -43,8 +43,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           _CurrentSearchParameterDef = SearchParameterDef;
           
           //For debugging a specific resource
-          //if (SearchParameterDef.Resource == "Patient")
+          //bool testbool = false;
+          //if (SearchParameterDef.Resource == "Observation" && SearchParameterDef.Name == "value-concept")
           //{
+          //  testbool = true;
           //}
 
           //##Issue## We are skipping search parameters that have no paths at all, what good are they if they have no path?
@@ -87,11 +89,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.CompositeSearchParameterList = null;                
 
 
-         var RootElementMetaProfile = new FhirSearchParameterSearchPathElement(null);
+         var RootElementMetaProfile = new FhirSearchParameterSearchPathElement();
         RootElementMetaProfile.IsCollection = false;
         RootElementMetaProfile.PropertyName = ResourceName;
-        RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElementMetaProfile.ParentElement = null;        
+        RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);             
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaProfile);
 
         var ChildPathElementMetaProfile = new FhirSearchParameterSearchPathElement();
@@ -123,8 +124,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         var RootElementMetaSecurity = new FhirSearchParameterSearchPathElement();
         RootElementMetaSecurity.IsCollection = false;
         RootElementMetaSecurity.PropertyName = ResourceName;
-        RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElementMetaSecurity.ParentElement = null;        
+        RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);              
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaSecurity);
 
         var ChildPathElementMetaSecurity = new FhirSearchParameterSearchPathElement();
@@ -155,8 +155,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         var RootElementMetaTag = new FhirSearchParameterSearchPathElement();
         RootElementMetaTag.IsCollection = false;
         RootElementMetaTag.PropertyName = ResourceName;
-        RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElementMetaTag.ParentElement = null;
+        RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);        
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaTag);
 
         var ChildPathElementMetaTag = new FhirSearchParameterSearchPathElement();
@@ -196,8 +195,9 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     /// </summary>
     /// <param name="InboundList"></param>
     /// <returns></returns>
-    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList)
+    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates3(List<FhirApiSearchParameterInfo> InboundList, bool RepositorySetter = false)
     {
+      
       var TempList = new List<FhirApiSearchParameterInfo>();
       foreach(var Item in InboundList)
       {          
@@ -205,9 +205,48 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         if (DuplicateFoundList.Count() > 0)
         {
           foreach (var DuplicateItem in DuplicateFoundList)
-          {
+          {            
             if (DuplicateItem.SearchParamType != Item.SearchParamType)
+            {
               throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
+            }
+          }
+        }        
+      }
+      return TempList;
+    }
+
+
+    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RepositorySetter = false)
+    {
+      
+      var TempList = new List<FhirApiSearchParameterInfo>();
+      var DupList = new List<FhirApiSearchParameterInfo>();
+      foreach (var Item in InboundList)
+      {
+        var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
+        if (DuplicateFoundList.Count() > 0)
+        {
+          foreach (var DuplicateItem in DuplicateFoundList)
+          {
+            if (DuplicateItem.Resource == "Specimen" && DuplicateItem.SearchName == "collected")
+            {
+
+            }
+
+            if (DuplicateItem.SearchParamType != Item.SearchParamType)
+            {
+              throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
+            }
+            if (RepositorySetter)
+            {
+              if ((DuplicateItem.TargetFhirType == typeof(Element) && Item.TargetFhirType == typeof(Element))
+                &&
+                (DuplicateItem.TargetFhirLogicalType != Item.TargetFhirLogicalType))
+              {
+                DupList.Add(Item);
+              }
+            }
           }
         }
         else
@@ -215,7 +254,76 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           TempList.Add(Item);
         }
       }
+      TempList.AddRange(DupList);
       return TempList;
+    }
+
+    /// <summary>
+    /// Corrections to the search parameters prior to building the repositories
+    /// </summary>
+    /// <param name="InboundList"></param>
+    public static void FHIRApiCorrectionsForRepository(List<FhirApiSearchParameterInfo> InboundList)
+    {
+      //##FHIRAPIBUG## Due to a bug in the FHIR API. The 'Claim' resource's 'Use' property has an underscore 
+      //after it for no apparent reason. e.g 'Claim.Use_'. This correction below needs to be called before the repository setter is build.
+
+      var ResourceClaimSearchParameterList = (from x in InboundList
+                                              where x.Resource == "Claim"
+                                              select x).ToList();
+
+      if (ResourceClaimSearchParameterList.Count > 0)
+      {
+        var ResourceClaimSearchParameterUse = ResourceClaimSearchParameterList.ToList().Where(x => x.Resource == "Claim" && x.SearchName == "use").SingleOrDefault();
+        if (ResourceClaimSearchParameterUse != null)
+        {
+          if (ResourceClaimSearchParameterUse.SearchParameterNavigationPathList[ResourceClaimSearchParameterUse.SearchParameterNavigationPathList.Count - 1].PropertyName == "use")
+          {
+            ResourceClaimSearchParameterUse.SearchParameterNavigationPathList[ResourceClaimSearchParameterUse.SearchParameterNavigationPathList.Count - 1].PropertyName = "use_";
+          }
+        }
+      }
+      //##FHIRAPIBUG## Due to a bug in the FHIR API. The 'OrderResponse' resource's 'orderStatus' property has an underscore 
+      //after it for no apparent reason. e.g 'OrderResponse.orderStatus_'. This correction below needs to be called before the repository setter is build.
+      var ResourceOrderResponseSearchParameterList = (from x in InboundList
+                                                      where x.Resource == "OrderResponse"
+                                                      select x).ToList();
+      if (ResourceOrderResponseSearchParameterList.Count > 0)
+      {
+        var ResourceOrderResponseSearchParameterOrderStatus = ResourceOrderResponseSearchParameterList.ToList().Where(x => x.Resource == "OrderResponse" && x.SearchName == "code").SingleOrDefault();
+        if (ResourceOrderResponseSearchParameterOrderStatus != null)
+        {
+          if (ResourceOrderResponseSearchParameterOrderStatus.SearchParameterNavigationPathList[ResourceOrderResponseSearchParameterOrderStatus.SearchParameterNavigationPathList.Count - 1].PropertyName == "orderStatus")
+          {
+            ResourceOrderResponseSearchParameterOrderStatus.SearchParameterNavigationPathList[ResourceOrderResponseSearchParameterOrderStatus.SearchParameterNavigationPathList.Count - 1].PropertyName = "orderStatus_";
+          }
+        }
+      }
+
+      //##FHIRAPIBUG## The Condition resource has two search properties 'onset' and 'onset-info' which appear to have the esact same
+      // targets in to the resource. They also seem to match the incorrect search types to Fhir types
+      //i.e Date, Booleans, Range to String and others. Appears to be a bug in the FHIR API which for now I 
+      //will just ignore by removing the search parameters from the index setting code gen.
+      var ResourceConditionSearchParameterList = (from x in InboundList
+                                                          where x.Resource == "Condition"
+                                                      select x).ToList();
+      if (ResourceConditionSearchParameterList.Count > 0)
+      {
+        var ResourceConditionSearchParameterOnSetList = ResourceConditionSearchParameterList.ToList().Where(x => x.Resource == "Condition" && x.SearchName == "onset");
+        foreach (var item in ResourceConditionSearchParameterOnSetList)
+        {
+          InboundList.Remove(item);
+        }
+
+        var ResourceConditionSearchParameterOnSetInfoList = ResourceConditionSearchParameterList.ToList().Where(x => x.Resource == "Condition" && x.SearchName == "onset-info");
+        foreach (var item in ResourceConditionSearchParameterOnSetInfoList)
+        {
+          InboundList.Remove(item);
+        }
+
+      }
+
+    
+    
     }
 
     #endregion
@@ -250,14 +358,13 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _CollectionCounter = 0;
         _SearchParameterInfo = new FhirApiSearchParameterInfo();                  
  
-        var RootElement = new FhirSearchParameterSearchPathElement(null);
+        var RootElement = new FhirSearchParameterSearchPathElement();
         RootElement.IsCollection = false;
         RootElement.PropertyName = ResourceName;
-        RootElement.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
-        RootElement.ParentElement = null;                
+        RootElement.DataType = ModelInfo.GetTypeForFhirType(ResourceName);              
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElement);
 
-        RecursivelySearchForIsColectionOnPropertyPath(oFhirXpath, 1, ModelInfo.GetTypeForFhirType(ResourceName));
+        RecursivelyNavigatePropertyPath(oFhirXpath, 1, ModelInfo.GetTypeForFhirType(ResourceName));
 
         _SearchParameterInfo.IsCollection = (_CollectionCounter > 0);
         _SearchParameterInfo.Resource = ResourceName;
@@ -269,70 +376,105 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       }
     }
 
-    private static void RecursivelySearchForIsColectionOnPropertyPath(FhirXPath oFhirXPath, int CurrentElement, Type Type)
+    private static void RecursivelyNavigatePropertyPath(FhirXPath oFhirXPath, int CurrentElement, Type Type)
     {
-      ClassMapping ClassMap = ClassMapping.Create(Type);      
+      SearchChoiceProperty SearchChoiceProperty = null;
+      ClassMapping ClassMap = ClassMapping.Create(Type);            
       foreach (var Property in ClassMap.PropertyMappings)
       {
-
         if (Property.Name == oFhirXPath.FhirXPathComponentList[CurrentElement].Name || (Property.Choice == ChoiceType.DatatypeChoice && oFhirXPath.FhirXPathComponentList[CurrentElement].Name.StartsWith(Property.Name)))
         {
-
-          var ChildPathElement = new FhirSearchParameterSearchPathElement();
-          ChildPathElement.IsCollection = Property.IsCollection;
-          ChildPathElement.PropertyName = Property.Name;
-          ChildPathElement.DataType = Property.ElementType;
-          _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElement);
-
-          var SearchPathElement = new FhirSearchParameterSearchPathElement();
-          SearchPathElement.IsCollection = Property.IsCollection;
-          SearchPathElement.PropertyName = Property.Name;
-          SearchPathElement.DataType = Property.ElementType;
-          _SearchParameterInfo.SearchParameterNavigationPathList.Add(SearchPathElement);
-
-
-          if (Property.IsCollection)
+          bool CorrectPropertyFound = false;
+          if (Property.Choice == ChoiceType.DatatypeChoice && Property.ElementType == typeof(Element))
           {
-            SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
-          }
-
-
-          if (oFhirXPath.FhirXPathComponentList.Count() == CurrentElement + 1)
-          {
-            //We have reached the end of the path.
-            //Check is the final target Fhir type (Not search type) to see if it contains collections , e.g CodableConcept has many Coding           
-            //We only need to check the complextypes. Each below has been manually added after inspecting 
-            //How search works on each, if search has to deal with many for these types then they are added here.
-            
-            if (Property.ElementType == typeof(CodeableConcept) || 
-              Property.ElementType == typeof(Timing) ||
-              Property.ElementType == typeof(Address) ||
-              Property.ElementType == typeof(HumanName))
+            SearchChoiceProperty = FhirApiSearchSupport.ResolvePropertyNameMiniusDataType(oFhirXPath.FhirXPathComponentList[CurrentElement].Name);
+            if (SearchChoiceProperty.Name == Property.Name)
             {
-              ChildPathElement.IsCollection = true;              
-              SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
-              
-              //use this to inspect the properties of the Type when debugging
-              //ClassMapping ClassMap2 = ClassMapping.Create(Property.ElementType);
+              CorrectPropertyFound = true;
             }
-            if (Property.ElementType == typeof(Signature))
+            else
             {
-              throw new ApplicationException("Type 'Signature' has not been used as a search parameter before. Need to check if the search path using this type need to be a collection. Signature/Type is 1..*. Does the search intend to index Signature/Type?");
-            }            
-            return;
+              CorrectPropertyFound = false;
+            }
           }
           else
           {
-            //Move to the next element in the path and recursively call this method again until path end reached.
-            CurrentElement = CurrentElement + 1;
-            RecursivelySearchForIsColectionOnPropertyPath(oFhirXPath, CurrentElement, Property.ElementType);
-            return;
+            CorrectPropertyFound = true;
+          }
+
+          if (CorrectPropertyFound)
+          {
+            var ChildPathElement = new FhirSearchParameterSearchPathElement();
+            ChildPathElement.IsCollection = Property.IsCollection;
+            ChildPathElement.PropertyName = Property.Name;
+            ChildPathElement.DataType = Property.ElementType;
+            if (SearchChoiceProperty != null)
+              ChildPathElement.ChoiceDataType = SearchChoiceProperty.Type;
+
+            _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElement);
+
+            if (Property.IsCollection)
+            {
+              SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
+            }
+
+            if (oFhirXPath.FhirXPathComponentList.Count() == CurrentElement + 1)
+            {
+              //We have reached the end of the path.
+              //Check if the final target Fhir type (Not search type) to see if it contains collections , e.g CodableConcept has many Coding           
+              //We only need to check the complex types. Each below has been manually added after inspecting 
+              //How search works on each, if search has to deal with many for these types then they are added here.
+
+              //This may have overhead as the search names could be on a property of the complex type that does not repeat, for instance 
+              //the 'RelatedPerson' resource has  on 0..1 HumanName and only a search parameter of 'name' and 'phonetic' which do not repeat within 
+              //a single HumanName.
+
+              if (Property.ElementType == typeof(CodeableConcept) ||
+                Property.ElementType == typeof(Timing) ||
+                Property.ElementType == typeof(Address) ||
+                Property.ElementType == typeof(HumanName))
+              {
+                //ChildPathElement.IsCollection = true;   
+                //Don't set the Child elements to true (as above) as this hides List's of these types such as List<CodeableConcept>
+                //We only need set the parent collection bool so that we get a index for the collection while also being able to detect
+                //collection of collections such as List<CodeableConcept> which houses many coding. This is required knowledge to build the 
+                //correct repository setters. 
+                SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
+
+                //use this to inspect the properties of the Type when debugging
+                //ClassMapping ClassMap2 = ClassMapping.Create(Property.ElementType);
+              }
+
+              if (Property.Choice == ChoiceType.DatatypeChoice && Property.ElementType == typeof(Element))
+              {                
+                if (SearchChoiceProperty.Type == typeof(CodeableConcept) ||
+                    SearchChoiceProperty.Type == typeof(Timing) ||
+                    SearchChoiceProperty.Type == typeof(HumanName) ||
+                    SearchChoiceProperty.Type == typeof(Address))
+                {
+                  SetCollectionCountUsingElementIndexInfo(oFhirXPath.FhirXPathComponentList[CurrentElement]);
+                }
+              }
+
+              if (Property.ElementType == typeof(Signature))
+              {
+                throw new ApplicationException("Type 'Signature' has not been used as a search parameter before. Need to check if the search path using this type need to be a collection. Signature/Type is 1..*. Does the search intend to index Signature/Type?");
+              }
+              return;
+            }
+            else
+            {
+              //Move to the next element in the path and recursively call this method again until path end reached.
+              CurrentElement = CurrentElement + 1;
+              RecursivelyNavigatePropertyPath(oFhirXPath, CurrentElement, Property.ElementType);
+              return;
+            }
           }
         }
       }
       throw new Exception("The search path did not match the API Model. Do we have an incorrect search path or an incorrect API Model?");
     }
-
+    
     private static void SetCollectionCountUsingElementIndexInfo(FhirXPathComponent oFhirXPathComponent)
     {
       if (oFhirXPathComponent.HasChoiceSpecifier)
@@ -358,7 +500,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           _CollectionCounter = _CollectionCounter + 1;
         }
-
       }
       else
       {
@@ -482,25 +623,27 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
       //--- Remove these from the FHIR API search parameter list  -----------------------------------------------------
 
+      //List, ResourceName, SearchParameterName
       //These two search parameters I assume are an error in the API, they both are not documented in FHIR and their paths are garbage  
-      var DataElement_objectClass = SearchParameterList.SingleOrDefault(x => x.Resource == "DataElement" && x.Name == "objectClass");
-      if (DataElement_objectClass == null)
-        throw new ApplicationException("Code Generation of the database model was expecting to correct a search parameter which was in error in the FHIR API. That parameter was for Resource name: DataElement search parameter: objectClass. The parameter could not be found. Maybe it has been corrected and this process can be removed?");
-      SearchParameterList.Remove(DataElement_objectClass);
-      var DataElement_objectClassProperty = SearchParameterList.SingleOrDefault(x => x.Resource == "DataElement" && x.Name == "objectClassProperty");
-      if (DataElement_objectClassProperty == null)
-        throw new ApplicationException("Code Generation of the database model was expecting to correct a search parameter which was in error in the FHIR API. That parameter was for Resource name: DataElement search parameter: objectClassProperty. The parameter could not be found. Maybe it has been corrected and this process can be removed?");
-      SearchParameterList.Remove(DataElement_objectClassProperty);
+      RemoveSearchParameterFromList(SearchParameterList, "DataElement", "objectClass");
+      RemoveSearchParameterFromList(SearchParameterList, "DataElement", "objectClassProperty");
+
+      //The 'race' parameter on the Patient Resource is a US-Realm extension and shooudl not really be listed in the FHIR API 
+      RemoveSearchParameterFromList(SearchParameterList, "Patient", "race");
+      
+      //The 'ethnicity' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
+      RemoveSearchParameterFromList(SearchParameterList, "Patient", "ethnicity");
+      
 
 
       //--- Correction to search parameters -----------------------------------------------------------------
 
       //Correction as a Bundle has many Entries and each entry only has one resource, this modification aligns correctly with the FHIR web site unlike the API  
-      var ResourceSearchParameterList = (from x in SearchParameterList
+      var ResourceBundleSearchParameterList = (from x in SearchParameterList
                                          where x.Resource == "Bundle"
                                          select x);
 
-      var ResourceCompositionSearchParameter = ResourceSearchParameterList.ToList().Where(x => x.Name == "composition").SingleOrDefault();
+      var ResourceCompositionSearchParameter = ResourceBundleSearchParameterList.ToList().Where(x => x.Name == "composition").SingleOrDefault();
       if (ResourceCompositionSearchParameter != null)
       {
         if (ResourceCompositionSearchParameter.Path.Count() == 1)
@@ -517,7 +660,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         }
       }
 
-      var ResourceMessageSearchParameter = ResourceSearchParameterList.ToList().Where(x => x.Name == "message").SingleOrDefault();
+      var ResourceMessageSearchParameter = ResourceBundleSearchParameterList.ToList().Where(x => x.Name == "message").SingleOrDefault();
       if (ResourceMessageSearchParameter != null)
       {
         if (ResourceMessageSearchParameter.Path.Count() == 1)
@@ -533,6 +676,14 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         }
       }
 
+    }
+
+    private static void RemoveSearchParameterFromList(List<ModelInfo.SearchParamDefinition> SearchParameterList, string ResourceNameForRemoval, string ParameterNameForRemoval)
+    {
+      ModelInfo.SearchParamDefinition SearchParamDefinitionForRemoval = SearchParameterList.SingleOrDefault(x => x.Resource == ResourceNameForRemoval && x.Name == ParameterNameForRemoval);
+      if (SearchParamDefinitionForRemoval == null)
+        throw new ApplicationException(string.Format("Code Generation of the database model was expecting to correct a search parameter which was in error in the FHIR API. That parameter was for Resource name: '{0}' search parameter: '{1}'. The parameter could not be found. Maybe it has been corrected and this process can be removed?", ResourceNameForRemoval, ParameterNameForRemoval));
+      SearchParameterList.Remove(SearchParamDefinitionForRemoval);      
     }
     #endregion
   }

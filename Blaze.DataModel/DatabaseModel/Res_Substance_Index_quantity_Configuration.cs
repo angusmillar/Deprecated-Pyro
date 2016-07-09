@@ -19,9 +19,10 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Substance_Index_quantity_Configuration()
     {
       HasKey(x => x.Res_Substance_Index_quantityID).Property(x => x.Res_Substance_Index_quantityID).IsRequired();
+      Property(x => x.Comparator).IsRequired();
       Property(x => x.Quantity).IsRequired();
-      Property(x => x.System).IsOptional();
-      Property(x => x.Code).IsOptional();
+      Property(x => x.System).IsRequired();
+      Property(x => x.Code).IsRequired();
       HasRequired(x => x.Res_Substance).WithMany(x => x.quantity_List).WillCascadeOnDelete(true);
     }
   }

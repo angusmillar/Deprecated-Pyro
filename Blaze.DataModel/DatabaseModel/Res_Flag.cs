@@ -18,7 +18,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string author_Type {get; set;}
     public virtual Blaze_RootUrlStore author_Url { get; set; }
     public int? author_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}

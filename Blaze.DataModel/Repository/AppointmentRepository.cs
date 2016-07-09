@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public AppointmentRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Appointment;
       var ResourceEntity = new Res_Appointment();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Appointment>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Appointment;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_Appointment>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_Appointment_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_Appointment>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -129,6 +147,155 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_Appointment ResourseEntity, string ResourceVersion, Appointment ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Start != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.StartElement);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Participant)
+      {
+        if (item1.Actor != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Appointment_Index_actor(), item1.Actor, FhirRequestUri, this) as Res_Appointment_Index_actor;
+          if (Index != null)
+          {
+            ResourseEntity.actor_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.AppointmentType != null)
+      {
+        foreach (var item3 in ResourceTyped.AppointmentType.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_appointment_type(), item3) as Res_Appointment_Index_appointment_type;
+          ResourseEntity.appointment_type_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_identifier(), item3) as Res_Appointment_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Participant)
+      {
+        if (item1.Actor != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Appointment_Index_location(), item1.Actor, FhirRequestUri, this) as Res_Appointment_Index_location;
+          if (Index != null)
+          {
+            ResourseEntity.location_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Participant)
+      {
+        if (item1.Status != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_part_status(), item1.StatusElement) as Res_Appointment_Index_part_status;
+          ResourseEntity.part_status_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Participant)
+      {
+        if (item1.Actor != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Appointment_Index_patient(), item1.Actor, FhirRequestUri, this) as Res_Appointment_Index_patient;
+          if (Index != null)
+          {
+            ResourseEntity.patient_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Participant)
+      {
+        if (item1.Actor != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Appointment_Index_practitioner(), item1.Actor, FhirRequestUri, this) as Res_Appointment_Index_practitioner;
+          if (Index != null)
+          {
+            ResourseEntity.practitioner_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.ServiceType != null)
+      {
+        foreach (var item3 in ResourceTyped.ServiceType)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_service_type(), item4) as Res_Appointment_Index_service_type;
+              ResourseEntity.service_type_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Appointment_Index_profile(), item4) as Res_Appointment_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_security(), item4) as Res_Appointment_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Appointment_Index_tag(), item4) as Res_Appointment_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

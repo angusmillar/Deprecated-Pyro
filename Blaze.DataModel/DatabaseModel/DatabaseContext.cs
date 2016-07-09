@@ -146,6 +146,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_ClinicalImpression_Index_problem> Res_ClinicalImpression_Index_problem { get; set; }
     public DbSet<Res_ClinicalImpression_Index_resolved> Res_ClinicalImpression_Index_resolved { get; set; }
     public DbSet<Res_ClinicalImpression_Index_ruledout> Res_ClinicalImpression_Index_ruledout { get; set; }
+    public DbSet<Res_ClinicalImpression_Index_trigger_code> Res_ClinicalImpression_Index_trigger_code { get; set; }
     public DbSet<Res_ClinicalImpression_Index_profile> Res_ClinicalImpression_Index_profile { get; set; }
     public DbSet<Res_ClinicalImpression_Index_security> Res_ClinicalImpression_Index_security { get; set; }
     public DbSet<Res_ClinicalImpression_Index_tag> Res_ClinicalImpression_Index_tag { get; set; }
@@ -605,6 +606,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_Medication_Index_tag> Res_Medication_Index_tag { get; set; }
     public DbSet<Res_MedicationAdministration> Res_MedicationAdministration { get; set; }
     public DbSet<Res_MedicationAdministration_History> Res_MedicationAdministration_History { get; set; }
+    public DbSet<Res_MedicationAdministration_Index_code> Res_MedicationAdministration_Index_code { get; set; }
     public DbSet<Res_MedicationAdministration_Index_device> Res_MedicationAdministration_Index_device { get; set; }
     public DbSet<Res_MedicationAdministration_Index_identifier> Res_MedicationAdministration_Index_identifier { get; set; }
     public DbSet<Res_MedicationAdministration_Index_profile> Res_MedicationAdministration_Index_profile { get; set; }
@@ -612,6 +614,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_MedicationAdministration_Index_tag> Res_MedicationAdministration_Index_tag { get; set; }
     public DbSet<Res_MedicationDispense> Res_MedicationDispense { get; set; }
     public DbSet<Res_MedicationDispense_History> Res_MedicationDispense_History { get; set; }
+    public DbSet<Res_MedicationDispense_Index_code> Res_MedicationDispense_Index_code { get; set; }
     public DbSet<Res_MedicationDispense_Index_prescription> Res_MedicationDispense_Index_prescription { get; set; }
     public DbSet<Res_MedicationDispense_Index_receiver> Res_MedicationDispense_Index_receiver { get; set; }
     public DbSet<Res_MedicationDispense_Index_responsibleparty> Res_MedicationDispense_Index_responsibleparty { get; set; }
@@ -621,12 +624,14 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_MedicationDispense_Index_tag> Res_MedicationDispense_Index_tag { get; set; }
     public DbSet<Res_MedicationOrder> Res_MedicationOrder { get; set; }
     public DbSet<Res_MedicationOrder_History> Res_MedicationOrder_History { get; set; }
+    public DbSet<Res_MedicationOrder_Index_code> Res_MedicationOrder_Index_code { get; set; }
     public DbSet<Res_MedicationOrder_Index_identifier> Res_MedicationOrder_Index_identifier { get; set; }
     public DbSet<Res_MedicationOrder_Index_profile> Res_MedicationOrder_Index_profile { get; set; }
     public DbSet<Res_MedicationOrder_Index_security> Res_MedicationOrder_Index_security { get; set; }
     public DbSet<Res_MedicationOrder_Index_tag> Res_MedicationOrder_Index_tag { get; set; }
     public DbSet<Res_MedicationStatement> Res_MedicationStatement { get; set; }
     public DbSet<Res_MedicationStatement_History> Res_MedicationStatement_History { get; set; }
+    public DbSet<Res_MedicationStatement_Index_code> Res_MedicationStatement_Index_code { get; set; }
     public DbSet<Res_MedicationStatement_Index_identifier> Res_MedicationStatement_Index_identifier { get; set; }
     public DbSet<Res_MedicationStatement_Index_profile> Res_MedicationStatement_Index_profile { get; set; }
     public DbSet<Res_MedicationStatement_Index_security> Res_MedicationStatement_Index_security { get; set; }
@@ -681,6 +686,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_Observation_Index_performer> Res_Observation_Index_performer { get; set; }
     public DbSet<Res_Observation_Index_related_target> Res_Observation_Index_related_target { get; set; }
     public DbSet<Res_Observation_Index_related_type> Res_Observation_Index_related_type { get; set; }
+    public DbSet<Res_Observation_Index_value_concept> Res_Observation_Index_value_concept { get; set; }
     public DbSet<Res_Observation_Index_profile> Res_Observation_Index_profile { get; set; }
     public DbSet<Res_Observation_Index_security> Res_Observation_Index_security { get; set; }
     public DbSet<Res_Observation_Index_tag> Res_Observation_Index_tag { get; set; }
@@ -759,8 +765,6 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_Patient_Index_phone> Res_Patient_Index_phone { get; set; }
     public DbSet<Res_Patient_Index_phonetic> Res_Patient_Index_phonetic { get; set; }
     public DbSet<Res_Patient_Index_telecom> Res_Patient_Index_telecom { get; set; }
-    public DbSet<Res_Patient_Index_race> Res_Patient_Index_race { get; set; }
-    public DbSet<Res_Patient_Index_ethnicity> Res_Patient_Index_ethnicity { get; set; }
     public DbSet<Res_Patient_Index_profile> Res_Patient_Index_profile { get; set; }
     public DbSet<Res_Patient_Index_security> Res_Patient_Index_security { get; set; }
     public DbSet<Res_Patient_Index_tag> Res_Patient_Index_tag { get; set; }
@@ -1172,6 +1176,7 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_problem_Configuration());
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_resolved_Configuration());
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_ruledout_Configuration());
+      Mb.Configurations.Add(new Res_ClinicalImpression_Index_trigger_code_Configuration());
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_security_Configuration());
       Mb.Configurations.Add(new Res_ClinicalImpression_Index_tag_Configuration());
@@ -1631,6 +1636,7 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_Medication_Index_tag_Configuration());
       Mb.Configurations.Add(new Res_MedicationAdministration_Configuration());
       Mb.Configurations.Add(new Res_MedicationAdministration_History_Configuration());
+      Mb.Configurations.Add(new Res_MedicationAdministration_Index_code_Configuration());
       Mb.Configurations.Add(new Res_MedicationAdministration_Index_device_Configuration());
       Mb.Configurations.Add(new Res_MedicationAdministration_Index_identifier_Configuration());
       Mb.Configurations.Add(new Res_MedicationAdministration_Index_profile_Configuration());
@@ -1638,6 +1644,7 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_MedicationAdministration_Index_tag_Configuration());
       Mb.Configurations.Add(new Res_MedicationDispense_Configuration());
       Mb.Configurations.Add(new Res_MedicationDispense_History_Configuration());
+      Mb.Configurations.Add(new Res_MedicationDispense_Index_code_Configuration());
       Mb.Configurations.Add(new Res_MedicationDispense_Index_prescription_Configuration());
       Mb.Configurations.Add(new Res_MedicationDispense_Index_receiver_Configuration());
       Mb.Configurations.Add(new Res_MedicationDispense_Index_responsibleparty_Configuration());
@@ -1647,12 +1654,14 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_MedicationDispense_Index_tag_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_History_Configuration());
+      Mb.Configurations.Add(new Res_MedicationOrder_Index_code_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_Index_identifier_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_Index_security_Configuration());
       Mb.Configurations.Add(new Res_MedicationOrder_Index_tag_Configuration());
       Mb.Configurations.Add(new Res_MedicationStatement_Configuration());
       Mb.Configurations.Add(new Res_MedicationStatement_History_Configuration());
+      Mb.Configurations.Add(new Res_MedicationStatement_Index_code_Configuration());
       Mb.Configurations.Add(new Res_MedicationStatement_Index_identifier_Configuration());
       Mb.Configurations.Add(new Res_MedicationStatement_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_MedicationStatement_Index_security_Configuration());
@@ -1707,6 +1716,7 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_Observation_Index_performer_Configuration());
       Mb.Configurations.Add(new Res_Observation_Index_related_target_Configuration());
       Mb.Configurations.Add(new Res_Observation_Index_related_type_Configuration());
+      Mb.Configurations.Add(new Res_Observation_Index_value_concept_Configuration());
       Mb.Configurations.Add(new Res_Observation_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_Observation_Index_security_Configuration());
       Mb.Configurations.Add(new Res_Observation_Index_tag_Configuration());
@@ -1785,8 +1795,6 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_Patient_Index_phone_Configuration());
       Mb.Configurations.Add(new Res_Patient_Index_phonetic_Configuration());
       Mb.Configurations.Add(new Res_Patient_Index_telecom_Configuration());
-      Mb.Configurations.Add(new Res_Patient_Index_race_Configuration());
-      Mb.Configurations.Add(new Res_Patient_Index_ethnicity_Configuration());
       Mb.Configurations.Add(new Res_Patient_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_Patient_Index_security_Configuration());
       Mb.Configurations.Add(new Res_Patient_Index_tag_Configuration());

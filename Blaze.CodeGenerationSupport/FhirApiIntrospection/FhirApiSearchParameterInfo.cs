@@ -17,7 +17,36 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
     public string Resource { get; set; }
     public SearchParamType SearchParamType { get; set; }
-    public Type TargetFhirElementType { get; set; }
+    public Type TargetFhirType 
+    { 
+      get
+      {
+        if (SearchParameterNavigationPathList != null)
+          return SearchParameterNavigationPathList[SearchParameterNavigationPathList.Count - 1].DataType;
+        else
+          return null;
+      }
+    }
+    public Type TargetFhirChoiceType
+    {
+      get
+      {
+        if (SearchParameterNavigationPathList != null)
+          return SearchParameterNavigationPathList[SearchParameterNavigationPathList.Count - 1].ChoiceDataType;
+        else
+          return null;
+      }
+    }
+    public Type TargetFhirLogicalType
+    {
+      get
+      {
+        if (TargetFhirChoiceType != null)
+          return TargetFhirChoiceType;
+        else
+          return TargetFhirType;
+      }
+    }
     public string SearchName { get; set; }
     public string SearchPath { get; set; }
     public bool SearchPathHasIndexes

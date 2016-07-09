@@ -20,13 +20,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
     public string ResourceEntityName { get; set; }
     public string ResourceHistoryEntityName { get; set; }
     public string ResourceHistoryEntityListName { get; set; }
+    public string EntitySetterLogic { get; set; }
 
     public List<string> ResourceEntityIncludesList { get; set; }
     public List<string> ResourceEntityNonCollectionProperties { get; set; }
     public List<IndexEntity> ResourceEntityCollectionPropertiesInfo { get; set; }
 
+
     public RepositoryItem()
     {
+      this.EntitySetterLogic = string.Empty;
       this.ResourceEntityIncludesList = new List<string>();
       this.ResourceEntityNonCollectionProperties = new List<string>();
       this.ResourceEntityCollectionPropertiesInfo = new List<IndexEntity>();

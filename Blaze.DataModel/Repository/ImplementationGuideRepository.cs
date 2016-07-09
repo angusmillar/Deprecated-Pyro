@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public ImplementationGuideRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as ImplementationGuide;
       var ResourceEntity = new Res_ImplementationGuide();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_ImplementationGuide>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as ImplementationGuide;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_ImplementationGuide>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_ImplementationGuide_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_ImplementationGuide>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -92,6 +110,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
+      IncludeList.Add(x => x.resource_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_ImplementationGuide>(x => x.FhirId == FhirId, IncludeList);
 
@@ -121,12 +140,179 @@ namespace Blaze.DataModel.Repository
       _Context.Res_ImplementationGuide_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_ImplementationGuide_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_ImplementationGuide_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+      _Context.Res_ImplementationGuide_Index_resource.RemoveRange(ResourceEntity.resource_List);            
  
     }
 
     private void PopulateResourceEntity(Res_ImplementationGuide ResourseEntity, string ResourceVersion, ImplementationGuide ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Date != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.DateElement);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Description != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.DescriptionElement);
+        if (Index != null)
+        {
+          ResourseEntity.description_String = Index.String;
+        }
+      }
+
+      if (ResourceTyped.Experimental != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ExperimentalElement);
+        if (Index != null)
+        {
+          ResourseEntity.experimental_Code = Index.Code;
+          ResourseEntity.experimental_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Name != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.NameElement);
+        if (Index != null)
+        {
+          ResourseEntity.name_String = Index.String;
+        }
+      }
+
+      if (ResourceTyped.Publisher != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.PublisherElement);
+        if (Index != null)
+        {
+          ResourseEntity.publisher_String = Index.String;
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Url != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<UriIndex>(new UriIndex(), ResourceTyped.UrlElement);
+        if (Index != null)
+        {
+          ResourseEntity.url_Uri = Index.Uri;
+        }
+      }
+
+      if (ResourceTyped.Version != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.VersionElement);
+        if (Index != null)
+        {
+          ResourseEntity.version_Code = Index.Code;
+          ResourseEntity.version_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.UseContext != null)
+      {
+        foreach (var item3 in ResourceTyped.UseContext)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ImplementationGuide_Index_context(), item4) as Res_ImplementationGuide_Index_context;
+              ResourseEntity.context_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Dependency)
+      {
+        if (item1.Uri != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_ImplementationGuide_Index_dependency(), item1.UriElement) as Res_ImplementationGuide_Index_dependency;
+          ResourseEntity.dependency_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Package)
+      {
+        foreach (var item2 in item1.Resource)
+        {
+          if (item2.Source != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ImplementationGuide_Index_resource(), item2.Source) as Res_ImplementationGuide_Index_resource;
+            ResourseEntity.resource_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_ImplementationGuide_Index_profile(), item4) as Res_ImplementationGuide_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ImplementationGuide_Index_security(), item4) as Res_ImplementationGuide_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ImplementationGuide_Index_tag(), item4) as Res_ImplementationGuide_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Package)
+      {
+        foreach (var item2 in item1.Resource)
+        {
+          if (item2.Source != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ImplementationGuide_Index_resource(), item2.Source, FhirRequestUri, this) as Res_ImplementationGuide_Index_resource;
+            if (Index != null)
+            {
+              ResourseEntity.resource_List.Add(Index);
+            }
+          }
+        }
+      }
+
+
+      
+
     }
 
 

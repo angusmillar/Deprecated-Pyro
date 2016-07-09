@@ -30,7 +30,7 @@ namespace Blaze.Engine.Response
         }
         else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Update)
         {
-          return Request.CreateResponse(HttpStatusCode);          
+          return Request.CreateResponse(HttpStatusCode, Resource);       
         }
         else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
         {
@@ -56,8 +56,8 @@ namespace Blaze.Engine.Response
       //Created: 201 
       else if (HttpStatusCode == HttpStatusCode.Created)
       {
-        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, oBlazeServiceOperationOutcome.FhirResourceId);
-
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
+       
         string BaseURLPath = String.Format("{0}://{1}{2}", Request.RequestUri.Scheme, Request.RequestUri.Authority, Request.RequestUri.LocalPath);
         BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
 
@@ -96,7 +96,7 @@ namespace Blaze.Engine.Response
         }
         else
         {
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();          
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
           OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";

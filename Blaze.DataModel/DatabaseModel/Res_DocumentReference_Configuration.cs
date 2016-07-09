@@ -49,7 +49,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
-      Property(x => x.period_DateTimeOffset).IsOptional();
+      Property(x => x.period_DateTimeOffsetLow).IsOptional();
+      Property(x => x.period_DateTimeOffsetHigh).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.subject_VersionId).IsOptional();

@@ -18,7 +18,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string care_manager_Type {get; set;}
     public virtual Blaze_RootUrlStore care_manager_Url { get; set; }
     public int? care_manager_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blaze.DataModel.DatabaseModel.Base
 {
-  public abstract class NumberIndex : ModelBase
+  public class NumberIndex : ModelBase
   {
     public decimal Number { get; set; }
   }

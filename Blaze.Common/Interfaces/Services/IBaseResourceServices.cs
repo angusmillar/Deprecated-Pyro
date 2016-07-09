@@ -17,6 +17,10 @@ namespace Blaze.Common.Interfaces.Services
     // GET URL/FhirApi/Patient/5    
     IBlazeServiceOperationOutcome Get(string FhirId);
 
+    // Get By id and vid
+    // GET URL/FhirApi/Patient/5/_history/2    
+    IBlazeServiceOperationOutcome Get(string FhirId, string FhirVId);
+
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     IBlazeServiceOperationOutcome Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParams);

@@ -41,9 +41,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
-    public string value_concept_Code {get; set;}
-    public string value_concept_System {get; set;}
     public DateTimeOffset? value_date_DateTimeOffset {get; set;}
+    public int? value_quantity_Comparator {get; set;}
     public decimal? value_quantity_Quantity {get; set;}
     public string value_quantity_System {get; set;}
     public string value_quantity_Code {get; set;}
@@ -61,6 +60,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Observation_Index_performer> performer_List { get; set; }
     public ICollection<Res_Observation_Index_related_target> related_target_List { get; set; }
     public ICollection<Res_Observation_Index_related_type> related_type_List { get; set; }
+    public ICollection<Res_Observation_Index_value_concept> value_concept_List { get; set; }
     public ICollection<Res_Observation_Index_profile> profile_List { get; set; }
     public ICollection<Res_Observation_Index_security> security_List { get; set; }
     public ICollection<Res_Observation_Index_tag> tag_List { get; set; }
@@ -79,6 +79,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.performer_List = new HashSet<Res_Observation_Index_performer>();
       this.related_target_List = new HashSet<Res_Observation_Index_related_target>();
       this.related_type_List = new HashSet<Res_Observation_Index_related_type>();
+      this.value_concept_List = new HashSet<Res_Observation_Index_value_concept>();
       this.profile_List = new HashSet<Res_Observation_Index_profile>();
       this.security_List = new HashSet<Res_Observation_Index_security>();
       this.tag_List = new HashSet<Res_Observation_Index_tag>();

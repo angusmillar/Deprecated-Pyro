@@ -19,7 +19,8 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Order_Index_when_Configuration()
     {
       HasKey(x => x.Res_Order_Index_whenID).Property(x => x.Res_Order_Index_whenID).IsRequired();
-      Property(x => x.DateTimeOffset).IsRequired();
+      Property(x => x.DateTimeOffsetLow).IsOptional();
+      Property(x => x.DateTimeOffsetHigh).IsOptional();
       HasRequired(x => x.Res_Order).WithMany(x => x.when_List).WillCascadeOnDelete(true);
     }
   }

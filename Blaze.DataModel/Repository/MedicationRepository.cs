@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public MedicationRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Medication;
       var ResourceEntity = new Res_Medication();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Medication>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Medication;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_Medication>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_Medication_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_Medication>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -128,6 +146,167 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_Medication ResourseEntity, string ResourceVersion, Medication ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Manufacturer != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Manufacturer, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.manufacturer_Type = Index.Type;
+            ResourseEntity.manufacturer_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.manufacturer_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.manufacturer_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Code != null)
+      {
+        foreach (var item3 in ResourceTyped.Code.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_code(), item3) as Res_Medication_Index_code;
+          ResourseEntity.code_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Package != null)
+      {
+        if (ResourceTyped.Package.Container != null)
+        {
+          foreach (var item4 in ResourceTyped.Package.Container.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_container(), item4) as Res_Medication_Index_container;
+            ResourseEntity.container_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Product != null)
+      {
+        if (ResourceTyped.Product.Form != null)
+        {
+          foreach (var item4 in ResourceTyped.Product.Form.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_form(), item4) as Res_Medication_Index_form;
+            ResourseEntity.form_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Product != null)
+      {
+        foreach (var item2 in ResourceTyped.Product.Ingredient)
+        {
+          if (item2.Item != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Medication_Index_ingredient(), item2.Item, FhirRequestUri, this) as Res_Medication_Index_ingredient;
+            if (Index != null)
+            {
+              ResourseEntity.ingredient_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Product != null)
+      {
+        foreach (var item2 in ResourceTyped.Product.Ingredient)
+        {
+          if (item2.Item != null)
+          {
+            if (item2.Item is CodeableConcept)
+            {
+              CodeableConcept CodeableConcept = item2.Item as CodeableConcept;
+              foreach (var item5 in CodeableConcept.Coding)
+              {
+                var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_ingredient_code(), item5) as Res_Medication_Index_ingredient_code;
+                ResourseEntity.ingredient_code_List.Add(Index);
+              }
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Package != null)
+      {
+        foreach (var item2 in ResourceTyped.Package.Content)
+        {
+          if (item2.Item != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Medication_Index_package_item(), item2.Item, FhirRequestUri, this) as Res_Medication_Index_package_item;
+            if (Index != null)
+            {
+              ResourseEntity.package_item_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Package != null)
+      {
+        foreach (var item2 in ResourceTyped.Package.Content)
+        {
+          if (item2.Item != null)
+          {
+            if (item2.Item is CodeableConcept)
+            {
+              CodeableConcept CodeableConcept = item2.Item as CodeableConcept;
+              foreach (var item5 in CodeableConcept.Coding)
+              {
+                var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_package_item_code(), item5) as Res_Medication_Index_package_item_code;
+                ResourseEntity.package_item_code_List.Add(Index);
+              }
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Medication_Index_profile(), item4) as Res_Medication_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_security(), item4) as Res_Medication_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Medication_Index_tag(), item4) as Res_Medication_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

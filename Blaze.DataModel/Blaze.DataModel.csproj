@@ -69,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseModel\Base\DatePeriodIndex.cs" />
+    <Compile Include="DatabaseModel\Base\QuantityRangeIndex.cs" />
     <Compile Include="DatabaseModel\Base\ResourceIndexBase.cs" />
     <Compile Include="DatabaseModel\Base\NumberIndex.cs" />
     <Compile Include="DatabaseModel\Base\QuantityIndex.cs" />
@@ -847,6 +849,12 @@
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_ClinicalImpression_Index_tag_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ClinicalImpression_Index_trigger_code.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_ClinicalImpression_Index_trigger_code_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_CodeSystem.cs">
@@ -3516,6 +3524,12 @@
     <Compile Include="DatabaseModel\Res_MedicationAdministration_History_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationAdministration_Index_code.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationAdministration_Index_code_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_MedicationAdministration_Index_device.cs">
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
@@ -3556,6 +3570,12 @@
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MedicationDispense_History_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationDispense_Index_code.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationDispense_Index_code_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MedicationDispense_Index_prescription.cs">
@@ -3612,6 +3632,12 @@
     <Compile Include="DatabaseModel\Res_MedicationOrder_History_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationOrder_Index_code.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationOrder_Index_code_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_MedicationOrder_Index_identifier.cs">
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
@@ -3646,6 +3672,12 @@
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MedicationStatement_History_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationStatement_Index_code.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_MedicationStatement_Index_code_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_MedicationStatement_Index_identifier.cs">
@@ -4059,6 +4091,12 @@
     <Compile Include="DatabaseModel\Res_Observation_Index_tag_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseModel\Res_Observation_Index_value_concept.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\Res_Observation_Index_value_concept_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseModel\Res_OperationDefinition.cs">
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
@@ -4455,12 +4493,6 @@
     <Compile Include="DatabaseModel\Res_Patient_Index_email_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Patient_Index_ethnicity.cs">
-      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Patient_Index_ethnicity_Configuration.cs">
-      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Patient_Index_family.cs">
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
@@ -4513,12 +4545,6 @@
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Patient_Index_profile_Configuration.cs">
-      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Patient_Index_race.cs">
-      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Patient_Index_race_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_Patient_Index_security.cs">
@@ -6448,6 +6474,7 @@
     <Compile Include="Repository\ParametersRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Repository\Partial\ObservationRepositoryPartial.cs" />
     <Compile Include="Repository\Partial\PatientRepositoryPartial.cs" />
     <Compile Include="Repository\PatientRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
@@ -6545,22 +6572,23 @@
     <Compile Include="Repository\VisionPrescriptionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="Support\AddressTransfer.cs" />
+    <Compile Include="Support\FhirCodeDataTypeSupport.cs" />
+    <Compile Include="Support\FhirCodeDataTypeSupportGenerated.cs">
+      <DependentUpon>_GenericCodeDataTypeEnumsGenerator.txt4</DependentUpon>
+    </Compile>
     <Compile Include="Support\IndexSettingSupport.cs" />
-    <Compile Include="Support\ResourceReferenceTransfer.cs" />
-    <Compile Include="Support\TokenTransfer.cs" />
     <Compile Include="UnitOfWork.cs">
       <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" />
     <None Include="DatabaseModel\_DbContextConfigGenerator.txt4" />
     <None Include="DatabaseModel\_DbContextGenerator.txt4" />
     <None Include="DatabaseModel\_DbEntityModelGenerator.txt4" />
     <None Include="packages.config" />
     <None Include="Repository\_RepositoryGenerator.txt4" />
+    <None Include="Support\_GenericCodeDataTypeEnumsGenerator.txt4" />
     <None Include="_UnitOfWorkGenerator.txt4" />
   </ItemGroup>
   <ItemGroup>

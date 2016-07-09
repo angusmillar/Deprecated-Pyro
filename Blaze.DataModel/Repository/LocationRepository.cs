@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public LocationRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Location;
       var ResourceEntity = new Res_Location();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Location>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Location;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_Location>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_Location_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_Location>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -137,6 +155,218 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_Location ResourseEntity, string ResourceVersion, Location ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Address != null)
+      {
+        if (ResourceTyped.Address.City != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.Address.CityElement);
+          if (Index != null)
+          {
+            ResourseEntity.address_city_String = Index.String;
+          }
+        }
+      }
+
+      if (ResourceTyped.Address != null)
+      {
+        if (ResourceTyped.Address.Country != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.Address.CountryElement);
+          if (Index != null)
+          {
+            ResourseEntity.address_country_String = Index.String;
+          }
+        }
+      }
+
+      if (ResourceTyped.Address != null)
+      {
+        if (ResourceTyped.Address.PostalCode != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.Address.PostalCodeElement);
+          if (Index != null)
+          {
+            ResourseEntity.address_postalcode_String = Index.String;
+          }
+        }
+      }
+
+      if (ResourceTyped.Address != null)
+      {
+        if (ResourceTyped.Address.State != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.Address.StateElement);
+          if (Index != null)
+          {
+            ResourseEntity.address_state_String = Index.String;
+          }
+        }
+      }
+
+      if (ResourceTyped.Address != null)
+      {
+        if (ResourceTyped.Address.Use != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Address.UseElement);
+          if (Index != null)
+          {
+            ResourseEntity.address_use_Code = Index.Code;
+            ResourseEntity.address_use_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Name != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.NameElement);
+        if (Index != null)
+        {
+          ResourseEntity.name_String = Index.String;
+        }
+      }
+
+      if (ResourceTyped.Position != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Position);
+        if (Index != null)
+        {
+          ResourseEntity.near_Code = Index.Code;
+          ResourseEntity.near_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Position != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Position);
+        if (Index != null)
+        {
+          ResourseEntity.near_distance_Code = Index.Code;
+          ResourseEntity.near_distance_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.ManagingOrganization != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.ManagingOrganization, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.organization_Type = Index.Type;
+            ResourseEntity.organization_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.organization_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.organization_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.PartOf != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.PartOf, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.partof_Type = Index.Type;
+            ResourseEntity.partof_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.partof_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.partof_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Address != null)
+      {
+        StringBuilder AddressTotal = new StringBuilder();
+        foreach (var Line in ResourceTyped.Address.Line)
+          AddressTotal.Append(Line).Append(" ");
+        AddressTotal.Append(ResourceTyped.Address.City).Append(" ");
+        AddressTotal.Append(ResourceTyped.Address.PostalCode).Append(" ");
+        AddressTotal.Append(ResourceTyped.Address.State).Append(" ");
+        AddressTotal.Append(ResourceTyped.Address.Country).Append(" ");
+        var Index = new Res_Location_Index_address();
+        Index.String = AddressTotal.ToString();
+        ResourseEntity.address_List.Add(Index);
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Location_Index_identifier(), item3) as Res_Location_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Type != null)
+      {
+        foreach (var item3 in ResourceTyped.Type.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Location_Index_type(), item3) as Res_Location_Index_type;
+          ResourseEntity.type_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Location_Index_profile(), item4) as Res_Location_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Location_Index_security(), item4) as Res_Location_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Location_Index_tag(), item4) as Res_Location_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

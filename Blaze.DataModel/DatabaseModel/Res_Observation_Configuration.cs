@@ -52,9 +52,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.subject_Type).IsOptional();
       HasOptional(x => x.subject_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_Url_Blaze_RootUrlStoreID);
-      Property(x => x.value_concept_Code).IsOptional();
-      Property(x => x.value_concept_System).IsOptional();
       Property(x => x.value_date_DateTimeOffset).IsOptional();
+      Property(x => x.value_quantity_Comparator).IsOptional();
       Property(x => x.value_quantity_Quantity).IsOptional();
       Property(x => x.value_quantity_System).IsOptional();
       Property(x => x.value_quantity_Code).IsOptional();

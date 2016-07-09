@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public ClinicalImpressionRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as ClinicalImpression;
       var ResourceEntity = new Res_ClinicalImpression();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_ClinicalImpression>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as ClinicalImpression;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_ClinicalImpression>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_ClinicalImpression_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_ClinicalImpression>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -93,6 +111,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.problem_List);
       IncludeList.Add(x => x.resolved_List);
       IncludeList.Add(x => x.ruledout_List);
+      IncludeList.Add(x => x.trigger_code_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
@@ -124,8 +143,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.trigger_Type = null;      
       ResourceEntity.trigger_Url = null;      
       ResourceEntity.trigger_Url_Blaze_RootUrlStoreID = null;      
-      ResourceEntity.trigger_code_Code = null;      
-      ResourceEntity.trigger_code_System = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -136,6 +153,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_ClinicalImpression_Index_problem.RemoveRange(ResourceEntity.problem_List);            
       _Context.Res_ClinicalImpression_Index_resolved.RemoveRange(ResourceEntity.resolved_List);            
       _Context.Res_ClinicalImpression_Index_ruledout.RemoveRange(ResourceEntity.ruledout_List);            
+      _Context.Res_ClinicalImpression_Index_trigger_code.RemoveRange(ResourceEntity.trigger_code_List);            
       _Context.Res_ClinicalImpression_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_ClinicalImpression_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_ClinicalImpression_Index_tag.RemoveRange(ResourceEntity.tag_List);            
@@ -145,6 +163,248 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_ClinicalImpression ResourseEntity, string ResourceVersion, ClinicalImpression ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Assessor != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Assessor, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.assessor_Type = Index.Type;
+            ResourseEntity.assessor_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.assessor_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.assessor_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Date != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.DateElement);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Patient != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Patient, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.patient_Type = Index.Type;
+            ResourseEntity.patient_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.patient_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Previous != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Previous, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.previous_Type = Index.Type;
+            ResourseEntity.previous_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.previous_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.previous_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Trigger != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Trigger, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.trigger_Type = Index.Type;
+            ResourseEntity.trigger_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.trigger_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.trigger_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Action != null)
+      {
+        foreach (var item in ResourceTyped.Action)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ClinicalImpression_Index_action(), item, FhirRequestUri, this) as Res_ClinicalImpression_Index_action;
+          if (Index != null)
+          {
+            ResourseEntity.action_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Finding)
+      {
+        if (item1.Item != null)
+        {
+          foreach (var item4 in item1.Item.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_finding(), item4) as Res_ClinicalImpression_Index_finding;
+            ResourseEntity.finding_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Investigations)
+      {
+        if (item1.Item != null)
+        {
+          foreach (var item in item1.Item)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ClinicalImpression_Index_investigation(), item, FhirRequestUri, this) as Res_ClinicalImpression_Index_investigation;
+            if (Index != null)
+            {
+              ResourseEntity.investigation_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Plan != null)
+      {
+        foreach (var item in ResourceTyped.Plan)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ClinicalImpression_Index_plan(), item, FhirRequestUri, this) as Res_ClinicalImpression_Index_plan;
+          if (Index != null)
+          {
+            ResourseEntity.plan_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Problem != null)
+      {
+        foreach (var item in ResourceTyped.Problem)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ClinicalImpression_Index_problem(), item, FhirRequestUri, this) as Res_ClinicalImpression_Index_problem;
+          if (Index != null)
+          {
+            ResourseEntity.problem_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Resolved != null)
+      {
+        foreach (var item3 in ResourceTyped.Resolved)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_resolved(), item4) as Res_ClinicalImpression_Index_resolved;
+              ResourseEntity.resolved_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.RuledOut)
+      {
+        if (item1.Item != null)
+        {
+          foreach (var item4 in item1.Item.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_ruledout(), item4) as Res_ClinicalImpression_Index_ruledout;
+            ResourseEntity.ruledout_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Trigger != null)
+      {
+        if (ResourceTyped.Trigger is CodeableConcept)
+        {
+          CodeableConcept CodeableConcept = ResourceTyped.Trigger as CodeableConcept;
+          foreach (var item3 in CodeableConcept.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_trigger_code(), item3) as Res_ClinicalImpression_Index_trigger_code;
+            ResourseEntity.trigger_code_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_ClinicalImpression_Index_profile(), item4) as Res_ClinicalImpression_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_security(), item4) as Res_ClinicalImpression_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ClinicalImpression_Index_tag(), item4) as Res_ClinicalImpression_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

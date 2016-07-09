@@ -18,6 +18,15 @@ namespace Blaze.Test.CodeGenerationSupport
     {
 
       Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      //List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+    }
+
+
+    [Test]
+    public void Test_DbEntityCodeGeneration()
+    {
+
+      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
       List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
     }
 
@@ -29,17 +38,25 @@ namespace Blaze.Test.CodeGenerationSupport
     }
 
     [Test]
-    public void Test_ConstructClassTypeStatment_Items_Are_Not_Empty()
+    public void Test_GenericCodeDataTypeEnumsCodeGeneration()
     {
-      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
-      foreach (var item in ModelList)
+      Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen oCreate = new Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
+      List<string> List = oCreate.Generate();
+     
+      foreach (var item in List)
       {
-        Assert.IsTrue(!String.IsNullOrWhiteSpace(item.TableClassModel.ConstructClassTypeStatment()));
+
+        Assert.IsTrue(item != string.Empty);
       }
     }
 
-
+    [Test]
+    public void Test_Test()
+    {
+     
+        Assert.IsTrue(true);
+      
+    }
 
   }
 }

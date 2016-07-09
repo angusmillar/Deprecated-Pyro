@@ -287,8 +287,6 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_profile_Configuration.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_ethnicity_Configuration.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_race_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_telecom_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_phonetic_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Patient_Index_phone_Configuration.cs
@@ -367,6 +365,7 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_profile_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_value_concept_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_related_type_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_related_target_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Observation_Index_performer_Configuration.cs
@@ -421,12 +420,14 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_Index_profile_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_Index_identifier_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_Index_code_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_History_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationStatement_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Index_profile_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Index_identifier_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Index_code_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_History_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationOrder_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Index_tag_Configuration.cs
@@ -436,6 +437,7 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Index_responsibleparty_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Index_receiver_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Index_prescription_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Index_code_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_History_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationDispense_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Index_tag_Configuration.cs
@@ -443,6 +445,7 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Index_profile_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Index_identifier_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Index_device_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Index_code_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_History_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_MedicationAdministration_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Medication_Index_tag_Configuration.cs
@@ -902,6 +905,7 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_profile_Configuration.cs
+// Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_trigger_code_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_ruledout_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_resolved_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_ClinicalImpression_Index_problem_Configuration.cs

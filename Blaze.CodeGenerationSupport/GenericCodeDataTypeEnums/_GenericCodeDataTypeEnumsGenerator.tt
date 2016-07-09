@@ -1,0 +1,66 @@
+﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+<#
+  var manager = TemplateFileManager.Create(this);
+  // Any output below here will go to the BlazeDbModelCodeGenerator.cs
+  var GenericCodeDataTypeCodeGen = new Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
+  List<string> CodeTypeGernericEnumList = GenericCodeDataTypeCodeGen.Generate();
+   
+  manager.StartNewFile(string.Format("{0}.cs","FhirCodeDataTypeSupportGenerated"), "Blaze.DataModel", "Support");
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Hl7.Fhir.Model;
+using Blaze.DataModel.DatabaseModel.Base;
+
+//This file was Auto Generated and should not be modified here.
+
+namespace Blaze.DataModel.Support
+{
+  public static partial class FhirCodeDataTypeSupport
+  {
+     public static bool TokenIndexSetter(Element FhirElement, TokenIndex TokenIndex)
+     {
+      if (false)
+      { 
+      }
+<#
+      foreach(var Item in CodeTypeGernericEnumList)
+      { 
+#>
+      else if (FhirElement is Code<<#=Item#>>)
+      {
+        var Code = FhirElement as Code<<#=Item#>>;
+        if (Code.Value != null)
+          TokenIndex.Code = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(<#=Item#>)).GetLiteral(Code.Value);
+        TokenIndex.System = null;
+        return true;
+      }      
+<#
+      }
+#>      else
+      {
+        return false;
+      }      
+    }
+  }
+}
+    
+<#  
+  manager.Process();
+#>

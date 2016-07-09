@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public GroupRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Group;
       var ResourceEntity = new Res_Group();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Group>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as Group;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_Group>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_Group_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_Group>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -95,6 +113,9 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
+      IncludeList.Add(x => x.value_List);
+      IncludeList.Add(x => x.value_List);
+      IncludeList.Add(x => x.value_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_Group>(x => x.FhirId == FhirId, IncludeList);
 
@@ -120,12 +141,169 @@ namespace Blaze.DataModel.Repository
       _Context.Res_Group_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_Group_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_Group_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
  
     }
 
     private void PopulateResourceEntity(Res_Group ResourseEntity, string ResourceVersion, Group ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Actual != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ActualElement);
+        if (Index != null)
+        {
+          ResourseEntity.actual_Code = Index.Code;
+          ResourseEntity.actual_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Type != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.TypeElement);
+        if (Index != null)
+        {
+          ResourseEntity.type_Code = Index.Code;
+          ResourseEntity.type_System = Index.System;
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Code != null)
+        {
+          foreach (var item4 in item1.Code.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_characteristic(), item4) as Res_Group_Index_characteristic;
+            ResourseEntity.characteristic_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Code != null)
+      {
+        foreach (var item3 in ResourceTyped.Code.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_code(), item3) as Res_Group_Index_code;
+          ResourseEntity.code_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Exclude != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_exclude(), item1.ExcludeElement) as Res_Group_Index_exclude;
+          ResourseEntity.exclude_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_identifier(), item3) as Res_Group_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Member)
+      {
+        if (item1.Entity != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Group_Index_member(), item1.Entity, FhirRequestUri, this) as Res_Group_Index_member;
+          if (Index != null)
+          {
+            ResourseEntity.member_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          if (item1.Value is CodeableConcept)
+          {
+            CodeableConcept CodeableConcept = item1.Value as CodeableConcept;
+            foreach (var item4 in CodeableConcept.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item4) as Res_Group_Index_value;
+              ResourseEntity.value_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Group_Index_profile(), item4) as Res_Group_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_security(), item4) as Res_Group_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_tag(), item4) as Res_Group_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
+        }
+      }
+
+
+      
+
     }
 
 

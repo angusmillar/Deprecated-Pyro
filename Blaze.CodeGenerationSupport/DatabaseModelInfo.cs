@@ -63,9 +63,9 @@ namespace Blaze.CodeGenerationSupport
     public static string ConstructCollectionListName(FhirApiSearchParameterInfo oFhirApiSearchParameterInfo)
     {
       if (oFhirApiSearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]", "") + DatabaseModelInfo.ListPostfixText;
+        return DatabaseModelInfo.ContructSearchParameterName(oFhirApiSearchParameterInfo.SearchName).Replace("_[x]", "") + DatabaseModelInfo.ListPostfixText;
       else
-        return oFhirApiSearchParameterInfo.SearchName.Replace('-', '_') + DatabaseModelInfo.ListPostfixText;
+        return DatabaseModelInfo.ContructSearchParameterName(oFhirApiSearchParameterInfo.SearchName) + DatabaseModelInfo.ListPostfixText;
     }
 
     /// <summary>
@@ -77,42 +77,103 @@ namespace Blaze.CodeGenerationSupport
     public static string ConstructClassNameForResourceSearchClass(string ResourceName, FhirApiSearchParameterInfo SearchParameterInfo)
     {
       if (SearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return String.Format("{0}_{1}_{2}_{3}", DatabaseModelInfo.ResourcePrefixText, ResourceName, DatabaseModelInfo.IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_').Replace("_[x]", ""));
+        return String.Format("{0}_{1}_{2}_{3}", DatabaseModelInfo.ResourcePrefixText, ResourceName, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.ContructSearchParameterName(SearchParameterInfo.SearchName).Replace("_[x]", ""));
       else
-        return String.Format("{0}_{1}_{2}_{3}", DatabaseModelInfo.ResourcePrefixText, ResourceName, DatabaseModelInfo.IndexPrefixText, SearchParameterInfo.SearchName.Replace('-', '_'));
+        return String.Format("{0}_{1}_{2}_{3}", DatabaseModelInfo.ResourcePrefixText, ResourceName, DatabaseModelInfo.IndexPrefixText, DatabaseModelInfo.ContructSearchParameterName(SearchParameterInfo.SearchName));
     }
 
-    public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem)
+    /// <summary>
+    /// Construct the Search Parameter Name as it will be used in the model. 
+    /// </summary>
+    /// <param name="SearchParameterName"></param>
+    /// <returns></returns>
+    public static string ContructSearchParameterName(string SearchParameterName)
     {
-      Hl7.Fhir.Model.SearchParamType DataType = NonCollectionItem.SearchParamType;
-      string FormatedPrefix = NonCollectionItem.SearchName.Replace('-', '_') + '_';
+      return SearchParameterName.Replace('-', '_');      
+    }
 
-      switch (DataType)
+
+    public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem)
+    {      
+      string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
+
+      switch (NonCollectionItem.SearchParamType)
       {
         case Hl7.Fhir.Model.SearchParamType.Composite:
           {
             //Nothing to do for this type as composite type is a composite of the other types
             //We should never get here
             throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
-          }
-        //break;
+          }        
         case Hl7.Fhir.Model.SearchParamType.Date:
-          {            
-            Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));            
-          }
-          break;
+          {
+
+            if (NonCollectionItem.Resource == "Specimen" && NonCollectionItem.SearchName == "collected")
+            {
+              Propertylist.Add(String.Format("", FormatedPrefix));   
+            }
+
+            if (NonCollectionItem.TargetFhirLogicalType == typeof(FhirDateTime) ||
+              NonCollectionItem.TargetFhirLogicalType == typeof(Instant))
+            {
+              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));                          
+             }
+            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Date))
+            {
+              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));                          
+            }
+            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Timing))
+            {
+              Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));                          
+            }
+            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Period))
+            {
+              Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
+            }
+            else
+              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
+            break;  
+          }          
         case Hl7.Fhir.Model.SearchParamType.Number:
           {            
             Propertylist.Add(String.Format("{0}Number", FormatedPrefix));            
           }
           break;
         case Hl7.Fhir.Model.SearchParamType.Quantity:
-          {           
-            Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}System", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}Code", FormatedPrefix));           
-          }
-          break;
+          {
+            if (NonCollectionItem.TargetFhirLogicalType == typeof(Quantity) ||
+              NonCollectionItem.TargetFhirLogicalType == typeof(Money))
+            {
+              Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+            }
+            else if (NonCollectionItem.TargetFhirLogicalType == typeof(SimpleQuantity))
+            {
+              Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+            }
+            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Range))
+            {
+              Propertylist.Add(String.Format("{0}ComparatorLow", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}QuantityLow", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}SystemLow", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}CodeLow", FormatedPrefix));
+
+              Propertylist.Add(String.Format("{0}ComparatorHigh", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}QuantityHigh", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}SystemHigh", FormatedPrefix));
+              Propertylist.Add(String.Format("{0}CodeHigh", FormatedPrefix));
+            }
+            else
+              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
+            break;
+          }          
         case Hl7.Fhir.Model.SearchParamType.Reference:
           {
             Propertylist.Add(String.Format("{0}FhirId", FormatedPrefix));
@@ -138,7 +199,7 @@ namespace Blaze.CodeGenerationSupport
           }
           break;
         default:
-          throw new InvalidEnumArgumentException(DataType.ToString(), (int)DataType, typeof(Hl7.Fhir.Model.SearchParamType));
+          throw new InvalidEnumArgumentException(NonCollectionItem.SearchParamType.ToString(), (int)NonCollectionItem.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
       }
     }
 

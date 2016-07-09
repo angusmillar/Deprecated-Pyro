@@ -13,8 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_MedicationOrder : ResourceIndexBase
   {
     public int Res_MedicationOrderID {get; set;}
-    public string code_Code {get; set;}
-    public string code_System {get; set;}
     public DateTimeOffset? datewritten_DateTimeOffset {get; set;}
     public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
@@ -39,6 +37,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_MedicationOrder_History> Res_MedicationOrder_History_List { get; set; }
+    public ICollection<Res_MedicationOrder_Index_code> code_List { get; set; }
     public ICollection<Res_MedicationOrder_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_MedicationOrder_Index_profile> profile_List { get; set; }
     public ICollection<Res_MedicationOrder_Index_security> security_List { get; set; }
@@ -46,6 +45,7 @@ namespace Blaze.DataModel.DatabaseModel
    
     public Res_MedicationOrder()
     {
+      this.code_List = new HashSet<Res_MedicationOrder_Index_code>();
       this.identifier_List = new HashSet<Res_MedicationOrder_Index_identifier>();
       this.profile_List = new HashSet<Res_MedicationOrder_Index_profile>();
       this.security_List = new HashSet<Res_MedicationOrder_Index_security>();

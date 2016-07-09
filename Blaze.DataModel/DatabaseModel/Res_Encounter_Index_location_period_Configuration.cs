@@ -19,7 +19,8 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Encounter_Index_location_period_Configuration()
     {
       HasKey(x => x.Res_Encounter_Index_location_periodID).Property(x => x.Res_Encounter_Index_location_periodID).IsRequired();
-      Property(x => x.DateTimeOffset).IsRequired();
+      Property(x => x.DateTimeOffsetLow).IsOptional();
+      Property(x => x.DateTimeOffsetHigh).IsOptional();
       HasRequired(x => x.Res_Encounter).WithMany(x => x.location_period_List).WillCascadeOnDelete(true);
     }
   }

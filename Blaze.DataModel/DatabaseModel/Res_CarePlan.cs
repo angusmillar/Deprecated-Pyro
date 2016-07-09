@@ -13,7 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_CarePlan : ResourceIndexBase
   {
     public int Res_CarePlanID {get; set;}
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public AllergyIntoleranceRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as AllergyIntolerance;
       var ResourceEntity = new Res_AllergyIntolerance();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_AllergyIntolerance>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as AllergyIntolerance;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_AllergyIntolerance>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_AllergyIntolerance_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_AllergyIntolerance>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -144,6 +162,230 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_AllergyIntolerance ResourseEntity, string ResourceVersion, AllergyIntolerance ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Category != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.CategoryElement);
+        if (Index != null)
+        {
+          ResourseEntity.category_Code = Index.Code;
+          ResourseEntity.category_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Criticality != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.CriticalityElement);
+        if (Index != null)
+        {
+          ResourseEntity.criticality_Code = Index.Code;
+          ResourseEntity.criticality_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.RecordedDate != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.RecordedDateElement);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.LastOccurence != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.LastOccurenceElement);
+        if (Index != null)
+        {
+          ResourseEntity.last_date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Patient != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Patient, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.patient_Type = Index.Type;
+            ResourseEntity.patient_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.patient_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Recorder != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Recorder, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.recorder_Type = Index.Type;
+            ResourseEntity.recorder_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.recorder_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.recorder_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Reporter != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Reporter, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.reporter_Type = Index.Type;
+            ResourseEntity.reporter_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.reporter_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.reporter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Type != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.TypeElement);
+        if (Index != null)
+        {
+          ResourseEntity.type_Code = Index.Code;
+          ResourseEntity.type_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_identifier(), item3) as Res_AllergyIntolerance_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.Manifestation != null)
+        {
+          foreach (var item4 in item1.Manifestation)
+          {
+            if (item4 != null)
+            {
+              foreach (var item5 in item4.Coding)
+              {
+                var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_manifestation(), item5) as Res_AllergyIntolerance_Index_manifestation;
+                ResourseEntity.manifestation_List.Add(Index);
+              }
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.Onset != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<DateIndex>(new Res_AllergyIntolerance_Index_onset(), item1.OnsetElement) as Res_AllergyIntolerance_Index_onset;
+          ResourseEntity.onset_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.ExposureRoute != null)
+        {
+          foreach (var item4 in item1.ExposureRoute.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_route(), item4) as Res_AllergyIntolerance_Index_route;
+            ResourseEntity.route_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.Severity != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_severity(), item1.SeverityElement) as Res_AllergyIntolerance_Index_severity;
+          ResourseEntity.severity_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Substance != null)
+      {
+        foreach (var item3 in ResourceTyped.Substance.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_substance(), item3) as Res_AllergyIntolerance_Index_substance;
+          ResourseEntity.substance_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_AllergyIntolerance_Index_profile(), item4) as Res_AllergyIntolerance_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_security(), item4) as Res_AllergyIntolerance_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_tag(), item4) as Res_AllergyIntolerance_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

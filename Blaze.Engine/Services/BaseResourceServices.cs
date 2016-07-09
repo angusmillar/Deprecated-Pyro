@@ -49,13 +49,23 @@ namespace Blaze.Engine.Services
       throw new NotImplementedException();
     }
 
+    // GET by FhirId and FhirVId
+    // GET URL/FhirApi/Patient/5    
+    public virtual IBlazeServiceOperationOutcome Get(string FhirId, string FhirVId)
+    {
+      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(FhirId, FhirVId);
+      return oBlazeServiceOperationOutcome;
+    }
+
     // GET by FhirId
     // GET URL/FhirApi/Patient/5    
     public virtual IBlazeServiceOperationOutcome Get(string FhirId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
-      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId);
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
       return oBlazeServiceOperationOutcome;      
     }
 
@@ -81,10 +91,10 @@ namespace Blaze.Engine.Services
       string ResourceVersionNumber = "1";
       BlazeServiceRequest.Resource.Meta.VersionId = ResourceVersionNumber;
       BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
-
-      oBlazeServiceOperationOutcome.FhirResourceId = _ResourceRepository.AddResource(BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
-      oBlazeServiceOperationOutcome.LastModified = BlazeServiceRequest.Resource.Meta.LastUpdated;
-      oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.AddResource(BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
+      oBlazeServiceOperationOutcome.FhirResourceId = oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.FhirId;
+      oBlazeServiceOperationOutcome.LastModified = oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Received;
+      oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;      
       return oBlazeServiceOperationOutcome;
     }
 
@@ -111,13 +121,13 @@ namespace Blaze.Engine.Services
         return oBlazeServiceOperationOutcome;
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(BlazeServiceRequest.ResourceId);
-      if (DatabaseOperationOutcome.ResourceMatchingSearch != null)
+      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(BlazeServiceRequest.ResourceId);
+      if (DatabaseOperationOutcomeGet.ResourceMatchingSearch != null)
       {
         //The resource has been found so update it and return 200 OK        
         if (BlazeServiceRequest.Resource.Meta == null)
           BlazeServiceRequest.Resource.Meta = new Meta();
-        string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ResourceMatchingSearch.Version);
+        string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ResourceMatchingSearch.Version);
         BlazeServiceRequest.Resource.Meta.VersionId = NewResourceVersionNumber;
         BlazeServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
@@ -129,14 +139,13 @@ namespace Blaze.Engine.Services
           oBlazeServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
           return oBlazeServiceOperationOutcome;
         }
-
-        _ResourceRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
+        IDatabaseOperationOutcome DatabaseOperationOutcomeUpdate = _ResourceRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
         oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
         oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
-        oBlazeServiceOperationOutcome.LastModified = BlazeServiceRequest.Resource.Meta.LastUpdated;
-        oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
+        oBlazeServiceOperationOutcome.LastModified = DatabaseOperationOutcomeUpdate.ResourceMatchingSearch.Received;
+        oBlazeServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeUpdate.ResourceMatchingSearch.Version;
+        oBlazeServiceOperationOutcome.DatabaseOperationOutcome = DatabaseOperationOutcomeUpdate;
         return oBlazeServiceOperationOutcome;
-
       }
       else
       {

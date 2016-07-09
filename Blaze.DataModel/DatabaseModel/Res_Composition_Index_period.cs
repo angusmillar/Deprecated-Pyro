@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Composition_Index_period : DateIndex
+  public class Res_Composition_Index_period : DatePeriodIndex
   {
     public int Res_Composition_Index_periodID {get; set;}
     public virtual Res_Composition Res_Composition { get; set; }

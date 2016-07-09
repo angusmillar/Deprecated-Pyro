@@ -10,12 +10,12 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Patient_Index_ethnicity : TokenIndex
+  public class Res_MedicationOrder_Index_code : TokenIndex
   {
-    public int Res_Patient_Index_ethnicityID {get; set;}
-    public virtual Res_Patient Res_Patient { get; set; }
+    public int Res_MedicationOrder_Index_codeID {get; set;}
+    public virtual Res_MedicationOrder Res_MedicationOrder { get; set; }
    
-    public Res_Patient_Index_ethnicity()
+    public Res_MedicationOrder_Index_code()
     {
     }
   }

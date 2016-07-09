@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blaze.DataModel.DatabaseModel.Base
 {
-  public abstract class TokenIndex : ModelBase
+  public class TokenIndex : ModelBase
   {
     public string Code { get; set; }
     public string System { get; set; }

@@ -47,8 +47,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.trigger_Type).IsOptional();
       HasOptional(x => x.trigger_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.trigger_Url).WithMany().HasForeignKey(x => x.trigger_Url_Blaze_RootUrlStoreID);
-      Property(x => x.trigger_code_Code).IsOptional();
-      Property(x => x.trigger_code_System).IsOptional();
     }
   }
 }

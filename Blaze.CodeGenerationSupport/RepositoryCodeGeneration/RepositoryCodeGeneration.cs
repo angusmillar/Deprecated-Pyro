@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Hl7.Fhir.Model;
 
 namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 {
@@ -33,12 +34,13 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
-
-        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
-        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
-
         
+        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,true);
+        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
         
+        FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
+        FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);
+
         var RepositoryItem = new RepositoryItem();
         RepositoryCodeGenModel.RepositoryItemList.Add(RepositoryItem);
 
@@ -65,32 +67,56 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
 
-
-        if (ResourceName == "Patient")
+        //ToDo: Sort out how to generate the setters for the bundle resource
+        if (ResourceName != "Bundle")    
+        //if (ResourceName == "ConceptMap")
         {
+          List<string> LogicList = new List<string>();
+          //Non Collection search parameter logic
+          //---------------------------------------------------------------------------------------
           foreach (FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
           {
-            StringBuilder Sb = new StringBuilder();
-            foreach (var Element in NonCollectionParameter.SearchParameterNavigationPathList)
-            {
-
-            }
-
-
-              //if (ResourceTyped.Active != null)
-              //{
-              //  var token = IndexSettingSupport.CreateToken(ResourceTyped.ActiveElement);
-              //  ResourseEntity.active_Code = ResourceTyped.Active.ToString();
-              //  ResourseEntity.active_System = "http://hl7.org/fhir/ValueSet/special-values";
-              //}
-
-            
+            StringBuilder Sb = new StringBuilder();                                     
+            Sb = RepositoryNonCollectionSetterLogicBuilder.Build(NonCollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");                                
+            LogicList.Add(Sb.ToString());                       
           }
-        }
- 
 
+          //Collection search parameter logic
+          //---------------------------------------------------------------------------------------
+          foreach (FhirApiSearchParameterInfo CollectionParameter in CollectionParameters)
+          {
+            StringBuilder Sb = new StringBuilder();                        
+            Sb = RepositoryCollectionSetterLogicBuilder.Build(CollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");            
+            LogicList.Add(Sb.ToString());
+          }
+          string CompileAllLogic = string.Empty;
+          LogicList.ForEach(x => CompileAllLogic = CompileAllLogic + x);
+          RepositoryItem.EntitySetterLogic = CompileAllLogic;                         
+        }
       }
       return RepositoryCodeGenModel;
     }
+
+    static string UppercaseFirst(string s)
+    {
+      // Check for empty string.
+      if (string.IsNullOrEmpty(s))
+      {
+        return string.Empty;
+      }
+      // Return char and concat substring.
+      return char.ToUpper(s[0]) + s.Substring(1);
+    }
+
+    static string DepthSpace(int DepthCounter)
+    {
+      string Result = string.Empty;
+      for (int i = 0; i < DepthCounter; i++)
+      {
+        Result = Result + " ";
+      }
+      return Result;
+    }
+
   }
 }

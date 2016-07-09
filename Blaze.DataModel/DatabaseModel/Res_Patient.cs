@@ -46,8 +46,6 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Patient_Index_phone> phone_List { get; set; }
     public ICollection<Res_Patient_Index_phonetic> phonetic_List { get; set; }
     public ICollection<Res_Patient_Index_telecom> telecom_List { get; set; }
-    public ICollection<Res_Patient_Index_race> race_List { get; set; }
-    public ICollection<Res_Patient_Index_ethnicity> ethnicity_List { get; set; }
     public ICollection<Res_Patient_Index_profile> profile_List { get; set; }
     public ICollection<Res_Patient_Index_security> security_List { get; set; }
     public ICollection<Res_Patient_Index_tag> tag_List { get; set; }
@@ -73,8 +71,6 @@ namespace Blaze.DataModel.DatabaseModel
       this.phone_List = new HashSet<Res_Patient_Index_phone>();
       this.phonetic_List = new HashSet<Res_Patient_Index_phonetic>();
       this.telecom_List = new HashSet<Res_Patient_Index_telecom>();
-      this.race_List = new HashSet<Res_Patient_Index_race>();
-      this.ethnicity_List = new HashSet<Res_Patient_Index_ethnicity>();
       this.profile_List = new HashSet<Res_Patient_Index_profile>();
       this.security_List = new HashSet<Res_Patient_Index_security>();
       this.tag_List = new HashSet<Res_Patient_Index_tag>();

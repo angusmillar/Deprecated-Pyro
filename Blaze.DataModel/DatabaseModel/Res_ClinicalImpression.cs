@@ -36,8 +36,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string trigger_Type {get; set;}
     public virtual Blaze_RootUrlStore trigger_Url { get; set; }
     public int? trigger_Url_Blaze_RootUrlStoreID { get; set; }
-    public string trigger_code_Code {get; set;}
-    public string trigger_code_System {get; set;}
     public ICollection<Res_ClinicalImpression_History> Res_ClinicalImpression_History_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_action> action_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_finding> finding_List { get; set; }
@@ -46,6 +44,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ClinicalImpression_Index_problem> problem_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_resolved> resolved_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_ruledout> ruledout_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index_trigger_code> trigger_code_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_profile> profile_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_security> security_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_tag> tag_List { get; set; }
@@ -59,6 +58,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.problem_List = new HashSet<Res_ClinicalImpression_Index_problem>();
       this.resolved_List = new HashSet<Res_ClinicalImpression_Index_resolved>();
       this.ruledout_List = new HashSet<Res_ClinicalImpression_Index_ruledout>();
+      this.trigger_code_List = new HashSet<Res_ClinicalImpression_Index_trigger_code>();
       this.profile_List = new HashSet<Res_ClinicalImpression_Index_profile>();
       this.security_List = new HashSet<Res_ClinicalImpression_Index_security>();
       this.tag_List = new HashSet<Res_ClinicalImpression_Index_tag>();

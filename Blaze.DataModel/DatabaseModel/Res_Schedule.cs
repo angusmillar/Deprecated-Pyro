@@ -18,7 +18,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string actor_Type {get; set;}
     public virtual Blaze_RootUrlStore actor_Url { get; set; }
     public int? actor_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public ICollection<Res_Schedule_History> Res_Schedule_History_List { get; set; }
     public ICollection<Res_Schedule_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Schedule_Index_type> type_List { get; set; }

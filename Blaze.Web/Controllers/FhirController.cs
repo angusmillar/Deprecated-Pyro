@@ -44,6 +44,16 @@ namespace Blaze.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);   
     }
 
+    // Get By id and _history vid
+    // GET URL/FhirApi/Patient/5/_history/2
+    [HttpGet, Route("{ResourceName}/{id}/_history/{vid}")]
+    public HttpResponseMessage Get(string ResourceName, string id, string vid)
+    {
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(id, vid);
+      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+    }
+
     // Add
     // POST: URL/FhirApi/Patient
     [HttpPost, Route("{ResourceName}")]

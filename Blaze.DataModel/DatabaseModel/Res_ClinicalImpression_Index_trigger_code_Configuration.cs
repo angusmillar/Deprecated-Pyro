@@ -13,15 +13,15 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 namespace Blaze.DataModel.DatabaseModel
 {
-  public class Res_Patient_Index_ethnicity_Configuration : EntityTypeConfiguration<Res_Patient_Index_ethnicity>
+  public class Res_ClinicalImpression_Index_trigger_code_Configuration : EntityTypeConfiguration<Res_ClinicalImpression_Index_trigger_code>
   {
 
-    public Res_Patient_Index_ethnicity_Configuration()
+    public Res_ClinicalImpression_Index_trigger_code_Configuration()
     {
-      HasKey(x => x.Res_Patient_Index_ethnicityID).Property(x => x.Res_Patient_Index_ethnicityID).IsRequired();
+      HasKey(x => x.Res_ClinicalImpression_Index_trigger_codeID).Property(x => x.Res_ClinicalImpression_Index_trigger_codeID).IsRequired();
       Property(x => x.Code).IsRequired();
       Property(x => x.System).IsOptional();
-      HasRequired(x => x.Res_Patient).WithMany(x => x.ethnicity_List).WillCascadeOnDelete(true);
+      HasRequired(x => x.Res_ClinicalImpression).WithMany(x => x.trigger_code_List).WillCascadeOnDelete(true);
     }
   }
 }

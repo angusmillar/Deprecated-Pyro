@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Encounter_Index_location_period : DateIndex
+  public class Res_Encounter_Index_location_period : DatePeriodIndex
   {
     public int Res_Encounter_Index_location_periodID {get; set;}
     public virtual Res_Encounter Res_Encounter { get; set; }

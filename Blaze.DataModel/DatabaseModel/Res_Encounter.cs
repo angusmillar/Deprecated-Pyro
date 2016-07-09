@@ -18,7 +18,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string appointment_Type {get; set;}
     public virtual Blaze_RootUrlStore appointment_Url { get; set; }
     public int? appointment_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public decimal? length_Number {get; set;}
     public string part_of_VersionId {get; set;}
     public string part_of_FhirId {get; set;}

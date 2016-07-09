@@ -19,7 +19,8 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_CarePlan_Index_activitydate_Configuration()
     {
       HasKey(x => x.Res_CarePlan_Index_activitydateID).Property(x => x.Res_CarePlan_Index_activitydateID).IsRequired();
-      Property(x => x.DateTimeOffset).IsRequired();
+      Property(x => x.DateTimeOffsetLow).IsOptional();
+      Property(x => x.DateTimeOffsetHigh).IsOptional();
       HasRequired(x => x.Res_CarePlan).WithMany(x => x.activitydate_List).WillCascadeOnDelete(true);
     }
   }

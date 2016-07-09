@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blaze.DataModel.DatabaseModel.Base
 {
-  public abstract class StringIndex : ModelBase
+  public class StringIndex : ModelBase
   {
     public string String { get; set; }
   }

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
@@ -22,16 +23,20 @@ namespace Blaze.DataModel.Repository
 
     public DiagnosticReportRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public string AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as DiagnosticReport;
       var ResourceEntity = new Res_DiagnosticReport();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_DiagnosticReport>(ResourceEntity);
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;     
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
-    public string UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceTyped = Resource as DiagnosticReport;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -41,7 +46,11 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      return ResourceTyped.Id;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      return DatabaseOperationOutcome;
     }
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
@@ -60,8 +69,17 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceEntity = DbGet<Res_DiagnosticReport>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      var ResourceHistoryEntity = DbGet<Res_DiagnosticReport_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+      if (ResourceHistoryEntity != null)
+      {
+        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+      }
+      else
+      {
+        var ResourceEntity = DbGet<Res_DiagnosticReport>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
+        if (ResourceEntity != null)
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+      }
       return DatabaseOperationOutcome;
     }
 
@@ -126,6 +144,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
       ResourceEntity.subject_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.date_DateTimeOffsetLow = null;      
+      ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -146,6 +166,254 @@ namespace Blaze.DataModel.Repository
     private void PopulateResourceEntity(Res_DiagnosticReport ResourseEntity, string ResourceVersion, DiagnosticReport ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+
+          if (ResourceTyped.Effective != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Effective);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Encounter != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Encounter, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.encounter_Type = Index.Type;
+            ResourseEntity.encounter_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.encounter_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Issued != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.IssuedElement);
+        if (Index != null)
+        {
+          ResourseEntity.issued_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Subject != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Subject, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.patient_Type = Index.Type;
+            ResourseEntity.patient_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.patient_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Performer != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Performer, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.performer_Type = Index.Type;
+            ResourseEntity.performer_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.performer_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.performer_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Status != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
+        if (Index != null)
+        {
+          ResourseEntity.status_Code = Index.Code;
+          ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Subject != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Subject, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.subject_Type = Index.Type;
+            ResourseEntity.subject_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.subject_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.subject_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Effective != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Effective);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffset;
+          ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Category != null)
+      {
+        foreach (var item3 in ResourceTyped.Category.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_category(), item3) as Res_DiagnosticReport_Index_category;
+          ResourseEntity.category_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.Code != null)
+      {
+        foreach (var item3 in ResourceTyped.Code.Coding)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_code(), item3) as Res_DiagnosticReport_Index_code;
+          ResourseEntity.code_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.CodedDiagnosis != null)
+      {
+        foreach (var item3 in ResourceTyped.CodedDiagnosis)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_diagnosis(), item4) as Res_DiagnosticReport_Index_diagnosis;
+              ResourseEntity.diagnosis_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_identifier(), item3) as Res_DiagnosticReport_Index_identifier;
+          ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Image)
+      {
+        if (item1.Link != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticReport_Index_image(), item1.Link, FhirRequestUri, this) as Res_DiagnosticReport_Index_image;
+          if (Index != null)
+          {
+            ResourseEntity.image_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Request != null)
+      {
+        foreach (var item in ResourceTyped.Request)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticReport_Index_request(), item, FhirRequestUri, this) as Res_DiagnosticReport_Index_request;
+          if (Index != null)
+          {
+            ResourseEntity.request_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Result != null)
+      {
+        foreach (var item in ResourceTyped.Result)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticReport_Index_result(), item, FhirRequestUri, this) as Res_DiagnosticReport_Index_result;
+          if (Index != null)
+          {
+            ResourseEntity.result_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Specimen != null)
+      {
+        foreach (var item in ResourceTyped.Specimen)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticReport_Index_specimen(), item, FhirRequestUri, this) as Res_DiagnosticReport_Index_specimen;
+          if (Index != null)
+          {
+            ResourseEntity.specimen_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Profile != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.ProfileElement)
+          {
+            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_DiagnosticReport_Index_profile(), item4) as Res_DiagnosticReport_Index_profile;
+            ResourseEntity.profile_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Security != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Security)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_security(), item4) as Res_DiagnosticReport_Index_security;
+            ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DiagnosticReport_Index_tag(), item4) as Res_DiagnosticReport_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
+          }
+        }
+      }
+
+
+      
+
     }
 
 

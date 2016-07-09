@@ -13,6 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Account : ResourceIndexBase
   {
     public int Res_AccountID {get; set;}
+    public int? balance_Comparator {get; set;}
     public decimal? balance_Quantity {get; set;}
     public string balance_System {get; set;}
     public string balance_Code {get; set;}
@@ -27,7 +28,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? period_DateTimeOffset {get; set;}
+    public DateTimeOffset? period_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? period_DateTimeOffsetHigh {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_VersionId {get; set;}

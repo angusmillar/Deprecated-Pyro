@@ -25,8 +25,8 @@
   var manager = TemplateFileManager.Create(this);
   // Any output below here will go to the BlazeDbModelCodeGenerator.cs
   
-  Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.CodeGenerationDatabaseModelCreate();
-  List<Blaze.CodeGenerationSupport.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
+  Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
 
   manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"), "Blaze.DataModel","DatabaseModel");
 #>

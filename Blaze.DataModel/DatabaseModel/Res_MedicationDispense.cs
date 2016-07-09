@@ -13,8 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_MedicationDispense : ResourceIndexBase
   {
     public int Res_MedicationDispenseID {get; set;}
-    public string code_Code {get; set;}
-    public string code_System {get; set;}
     public string destination_VersionId {get; set;}
     public string destination_FhirId {get; set;}
     public string destination_Type {get; set;}
@@ -42,6 +40,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? whenhandedover_DateTimeOffset {get; set;}
     public DateTimeOffset? whenprepared_DateTimeOffset {get; set;}
     public ICollection<Res_MedicationDispense_History> Res_MedicationDispense_History_List { get; set; }
+    public ICollection<Res_MedicationDispense_Index_code> code_List { get; set; }
     public ICollection<Res_MedicationDispense_Index_prescription> prescription_List { get; set; }
     public ICollection<Res_MedicationDispense_Index_receiver> receiver_List { get; set; }
     public ICollection<Res_MedicationDispense_Index_responsibleparty> responsibleparty_List { get; set; }
@@ -52,6 +51,7 @@ namespace Blaze.DataModel.DatabaseModel
    
     public Res_MedicationDispense()
     {
+      this.code_List = new HashSet<Res_MedicationDispense_Index_code>();
       this.prescription_List = new HashSet<Res_MedicationDispense_Index_prescription>();
       this.receiver_List = new HashSet<Res_MedicationDispense_Index_receiver>();
       this.responsibleparty_List = new HashSet<Res_MedicationDispense_Index_responsibleparty>();

@@ -38,7 +38,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual Blaze_RootUrlStore patient_Url { get; set; }
     public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
-    public DateTimeOffset? period_DateTimeOffset {get; set;}
+    public DateTimeOffset? period_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? period_DateTimeOffsetHigh {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_VersionId {get; set;}
