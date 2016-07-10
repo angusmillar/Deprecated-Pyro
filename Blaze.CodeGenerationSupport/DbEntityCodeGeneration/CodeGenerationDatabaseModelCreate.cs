@@ -355,7 +355,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             {
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetLow).{1};", Prefix, IsOptional));
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetHigh).{1};", Prefix, IsOptional));
-            }
+            }         
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
             break;            
