@@ -114,7 +114,6 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
-      IncludeList.Add(x => x.valueset_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_StructureDefinition>(x => x.FhirId == FhirId, IncludeList);
 
@@ -160,7 +159,6 @@ namespace Blaze.DataModel.Repository
       _Context.Res_StructureDefinition_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_StructureDefinition_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_StructureDefinition_Index_tag.RemoveRange(ResourceEntity.tag_List);            
-      _Context.Res_StructureDefinition_Index_valueset.RemoveRange(ResourceEntity.valueset_List);            
  
     }
 
@@ -427,24 +425,6 @@ namespace Blaze.DataModel.Repository
           {
             var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_StructureDefinition_Index_tag(), item4) as Res_StructureDefinition_Index_tag;
             ResourseEntity.tag_List.Add(Index);
-          }
-        }
-      }
-
-      if (ResourceTyped.Snapshot != null)
-      {
-        foreach (var item2 in ResourceTyped.Snapshot.Element)
-        {
-          if (item2.Binding != null)
-          {
-            if (item2.Binding.ValueSet != null)
-            {
-              var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_StructureDefinition_Index_valueset(), item2.Binding.ValueSet, FhirRequestUri, this) as Res_StructureDefinition_Index_valueset;
-              if (Index != null)
-              {
-                ResourseEntity.valueset_List.Add(Index);
-              }
-            }
           }
         }
       }

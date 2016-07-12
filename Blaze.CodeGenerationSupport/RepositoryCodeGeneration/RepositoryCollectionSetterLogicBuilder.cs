@@ -33,8 +33,9 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
       //Note that this for loop skips the first list item as it is the root resource it's self, i.e 'Patient'
       for (int i = 1; i < CollectionParameter.SearchParameterNavigationPathList.Count; i++)
-      {
-        var CurrentItem = CollectionParameter.SearchParameterNavigationPathList[i];
+      {        
+        var CurrentItem = CollectionParameter.SearchParameterNavigationPathList[i];        
+
         ResolvePropertyChainNames(i, CurrentItem);
 
         if (i == CollectionParameter.SearchParameterNavigationPathList.Count - 1)
@@ -78,10 +79,17 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void BuildIndexSetterLogic(FhirApiSearchParameterInfo CollectionParameter)
     {
+      if (CollectionParameter.Resource == "CarePlan")
+      {
+        if (CollectionParameter.SearchName == "activitydate")
+        {
+          //Debug only
+        }
+      }
 
-      string ElementString = string.Empty;
+
+      string ElementString = "Element";
       Type CurrentTargetDataType = CollectionParameter.TargetFhirType;
-      ElementString = "Element"; 
   
      if ((CurrentTargetDataType == typeof(PositiveInt) ||
                       CurrentTargetDataType == typeof(Integer) ||
@@ -184,6 +192,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (CollectionParameter.TargetFhirChoiceType == typeof(Timing))
           {
+            DateIndexStetter(CollectionParameter);
             //ToDo: We need something to work out the period for a timing datatype,
             //between event and duration, need to work out units to do this.
           }

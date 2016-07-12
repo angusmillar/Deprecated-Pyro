@@ -137,8 +137,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
       ResourceEntity.subject_Url_Blaze_RootUrlStoreID = null;      
-      ResourceEntity.collected_DateTimeOffsetLow = null;      
-      ResourceEntity.collected_DateTimeOffsetHigh = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -239,19 +237,6 @@ namespace Blaze.DataModel.Repository
             {
               ResourseEntity.subject_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
             }
-          }
-        }
-      }
-
-      if (ResourceTyped.Collection != null)
-      {
-        if (ResourceTyped.Collection.Collected != null)
-        {
-          var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Collection.Collected);
-          if (Index != null)
-          {
-            ResourseEntity.collected_DateTimeOffsetLow = Index.DateTimeOffset;
-            ResourseEntity.collected_DateTimeOffsetHigh = Index.DateTimeOffset;
           }
         }
       }

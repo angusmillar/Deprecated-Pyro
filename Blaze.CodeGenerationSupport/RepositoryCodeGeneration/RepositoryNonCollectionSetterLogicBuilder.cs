@@ -52,6 +52,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void BuildIndexSetterLogic(FhirApiSearchParameterInfo NonCollectionParameter)
     {
+      if (NonCollectionParameter.Resource == "Observation")
+      {
+        if (NonCollectionParameter.SearchName == "value-string")
+        {
+          //Debug only
+        }
+      }
+
+
+
       string ElementString = string.Empty;
       Type CurrentTargetDataType = NonCollectionParameter.SearchParameterNavigationPathList[NonCollectionParameter.SearchParameterNavigationPathList.Count - 1].DataType;
       ElementString = "Element"; 
@@ -120,6 +130,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.String)
         {
+          //StandardIndexStetter(NonCollectionParameter);
           StringIndexStetter(NonCollectionParameter);
         }
         else
@@ -218,6 +229,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (TargetChoiceDataType == typeof(FhirString))
           {
+            //StandardIndexStetter(NonCollectionParameter);
             StringIndexStetter(NonCollectionParameter);
           }
           else

@@ -147,8 +147,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      
       ResourceEntity.organization_Url_Blaze_RootUrlStoreID = null;      
-      ResourceEntity.deceased_Code = null;      
-      ResourceEntity.deceased_System = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -246,15 +244,6 @@ namespace Blaze.DataModel.Repository
               ResourseEntity.organization_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
             }
           }
-        }
-      }
-
-      if (ResourceTyped.Deceased != null)
-      {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Deceased);
-        if (Index != null)
-        {
-          ResourseEntity.deceased_DateTimeOffset = Index.DateTimeOffset;
         }
       }
 

@@ -116,8 +116,6 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
-      IncludeList.Add(x => x.activitydate_List);
-      IncludeList.Add(x => x.activitydate_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_CarePlan>(x => x.FhirId == FhirId, IncludeList);
 
@@ -152,8 +150,6 @@ namespace Blaze.DataModel.Repository
       _Context.Res_CarePlan_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_CarePlan_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_CarePlan_Index_tag.RemoveRange(ResourceEntity.tag_List);            
-      _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
-      _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
  
     }
 
@@ -230,7 +226,11 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Detail != null)
         {
-          ResourseEntity.activitydate_List.Add(Index);
+          if (item1.Detail.Scheduled != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<DatePeriodIndex>(new Res_CarePlan_Index_activitydate(), item1.Detail.Scheduled) as Res_CarePlan_Index_activitydate;
+            ResourseEntity.activitydate_List.Add(Index);
+          }
         }
       }
 
@@ -354,26 +354,6 @@ namespace Blaze.DataModel.Repository
             var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_CarePlan_Index_tag(), item4) as Res_CarePlan_Index_tag;
             ResourseEntity.tag_List.Add(Index);
           }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Activity)
-      {
-        if (item1.Detail != null)
-        {
-          if (item1.Detail.Scheduled != null)
-          {
-            var Index = IndexSettingSupport.SetIndex<DatePeriodIndex>(new Res_CarePlan_Index_activitydate(), item1.Detail.Scheduled) as Res_CarePlan_Index_activitydate;
-            ResourseEntity.activitydate_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Activity)
-      {
-        if (item1.Detail != null)
-        {
-          ResourseEntity.activitydate_List.Add(Index);
         }
       }
 

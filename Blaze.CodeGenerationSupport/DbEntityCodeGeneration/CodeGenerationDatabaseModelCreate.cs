@@ -70,8 +70,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
 
-        //CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters, true);
-        //NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
+        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters, true);
+        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
 
         //The Resource main Table
         _CodeGenerationDbTableModelList.Add(CreateModelResourceMainTable(ResourceName, CollectionParameters, NonCollectionParameters));
@@ -198,6 +198,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(FhirDateTime))
               list.Add("DateIndex");
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Date))
+              list.Add("DateIndex");
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(FhirString))
               list.Add("DateIndex");
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Timing))
               list.Add("DatePeriodIndex");
@@ -343,6 +345,10 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffset).{1};", Prefix, RequiredOrOptional));
             }
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Date))
+            {
+              FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffset).{1};", Prefix, RequiredOrOptional));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(FhirString))
             {
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffset).{1};", Prefix, RequiredOrOptional));
             }

@@ -158,10 +158,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.value_quantity_System = null;      
       ResourceEntity.value_quantity_Code = null;      
       ResourceEntity.value_string_String = null;      
-      ResourceEntity.date_DateTimeOffsetLow = null;      
-      ResourceEntity.date_DateTimeOffsetHigh = null;      
-      ResourceEntity.value_date_DateTimeOffsetLow = null;      
-      ResourceEntity.value_date_DateTimeOffsetHigh = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -327,27 +323,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      ResourseEntity.value_string_String = Index.String;
-
-      if (ResourceTyped.Effective != null)
-      {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Effective);
-        if (Index != null)
-        {
-          ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffset;
-          ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffset;
-        }
-      }
-
-      if (ResourceTyped.Value != null)
-      {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Value);
-        if (Index != null)
-        {
-          ResourseEntity.value_date_DateTimeOffsetLow = Index.DateTimeOffset;
-          ResourseEntity.value_date_DateTimeOffsetHigh = Index.DateTimeOffset;
-        }
-      }
+      //ResourseEntity.value_string_String = Index.String;
 
       if (ResourceTyped.Category != null)
       {

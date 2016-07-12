@@ -25,7 +25,6 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_DbEntityCodeGeneration()
     {
-
       Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
       List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
     }

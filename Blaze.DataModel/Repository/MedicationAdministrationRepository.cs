@@ -144,8 +144,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.status_System = null;      
       ResourceEntity.wasnotgiven_Code = null;      
       ResourceEntity.wasnotgiven_System = null;      
-      ResourceEntity.effectivetime_DateTimeOffsetLow = null;      
-      ResourceEntity.effectivetime_DateTimeOffsetHigh = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -288,16 +286,6 @@ namespace Blaze.DataModel.Repository
         {
           ResourseEntity.wasnotgiven_Code = Index.Code;
           ResourseEntity.wasnotgiven_System = Index.System;
-        }
-      }
-
-      if (ResourceTyped.EffectiveTime != null)
-      {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.EffectiveTime);
-        if (Index != null)
-        {
-          ResourseEntity.effectivetime_DateTimeOffsetLow = Index.DateTimeOffset;
-          ResourseEntity.effectivetime_DateTimeOffsetHigh = Index.DateTimeOffset;
         }
       }
 

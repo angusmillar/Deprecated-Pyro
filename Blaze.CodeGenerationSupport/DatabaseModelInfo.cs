@@ -110,7 +110,7 @@ namespace Blaze.CodeGenerationSupport
 
             if (NonCollectionItem.Resource == "Specimen" && NonCollectionItem.SearchName == "collected")
             {
-              Propertylist.Add(String.Format("", FormatedPrefix));   
+              //debug only
             }
 
             if (NonCollectionItem.TargetFhirLogicalType == typeof(FhirDateTime) ||

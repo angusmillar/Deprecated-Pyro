@@ -217,7 +217,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     }
 
 
-    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RepositorySetter = false)
+    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
     {
       
       var TempList = new List<FhirApiSearchParameterInfo>();
@@ -229,16 +229,19 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           foreach (var DuplicateItem in DuplicateFoundList)
           {
-            if (DuplicateItem.Resource == "Specimen" && DuplicateItem.SearchName == "collected")
+            if (DuplicateItem.Resource == "Condition" )
             {
+              if (DuplicateItem.SearchName == "onset")
+              {
 
+              }
             }
 
             if (DuplicateItem.SearchParamType != Item.SearchParamType)
             {
               throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
             }
-            if (RepositorySetter)
+            if (RemoveDuplicates)
             {
               if ((DuplicateItem.TargetFhirType == typeof(Element) && Item.TargetFhirType == typeof(Element))
                 &&
@@ -254,7 +257,12 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           TempList.Add(Item);
         }
       }
-      TempList.AddRange(DupList);
+      //Remove the duplicates found
+      foreach(var item in DupList)
+      {
+        TempList.Remove(item);
+      }
+      //TempList.AddRange(DupList);
       return TempList;
     }
 
@@ -675,6 +683,62 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           }
         }
       }
+
+      //Correction as a Condition resource has two search parameters of 'onset' and 'onset-info' yet both have the very same targets.
+      //They should be seperated by there search parameter type where 'onset' = date types and 'onset-info' = string types.
+      //I am removing and not supporting Range because it is a token and there is no standard way to express a range as a string.
+      
+      
+      var ResourceConditionSearchParameterList = (from x in SearchParameterList
+                                               where x.Resource == "Condition"
+                                                  select x);
+
+      //Work on 'onset' search parameter
+      var ResourceOnsetSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "onset").SingleOrDefault();
+      if (ResourceOnsetSearchParameter != null)
+      {
+        if (ResourceOnsetSearchParameter.Path.Count() == 5)
+        {
+          if (ResourceOnsetSearchParameter.Path[1] == "Condition.onsetAge" &&
+              ResourceOnsetSearchParameter.Path[4] == "Condition.onsetString" &&
+              ResourceOnsetSearchParameter.XPath == "f:Condition/f:onsetDateTime | f:Condition/f:onsetAge | f:Condition/f:onsetPeriod | f:Condition/f:onsetRange | f:Condition/f:onsetString" &&
+              ResourceOnsetSearchParameter.Expression == "Condition.onset")
+          {
+            string[] NewPath = { ResourceOnsetSearchParameter.Path[0],
+                                 ResourceOnsetSearchParameter.Path[2]};
+
+            ResourceOnsetSearchParameter.Path = NewPath;
+            ResourceOnsetSearchParameter.XPath = "f:Condition/f:onsetDateTime | f:Condition/f:onsetPeriod";
+            ResourceOnsetSearchParameter.Expression = "Condition.onset";
+
+          }
+        }
+      }
+
+      //Work on 'onset-info' search parameter
+      var ResourceOnsetInfoSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "onset-info").SingleOrDefault();
+      if (ResourceOnsetInfoSearchParameter != null)
+      {
+        if (ResourceOnsetInfoSearchParameter.Path.Count() == 5)
+        {
+          if (ResourceOnsetInfoSearchParameter.Path[1] == "Condition.onsetAge" &&
+              ResourceOnsetInfoSearchParameter.Path[4] == "Condition.onsetString" &&
+              ResourceOnsetInfoSearchParameter.XPath == "f:Condition/f:onsetDateTime | f:Condition/f:onsetAge | f:Condition/f:onsetPeriod | f:Condition/f:onsetRange | f:Condition/f:onsetString" &&
+              ResourceOnsetInfoSearchParameter.Expression == "Condition.onset")
+          {
+            string[] NewPath = { ResourceOnsetInfoSearchParameter.Path[1],
+                                 ResourceOnsetInfoSearchParameter.Path[4]};
+
+            ResourceOnsetInfoSearchParameter.Path = NewPath;
+            ResourceOnsetInfoSearchParameter.XPath = "f:Condition/f:onsetAge | f:Condition/f:onsetString";
+            ResourceOnsetInfoSearchParameter.Expression = "Condition.onset";
+
+          }
+        }
+      }
+
+
+
 
     }
 

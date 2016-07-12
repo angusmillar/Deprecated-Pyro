@@ -110,7 +110,6 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
-      IncludeList.Add(x => x.resource_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_ImplementationGuide>(x => x.FhirId == FhirId, IncludeList);
 
@@ -140,7 +139,6 @@ namespace Blaze.DataModel.Repository
       _Context.Res_ImplementationGuide_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_ImplementationGuide_Index_security.RemoveRange(ResourceEntity.security_List);            
       _Context.Res_ImplementationGuide_Index_tag.RemoveRange(ResourceEntity.tag_List);            
-      _Context.Res_ImplementationGuide_Index_resource.RemoveRange(ResourceEntity.resource_List);            
  
     }
 
@@ -291,21 +289,6 @@ namespace Blaze.DataModel.Repository
           {
             var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_ImplementationGuide_Index_tag(), item4) as Res_ImplementationGuide_Index_tag;
             ResourseEntity.tag_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Package)
-      {
-        foreach (var item2 in item1.Resource)
-        {
-          if (item2.Source != null)
-          {
-            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_ImplementationGuide_Index_resource(), item2.Source, FhirRequestUri, this) as Res_ImplementationGuide_Index_resource;
-            if (Index != null)
-            {
-              ResourseEntity.resource_List.Add(Index);
-            }
           }
         }
       }
