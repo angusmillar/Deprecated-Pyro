@@ -39,7 +39,15 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         ResolvePropertyChainNames(i, CurrentItem);
 
         if (i == CollectionParameter.SearchParameterNavigationPathList.Count - 1)
-        {         
+        {
+          if (CollectionParameter.Resource == "Observation")
+          {
+            if (CollectionParameter.SearchName == "value-string")
+            {
+              //Debug only
+            }
+          }
+
           BuildPropertyTargetChainLogic(CollectionParameter);
           BuildIndexSetterLogic(CollectionParameter);                                              
           CloseBrackets();
@@ -129,8 +137,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           TokenIndexStetter(NonCollectionParameter);
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.String)
-        {
-          //StandardIndexStetter(NonCollectionParameter);
+        {          
           StringIndexStetter(NonCollectionParameter);
         }
         else
@@ -229,7 +236,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (TargetChoiceDataType == typeof(FhirString))
           {
-            //StandardIndexStetter(NonCollectionParameter);
+            StandardIndexStetter(NonCollectionParameter);
             StringIndexStetter(NonCollectionParameter);
           }
           else

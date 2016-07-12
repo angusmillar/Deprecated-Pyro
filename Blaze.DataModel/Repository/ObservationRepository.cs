@@ -323,7 +323,14 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      //ResourseEntity.value_string_String = Index.String;
+      if (ResourceTyped.Value != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.Value);
+        if (Index != null)
+        {
+          ResourseEntity.value_string_String = Index.String;
+        }
+      }
 
       if (ResourceTyped.Category != null)
       {
