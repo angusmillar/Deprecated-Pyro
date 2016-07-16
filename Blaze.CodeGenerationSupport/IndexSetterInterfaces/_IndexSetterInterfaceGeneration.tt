@@ -1,0 +1,46 @@
+﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="Blaze.CodeGenerationSupport.IndexSetterInterfaces" #> 
+
+<#
+  var manager = TemplateFileManager.Create(this);
+  // Any output below here will go to the BlazeDbModelCodeGenerator.cs
+  IndexSetterInterfaceCodeGeneration IndexSetterInterfaceGen = new IndexSetterInterfaceCodeGeneration();      
+  List<IndexSetterInterfaceCodeGenModel> IndexSetterInterfaceCodeGenModelList = IndexSetterInterfaceGen.Generate();
+
+  foreach(var item in IndexSetterInterfaceCodeGenModelList)
+  {      
+    manager.StartNewFile(string.Format("{0}.cs",item.ClassName), "Blaze.DataModel", "IndexSetter");
+#>
+using Hl7.Fhir.Model;
+using Blaze.DataModel.DatabaseModel.Base;
+
+namespace Blaze.DataModel.IndexSetter
+{
+  public interface <#=item.ClassName#> : <#=item.ImplementsInterface#>
+  {
+    <#
+    foreach (var SubItem in item.IndexSetterMethodList)
+    {#>
+	  <#=SubItem.GetMethodSyntax()#>
+	  <#
+    }
+    #>  
+  }
+}
+
+<#
+  }
+  manager.Process();
+#>

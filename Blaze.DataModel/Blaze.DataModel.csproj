@@ -6227,6 +6227,37 @@
     <Compile Include="DatabaseModel\Res_VisionPrescription_Index_tag_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="IndexSetter\DateIndexSetter.cs" />
+    <Compile Include="IndexSetter\IDateIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IDatePeriodIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IIndexSetter.cs" />
+    <Compile Include="IndexSetter\IndexSetterFactory.cs" />
+    <Compile Include="IndexSetter\INumberIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IQuantityIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IQuantityRangeIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IReferenceIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IStringIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\ITokenIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IUriIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\QuantityRangeIndexSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
@@ -6586,6 +6617,7 @@
     <None Include="DatabaseModel\_DbContextConfigGenerator.txt4" />
     <None Include="DatabaseModel\_DbContextGenerator.txt4" />
     <None Include="DatabaseModel\_DbEntityModelGenerator.txt4" />
+    <None Include="IndexSetter\_IndexSetterInterfaceGeneration.txt4" />
     <None Include="packages.config" />
     <None Include="Repository\_RepositoryGenerator.txt4" />
     <None Include="Support\_GenericCodeDataTypeEnumsGenerator.txt4" />

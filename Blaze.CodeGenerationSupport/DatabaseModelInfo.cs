@@ -17,13 +17,46 @@ namespace Blaze.CodeGenerationSupport
     public static string HistoryPrefixText { get { return "History"; } }
     public static string ListPostfixText { get { return "_List"; } }
     public static string XmlBlobPropertyText { get { return "XmlBlob"; } }
-    
+
+    public enum BlazeIndexType { Date, DatePeriod, Number, Quantity, QuantityRange, Reference, String, Token, Uri };
+    public static Dictionary<BlazeIndexType, string> BlazeIndexTypeToStringDictonary
+    {
+      get
+      {
+        var Dic = new Dictionary<BlazeIndexType, string>();
+        Dic.Add(BlazeIndexType.Date, "Date");
+        Dic.Add(BlazeIndexType.DatePeriod, "DatePeriod");
+        Dic.Add(BlazeIndexType.Number, "Number");
+        Dic.Add(BlazeIndexType.Quantity, "Quantity");
+        Dic.Add(BlazeIndexType.QuantityRange, "QuantityRange");
+        Dic.Add(BlazeIndexType.Reference, "Reference");
+        Dic.Add(BlazeIndexType.String, "String");
+        Dic.Add(BlazeIndexType.Token, "Token");
+        Dic.Add(BlazeIndexType.Uri, "Uri");
+        return Dic;
+      }
+    }
+    public static Dictionary<string, BlazeIndexType> StringToBlazeIndexTypeDictonary
+    {
+      get
+      {
+        var Dic = new Dictionary<string, BlazeIndexType>();
+        Dic.Add("Date", BlazeIndexType.Date);
+        Dic.Add("DatePeriod", BlazeIndexType.DatePeriod);
+        Dic.Add("Number", BlazeIndexType.Number);
+        Dic.Add("Quantity", BlazeIndexType.Quantity);
+        Dic.Add("QuantityRange", BlazeIndexType.QuantityRange);
+        Dic.Add("Reference", BlazeIndexType.Reference);
+        Dic.Add("String", BlazeIndexType.String);
+        Dic.Add("Token",BlazeIndexType.Token);
+        Dic.Add("Uri", BlazeIndexType.Uri);
+        return Dic;
+      }
+    }
+    public static string IndexSetterBaseInterfaceName = "IIndexSetter";
+
     public static string DatabaseModelBaseClassName { get { return "ModelBase"; } }
-    public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }   
-    
-    //public static string DatabaseModelMetaProfileName { get { return "meta_profile"; } }
-    //public static string DatabaseModelMetaSecurityName { get { return "meta_security"; } }
-    //public static string DatabaseModelMetaTagName { get { return "meta_tag"; } }
+    public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }          
 
     /// <summary>
     /// Construct the class name string for the Resource Entity classes (e.g Res_Patient)
@@ -91,7 +124,6 @@ namespace Blaze.CodeGenerationSupport
     {
       return SearchParameterName.Replace('-', '_');      
     }
-
 
     public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem)
     {      

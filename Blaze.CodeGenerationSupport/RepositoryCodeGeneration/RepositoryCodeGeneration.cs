@@ -35,12 +35,12 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
         
-        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,false);
-        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, false);
+        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,false);
+        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, false);
         
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);
-
+        
         var RepositoryItem = new RepositoryItem();
         RepositoryCodeGenModel.RepositoryItemList.Add(RepositoryItem);
 
@@ -89,11 +89,14 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
             Sb = RepositoryCollectionSetterLogicBuilder.Build(CollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");            
             LogicList.Add(Sb.ToString());
           }
+
+          
           string CompileAllLogic = string.Empty;
           LogicList.ForEach(x => CompileAllLogic = CompileAllLogic + x);
           RepositoryItem.EntitySetterLogic = CompileAllLogic;                         
         }
       }
+      
       return RepositoryCodeGenModel;
     }
 

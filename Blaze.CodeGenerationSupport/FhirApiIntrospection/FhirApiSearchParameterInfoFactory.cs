@@ -7,7 +7,7 @@ using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
 
 namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
-{  
+{
   public static class FhirApiSearchParameterInfoFactory
   {
     #region Private Properties
@@ -33,15 +33,15 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       foreach (string ResourceName in ResourceList)
       {
         List<ModelInfo.SearchParamDefinition> ResourceSearchParameterList = (from x in SearchParameterList
-                                           where x.Resource == ResourceName
-                                           select x).ToList();
+                                                                             where x.Resource == ResourceName
+                                                                             select x).ToList();
 
         List<ModelInfo.SearchParamDefinition> CompositeSearchParameterList = new List<ModelInfo.SearchParamDefinition>();
-    
+
         foreach (ModelInfo.SearchParamDefinition SearchParameterDef in ResourceSearchParameterList)
         {
           _CurrentSearchParameterDef = SearchParameterDef;
-          
+
           //For debugging a specific resource
           //bool testbool = false;
           //if (SearchParameterDef.Resource == "Observation" && SearchParameterDef.Name == "value-concept")
@@ -63,7 +63,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
             }
           }
         }
-        foreach(var CompositeSearchParameter in CompositeSearchParameterList)
+        foreach (var CompositeSearchParameter in CompositeSearchParameterList)
         {
           //For each Composite we collect the sub search parameters that this composite is a composition of and add them to the
           //CompositeSearchParameterList. This is why it is processed last.
@@ -86,13 +86,13 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.SearchName = "profile";
         _SearchParameterInfo.IsChoice = false;
         _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:profile";
-        _SearchParameterInfo.CompositeSearchParameterList = null;                
+        _SearchParameterInfo.CompositeSearchParameterList = null;
 
 
-         var RootElementMetaProfile = new FhirSearchParameterSearchPathElement();
+        var RootElementMetaProfile = new FhirSearchParameterSearchPathElement();
         RootElementMetaProfile.IsCollection = false;
         RootElementMetaProfile.PropertyName = ResourceName;
-        RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);             
+        RootElementMetaProfile.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaProfile);
 
         var ChildPathElementMetaProfile = new FhirSearchParameterSearchPathElement();
@@ -124,7 +124,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         var RootElementMetaSecurity = new FhirSearchParameterSearchPathElement();
         RootElementMetaSecurity.IsCollection = false;
         RootElementMetaSecurity.PropertyName = ResourceName;
-        RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);              
+        RootElementMetaSecurity.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaSecurity);
 
         var ChildPathElementMetaSecurity = new FhirSearchParameterSearchPathElement();
@@ -155,7 +155,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         var RootElementMetaTag = new FhirSearchParameterSearchPathElement();
         RootElementMetaTag.IsCollection = false;
         RootElementMetaTag.PropertyName = ResourceName;
-        RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);        
+        RootElementMetaTag.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElementMetaTag);
 
         var ChildPathElementMetaTag = new FhirSearchParameterSearchPathElement();
@@ -188,7 +188,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       int test = oFhirXPathList.Count();
       return _ResourceSearchInfoList;
     }
-    
+
     /// <summary>
     /// This removes all the duplicate search parameters that are found when the search parameter is part of a choice in the FHIR resource structure.
     /// It checks that the duplicates all have the same data type as if they didn't then their would be a problem with our storage policy of an index for each search parameter.
@@ -197,29 +197,29 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     /// <returns></returns>
     public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates3(List<FhirApiSearchParameterInfo> InboundList, bool RepositorySetter = false)
     {
-      
+
       var TempList = new List<FhirApiSearchParameterInfo>();
-      foreach(var Item in InboundList)
-      {          
+      foreach (var Item in InboundList)
+      {
         var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
         if (DuplicateFoundList.Count() > 0)
         {
           foreach (var DuplicateItem in DuplicateFoundList)
-          {            
+          {
             if (DuplicateItem.SearchParamType != Item.SearchParamType)
             {
               throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
             }
           }
-        }        
+        }
       }
       return TempList;
     }
 
 
-    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
+    public static void CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
     {
-      
+
       var TempList = new List<FhirApiSearchParameterInfo>();
       var DupList = new List<FhirApiSearchParameterInfo>();
       foreach (var Item in InboundList)
@@ -229,7 +229,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           foreach (var DuplicateItem in DuplicateFoundList)
           {
-            if (DuplicateItem.Resource == "Condition" )
+            if (DuplicateItem.Resource == "Condition")
             {
               if (DuplicateItem.SearchName == "onset")
               {
@@ -258,12 +258,12 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         }
       }
       //Remove the duplicates found
-      foreach(var item in DupList)
+      foreach (var item in DupList)
       {
         TempList.Remove(item);
       }
       //TempList.AddRange(DupList);
-      return TempList;
+      InboundList = TempList;
     }
 
     /// <summary>
@@ -312,8 +312,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       //i.e Date, Booleans, Range to String and others. Appears to be a bug in the FHIR API which for now I 
       //will just ignore by removing the search parameters from the index setting code gen.
       var ResourceConditionSearchParameterList = (from x in InboundList
-                                                          where x.Resource == "Condition"
-                                                      select x).ToList();
+                                                  where x.Resource == "Condition"
+                                                  select x).ToList();
       if (ResourceConditionSearchParameterList.Count > 0)
       {
         var ResourceConditionSearchParameterOnSetList = ResourceConditionSearchParameterList.ToList().Where(x => x.Resource == "Condition" && x.SearchName == "onset");
@@ -330,17 +330,17 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
       }
 
-    
-    
+
+
     }
 
     #endregion
 
     #region Private Methods
-    
+
     private static void ResolveSearchParameter(string ResourceName)
     {
-      
+
       //Testing FhirXPath parser over all search paths
       //try
       //{
@@ -364,12 +364,12 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         FhirXPath oFhirXpath = FhirXPathFactory.FhirXPathFactoryParse(SearchXPath);
         //reset the Collection counter before we start iterating a resource's properties for this search property
         _CollectionCounter = 0;
-        _SearchParameterInfo = new FhirApiSearchParameterInfo();                  
- 
+        _SearchParameterInfo = new FhirApiSearchParameterInfo();
+
         var RootElement = new FhirSearchParameterSearchPathElement();
         RootElement.IsCollection = false;
         RootElement.PropertyName = ResourceName;
-        RootElement.DataType = ModelInfo.GetTypeForFhirType(ResourceName);              
+        RootElement.DataType = ModelInfo.GetTypeForFhirType(ResourceName);
         _SearchParameterInfo.SearchParameterNavigationPathList.Add(RootElement);
 
         RecursivelyNavigatePropertyPath(oFhirXpath, 1, ModelInfo.GetTypeForFhirType(ResourceName));
@@ -387,7 +387,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     private static void RecursivelyNavigatePropertyPath(FhirXPath oFhirXPath, int CurrentElement, Type Type)
     {
       SearchChoiceProperty SearchChoiceProperty = null;
-      ClassMapping ClassMap = ClassMapping.Create(Type);            
+      ClassMapping ClassMap = ClassMapping.Create(Type);
       foreach (var Property in ClassMap.PropertyMappings)
       {
         if (Property.Name == oFhirXPath.FhirXPathComponentList[CurrentElement].Name || (Property.Choice == ChoiceType.DatatypeChoice && oFhirXPath.FhirXPathComponentList[CurrentElement].Name.StartsWith(Property.Name)))
@@ -454,7 +454,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
               }
 
               if (Property.Choice == ChoiceType.DatatypeChoice && Property.ElementType == typeof(Element))
-              {                
+              {
                 if (SearchChoiceProperty.Type == typeof(CodeableConcept) ||
                     SearchChoiceProperty.Type == typeof(Timing) ||
                     SearchChoiceProperty.Type == typeof(HumanName) ||
@@ -482,7 +482,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       }
       throw new Exception("The search path did not match the API Model. Do we have an incorrect search path or an incorrect API Model?");
     }
-    
+
     private static void SetCollectionCountUsingElementIndexInfo(FhirXPathComponent oFhirXPathComponent)
     {
       if (oFhirXPathComponent.HasChoiceSpecifier)
@@ -493,7 +493,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         //we have an index = 0 meaning the first entry of the collection and only the first entry.
         //In this 'index' case there is no need to increment _CollectionCounter, yet in the other case their is a need too.
         if (oFhirXPathComponent.ChoiceSpecifier.AttributeName == null && oFhirXPathComponent.ChoiceSpecifier.ElementName == null)
-        {          
+        {
           int temp = 0;
           if (int.TryParse(oFhirXPathComponent.ChoiceSpecifier.Value, out temp))
           {
@@ -638,18 +638,18 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
       //The 'race' parameter on the Patient Resource is a US-Realm extension and shooudl not really be listed in the FHIR API 
       RemoveSearchParameterFromList(SearchParameterList, "Patient", "race");
-      
+
       //The 'ethnicity' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
       RemoveSearchParameterFromList(SearchParameterList, "Patient", "ethnicity");
-      
+
 
 
       //--- Correction to search parameters -----------------------------------------------------------------
 
       //Correction as a Bundle has many Entries and each entry only has one resource, this modification aligns correctly with the FHIR web site unlike the API  
       var ResourceBundleSearchParameterList = (from x in SearchParameterList
-                                         where x.Resource == "Bundle"
-                                         select x);
+                                               where x.Resource == "Bundle"
+                                               select x);
 
       var ResourceCompositionSearchParameter = ResourceBundleSearchParameterList.ToList().Where(x => x.Name == "composition").SingleOrDefault();
       if (ResourceCompositionSearchParameter != null)
@@ -687,10 +687,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       //Correction as a Condition resource has two search parameters of 'onset' and 'onset-info' yet both have the very same targets.
       //They should be seperated by there search parameter type where 'onset' = date types and 'onset-info' = string types.
       //I am removing and not supporting Range because it is a token and there is no standard way to express a range as a string.
-      
-      
+
+
       var ResourceConditionSearchParameterList = (from x in SearchParameterList
-                                               where x.Resource == "Condition"
+                                                  where x.Resource == "Condition"
                                                   select x);
 
       //Work on 'onset' search parameter
@@ -747,7 +747,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       ModelInfo.SearchParamDefinition SearchParamDefinitionForRemoval = SearchParameterList.SingleOrDefault(x => x.Resource == ResourceNameForRemoval && x.Name == ParameterNameForRemoval);
       if (SearchParamDefinitionForRemoval == null)
         throw new ApplicationException(string.Format("Code Generation of the database model was expecting to correct a search parameter which was in error in the FHIR API. That parameter was for Resource name: '{0}' search parameter: '{1}'. The parameter could not be found. Maybe it has been corrected and this process can be removed?", ResourceNameForRemoval, ParameterNameForRemoval));
-      SearchParameterList.Remove(SearchParamDefinitionForRemoval);      
+      SearchParameterList.Remove(SearchParamDefinitionForRemoval);
     }
     #endregion
   }

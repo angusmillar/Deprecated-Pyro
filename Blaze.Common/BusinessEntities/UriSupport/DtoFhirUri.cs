@@ -110,7 +110,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
         oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
         oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
         oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_RESOURCE_TYPE_MISMATCH", String.Format("Resource Type Mismatch"));
-        oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type in the URL and yet did not find one in the URL: {1}", Uri.AbsoluteUri);
+        oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type in the URL and yet did not find one in the URL: {0}", Uri.AbsoluteUri);
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };

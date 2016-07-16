@@ -70,8 +70,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
 
-        CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters, true);
-        NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
+        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters, true);
+        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
 
         //The Resource main Table
         _CodeGenerationDbTableModelList.Add(CreateModelResourceMainTable(ResourceName, CollectionParameters, NonCollectionParameters));

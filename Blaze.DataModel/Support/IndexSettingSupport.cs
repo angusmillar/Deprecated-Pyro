@@ -9,21 +9,22 @@ using Blaze.Common.Interfaces.UriSupport;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
+using Blaze.DataModel.IndexSetter;
 
 
 namespace Blaze.DataModel.Support
 {
   public static class IndexSettingSupport
-  {
+  {   
     public static T SetIndex<T>(ModelBase ModelBase, Element FhirElement, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null) where T : ModelBase
     {
       if (typeof(T) == typeof(DateIndex))
       {
         return CreateDateTime(ModelBase, FhirElement) as T;
-      }
-      else if (typeof(T) == typeof(Duration))
+      }      
+      else if (typeof(T) == typeof(DatePeriodIndex))
       {
-        return CreateNumber(ModelBase, FhirElement) as T;
+        return CreateDatePeriod(ModelBase, FhirElement) as T;
       }
       else if (typeof(T) == typeof(NumberIndex))
       {
@@ -32,6 +33,10 @@ namespace Blaze.DataModel.Support
       else if (typeof(T) == typeof(QuantityIndex))
       {
         return CreateQuantity(ModelBase, FhirElement) as T;
+      }
+      else if (typeof(T) == typeof(QuantityRangeIndex))
+      {        
+        return IndexSetterFactory.Create(typeof(QuantityRangeIndex)).Set(FhirElement) as T;        
       }
       else if (typeof(T) == typeof(ReferenceIndex))
       {
@@ -158,6 +163,30 @@ namespace Blaze.DataModel.Support
         return null;
       }
     }
+    
+
+    public static DatePeriodIndex CreateDatePeriod(ModelBase ModelBase, Element FhirElement)
+    {
+      if (FhirElement is Period)
+      {
+        var FhirPeriod = FhirElement as Period;
+        var DatePeriodIndex = ModelBase as DatePeriodIndex;
+
+        if (FhirPeriod.End != null)
+        {
+          DatePeriodIndex.DateTimeOffsetHigh = FhirPeriod.EndElement.ToDateTimeOffset();
+        }
+        if (FhirPeriod.Start != null)
+        {
+          DatePeriodIndex.DateTimeOffsetLow = FhirPeriod.StartElement.ToDateTimeOffset();
+        }        
+        return DatePeriodIndex;        
+      }      
+      else
+      {
+        return null;
+      }
+    }
 
     public static DateIndex CreateDateTime(ModelBase ModelBase, Element FhirElement)
     {
@@ -196,39 +225,7 @@ namespace Blaze.DataModel.Support
         return null;
       }
     }    
-
-    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version)
-    {
-      SetResourceBase(null, ResourceIndexBase, FhirResourceId, Version, true);
-    }
-
-    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, string Version, bool IsDeleted)
-    {
-      SetResourceBase(Resource, ResourceIndexBase, null, Version, false);
-    }
-
-    public static void SetHistoryResourceEntity(DatabaseModel.Base.ResourceIndexBase ResourceEntity, DatabaseModel.Base.ResourceIndexBase HistoryResourceEntity)
-    {
-      HistoryResourceEntity.FhirId = ResourceEntity.FhirId;
-      HistoryResourceEntity.IsDeleted = ResourceEntity.IsDeleted;
-      HistoryResourceEntity.XmlBlob = ResourceEntity.XmlBlob;
-      HistoryResourceEntity.lastUpdated = ResourceEntity.lastUpdated;
-      HistoryResourceEntity.versionId = ResourceEntity.versionId;
-    }
-
-    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase)
-    {
-      var DtoResource = new DtoResource();
-      DtoResource.FhirId = ResourceIndexBase.FhirId;
-      DtoResource.IsCurrent = true;
-      DtoResource.IsDeleted = ResourceIndexBase.IsDeleted;
-      DtoResource.Received = ResourceIndexBase.lastUpdated;
-      DtoResource.Version = ResourceIndexBase.versionId;
-      DtoResource.Xml = ResourceIndexBase.XmlBlob;
-      return DtoResource;
-    }
-
-
+    
     private static NumberIndex CreateNumber(ModelBase ModelBase, Element FhirElementObject)
     {
       if (FhirElementObject is FhirDecimal)
@@ -257,26 +254,6 @@ namespace Blaze.DataModel.Support
       }
     }
     
-    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, bool IsDeleted)
-    {
-      if (!IsDeleted)
-      {
-        ResourceIndexBase.FhirId = Resource.Id;
-        ResourceIndexBase.IsDeleted = IsDeleted;
-        ResourceIndexBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
-        ResourceIndexBase.lastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
-        ResourceIndexBase.versionId = Version;
-      }
-      else
-      {
-        ResourceIndexBase.FhirId = FhirResourceId;
-        ResourceIndexBase.IsDeleted = IsDeleted;
-        ResourceIndexBase.XmlBlob = "";
-        ResourceIndexBase.lastUpdated = DateTimeOffset.Now;
-        ResourceIndexBase.versionId = Version;
-      }
-    }
-
     private static QuantityIndex CreateQuantity(ModelBase ModelBase, Element FhirElement)
     {
       if (FhirElement is Quantity)
@@ -305,6 +282,34 @@ namespace Blaze.DataModel.Support
       }
     }
 
+    private static QuantityRangeIndex CreateQuantityRange(ModelBase ModelBase, Element FhirElement)
+    {
+      if (FhirElement is Range)
+      {
+        var Range = FhirElement as Range;
+        var QuantityRangeIndex = ModelBase as QuantityRangeIndex;
+        if (Range.Low != null)
+        {
+          QuantityRangeIndex.ComparatorLow = Range.Low.Comparator;
+          QuantityRangeIndex.CodeLow = Range.Low.Code;
+          QuantityRangeIndex.SystemLow = Range.Low.System;
+          QuantityRangeIndex.QuantityLow = (decimal)Range.Low.Value;
+        }
+        if (Range.High != null)
+        {
+          QuantityRangeIndex.ComparatorLow = Range.High.Comparator;
+          QuantityRangeIndex.CodeLow = Range.High.Code;
+          QuantityRangeIndex.SystemLow = Range.High.System;
+          QuantityRangeIndex.QuantityLow = (decimal)Range.High.Value;
+        }
+        return QuantityRangeIndex;
+      }
+      else
+      {
+        return null;
+      }
+    }
+    
     private static ReferenceIndex CreateResourceReference(ModelBase ModelBase, Element FhirElement, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository)
     {
       if (FhirElement is ResourceReference)
@@ -392,6 +397,57 @@ namespace Blaze.DataModel.Support
       {
         return null;
       }
+    }
+
+    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, bool IsDeleted)
+    {
+      if (!IsDeleted)
+      {
+        ResourceIndexBase.FhirId = Resource.Id;
+        ResourceIndexBase.IsDeleted = IsDeleted;
+        ResourceIndexBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
+        ResourceIndexBase.lastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
+        ResourceIndexBase.versionId = Version;
+      }
+      else
+      {
+        ResourceIndexBase.FhirId = FhirResourceId;
+        ResourceIndexBase.IsDeleted = IsDeleted;
+        ResourceIndexBase.XmlBlob = "";
+        ResourceIndexBase.lastUpdated = DateTimeOffset.Now;
+        ResourceIndexBase.versionId = Version;
+      }
+    }
+
+    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase)
+    {
+      var DtoResource = new DtoResource();
+      DtoResource.FhirId = ResourceIndexBase.FhirId;
+      DtoResource.IsCurrent = true;
+      DtoResource.IsDeleted = ResourceIndexBase.IsDeleted;
+      DtoResource.Received = ResourceIndexBase.lastUpdated;
+      DtoResource.Version = ResourceIndexBase.versionId;
+      DtoResource.Xml = ResourceIndexBase.XmlBlob;
+      return DtoResource;
+    }
+
+    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version)
+    {
+      SetResourceBase(null, ResourceIndexBase, FhirResourceId, Version, true);
+    }
+
+    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, string Version, bool IsDeleted)
+    {
+      SetResourceBase(Resource, ResourceIndexBase, null, Version, false);
+    }
+
+    public static void SetHistoryResourceEntity(DatabaseModel.Base.ResourceIndexBase ResourceEntity, DatabaseModel.Base.ResourceIndexBase HistoryResourceEntity)
+    {
+      HistoryResourceEntity.FhirId = ResourceEntity.FhirId;
+      HistoryResourceEntity.IsDeleted = ResourceEntity.IsDeleted;
+      HistoryResourceEntity.XmlBlob = ResourceEntity.XmlBlob;
+      HistoryResourceEntity.lastUpdated = ResourceEntity.lastUpdated;
+      HistoryResourceEntity.versionId = ResourceEntity.versionId;
     }
 
   }

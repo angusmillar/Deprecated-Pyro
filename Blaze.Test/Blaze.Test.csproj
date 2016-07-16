@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerationSupport\Test_FhirApiSearchParameterInfoFactory.cs" />
+    <Compile Include="CodeGenerationSupport\Test_CodeGeneration.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

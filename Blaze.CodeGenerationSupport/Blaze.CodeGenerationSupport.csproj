@@ -78,6 +78,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_GenericCodeDataTypeEnumsGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="IndexSetterInterfaces\IndexSetterInterfaceCodeGenModel.cs" />
+    <Compile Include="IndexSetterInterfaces\IndexSetterInterfaceCodeGeneration.cs" />
+    <Compile Include="IndexSetterInterfaces\_IndexSetterInterfaceGeneration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_IndexSetterInterfaceGeneration.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryCodeGeneration\RepositoryCodeGeneration.cs" />
     <Compile Include="RepositoryCodeGeneration\RepositoryCodeGenModel.cs" />
@@ -124,7 +131,12 @@
       <LastGenOutput>_UnitOfWorkGenerator.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="IndexSetterInterfaces\_IndexSetterInterfaceGeneration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_IndexSetterInterfaceGeneration.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

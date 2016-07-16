@@ -10,7 +10,7 @@ using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 namespace Blaze.Test.CodeGenerationSupport
 {
   [TestFixture]
-  class Test_FhirApiSearchParameterInfoFactory
+  class Test_CodeGeneration
   {
     
     [Test]
@@ -50,11 +50,10 @@ namespace Blaze.Test.CodeGenerationSupport
     }
 
     [Test]
-    public void Test_Test()
+    public void Test_IndexSetterInterfaceCodeGeneration()
     {
-     
-        Assert.IsTrue(true);
-      
+      var IndexSetterInterfaceGen = new Blaze.CodeGenerationSupport.IndexSetterInterfaces.IndexSetterInterfaceCodeGeneration();
+      var List = IndexSetterInterfaceGen.Generate();
     }
 
   }
