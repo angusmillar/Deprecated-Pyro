@@ -27,6 +27,8 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual Blaze_RootUrlStore encounter_Url { get; set; }
     public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? onset_DateTimeOffset {get; set;}
+    public DateTimeOffset? onset_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? onset_DateTimeOffsetHigh {get; set;}
     public string onset_info_String {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}

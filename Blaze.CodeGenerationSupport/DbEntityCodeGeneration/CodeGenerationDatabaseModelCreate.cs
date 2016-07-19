@@ -54,7 +54,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "Specimen")
+        if (ResourceName == "Group")
         {
 
         }
@@ -70,8 +70,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
 
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters, true);
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, true);
+        CollectionParameters = FhirApiSearchParameterInfoFactory.RemoveDuplicates(CollectionParameters);
+        NonCollectionParameters = FhirApiSearchParameterInfoFactory.RemoveDuplicates(NonCollectionParameters);
 
         //The Resource main Table
         _CodeGenerationDbTableModelList.Add(CreateModelResourceMainTable(ResourceName, CollectionParameters, NonCollectionParameters));

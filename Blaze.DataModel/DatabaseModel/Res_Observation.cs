@@ -14,6 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_ObservationID {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string device_VersionId {get; set;}
     public string device_FhirId {get; set;}
     public string device_Type {get; set;}
@@ -42,6 +44,8 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual Blaze_RootUrlStore subject_Url { get; set; }
     public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? value_date_DateTimeOffset {get; set;}
+    public DateTimeOffset? value_date_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? value_date_DateTimeOffsetHigh {get; set;}
     public int? value_quantity_Comparator {get; set;}
     public decimal? value_quantity_Quantity {get; set;}
     public string value_quantity_System {get; set;}

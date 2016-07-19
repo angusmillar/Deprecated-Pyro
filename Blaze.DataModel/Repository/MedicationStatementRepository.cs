@@ -119,6 +119,8 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_MedicationStatement ResourceEntity)
     {
       ResourceEntity.effective_DateTimeOffset = null;      
+      ResourceEntity.effective_DateTimeOffsetLow = null;      
+      ResourceEntity.effective_DateTimeOffsetHigh = null;      
       ResourceEntity.medication_FhirId = null;      
       ResourceEntity.medication_Type = null;      
       ResourceEntity.medication_Url = null;      
@@ -154,6 +156,16 @@ namespace Blaze.DataModel.Repository
         if (Index != null)
         {
           ResourseEntity.effective_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Effective != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Effective);
+        if (Index != null)
+        {
+          ResourseEntity.effective_DateTimeOffsetLow = Index.DateTimeOffset;
+          ResourseEntity.effective_DateTimeOffsetHigh = Index.DateTimeOffset;
         }
       }
 

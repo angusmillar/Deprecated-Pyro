@@ -110,6 +110,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.route_List);
       IncludeList.Add(x => x.severity_List);
       IncludeList.Add(x => x.substance_List);
+      IncludeList.Add(x => x.substance_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
@@ -152,6 +153,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_AllergyIntolerance_Index_onset.RemoveRange(ResourceEntity.onset_List);            
       _Context.Res_AllergyIntolerance_Index_route.RemoveRange(ResourceEntity.route_List);            
       _Context.Res_AllergyIntolerance_Index_severity.RemoveRange(ResourceEntity.severity_List);            
+      _Context.Res_AllergyIntolerance_Index_substance.RemoveRange(ResourceEntity.substance_List);            
       _Context.Res_AllergyIntolerance_Index_substance.RemoveRange(ResourceEntity.substance_List);            
       _Context.Res_AllergyIntolerance_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_AllergyIntolerance_Index_security.RemoveRange(ResourceEntity.security_List);            
@@ -344,6 +346,18 @@ namespace Blaze.DataModel.Repository
         {
           var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_substance(), item3) as Res_AllergyIntolerance_Index_substance;
           ResourseEntity.substance_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.Substance != null)
+        {
+          foreach (var item4 in item1.Substance.Coding)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_substance(), item4) as Res_AllergyIntolerance_Index_substance;
+            ResourseEntity.substance_List.Add(Index);
+          }
         }
       }
 

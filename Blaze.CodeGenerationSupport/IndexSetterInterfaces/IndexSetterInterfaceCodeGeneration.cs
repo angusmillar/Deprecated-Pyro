@@ -69,7 +69,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
                                                                         where x.Resource == ResourceName
                                                                         select x).ToList();
 
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(SearchParametersForResource, false);
+        //SearchParametersForResource = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(SearchParametersForResource);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(SearchParametersForResource);
 
 

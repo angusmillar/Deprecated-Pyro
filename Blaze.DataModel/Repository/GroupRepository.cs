@@ -110,6 +110,9 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.member_List);
       IncludeList.Add(x => x.value_List);
+      IncludeList.Add(x => x.value_List);
+      IncludeList.Add(x => x.value_List);
+      IncludeList.Add(x => x.value_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
@@ -134,6 +137,9 @@ namespace Blaze.DataModel.Repository
       _Context.Res_Group_Index_exclude.RemoveRange(ResourceEntity.exclude_List);            
       _Context.Res_Group_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Group_Index_member.RemoveRange(ResourceEntity.member_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
+      _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
       _Context.Res_Group_Index_value.RemoveRange(ResourceEntity.value_List);            
       _Context.Res_Group_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_Group_Index_security.RemoveRange(ResourceEntity.security_List);            
@@ -229,6 +235,33 @@ namespace Blaze.DataModel.Repository
               ResourseEntity.value_List.Add(Index);
             }
           }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Characteristic)
+      {
+        if (item1.Value != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Group_Index_value(), item1.Value) as Res_Group_Index_value;
+          ResourseEntity.value_List.Add(Index);
         }
       }
 

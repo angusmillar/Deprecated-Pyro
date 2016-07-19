@@ -113,6 +113,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.entity_name_List);
       IncludeList.Add(x => x.entity_type_List);
       IncludeList.Add(x => x.patient_List);
+      IncludeList.Add(x => x.patient_List);
       IncludeList.Add(x => x.policy_List);
       IncludeList.Add(x => x.subtype_List);
       IncludeList.Add(x => x.user_List);
@@ -148,6 +149,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_AuditEvent_Index_entity_id.RemoveRange(ResourceEntity.entity_id_List);            
       _Context.Res_AuditEvent_Index_entity_name.RemoveRange(ResourceEntity.entity_name_List);            
       _Context.Res_AuditEvent_Index_entity_type.RemoveRange(ResourceEntity.entity_type_List);            
+      _Context.Res_AuditEvent_Index_patient.RemoveRange(ResourceEntity.patient_List);            
       _Context.Res_AuditEvent_Index_patient.RemoveRange(ResourceEntity.patient_List);            
       _Context.Res_AuditEvent_Index_policy.RemoveRange(ResourceEntity.policy_List);            
       _Context.Res_AuditEvent_Index_subtype.RemoveRange(ResourceEntity.subtype_List);            
@@ -299,6 +301,18 @@ namespace Blaze.DataModel.Repository
       }
 
       foreach (var item1 in ResourceTyped.Agent)
+      {
+        if (item1.Reference != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_AuditEvent_Index_patient(), item1.Reference, FhirRequestUri, this) as Res_AuditEvent_Index_patient;
+          if (Index != null)
+          {
+            ResourseEntity.patient_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Entity)
       {
         if (item1.Reference != null)
         {

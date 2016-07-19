@@ -112,16 +112,20 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.address_use_List);
       IncludeList.Add(x => x.communication_List);
       IncludeList.Add(x => x.email_List);
+      IncludeList.Add(x => x.email_List);
       IncludeList.Add(x => x.family_List);
       IncludeList.Add(x => x.given_List);
+      IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.location_List);
       IncludeList.Add(x => x.name_List);
       IncludeList.Add(x => x.organization_List);
       IncludeList.Add(x => x.phone_List);
+      IncludeList.Add(x => x.phone_List);
       IncludeList.Add(x => x.phonetic_List);
       IncludeList.Add(x => x.role_List);
       IncludeList.Add(x => x.specialty_List);
+      IncludeList.Add(x => x.telecom_List);
       IncludeList.Add(x => x.telecom_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
@@ -148,16 +152,20 @@ namespace Blaze.DataModel.Repository
       _Context.Res_Practitioner_Index_address_use.RemoveRange(ResourceEntity.address_use_List);            
       _Context.Res_Practitioner_Index_communication.RemoveRange(ResourceEntity.communication_List);            
       _Context.Res_Practitioner_Index_email.RemoveRange(ResourceEntity.email_List);            
+      _Context.Res_Practitioner_Index_email.RemoveRange(ResourceEntity.email_List);            
       _Context.Res_Practitioner_Index_family.RemoveRange(ResourceEntity.family_List);            
       _Context.Res_Practitioner_Index_given.RemoveRange(ResourceEntity.given_List);            
+      _Context.Res_Practitioner_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Practitioner_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Practitioner_Index_location.RemoveRange(ResourceEntity.location_List);            
       _Context.Res_Practitioner_Index_name.RemoveRange(ResourceEntity.name_List);            
       _Context.Res_Practitioner_Index_organization.RemoveRange(ResourceEntity.organization_List);            
       _Context.Res_Practitioner_Index_phone.RemoveRange(ResourceEntity.phone_List);            
+      _Context.Res_Practitioner_Index_phone.RemoveRange(ResourceEntity.phone_List);            
       _Context.Res_Practitioner_Index_phonetic.RemoveRange(ResourceEntity.phonetic_List);            
       _Context.Res_Practitioner_Index_role.RemoveRange(ResourceEntity.role_List);            
       _Context.Res_Practitioner_Index_specialty.RemoveRange(ResourceEntity.specialty_List);            
+      _Context.Res_Practitioner_Index_telecom.RemoveRange(ResourceEntity.telecom_List);            
       _Context.Res_Practitioner_Index_telecom.RemoveRange(ResourceEntity.telecom_List);            
       _Context.Res_Practitioner_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_Practitioner_Index_security.RemoveRange(ResourceEntity.security_List);            
@@ -268,6 +276,21 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      foreach (var item1 in ResourceTyped.PractitionerRole)
+      {
+        foreach (var item3 in item1.Telecom)
+        {
+          if (item3.System != null)
+          {
+            if ((ContactPoint.ContactPointSystem)item3.System == ContactPoint.ContactPointSystem.Email)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_email(), item3) as Res_Practitioner_Index_email;
+              ResourseEntity.email_List.Add(Index);
+            }
+          }
+        }
+      }
+
       foreach (var item1 in ResourceTyped.Name)
       {
         if (item1.Family != null)
@@ -298,6 +321,18 @@ namespace Blaze.DataModel.Repository
         {
           var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_identifier(), item3) as Res_Practitioner_Index_identifier;
           ResourseEntity.identifier_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.PractitionerRole)
+      {
+        if (item1.Identifier != null)
+        {
+          foreach (var item4 in item1.Identifier)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_identifier(), item4) as Res_Practitioner_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -358,6 +393,21 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      foreach (var item1 in ResourceTyped.PractitionerRole)
+      {
+        foreach (var item3 in item1.Telecom)
+        {
+          if (item3.System != null)
+          {
+            if ((ContactPoint.ContactPointSystem)item3.System == ContactPoint.ContactPointSystem.Phone)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_phone(), item3) as Res_Practitioner_Index_phone;
+              ResourseEntity.phone_List.Add(Index);
+            }
+          }
+        }
+      }
+
       if (ResourceTyped.Name != null)
       {
         foreach (var item3 in ResourceTyped.Name)
@@ -410,6 +460,15 @@ namespace Blaze.DataModel.Repository
       {
         var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_telecom(), item2) as Res_Practitioner_Index_telecom;
         ResourseEntity.telecom_List.Add(Index);
+      }
+
+      foreach (var item1 in ResourceTyped.PractitionerRole)
+      {
+        foreach (var item3 in item1.Telecom)
+        {
+          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Practitioner_Index_telecom(), item3) as Res_Practitioner_Index_telecom;
+          ResourseEntity.telecom_List.Add(Index);
+        }
       }
 
       if (ResourceTyped.Meta != null)

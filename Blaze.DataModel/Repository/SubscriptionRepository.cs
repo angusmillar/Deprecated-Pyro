@@ -108,6 +108,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.tag_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
+      IncludeList.Add(x => x.tag_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_Subscription>(x => x.FhirId == FhirId, IncludeList);
 
@@ -131,6 +132,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_Subscription_Index_tag.RemoveRange(ResourceEntity.tag_List);            
       _Context.Res_Subscription_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_Subscription_Index_security.RemoveRange(ResourceEntity.security_List);            
+      _Context.Res_Subscription_Index_tag.RemoveRange(ResourceEntity.tag_List);            
  
     }
 
@@ -229,6 +231,18 @@ namespace Blaze.DataModel.Repository
           {
             var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Subscription_Index_security(), item4) as Res_Subscription_Index_security;
             ResourseEntity.security_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
+      {
+        if (ResourceTyped.Meta.Tag != null)
+        {
+          foreach (var item4 in ResourceTyped.Meta.Tag)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Subscription_Index_tag(), item4) as Res_Subscription_Index_tag;
+            ResourseEntity.tag_List.Add(Index);
           }
         }
       }

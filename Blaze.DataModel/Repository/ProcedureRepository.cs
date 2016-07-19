@@ -120,6 +120,8 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Procedure ResourceEntity)
     {
       ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.date_DateTimeOffsetLow = null;      
+      ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
@@ -158,6 +160,16 @@ namespace Blaze.DataModel.Repository
         if (Index != null)
         {
           ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+        }
+      }
+
+      if (ResourceTyped.Performed != null)
+      {
+        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Performed);
+        if (Index != null)
+        {
+          ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffset;
+          ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffset;
         }
       }
 

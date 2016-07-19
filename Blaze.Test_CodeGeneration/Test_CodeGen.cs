@@ -10,9 +10,9 @@ using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 namespace Blaze.Test.CodeGenerationSupport
 {
   [TestFixture]
-  class Test_CodeGeneration
+  class Test_CodeGen
   {
-    
+
     [Test]
     public void Test_GetApiSearchParameterInfo()
     {
@@ -41,7 +41,7 @@ namespace Blaze.Test.CodeGenerationSupport
     {
       Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen oCreate = new Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
       List<string> List = oCreate.Generate();
-     
+
       foreach (var item in List)
       {
 

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Test", "Blaze.Test\Bl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.CodeGenerationSupport", "Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Test_CodeGeneration", "Blaze.Test_CodeGeneration\Blaze.Test_CodeGeneration.csproj", "{0001A52A-E155-45CE-A014-BA9BA1E3BB41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0001A52A-E155-45CE-A014-BA9BA1E3BB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0001A52A-E155-45CE-A014-BA9BA1E3BB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0001A52A-E155-45CE-A014-BA9BA1E3BB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0001A52A-E155-45CE-A014-BA9BA1E3BB41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

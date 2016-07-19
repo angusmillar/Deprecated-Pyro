@@ -14,6 +14,8 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_MedicationAdministrationID {get; set;}
     public DateTimeOffset? effectivetime_DateTimeOffset {get; set;}
+    public DateTimeOffset? effectivetime_DateTimeOffsetLow {get; set;}
+    public DateTimeOffset? effectivetime_DateTimeOffsetHigh {get; set;}
     public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}

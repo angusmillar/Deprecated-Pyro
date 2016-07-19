@@ -143,6 +143,10 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.target_Type = null;      
       ResourceEntity.target_Url = null;      
       ResourceEntity.target_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.target_FhirId = null;      
+      ResourceEntity.target_Type = null;      
+      ResourceEntity.target_Url = null;      
+      ResourceEntity.target_Url_Blaze_RootUrlStoreID = null;      
       ResourceEntity.url_Uri = null;      
       ResourceEntity.version_Code = null;      
       ResourceEntity.version_System = null;      
@@ -259,6 +263,26 @@ namespace Blaze.DataModel.Repository
         {
           ResourseEntity.status_Code = Index.Code;
           ResourseEntity.status_System = Index.System;
+        }
+      }
+
+      if (ResourceTyped.Target != null)
+      {
+        {
+          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Target, FhirRequestUri, this);
+          if (Index != null)
+          {
+            ResourseEntity.target_Type = Index.Type;
+            ResourseEntity.target_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.target_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.target_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+            }
+          }
         }
       }
 

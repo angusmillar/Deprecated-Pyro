@@ -189,82 +189,177 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       return _ResourceSearchInfoList;
     }
 
-    /// <summary>
-    /// This removes all the duplicate search parameters that are found when the search parameter is part of a choice in the FHIR resource structure.
-    /// It checks that the duplicates all have the same data type as if they didn't then their would be a problem with our storage policy of an index for each search parameter.
-    /// </summary>
-    /// <param name="InboundList"></param>
-    /// <returns></returns>
-    public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicates3(List<FhirApiSearchParameterInfo> InboundList, bool RepositorySetter = false)
-    {
 
-      var TempList = new List<FhirApiSearchParameterInfo>();
-      foreach (var Item in InboundList)
+    public static List<FhirApiSearchParameterInfo> RemoveDuplicatesOld(List<FhirApiSearchParameterInfo> InboundList)
+    {
+      List<FhirApiSearchParameterInfo> TempList = new List<FhirApiSearchParameterInfo>(InboundList);
+      Dictionary<string, List<FhirApiSearchParameterInfo>> Dic = new Dictionary<string, List<FhirApiSearchParameterInfo>>();
+      var FinalList = new List<FhirApiSearchParameterInfo>();
+
+      foreach (var Item in TempList)
       {
-        var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
-        if (DuplicateFoundList.Count() > 0)
+        //Group each in a Dictionary where Search name is the key and possibility many SearchParameterInfos  
+        var y = (from x in InboundList where x.SearchName == Item.SearchName select x);
+        if (!Dic.ContainsKey(Item.SearchName))
         {
-          foreach (var DuplicateItem in DuplicateFoundList)
-          {
-            if (DuplicateItem.SearchParamType != Item.SearchParamType)
-            {
-              throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
-            }
-          }
+          Dic.Add(Item.SearchName, y.ToList());
         }
       }
-      return TempList;
+
+      foreach (var item in Dic)
+      {
+        FinalList.Add(item.Value[0]);
+      }
+      return FinalList;
     }
 
-
-    public static void CheckAndRemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
+    public static List<FhirApiSearchParameterInfo> RemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList)
     {
+      List<FhirApiSearchParameterInfo> TempList = new List<FhirApiSearchParameterInfo>(InboundList);
+      Dictionary<string, List<FhirApiSearchParameterInfo>> Dic = new Dictionary<string, List<FhirApiSearchParameterInfo>>();
+      var FinalList = new List<FhirApiSearchParameterInfo>();
 
-      var TempList = new List<FhirApiSearchParameterInfo>();
-      var DupList = new List<FhirApiSearchParameterInfo>();
-      foreach (var Item in InboundList)
+      foreach (var Item in TempList)
       {
-        var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
-        if (DuplicateFoundList.Count() > 0)
+        //Group each in a Dictionary where Search name is the key and possibility many SearchParameterInfos  
+        var y = (from x in InboundList where x.SearchName == Item.SearchName select x);
+        if (!Dic.ContainsKey(Item.SearchName))
         {
-          foreach (var DuplicateItem in DuplicateFoundList)
-          {
-            if (DuplicateItem.Resource == "Condition")
-            {
-              if (DuplicateItem.SearchName == "onset")
-              {
+          Dic.Add(Item.SearchName, y.ToList());
+        }
+      }
 
-              }
-            }
-
-            if (DuplicateItem.SearchParamType != Item.SearchParamType)
-            {
-              throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
-            }
-            if (RemoveDuplicates)
-            {
-              if ((DuplicateItem.TargetFhirType == typeof(Element) && Item.TargetFhirType == typeof(Element))
-                &&
-                (DuplicateItem.TargetFhirLogicalType != Item.TargetFhirLogicalType))
-              {
-                DupList.Add(Item);
-              }
-            }
-          }
+      foreach (var item in Dic)
+      {
+        //If there is only one for the Search name then there is no duplicate so add to final list
+        if (item.Value.Count == 1)
+        {
+          FinalList.Add(item.Value[0]);
         }
         else
         {
-          TempList.Add(Item);
+          //Group each that have the same SearchParamType and  TargetFhirLogicalType for the given Search name                             
+          var DistinctItemsInfoList = item.Value.GroupBy(x => new { x.SearchParamType, x.TargetFhirLogicalType.Name }).ToList();
+          FhirApiSearchParameterInfo HasFhirDateTime = null;
+          FhirApiSearchParameterInfo HasPeriod = null;
+          FhirApiSearchParameterInfo HasQuantity = null;
+          FhirApiSearchParameterInfo HasQuantityRange = null;
+
+          //Loop through the contents of each group checking for the types that need to be split as they are stored in different index Types
+          //'FhirDateTime' & 'Period' are both searched for using the search type of 'Date', yet each is stored differently, so we can not remove one or the other as duplicates
+          //Same goes for 'Quantity' and 'Range'  
+          foreach (var Distinct in DistinctItemsInfoList)
+          {
+            if (Distinct.ElementAt(0).SearchParamType == SearchParamType.Date)
+            {
+              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "FhirDateTime")
+              {
+                HasFhirDateTime = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
+              }
+              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Period")
+              {
+                HasPeriod = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
+              }
+            }
+            if (Distinct.ElementAt(0).SearchParamType == SearchParamType.Quantity)
+            {
+              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Quantity")
+              {
+                HasQuantity = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
+              }
+              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Range")
+              {
+                HasQuantityRange = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
+              }
+            }
+          }
+
+          //Detect that we had both for the same Search name so add both so that indexes are built for each 
+          if (HasFhirDateTime != null)
+          {
+            if (HasPeriod != null)
+            {
+              FinalList.Add(HasFhirDateTime);
+              FinalList.Add(HasPeriod);
+            }
+          }
+          //Detect that we had both for the same Search name so add both so that indexes are built for each 
+          else if (HasQuantity != null)
+          {
+            if (HasQuantityRange != null)
+            {
+              FinalList.Add(HasQuantity);
+              FinalList.Add(HasQuantityRange);
+            }
+          }
+          //Otherwise just add the first as they all need the same index type and the others are ducplicates
+          else
+          {
+            FinalList.Add(item.Value[0]);
+          }
         }
       }
-      //Remove the duplicates found
-      foreach (var item in DupList)
-      {
-        TempList.Remove(item);
-      }
-      //TempList.AddRange(DupList);
-      InboundList = TempList;
+      return FinalList;
     }
+
+
+    //public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicatesOld(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
+    //{
+
+    //  var TempList = new List<FhirApiSearchParameterInfo>();
+    //  var DupList = new List<FhirApiSearchParameterInfo>();
+    //  foreach (var Item in InboundList)
+    //  {
+    //    var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
+    //    if (DuplicateFoundList.Count() > 0)
+    //    {
+    //      foreach (var DuplicateItem in DuplicateFoundList)
+    //      {
+    //        if (DuplicateItem.Resource == "Condition")
+    //        {
+    //          if (DuplicateItem.SearchName == "onset")
+    //          {
+
+    //          }
+    //        }
+
+    //        if (DuplicateItem.SearchParamType != Item.SearchParamType)
+    //        {
+    //          throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
+    //        }
+    //        //if ((DuplicateItem.TargetFhirType == typeof(Element) && Item.TargetFhirType == typeof(Element))
+    //        //  &&
+    //        //  (DuplicateItem.TargetFhirLogicalType == Item.TargetFhirLogicalType))
+    //        if ((DuplicateItem.TargetFhirType == Item.TargetFhirType)
+    //            &&
+    //            (DuplicateItem.TargetFhirLogicalType == Item.TargetFhirLogicalType))
+
+    //        {
+    //          DupList.Add(Item);
+    //          TempList.Add(Item);
+    //        }
+    //        else
+    //        {
+    //          TempList.Add(Item);
+    //        }
+    //      }
+    //    }
+    //    else
+    //    {
+    //      TempList.Add(Item);
+    //    }
+    //  }
+    //  //Remove the duplicates found
+    //  if (RemoveDuplicates)
+    //  {
+    //    foreach (var item in DupList)
+    //    {
+    //      TempList.Remove(item);
+    //    }
+    //  }
+    //  //TempList.AddRange(DupList);
+    //  return TempList;
+    //}
 
     /// <summary>
     /// Corrections to the search parameters prior to building the repositories

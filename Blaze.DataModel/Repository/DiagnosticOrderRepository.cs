@@ -105,6 +105,7 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_DiagnosticOrder, object>>>();
       IncludeList.Add(x => x.actor_List);
+      IncludeList.Add(x => x.actor_List);
       IncludeList.Add(x => x.bodysite_List);
       IncludeList.Add(x => x.code_List);
       IncludeList.Add(x => x.event_date_List);
@@ -113,6 +114,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.item_date_List);
       IncludeList.Add(x => x.item_past_status_List);
       IncludeList.Add(x => x.item_status_List);
+      IncludeList.Add(x => x.specimen_List);
       IncludeList.Add(x => x.specimen_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
@@ -148,6 +150,7 @@ namespace Blaze.DataModel.Repository
  
       
       _Context.Res_DiagnosticOrder_Index_actor.RemoveRange(ResourceEntity.actor_List);            
+      _Context.Res_DiagnosticOrder_Index_actor.RemoveRange(ResourceEntity.actor_List);            
       _Context.Res_DiagnosticOrder_Index_bodysite.RemoveRange(ResourceEntity.bodysite_List);            
       _Context.Res_DiagnosticOrder_Index_code.RemoveRange(ResourceEntity.code_List);            
       _Context.Res_DiagnosticOrder_Index_event_date.RemoveRange(ResourceEntity.event_date_List);            
@@ -156,6 +159,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_DiagnosticOrder_Index_item_date.RemoveRange(ResourceEntity.item_date_List);            
       _Context.Res_DiagnosticOrder_Index_item_past_status.RemoveRange(ResourceEntity.item_past_status_List);            
       _Context.Res_DiagnosticOrder_Index_item_status.RemoveRange(ResourceEntity.item_status_List);            
+      _Context.Res_DiagnosticOrder_Index_specimen.RemoveRange(ResourceEntity.specimen_List);            
       _Context.Res_DiagnosticOrder_Index_specimen.RemoveRange(ResourceEntity.specimen_List);            
       _Context.Res_DiagnosticOrder_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_DiagnosticOrder_Index_security.RemoveRange(ResourceEntity.security_List);            
@@ -271,6 +275,21 @@ namespace Blaze.DataModel.Repository
 
       foreach (var item1 in ResourceTyped.Item)
       {
+        foreach (var item2 in item1.Event)
+        {
+          if (item2.Actor != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticOrder_Index_actor(), item2.Actor, FhirRequestUri, this) as Res_DiagnosticOrder_Index_actor;
+            if (Index != null)
+            {
+              ResourseEntity.actor_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Item)
+      {
         if (item1.BodySite != null)
         {
           foreach (var item4 in item1.BodySite.Coding)
@@ -361,6 +380,21 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.specimen_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Item)
+      {
+        if (item1.Specimen != null)
+        {
+          foreach (var item in item1.Specimen)
+          {
+            var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DiagnosticOrder_Index_specimen(), item, FhirRequestUri, this) as Res_DiagnosticOrder_Index_specimen;
+            if (Index != null)
+            {
+              ResourseEntity.specimen_List.Add(Index);
+            }
           }
         }
       }

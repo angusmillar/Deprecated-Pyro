@@ -8,13 +8,13 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.IndexSetter
 {
   public enum IndexSetterType { QuantityRange, Quantity };
-  static class IndexSetterFactory
+  public static class IndexSetterFactory
   {
     public static IIndexSetter Create(Type IndexType)
     {
       if (IndexType == typeof(DateIndex))
       {
-        throw new NotImplementedException();
+        return new DateIndexSetter();
       }
       else if (IndexType == typeof(DatePeriodIndex))
       {

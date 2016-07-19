@@ -34,9 +34,9 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
-        
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,false);
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, false);
+
+        //CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,false);
+        //NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, false);
         
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);

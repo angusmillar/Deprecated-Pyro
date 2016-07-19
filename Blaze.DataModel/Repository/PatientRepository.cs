@@ -141,6 +141,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.death_date_DateTimeOffset = null;      
       ResourceEntity.deceased_Code = null;      
       ResourceEntity.deceased_System = null;      
+      ResourceEntity.deceased_Code = null;      
+      ResourceEntity.deceased_System = null;      
       ResourceEntity.gender_Code = null;      
       ResourceEntity.gender_System = null;      
       ResourceEntity.organization_FhirId = null;      
@@ -216,6 +218,15 @@ namespace Blaze.DataModel.Repository
           ResourseEntity.deceased_System = Index.System;
         }
       }
+
+      //if (ResourceTyped.Deceased != null)
+      //{
+      //  var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Deceased);
+      //  if (Index != null)
+      //  {
+      //    ResourseEntity.death_date_DateTimeOffset = Index.DateTimeOffset;
+      //  }
+      //}
 
       if (ResourceTyped.Gender != null)
       {

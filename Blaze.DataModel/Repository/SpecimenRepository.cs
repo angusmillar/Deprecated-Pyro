@@ -125,6 +125,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.accession_Code = null;      
       ResourceEntity.accession_System = null;      
       ResourceEntity.collected_DateTimeOffset = null;      
+      ResourceEntity.collected_DateTimeOffsetLow = null;      
+      ResourceEntity.collected_DateTimeOffsetHigh = null;      
       ResourceEntity.collector_FhirId = null;      
       ResourceEntity.collector_Type = null;      
       ResourceEntity.collector_Url = null;      
@@ -174,6 +176,19 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.collected_DateTimeOffset = Index.DateTimeOffset;
+          }
+        }
+      }
+
+      if (ResourceTyped.Collection != null)
+      {
+        if (ResourceTyped.Collection.Collected != null)
+        {
+          var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Collection.Collected);
+          if (Index != null)
+          {
+            ResourseEntity.collected_DateTimeOffsetLow = Index.DateTimeOffset;
+            ResourseEntity.collected_DateTimeOffsetHigh = Index.DateTimeOffset;
           }
         }
       }

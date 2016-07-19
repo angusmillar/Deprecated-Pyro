@@ -105,11 +105,14 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_StructureDefinition, object>>>();
       IncludeList.Add(x => x.base_path_List);
+      IncludeList.Add(x => x.base_path_List);
       IncludeList.Add(x => x.code_List);
       IncludeList.Add(x => x.context_List);
       IncludeList.Add(x => x.ext_context_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.path_List);
+      IncludeList.Add(x => x.path_List);
+      IncludeList.Add(x => x.valueset_List);
       IncludeList.Add(x => x.valueset_List);
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
@@ -150,11 +153,14 @@ namespace Blaze.DataModel.Repository
  
       
       _Context.Res_StructureDefinition_Index_base_path.RemoveRange(ResourceEntity.base_path_List);            
+      _Context.Res_StructureDefinition_Index_base_path.RemoveRange(ResourceEntity.base_path_List);            
       _Context.Res_StructureDefinition_Index_code.RemoveRange(ResourceEntity.code_List);            
       _Context.Res_StructureDefinition_Index_context.RemoveRange(ResourceEntity.context_List);            
       _Context.Res_StructureDefinition_Index_ext_context.RemoveRange(ResourceEntity.ext_context_List);            
       _Context.Res_StructureDefinition_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_StructureDefinition_Index_path.RemoveRange(ResourceEntity.path_List);            
+      _Context.Res_StructureDefinition_Index_path.RemoveRange(ResourceEntity.path_List);            
+      _Context.Res_StructureDefinition_Index_valueset.RemoveRange(ResourceEntity.valueset_List);            
       _Context.Res_StructureDefinition_Index_valueset.RemoveRange(ResourceEntity.valueset_List);            
       _Context.Res_StructureDefinition_Index_profile.RemoveRange(ResourceEntity.profile_List);            
       _Context.Res_StructureDefinition_Index_security.RemoveRange(ResourceEntity.security_List);            
@@ -324,6 +330,21 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Differential != null)
+      {
+        foreach (var item2 in ResourceTyped.Differential.Element)
+        {
+          if (item2.Base != null)
+          {
+            if (item2.Base.Path != null)
+            {
+              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_StructureDefinition_Index_base_path(), item2.Base.PathElement) as Res_StructureDefinition_Index_base_path;
+              ResourseEntity.base_path_List.Add(Index);
+            }
+          }
+        }
+      }
+
       if (ResourceTyped.Code != null)
       {
         foreach (var item3 in ResourceTyped.Code)
@@ -378,6 +399,18 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Differential != null)
+      {
+        foreach (var item2 in ResourceTyped.Differential.Element)
+        {
+          if (item2.Path != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_StructureDefinition_Index_path(), item2.PathElement) as Res_StructureDefinition_Index_path;
+            ResourseEntity.path_List.Add(Index);
+          }
+        }
+      }
+
       if (ResourceTyped.Snapshot != null)
       {
         foreach (var item2 in ResourceTyped.Snapshot.Element)
@@ -388,6 +421,24 @@ namespace Blaze.DataModel.Repository
             {
               var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_StructureDefinition_Index_valueset(), item2.Binding.ValueSet) as Res_StructureDefinition_Index_valueset;
               ResourseEntity.valueset_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Snapshot != null)
+      {
+        foreach (var item2 in ResourceTyped.Snapshot.Element)
+        {
+          if (item2.Binding != null)
+          {
+            if (item2.Binding.ValueSet != null)
+            {
+              var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_StructureDefinition_Index_valueset(), item2.Binding.ValueSet, FhirRequestUri, this) as Res_StructureDefinition_Index_valueset;
+              if (Index != null)
+              {
+                ResourseEntity.valueset_List.Add(Index);
+              }
             }
           }
         }

@@ -106,6 +106,8 @@ namespace Blaze.DataModel.Repository
       var IncludeList = new List<Expression<Func<Res_CarePlan, object>>>();
       IncludeList.Add(x => x.activitycode_List);
       IncludeList.Add(x => x.activitydate_List);
+      IncludeList.Add(x => x.activitydate_List);
+      IncludeList.Add(x => x.activitydate_List);
       IncludeList.Add(x => x.activityreference_List);
       IncludeList.Add(x => x.condition_List);
       IncludeList.Add(x => x.goal_List);
@@ -140,6 +142,8 @@ namespace Blaze.DataModel.Repository
       
       _Context.Res_CarePlan_Index_activitycode.RemoveRange(ResourceEntity.activitycode_List);            
       _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
+      _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
+      _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
       _Context.Res_CarePlan_Index_activityreference.RemoveRange(ResourceEntity.activityreference_List);            
       _Context.Res_CarePlan_Index_condition.RemoveRange(ResourceEntity.condition_List);            
       _Context.Res_CarePlan_Index_goal.RemoveRange(ResourceEntity.goal_List);            
@@ -157,7 +161,7 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-      if (ResourceTyped.Period != null)
+          if (ResourceTyped.Period != null)
       {
         var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Period);
         if (Index != null)
@@ -233,6 +237,26 @@ namespace Blaze.DataModel.Repository
           }
         }
       }
+
+      foreach (var item1 in ResourceTyped.Activity)
+      {
+        if (item1.Detail != null)
+        {
+          if (item1.Detail.Scheduled != null)
+          {
+            var Index = IndexSettingSupport.SetIndex<DatePeriodIndex>(new Res_CarePlan_Index_activitydate(), item1.Detail.Scheduled) as Res_CarePlan_Index_activitydate;
+            ResourseEntity.activitydate_List.Add(Index);
+          }
+        }
+      }
+
+      //foreach (var item1 in ResourceTyped.Activity)
+      //{
+      //  if (item1.Detail != null)
+      //  {
+      //    ResourseEntity.activitydate_List.Add(Index);
+      //  }
+      //}
 
       foreach (var item1 in ResourceTyped.Activity)
       {

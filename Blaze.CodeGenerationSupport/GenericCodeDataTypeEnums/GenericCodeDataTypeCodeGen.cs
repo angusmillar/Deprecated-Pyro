@@ -33,8 +33,8 @@ namespace Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums
                                                                     where x.IsCollection == false
                                                                     select x).ToList();
 
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
-        FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
+        //CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
+        //NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
 
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);
