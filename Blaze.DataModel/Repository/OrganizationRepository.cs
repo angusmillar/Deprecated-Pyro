@@ -155,27 +155,37 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Active != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ActiveElement);
-        if (Index != null)
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
         {
-          ResourseEntity.active_Code = Index.Code;
-          ResourseEntity.active_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ActiveElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Name != null)
       {
-        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.NameElement);
-        if (Index != null)
+        if (ResourceTyped.NameElement is Hl7.Fhir.Model.FhirString)
         {
-          ResourseEntity.name_String = Index.String;
+          StringIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.NameElement) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.name_String = Index.String;
+          }
         }
       }
 
       if (ResourceTyped.PartOf != null)
       {
+        if (ResourceTyped.PartOf is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.PartOf, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.PartOf, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.partof_Type = Index.Type;
@@ -194,10 +204,14 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Name != null)
       {
-        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.NameElement);
-        if (Index != null)
+        if (ResourceTyped.NameElement is Hl7.Fhir.Model.FhirString)
         {
-          ResourseEntity.phonetic_String = Index.String;
+          StringIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.NameElement) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.phonetic_String = Index.String;
+          }
         }
       }
 
@@ -222,8 +236,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.City != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Organization_Index_address_city(), item1.CityElement) as Res_Organization_Index_address_city;
-          ResourseEntity.address_city_List.Add(Index);
+          if (item1.CityElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Organization_Index_address_city Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.CityElement) as Res_Organization_Index_address_city;
+            ResourseEntity.address_city_List.Add(Index);
+          }
         }
       }
 
@@ -231,8 +249,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Country != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Organization_Index_address_country(), item1.CountryElement) as Res_Organization_Index_address_country;
-          ResourseEntity.address_country_List.Add(Index);
+          if (item1.CountryElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Organization_Index_address_country Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.CountryElement) as Res_Organization_Index_address_country;
+            ResourseEntity.address_country_List.Add(Index);
+          }
         }
       }
 
@@ -240,8 +262,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.PostalCode != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Organization_Index_address_postalcode(), item1.PostalCodeElement) as Res_Organization_Index_address_postalcode;
-          ResourseEntity.address_postalcode_List.Add(Index);
+          if (item1.PostalCodeElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Organization_Index_address_postalcode Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.PostalCodeElement) as Res_Organization_Index_address_postalcode;
+            ResourseEntity.address_postalcode_List.Add(Index);
+          }
         }
       }
 
@@ -249,8 +275,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.State != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Organization_Index_address_state(), item1.StateElement) as Res_Organization_Index_address_state;
-          ResourseEntity.address_state_List.Add(Index);
+          if (item1.StateElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Organization_Index_address_state Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.StateElement) as Res_Organization_Index_address_state;
+            ResourseEntity.address_state_List.Add(Index);
+          }
         }
       }
 
@@ -258,8 +288,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Use != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Organization_Index_address_use(), item1.UseElement) as Res_Organization_Index_address_use;
-          ResourseEntity.address_use_List.Add(Index);
+          if (item1.UseElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Address.AddressUse>)
+          {
+            Res_Organization_Index_address_use Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.UseElement) as Res_Organization_Index_address_use;
+            ResourseEntity.address_use_List.Add(Index);
+          }
         }
       }
 
@@ -267,8 +301,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Organization_Index_identifier(), item3) as Res_Organization_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_Organization_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Organization_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -276,7 +314,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Type.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Organization_Index_type(), item3) as Res_Organization_Index_type;
+          Res_Organization_Index_type Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Organization_Index_type;
           ResourseEntity.type_List.Add(Index);
         }
       }
@@ -287,8 +326,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Organization_Index_profile(), item4) as Res_Organization_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_Organization_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Organization_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -299,8 +342,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Organization_Index_security(), item4) as Res_Organization_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Organization_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Organization_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -311,8 +358,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Organization_Index_tag(), item4) as Res_Organization_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Organization_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Organization_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

@@ -151,7 +151,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_category(), item4) as Res_Substance_Index_category;
+              Res_Substance_Index_category Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_category;
               ResourseEntity.category_List.Add(Index);
             }
           }
@@ -162,7 +163,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_code(), item3) as Res_Substance_Index_code;
+          Res_Substance_Index_code Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Substance_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
       }
@@ -171,8 +173,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Identifier != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_container_identifier(), item1.Identifier) as Res_Substance_Index_container_identifier;
-          ResourseEntity.container_identifier_List.Add(Index);
+          if (item1.Identifier is Hl7.Fhir.Model.Identifier)
+          {
+            Res_Substance_Index_container_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.Identifier) as Res_Substance_Index_container_identifier;
+            ResourseEntity.container_identifier_List.Add(Index);
+          }
         }
       }
 
@@ -180,8 +186,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Expiry != null)
         {
-          var Index = IndexSettingSupport.SetIndex<DateIndex>(new Res_Substance_Index_expiry(), item1.ExpiryElement) as Res_Substance_Index_expiry;
-          ResourseEntity.expiry_List.Add(Index);
+          if (item1.ExpiryElement is Hl7.Fhir.Model.FhirDateTime)
+          {
+            Res_Substance_Index_expiry Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.ExpiryElement) as Res_Substance_Index_expiry;
+            ResourseEntity.expiry_List.Add(Index);
+          }
         }
       }
 
@@ -189,8 +199,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_identifier(), item3) as Res_Substance_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_Substance_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Substance_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -198,8 +212,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Quantity != null)
         {
-          var Index = IndexSettingSupport.SetIndex<QuantityIndex>(new Res_Substance_Index_quantity(), item1.Quantity) as Res_Substance_Index_quantity;
-          ResourseEntity.quantity_List.Add(Index);
+          if (item1.Quantity is Hl7.Fhir.Model.SimpleQuantity)
+          {
+            Res_Substance_Index_quantity Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.Quantity) as Res_Substance_Index_quantity;
+            ResourseEntity.quantity_List.Add(Index);
+          }
         }
       }
 
@@ -207,10 +225,14 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Substance != null)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Substance_Index_substance(), item1.Substance, FhirRequestUri, this) as Res_Substance_Index_substance;
-          if (Index != null)
+          if (item1.Substance is ResourceReference)
           {
-            ResourseEntity.substance_List.Add(Index);
+            var Index = new Res_Substance_Index_substance();
+            IndexSettingSupport.SetIndex(Index, item1.Substance, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.substance_List.Add(Index);
+            }
           }
         }
       }
@@ -221,8 +243,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Substance_Index_profile(), item4) as Res_Substance_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_Substance_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -233,8 +259,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_security(), item4) as Res_Substance_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Substance_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -245,8 +275,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Substance_Index_tag(), item4) as Res_Substance_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Substance_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

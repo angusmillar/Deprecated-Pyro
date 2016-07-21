@@ -167,46 +167,64 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Category != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.CategoryElement);
-        if (Index != null)
+        if (ResourceTyped.CategoryElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceCategory>)
         {
-          ResourseEntity.category_Code = Index.Code;
-          ResourseEntity.category_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CategoryElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.category_Code = Index.Code;
+            ResourseEntity.category_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Criticality != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.CriticalityElement);
-        if (Index != null)
+        if (ResourceTyped.CriticalityElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceCriticality>)
         {
-          ResourseEntity.criticality_Code = Index.Code;
-          ResourseEntity.criticality_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CriticalityElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.criticality_Code = Index.Code;
+            ResourseEntity.criticality_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.RecordedDate != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.RecordedDateElement);
-        if (Index != null)
+        if (ResourceTyped.RecordedDateElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.RecordedDateElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.LastOccurence != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.LastOccurenceElement);
-        if (Index != null)
+        if (ResourceTyped.LastOccurenceElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          ResourseEntity.last_date_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.LastOccurenceElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.last_date_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Patient != null)
       {
+        if (ResourceTyped.Patient is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Patient, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -225,8 +243,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Recorder != null)
       {
+        if (ResourceTyped.Recorder is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Recorder, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Recorder, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.recorder_Type = Index.Type;
@@ -245,8 +265,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Reporter != null)
       {
+        if (ResourceTyped.Reporter is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Reporter, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Reporter, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.reporter_Type = Index.Type;
@@ -265,21 +287,29 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Status != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
-        if (Index != null)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceStatus>)
         {
-          ResourseEntity.status_Code = Index.Code;
-          ResourseEntity.status_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.status_Code = Index.Code;
+            ResourseEntity.status_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Type != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.TypeElement);
-        if (Index != null)
+        if (ResourceTyped.TypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceType>)
         {
-          ResourseEntity.type_Code = Index.Code;
-          ResourseEntity.type_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.TypeElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.type_Code = Index.Code;
+            ResourseEntity.type_System = Index.System;
+          }
         }
       }
 
@@ -287,8 +317,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_identifier(), item3) as Res_AllergyIntolerance_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_AllergyIntolerance_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_AllergyIntolerance_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -302,7 +336,8 @@ namespace Blaze.DataModel.Repository
             {
               foreach (var item5 in item4.Coding)
               {
-                var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_manifestation(), item5) as Res_AllergyIntolerance_Index_manifestation;
+                Res_AllergyIntolerance_Index_manifestation Index = null;
+                Index = IndexSettingSupport.SetIndex(Index, item5) as Res_AllergyIntolerance_Index_manifestation;
                 ResourseEntity.manifestation_List.Add(Index);
               }
             }
@@ -314,8 +349,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Onset != null)
         {
-          var Index = IndexSettingSupport.SetIndex<DateIndex>(new Res_AllergyIntolerance_Index_onset(), item1.OnsetElement) as Res_AllergyIntolerance_Index_onset;
-          ResourseEntity.onset_List.Add(Index);
+          if (item1.OnsetElement is Hl7.Fhir.Model.FhirDateTime)
+          {
+            Res_AllergyIntolerance_Index_onset Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.OnsetElement) as Res_AllergyIntolerance_Index_onset;
+            ResourseEntity.onset_List.Add(Index);
+          }
         }
       }
 
@@ -325,7 +364,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.ExposureRoute.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_route(), item4) as Res_AllergyIntolerance_Index_route;
+            Res_AllergyIntolerance_Index_route Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_AllergyIntolerance_Index_route;
             ResourseEntity.route_List.Add(Index);
           }
         }
@@ -335,8 +375,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Severity != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_severity(), item1.SeverityElement) as Res_AllergyIntolerance_Index_severity;
-          ResourseEntity.severity_List.Add(Index);
+          if (item1.SeverityElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>)
+          {
+            Res_AllergyIntolerance_Index_severity Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.SeverityElement) as Res_AllergyIntolerance_Index_severity;
+            ResourseEntity.severity_List.Add(Index);
+          }
         }
       }
 
@@ -344,7 +388,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Substance.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_substance(), item3) as Res_AllergyIntolerance_Index_substance;
+          Res_AllergyIntolerance_Index_substance Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_AllergyIntolerance_Index_substance;
           ResourseEntity.substance_List.Add(Index);
         }
       }
@@ -355,7 +400,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Substance.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_substance(), item4) as Res_AllergyIntolerance_Index_substance;
+            Res_AllergyIntolerance_Index_substance Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_AllergyIntolerance_Index_substance;
             ResourseEntity.substance_List.Add(Index);
           }
         }
@@ -367,8 +413,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_AllergyIntolerance_Index_profile(), item4) as Res_AllergyIntolerance_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_AllergyIntolerance_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_AllergyIntolerance_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -379,8 +429,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_security(), item4) as Res_AllergyIntolerance_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_AllergyIntolerance_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_AllergyIntolerance_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -391,8 +445,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_AllergyIntolerance_Index_tag(), item4) as Res_AllergyIntolerance_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_AllergyIntolerance_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_AllergyIntolerance_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

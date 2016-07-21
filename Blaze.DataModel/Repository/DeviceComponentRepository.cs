@@ -141,8 +141,10 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Parent != null)
       {
+        if (ResourceTyped.Parent is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Parent, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Parent, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.parent_Type = Index.Type;
@@ -161,8 +163,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Source != null)
       {
+        if (ResourceTyped.Source is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Source, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Source, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.source_Type = Index.Type;
@@ -183,7 +187,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Type.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DeviceComponent_Index_type(), item3) as Res_DeviceComponent_Index_type;
+          Res_DeviceComponent_Index_type Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_DeviceComponent_Index_type;
           ResourseEntity.type_List.Add(Index);
         }
       }
@@ -194,8 +199,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_DeviceComponent_Index_profile(), item4) as Res_DeviceComponent_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_DeviceComponent_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DeviceComponent_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -206,8 +215,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DeviceComponent_Index_security(), item4) as Res_DeviceComponent_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DeviceComponent_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DeviceComponent_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -218,8 +231,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DeviceComponent_Index_tag(), item4) as Res_DeviceComponent_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DeviceComponent_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DeviceComponent_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

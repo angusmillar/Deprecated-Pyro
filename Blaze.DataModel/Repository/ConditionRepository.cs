@@ -160,8 +160,10 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Asserter != null)
       {
+        if (ResourceTyped.Asserter is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Asserter, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Asserter, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.asserter_Type = Index.Type;
@@ -180,27 +182,37 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.ClinicalStatus != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ClinicalStatusElement);
-        if (Index != null)
+        if (ResourceTyped.ClinicalStatusElement is Hl7.Fhir.Model.Code)
         {
-          ResourseEntity.clinicalstatus_Code = Index.Code;
-          ResourseEntity.clinicalstatus_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ClinicalStatusElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.clinicalstatus_Code = Index.Code;
+            ResourseEntity.clinicalstatus_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.DateRecorded != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.DateRecordedElement);
-        if (Index != null)
+        if (ResourceTyped.DateRecordedElement is Hl7.Fhir.Model.Date)
         {
-          ResourseEntity.date_recorded_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DateRecordedElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.date_recorded_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Encounter != null)
       {
+        if (ResourceTyped.Encounter is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Encounter, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Encounter, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.encounter_Type = Index.Type;
@@ -219,8 +231,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Patient != null)
       {
+        if (ResourceTyped.Patient is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Patient, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -245,7 +259,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_body_site(), item4) as Res_Condition_Index_body_site;
+              Res_Condition_Index_body_site Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_body_site;
               ResourseEntity.body_site_List.Add(Index);
             }
           }
@@ -256,7 +271,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Category.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_category(), item3) as Res_Condition_Index_category;
+          Res_Condition_Index_category Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Condition_Index_category;
           ResourseEntity.category_List.Add(Index);
         }
       }
@@ -265,7 +281,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_code(), item3) as Res_Condition_Index_code;
+          Res_Condition_Index_code Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Condition_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
       }
@@ -276,7 +293,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Code.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_evidence(), item4) as Res_Condition_Index_evidence;
+            Res_Condition_Index_evidence Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_evidence;
             ResourseEntity.evidence_List.Add(Index);
           }
         }
@@ -286,8 +304,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_identifier(), item3) as Res_Condition_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_Condition_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Condition_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -295,7 +317,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Severity.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_severity(), item3) as Res_Condition_Index_severity;
+          Res_Condition_Index_severity Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Condition_Index_severity;
           ResourseEntity.severity_List.Add(Index);
         }
       }
@@ -306,7 +329,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Stage.Summary.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_stage(), item4) as Res_Condition_Index_stage;
+            Res_Condition_Index_stage Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_stage;
             ResourseEntity.stage_List.Add(Index);
           }
         }
@@ -318,8 +342,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Condition_Index_profile(), item4) as Res_Condition_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_Condition_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -330,8 +358,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_security(), item4) as Res_Condition_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Condition_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -342,8 +374,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Condition_Index_tag(), item4) as Res_Condition_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Condition_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Condition_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

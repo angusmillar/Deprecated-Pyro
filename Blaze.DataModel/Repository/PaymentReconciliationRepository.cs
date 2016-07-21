@@ -161,36 +161,50 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Created != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.CreatedElement);
-        if (Index != null)
+        if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CreatedElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Disposition != null)
       {
-        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.DispositionElement);
-        if (Index != null)
+        if (ResourceTyped.DispositionElement is Hl7.Fhir.Model.FhirString)
         {
-          ResourseEntity.disposition_String = Index.String;
+          StringIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DispositionElement) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.disposition_String = Index.String;
+          }
         }
       }
 
       if (ResourceTyped.Organization != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Organization);
-        if (Index != null)
+        if (ResourceTyped.Organization is Hl7.Fhir.Model.Identifier)
         {
-          ResourseEntity.organizationidentifier_Code = Index.Code;
-          ResourseEntity.organizationidentifier_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.organizationidentifier_Code = Index.Code;
+            ResourseEntity.organizationidentifier_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Organization != null)
       {
+        if (ResourceTyped.Organization is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Organization, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organizationreference_Type = Index.Type;
@@ -209,38 +223,52 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Outcome != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.OutcomeElement);
-        if (Index != null)
+        if (ResourceTyped.OutcomeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>)
         {
-          ResourseEntity.outcome_Code = Index.Code;
-          ResourseEntity.outcome_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.OutcomeElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.outcome_Code = Index.Code;
+            ResourseEntity.outcome_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Request != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Request);
-        if (Index != null)
+        if (ResourceTyped.Request is Hl7.Fhir.Model.Identifier)
         {
-          ResourseEntity.requestidentifier_Code = Index.Code;
-          ResourseEntity.requestidentifier_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.requestidentifier_Code = Index.Code;
+            ResourseEntity.requestidentifier_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.RequestOrganization != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.RequestOrganization);
-        if (Index != null)
+        if (ResourceTyped.RequestOrganization is Hl7.Fhir.Model.Identifier)
         {
-          ResourseEntity.requestorganizationidentifier_Code = Index.Code;
-          ResourseEntity.requestorganizationidentifier_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.RequestOrganization) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.requestorganizationidentifier_Code = Index.Code;
+            ResourseEntity.requestorganizationidentifier_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.RequestOrganization != null)
       {
+        if (ResourceTyped.RequestOrganization is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.RequestOrganization, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.RequestOrganization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.requestorganizationreference_Type = Index.Type;
@@ -259,18 +287,24 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.RequestProvider != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.RequestProvider);
-        if (Index != null)
+        if (ResourceTyped.RequestProvider is Hl7.Fhir.Model.Identifier)
         {
-          ResourseEntity.requestprovideridentifier_Code = Index.Code;
-          ResourseEntity.requestprovideridentifier_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.RequestProvider) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.requestprovideridentifier_Code = Index.Code;
+            ResourseEntity.requestprovideridentifier_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.RequestProvider != null)
       {
+        if (ResourceTyped.RequestProvider is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.RequestProvider, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.RequestProvider, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.requestproviderreference_Type = Index.Type;
@@ -289,8 +323,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Request != null)
       {
+        if (ResourceTyped.Request is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Request, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.requestreference_Type = Index.Type;
@@ -311,8 +347,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PaymentReconciliation_Index_identifier(), item3) as Res_PaymentReconciliation_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_PaymentReconciliation_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_PaymentReconciliation_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -322,8 +362,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_PaymentReconciliation_Index_profile(), item4) as Res_PaymentReconciliation_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_PaymentReconciliation_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentReconciliation_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -334,8 +378,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PaymentReconciliation_Index_security(), item4) as Res_PaymentReconciliation_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_PaymentReconciliation_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentReconciliation_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -346,8 +394,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PaymentReconciliation_Index_tag(), item4) as Res_PaymentReconciliation_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_PaymentReconciliation_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentReconciliation_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

@@ -69,7 +69,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         //ToDo: Sort out how to generate the setters for the bundle resource
         if (ResourceName != "Bundle")    
-        //if (ResourceName == "ConceptMap")
+        //if (ResourceName == "Observation")
         {
           List<string> LogicList = new List<string>();
           //Non Collection search parameter logic

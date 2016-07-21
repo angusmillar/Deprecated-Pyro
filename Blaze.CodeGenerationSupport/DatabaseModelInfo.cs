@@ -48,7 +48,7 @@ namespace Blaze.CodeGenerationSupport
         Dic.Add("QuantityRange", BlazeIndexType.QuantityRange);
         Dic.Add("Reference", BlazeIndexType.Reference);
         Dic.Add("String", BlazeIndexType.String);
-        Dic.Add("Token",BlazeIndexType.Token);
+        Dic.Add("Token", BlazeIndexType.Token);
         Dic.Add("Uri", BlazeIndexType.Uri);
         return Dic;
       }
@@ -56,7 +56,7 @@ namespace Blaze.CodeGenerationSupport
     public static string IndexSetterBaseInterfaceName = "IIndexSetter";
 
     public static string DatabaseModelBaseClassName { get { return "ModelBase"; } }
-    public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }          
+    public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }
 
     /// <summary>
     /// Construct the class name string for the Resource Entity classes (e.g Res_Patient)
@@ -122,11 +122,11 @@ namespace Blaze.CodeGenerationSupport
     /// <returns></returns>
     public static string ContructSearchParameterName(string SearchParameterName)
     {
-      return SearchParameterName.Replace('-', '_');      
+      return SearchParameterName.Replace('-', '_');
     }
 
     public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem)
-    {      
+    {
       string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
 
       switch (NonCollectionItem.SearchParamType)
@@ -136,7 +136,7 @@ namespace Blaze.CodeGenerationSupport
             //Nothing to do for this type as composite type is a composite of the other types
             //We should never get here
             throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
-          }        
+          }
         case Hl7.Fhir.Model.SearchParamType.Date:
           {
 
@@ -148,16 +148,16 @@ namespace Blaze.CodeGenerationSupport
             if (NonCollectionItem.TargetFhirLogicalType == typeof(FhirDateTime) ||
               NonCollectionItem.TargetFhirLogicalType == typeof(Instant))
             {
-              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));                          
-             }
+              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
+            }
             else if (NonCollectionItem.TargetFhirLogicalType == typeof(Date))
             {
-              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));                          
+              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
             }
             else if (NonCollectionItem.TargetFhirLogicalType == typeof(Timing))
             {
               Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));                          
+              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
             }
             else if (NonCollectionItem.TargetFhirLogicalType == typeof(Period))
             {
@@ -166,11 +166,11 @@ namespace Blaze.CodeGenerationSupport
             }
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
-            break;  
-          }          
+            break;
+          }
         case Hl7.Fhir.Model.SearchParamType.Number:
-          {            
-            Propertylist.Add(String.Format("{0}Number", FormatedPrefix));            
+          {
+            Propertylist.Add(String.Format("{0}Number", FormatedPrefix));
           }
           break;
         case Hl7.Fhir.Model.SearchParamType.Quantity:
@@ -205,7 +205,7 @@ namespace Blaze.CodeGenerationSupport
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
             break;
-          }          
+          }
         case Hl7.Fhir.Model.SearchParamType.Reference:
           {
             Propertylist.Add(String.Format("{0}FhirId", FormatedPrefix));
@@ -233,8 +233,48 @@ namespace Blaze.CodeGenerationSupport
         default:
           throw new InvalidEnumArgumentException(NonCollectionItem.SearchParamType.ToString(), (int)NonCollectionItem.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
       }
+    }  
+
+    public static string NameGenericType(this Type type, bool WithType_T = true)
+    {
+      string friendlyName = type.FullName.Replace('+', '.'); 
+      if (type.IsGenericType)
+      {
+        int iBacktick = friendlyName.IndexOf('`');
+        if (iBacktick > 0)
+        {
+          friendlyName = friendlyName.Remove(iBacktick);
+        }
+        if (WithType_T)
+        {
+          friendlyName += "<";
+          Type[] typeParameters = type.GetGenericArguments();
+          for (int i = 0; i < typeParameters.Length; ++i)
+          {
+            string typeParamName = typeParameters[i].FullName.Replace('+', '.');
+            friendlyName += (i == 0 ? typeParamName : "," + typeParamName);
+          }
+          friendlyName += ">";
+        }
+      }
+
+      return friendlyName;
     }
 
+    public static string NameGenericType_T(this Type type)
+    {
+      string friendlyName = type.Name;
+      if (type.IsGenericType)
+      {        
+        Type[] typeParameters = type.GetGenericArguments();
+        for (int i = 0; i < typeParameters.Length; ++i)
+        {
+          string typeParamName = typeParameters[i].FullName.Replace('+','.');
+          friendlyName = (i == 0 ? typeParamName : "," + typeParamName);
+        }        
+      }
+      return friendlyName;
+    }
 
   }
 }

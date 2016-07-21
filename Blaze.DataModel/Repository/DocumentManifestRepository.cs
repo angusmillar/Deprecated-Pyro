@@ -160,36 +160,50 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Created != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.CreatedElement);
-        if (Index != null)
+        if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CreatedElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Description != null)
       {
-        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.DescriptionElement);
-        if (Index != null)
+        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
         {
-          ResourseEntity.description_String = Index.String;
+          StringIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DescriptionElement) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.description_String = Index.String;
+          }
         }
       }
 
       if (ResourceTyped.MasterIdentifier != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.MasterIdentifier);
-        if (Index != null)
+        if (ResourceTyped.MasterIdentifier is Hl7.Fhir.Model.Identifier)
         {
-          ResourseEntity.identifier_Code = Index.Code;
-          ResourseEntity.identifier_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.MasterIdentifier) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.identifier_Code = Index.Code;
+            ResourseEntity.identifier_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Subject != null)
       {
+        if (ResourceTyped.Subject is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Subject, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -208,27 +222,37 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Source != null)
       {
-        var Index = IndexSettingSupport.SetIndex<UriIndex>(new UriIndex(), ResourceTyped.SourceElement);
-        if (Index != null)
+        if (ResourceTyped.SourceElement is Hl7.Fhir.Model.FhirUri)
         {
-          ResourseEntity.source_Uri = Index.Uri;
+          UriIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.SourceElement) as UriIndex;
+          if (Index != null)
+          {
+            ResourseEntity.source_Uri = Index.Uri;
+          }
         }
       }
 
       if (ResourceTyped.Status != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.StatusElement);
-        if (Index != null)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DocumentReferenceStatus>)
         {
-          ResourseEntity.status_Code = Index.Code;
-          ResourseEntity.status_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.status_Code = Index.Code;
+            ResourseEntity.status_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.Subject != null)
       {
+        if (ResourceTyped.Subject is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Subject, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.subject_Type = Index.Type;
@@ -249,10 +273,14 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item in ResourceTyped.Author)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DocumentManifest_Index_author(), item, FhirRequestUri, this) as Res_DocumentManifest_Index_author;
-          if (Index != null)
+          if (item is ResourceReference)
           {
-            ResourseEntity.author_List.Add(Index);
+            var Index = new Res_DocumentManifest_Index_author();
+            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.author_List.Add(Index);
+            }
           }
         }
       }
@@ -261,10 +289,14 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.P != null)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DocumentManifest_Index_content_ref(), item1.P, FhirRequestUri, this) as Res_DocumentManifest_Index_content_ref;
-          if (Index != null)
+          if (item1.P is ResourceReference)
           {
-            ResourseEntity.content_ref_List.Add(Index);
+            var Index = new Res_DocumentManifest_Index_content_ref();
+            IndexSettingSupport.SetIndex(Index, item1.P, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.content_ref_List.Add(Index);
+            }
           }
         }
       }
@@ -273,8 +305,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DocumentManifest_Index_identifier(), item3) as Res_DocumentManifest_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_DocumentManifest_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_DocumentManifest_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -282,10 +318,14 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item in ResourceTyped.Recipient)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DocumentManifest_Index_recipient(), item, FhirRequestUri, this) as Res_DocumentManifest_Index_recipient;
-          if (Index != null)
+          if (item is ResourceReference)
           {
-            ResourseEntity.recipient_List.Add(Index);
+            var Index = new Res_DocumentManifest_Index_recipient();
+            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.recipient_List.Add(Index);
+            }
           }
         }
       }
@@ -294,8 +334,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Identifier != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DocumentManifest_Index_related_id(), item1.Identifier) as Res_DocumentManifest_Index_related_id;
-          ResourseEntity.related_id_List.Add(Index);
+          if (item1.Identifier is Hl7.Fhir.Model.Identifier)
+          {
+            Res_DocumentManifest_Index_related_id Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.Identifier) as Res_DocumentManifest_Index_related_id;
+            ResourseEntity.related_id_List.Add(Index);
+          }
         }
       }
 
@@ -303,10 +347,14 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Ref != null)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_DocumentManifest_Index_related_ref(), item1.Ref, FhirRequestUri, this) as Res_DocumentManifest_Index_related_ref;
-          if (Index != null)
+          if (item1.Ref is ResourceReference)
           {
-            ResourseEntity.related_ref_List.Add(Index);
+            var Index = new Res_DocumentManifest_Index_related_ref();
+            IndexSettingSupport.SetIndex(Index, item1.Ref, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.related_ref_List.Add(Index);
+            }
           }
         }
       }
@@ -315,7 +363,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Type.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DocumentManifest_Index_type(), item3) as Res_DocumentManifest_Index_type;
+          Res_DocumentManifest_Index_type Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_DocumentManifest_Index_type;
           ResourseEntity.type_List.Add(Index);
         }
       }
@@ -326,8 +375,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_DocumentManifest_Index_profile(), item4) as Res_DocumentManifest_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_DocumentManifest_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DocumentManifest_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -338,8 +391,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DocumentManifest_Index_security(), item4) as Res_DocumentManifest_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DocumentManifest_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DocumentManifest_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -350,8 +407,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DocumentManifest_Index_tag(), item4) as Res_DocumentManifest_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DocumentManifest_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DocumentManifest_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

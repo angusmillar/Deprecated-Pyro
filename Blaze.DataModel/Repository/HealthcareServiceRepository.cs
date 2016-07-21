@@ -148,17 +148,23 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.ServiceName != null)
       {
-        var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.ServiceNameElement);
-        if (Index != null)
+        if (ResourceTyped.ServiceNameElement is Hl7.Fhir.Model.FhirString)
         {
-          ResourseEntity.name_String = Index.String;
+          StringIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ServiceNameElement) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.name_String = Index.String;
+          }
         }
       }
 
       if (ResourceTyped.ProvidedBy != null)
       {
+        if (ResourceTyped.ProvidedBy is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.ProvidedBy, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ProvidedBy, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organization_Type = Index.Type;
@@ -183,7 +189,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_characteristic(), item4) as Res_HealthcareService_Index_characteristic;
+              Res_HealthcareService_Index_characteristic Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_characteristic;
               ResourseEntity.characteristic_List.Add(Index);
             }
           }
@@ -194,8 +201,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_identifier(), item3) as Res_HealthcareService_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_HealthcareService_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -203,10 +214,14 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item in ResourceTyped.Location)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_HealthcareService_Index_location(), item, FhirRequestUri, this) as Res_HealthcareService_Index_location;
-          if (Index != null)
+          if (item is ResourceReference)
           {
-            ResourseEntity.location_List.Add(Index);
+            var Index = new Res_HealthcareService_Index_location();
+            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.location_List.Add(Index);
+            }
           }
         }
       }
@@ -215,8 +230,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.ProgramNameElement)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_HealthcareService_Index_programname(), item3) as Res_HealthcareService_Index_programname;
-          ResourseEntity.programname_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.FhirString)
+          {
+            Res_HealthcareService_Index_programname Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_programname;
+            ResourseEntity.programname_List.Add(Index);
+          }
         }
       }
 
@@ -224,7 +243,8 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.ServiceCategory.Coding)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_servicecategory(), item3) as Res_HealthcareService_Index_servicecategory;
+          Res_HealthcareService_Index_servicecategory Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_servicecategory;
           ResourseEntity.servicecategory_List.Add(Index);
         }
       }
@@ -237,7 +257,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_servicetype(), item4) as Res_HealthcareService_Index_servicetype;
+              Res_HealthcareService_Index_servicetype Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_servicetype;
               ResourseEntity.servicetype_List.Add(Index);
             }
           }
@@ -250,8 +271,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_HealthcareService_Index_profile(), item4) as Res_HealthcareService_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_HealthcareService_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -262,8 +287,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_security(), item4) as Res_HealthcareService_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_HealthcareService_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -274,8 +303,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_HealthcareService_Index_tag(), item4) as Res_HealthcareService_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_HealthcareService_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

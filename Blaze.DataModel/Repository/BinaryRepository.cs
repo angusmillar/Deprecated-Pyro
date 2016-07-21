@@ -133,11 +133,15 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.ContentType != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ContentTypeElement);
-        if (Index != null)
+        if (ResourceTyped.ContentTypeElement is Hl7.Fhir.Model.Code)
         {
-          ResourseEntity.contenttype_Code = Index.Code;
-          ResourseEntity.contenttype_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ContentTypeElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.contenttype_Code = Index.Code;
+            ResourseEntity.contenttype_System = Index.System;
+          }
         }
       }
 
@@ -147,8 +151,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Binary_Index_profile(), item4) as Res_Binary_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_Binary_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -159,8 +167,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Binary_Index_security(), item4) as Res_Binary_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Binary_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -171,8 +183,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Binary_Index_tag(), item4) as Res_Binary_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Binary_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

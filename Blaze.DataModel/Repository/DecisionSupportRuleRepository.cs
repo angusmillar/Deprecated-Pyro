@@ -142,10 +142,14 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ModuleMetadata.Description != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.ModuleMetadata.DescriptionElement);
-          if (Index != null)
+          if (ResourceTyped.ModuleMetadata.DescriptionElement is Hl7.Fhir.Model.FhirString)
           {
-            ResourseEntity.description_String = Index.String;
+            StringIndex Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.DescriptionElement) as StringIndex;
+            if (Index != null)
+            {
+              ResourseEntity.description_String = Index.String;
+            }
           }
         }
       }
@@ -154,11 +158,15 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ModuleMetadata.Status != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ModuleMetadata.StatusElement);
-          if (Index != null)
+          if (ResourceTyped.ModuleMetadata.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ModuleMetadata.ModuleMetadataStatus>)
           {
-            ResourseEntity.status_Code = Index.Code;
-            ResourseEntity.status_System = Index.System;
+            TokenIndex Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.StatusElement) as TokenIndex;
+            if (Index != null)
+            {
+              ResourseEntity.status_Code = Index.Code;
+              ResourseEntity.status_System = Index.System;
+            }
           }
         }
       }
@@ -167,10 +175,14 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ModuleMetadata.Title != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.ModuleMetadata.TitleElement);
-          if (Index != null)
+          if (ResourceTyped.ModuleMetadata.TitleElement is Hl7.Fhir.Model.FhirString)
           {
-            ResourseEntity.title_String = Index.String;
+            StringIndex Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.TitleElement) as StringIndex;
+            if (Index != null)
+            {
+              ResourseEntity.title_String = Index.String;
+            }
           }
         }
       }
@@ -179,10 +191,14 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ModuleMetadata.Version != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new StringIndex(), ResourceTyped.ModuleMetadata.VersionElement);
-          if (Index != null)
+          if (ResourceTyped.ModuleMetadata.VersionElement is Hl7.Fhir.Model.FhirString)
           {
-            ResourseEntity.version_String = Index.String;
+            StringIndex Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.VersionElement) as StringIndex;
+            if (Index != null)
+            {
+              ResourseEntity.version_String = Index.String;
+            }
           }
         }
       }
@@ -193,8 +209,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.ModuleMetadata.Identifier)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DecisionSupportRule_Index_identifier(), item4) as Res_DecisionSupportRule_Index_identifier;
-            ResourseEntity.identifier_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Identifier)
+            {
+              Res_DecisionSupportRule_Index_identifier Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DecisionSupportRule_Index_identifier;
+              ResourseEntity.identifier_List.Add(Index);
+            }
           }
         }
       }
@@ -209,7 +229,8 @@ namespace Blaze.DataModel.Repository
             {
               foreach (var item5 in item4.Coding)
               {
-                var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DecisionSupportRule_Index_topic(), item5) as Res_DecisionSupportRule_Index_topic;
+                Res_DecisionSupportRule_Index_topic Index = null;
+                Index = IndexSettingSupport.SetIndex(Index, item5) as Res_DecisionSupportRule_Index_topic;
                 ResourseEntity.topic_List.Add(Index);
               }
             }
@@ -223,8 +244,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_DecisionSupportRule_Index_profile(), item4) as Res_DecisionSupportRule_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_DecisionSupportRule_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DecisionSupportRule_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -235,8 +260,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DecisionSupportRule_Index_security(), item4) as Res_DecisionSupportRule_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DecisionSupportRule_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DecisionSupportRule_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -247,8 +276,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_DecisionSupportRule_Index_tag(), item4) as Res_DecisionSupportRule_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_DecisionSupportRule_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DecisionSupportRule_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

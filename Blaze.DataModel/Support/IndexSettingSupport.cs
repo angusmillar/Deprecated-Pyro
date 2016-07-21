@@ -15,48 +15,48 @@ using Blaze.DataModel.IndexSetter;
 namespace Blaze.DataModel.Support
 {
   public static class IndexSettingSupport
-  {   
-    public static T SetIndex<T>(ModelBase ModelBase, Element FhirElement, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null) where T : ModelBase
+  {
+    public static ModelBase SetIndex(ModelBase ModelBase, Element FhirElement, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
     {
-      if (typeof(T) == typeof(DateIndex))
+      if (ModelBase is DateIndex)
       {
-        return CreateDateTime(ModelBase, FhirElement) as T;
-      }      
-      else if (typeof(T) == typeof(DatePeriodIndex))
+        return IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirElement, ModelBase);
+      }
+      else if (ModelBase is DatePeriodIndex)
       {
-        return CreateDatePeriod(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(NumberIndex))
+      else if (ModelBase is NumberIndex)
       {
-        return CreateNumber(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(NumberIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(QuantityIndex))
+      else if (ModelBase is QuantityIndex)
       {
-        return CreateQuantity(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(QuantityIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(QuantityRangeIndex))
-      {        
-        return IndexSetterFactory.Create(typeof(QuantityRangeIndex)).Set(FhirElement) as T;        
+      else if (ModelBase is QuantityRangeIndex)
+      {
+        return IndexSetterFactory.Create(typeof(QuantityRangeIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(ReferenceIndex))
+      else if (ModelBase is ReferenceIndex)
       {
         if (CommonRepository == null)
           throw new NullReferenceException("CommonRepository can not be null when ModelBase is of type ReferenceIndex");
         if (FhirRequestUri == null)
           throw new NullReferenceException("FhirRequestUri can not be null when ModelBase is of type ReferenceIndex");
-        return CreateResourceReference(ModelBase, FhirElement, FhirRequestUri, CommonRepository) as T;
+        return IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(FhirElement, ModelBase, FhirRequestUri, CommonRepository);
       }
-      else if (typeof(T) == typeof(StringIndex))
+      else if (ModelBase is StringIndex)
       {
-        return CreateString(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(StringIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(TokenIndex))
+      else if (ModelBase is TokenIndex)
       {
-        return CreateToken(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(TokenIndex)).Set(FhirElement, ModelBase);
       }
-      else if (typeof(T) == typeof(UriIndex))
+      else if (ModelBase is UriIndex)
       {
-        return CreateUri(ModelBase, FhirElement) as T;
+        return IndexSetterFactory.Create(typeof(UriIndex)).Set(FhirElement, ModelBase);
       }
       else
       {
@@ -64,17 +64,17 @@ namespace Blaze.DataModel.Support
       }
 
     }
-    
+
     public static TokenIndex CreateToken(ModelBase ModelBase, Element FhirElement)
     {
       TokenIndex TokenIndex = ModelBase as TokenIndex;
       if (FhirElement is Coding)
       {
-        var Coding = FhirElement as Coding; 
+        var Coding = FhirElement as Coding;
         if (Coding.Code != string.Empty)
           TokenIndex.Code = Coding.Code;
         if (Coding.System != string.Empty)
-          TokenIndex.System= Coding.System;
+          TokenIndex.System = Coding.System;
         return TokenIndex;
       }
       else if (FhirElement is Identifier)
@@ -156,14 +156,14 @@ namespace Blaze.DataModel.Support
           TokenIndex.Code = Code.Code;
           TokenIndex.System = Code.System;
         }
-        return TokenIndex;                       
+        return TokenIndex;
       }
       else
       {
         return null;
       }
     }
-    
+
 
     public static DatePeriodIndex CreateDatePeriod(ModelBase ModelBase, Element FhirElement)
     {
@@ -179,9 +179,9 @@ namespace Blaze.DataModel.Support
         if (FhirPeriod.Start != null)
         {
           DatePeriodIndex.DateTimeOffsetLow = FhirPeriod.StartElement.ToDateTimeOffset();
-        }        
-        return DatePeriodIndex;        
-      }      
+        }
+        return DatePeriodIndex;
+      }
       else
       {
         return null;
@@ -190,14 +190,14 @@ namespace Blaze.DataModel.Support
 
     public static DateIndex CreateDateTime(ModelBase ModelBase, Element FhirElement)
     {
-      if(FhirElement is Date)
+      if (FhirElement is Date)
       {
         var FhirDate = FhirElement as Date;
         if (Date.IsValidValue(FhirDate.Value))
-        {          
+        {
           var DateOnly = DateTime.Parse(FhirDate.Value);
 
-          var DateIndex = ModelBase as DateIndex; 
+          var DateIndex = ModelBase as DateIndex;
           DateIndex.DateTimeOffset = new DateTimeOffset(DateOnly, new TimeSpan(0, 0, 0));
           return DateIndex;
         }
@@ -211,7 +211,7 @@ namespace Blaze.DataModel.Support
         var FhirDateTime = FhirElement as FhirDateTime;
         if (FhirDateTime.IsValidValue(FhirDateTime.Value))
         {
-          var DateIndex = new DateIndex(); 
+          var DateIndex = new DateIndex();
           DateIndex.DateTimeOffset = FhirDateTime.ToDateTimeOffset();
           return DateIndex;
         }
@@ -219,13 +219,13 @@ namespace Blaze.DataModel.Support
         {
           throw new FormatException("Fhir DateTime is not valid in Data access layer, value was : " + FhirDateTime.Value);
         }
-      }      
+      }
       else
       {
         return null;
       }
-    }    
-    
+    }
+
     private static NumberIndex CreateNumber(ModelBase ModelBase, Element FhirElementObject)
     {
       if (FhirElementObject is FhirDecimal)
@@ -253,13 +253,13 @@ namespace Blaze.DataModel.Support
         return null;
       }
     }
-    
+
     private static QuantityIndex CreateQuantity(ModelBase ModelBase, Element FhirElement)
     {
       if (FhirElement is Quantity)
       {
-        var Quantity = FhirElement as Quantity; 
-        var QuantityIndex = ModelBase as QuantityIndex;        
+        var Quantity = FhirElement as Quantity;
+        var QuantityIndex = ModelBase as QuantityIndex;
         QuantityIndex.Comparator = Quantity.Comparator;
         QuantityIndex.Code = Quantity.Code;
         QuantityIndex.System = Quantity.System;
@@ -309,7 +309,7 @@ namespace Blaze.DataModel.Support
         return null;
       }
     }
-    
+
     private static ReferenceIndex CreateResourceReference(ModelBase ModelBase, Element FhirElement, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository)
     {
       if (FhirElement is ResourceReference)
@@ -347,15 +347,15 @@ namespace Blaze.DataModel.Support
         ReferenceIndex.Type = ReferanceUri.ResourseType;
         ReferenceIndex.VersionId = ReferanceUri.VersionId;
         ReferenceIndex.FhirId = ReferanceUri.FullResourceIdentity;
-        ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);        
-        return ReferenceIndex;      
-      }      
+        ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+        return ReferenceIndex;
+      }
       else
       {
         throw new InvalidCastException("Server Error: A non FHIR ResourceReference type was passed into the CreateResourceReference method.");
       }
     }
-    
+
     private static StringIndex CreateString(ModelBase ModelBase, Element FhirElement)
     {
       if (FhirElement is FhirString)
@@ -383,7 +383,7 @@ namespace Blaze.DataModel.Support
       {
         return null;
       }
-    }   
+    }
 
     private static UriIndex CreateUri(ModelBase ModelBase, Element FhirElement)
     {

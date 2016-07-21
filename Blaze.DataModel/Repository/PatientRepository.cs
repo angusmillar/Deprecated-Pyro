@@ -183,65 +183,92 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Active != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.ActiveElement);
-        if (Index != null)
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
         {
-          ResourseEntity.active_Code = Index.Code;
-          ResourseEntity.active_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ActiveElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.BirthDate != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.BirthDateElement);
-        if (Index != null)
+        if (ResourceTyped.BirthDateElement is Hl7.Fhir.Model.Date)
         {
-          ResourseEntity.birthdate_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.BirthDateElement) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.birthdate_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Deceased != null)
       {
-        var Index = IndexSettingSupport.SetIndex<DateIndex>(new DateIndex(), ResourceTyped.Deceased);
-        if (Index != null)
+        if (ResourceTyped.Deceased is Hl7.Fhir.Model.FhirDateTime)
         {
-          ResourseEntity.death_date_DateTimeOffset = Index.DateTimeOffset;
+          DateIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Deceased) as DateIndex;
+          if (Index != null)
+          {
+            ResourseEntity.death_date_DateTimeOffset = Index.DateTimeOffset;
+          }
         }
       }
 
       if (ResourceTyped.Deceased != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Deceased);
-        if (Index != null)
+        if (ResourceTyped.Deceased is Hl7.Fhir.Model.FhirBoolean)
         {
-          ResourseEntity.deceased_Code = Index.Code;
-          ResourseEntity.deceased_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Deceased) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.deceased_Code = Index.Code;
+            ResourseEntity.deceased_System = Index.System;
+          }
         }
       }
 
-      //if (ResourceTyped.Deceased != null)
-      //{
-      //  var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.Deceased);
-      //  if (Index != null)
-      //  {
-      //    ResourseEntity.death_date_DateTimeOffset = Index.DateTimeOffset;
-      //  }
-      //}
+      if (ResourceTyped.Deceased != null)
+      {
+        if (ResourceTyped.Deceased is Hl7.Fhir.Model.FhirDateTime)
+        {
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Deceased) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.deceased_Code = Index.Code;
+            ResourseEntity.deceased_System = Index.System;
+          }
+        }
+      }
 
       if (ResourceTyped.Gender != null)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new TokenIndex(), ResourceTyped.GenderElement);
-        if (Index != null)
+        if (ResourceTyped.GenderElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>)
         {
-          ResourseEntity.gender_Code = Index.Code;
-          ResourseEntity.gender_System = Index.System;
+          TokenIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.GenderElement) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.gender_Code = Index.Code;
+            ResourseEntity.gender_System = Index.System;
+          }
         }
       }
 
       if (ResourceTyped.ManagingOrganization != null)
       {
+        if (ResourceTyped.ManagingOrganization is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.ManagingOrganization, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ManagingOrganization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organization_Type = Index.Type;
@@ -279,8 +306,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.City != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_address_city(), item1.CityElement) as Res_Patient_Index_address_city;
-          ResourseEntity.address_city_List.Add(Index);
+          if (item1.CityElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Patient_Index_address_city Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.CityElement) as Res_Patient_Index_address_city;
+            ResourseEntity.address_city_List.Add(Index);
+          }
         }
       }
 
@@ -288,8 +319,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Country != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_address_country(), item1.CountryElement) as Res_Patient_Index_address_country;
-          ResourseEntity.address_country_List.Add(Index);
+          if (item1.CountryElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Patient_Index_address_country Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.CountryElement) as Res_Patient_Index_address_country;
+            ResourseEntity.address_country_List.Add(Index);
+          }
         }
       }
 
@@ -297,8 +332,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.PostalCode != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_address_postalcode(), item1.PostalCodeElement) as Res_Patient_Index_address_postalcode;
-          ResourseEntity.address_postalcode_List.Add(Index);
+          if (item1.PostalCodeElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Patient_Index_address_postalcode Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.PostalCodeElement) as Res_Patient_Index_address_postalcode;
+            ResourseEntity.address_postalcode_List.Add(Index);
+          }
         }
       }
 
@@ -306,8 +345,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.State != null)
         {
-          var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_address_state(), item1.StateElement) as Res_Patient_Index_address_state;
-          ResourseEntity.address_state_List.Add(Index);
+          if (item1.StateElement is Hl7.Fhir.Model.FhirString)
+          {
+            Res_Patient_Index_address_state Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.StateElement) as Res_Patient_Index_address_state;
+            ResourseEntity.address_state_List.Add(Index);
+          }
         }
       }
 
@@ -315,8 +358,12 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Use != null)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_address_use(), item1.UseElement) as Res_Patient_Index_address_use;
-          ResourseEntity.address_use_List.Add(Index);
+          if (item1.UseElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Address.AddressUse>)
+          {
+            Res_Patient_Index_address_use Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item1.UseElement) as Res_Patient_Index_address_use;
+            ResourseEntity.address_use_List.Add(Index);
+          }
         }
       }
 
@@ -326,7 +373,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Animal.Breed.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_animal_breed(), item4) as Res_Patient_Index_animal_breed;
+            Res_Patient_Index_animal_breed Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_animal_breed;
             ResourseEntity.animal_breed_List.Add(Index);
           }
         }
@@ -338,7 +386,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Animal.Species.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_animal_species(), item4) as Res_Patient_Index_animal_species;
+            Res_Patient_Index_animal_species Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_animal_species;
             ResourseEntity.animal_species_List.Add(Index);
           }
         }
@@ -348,10 +397,14 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item in ResourceTyped.CareProvider)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Patient_Index_careprovider(), item, FhirRequestUri, this) as Res_Patient_Index_careprovider;
-          if (Index != null)
+          if (item is ResourceReference)
           {
-            ResourseEntity.careprovider_List.Add(Index);
+            var Index = new Res_Patient_Index_careprovider();
+            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.careprovider_List.Add(Index);
+            }
           }
         }
       }
@@ -362,8 +415,12 @@ namespace Blaze.DataModel.Repository
         {
           if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Email)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_email(), item2) as Res_Patient_Index_email;
-            ResourseEntity.email_List.Add(Index);
+            if (item2 is ContactPoint)
+            {
+              var Index = new Res_Patient_Index_email();
+              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_Patient_Index_email;
+              ResourseEntity.email_List.Add(Index);
+            }
           }
         }
       }
@@ -374,8 +431,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.FamilyElement)
           {
-            var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_family(), item4) as Res_Patient_Index_family;
-            ResourseEntity.family_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirString)
+            {
+              Res_Patient_Index_family Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_family;
+              ResourseEntity.family_List.Add(Index);
+            }
           }
         }
       }
@@ -386,8 +447,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.GivenElement)
           {
-            var Index = IndexSettingSupport.SetIndex<StringIndex>(new Res_Patient_Index_given(), item4) as Res_Patient_Index_given;
-            ResourseEntity.given_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirString)
+            {
+              Res_Patient_Index_given Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_given;
+              ResourseEntity.given_List.Add(Index);
+            }
           }
         }
       }
@@ -396,8 +461,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_identifier(), item3) as Res_Patient_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_Patient_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Patient_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -407,7 +476,8 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Language.Coding)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_language(), item4) as Res_Patient_Index_language;
+            Res_Patient_Index_language Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_language;
             ResourseEntity.language_List.Add(Index);
           }
         }
@@ -417,10 +487,14 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Other != null)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_Patient_Index_link(), item1.Other, FhirRequestUri, this) as Res_Patient_Index_link;
-          if (Index != null)
+          if (item1.Other is ResourceReference)
           {
-            ResourseEntity.link_List.Add(Index);
+            var Index = new Res_Patient_Index_link();
+            IndexSettingSupport.SetIndex(Index, item1.Other, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.link_List.Add(Index);
+            }
           }
         }
       }
@@ -449,8 +523,12 @@ namespace Blaze.DataModel.Repository
         {
           if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Phone)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_phone(), item2) as Res_Patient_Index_phone;
-            ResourseEntity.phone_List.Add(Index);
+            if (item2 is ContactPoint)
+            {
+              var Index = new Res_Patient_Index_phone();
+              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_Patient_Index_phone;
+              ResourseEntity.phone_List.Add(Index);
+            }
           }
         }
       }
@@ -475,8 +553,12 @@ namespace Blaze.DataModel.Repository
 
       foreach (var item2 in ResourceTyped.Telecom)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_telecom(), item2) as Res_Patient_Index_telecom;
-        ResourseEntity.telecom_List.Add(Index);
+        if (item2 is ContactPoint)
+        {
+          var Index = new Res_Patient_Index_telecom();
+          Index = IndexSettingSupport.SetIndex(Index, item2) as Res_Patient_Index_telecom;
+          ResourseEntity.telecom_List.Add(Index);
+        }
       }
 
       if (ResourceTyped.Meta != null)
@@ -485,8 +567,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_Patient_Index_profile(), item4) as Res_Patient_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_Patient_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -497,8 +583,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_security(), item4) as Res_Patient_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Patient_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -509,8 +599,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_Patient_Index_tag(), item4) as Res_Patient_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_Patient_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Patient_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }

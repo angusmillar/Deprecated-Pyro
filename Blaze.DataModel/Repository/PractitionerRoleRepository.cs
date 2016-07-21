@@ -153,8 +153,10 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Organization != null)
       {
+        if (ResourceTyped.Organization is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Organization, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organization_Type = Index.Type;
@@ -173,8 +175,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Practitioner != null)
       {
+        if (ResourceTyped.Practitioner is ResourceReference)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new ReferenceIndex(), ResourceTyped.Practitioner, FhirRequestUri, this);
+          ReferenceIndex Index = null;
+          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Practitioner, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.practitioner_Type = Index.Type;
@@ -197,8 +201,12 @@ namespace Blaze.DataModel.Repository
         {
           if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Email)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_email(), item2) as Res_PractitionerRole_Index_email;
-            ResourseEntity.email_List.Add(Index);
+            if (item2 is ContactPoint)
+            {
+              var Index = new Res_PractitionerRole_Index_email();
+              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_email;
+              ResourseEntity.email_List.Add(Index);
+            }
           }
         }
       }
@@ -207,8 +215,12 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Identifier)
         {
-          var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_identifier(), item3) as Res_PractitionerRole_Index_identifier;
-          ResourseEntity.identifier_List.Add(Index);
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            Res_PractitionerRole_Index_identifier Index = null;
+            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_PractitionerRole_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
+          }
         }
       }
 
@@ -216,10 +228,14 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item in ResourceTyped.Location)
         {
-          var Index = IndexSettingSupport.SetIndex<ReferenceIndex>(new Res_PractitionerRole_Index_location(), item, FhirRequestUri, this) as Res_PractitionerRole_Index_location;
-          if (Index != null)
+          if (item is ResourceReference)
           {
-            ResourseEntity.location_List.Add(Index);
+            var Index = new Res_PractitionerRole_Index_location();
+            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            if (Index != null)
+            {
+              ResourseEntity.location_List.Add(Index);
+            }
           }
         }
       }
@@ -230,8 +246,12 @@ namespace Blaze.DataModel.Repository
         {
           if ((ContactPoint.ContactPointSystem)item2.System == ContactPoint.ContactPointSystem.Phone)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_phone(), item2) as Res_PractitionerRole_Index_phone;
-            ResourseEntity.phone_List.Add(Index);
+            if (item2 is ContactPoint)
+            {
+              var Index = new Res_PractitionerRole_Index_phone();
+              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_phone;
+              ResourseEntity.phone_List.Add(Index);
+            }
           }
         }
       }
@@ -244,7 +264,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_role(), item4) as Res_PractitionerRole_Index_role;
+              Res_PractitionerRole_Index_role Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_role;
               ResourseEntity.role_List.Add(Index);
             }
           }
@@ -259,7 +280,8 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_specialty(), item4) as Res_PractitionerRole_Index_specialty;
+              Res_PractitionerRole_Index_specialty Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_specialty;
               ResourseEntity.specialty_List.Add(Index);
             }
           }
@@ -268,8 +290,12 @@ namespace Blaze.DataModel.Repository
 
       foreach (var item2 in ResourceTyped.Telecom)
       {
-        var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_telecom(), item2) as Res_PractitionerRole_Index_telecom;
-        ResourseEntity.telecom_List.Add(Index);
+        if (item2 is ContactPoint)
+        {
+          var Index = new Res_PractitionerRole_Index_telecom();
+          Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_telecom;
+          ResourseEntity.telecom_List.Add(Index);
+        }
       }
 
       if (ResourceTyped.Meta != null)
@@ -278,8 +304,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.ProfileElement)
           {
-            var Index = IndexSettingSupport.SetIndex<UriIndex>(new Res_PractitionerRole_Index_profile(), item4) as Res_PractitionerRole_Index_profile;
-            ResourseEntity.profile_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.FhirUri)
+            {
+              Res_PractitionerRole_Index_profile Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_profile;
+              ResourseEntity.profile_List.Add(Index);
+            }
           }
         }
       }
@@ -290,8 +320,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Security)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_security(), item4) as Res_PractitionerRole_Index_security;
-            ResourseEntity.security_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_PractitionerRole_Index_security Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_security;
+              ResourseEntity.security_List.Add(Index);
+            }
           }
         }
       }
@@ -302,8 +336,12 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in ResourceTyped.Meta.Tag)
           {
-            var Index = IndexSettingSupport.SetIndex<TokenIndex>(new Res_PractitionerRole_Index_tag(), item4) as Res_PractitionerRole_Index_tag;
-            ResourseEntity.tag_List.Add(Index);
+            if (item4 is Hl7.Fhir.Model.Coding)
+            {
+              Res_PractitionerRole_Index_tag Index = null;
+              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_tag;
+              ResourseEntity.tag_List.Add(Index);
+            }
           }
         }
       }
