@@ -6228,6 +6228,7 @@
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="IndexSetter\DateIndexSetter.cs" />
+    <Compile Include="IndexSetter\DatePeriodIndexSetter.cs" />
     <Compile Include="IndexSetter\IDateIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>

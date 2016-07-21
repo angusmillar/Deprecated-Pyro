@@ -5,9 +5,9 @@ namespace Blaze.DataModel.IndexSetter
 {
   public interface IDatePeriodIndexSetter : IIndexSetter
   {
-    	  DateIndex SetPeriod(Period Period);
-	  	  DateIndex SetTiming(Timing Timing);
-	    
+        DatePeriodIndex SetPeriod(Period Period, DatePeriodIndex DatePeriodIndex);
+        DatePeriodIndex SetTiming(Timing Timing, DatePeriodIndex DatePeriodIndex);
+      
   }
 }
 

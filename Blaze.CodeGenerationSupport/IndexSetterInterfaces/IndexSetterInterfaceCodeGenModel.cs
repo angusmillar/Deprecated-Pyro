@@ -25,12 +25,12 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
   }
 
   public class IndexSetterInterfaceMethod
-  {    
+  {
     public string IndexType { get; set; }
-    public string FhirType { get; set; } 
+    public string FhirType { get; set; }
     public string GetMethodSyntax()
     {
-      return string.Format("{0}Index Set{1}({1} {1});", IndexType, FhirType );
-    }   
+      return string.Format("{0} Set{1}({1} {1}, {0} {0});", IndexType, FhirType);
+    }
   }
 }

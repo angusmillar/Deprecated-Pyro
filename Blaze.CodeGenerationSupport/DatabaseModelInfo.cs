@@ -235,6 +235,24 @@ namespace Blaze.CodeGenerationSupport
       }
     }  
 
+    public static string GetServerSearchIndexTypeString(FhirApiSearchParameterInfo SearchParameter)
+    {
+      if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
+        SearchParameter.TargetFhirLogicalType == typeof(Timing))
+      {
+        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriod] + DatabaseModelInfo.IndexPrefixText;
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
+      {
+        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityRange] + DatabaseModelInfo.IndexPrefixText;
+      }
+      else
+      {
+        return SearchParameter.SearchParamType.ToString() + DatabaseModelInfo.IndexPrefixText;
+      }
+    }
+
+
     public static string NameGenericType(this Type type, bool WithType_T = true)
     {
       string friendlyName = type.FullName.Replace('+', '.'); 

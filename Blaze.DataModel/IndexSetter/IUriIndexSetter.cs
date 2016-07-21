@@ -5,9 +5,9 @@ namespace Blaze.DataModel.IndexSetter
 {
   public interface IUriIndexSetter : IIndexSetter
   {
-    	  UriIndex SetFhirUri(FhirUri FhirUri);
-	  	  UriIndex SetOid(Oid Oid);
-	    
+        UriIndex SetFhirUri(FhirUri FhirUri, UriIndex UriIndex);
+        UriIndex SetOid(Oid Oid, UriIndex UriIndex);
+      
   }
 }
 

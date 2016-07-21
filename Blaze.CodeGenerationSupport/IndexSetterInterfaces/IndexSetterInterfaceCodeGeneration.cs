@@ -87,7 +87,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
 
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
             MethodInfo.FhirType = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name);
-            MethodInfo.IndexType = Parameter.SearchParamType.ToString();
+            MethodInfo.IndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
 
             switch (BlazeIndexType)
             {

@@ -33,8 +33,8 @@ namespace Blaze.DataModel.IndexSetter
     <#
     foreach (var SubItem in item.IndexSetterMethodList)
     {#>
-	  <#=SubItem.GetMethodSyntax()#>
-	  <#
+    <#=SubItem.GetMethodSyntax()#>
+    <#
     }
     #>  
   }

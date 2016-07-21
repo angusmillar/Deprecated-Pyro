@@ -509,15 +509,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
     }
 
     private static void DateIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
-    {
-      string IndexName = DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.Date];
-      if (CollectionParameter.TargetFhirLogicalType == typeof(Period) ||
-        CollectionParameter.TargetFhirLogicalType == typeof(Timing))
-      {
-
-        IndexName = DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriod];
-      }
-
+    {  
       _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
