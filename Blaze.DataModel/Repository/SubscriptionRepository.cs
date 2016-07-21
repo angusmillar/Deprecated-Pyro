@@ -144,7 +144,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CriteriaElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CriteriaElement) as StringIndex;
           if (Index != null)
           {
@@ -159,7 +159,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Channel.PayloadElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Channel.PayloadElement) as StringIndex;
             if (Index != null)
             {
@@ -173,7 +173,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
           if (Index != null)
           {
@@ -189,7 +189,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Channel.TypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>)
           {
-            TokenIndex Index = null;
+            var Index = new TokenIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Channel.TypeElement) as TokenIndex;
             if (Index != null)
             {
@@ -206,7 +206,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Channel.EndpointElement is Hl7.Fhir.Model.FhirUri)
           {
-            UriIndex Index = null;
+            var Index = new UriIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Channel.EndpointElement) as UriIndex;
             if (Index != null)
             {
@@ -232,7 +232,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Coding)
           {
-            Res_Subscription_Index_tag Index = null;
+            var Index = new Res_Subscription_Index_tag();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Subscription_Index_tag;
             ResourseEntity.tag_List.Add(Index);
           }
@@ -247,7 +247,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Subscription_Index_profile Index = null;
+              var Index = new Res_Subscription_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Subscription_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -263,7 +263,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Subscription_Index_security Index = null;
+              var Index = new Res_Subscription_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Subscription_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -279,7 +279,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Subscription_Index_tag Index = null;
+              var Index = new Res_Subscription_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Subscription_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

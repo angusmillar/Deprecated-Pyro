@@ -144,7 +144,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.ModuleMetadata.DescriptionElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.DescriptionElement) as StringIndex;
             if (Index != null)
             {
@@ -160,7 +160,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.ModuleMetadata.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ModuleMetadata.ModuleMetadataStatus>)
           {
-            TokenIndex Index = null;
+            var Index = new TokenIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.StatusElement) as TokenIndex;
             if (Index != null)
             {
@@ -177,7 +177,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.ModuleMetadata.TitleElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.TitleElement) as StringIndex;
             if (Index != null)
             {
@@ -193,7 +193,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.ModuleMetadata.VersionElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ModuleMetadata.VersionElement) as StringIndex;
             if (Index != null)
             {
@@ -211,7 +211,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Identifier)
             {
-              Res_Measure_Index_identifier Index = null;
+              var Index = new Res_Measure_Index_identifier();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Measure_Index_identifier;
               ResourseEntity.identifier_List.Add(Index);
             }
@@ -229,7 +229,7 @@ namespace Blaze.DataModel.Repository
             {
               foreach (var item5 in item4.Coding)
               {
-                Res_Measure_Index_topic Index = null;
+                var Index = new Res_Measure_Index_topic();
                 Index = IndexSettingSupport.SetIndex(Index, item5) as Res_Measure_Index_topic;
                 ResourseEntity.topic_List.Add(Index);
               }
@@ -246,7 +246,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Measure_Index_profile Index = null;
+              var Index = new Res_Measure_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Measure_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -262,7 +262,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Measure_Index_security Index = null;
+              var Index = new Res_Measure_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Measure_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -278,7 +278,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Measure_Index_tag Index = null;
+              var Index = new Res_Measure_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Measure_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

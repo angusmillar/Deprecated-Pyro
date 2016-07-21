@@ -147,7 +147,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Identifier is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Identifier) as TokenIndex;
           if (Index != null)
           {
@@ -161,7 +161,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Patient is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -183,7 +183,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SupplyDelivery.SupplyDeliveryStatus>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
           if (Index != null)
           {
@@ -197,7 +197,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Supplier is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Supplier, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -239,7 +239,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_SupplyDelivery_Index_profile Index = null;
+              var Index = new Res_SupplyDelivery_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_SupplyDelivery_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -255,7 +255,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_SupplyDelivery_Index_security Index = null;
+              var Index = new Res_SupplyDelivery_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_SupplyDelivery_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -271,7 +271,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_SupplyDelivery_Index_tag Index = null;
+              var Index = new Res_SupplyDelivery_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_SupplyDelivery_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

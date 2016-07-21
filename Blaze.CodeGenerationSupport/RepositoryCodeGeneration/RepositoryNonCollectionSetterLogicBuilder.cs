@@ -260,17 +260,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       }
     }
 
-    //private static void StandardIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, string ElementNamePostFix = "")
-    //{   
-    //  _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;
-    //  _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {1}Index(), {2}{3});", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString(), _CurrentChainName, ElementNamePostFix));
-    //  _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;                  
-    //}
-
     private static void StandardIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, string ElementNamePostFix = "")
     {
       _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
@@ -283,7 +272,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}{1}Index Index = null;", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}Index();", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
       _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
@@ -339,7 +328,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}if ({1} is ResourceReference)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}{1}Index Index = null;", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}Index();", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
       _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}, FhirRequestUri, this) as {2}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, NonCollectionParameter.SearchParamType.ToString()));
 
       //      _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {1}Index(), {2}, FhirRequestUri, this);", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString(), _CurrentChainName));      
@@ -362,34 +351,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
 
     }
-
-    //private static void ResourceReferenceIndexStetterOLD(FhirApiSearchParameterInfo NonCollectionParameter, bool IsElementDataType = false)
-    //{
-    //  _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;            
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;
-    //  _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {1}Index(), {2}, FhirRequestUri, this);", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString(), _CurrentChainName));      
-    //  _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));      
-    //  _BracketDepthCounter++;
-    //  _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Type = Index.Type;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    //  _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_FhirId = Index.FhirId;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    //  _Sb.AppendLine(String.Format("{0}if (Index.Url != null)", DepthSpace(_BracketDepthCounter)));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;
-    //  _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url = Index.Url;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    //  _BracketDepthCounter--;
-    //  _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
-    //  _Sb.AppendLine(String.Format("{0}else", DepthSpace(_BracketDepthCounter)));
-    //  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //  _BracketDepthCounter++;
-    //  _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    //  _BracketDepthCounter--;
-    //  _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
-
-    //}
 
     private static void BuildPropertyTargetChainLogic(FhirApiSearchParameterInfo CollectionParameter)
     {

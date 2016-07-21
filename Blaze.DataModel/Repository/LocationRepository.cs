@@ -162,7 +162,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Address.CityElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Address.CityElement) as StringIndex;
             if (Index != null)
             {
@@ -178,7 +178,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Address.CountryElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Address.CountryElement) as StringIndex;
             if (Index != null)
             {
@@ -194,7 +194,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Address.PostalCodeElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Address.PostalCodeElement) as StringIndex;
             if (Index != null)
             {
@@ -210,7 +210,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Address.StateElement is Hl7.Fhir.Model.FhirString)
           {
-            StringIndex Index = null;
+            var Index = new StringIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Address.StateElement) as StringIndex;
             if (Index != null)
             {
@@ -226,7 +226,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Address.UseElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Address.AddressUse>)
           {
-            TokenIndex Index = null;
+            var Index = new TokenIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Address.UseElement) as TokenIndex;
             if (Index != null)
             {
@@ -241,7 +241,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.NameElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.NameElement) as StringIndex;
           if (Index != null)
           {
@@ -254,7 +254,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Position is Hl7.Fhir.Model.Location.PositionComponent)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Position) as TokenIndex;
           if (Index != null)
           {
@@ -268,7 +268,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Position is Hl7.Fhir.Model.Location.PositionComponent)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Position) as TokenIndex;
           if (Index != null)
           {
@@ -282,7 +282,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ManagingOrganization is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ManagingOrganization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -304,7 +304,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.PartOf is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.PartOf, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -326,7 +326,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Location.LocationStatus>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
           if (Index != null)
           {
@@ -356,7 +356,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_Location_Index_identifier Index = null;
+            var Index = new Res_Location_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Location_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -367,7 +367,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Type.Coding)
         {
-          Res_Location_Index_type Index = null;
+          var Index = new Res_Location_Index_type();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Location_Index_type;
           ResourseEntity.type_List.Add(Index);
         }
@@ -381,7 +381,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Location_Index_profile Index = null;
+              var Index = new Res_Location_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Location_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -397,7 +397,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Location_Index_security Index = null;
+              var Index = new Res_Location_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Location_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -413,7 +413,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Location_Index_tag Index = null;
+              var Index = new Res_Location_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Location_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

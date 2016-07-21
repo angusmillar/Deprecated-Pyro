@@ -155,7 +155,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Period.EndElement is Hl7.Fhir.Model.FhirDateTime)
           {
-            DateIndex Index = null;
+            var Index = new DateIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Period.EndElement) as DateIndex;
             if (Index != null)
             {
@@ -169,7 +169,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Location is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Location, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -193,7 +193,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Period.StartElement is Hl7.Fhir.Model.FhirDateTime)
           {
-            DateIndex Index = null;
+            var Index = new DateIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Period.StartElement) as DateIndex;
             if (Index != null)
             {
@@ -225,7 +225,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.ReferenceElement is Hl7.Fhir.Model.FhirUri)
           {
-            Res_Provenance_Index_entity Index = null;
+            var Index = new Res_Provenance_Index_entity();
             Index = IndexSettingSupport.SetIndex(Index, item1.ReferenceElement) as Res_Provenance_Index_entity;
             ResourseEntity.entity_List.Add(Index);
           }
@@ -238,7 +238,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Type is Hl7.Fhir.Model.Coding)
           {
-            Res_Provenance_Index_entity_type Index = null;
+            var Index = new Res_Provenance_Index_entity_type();
             Index = IndexSettingSupport.SetIndex(Index, item1.Type) as Res_Provenance_Index_entity_type;
             ResourseEntity.entity_type_List.Add(Index);
           }
@@ -269,7 +269,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Provenance_Index_sig Index = null;
+              var Index = new Res_Provenance_Index_sig();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Provenance_Index_sig;
               ResourseEntity.sig_List.Add(Index);
             }
@@ -299,7 +299,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.UserId is Hl7.Fhir.Model.Identifier)
           {
-            Res_Provenance_Index_userid Index = null;
+            var Index = new Res_Provenance_Index_userid();
             Index = IndexSettingSupport.SetIndex(Index, item1.UserId) as Res_Provenance_Index_userid;
             ResourseEntity.userid_List.Add(Index);
           }
@@ -314,7 +314,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Provenance_Index_profile Index = null;
+              var Index = new Res_Provenance_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Provenance_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -330,7 +330,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Provenance_Index_security Index = null;
+              var Index = new Res_Provenance_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Provenance_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -346,7 +346,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Provenance_Index_tag Index = null;
+              var Index = new Res_Provenance_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Provenance_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

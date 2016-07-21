@@ -137,7 +137,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_OperationOutcome_Index_profile Index = null;
+              var Index = new Res_OperationOutcome_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_OperationOutcome_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -153,7 +153,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_OperationOutcome_Index_security Index = null;
+              var Index = new Res_OperationOutcome_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_OperationOutcome_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -169,7 +169,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_OperationOutcome_Index_tag Index = null;
+              var Index = new Res_OperationOutcome_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_OperationOutcome_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

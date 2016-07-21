@@ -152,7 +152,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CreatedElement) as DateIndex;
           if (Index != null)
           {
@@ -165,7 +165,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.DispositionElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DispositionElement) as StringIndex;
           if (Index != null)
           {
@@ -178,7 +178,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Organization is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization) as TokenIndex;
           if (Index != null)
           {
@@ -192,7 +192,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Organization is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -214,7 +214,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.OutcomeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.OutcomeElement) as TokenIndex;
           if (Index != null)
           {
@@ -228,7 +228,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.PaymentDateElement is Hl7.Fhir.Model.Date)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.PaymentDateElement) as DateIndex;
           if (Index != null)
           {
@@ -241,7 +241,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Request is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request) as TokenIndex;
           if (Index != null)
           {
@@ -255,7 +255,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Request is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -279,7 +279,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_ClaimResponse_Index_identifier Index = null;
+            var Index = new Res_ClaimResponse_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_ClaimResponse_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -294,7 +294,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_ClaimResponse_Index_profile Index = null;
+              var Index = new Res_ClaimResponse_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClaimResponse_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -310,7 +310,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ClaimResponse_Index_security Index = null;
+              var Index = new Res_ClaimResponse_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClaimResponse_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -326,7 +326,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ClaimResponse_Index_tag Index = null;
+              var Index = new Res_ClaimResponse_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClaimResponse_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

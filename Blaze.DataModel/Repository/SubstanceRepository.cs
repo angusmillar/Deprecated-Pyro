@@ -151,7 +151,7 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              Res_Substance_Index_category Index = null;
+              var Index = new Res_Substance_Index_category();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_category;
               ResourseEntity.category_List.Add(Index);
             }
@@ -163,7 +163,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
-          Res_Substance_Index_code Index = null;
+          var Index = new Res_Substance_Index_code();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Substance_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
@@ -175,7 +175,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Identifier is Hl7.Fhir.Model.Identifier)
           {
-            Res_Substance_Index_container_identifier Index = null;
+            var Index = new Res_Substance_Index_container_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item1.Identifier) as Res_Substance_Index_container_identifier;
             ResourseEntity.container_identifier_List.Add(Index);
           }
@@ -188,7 +188,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.ExpiryElement is Hl7.Fhir.Model.FhirDateTime)
           {
-            Res_Substance_Index_expiry Index = null;
+            var Index = new Res_Substance_Index_expiry();
             Index = IndexSettingSupport.SetIndex(Index, item1.ExpiryElement) as Res_Substance_Index_expiry;
             ResourseEntity.expiry_List.Add(Index);
           }
@@ -201,7 +201,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_Substance_Index_identifier Index = null;
+            var Index = new Res_Substance_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Substance_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -214,7 +214,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Quantity is Hl7.Fhir.Model.SimpleQuantity)
           {
-            Res_Substance_Index_quantity Index = null;
+            var Index = new Res_Substance_Index_quantity();
             Index = IndexSettingSupport.SetIndex(Index, item1.Quantity) as Res_Substance_Index_quantity;
             ResourseEntity.quantity_List.Add(Index);
           }
@@ -245,7 +245,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Substance_Index_profile Index = null;
+              var Index = new Res_Substance_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -261,7 +261,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Substance_Index_security Index = null;
+              var Index = new Res_Substance_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -277,7 +277,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Substance_Index_tag Index = null;
+              var Index = new Res_Substance_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Substance_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

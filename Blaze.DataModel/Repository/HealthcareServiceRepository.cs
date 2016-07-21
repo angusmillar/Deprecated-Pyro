@@ -150,7 +150,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ServiceNameElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ServiceNameElement) as StringIndex;
           if (Index != null)
           {
@@ -163,7 +163,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.ProvidedBy is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ProvidedBy, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -189,7 +189,7 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              Res_HealthcareService_Index_characteristic Index = null;
+              var Index = new Res_HealthcareService_Index_characteristic();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_characteristic;
               ResourseEntity.characteristic_List.Add(Index);
             }
@@ -203,7 +203,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_HealthcareService_Index_identifier Index = null;
+            var Index = new Res_HealthcareService_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -232,7 +232,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.FhirString)
           {
-            Res_HealthcareService_Index_programname Index = null;
+            var Index = new Res_HealthcareService_Index_programname();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_programname;
             ResourseEntity.programname_List.Add(Index);
           }
@@ -243,7 +243,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.ServiceCategory.Coding)
         {
-          Res_HealthcareService_Index_servicecategory Index = null;
+          var Index = new Res_HealthcareService_Index_servicecategory();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_HealthcareService_Index_servicecategory;
           ResourseEntity.servicecategory_List.Add(Index);
         }
@@ -257,7 +257,7 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              Res_HealthcareService_Index_servicetype Index = null;
+              var Index = new Res_HealthcareService_Index_servicetype();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_servicetype;
               ResourseEntity.servicetype_List.Add(Index);
             }
@@ -273,7 +273,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_HealthcareService_Index_profile Index = null;
+              var Index = new Res_HealthcareService_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -289,7 +289,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_HealthcareService_Index_security Index = null;
+              var Index = new Res_HealthcareService_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -305,7 +305,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_HealthcareService_Index_tag Index = null;
+              var Index = new Res_HealthcareService_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_HealthcareService_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

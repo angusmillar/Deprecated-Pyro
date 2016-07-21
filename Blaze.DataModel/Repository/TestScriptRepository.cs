@@ -144,7 +144,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DescriptionElement) as StringIndex;
           if (Index != null)
           {
@@ -157,7 +157,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Identifier is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Identifier) as TokenIndex;
           if (Index != null)
           {
@@ -171,7 +171,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.NameElement is Hl7.Fhir.Model.FhirString)
         {
-          StringIndex Index = null;
+          var Index = new StringIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.NameElement) as StringIndex;
           if (Index != null)
           {
@@ -184,7 +184,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.UrlElement is Hl7.Fhir.Model.FhirUri)
         {
-          UriIndex Index = null;
+          var Index = new UriIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.UrlElement) as UriIndex;
           if (Index != null)
           {
@@ -201,7 +201,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item2.DescriptionElement is Hl7.Fhir.Model.FhirString)
             {
-              Res_TestScript_Index_testscript_capability Index = null;
+              var Index = new Res_TestScript_Index_testscript_capability();
               Index = IndexSettingSupport.SetIndex(Index, item2.DescriptionElement) as Res_TestScript_Index_testscript_capability;
               ResourseEntity.testscript_capability_List.Add(Index);
             }
@@ -219,7 +219,7 @@ namespace Blaze.DataModel.Repository
             {
               if (item3.DescriptionElement is Hl7.Fhir.Model.FhirString)
               {
-                Res_TestScript_Index_testscript_setup_capability Index = null;
+                var Index = new Res_TestScript_Index_testscript_setup_capability();
                 Index = IndexSettingSupport.SetIndex(Index, item3.DescriptionElement) as Res_TestScript_Index_testscript_setup_capability;
                 ResourseEntity.testscript_setup_capability_List.Add(Index);
               }
@@ -238,7 +238,7 @@ namespace Blaze.DataModel.Repository
             {
               if (item3.DescriptionElement is Hl7.Fhir.Model.FhirString)
               {
-                Res_TestScript_Index_testscript_test_capability Index = null;
+                var Index = new Res_TestScript_Index_testscript_test_capability();
                 Index = IndexSettingSupport.SetIndex(Index, item3.DescriptionElement) as Res_TestScript_Index_testscript_test_capability;
                 ResourseEntity.testscript_test_capability_List.Add(Index);
               }
@@ -255,7 +255,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_TestScript_Index_profile Index = null;
+              var Index = new Res_TestScript_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_TestScript_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -271,7 +271,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_TestScript_Index_security Index = null;
+              var Index = new Res_TestScript_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_TestScript_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -287,7 +287,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_TestScript_Index_tag Index = null;
+              var Index = new Res_TestScript_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_TestScript_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

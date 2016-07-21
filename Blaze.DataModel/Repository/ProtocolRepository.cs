@@ -139,7 +139,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Subject is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -163,7 +163,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_Protocol_Index_identifier Index = null;
+            var Index = new Res_Protocol_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Protocol_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -178,7 +178,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Protocol_Index_profile Index = null;
+              var Index = new Res_Protocol_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Protocol_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -194,7 +194,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Protocol_Index_security Index = null;
+              var Index = new Res_Protocol_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Protocol_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -210,7 +210,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Protocol_Index_tag Index = null;
+              var Index = new Res_Protocol_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Protocol_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

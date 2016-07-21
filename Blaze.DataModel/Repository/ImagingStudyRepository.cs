@@ -155,7 +155,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Accession is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Accession) as TokenIndex;
           if (Index != null)
           {
@@ -169,7 +169,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Patient is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -191,7 +191,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StartedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StartedElement) as DateIndex;
           if (Index != null)
           {
@@ -204,7 +204,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.UidElement is Hl7.Fhir.Model.Oid)
         {
-          UriIndex Index = null;
+          var Index = new UriIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.UidElement) as UriIndex;
           if (Index != null)
           {
@@ -219,7 +219,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.BodySite is Hl7.Fhir.Model.Coding)
           {
-            Res_ImagingStudy_Index_bodysite Index = null;
+            var Index = new Res_ImagingStudy_Index_bodysite();
             Index = IndexSettingSupport.SetIndex(Index, item1.BodySite) as Res_ImagingStudy_Index_bodysite;
             ResourseEntity.bodysite_List.Add(Index);
           }
@@ -234,7 +234,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item2.SopClassElement is Hl7.Fhir.Model.Oid)
             {
-              Res_ImagingStudy_Index_dicom_class Index = null;
+              var Index = new Res_ImagingStudy_Index_dicom_class();
               Index = IndexSettingSupport.SetIndex(Index, item2.SopClassElement) as Res_ImagingStudy_Index_dicom_class;
               ResourseEntity.dicom_class_List.Add(Index);
             }
@@ -248,7 +248,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_ImagingStudy_Index_identifier Index = null;
+            var Index = new Res_ImagingStudy_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_ImagingStudy_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -261,7 +261,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Modality is Hl7.Fhir.Model.Coding)
           {
-            Res_ImagingStudy_Index_modality Index = null;
+            var Index = new Res_ImagingStudy_Index_modality();
             Index = IndexSettingSupport.SetIndex(Index, item1.Modality) as Res_ImagingStudy_Index_modality;
             ResourseEntity.modality_List.Add(Index);
           }
@@ -290,7 +290,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.UidElement is Hl7.Fhir.Model.Oid)
           {
-            Res_ImagingStudy_Index_series Index = null;
+            var Index = new Res_ImagingStudy_Index_series();
             Index = IndexSettingSupport.SetIndex(Index, item1.UidElement) as Res_ImagingStudy_Index_series;
             ResourseEntity.series_List.Add(Index);
           }
@@ -305,7 +305,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item2.UidElement is Hl7.Fhir.Model.Oid)
             {
-              Res_ImagingStudy_Index_uid Index = null;
+              var Index = new Res_ImagingStudy_Index_uid();
               Index = IndexSettingSupport.SetIndex(Index, item2.UidElement) as Res_ImagingStudy_Index_uid;
               ResourseEntity.uid_List.Add(Index);
             }
@@ -321,7 +321,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_ImagingStudy_Index_profile Index = null;
+              var Index = new Res_ImagingStudy_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ImagingStudy_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -337,7 +337,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ImagingStudy_Index_security Index = null;
+              var Index = new Res_ImagingStudy_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ImagingStudy_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -353,7 +353,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ImagingStudy_Index_tag Index = null;
+              var Index = new Res_ImagingStudy_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ImagingStudy_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

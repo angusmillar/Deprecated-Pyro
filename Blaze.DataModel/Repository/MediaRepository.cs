@@ -156,7 +156,7 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Content.CreationElement is Hl7.Fhir.Model.FhirDateTime)
           {
-            DateIndex Index = null;
+            var Index = new DateIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Content.CreationElement) as DateIndex;
             if (Index != null)
             {
@@ -170,7 +170,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Operator is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Operator, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -192,7 +192,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Subject is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -214,7 +214,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Subject is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -236,7 +236,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.TypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Media.DigitalMediaType>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.TypeElement) as TokenIndex;
           if (Index != null)
           {
@@ -252,7 +252,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            Res_Media_Index_identifier Index = null;
+            var Index = new Res_Media_Index_identifier();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Media_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
@@ -263,7 +263,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Subtype.Coding)
         {
-          Res_Media_Index_subtype Index = null;
+          var Index = new Res_Media_Index_subtype();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Media_Index_subtype;
           ResourseEntity.subtype_List.Add(Index);
         }
@@ -273,7 +273,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.View.Coding)
         {
-          Res_Media_Index_view Index = null;
+          var Index = new Res_Media_Index_view();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Media_Index_view;
           ResourseEntity.view_List.Add(Index);
         }
@@ -287,7 +287,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_Media_Index_profile Index = null;
+              var Index = new Res_Media_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Media_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -303,7 +303,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Media_Index_security Index = null;
+              var Index = new Res_Media_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Media_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -319,7 +319,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_Media_Index_tag Index = null;
+              var Index = new Res_Media_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Media_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

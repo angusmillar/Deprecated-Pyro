@@ -148,7 +148,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Author is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Author, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -170,7 +170,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DateElement) as DateIndex;
           if (Index != null)
           {
@@ -183,7 +183,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Identifier is Hl7.Fhir.Model.Identifier)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Identifier) as TokenIndex;
           if (Index != null)
           {
@@ -197,7 +197,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Patient is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -219,7 +219,7 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.Category.Coding)
         {
-          Res_DetectedIssue_Index_category Index = null;
+          var Index = new Res_DetectedIssue_Index_category();
           Index = IndexSettingSupport.SetIndex(Index, item3) as Res_DetectedIssue_Index_category;
           ResourseEntity.category_List.Add(Index);
         }
@@ -249,7 +249,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_DetectedIssue_Index_profile Index = null;
+              var Index = new Res_DetectedIssue_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DetectedIssue_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -265,7 +265,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_DetectedIssue_Index_security Index = null;
+              var Index = new Res_DetectedIssue_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DetectedIssue_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -281,7 +281,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_DetectedIssue_Index_tag Index = null;
+              var Index = new Res_DetectedIssue_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_DetectedIssue_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

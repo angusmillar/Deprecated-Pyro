@@ -137,7 +137,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Patient is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -163,7 +163,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_MeasureReport_Index_profile Index = null;
+              var Index = new Res_MeasureReport_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_MeasureReport_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -179,7 +179,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_MeasureReport_Index_security Index = null;
+              var Index = new Res_MeasureReport_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_MeasureReport_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -195,7 +195,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_MeasureReport_Index_tag Index = null;
+              var Index = new Res_MeasureReport_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_MeasureReport_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

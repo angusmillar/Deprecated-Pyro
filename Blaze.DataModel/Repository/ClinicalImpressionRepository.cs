@@ -168,7 +168,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Assessor is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Assessor, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -190,7 +190,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.DateElement) as DateIndex;
           if (Index != null)
           {
@@ -203,7 +203,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Patient is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -225,7 +225,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Previous is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Previous, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -247,7 +247,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClinicalImpression.ClinicalImpressionStatus>)
         {
-          TokenIndex Index = null;
+          var Index = new TokenIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
           if (Index != null)
           {
@@ -261,7 +261,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Trigger is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Trigger, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -301,7 +301,7 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Item.Coding)
           {
-            Res_ClinicalImpression_Index_finding Index = null;
+            var Index = new Res_ClinicalImpression_Index_finding();
             Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_finding;
             ResourseEntity.finding_List.Add(Index);
           }
@@ -367,7 +367,7 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item4 in item3.Coding)
             {
-              Res_ClinicalImpression_Index_resolved Index = null;
+              var Index = new Res_ClinicalImpression_Index_resolved();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_resolved;
               ResourseEntity.resolved_List.Add(Index);
             }
@@ -381,7 +381,7 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Item.Coding)
           {
-            Res_ClinicalImpression_Index_ruledout Index = null;
+            var Index = new Res_ClinicalImpression_Index_ruledout();
             Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_ruledout;
             ResourseEntity.ruledout_List.Add(Index);
           }
@@ -395,7 +395,7 @@ namespace Blaze.DataModel.Repository
           CodeableConcept CodeableConcept = ResourceTyped.Trigger as CodeableConcept;
           foreach (var item3 in CodeableConcept.Coding)
           {
-            Res_ClinicalImpression_Index_trigger_code Index = null;
+            var Index = new Res_ClinicalImpression_Index_trigger_code();
             Index = IndexSettingSupport.SetIndex(Index, item3) as Res_ClinicalImpression_Index_trigger_code;
             ResourseEntity.trigger_code_List.Add(Index);
           }
@@ -410,7 +410,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_ClinicalImpression_Index_profile Index = null;
+              var Index = new Res_ClinicalImpression_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -426,7 +426,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ClinicalImpression_Index_security Index = null;
+              var Index = new Res_ClinicalImpression_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -442,7 +442,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_ClinicalImpression_Index_tag Index = null;
+              var Index = new Res_ClinicalImpression_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_ClinicalImpression_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }

@@ -275,7 +275,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
         _BracketDepthCounter++;
 
-        _Sb.AppendLine(String.Format("{0}{1} Index = null;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
+        _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
         _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}) as {2};", DepthSpace(_BracketDepthCounter), _CurrentChainName, DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
       }
       else
@@ -287,7 +287,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
         _BracketDepthCounter++;
 
-        _Sb.AppendLine(String.Format("{0}{1} Index = null;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
+        _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
         _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}) as {3};", DepthSpace(_BracketDepthCounter), _CurrentChainName, IndexSetterNamePostFix, DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
 
       }
@@ -383,7 +383,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _BracketDepthCounter++;
       _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
 
-      _Sb.AppendLine(String.Format("{0}{1} Index = null;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
       _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}) as {2};", DepthSpace(_BracketDepthCounter), _CurrentChainName, DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
     }
 
@@ -410,7 +410,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}if (NameTotal.Length > 0)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0} var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
       _Sb.AppendLine(String.Format("{0}Index.String = NameTotal.ToString();", DepthSpace(_BracketDepthCounter)));
 
     }
@@ -509,7 +509,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
     }
 
     private static void DateIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
-    {  
+    {
       _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;

@@ -165,7 +165,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Period is Hl7.Fhir.Model.Period)
         {
-          DateIndex Index = null;
+          var Index = new DateIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Period) as DateIndex;
           if (Index != null)
           {
@@ -179,7 +179,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Subject is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -201,7 +201,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Subject is ResourceReference)
         {
-          ReferenceIndex Index = null;
+          var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
@@ -227,7 +227,7 @@ namespace Blaze.DataModel.Repository
           {
             foreach (var item5 in item1.Detail.Code.Coding)
             {
-              Res_CarePlan_Index_activitycode Index = null;
+              var Index = new Res_CarePlan_Index_activitycode();
               Index = IndexSettingSupport.SetIndex(Index, item5) as Res_CarePlan_Index_activitycode;
               ResourseEntity.activitycode_List.Add(Index);
             }
@@ -375,7 +375,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.CodeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.CarePlan.CarePlanRelationship>)
           {
-            Res_CarePlan_Index_relatedcode Index = null;
+            var Index = new Res_CarePlan_Index_relatedcode();
             Index = IndexSettingSupport.SetIndex(Index, item1.CodeElement) as Res_CarePlan_Index_relatedcode;
             ResourseEntity.relatedcode_List.Add(Index);
           }
@@ -406,7 +406,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              Res_CarePlan_Index_profile Index = null;
+              var Index = new Res_CarePlan_Index_profile();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_CarePlan_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
@@ -422,7 +422,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_CarePlan_Index_security Index = null;
+              var Index = new Res_CarePlan_Index_security();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_CarePlan_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
@@ -438,7 +438,7 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              Res_CarePlan_Index_tag Index = null;
+              var Index = new Res_CarePlan_Index_tag();
               Index = IndexSettingSupport.SetIndex(Index, item4) as Res_CarePlan_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
