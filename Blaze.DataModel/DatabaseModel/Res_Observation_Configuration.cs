@@ -25,6 +25,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.date_DateTimeOffset).IsOptional();
+      Property(x => x.date_DateTimeOffsetLow).IsOptional();
+      Property(x => x.date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.device_VersionId).IsOptional();
       Property(x => x.device_FhirId).IsOptional();
       Property(x => x.device_Type).IsOptional();
@@ -53,6 +55,8 @@ namespace Blaze.DataModel.DatabaseModel
       HasOptional(x => x.subject_Url);
       HasOptional<Blaze_RootUrlStore>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_Url_Blaze_RootUrlStoreID);
       Property(x => x.value_date_DateTimeOffset).IsOptional();
+      Property(x => x.value_date_DateTimeOffsetLow).IsOptional();
+      Property(x => x.value_date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.value_quantity_Comparator).IsOptional();
       Property(x => x.value_quantity_Quantity).IsOptional();
       Property(x => x.value_quantity_System).IsOptional();

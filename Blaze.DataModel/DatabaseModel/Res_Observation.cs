@@ -46,7 +46,7 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? value_date_DateTimeOffset {get; set;}
     public DateTimeOffset? value_date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? value_date_DateTimeOffsetHigh {get; set;}
-    public int? value_quantity_Comparator {get; set;}
+    public Hl7.Fhir.Model.Quantity.QuantityComparator? value_quantity_Comparator {get; set;}
     public decimal? value_quantity_Quantity {get; set;}
     public string value_quantity_System {get; set;}
     public string value_quantity_Code {get; set;}

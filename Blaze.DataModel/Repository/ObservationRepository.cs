@@ -374,6 +374,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Value) as QuantityIndex;
           if (Index != null)
           {
+            ResourseEntity.value_quantity_Comparator = Index.Comparator;
             ResourseEntity.value_quantity_Code = Index.Code;
             ResourseEntity.value_quantity_System = Index.System;
             ResourseEntity.value_quantity_Quantity = Index.Quantity;

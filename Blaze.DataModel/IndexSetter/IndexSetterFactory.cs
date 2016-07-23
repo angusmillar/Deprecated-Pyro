@@ -18,7 +18,7 @@ namespace Blaze.DataModel.IndexSetter
       }
       else if (IndexType == typeof(DatePeriodIndex))
       {
-        throw new NotImplementedException();
+        return new DatePeriodIndexSetter();
       }
       else if (IndexType == typeof(NumberIndex))
       {

@@ -309,11 +309,13 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void NumberIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Comparator = Index.Comparator;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Number = Index.Number;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
     }
 
     private static void QuantityIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Comparator = Index.Comparator;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Code = Index.Code;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_System = Index.System;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Quantity = Index.Quantity;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));

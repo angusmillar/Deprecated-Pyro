@@ -170,6 +170,7 @@ namespace Blaze.CodeGenerationSupport
           }
         case Hl7.Fhir.Model.SearchParamType.Number:
           {
+            Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
             Propertylist.Add(String.Format("{0}Number", FormatedPrefix));
           }
           break;
@@ -233,7 +234,7 @@ namespace Blaze.CodeGenerationSupport
         default:
           throw new InvalidEnumArgumentException(NonCollectionItem.SearchParamType.ToString(), (int)NonCollectionItem.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
       }
-    }  
+    }
 
     public static string GetServerSearchIndexTypeString(FhirApiSearchParameterInfo SearchParameter)
     {
@@ -255,7 +256,7 @@ namespace Blaze.CodeGenerationSupport
 
     public static string NameGenericType(this Type type, bool WithType_T = true)
     {
-      string friendlyName = type.FullName.Replace('+', '.'); 
+      string friendlyName = type.FullName.Replace('+', '.');
       if (type.IsGenericType)
       {
         int iBacktick = friendlyName.IndexOf('`');
@@ -283,13 +284,13 @@ namespace Blaze.CodeGenerationSupport
     {
       string friendlyName = type.Name;
       if (type.IsGenericType)
-      {        
+      {
         Type[] typeParameters = type.GetGenericArguments();
         for (int i = 0; i < typeParameters.Length; ++i)
         {
-          string typeParamName = typeParameters[i].FullName.Replace('+','.');
+          string typeParamName = typeParameters[i].FullName.Replace('+', '.');
           friendlyName = (i == 0 ? typeParamName : "," + typeParamName);
-        }        
+        }
       }
       return friendlyName;
     }

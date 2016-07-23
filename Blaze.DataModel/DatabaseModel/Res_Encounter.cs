@@ -20,6 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     public int? appointment_Url_Blaze_RootUrlStoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
+    public Hl7.Fhir.Model.Quantity.QuantityComparator? length_Comparator {get; set;}
     public decimal? length_Number {get; set;}
     public string part_of_VersionId {get; set;}
     public string part_of_FhirId {get; set;}

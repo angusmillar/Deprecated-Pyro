@@ -118,11 +118,13 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Sequence ResourceEntity)
     {
+      ResourceEntity.end_Comparator = null;      
       ResourceEntity.end_Number = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.start_Comparator = null;      
       ResourceEntity.start_Number = null;      
       ResourceEntity.type_Code = null;      
       ResourceEntity.type_System = null;      
@@ -151,6 +153,7 @@ namespace Blaze.DataModel.Repository
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Variation.EndElement) as NumberIndex;
             if (Index != null)
             {
+              ResourseEntity.end_Comparator = Index.Comparator;
               ResourseEntity.end_Number = Index.Number;
             }
           }
@@ -189,6 +192,7 @@ namespace Blaze.DataModel.Repository
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Variation.StartElement) as NumberIndex;
             if (Index != null)
             {
+              ResourseEntity.start_Comparator = Index.Comparator;
               ResourseEntity.start_Number = Index.Number;
             }
           }

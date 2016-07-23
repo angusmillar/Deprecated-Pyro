@@ -162,6 +162,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Balance) as QuantityIndex;
           if (Index != null)
           {
+            ResourseEntity.balance_Comparator = Index.Comparator;
             ResourseEntity.balance_Code = Index.Code;
             ResourseEntity.balance_System = Index.System;
             ResourseEntity.balance_Quantity = Index.Quantity;

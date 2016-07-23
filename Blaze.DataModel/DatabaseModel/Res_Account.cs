@@ -13,7 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Account : ResourceIndexBase
   {
     public int Res_AccountID {get; set;}
-    public int? balance_Comparator {get; set;}
+    public Hl7.Fhir.Model.Quantity.QuantityComparator? balance_Comparator {get; set;}
     public decimal? balance_Quantity {get; set;}
     public string balance_System {get; set;}
     public string balance_Code {get; set;}

@@ -136,6 +136,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.appointment_Url_Blaze_RootUrlStoreID = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
+      ResourceEntity.length_Comparator = null;      
       ResourceEntity.length_Number = null;      
       ResourceEntity.part_of_FhirId = null;      
       ResourceEntity.part_of_Type = null;      
@@ -218,6 +219,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Length) as NumberIndex;
           if (Index != null)
           {
+            ResourseEntity.length_Comparator = Index.Comparator;
             ResourseEntity.length_Number = Index.Number;
           }
         }

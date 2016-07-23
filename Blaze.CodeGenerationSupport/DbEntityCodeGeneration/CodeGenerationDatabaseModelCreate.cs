@@ -15,7 +15,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     private List<string> _ResourceList;
     private List<FhirApiSearchParameterInfo> _SearchParametersList;
     private List<CodeGenerationDbTableModel> _CodeGenerationDbTableModelList;
-    
+
     //Set the DB table
     private readonly string CreateTableFormatMask = "public DbSet<{0}> {1} {{ get; set; }}";
     //Set the Configuration class for the table
@@ -24,11 +24,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     #endregion
 
     #region Public Properties
-    
-    public List<CodeGenerationDbTableModel>  CodeGenerationDbTableModelList
+
+    public List<CodeGenerationDbTableModel> CodeGenerationDbTableModelList
     {
-      get { return _CodeGenerationDbTableModelList; }      
-    }    
+      get { return _CodeGenerationDbTableModelList; }
+    }
 
     #endregion
 
@@ -77,7 +77,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         _CodeGenerationDbTableModelList.Add(CreateModelResourceMainTable(ResourceName, CollectionParameters, NonCollectionParameters));
 
         //The Resource History Table
-        _CodeGenerationDbTableModelList.Add(CreateModelResourceHistoryTable(ResourceName, CollectionParameters, NonCollectionParameters));        
+        _CodeGenerationDbTableModelList.Add(CreateModelResourceHistoryTable(ResourceName, CollectionParameters, NonCollectionParameters));
 
         //The Resource Search Index tables
         foreach (FhirApiSearchParameterInfo CollectionItem in CollectionParameters)
@@ -108,7 +108,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       GenerateConfigurationFluentStatmentsForResourceSearchIndex(TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList, CollectionItem, ClassNameResource, ClassNameSearchIndex);
 
       TableModel.TableClassModel = new CodeGenerationDbTableClassModel(false);
-      TableModel.TableClassModel.ClassName = ClassNameSearchIndex;      
+      TableModel.TableClassModel.ClassName = ClassNameSearchIndex;
       GenerateClassInheritancesByFhirSearchParameterType(TableModel.TableClassModel.ClassInheritanceList, CollectionItem);
       GenerateTableClassModelPropertiesForResourceSearchIndex(TableModel.TableClassModel.PropertyList, ClassNameResource, ClassNameSearchIndex, CollectionItem);
       return TableModel;
@@ -144,7 +144,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       TableModel.TableConfiguratonSyntax = GererateTableConfigurationSyntax(ClassNameResource);
 
       TableModel.TableConfigurationClassModel = new CodeGenerationDbTableConfigurationClassModel();
-      TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(ClassNameResource);      
+      TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(ClassNameResource);
       GenerateConfigurationFluentStatmentsForMainResource(TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList, ClassNameResource, NonCollectionParameters);
 
       TableModel.TableClassModel = new CodeGenerationDbTableClassModel();
@@ -155,13 +155,13 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       GenerateTableClassModelPropertyConstructorInstantiationForMainResource(TableModel.TableClassModel.PropertyConstructorInstantiationList, NonCollectionParameters, CollectionParameters, ResourceName);
 
       //History
-      string ClassNameResourceHistory = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);      
+      string ClassNameResourceHistory = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);
       TableModel.TableClassModel.PropertyConstructorInstantiationList.Add(String.Format("this.{0}_List = new HashSet<{1}>();", ClassNameResourceHistory, ClassNameResourceHistory));
-      
+
       return TableModel;
     }
 
-    
+
     /// <summary>
     /// Create the table that holds all URL's for the resource references
     /// </summary>
@@ -177,7 +177,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       TableModel.TableConfigurationClassModel = new CodeGenerationDbTableConfigurationClassModel();
       TableModel.TableConfigurationClassModel.ClassName = ConstructClassNameForConfigurationClass(UrlStoreTableClassName);
       TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", UrlStoreTableClassName));
-      TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add("Property(x => x.RootUrl).IsRequired().HasMaxLength(2083).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute(\"IX_RootUrl\") { IsUnique = true }));");      
+      TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add("Property(x => x.RootUrl).IsRequired().HasMaxLength(2083).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute(\"IX_RootUrl\") { IsUnique = true }));");
       TableModel.TableConfigurationClassModel.FluentPropertyConfigurationList.Add("Property(x => x.IsServersPrimaryUrlRoot).IsRequired();");
 
       TableModel.TableClassModel = new CodeGenerationDbTableClassModel();
@@ -204,11 +204,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Timing))
               list.Add("DatePeriodIndex");
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Period))
-              list.Add("DatePeriodIndex");            
+              list.Add("DatePeriodIndex");
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
             break;
-          }                          
+          }
         case SearchParamType.Number:
           list.Add("NumberIndex");
           break;
@@ -223,7 +223,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
             break;
-          }          
+          }
         case SearchParamType.Reference:
           list.Add("ReferenceIndex");
           break;
@@ -273,7 +273,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       string ClassNameResourceHistory = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);
 
       FluentPathList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ClassNameResourceHistory));
-      FluentPathList.Add("Property(x => x.IsDeleted).IsRequired();"); 
+      FluentPathList.Add("Property(x => x.IsDeleted).IsRequired();");
       FluentPathList.Add("Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute(\"IX_FhirId\") { IsUnique = false })); ;");
       FluentPathList.Add("Property(x => x.lastUpdated).IsRequired();");
       FluentPathList.Add("Property(x => x.versionId).IsRequired();");
@@ -283,7 +283,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
     private void GenerateConfigurationFluentStatmentsForResourceSearchIndex(List<string> FluentPathList, FhirApiSearchParameterInfo CollectionItem, string ClassNameResource, string ClassNameSearchIndex)
     {
-      FluentPathList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ClassNameSearchIndex));      
+      FluentPathList.Add(String.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", ClassNameSearchIndex));
       if (CollectionItem.SearchParamType == Hl7.Fhir.Model.SearchParamType.Composite)
       {
         foreach (var Composite in CollectionItem.CompositeSearchParameterList)
@@ -300,7 +300,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     }
 
     private string GererateTableCreateSyntax(string ClassType, string ClassTableName)
-    {      
+    {
       return String.Format(CreateTableFormatMask, ClassType, ClassTableName);
     }
 
@@ -309,7 +309,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       return String.Format(TableConfigurationsFormatMask, ClassTableName);
     }
 
-  
+
     /// <summary>
     /// Construct the class name string for the Resource History
     /// </summary>
@@ -353,7 +353,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffset).{1};", Prefix, RequiredOrOptional));
             }
             else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Timing))
-            {              
+            {
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetLow).{1};", Prefix, IsOptional));
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetHigh).{1};", Prefix, IsOptional));
             }
@@ -361,21 +361,15 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             {
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetLow).{1};", Prefix, IsOptional));
               FluentPathList.Add(String.Format("Property(x => x.{0}DateTimeOffsetHigh).{1};", Prefix, IsOptional));
-            }         
+            }
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
-            break;            
-          }          
+            break;
+          }
         case Hl7.Fhir.Model.SearchParamType.Number:
           {
-            if (IsIndex)
-            {
-              FluentPathList.Add(String.Format("Property(x => x.{0}Number).IsRequired();", Prefix));
-            }
-            else
-            {
-              FluentPathList.Add(String.Format("Property(x => x.{0}Number).IsOptional();", Prefix));
-            }
+            FluentPathList.Add(String.Format("Property(x => x.{0}Comparator).{1};", Prefix, IsOptional));
+            FluentPathList.Add(String.Format("Property(x => x.{0}Number).{1};", Prefix, RequiredOrOptional));
           }
           break;
         case Hl7.Fhir.Model.SearchParamType.Quantity:
@@ -410,7 +404,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             else
               throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
             break;
-          }          
+          }
         case Hl7.Fhir.Model.SearchParamType.Reference:
           {
             string RootUrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
@@ -418,7 +412,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             {
               FluentPathList.Add(String.Format("Property(x => x.{0}VersionId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsRequired();", Prefix));
-              FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsRequired();", Prefix));              
+              FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsRequired();", Prefix));
               FluentPathList.Add(String.Format("HasRequired(x => x.{0}Url);", Prefix));
               FluentPathList.Add(String.Format("HasRequired<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}Url_{0}ID);", RootUrlStoreTableClassName, Prefix));
             }
@@ -428,7 +422,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("HasOptional(x => x.{0}Url);", Prefix));
-              FluentPathList.Add(String.Format("HasOptional<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}Url_{0}ID);", RootUrlStoreTableClassName, Prefix));              
+              FluentPathList.Add(String.Format("HasOptional<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}Url_{0}ID);", RootUrlStoreTableClassName, Prefix));
             }
           }
           break;
@@ -479,16 +473,16 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     {
       string MainResourceClassName = DatabaseModelInfo.ConstructClassNameForResourceClass(ResourceName);
       string ClassNameResourceHistory = DatabaseModelInfo.ConstructClassNameForResourceHistory(ResourceName);
-      
+
       if (IsHistoryTable)
       {
         Propertylist.Add(String.Format("public int {0}ID {{get; set;}}", ClassNameResourceHistory));
-        Propertylist.Add(String.Format("public virtual {0} {0} {{ get; set; }}", MainResourceClassName));        
+        Propertylist.Add(String.Format("public virtual {0} {0} {{ get; set; }}", MainResourceClassName));
       }
       else
-      {        
+      {
         Propertylist.Add(String.Format("public int {0}ID {{get; set;}}", MainResourceClassName));
-        
+
         foreach (var NonCollectionItem in NonCollectionParameters)
         {
           string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
@@ -498,13 +492,13 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         //Resource History        
         Propertylist.Add(String.Format("public ICollection<{0}> {1}_List {{ get; set; }}", ClassNameResourceHistory, ClassNameResourceHistory));
 
-        
+
         foreach (FhirApiSearchParameterInfo CollectionItem in CollectionParameters)
         {
           string ClassNameResourceSearch = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);
           string CollectionListName = DatabaseModelInfo.ConstructCollectionListName(CollectionItem);
           Propertylist.Add(String.Format("public ICollection<{0}> {1} {{ get; set; }}", ClassNameResourceSearch, CollectionListName));
-        }        
+        }
 
       }
     }
@@ -534,123 +528,125 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     }
 
     private void GenerateTableClassModelPropertyConstructorInstantiationForMainResource(List<string> Propertylist, List<FhirApiSearchParameterInfo> NonCollectionParameters, List<FhirApiSearchParameterInfo> CollectionParameters, string ResourceName)
-    { 
-      foreach( var CollectionItem in CollectionParameters)
+    {
+      foreach (var CollectionItem in CollectionParameters)
       {
         string CollectionListName = DatabaseModelInfo.ConstructCollectionListName(CollectionItem);
-        string ClassNameResourceSearch = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);            
-        Propertylist.Add(String.Format("this.{0} = new HashSet<{1}>();", CollectionListName, ClassNameResourceSearch));            
+        string ClassNameResourceSearch = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionItem);
+        Propertylist.Add(String.Format("this.{0} = new HashSet<{1}>();", CollectionListName, ClassNameResourceSearch));
       }
     }
 
     private void GenerateClassPropertiesForSearchParameterDataType(List<string> Propertylist, string Prefix, FhirApiSearchParameterInfo FhirApiSearchParameterInfo, bool IsIndex)
     {
+      string IsOptional = "?";
       string IsOptionalOrRequired = string.Empty;
       if (!IsIndex)
       {
-        IsOptionalOrRequired = "?";
+        IsOptionalOrRequired = IsOptional;
       }
 
       switch (FhirApiSearchParameterInfo.SearchParamType)
-           {
-             case Hl7.Fhir.Model.SearchParamType.Composite:
-               {
-                  //Nothing to do for this type as composite type is a composite of the other types
-                  //We should never get here
-                  throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");                
-               }
-               //break;
-             case Hl7.Fhir.Model.SearchParamType.Date:
-               {
-                 if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(FhirDateTime) ||
-                   FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Instant))
-                 {
-                   Propertylist.Add(String.Format("public DateTimeOffset{0} {1}DateTimeOffset {{get; set;}}",IsOptionalOrRequired, Prefix));                   
-                 }
-                 else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Date))
-                 {
-                   Propertylist.Add(String.Format("public DateTimeOffset{0} {1}DateTimeOffset {{get; set;}}",IsOptionalOrRequired, Prefix));
-                 }
-                 else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Timing))
-                 {
-                   Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetLow {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetHigh {{get; set;}}", Prefix));                   
-                 }
-                 else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Period))
-                 {
-                   Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetLow {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetHigh {{get; set;}}", Prefix));
-                 }
-                 else
-                   throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
-                 break;                         
-               }
-             case Hl7.Fhir.Model.SearchParamType.Number:
-               {                 
-                 Propertylist.Add(String.Format("public decimal{0} {1}Number {{get; set;}}",IsOptionalOrRequired, Prefix));                  
-               }
-               break;
-             case Hl7.Fhir.Model.SearchParamType.Quantity:
-               {
-                 if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Quantity) ||
-                   FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Money))
-                 {
-                   Propertylist.Add(String.Format("public int? {0}Comparator {{get; set;}}", Prefix));                   
-                   Propertylist.Add(String.Format("public decimal{0} {1}Quantity {{get; set;}}",IsOptionalOrRequired, Prefix));
-                   Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
-                 }
-                 else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(SimpleQuantity))
-                 {
-                   Propertylist.Add(String.Format("public int? {0}Comparator {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public decimal{0} {1}Quantity {{get; set;}}",IsOptionalOrRequired, Prefix));
-                   Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
-                 }
-                 else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Range))
-                 {
-                   Propertylist.Add(String.Format("public int? {0}ComparatorLow {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public decimal? {0}QuantityLow {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}SystemLow {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}CodeLow {{get; set;}}", Prefix));
+      {
+        case Hl7.Fhir.Model.SearchParamType.Composite:
+          {
+            //Nothing to do for this type as composite type is a composite of the other types
+            //We should never get here
+            throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
+          }
+        //break;
+        case Hl7.Fhir.Model.SearchParamType.Date:
+          {
+            if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(FhirDateTime) ||
+              FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Instant))
+            {
+              Propertylist.Add(String.Format("public DateTimeOffset{0} {1}DateTimeOffset {{get; set;}}", IsOptionalOrRequired, Prefix));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Date))
+            {
+              Propertylist.Add(String.Format("public DateTimeOffset{0} {1}DateTimeOffset {{get; set;}}", IsOptionalOrRequired, Prefix));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Timing))
+            {
+              Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetLow {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetHigh {{get; set;}}", Prefix));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Period))
+            {
+              Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetLow {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public DateTimeOffset? {0}DateTimeOffsetHigh {{get; set;}}", Prefix));
+            }
+            else
+              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
+            break;
+          }
+        case Hl7.Fhir.Model.SearchParamType.Number:
+          {
+            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}Comparator {{get; set;}}", IsOptional, Prefix));
+            Propertylist.Add(String.Format("public decimal{0} {1}Number {{get; set;}}", IsOptionalOrRequired, Prefix));
+          }
+          break;
+        case Hl7.Fhir.Model.SearchParamType.Quantity:
+          {
+            if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Quantity) ||
+              FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Money))
+            {
+              Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}Comparator {{get; set;}}", IsOptional, Prefix));
+              Propertylist.Add(String.Format("public decimal{0} {1}Quantity {{get; set;}}", IsOptionalOrRequired, Prefix));
+              Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(SimpleQuantity))
+            {
+              Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {0}Comparator {{get; set;}}", IsOptional, Prefix));
+              Propertylist.Add(String.Format("public decimal{0} {1}Quantity {{get; set;}}", IsOptionalOrRequired, Prefix));
+              Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
+            }
+            else if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(Range))
+            {
+              Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}ComparatorLow {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public decimal? {0}QuantityLow {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}SystemLow {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}CodeLow {{get; set;}}", Prefix));
 
-                   Propertylist.Add(String.Format("public int? {0}ComparatorHigh {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public decimal? {0}QuantityHigh {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}SystemHigh {{get; set;}}", Prefix));
-                   Propertylist.Add(String.Format("public string {0}CodeHigh {{get; set;}}", Prefix));    
-                 }
-                 else
-                   throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
-                 break;
-               }               
-             case Hl7.Fhir.Model.SearchParamType.Reference:
-               {
-                 Propertylist.Add(String.Format("public string {0}VersionId {{get; set;}}", Prefix));    
-                 Propertylist.Add(String.Format("public string {0}FhirId {{get; set;}}", Prefix));    
-                 Propertylist.Add(String.Format("public string {0}Type {{get; set;}}", Prefix));
-                 Propertylist.Add(String.Format("public virtual {1}_RootUrlStore {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
-                 Propertylist.Add(String.Format("public int? {0}Url_{1}_RootUrlStoreID {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));                 
-               }
-               break;
-             case Hl7.Fhir.Model.SearchParamType.String:
-               {
-                 Propertylist.Add(String.Format("public string {0}String {{get; set;}}", Prefix));
-               }
-               break;
-             case Hl7.Fhir.Model.SearchParamType.Token:
-               {
-                 Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
-                 Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
-               }
-               break;
-             case Hl7.Fhir.Model.SearchParamType.Uri:
-               {
-                 Propertylist.Add(String.Format("public string {0}Uri {{get; set;}}", Prefix)); 
-               }
-               break;
-             default:
-               throw new InvalidEnumArgumentException(FhirApiSearchParameterInfo.SearchParamType.ToString(), (int)FhirApiSearchParameterInfo.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
-           }
+              Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}ComparatorHigh {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public decimal? {0}QuantityHigh {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}SystemHigh {{get; set;}}", Prefix));
+              Propertylist.Add(String.Format("public string {0}CodeHigh {{get; set;}}", Prefix));
+            }
+            else
+              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", FhirApiSearchParameterInfo.SearchParamType.ToString(), FhirApiSearchParameterInfo.TargetFhirType.ToString()));
+            break;
+          }
+        case Hl7.Fhir.Model.SearchParamType.Reference:
+          {
+            Propertylist.Add(String.Format("public string {0}VersionId {{get; set;}}", Prefix));
+            Propertylist.Add(String.Format("public string {0}FhirId {{get; set;}}", Prefix));
+            Propertylist.Add(String.Format("public string {0}Type {{get; set;}}", Prefix));
+            Propertylist.Add(String.Format("public virtual {1}_RootUrlStore {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
+            Propertylist.Add(String.Format("public int? {0}Url_{1}_RootUrlStoreID {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
+          }
+          break;
+        case Hl7.Fhir.Model.SearchParamType.String:
+          {
+            Propertylist.Add(String.Format("public string {0}String {{get; set;}}", Prefix));
+          }
+          break;
+        case Hl7.Fhir.Model.SearchParamType.Token:
+          {
+            Propertylist.Add(String.Format("public string {0}Code {{get; set;}}", Prefix));
+            Propertylist.Add(String.Format("public string {0}System {{get; set;}}", Prefix));
+          }
+          break;
+        case Hl7.Fhir.Model.SearchParamType.Uri:
+          {
+            Propertylist.Add(String.Format("public string {0}Uri {{get; set;}}", Prefix));
+          }
+          break;
+        default:
+          throw new InvalidEnumArgumentException(FhirApiSearchParameterInfo.SearchParamType.ToString(), (int)FhirApiSearchParameterInfo.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
+      }
     }
 
     #endregion

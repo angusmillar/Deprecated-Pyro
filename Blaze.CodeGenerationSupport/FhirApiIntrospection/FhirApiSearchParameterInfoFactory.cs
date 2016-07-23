@@ -303,64 +303,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     }
 
 
-    //public static List<FhirApiSearchParameterInfo> CheckAndRemoveDuplicatesOld(List<FhirApiSearchParameterInfo> InboundList, bool RemoveDuplicates = false)
-    //{
-
-    //  var TempList = new List<FhirApiSearchParameterInfo>();
-    //  var DupList = new List<FhirApiSearchParameterInfo>();
-    //  foreach (var Item in InboundList)
-    //  {
-    //    var DuplicateFoundList = from x in TempList where x.SearchName == Item.SearchName select x;
-    //    if (DuplicateFoundList.Count() > 0)
-    //    {
-    //      foreach (var DuplicateItem in DuplicateFoundList)
-    //      {
-    //        if (DuplicateItem.Resource == "Condition")
-    //        {
-    //          if (DuplicateItem.SearchName == "onset")
-    //          {
-
-    //          }
-    //        }
-
-    //        if (DuplicateItem.SearchParamType != Item.SearchParamType)
-    //        {
-    //          throw new ApplicationException("There are duplicate search parameter names with different data types for the same resource.");
-    //        }
-    //        //if ((DuplicateItem.TargetFhirType == typeof(Element) && Item.TargetFhirType == typeof(Element))
-    //        //  &&
-    //        //  (DuplicateItem.TargetFhirLogicalType == Item.TargetFhirLogicalType))
-    //        if ((DuplicateItem.TargetFhirType == Item.TargetFhirType)
-    //            &&
-    //            (DuplicateItem.TargetFhirLogicalType == Item.TargetFhirLogicalType))
-
-    //        {
-    //          DupList.Add(Item);
-    //          TempList.Add(Item);
-    //        }
-    //        else
-    //        {
-    //          TempList.Add(Item);
-    //        }
-    //      }
-    //    }
-    //    else
-    //    {
-    //      TempList.Add(Item);
-    //    }
-    //  }
-    //  //Remove the duplicates found
-    //  if (RemoveDuplicates)
-    //  {
-    //    foreach (var item in DupList)
-    //    {
-    //      TempList.Remove(item);
-    //    }
-    //  }
-    //  //TempList.AddRange(DupList);
-    //  return TempList;
-    //}
-
     /// <summary>
     /// Corrections to the search parameters prior to building the repositories
     /// </summary>
@@ -435,24 +377,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
     private static void ResolveSearchParameter(string ResourceName)
     {
-
-      //Testing FhirXPath parser over all search paths
-      //try
-      //{
-      //  foreach (var Test in _CurrentSearchParameterDef.XPath.Split('|'))
-      //  {
-      //    if (oFhirXPathList.Count() == 662)
-      //    {
-
-      //    }
-      //    FhirXPath oFhirXpath = FhirXPathFactory.FhirXPathFactoryParse(Test);
-      //    oFhirXPathList.Add(oFhirXpath);
-      //  }
-      //}
-      //catch (Exception Exec)
-      //{ 
-      //}
-
       string[] FhirXPathChoiceList = _CurrentSearchParameterDef.XPath.Split('|');
       foreach (string SearchXPath in FhirXPathChoiceList)
       {

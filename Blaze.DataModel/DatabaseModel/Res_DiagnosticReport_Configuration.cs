@@ -25,6 +25,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.date_DateTimeOffset).IsOptional();
+      Property(x => x.date_DateTimeOffsetLow).IsOptional();
+      Property(x => x.date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.encounter_VersionId).IsOptional();
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();

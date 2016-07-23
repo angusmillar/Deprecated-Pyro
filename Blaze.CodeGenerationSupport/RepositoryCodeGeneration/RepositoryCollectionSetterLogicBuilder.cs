@@ -254,8 +254,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       }
     }
 
-
-
     private static void StandardIndexStetter(FhirApiSearchParameterInfo CollectionParameter, string LoopTargetPostFix = "", string IndexSetterNamePostFix = "")
     {
       if (CollectionParameter.SearchParameterNavigationPathList[CollectionParameter.SearchParameterNavigationPathList.Count - 1].IsCollection)
@@ -292,61 +290,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
       }
     }
-
-
-
-    //private static void StandardIndexStetter(FhirApiSearchParameterInfo CollectionParameter, string LoopTargetPostFix = "", string IndexSetterNamePostFix = "")
-    //{
-    //  if (CollectionParameter.SearchParameterNavigationPathList[CollectionParameter.SearchParameterNavigationPathList.Count - 1].IsCollection)
-    //  {
-    //    _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-    //    _ChainCounter++;
-
-    //    _Sb.AppendLine(String.Format("{0}foreach (var item{1} in {2}{3})", DepthSpace(_BracketDepthCounter), _ChainCounter.ToString(), _CurrentChainName, LoopTargetPostFix));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-
-    //    _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
-
-    //    _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {2}(), {3}) as {2};", DepthSpace(_BracketDepthCounter), CollectionParameter.SearchParamType.ToString(), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter), _CurrentChainName));
-    //  }
-    //  else
-    //  {
-    //    _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-    //    _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {2}(), {3}{4}) as {2};", DepthSpace(_BracketDepthCounter), CollectionParameter.SearchParamType.ToString(), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter), _CurrentChainName, IndexSetterNamePostFix));
-
-    //  }
-    //}
-
-    //private static void StandardIndexStetter(FhirApiSearchParameterInfo CollectionParameter, string LoopTargetPostFix = "", string IndexSetterNamePostFix = "")
-    //{
-    //  if (CollectionParameter.SearchParameterNavigationPathList[CollectionParameter.SearchParameterNavigationPathList.Count - 1].IsCollection)
-    //  {
-    //    _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-    //    _ChainCounter++;
-
-    //    _Sb.AppendLine(String.Format("{0}foreach (var item{1} in {2}{3})", DepthSpace(_BracketDepthCounter), _ChainCounter.ToString(), _CurrentChainName, LoopTargetPostFix));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-
-    //    _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
-    //    _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {2}(), {3}) as {2};", DepthSpace(_BracketDepthCounter), CollectionParameter.SearchParamType.ToString(), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter), _CurrentChainName));
-    //  }
-    //  else
-    //  {
-    //    _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
-    //    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-    //    _BracketDepthCounter++;
-    //    _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {2}(), {3}{4}) as {2};", DepthSpace(_BracketDepthCounter), CollectionParameter.SearchParamType.ToString(), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter), _CurrentChainName, IndexSetterNamePostFix));
-
-    //  }
-    //}
 
     private static void CodableConceptIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
     {
