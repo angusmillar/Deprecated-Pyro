@@ -53,22 +53,7 @@ namespace Blaze.Test.IndexSetters
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
     }
-
-    [Test]
-    public void Test_FhirDateTime_DateIndexSetter_BadFormat()
-    {
-      ////Arrange
-      //var FhirDateTime = new FhirDateTime("1974-12-25T14:3554:45-05:00");
-
-      ////Act
-      //ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime) as DateIndex;
-
-      ////Assert
-      //Assert.That(testDelegate, Throws.TypeOf<FormatException>());
-
-    }
-
-
+    
     [Test]
     public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat()
     {
@@ -128,7 +113,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Instant_DateIndexSetter_IsNull()
+    public void Test_Instant_DateIndexSetter_InstantValue_IsNull()
     {
       //Arrange
       var Instant = new Instant(null);
@@ -139,7 +124,20 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.IsNull(Index);
+    }
 
+    [Test]
+    public void Test_Instant_DateIndexSetter_Instant_IsNull()
+    {
+      //Arrange
+      Instant Instant = null;
+      DateIndex Index = new DateIndex();
+
+      //Act
+      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(Instant, Index) as DateIndex;
+
+      //Assert
+      Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
     }
 
 

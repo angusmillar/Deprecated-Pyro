@@ -49,6 +49,11 @@ namespace Blaze.DataModel.IndexSetter
     {
       if (Period == null)
         throw new ArgumentNullException("Period cannot be null for method.");
+
+      if (DatePeriodIndex == null)
+        throw new ArgumentNullException("DatePeriodIndex cannot be null for method.");
+
+
       if (Period.StartElement != null)
       {
         if (FhirDateTime.IsValidValue(Period.Start))
@@ -85,13 +90,15 @@ namespace Blaze.DataModel.IndexSetter
       }
       return DatePeriodIndex;
     }
-
     
-
     public DatePeriodIndex SetTiming(Timing Timing, DatePeriodIndex DatePeriodIndex)
     {
       if (Timing == null)
         throw new ArgumentNullException("Timing cannot be null for method.");
+
+      if (DatePeriodIndex == null)
+        throw new ArgumentNullException("DatePeriodIndex cannot be null for method.");
+
       if (Timing.Event == null)
       {
         return null;

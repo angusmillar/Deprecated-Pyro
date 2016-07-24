@@ -10,14 +10,12 @@ namespace Blaze.DataModel.IndexSetter
   {
     public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
     {
-      if (ModelBase == null)
-      {
+      if (ModelBase == null)      
         throw new ArgumentNullException("ModelBase cannot be null for method.");
-      }
-      if (FhirElement == null)
-      {
+      
+      if (FhirElement == null)      
         throw new ArgumentNullException("FhirElement cannot be null for method.");
-      }
+      
 
       if (ModelBase is NumberIndex)
       {
@@ -49,20 +47,22 @@ namespace Blaze.DataModel.IndexSetter
     {
       if (Duration == null)
         throw new ArgumentNullException("Duration cannot be null for method.");
+
+      if (NumberIndex == null)
+        throw new ArgumentNullException("NumberIndex cannot be null for method.");
+
       if (Duration.Value.HasValue)
       {
         NumberIndex.Number = (decimal)Duration.Value;
         if (Duration.Comparator.HasValue)
         {
-          //ToDo: Need to add Comparator to NumberIndex 
-          //NumberIndex.Comparator = Duration.Comparator.Value;
-          throw new NotImplementedException();
+          NumberIndex.Comparator = Duration.Comparator.Value;
         }
         else
         {
-          //NumberIndex.Comparator = null; 
-          throw new NotImplementedException();
+          NumberIndex.Comparator = null;
         }
+        return NumberIndex;
       }
       else
       {
@@ -72,12 +72,45 @@ namespace Blaze.DataModel.IndexSetter
 
     public NumberIndex SetInteger(Integer Integer, NumberIndex NumberIndex)
     {
-      throw new NotImplementedException();
+      if (Integer == null)
+        throw new ArgumentNullException("Integer cannot be null for method.");
+
+      if (NumberIndex == null)
+        throw new ArgumentNullException("NumberIndex cannot be null for method.");
+
+      if (Integer.Value.HasValue)
+      {
+        NumberIndex.Number = Convert.ToInt32(Integer.Value);
+        NumberIndex.Comparator = null;
+        return NumberIndex;
+      }
+      else
+      {
+        return null;
+      }
     }
 
     public NumberIndex SetPositiveInt(PositiveInt PositiveInt, NumberIndex NumberIndex)
     {
-      throw new NotImplementedException();
+      if (PositiveInt == null)
+        throw new ArgumentNullException("PositiveInt cannot be null for method.");
+
+      if (NumberIndex == null)
+        throw new ArgumentNullException("NumberIndex cannot be null for method.");
+
+      if (PositiveInt.Value.HasValue)
+      {
+        if (PositiveInt.Value < 0)
+          throw new FormatException(string.Format("PositiveInt must be a positive value, value was : {0}", PositiveInt.Value.ToString()));
+        NumberIndex.Number = Convert.ToInt32(PositiveInt.Value);
+        NumberIndex.Comparator = null;
+        return NumberIndex;
+      }
+      else
+      {
+        return null;
+      }
     }
+
   }
 }

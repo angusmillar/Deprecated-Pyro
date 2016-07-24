@@ -10,6 +10,15 @@ namespace Blaze.DataModel.IndexSetter
   {
     public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
     {
+      if (ModelBase == null)
+      {
+        throw new ArgumentNullException("ModelBase cannot be null for method.");
+      }
+      if (FhirElement == null)
+      {
+        throw new ArgumentNullException("FhirElement cannot be null for method.");
+      }
+
       if (ModelBase is DateIndex)
       {
         var DateIndex = ModelBase as DateIndex;
@@ -42,6 +51,12 @@ namespace Blaze.DataModel.IndexSetter
 
     public DateIndex SetDate(Date Date, DateIndex DateIndex)
     {
+      if (Date == null)
+        throw new ArgumentNullException("Date cannot be null for method.");
+
+      if (DateIndex == null)
+        throw new ArgumentNullException("DateIndex cannot be null for method.");
+
       //E.g: "1974-12-25"      
       DateTime TempDate = new DateTime();
       if (Date.IsValidValue(Date.Value))
@@ -64,6 +79,12 @@ namespace Blaze.DataModel.IndexSetter
 
     public DateIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateIndex DateIndex)
     {
+      if (FhirDateTime == null)
+        throw new ArgumentNullException("FhirDateTime cannot be null for method.");
+
+      if (DateIndex == null)
+        throw new ArgumentNullException("DateIndex cannot be null for method.");
+
       if (FhirDateTime.IsValidValue(FhirDateTime.Value))
       {
         DateIndex.DateTimeOffset = FhirDateTime.ToDateTimeOffset();
@@ -77,6 +98,12 @@ namespace Blaze.DataModel.IndexSetter
 
     public DateIndex SetFhirString(FhirString FhirString, DateIndex DateIndex)
     {
+      if (FhirString == null)
+        throw new ArgumentNullException("FhirString cannot be null for method.");
+
+      if (DateIndex == null)
+        throw new ArgumentNullException("DateIndex cannot be null for method.");
+
       if (Date.IsValidValue(FhirString.Value))
       {
         var TempDateTime = new DateTime();
@@ -112,6 +139,12 @@ namespace Blaze.DataModel.IndexSetter
 
     public DateIndex SetInstant(Instant Instant, DateIndex DateIndex)
     {
+      if (Instant == null)
+        throw new ArgumentNullException("Instant cannot be null for method.");
+
+      if (DateIndex == null)
+        throw new ArgumentNullException("DateIndex cannot be null for method.");
+
       if (Instant.Value != null)
       {
         DateIndex.DateTimeOffset = (DateTimeOffset)Instant.Value;

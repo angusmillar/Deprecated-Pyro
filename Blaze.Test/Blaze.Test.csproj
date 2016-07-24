@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="IndexSetters\Test_DatePeriod_IndexSetters.cs" />
     <Compile Include="IndexSetters\Test_Date_IndexSetters.cs" />
+    <Compile Include="IndexSetters\Test_Number_IndexSetter.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
