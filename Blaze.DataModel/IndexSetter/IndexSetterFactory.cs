@@ -26,7 +26,7 @@ namespace Blaze.DataModel.IndexSetter
       }
       else if (IndexType == typeof(QuantityIndex))
       {
-        throw new NotImplementedException();
+        return new QuantityIndexSetter();
       }
       else if (IndexType == typeof(QuantityRangeIndex))
       {

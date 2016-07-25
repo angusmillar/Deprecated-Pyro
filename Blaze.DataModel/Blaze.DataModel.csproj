@@ -6259,6 +6259,7 @@
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
     <Compile Include="IndexSetter\NumberIndexSetter.cs" />
+    <Compile Include="IndexSetter\QuantityIndexSetter.cs" />
     <Compile Include="IndexSetter\QuantityRangeIndexSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs">
