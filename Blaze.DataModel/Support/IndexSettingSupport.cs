@@ -30,9 +30,9 @@ namespace Blaze.DataModel.Support
       {
         return IndexSetterFactory.Create(typeof(NumberIndex)).Set(FhirElement, ModelBase);
       }
-      else if (ModelBase is QuantityIndex)
+      else if (ModelBase is QuantityRangeIndex)
       {
-        return IndexSetterFactory.Create(typeof(QuantityIndex)).Set(FhirElement, ModelBase);
+        return IndexSetterFactory.Create(typeof(QuantityRangeIndex)).Set(FhirElement, ModelBase);
       }
       else if (ModelBase is QuantityRangeIndex)
       {

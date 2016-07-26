@@ -32,5 +32,23 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
     {
       return string.Format("{0} Set{1}({1} {1}, {0} {0});", IndexType, FhirType);
     }
+
+    //public string GetMethodSyntax2()
+    //{
+    //  string IDtoFhirRequestUri = "IDtoFhirRequestUri";
+    //  string FhirRequestUri = "FhirRequestUri";
+    //  string CommonRepository = "CommonRepository";
+    //  if (BlazeIndexType == DatabaseModelInfo.BlazeIndexType.Reference)
+    //  {
+    //    //ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
+    //    return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {4});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[BlazeIndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, CommonRepository);
+    //  }
+    //  else
+    //  {
+    //    return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[BlazeIndexType], FhirType);
+    //  }
+    //}
+
+
   }
 }
