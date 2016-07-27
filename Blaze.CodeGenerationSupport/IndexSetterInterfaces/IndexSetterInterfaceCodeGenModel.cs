@@ -26,28 +26,25 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
 
   public class IndexSetterInterfaceMethod
   {
-    public string IndexType { get; set; }
-    public string FhirType { get; set; }
+    public DatabaseModelInfo.BlazeIndexType IndexType { get; set; }
+    public string IndexTypeString { get; set; }
+    public string FhirType { get; set; } 
+
     public string GetMethodSyntax()
     {
-      return string.Format("{0} Set{1}({1} {1}, {0} {0});", IndexType, FhirType);
+      string IDtoFhirRequestUri = "IDtoFhirRequestUri";
+      string FhirRequestUri = "FhirRequestUri";
+      string CommonRepository = "CommonRepository";
+      if (IndexType == DatabaseModelInfo.BlazeIndexType.ReferenceIndex)
+      {
+        //ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
+        return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {4});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[IndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, CommonRepository);
+      }
+      else
+      {
+        return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[IndexType], FhirType);
+      }
     }
-
-    //public string GetMethodSyntax2()
-    //{
-    //  string IDtoFhirRequestUri = "IDtoFhirRequestUri";
-    //  string FhirRequestUri = "FhirRequestUri";
-    //  string CommonRepository = "CommonRepository";
-    //  if (BlazeIndexType == DatabaseModelInfo.BlazeIndexType.Reference)
-    //  {
-    //    //ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
-    //    return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {4});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[BlazeIndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, CommonRepository);
-    //  }
-    //  else
-    //  {
-    //    return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseModelInfo.BlazeIndexTypeToStringDictonary[BlazeIndexType], FhirType);
-    //  }
-    //}
 
 
   }

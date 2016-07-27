@@ -6,9 +6,9 @@ using Blaze.Common.Interfaces.UriSupport;
 namespace Blaze.DataModel.IndexSetter
 {
   public interface IReferenceIndexSetter : IIndexSetter
-  {    
+  {
     ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
-    //ReferenceIndex SetResource(FhirUri FhirUri, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
+    // ReferenceIndex SetResource(Resource Resource, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
     ReferenceIndex SetFhirUri(FhirUri FhirUri, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
 
   }

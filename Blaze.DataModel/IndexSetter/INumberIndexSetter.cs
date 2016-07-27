@@ -5,9 +5,9 @@ namespace Blaze.DataModel.IndexSetter
 {
   public interface INumberIndexSetter : IIndexSetter
   {
-        NumberIndex SetDuration(Duration Duration, NumberIndex NumberIndex);
-        NumberIndex SetPositiveInt(PositiveInt PositiveInt, NumberIndex NumberIndex);
-        NumberIndex SetInteger(Integer Integer, NumberIndex NumberIndex);
+    NumberIndex SetDuration(Duration Duration, NumberIndex NumberIndex);
+    NumberIndex SetPositiveInt(PositiveInt PositiveInt, NumberIndex NumberIndex);
+    NumberIndex SetInteger(Integer Integer, NumberIndex NumberIndex);
       
   }
 }

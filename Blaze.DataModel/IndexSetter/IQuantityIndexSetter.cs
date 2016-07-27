@@ -8,6 +8,7 @@ namespace Blaze.DataModel.IndexSetter
     QuantityIndex SetMoney(Money Money, QuantityIndex QuantityIndex);
     QuantityIndex SetQuantity(Quantity Quantity, QuantityIndex QuantityIndex);
     QuantityIndex SetSimpleQuantity(SimpleQuantity SimpleQuantity, QuantityIndex QuantityIndex);
+      
   }
 }
 

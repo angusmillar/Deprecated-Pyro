@@ -18,21 +18,21 @@ namespace Blaze.CodeGenerationSupport
     public static string ListPostfixText { get { return "_List"; } }
     public static string XmlBlobPropertyText { get { return "XmlBlob"; } }
 
-    public enum BlazeIndexType { Date, DatePeriod, Number, Quantity, QuantityRange, Reference, String, Token, Uri };
+    public enum BlazeIndexType { DateIndex, DatePeriodIndex, NumberIndex, QuantityIndex, QuantityRangeIndex, ReferenceIndex, StringIndex, TokenIndex, UriIndex };
     public static Dictionary<BlazeIndexType, string> BlazeIndexTypeToStringDictonary
     {
       get
       {
         var Dic = new Dictionary<BlazeIndexType, string>();
-        Dic.Add(BlazeIndexType.Date, "Date");
-        Dic.Add(BlazeIndexType.DatePeriod, "DatePeriod");
-        Dic.Add(BlazeIndexType.Number, "Number");
-        Dic.Add(BlazeIndexType.Quantity, "Quantity");
-        Dic.Add(BlazeIndexType.QuantityRange, "QuantityRange");
-        Dic.Add(BlazeIndexType.Reference, "Reference");
-        Dic.Add(BlazeIndexType.String, "String");
-        Dic.Add(BlazeIndexType.Token, "Token");
-        Dic.Add(BlazeIndexType.Uri, "Uri");
+        Dic.Add(BlazeIndexType.DateIndex, "DateIndex");
+        Dic.Add(BlazeIndexType.DatePeriodIndex, "DatePeriodIndex");
+        Dic.Add(BlazeIndexType.NumberIndex, "NumberIndex");
+        Dic.Add(BlazeIndexType.QuantityIndex, "QuantityIndex");
+        Dic.Add(BlazeIndexType.QuantityRangeIndex, "QuantityRangeIndex");
+        Dic.Add(BlazeIndexType.ReferenceIndex, "ReferenceIndex");
+        Dic.Add(BlazeIndexType.StringIndex, "StringIndex");
+        Dic.Add(BlazeIndexType.TokenIndex, "TokenIndex");
+        Dic.Add(BlazeIndexType.UriIndex, "UriIndex");
         return Dic;
       }
     }
@@ -41,15 +41,15 @@ namespace Blaze.CodeGenerationSupport
       get
       {
         var Dic = new Dictionary<string, BlazeIndexType>();
-        Dic.Add("Date", BlazeIndexType.Date);
-        Dic.Add("DatePeriod", BlazeIndexType.DatePeriod);
-        Dic.Add("Number", BlazeIndexType.Number);
-        Dic.Add("Quantity", BlazeIndexType.Quantity);
-        Dic.Add("QuantityRange", BlazeIndexType.QuantityRange);
-        Dic.Add("Reference", BlazeIndexType.Reference);
-        Dic.Add("String", BlazeIndexType.String);
-        Dic.Add("Token", BlazeIndexType.Token);
-        Dic.Add("Uri", BlazeIndexType.Uri);
+        Dic.Add("DateIndex", BlazeIndexType.DateIndex);
+        Dic.Add("DatePeriodIndex", BlazeIndexType.DatePeriodIndex);
+        Dic.Add("NumberIndex", BlazeIndexType.NumberIndex);
+        Dic.Add("QuantityIndex", BlazeIndexType.QuantityIndex);
+        Dic.Add("QuantityRangeIndex", BlazeIndexType.QuantityRangeIndex);
+        Dic.Add("ReferenceIndex", BlazeIndexType.ReferenceIndex);
+        Dic.Add("StringIndex", BlazeIndexType.StringIndex);
+        Dic.Add("TokenIndex", BlazeIndexType.TokenIndex);
+        Dic.Add("UriIndex", BlazeIndexType.UriIndex);
         return Dic;
       }
     }
@@ -241,11 +241,11 @@ namespace Blaze.CodeGenerationSupport
       if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
         SearchParameter.TargetFhirLogicalType == typeof(Timing))
       {
-        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriod] + DatabaseModelInfo.IndexPrefixText;
+        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriodIndex];
       }
       else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
       {
-        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityRange] + DatabaseModelInfo.IndexPrefixText;
+        return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityRangeIndex];
       }
       else
       {

@@ -25,6 +25,18 @@
 #>
 using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
+<#
+    if (item.IndexSetterMethodList.Count() > 0)
+    {
+      if (item.IndexSetterMethodList[0].IndexType == Blaze.CodeGenerationSupport.DatabaseModelInfo.BlazeIndexType.ReferenceIndex)
+      {
+#>
+using Blaze.DataModel.Repository;
+using Blaze.Common.Interfaces.UriSupport;
+<#
+      }    
+    }
+#>
 
 namespace Blaze.DataModel.IndexSetter
 {
@@ -33,10 +45,9 @@ namespace Blaze.DataModel.IndexSetter
     <#
     foreach (var SubItem in item.IndexSetterMethodList)
     {#>
-    <#=SubItem.GetMethodSyntax()#>
+<#=SubItem.GetMethodSyntax()#>
     <#
-    }
-    #>  
+    }#>  
   }
 }
 
