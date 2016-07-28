@@ -192,9 +192,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (CollectionParameter.TargetFhirChoiceType == typeof(Timing))
           {
-            DateIndexStetter(CollectionParameter);
-            //ToDo: We need something to work out the period for a timing datatype,
-            //between event and duration, need to work out units to do this.
+            DateIndexStetter(CollectionParameter);            
           }
           else if (CollectionParameter.TargetFhirChoiceType == typeof(Period))
           {

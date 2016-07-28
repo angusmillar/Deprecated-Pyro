@@ -68,9 +68,14 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
 
         //ToDo: Sort out how to generate the setters for the bundle resource
-        if (ResourceName != "Bundle")    
+        if (ResourceName != "")
+        //if (ResourceName != "Bundle")    
         //if (ResourceName == "Observation")
         {
+          if (ResourceName == "Bundle")
+          {
+
+          }
           List<string> LogicList = new List<string>();
           //Non Collection search parameter logic
           //---------------------------------------------------------------------------------------

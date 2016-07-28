@@ -62,6 +62,7 @@
     <Compile Include="IndexSetters\Test_Number_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_QuantityRange_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_Quantity_IndexSetter.cs" />
+    <Compile Include="IndexSetters\Test_Referance_IndexSetter.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

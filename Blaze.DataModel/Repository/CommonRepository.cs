@@ -20,7 +20,7 @@ namespace Blaze.DataModel.Repository
     }
     #endregion
 
-    public  DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
+    public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       Blaze_RootUrlStore ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)

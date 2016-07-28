@@ -9,6 +9,7 @@ namespace Blaze.Common.Interfaces.Repositories
 {
   public interface ICommonRepository
   {
+    //Blaze_RootUrlStore GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl)
     DtoRootUrlStore GetPrimaryRootUrlStore();
     DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);    
   }

@@ -43,11 +43,11 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           _CurrentSearchParameterDef = SearchParameterDef;
 
           //For debugging a specific resource
-          //bool testbool = false;
-          //if (SearchParameterDef.Resource == "Observation" && SearchParameterDef.Name == "value-concept")
-          //{
-          //  testbool = true;
-          //}
+          bool testbool = false;
+          if (SearchParameterDef.Resource == "Bundle" && SearchParameterDef.Name == "composition")
+          {
+            testbool = true;
+          }
 
           //##Issue## We are skipping search parameters that have no paths at all, what good are they if they have no path?
           if (_CurrentSearchParameterDef.XPath != null && _CurrentSearchParameterDef.Path.Count() > 0)
@@ -507,8 +507,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       if (oFhirXPathComponent.HasChoiceSpecifier)
       {
         //If we are here we must have a Choice Specifier for the element component. Something like this example: "f:Patient/f:telecom[system/@value='email']"
-        //In this case of that example we still need a collection because there maybe many in the list labelled as 'email'. Yet sometimes 
-        //the choice specifier is an integer, such as this example: "f:Bundle/f:entry/f:resource[0]". Here their is not collection because
+        //In this case for that example we still need a collection because there maybe many in the list labelled as 'email'. Yet sometimes 
+        //the choice specifier is an integer, such as this example: "f:Bundle/f:entry[0]/f:fullUrl". Here their is no collection because
         //we have an index = 0 meaning the first entry of the collection and only the first entry.
         //In this 'index' case there is no need to increment _CollectionCounter, yet in the other case their is a need too.
         if (oFhirXPathComponent.ChoiceSpecifier.AttributeName == null && oFhirXPathComponent.ChoiceSpecifier.ElementName == null)
@@ -677,11 +677,15 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           if (ResourceCompositionSearchParameter.Path[0] == "Bundle.entry.resource[0]" &&
             ResourceCompositionSearchParameter.XPath == "f:Bundle/f:entry/f:resource[0]" &&
-            ResourceCompositionSearchParameter.Expression == "Bundle.entry.resource.item(0)")
+            ResourceCompositionSearchParameter.Expression == "Bundle.entry.resource[0]")
           {
-            ResourceCompositionSearchParameter.Path[0] = "Bundle.entry[0].resource";
-            ResourceCompositionSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
-            ResourceCompositionSearchParameter.Expression = "Bundle.entry.item(0).resource";
+            //ResourceCompositionSearchParameter.Path[0] = "Bundle.entry[0].resource";
+            //ResourceCompositionSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
+            //ResourceCompositionSearchParameter.Expression = "Bundle.entry.item(0).resource";
+
+            ResourceCompositionSearchParameter.Path[0] = "Bundle.entry[0].fullUrl";
+            ResourceCompositionSearchParameter.XPath = "f:Bundle/f:entry[0]/f:fullUrl";
+            ResourceCompositionSearchParameter.Expression = "Bundle.entry[0].fullUrl";
 
           }
         }
@@ -694,11 +698,16 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           if (ResourceMessageSearchParameter.Path[0] == "Bundle.entry.resource[0]" &&
             ResourceMessageSearchParameter.XPath == "f:Bundle/f:entry/f:resource[0]" &&
-            ResourceMessageSearchParameter.Expression == "Bundle.entry.resource.item(0)")
+            ResourceMessageSearchParameter.Expression == "Bundle.entry.resource[0]")
           {
-            ResourceMessageSearchParameter.Path[0] = "Bundle.entry[0].resource";
-            ResourceMessageSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
-            ResourceMessageSearchParameter.Expression = "Bundle.entry.item(0).resource";
+            //ResourceMessageSearchParameter.Path[0] = "Bundle.entry[0].resource";
+            //ResourceMessageSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
+            //ResourceMessageSearchParameter.Expression = "Bundle.entry.item(0).resource";
+
+            ResourceMessageSearchParameter.Path[0] = "Bundle.entry[0].fullUrl";
+            ResourceMessageSearchParameter.XPath = "f:Bundle/f:entry[0]/f:fullUrl";
+            ResourceMessageSearchParameter.Expression = "Bundle.entry[0].fullUrl";
+
           }
         }
       }
