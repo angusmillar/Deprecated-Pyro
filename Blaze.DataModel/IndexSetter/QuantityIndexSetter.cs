@@ -3,12 +3,13 @@ using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Blaze.Common.Interfaces.UriSupport;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class QuantityIndexSetter : IQuantityIndexSetter
   {
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
       if (ModelBase == null)
         throw new ArgumentNullException("ModelBase cannot be null for method.");
@@ -158,7 +159,7 @@ namespace Blaze.DataModel.IndexSetter
         }
         //SimpleQuantity has no Comparator as per standard 
         QuantityIndex.Comparator = null;
-        
+
         return QuantityIndex;
       }
       else

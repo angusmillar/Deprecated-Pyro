@@ -133,7 +133,7 @@ namespace Blaze.DataModel
       _context = new Blaze.DataModel.DatabaseModel.DatabaseContext();
     }
 
-    public ICommonRepository CommonRepository
+    public IDtoCommonRepository CommonRepository
     {
       get
       {

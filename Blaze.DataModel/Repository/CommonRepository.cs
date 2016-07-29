@@ -11,7 +11,7 @@ using Blaze.Common.BusinessEntities.Dto;
 
 namespace Blaze.DataModel.Repository
 {
-  public class CommonRepository : BaseRepository, ICommonRepository
+  public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
   {
     #region Constructor
     public CommonRepository(DataModel.DatabaseModel.DatabaseContext Context)
@@ -82,7 +82,7 @@ namespace Blaze.DataModel.Repository
     {
       return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
     }
-
+    
     /// <summary>
     /// Get a RootUrlStore by Url string
     /// </summary>

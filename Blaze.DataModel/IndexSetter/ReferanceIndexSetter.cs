@@ -3,12 +3,13 @@ using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Blaze.Common.Interfaces.UriSupport;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class ReferanceIndexSetter : IReferenceIndexSetter
   {
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
       if (ModelBase == null)
         throw new ArgumentNullException("ModelBase cannot be null for method.");
@@ -44,7 +45,7 @@ namespace Blaze.DataModel.IndexSetter
 
     }
 
-    public ReferenceIndex SetFhirUri(FhirUri FhirUri, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository)
+    public ReferenceIndex SetFhirUri(FhirUri FhirUri, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
     {
       if (FhirUri == null)
         throw new ArgumentNullException("ResourceReference cannot be null for method.");
@@ -67,8 +68,15 @@ namespace Blaze.DataModel.IndexSetter
           var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(Uri);
           ReferenceIndex.Type = ReferanceUri.ResourseType;
           ReferenceIndex.VersionId = ReferanceUri.VersionId;
-          ReferenceIndex.FhirId = ReferanceUri.FullResourceIdentity;
-          ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+          ReferenceIndex.FhirId = ReferanceUri.Id;          
+          if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+          {
+            ReferenceIndex.Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
+          }
+          else
+          {
+            ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+          }          
           return ReferenceIndex;
         }
         else
@@ -87,7 +95,7 @@ namespace Blaze.DataModel.IndexSetter
     //  throw new NotImplementedException();
     //}
 
-    public ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository)
+    public ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
     {
       if (ResourceReference == null)
         throw new ArgumentNullException("ResourceReference cannot be null for method.");

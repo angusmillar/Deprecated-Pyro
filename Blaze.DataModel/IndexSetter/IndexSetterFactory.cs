@@ -34,7 +34,7 @@ namespace Blaze.DataModel.IndexSetter
       }
       else if (IndexType == typeof(ReferenceIndex))
       {
-        throw new NotImplementedException();
+        return new ReferanceIndexSetter();
       }
       else if (IndexType == typeof(StringIndex))
       {

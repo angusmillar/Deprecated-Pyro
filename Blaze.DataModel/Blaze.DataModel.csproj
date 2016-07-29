@@ -6438,6 +6438,7 @@
     <Compile Include="Repository\ImplementationGuideRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
     <Compile Include="Repository\LibraryRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>

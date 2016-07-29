@@ -3,13 +3,14 @@ using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Blaze.Common.Interfaces.UriSupport;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class StringIndexSetter : IStringIndexSetter
   {
     private string ItemDelimeter = " ";
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
       if (ModelBase == null)
         throw new ArgumentNullException("ModelBase cannot be null for method.");
@@ -59,7 +60,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (StringIndex == null)
         throw new ArgumentNullException("StringIndex cannot be null for method.");
-      string FullAdddress = string.Empty;      
+      string FullAdddress = string.Empty;
       foreach (var Line in Address.Line)
       {
         FullAdddress += Line + ItemDelimeter;
@@ -141,7 +142,7 @@ namespace Blaze.DataModel.IndexSetter
       if (StringIndex == null)
         throw new ArgumentNullException("StringIndex cannot be null for method.");
       string FullName = string.Empty;
-      foreach(var Given in HumanName.Given)
+      foreach (var Given in HumanName.Given)
       {
         FullName += Given + ItemDelimeter;
       }

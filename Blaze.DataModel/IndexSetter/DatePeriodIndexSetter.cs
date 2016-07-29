@@ -7,12 +7,13 @@ using Blaze.Common.Interfaces.UriSupport;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Hl7.Fhir.Model;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class DatePeriodIndexSetter : IDatePeriodIndexSetter
   {
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
       if (ModelBase == null)
       {
@@ -90,7 +91,7 @@ namespace Blaze.DataModel.IndexSetter
       }
       return DatePeriodIndex;
     }
-    
+
     public DatePeriodIndex SetTiming(Timing Timing, DatePeriodIndex DatePeriodIndex)
     {
       if (Timing == null)
@@ -175,7 +176,7 @@ namespace Blaze.DataModel.IndexSetter
                 {
                   TargetEventDateTime = TempDateTimeOffset;
                 }
-              }              
+              }
             }
           }
         }
@@ -221,25 +222,25 @@ namespace Blaze.DataModel.IndexSetter
     }
 
     private static DateTimeOffset AddDurationTimeToEvent(DateTimeOffset FromDateTime, decimal TargetDuration, Timing.UnitsOfTime? TargetUnitsOfTime)
-    {      
+    {
       switch (TargetUnitsOfTime)
       {
         case Timing.UnitsOfTime.S:
           {
             return FromDateTime.AddSeconds(Convert.ToDouble(TargetDuration));
-          }          
+          }
         case Timing.UnitsOfTime.Min:
           {
             return FromDateTime.AddMinutes(Convert.ToDouble(TargetDuration));
-          }          
+          }
         case Timing.UnitsOfTime.H:
           {
             return FromDateTime.AddHours(Convert.ToDouble(TargetDuration));
-          }          
+          }
         case Timing.UnitsOfTime.D:
           {
             return FromDateTime.AddDays(Convert.ToDouble(TargetDuration));
-          }          
+          }
         case Timing.UnitsOfTime.Wk:
           {
             return FromDateTime.AddDays(Convert.ToDouble(TargetDuration * 7));

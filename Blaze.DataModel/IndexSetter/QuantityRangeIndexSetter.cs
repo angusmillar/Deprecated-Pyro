@@ -3,12 +3,13 @@ using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Blaze.Common.Interfaces.UriSupport;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class QuantityRangeIndexSetter : IQuantityRangeIndexSetter
   {
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
       if (ModelBase == null)
         throw new ArgumentNullException("ModelBase cannot be null for method.");
@@ -50,20 +51,20 @@ namespace Blaze.DataModel.IndexSetter
         return null;
       }
       else
-      {        
+      {
         QuantityRangeIndex.ComparatorLow = Range.Low.Comparator;
         QuantityRangeIndex.CodeLow = Range.Low.Code;
         QuantityRangeIndex.SystemLow = Range.Low.System;
         QuantityRangeIndex.QuantityLow = Range.Low.Value.Value;
-        
+
         QuantityRangeIndex.ComparatorHigh = Range.High.Comparator;
         QuantityRangeIndex.CodeHigh = Range.High.Code;
         QuantityRangeIndex.SystemHigh = Range.High.System;
         QuantityRangeIndex.QuantityHigh = Range.High.Value.Value;
-        
+
         return QuantityRangeIndex;
       }
-      
+
 
     }
   }

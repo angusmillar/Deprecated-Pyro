@@ -43,11 +43,11 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
           _CurrentSearchParameterDef = SearchParameterDef;
 
           //For debugging a specific resource
-          bool testbool = false;
-          if (SearchParameterDef.Resource == "Bundle" && SearchParameterDef.Name == "composition")
-          {
-            testbool = true;
-          }
+          //bool testbool = false;
+          //if (SearchParameterDef.Resource == "Bundle" && SearchParameterDef.Name == "composition")
+          //{
+          //  testbool = true;
+          //}
 
           //##Issue## We are skipping search parameters that have no paths at all, what good are they if they have no path?
           if (_CurrentSearchParameterDef.XPath != null && _CurrentSearchParameterDef.Path.Count() > 0)

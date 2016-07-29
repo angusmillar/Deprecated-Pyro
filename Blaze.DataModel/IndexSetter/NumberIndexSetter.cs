@@ -3,19 +3,20 @@ using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Repository;
 using Blaze.Common.Interfaces.UriSupport;
+using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
   public class NumberIndexSetter : INumberIndexSetter
   {
-    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, CommonRepository CommonRepository = null)
+    public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
-      if (ModelBase == null)      
+      if (ModelBase == null)
         throw new ArgumentNullException("ModelBase cannot be null for method.");
-      
-      if (FhirElement == null)      
+
+      if (FhirElement == null)
         throw new ArgumentNullException("FhirElement cannot be null for method.");
-      
+
 
       if (ModelBase is NumberIndex)
       {

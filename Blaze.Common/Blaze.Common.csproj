@@ -74,7 +74,7 @@
     <Compile Include="Interfaces\IBlazeServiceOperationOutcome.cs" />
     <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
-    <Compile Include="Interfaces\Repositories\ICommonRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Repositories\IConceptMapRepository.cs" />
     <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
     <Compile Include="Interfaces\Services\IBaseServices.cs" />
