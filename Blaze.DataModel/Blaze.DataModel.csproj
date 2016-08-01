@@ -539,18 +539,6 @@
     <Compile Include="DatabaseModel\Res_Bundle_History_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel\Res_Bundle_Index_composition.cs">
-      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Bundle_Index_composition_Configuration.cs">
-      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Bundle_Index_message.cs">
-      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Res_Bundle_Index_message_Configuration.cs">
-      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\Res_Bundle_Index_profile.cs">
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>

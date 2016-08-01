@@ -11,7 +11,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     public Type DataType { get; set; }
     public Type ChoiceDataType { get; set; }
     public string PropertyName { get; set; }
-    public bool IsCollection { get; set; }   
+    public bool IsCollection { get; set; }
+    public FhirXPathComponent XPathComponent { get; set; }
   }
 }
  

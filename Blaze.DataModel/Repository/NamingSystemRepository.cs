@@ -210,7 +210,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.ReplacedBy != null)
       {
-        if (ResourceTyped.ReplacedBy is ResourceReference)
+        if (ResourceTyped.ReplacedBy is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ReplacedBy, FhirRequestUri, this) as ReferenceIndex;

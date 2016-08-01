@@ -953,8 +953,6 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_tag_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_security_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_profile_Configuration.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_message_Configuration.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_composition_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_History_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Configuration.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_BodySite_Index_tag_Configuration.cs

@@ -142,7 +142,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Schedule != null)
       {
-        if (ResourceTyped.Schedule is ResourceReference)
+        if (ResourceTyped.Schedule is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Schedule, FhirRequestUri, this) as ReferenceIndex;

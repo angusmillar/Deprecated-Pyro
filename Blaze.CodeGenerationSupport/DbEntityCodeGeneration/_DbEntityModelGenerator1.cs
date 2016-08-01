@@ -954,8 +954,6 @@
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_tag.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_security.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_profile.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_message.cs
-// Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_Index_composition.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle_History.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_Bundle.cs
 // Blaze\Blaze.DataModel\DatabaseModel\Res_BodySite_Index_tag.cs

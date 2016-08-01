@@ -165,7 +165,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Encounter != null)
       {
-        if (ResourceTyped.Encounter is ResourceReference)
+        if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Encounter, FhirRequestUri, this) as ReferenceIndex;
@@ -187,7 +187,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
@@ -222,7 +222,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Requester != null)
       {
-        if (ResourceTyped.Requester is ResourceReference)
+        if (ResourceTyped.Requester is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Requester, FhirRequestUri, this) as ReferenceIndex;
@@ -244,7 +244,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Sender != null)
       {
-        if (ResourceTyped.Sender is ResourceReference)
+        if (ResourceTyped.Sender is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Sender, FhirRequestUri, this) as ReferenceIndex;
@@ -280,7 +280,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;

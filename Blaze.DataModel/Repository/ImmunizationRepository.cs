@@ -184,7 +184,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Location != null)
       {
-        if (ResourceTyped.Location is ResourceReference)
+        if (ResourceTyped.Location is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Location, FhirRequestUri, this) as ReferenceIndex;
@@ -219,7 +219,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Manufacturer != null)
       {
-        if (ResourceTyped.Manufacturer is ResourceReference)
+        if (ResourceTyped.Manufacturer is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Manufacturer, FhirRequestUri, this) as ReferenceIndex;
@@ -255,7 +255,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Patient != null)
       {
-        if (ResourceTyped.Patient is ResourceReference)
+        if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
@@ -277,7 +277,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Performer != null)
       {
-        if (ResourceTyped.Performer is ResourceReference)
+        if (ResourceTyped.Performer is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Performer, FhirRequestUri, this) as ReferenceIndex;
@@ -299,7 +299,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Requester != null)
       {
-        if (ResourceTyped.Requester is ResourceReference)
+        if (ResourceTyped.Requester is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Requester, FhirRequestUri, this) as ReferenceIndex;

@@ -40,7 +40,10 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);
-        
+        FhirApiSearchParameterInfoFactory.CheckForUnhandledChoiceElements(NonCollectionParameters);
+        FhirApiSearchParameterInfoFactory.CheckForUnhandledChoiceElements(CollectionParameters);
+
+
         var RepositoryItem = new RepositoryItem();
         RepositoryCodeGenModel.RepositoryItemList.Add(RepositoryItem);
 
@@ -67,15 +70,11 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
 
-        //ToDo: Sort out how to generate the setters for the bundle resource
+        //Below 'if' is for debug only
         if (ResourceName != "")
         //if (ResourceName != "Bundle")    
         //if (ResourceName == "Observation")
-        {
-          if (ResourceName == "Bundle")
-          {
-
-          }
+        {          
           List<string> LogicList = new List<string>();
           //Non Collection search parameter logic
           //---------------------------------------------------------------------------------------

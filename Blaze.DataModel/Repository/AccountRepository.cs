@@ -30,7 +30,7 @@ namespace Blaze.DataModel.Repository
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Account>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.SingleResourceRead = true;     
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
       DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
       return DatabaseOperationOutcome;
@@ -40,12 +40,12 @@ namespace Blaze.DataModel.Repository
     {
       var ResourceTyped = Resource as Account;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
-      var ResourceHistoryEntity = new Res_Account_History();
+      var ResourceHistoryEntity = new Res_Account_History();  
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      ResourceEntity.Res_Account_History_List.Add(ResourceHistoryEntity);
+      ResourceEntity.Res_Account_History_List.Add(ResourceHistoryEntity); 
       this.ResetResourceEntity(ResourceEntity);
-      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);
-      this.Save();
+      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
+      this.Save();            
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
@@ -62,7 +62,7 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       ResourceEntity.IsDeleted = true;
       ResourceEntity.versionId = ResourceVersion;
-      this.Save();
+      this.Save();      
     }
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
@@ -78,7 +78,7 @@ namespace Blaze.DataModel.Repository
       {
         var ResourceEntity = DbGet<Res_Account>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
         if (ResourceEntity != null)
-          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
       }
       return DatabaseOperationOutcome;
     }
@@ -89,12 +89,12 @@ namespace Blaze.DataModel.Repository
       DatabaseOperationOutcome.SingleResourceRead = true;
       Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
-      {
-        DtoResource = DbGetALL<Res_Account>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();
+      {        
+        DtoResource = DbGetALL<Res_Account>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
       }
       else
       {
-        DtoResource = DbGetALL<Res_Account>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();
+        DtoResource = DbGetALL<Res_Account>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
       DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
       return DatabaseOperationOutcome;
@@ -109,7 +109,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
-
+    
       var ResourceEntity = DbQueryEntityWithInclude<Res_Account>(x => x.FhirId == FhirId, IncludeList);
 
       return ResourceEntity;
@@ -118,43 +118,43 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Account ResourceEntity)
     {
-      ResourceEntity.balance_Comparator = null;
-      ResourceEntity.balance_Quantity = null;
-      ResourceEntity.balance_System = null;
-      ResourceEntity.balance_Code = null;
-      ResourceEntity.name_String = null;
-      ResourceEntity.owner_FhirId = null;
-      ResourceEntity.owner_Type = null;
-      ResourceEntity.owner_Url = null;
-      ResourceEntity.owner_Url_Blaze_RootUrlStoreID = null;
-      ResourceEntity.patient_FhirId = null;
-      ResourceEntity.patient_Type = null;
-      ResourceEntity.patient_Url = null;
-      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;
-      ResourceEntity.period_DateTimeOffsetLow = null;
-      ResourceEntity.period_DateTimeOffsetHigh = null;
-      ResourceEntity.status_Code = null;
-      ResourceEntity.status_System = null;
-      ResourceEntity.subject_FhirId = null;
-      ResourceEntity.subject_Type = null;
-      ResourceEntity.subject_Url = null;
-      ResourceEntity.subject_Url_Blaze_RootUrlStoreID = null;
-      ResourceEntity.XmlBlob = null;
-
-
-      _Context.Res_Account_Index_identifier.RemoveRange(ResourceEntity.identifier_List);
-      _Context.Res_Account_Index_type.RemoveRange(ResourceEntity.type_List);
-      _Context.Res_Account_Index_profile.RemoveRange(ResourceEntity.profile_List);
-      _Context.Res_Account_Index_security.RemoveRange(ResourceEntity.security_List);
-      _Context.Res_Account_Index_tag.RemoveRange(ResourceEntity.tag_List);
-
+      ResourceEntity.balance_Comparator = null;      
+      ResourceEntity.balance_Quantity = null;      
+      ResourceEntity.balance_System = null;      
+      ResourceEntity.balance_Code = null;      
+      ResourceEntity.name_String = null;      
+      ResourceEntity.owner_FhirId = null;      
+      ResourceEntity.owner_Type = null;      
+      ResourceEntity.owner_Url = null;      
+      ResourceEntity.owner_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patient_FhirId = null;      
+      ResourceEntity.patient_Type = null;      
+      ResourceEntity.patient_Url = null;      
+      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.period_DateTimeOffsetLow = null;      
+      ResourceEntity.period_DateTimeOffsetHigh = null;      
+      ResourceEntity.status_Code = null;      
+      ResourceEntity.status_System = null;      
+      ResourceEntity.subject_FhirId = null;      
+      ResourceEntity.subject_Type = null;      
+      ResourceEntity.subject_Url = null;      
+      ResourceEntity.subject_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.XmlBlob = null;      
+ 
+      
+      _Context.Res_Account_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
+      _Context.Res_Account_Index_type.RemoveRange(ResourceEntity.type_List);            
+      _Context.Res_Account_Index_profile.RemoveRange(ResourceEntity.profile_List);            
+      _Context.Res_Account_Index_security.RemoveRange(ResourceEntity.security_List);            
+      _Context.Res_Account_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+ 
     }
 
     private void PopulateResourceEntity(Res_Account ResourseEntity, string ResourceVersion, Account ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-      if (ResourceTyped.Balance != null)
+          if (ResourceTyped.Balance != null)
       {
         if (ResourceTyped.Balance is Hl7.Fhir.Model.Money)
         {
@@ -185,7 +185,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Owner != null)
       {
-        if (ResourceTyped.Owner is ResourceReference)
+        if (ResourceTyped.Owner is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Owner, FhirRequestUri, this) as ReferenceIndex;
@@ -207,7 +207,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
@@ -257,7 +257,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
@@ -349,11 +349,11 @@ namespace Blaze.DataModel.Repository
       }
 
 
-
+      
 
     }
 
 
   }
-}
+} 
 

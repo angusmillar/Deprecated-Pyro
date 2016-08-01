@@ -190,7 +190,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Authenticator != null)
       {
-        if (ResourceTyped.Authenticator is ResourceReference)
+        if (ResourceTyped.Authenticator is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Authenticator, FhirRequestUri, this) as ReferenceIndex;
@@ -225,7 +225,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Custodian != null)
       {
-        if (ResourceTyped.Custodian is ResourceReference)
+        if (ResourceTyped.Custodian is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Custodian, FhirRequestUri, this) as ReferenceIndex;
@@ -262,7 +262,7 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Context.Encounter != null)
         {
-          if (ResourceTyped.Context.Encounter is ResourceReference)
+          if (ResourceTyped.Context.Encounter is Hl7.Fhir.Model.ResourceReference)
           {
             var Index = new ReferenceIndex();
             Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Context.Encounter, FhirRequestUri, this) as ReferenceIndex;
@@ -312,7 +312,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
@@ -365,7 +365,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Subject is ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;

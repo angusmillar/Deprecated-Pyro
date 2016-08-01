@@ -97,8 +97,6 @@ namespace Blaze.DataModel.DatabaseModel
     public DbSet<Res_BodySite_Index_tag> Res_BodySite_Index_tag { get; set; }
     public DbSet<Res_Bundle> Res_Bundle { get; set; }
     public DbSet<Res_Bundle_History> Res_Bundle_History { get; set; }
-    public DbSet<Res_Bundle_Index_composition> Res_Bundle_Index_composition { get; set; }
-    public DbSet<Res_Bundle_Index_message> Res_Bundle_Index_message { get; set; }
     public DbSet<Res_Bundle_Index_profile> Res_Bundle_Index_profile { get; set; }
     public DbSet<Res_Bundle_Index_security> Res_Bundle_Index_security { get; set; }
     public DbSet<Res_Bundle_Index_tag> Res_Bundle_Index_tag { get; set; }
@@ -1127,8 +1125,6 @@ namespace Blaze.DataModel.DatabaseModel
       Mb.Configurations.Add(new Res_BodySite_Index_tag_Configuration());
       Mb.Configurations.Add(new Res_Bundle_Configuration());
       Mb.Configurations.Add(new Res_Bundle_History_Configuration());
-      Mb.Configurations.Add(new Res_Bundle_Index_composition_Configuration());
-      Mb.Configurations.Add(new Res_Bundle_Index_message_Configuration());
       Mb.Configurations.Add(new Res_Bundle_Index_profile_Configuration());
       Mb.Configurations.Add(new Res_Bundle_Index_security_Configuration());
       Mb.Configurations.Add(new Res_Bundle_Index_tag_Configuration());

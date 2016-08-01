@@ -265,7 +265,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.ManagingOrganization != null)
       {
-        if (ResourceTyped.ManagingOrganization is ResourceReference)
+        if (ResourceTyped.ManagingOrganization is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ManagingOrganization, FhirRequestUri, this) as ReferenceIndex;

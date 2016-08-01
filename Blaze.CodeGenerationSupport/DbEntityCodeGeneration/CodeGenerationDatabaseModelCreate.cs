@@ -54,7 +54,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "Group")
+        if (ResourceName == "Bundle")
         {
 
         }

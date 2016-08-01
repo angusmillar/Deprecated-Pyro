@@ -40,13 +40,13 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         if (i == CollectionParameter.SearchParameterNavigationPathList.Count - 1)
         {
-          if (CollectionParameter.Resource == "Observation")
-          {
-            if (CollectionParameter.SearchName == "value-string")
-            {
-              //Debug only
-            }
-          }
+          //if (CollectionParameter.Resource == "Observation")
+          //{
+          //  if (CollectionParameter.SearchName == "value-string")
+          //  {
+          //    //Debug only
+          //  }
+          //}
 
           BuildPropertyTargetChainLogic(CollectionParameter);
           BuildIndexSetterLogic(CollectionParameter);
@@ -109,7 +109,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       }
       else if ((CurrentTargetDataType == typeof(ResourceReference)))
       {
-        ResourceReferenceIndexStetter(NonCollectionParameter);
+        ResourceReferenceIndexStetter(NonCollectionParameter, "");
       }
       else if ((CurrentTargetDataType == typeof(Integer)))
       {
@@ -124,8 +124,19 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if ((CurrentTargetDataType == typeof(FhirUri) ||
                 CurrentTargetDataType == typeof(Oid)))
       {
-        StandardIndexStetter(NonCollectionParameter, ElementString);
-        UriIndexStetter(NonCollectionParameter);
+        if (NonCollectionParameter.SearchParamType == SearchParamType.Reference)
+        {
+          ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
+        }
+        else if (NonCollectionParameter.SearchParamType == SearchParamType.Uri)
+        {
+          StandardIndexStetter(NonCollectionParameter, ElementString);
+          UriIndexStetter(NonCollectionParameter);
+        }
+        else
+        {
+          throw new ApplicationException(String.Format("The NonCollection BuildIndexSetterLogic was given a FhirUri or Oid DataType of: '{0}' with a Fhir SearchParamType of: '{1}' ", CurrentTargetDataType.ToString(), NonCollectionParameter.SearchParamType.ToString()));
+        }
       }
       else if (CurrentTargetDataType == typeof(Money) ||
                CurrentTargetDataType == typeof(Quantity))
@@ -190,11 +201,11 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (TargetChoiceDataType == typeof(ResourceReference))
           {
-            ResourceReferenceIndexStetter(NonCollectionParameter);
+            ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
           }
           else if (TargetChoiceDataType == typeof(FhirUri))
           {
-            ResourceReferenceIndexStetter(NonCollectionParameter);
+            ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
           }
           else
           {
@@ -279,7 +290,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _BracketDepthCounter++;
     }
 
-
     private static void TokenIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Code = Index.Code;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
@@ -321,19 +331,20 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Quantity = Index.Quantity;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
     }
 
-    private static void ResourceReferenceIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, bool IsElementDataType = false)
+    private static void ResourceReferenceIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, string ElementNamePostFix)
     {
+      BundleResourceCustomLogic(NonCollectionParameter);
+
       _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
 
-      _Sb.AppendLine(String.Format("{0}if ({1} is ResourceReference)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
+      _Sb.AppendLine(String.Format("{0}if ({1}{2} is {3})", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.TargetFhirLogicalType.NameGenericType()));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
       _Sb.AppendLine(String.Format("{0}var Index = new {1}Index();", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
-      _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}, FhirRequestUri, this) as {2}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, NonCollectionParameter.SearchParamType.ToString()));
+      _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}, FhirRequestUri, this) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
 
-      //      _Sb.AppendLine(String.Format("{0}var Index = IndexSettingSupport.SetIndex<{1}Index>(new {1}Index(), {2}, FhirRequestUri, this);", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString(), _CurrentChainName));      
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
@@ -354,26 +365,95 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     }
 
+    private static void BundleResourceCustomLogic(FhirApiSearchParameterInfo NonCollectionParameter)
+    {
+      if (NonCollectionParameter.Resource == ModelInfo.GetFhirTypeNameForType(typeof(Bundle)) && NonCollectionParameter.SearchName == "composition")
+      {
+        _Sb.AppendLine(String.Format("{0}if (ResourceTyped.Type == Bundle.BundleType.Document)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
+        _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+        _BracketDepthCounter++;
+      }
+
+      if (NonCollectionParameter.Resource == ModelInfo.GetFhirTypeNameForType(typeof(Bundle)) && NonCollectionParameter.SearchName == "message")
+      {
+        _Sb.AppendLine(String.Format("{0}if (ResourceTyped.Type == Bundle.BundleType.Message)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
+        _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+        _BracketDepthCounter++;
+      }
+    }
+
     private static void BuildPropertyTargetChainLogic(FhirApiSearchParameterInfo CollectionParameter)
     {
       foreach (var NullableItem in _PropertyNameChainList)
       {
         _CurrentChainName = _CurrentChainName + "." + NullableItem;
-
         if (_ChainCounter < (CollectionParameter.SearchParameterNavigationPathList.Count - 1))
         {
           if (CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].IsCollection)
           {
-            _Sb.AppendLine(String.Format("{0}foreach (var item{1} in {2})", DepthSpace(_BracketDepthCounter), _ChainCounter.ToString(), _CurrentChainName));
-            _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
-            _BracketDepthCounter++;
-            _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
+            bool IsProcessed = false;
+            if (!IsProcessed)
+            {
+              if (CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent != null && CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent.HasChoiceSpecifier)
+              {
+                FhirXPathComponent XPathComponent = CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent;
+                if (XPathComponent.ChoiceSpecifier.AttributeName == null && XPathComponent.ChoiceSpecifier.ElementName == null)
+                {
+                  int ItemIndex = 0;
+                  if (int.TryParse(XPathComponent.ChoiceSpecifier.Value, out ItemIndex))
+                  {
+                    _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
+                    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+                    _BracketDepthCounter++;
+
+                    _Sb.AppendLine(String.Format("{0}if ({1}[{2}] != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName, ItemIndex));
+                    _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+
+                    _BracketDepthCounter++;
+                    string TempChainName = _CurrentChainName;
+                    _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
+
+                    _Sb.AppendLine(String.Format("{0}var {1} = {2}[{3}];", DepthSpace(_BracketDepthCounter), _CurrentChainName, TempChainName, ItemIndex));
+
+                    IsProcessed = true;
+                  }
+                }
+              }
+            }
+            if (!IsProcessed)
+            {
+              _Sb.AppendLine(String.Format("{0}foreach (var item{1} in {2})", DepthSpace(_BracketDepthCounter), _ChainCounter.ToString(), _CurrentChainName));
+              _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+              _BracketDepthCounter++;
+              _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
+            }
           }
           else
           {
             _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
             _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
             _BracketDepthCounter++;
+
+            if (CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent != null && CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent.HasChoiceSpecifier)
+            {
+              FhirXPathComponent XPathComponent = CollectionParameter.SearchParameterNavigationPathList[_ChainCounter].XPathComponent;
+              if (XPathComponent.ChoiceSpecifier.AttributeName == null && XPathComponent.ChoiceSpecifier.ElementName == null)
+              {
+                int ItemIndex = 0;
+                if (int.TryParse(XPathComponent.ChoiceSpecifier.Value, out ItemIndex))
+                {
+                  _Sb.AppendLine(String.Format("{0}if ({1}[{2}] != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName, ItemIndex));
+                  _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
+
+                  _BracketDepthCounter++;
+                  string TempChainName = _CurrentChainName;
+                  _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
+
+                  _Sb.AppendLine(String.Format("{0}var {1} = {2}[{3}];", DepthSpace(_BracketDepthCounter), _CurrentChainName, TempChainName, ItemIndex));
+                }
+              }
+            }
+
           }
         }
         _ChainCounter++;

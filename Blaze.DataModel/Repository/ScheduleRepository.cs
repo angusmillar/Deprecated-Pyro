@@ -141,7 +141,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Actor != null)
       {
-        if (ResourceTyped.Actor is ResourceReference)
+        if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Actor, FhirRequestUri, this) as ReferenceIndex;

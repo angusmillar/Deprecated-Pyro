@@ -131,6 +131,9 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       //System.IO.File.AppendAllLines(@"C:\temp\BlaseDebugTypeFullInfo.csv", TypeAnalysisFullList);
       //----------------------------------------------------------------------------------------------
 
+
+
+
       return FinalResultList;
 
     }
@@ -155,36 +158,6 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         return SplitOnDot[SplitOnDot.Length - 1];
       }
     }
-
-    //private string ResolveIndexType(string SearchParameterType, string LogicalFhirType)
-    //{
-    //  if (SearchParameterType == DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DateIndex])
-    //  {
-    //    if (LogicalFhirType == ModelInfo.FhirTypeToFhirTypeName(FHIRDefinedType.Timing) || LogicalFhirType == ModelInfo.FhirTypeToFhirTypeName(FHIRDefinedType.Period))
-    //    {
-    //      return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriodIndex];
-    //    }
-    //    else
-    //    {
-    //      return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DateIndex];
-    //    }
-    //  }
-    //  else if (SearchParameterType == DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityIndex])
-    //  {
-    //    if (LogicalFhirType == ModelInfo.FhirTypeToFhirTypeName(FHIRDefinedType.Range))
-    //    {
-    //      return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityRangeIndex];
-    //    }
-    //    else
-    //    {
-    //      return DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityIndex];
-    //    }
-    //  }
-    //  else
-    //  {
-    //    return SearchParameterType + DatabaseModelInfo.IndexPrefixText;
-    //  }
-    //}
-
+    
   }
 }

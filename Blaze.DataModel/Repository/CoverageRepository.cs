@@ -177,7 +177,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Beneficiary != null)
       {
-        if (ResourceTyped.Beneficiary is ResourceReference)
+        if (ResourceTyped.Beneficiary is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Beneficiary, FhirRequestUri, this) as ReferenceIndex;
@@ -241,7 +241,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Issuer != null)
       {
-        if (ResourceTyped.Issuer is ResourceReference)
+        if (ResourceTyped.Issuer is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Issuer, FhirRequestUri, this) as ReferenceIndex;
@@ -291,7 +291,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Planholder != null)
       {
-        if (ResourceTyped.Planholder is ResourceReference)
+        if (ResourceTyped.Planholder is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Planholder, FhirRequestUri, this) as ReferenceIndex;

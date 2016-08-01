@@ -190,29 +190,6 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     }
 
 
-    public static List<FhirApiSearchParameterInfo> RemoveDuplicatesOld(List<FhirApiSearchParameterInfo> InboundList)
-    {
-      List<FhirApiSearchParameterInfo> TempList = new List<FhirApiSearchParameterInfo>(InboundList);
-      Dictionary<string, List<FhirApiSearchParameterInfo>> Dic = new Dictionary<string, List<FhirApiSearchParameterInfo>>();
-      var FinalList = new List<FhirApiSearchParameterInfo>();
-
-      foreach (var Item in TempList)
-      {
-        //Group each in a Dictionary where Search name is the key and possibility many SearchParameterInfos  
-        var y = (from x in InboundList where x.SearchName == Item.SearchName select x);
-        if (!Dic.ContainsKey(Item.SearchName))
-        {
-          Dic.Add(Item.SearchName, y.ToList());
-        }
-      }
-
-      foreach (var item in Dic)
-      {
-        FinalList.Add(item.Value[0]);
-      }
-      return FinalList;
-    }
-
     public static List<FhirApiSearchParameterInfo> RemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList)
     {
       List<FhirApiSearchParameterInfo> TempList = new List<FhirApiSearchParameterInfo>(InboundList);
@@ -370,6 +347,53 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
 
     }
+    /// <summary>
+    /// Their are only a few search parameters that have choice elements on them, for example:
+    ///  f:Patient/f:telecom[system/@value='email']
+    ///  or
+    ///  f:Bundle/f:entry/f:resource[0]
+    ///  This method just checks that their are not other and throws an exception is there are.
+    ///  This is only run at compile code generation time.
+    /// </summary>
+    /// <param name="InboundList"></param>
+    public static void CheckForUnhandledChoiceElements(List<FhirApiSearchParameterInfo> InboundList)
+    {
+      foreach (FhirApiSearchParameterInfo FhirApiSearchParameterInfo in InboundList)
+      {
+        foreach (FhirSearchParameterSearchPathElement FhirSearchParameterSearchPathElement in FhirApiSearchParameterInfo.SearchParameterNavigationPathList)
+        {
+          if (FhirSearchParameterSearchPathElement.XPathComponent != null)
+          {
+            bool WeHaveAProblem = true;
+            if (FhirSearchParameterSearchPathElement.XPathComponent.HasChoiceSpecifier)
+            {
+              if (FhirApiSearchParameterInfo.TargetFhirLogicalType == typeof(ContactPoint))
+              {
+                if (FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.Value == "phone" && FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.ElementName == "system" && FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.AttributeName == "value")
+                {
+                  WeHaveAProblem = false;
+                }
+                if (FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.Value == "email" && FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.ElementName == "system" && FhirSearchParameterSearchPathElement.XPathComponent.ChoiceSpecifier.AttributeName == "value")
+                {
+                  WeHaveAProblem = false;
+                }
+              }
+              else if (FhirApiSearchParameterInfo.Resource == ModelInfo.GetFhirTypeNameForType(typeof(Bundle)))
+              {
+                if (FhirApiSearchParameterInfo.SearchName == "composition" || FhirApiSearchParameterInfo.SearchName == "message")
+                {
+                  WeHaveAProblem = false;
+                }
+              }
+            }
+            if (WeHaveAProblem)
+            {
+              throw new FormatException(string.Format("Found search parameter with an unsupported choice. The path of the parameter is : {0}", FhirApiSearchParameterInfo.SearchPath));
+            }
+          }
+        }
+      }
+    }
 
     #endregion
 
@@ -435,8 +459,12 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
             ChildPathElement.IsCollection = Property.IsCollection;
             ChildPathElement.PropertyName = Property.Name;
             ChildPathElement.DataType = Property.ElementType;
+            if (oFhirXPath.FhirXPathComponentList[CurrentElement].HasChoiceSpecifier)
+              ChildPathElement.XPathComponent = oFhirXPath.FhirXPathComponentList[CurrentElement];
             if (SearchChoiceProperty != null)
+            {
               ChildPathElement.ChoiceDataType = SearchChoiceProperty.Type;
+            }
 
             _SearchParameterInfo.SearchParameterNavigationPathList.Add(ChildPathElement);
 

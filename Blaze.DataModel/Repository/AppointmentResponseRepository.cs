@@ -155,7 +155,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Actor != null)
       {
-        if (ResourceTyped.Actor is ResourceReference)
+        if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Actor, FhirRequestUri, this) as ReferenceIndex;
@@ -177,7 +177,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Appointment != null)
       {
-        if (ResourceTyped.Appointment is ResourceReference)
+        if (ResourceTyped.Appointment is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Appointment, FhirRequestUri, this) as ReferenceIndex;
@@ -199,7 +199,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Actor != null)
       {
-        if (ResourceTyped.Actor is ResourceReference)
+        if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Actor, FhirRequestUri, this) as ReferenceIndex;
@@ -235,7 +235,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Actor != null)
       {
-        if (ResourceTyped.Actor is ResourceReference)
+        if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Actor, FhirRequestUri, this) as ReferenceIndex;
@@ -257,7 +257,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Actor != null)
       {
-        if (ResourceTyped.Actor is ResourceReference)
+        if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Actor, FhirRequestUri, this) as ReferenceIndex;

@@ -177,7 +177,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Appointment != null)
       {
-        if (ResourceTyped.Appointment is ResourceReference)
+        if (ResourceTyped.Appointment is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Appointment, FhirRequestUri, this) as ReferenceIndex;
@@ -227,7 +227,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.PartOf != null)
       {
-        if (ResourceTyped.PartOf is ResourceReference)
+        if (ResourceTyped.PartOf is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.PartOf, FhirRequestUri, this) as ReferenceIndex;
@@ -249,7 +249,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Patient != null)
       {
-        if (ResourceTyped.Patient is ResourceReference)
+        if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;

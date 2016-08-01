@@ -141,7 +141,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Parent != null)
       {
-        if (ResourceTyped.Parent is ResourceReference)
+        if (ResourceTyped.Parent is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Parent, FhirRequestUri, this) as ReferenceIndex;
@@ -163,7 +163,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Source != null)
       {
-        if (ResourceTyped.Source is ResourceReference)
+        if (ResourceTyped.Source is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Source, FhirRequestUri, this) as ReferenceIndex;
