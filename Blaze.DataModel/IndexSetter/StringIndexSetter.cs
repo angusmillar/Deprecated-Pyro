@@ -73,10 +73,6 @@ namespace Blaze.DataModel.IndexSetter
       {
         FullAdddress += Address.PostalCode + ItemDelimeter;
       }
-      if (!string.IsNullOrWhiteSpace(Address.PostalCode))
-      {
-        FullAdddress += Address.PostalCode + ItemDelimeter;
-      }
       if (!string.IsNullOrWhiteSpace(Address.State))
       {
         FullAdddress += Address.State + ItemDelimeter;

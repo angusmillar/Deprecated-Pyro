@@ -6251,6 +6251,8 @@
     <Compile Include="IndexSetter\QuantityRangeIndexSetter.cs" />
     <Compile Include="IndexSetter\ReferanceIndexSetter.cs" />
     <Compile Include="IndexSetter\StringIndexSetter.cs" />
+    <Compile Include="IndexSetter\TokenIndexSetter.cs" />
+    <Compile Include="IndexSetter\UriIndexSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>

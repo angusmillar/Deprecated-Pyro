@@ -7,7 +7,6 @@ using Blaze.DataModel.DatabaseModel.Base;
 
 namespace Blaze.DataModel.IndexSetter
 {
-  public enum IndexSetterType { QuantityRange, Quantity };
   public static class IndexSetterFactory
   {
     public static IIndexSetter Create(Type IndexType)
@@ -38,15 +37,15 @@ namespace Blaze.DataModel.IndexSetter
       }
       else if (IndexType == typeof(StringIndex))
       {
-        throw new NotImplementedException();
+        return new StringIndexSetter();
       }
       else if (IndexType == typeof(TokenIndex))
       {
-        throw new NotImplementedException();
+        return new TokenIndexSetter();
       }
       else if (IndexType == typeof(UriIndex))
       {
-        throw new NotImplementedException();
+        return new UriIndexSetter();
       }
       else
       {

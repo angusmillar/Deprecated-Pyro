@@ -63,7 +63,7 @@ namespace Blaze.DataModel.IndexSetter
       //Check the Uri is actual a Fhir resource reference 
       if (!Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(FhirUri.Value))
         return null;
-      
+
       if (Uri.IsWellFormedUriString(FhirUri.Value, UriKind.Relative))
       {
         var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(FhirUri.Value);
@@ -85,20 +85,13 @@ namespace Blaze.DataModel.IndexSetter
         {
           ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
         }
-        return ReferenceIndex;       
+        return ReferenceIndex;
       }
       else
       {
         return null;
-      }                 
+      }
     }
-
-    
-
-    //public ReferenceIndex SetResource(Resource Resource, ReferenceIndex ReferenceIndex)
-    //{
-    //  throw new NotImplementedException();
-    //}
 
     public ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
     {
@@ -144,7 +137,6 @@ namespace Blaze.DataModel.IndexSetter
         return null;
       }
     }
-
 
     private static void SetResourceIndentityElements(ReferenceIndex ReferenceIndex, DtoFhirUri ReferanceUri)
     {

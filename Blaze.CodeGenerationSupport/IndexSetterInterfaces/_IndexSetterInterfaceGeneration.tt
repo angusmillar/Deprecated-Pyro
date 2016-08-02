@@ -31,7 +31,7 @@ using Blaze.DataModel.DatabaseModel.Base;
       if (item.IndexSetterMethodList[0].IndexType == Blaze.CodeGenerationSupport.DatabaseModelInfo.BlazeIndexType.ReferenceIndex)
       {
 #>
-using Blaze.DataModel.Repository;
+using Blaze.DataModel.Repository.Interfaces;
 using Blaze.Common.Interfaces.UriSupport;
 <#
       }    

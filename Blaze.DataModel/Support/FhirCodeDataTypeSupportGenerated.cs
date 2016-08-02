@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Blaze.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
 
@@ -547,7 +544,13 @@ namespace Blaze.DataModel.Support
       }      
       else
       {
-        return false;
+        var oIssueComponent = new OperationOutcome.IssueComponent();
+        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+        oIssueComponent.Code = OperationOutcome.IssueType.Exception;                
+        oIssueComponent.Diagnostics = "Attempt to store a Code<T> type that is not supported by the server. Method: Blaze.DataModel.Support.TokenIndexSetter(Element FhirElement, TokenIndex TokenIndex)";
+        var oOperationOutcome = new OperationOutcome();
+        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+        throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Diagnostics);        
       }      
     }
   }

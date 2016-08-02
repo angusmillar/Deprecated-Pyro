@@ -17,7 +17,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       HashSet<string> TypeUnquieDic = new HashSet<string>();
       List<string> TypeAnalysisFullList = new List<string>();
       List<IndexSetterInterfaceCodeGenModel> FinalResultList = new List<IndexSetterInterfaceCodeGenModel>();
-      
+
       var DateListFinal = new IndexSetterInterfaceCodeGenModel();
       DateListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DateIndex]);
       DateListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
@@ -63,6 +63,8 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       UriListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(UriListFinal);
 
+      CustomTokenInterfaceMethodForCodeTType(TokenListFinal);
+
       foreach (var ResourceName in ResourceList)
       {
         List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
@@ -71,13 +73,9 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
 
         //SearchParametersForResource = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(SearchParametersForResource);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(SearchParametersForResource);
-
-
-        
-
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
-        
+
           TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}", Parameter.Resource, Parameter.SearchParamType, Parameter.TargetFhirLogicalType, Parameter.SearchPath));
           string Key = string.Format("{0}, {1}", Parameter.SearchParamType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
           if (TypeUnquieDic.Add(Key))
@@ -85,13 +83,13 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
             //string ResolvedIndexType = ResolveIndexType(Parameter.SearchParamType.ToString(), ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
             MethodInfo.IndexTypeString = DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
-            MethodInfo.IndexType = DatabaseModelInfo.StringToBlazeIndexTypeDictonary[MethodInfo.IndexTypeString];            
+            MethodInfo.IndexType = DatabaseModelInfo.StringToBlazeIndexTypeDictonary[MethodInfo.IndexTypeString];
             MethodInfo.FhirType = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name);
-           
+
 
             switch (MethodInfo.IndexType)
             {
-              case DatabaseModelInfo.BlazeIndexType.DateIndex:                                
+              case DatabaseModelInfo.BlazeIndexType.DateIndex:
                 DateListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
               case DatabaseModelInfo.BlazeIndexType.DatePeriodIndex:
@@ -119,7 +117,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
                 UriListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
               default:
-                throw new System.ComponentModel.InvalidEnumArgumentException(MethodInfo.IndexType.ToString(), (int)MethodInfo.IndexType, typeof(DatabaseModelInfo.BlazeIndexType));                
+                throw new System.ComponentModel.InvalidEnumArgumentException(MethodInfo.IndexType.ToString(), (int)MethodInfo.IndexType, typeof(DatabaseModelInfo.BlazeIndexType));
             }
           }
         }
@@ -137,7 +135,15 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       return FinalResultList;
 
     }
-    
+
+    private static void CustomTokenInterfaceMethodForCodeTType(IndexSetterInterfaceCodeGenModel TokenListFinal)
+    {
+      IndexSetterInterfaceMethod CustomTokenCodeMethodInfo = new IndexSetterInterfaceMethod();
+      CustomTokenCodeMethodInfo.CustomeIndexMethod = string.Format("TokenIndex SetCodeT(Element Element, TokenIndex TokenIndex);");
+      CustomTokenCodeMethodInfo.IndexTypeString = DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.TokenIndex];
+      CustomTokenCodeMethodInfo.IndexType = DatabaseModelInfo.StringToBlazeIndexTypeDictonary[CustomTokenCodeMethodInfo.IndexTypeString];
+      TokenListFinal.IndexSetterMethodList.Add(CustomTokenCodeMethodInfo);
+    }
 
     private string ConstructInterfaceClassName(string IndexTypeName)
     {
