@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -136,7 +133,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.ContentTypeElement is Hl7.Fhir.Model.Code)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.ContentTypeElement) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ContentTypeElement, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.contenttype_Code = Index.Code;
@@ -154,7 +151,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_Binary_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_Binary_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -170,7 +167,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Binary_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Binary_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -186,7 +183,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Binary_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Binary_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Binary_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

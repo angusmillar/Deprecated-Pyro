@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -152,7 +149,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Manufacturer is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Manufacturer, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Manufacturer, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.manufacturer_Type = Index.Type;
@@ -174,7 +171,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
           var Index = new Res_Medication_Index_code();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Medication_Index_code;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Medication_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
       }
@@ -186,7 +183,7 @@ namespace Blaze.DataModel.Repository
           foreach (var item4 in ResourceTyped.Package.Container.Coding)
           {
             var Index = new Res_Medication_Index_container();
-            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Medication_Index_container;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Medication_Index_container;
             ResourseEntity.container_List.Add(Index);
           }
         }
@@ -199,7 +196,7 @@ namespace Blaze.DataModel.Repository
           foreach (var item4 in ResourceTyped.Product.Form.Coding)
           {
             var Index = new Res_Medication_Index_form();
-            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Medication_Index_form;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Medication_Index_form;
             ResourseEntity.form_List.Add(Index);
           }
         }
@@ -214,7 +211,7 @@ namespace Blaze.DataModel.Repository
             if (item2.Item is ResourceReference)
             {
               var Index = new Res_Medication_Index_ingredient();
-              IndexSettingSupport.SetIndex(Index, item2.Item, FhirRequestUri, this);
+              Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item2.Item, Index, FhirRequestUri, this) as Res_Medication_Index_ingredient;
               if (Index != null)
               {
                 ResourseEntity.ingredient_List.Add(Index);
@@ -236,7 +233,7 @@ namespace Blaze.DataModel.Repository
               foreach (var item5 in CodeableConcept.Coding)
               {
                 var Index = new Res_Medication_Index_ingredient_code();
-                Index = IndexSettingSupport.SetIndex(Index, item5) as Res_Medication_Index_ingredient_code;
+                Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item5, Index) as Res_Medication_Index_ingredient_code;
                 ResourseEntity.ingredient_code_List.Add(Index);
               }
             }
@@ -253,7 +250,7 @@ namespace Blaze.DataModel.Repository
             if (item2.Item is ResourceReference)
             {
               var Index = new Res_Medication_Index_package_item();
-              IndexSettingSupport.SetIndex(Index, item2.Item, FhirRequestUri, this);
+              Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item2.Item, Index, FhirRequestUri, this) as Res_Medication_Index_package_item;
               if (Index != null)
               {
                 ResourseEntity.package_item_List.Add(Index);
@@ -275,7 +272,7 @@ namespace Blaze.DataModel.Repository
               foreach (var item5 in CodeableConcept.Coding)
               {
                 var Index = new Res_Medication_Index_package_item_code();
-                Index = IndexSettingSupport.SetIndex(Index, item5) as Res_Medication_Index_package_item_code;
+                Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item5, Index) as Res_Medication_Index_package_item_code;
                 ResourseEntity.package_item_code_List.Add(Index);
               }
             }
@@ -292,7 +289,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_Medication_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Medication_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_Medication_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -308,7 +305,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Medication_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Medication_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Medication_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -324,7 +321,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Medication_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Medication_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Medication_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -142,7 +139,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Patient, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Patient, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -164,7 +161,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
           var Index = new Res_BodySite_Index_code();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_BodySite_Index_code;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_BodySite_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
       }
@@ -176,7 +173,7 @@ namespace Blaze.DataModel.Repository
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
             var Index = new Res_BodySite_Index_identifier();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_BodySite_Index_identifier;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_BodySite_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
         }
@@ -191,7 +188,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_BodySite_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_BodySite_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_BodySite_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -207,7 +204,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_BodySite_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_BodySite_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_BodySite_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -223,7 +220,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_BodySite_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_BodySite_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_BodySite_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

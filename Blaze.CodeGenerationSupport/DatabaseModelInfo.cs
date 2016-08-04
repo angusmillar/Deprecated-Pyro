@@ -253,6 +253,19 @@ namespace Blaze.CodeGenerationSupport
       }
     }
 
+    public static string GenerateIndexSetter(string Item, string BlazeIndexType, string ReturnType, bool IsReferanceType = false)
+    {
+      if (IsReferanceType)
+      {
+        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index, FhirRequestUri, this) as {2};", BlazeIndexType, Item, ReturnType);
+      }
+      else
+      {
+        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index) as {2};", BlazeIndexType, Item, ReturnType);
+      }
+
+    }
+
 
     public static string NameGenericType(this Type type, bool WithType_T = true)
     {

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -193,7 +190,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Effective is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Effective) as DateIndex;
+          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Effective, Index) as DateIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
@@ -205,12 +202,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Effective is Hl7.Fhir.Model.Period)
         {
-          var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Effective) as DateIndex;
+          var Index = new DatePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(ResourceTyped.Effective, Index) as DatePeriodIndex;
           if (Index != null)
           {
-            ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffset;
-            ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffset;
+            ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+            ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
           }
         }
       }
@@ -220,7 +217,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Device is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Device, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Device, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.device_Type = Index.Type;
@@ -242,7 +239,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Encounter, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Encounter, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.encounter_Type = Index.Type;
@@ -264,7 +261,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -286,7 +283,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Specimen is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Specimen, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Specimen, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.specimen_Type = Index.Type;
@@ -308,7 +305,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Observation.ObservationStatus>)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.status_Code = Index.Code;
@@ -322,7 +319,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Subject, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.subject_Type = Index.Type;
@@ -344,7 +341,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Value is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Value) as DateIndex;
+          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Value, Index) as DateIndex;
           if (Index != null)
           {
             ResourseEntity.value_date_DateTimeOffset = Index.DateTimeOffset;
@@ -356,12 +353,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Value is Hl7.Fhir.Model.Period)
         {
-          var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Value) as DateIndex;
+          var Index = new DatePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(ResourceTyped.Value, Index) as DatePeriodIndex;
           if (Index != null)
           {
-            ResourseEntity.value_date_DateTimeOffsetLow = Index.DateTimeOffset;
-            ResourseEntity.value_date_DateTimeOffsetHigh = Index.DateTimeOffset;
+            ResourseEntity.value_date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+            ResourseEntity.value_date_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
           }
         }
       }
@@ -371,7 +368,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Value is Hl7.Fhir.Model.Quantity)
         {
           var Index = new QuantityIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Value) as QuantityIndex;
+          Index = IndexSetterFactory.Create(typeof(QuantityIndex)).Set(ResourceTyped.Value, Index) as QuantityIndex;
           if (Index != null)
           {
             ResourseEntity.value_quantity_Comparator = Index.Comparator;
@@ -387,7 +384,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Value is Hl7.Fhir.Model.FhirString)
         {
           var Index = new StringIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Value) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Value, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.value_string_String = Index.String;
@@ -400,7 +397,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.Category.Coding)
         {
           var Index = new Res_Observation_Index_category();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Observation_Index_category;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_category;
           ResourseEntity.category_List.Add(Index);
         }
       }
@@ -410,7 +407,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.Code.Coding)
         {
           var Index = new Res_Observation_Index_code();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Observation_Index_code;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_code;
           ResourseEntity.code_List.Add(Index);
         }
       }
@@ -422,7 +419,7 @@ namespace Blaze.DataModel.Repository
           foreach (var item4 in item1.Code.Coding)
           {
             var Index = new Res_Observation_Index_component_code();
-            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_component_code;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_code;
             ResourseEntity.component_code_List.Add(Index);
           }
         }
@@ -435,7 +432,7 @@ namespace Blaze.DataModel.Repository
           foreach (var item4 in item1.DataAbsentReason.Coding)
           {
             var Index = new Res_Observation_Index_component_data_absent_reason();
-            Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_component_data_absent_reason;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_data_absent_reason;
             ResourseEntity.component_data_absent_reason_List.Add(Index);
           }
         }
@@ -451,7 +448,7 @@ namespace Blaze.DataModel.Repository
             foreach (var item4 in CodeableConcept.Coding)
             {
               var Index = new Res_Observation_Index_component_value_concept();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_component_value_concept;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_value_concept;
               ResourseEntity.component_value_concept_List.Add(Index);
             }
           }
@@ -465,7 +462,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Value is Hl7.Fhir.Model.Quantity)
           {
             var Index = new Res_Observation_Index_component_value_quantity();
-            Index = IndexSettingSupport.SetIndex(Index, item1.Value) as Res_Observation_Index_component_value_quantity;
+            Index = IndexSetterFactory.Create(typeof(QuantityIndex)).Set(item1.Value, Index) as Res_Observation_Index_component_value_quantity;
             ResourseEntity.component_value_quantity_List.Add(Index);
           }
         }
@@ -478,7 +475,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Value is Hl7.Fhir.Model.FhirString)
           {
             var Index = new Res_Observation_Index_component_value_string();
-            Index = IndexSettingSupport.SetIndex(Index, item1.Value) as Res_Observation_Index_component_value_string;
+            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item1.Value, Index) as Res_Observation_Index_component_value_string;
             ResourseEntity.component_value_string_List.Add(Index);
           }
         }
@@ -489,7 +486,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.DataAbsentReason.Coding)
         {
           var Index = new Res_Observation_Index_data_absent_reason();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Observation_Index_data_absent_reason;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_data_absent_reason;
           ResourseEntity.data_absent_reason_List.Add(Index);
         }
       }
@@ -501,7 +498,7 @@ namespace Blaze.DataModel.Repository
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
             var Index = new Res_Observation_Index_identifier();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Observation_Index_identifier;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
         }
@@ -514,7 +511,7 @@ namespace Blaze.DataModel.Repository
           if (item is ResourceReference)
           {
             var Index = new Res_Observation_Index_performer();
-            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_Observation_Index_performer;
             if (Index != null)
             {
               ResourseEntity.performer_List.Add(Index);
@@ -530,7 +527,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Target is ResourceReference)
           {
             var Index = new Res_Observation_Index_related_target();
-            IndexSettingSupport.SetIndex(Index, item1.Target, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Target, Index, FhirRequestUri, this) as Res_Observation_Index_related_target;
             if (Index != null)
             {
               ResourseEntity.related_target_List.Add(Index);
@@ -546,7 +543,7 @@ namespace Blaze.DataModel.Repository
           if (item1.TypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Observation.ObservationRelationshipType>)
           {
             var Index = new Res_Observation_Index_related_type();
-            Index = IndexSettingSupport.SetIndex(Index, item1.TypeElement) as Res_Observation_Index_related_type;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item1.TypeElement, Index) as Res_Observation_Index_related_type;
             ResourseEntity.related_type_List.Add(Index);
           }
         }
@@ -560,7 +557,7 @@ namespace Blaze.DataModel.Repository
           foreach (var item3 in CodeableConcept.Coding)
           {
             var Index = new Res_Observation_Index_value_concept();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Observation_Index_value_concept;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_value_concept;
             ResourseEntity.value_concept_List.Add(Index);
           }
         }
@@ -575,7 +572,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_Observation_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_Observation_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -591,7 +588,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Observation_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -607,7 +604,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Observation_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Observation_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

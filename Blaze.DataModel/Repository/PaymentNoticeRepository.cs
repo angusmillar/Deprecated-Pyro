@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -164,7 +161,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.CreatedElement) as DateIndex;
+          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.CreatedElement, Index) as DateIndex;
           if (Index != null)
           {
             ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
@@ -177,7 +174,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Organization is Hl7.Fhir.Model.Identifier)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Organization, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.organizationidentifier_Code = Index.Code;
@@ -191,7 +188,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Organization is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Organization, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organizationreference_Type = Index.Type;
@@ -213,7 +210,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.PaymentStatus is Hl7.Fhir.Model.Coding)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.PaymentStatus) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.PaymentStatus, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.paymentstatus_Code = Index.Code;
@@ -227,7 +224,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Provider is Hl7.Fhir.Model.Identifier)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Provider) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Provider, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.provideridentifier_Code = Index.Code;
@@ -241,7 +238,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Provider is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Provider, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Provider, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.providerreference_Type = Index.Type;
@@ -263,7 +260,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Request is Hl7.Fhir.Model.Identifier)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Request, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.requestidentifier_Code = Index.Code;
@@ -277,7 +274,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Request is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Request, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Request, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.requestreference_Type = Index.Type;
@@ -299,7 +296,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Response is Hl7.Fhir.Model.Identifier)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Response) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Response, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.responseidentifier_Code = Index.Code;
@@ -313,7 +310,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Response is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Response, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Response, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.responsereference_Type = Index.Type;
@@ -335,7 +332,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.StatusDateElement is Hl7.Fhir.Model.Date)
         {
           var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusDateElement) as DateIndex;
+          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.StatusDateElement, Index) as DateIndex;
           if (Index != null)
           {
             ResourseEntity.statusdate_DateTimeOffset = Index.DateTimeOffset;
@@ -350,7 +347,7 @@ namespace Blaze.DataModel.Repository
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
             var Index = new Res_PaymentNotice_Index_identifier();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_PaymentNotice_Index_identifier;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_PaymentNotice_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
         }
@@ -365,7 +362,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_PaymentNotice_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentNotice_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_PaymentNotice_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -381,7 +378,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_PaymentNotice_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentNotice_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PaymentNotice_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -397,7 +394,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_PaymentNotice_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PaymentNotice_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PaymentNotice_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -153,7 +150,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.StartElement is Hl7.Fhir.Model.Instant)
         {
           var Index = new DateIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StartElement) as DateIndex;
+          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.StartElement, Index) as DateIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
@@ -166,7 +163,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Appointment.AppointmentStatus>)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.StatusElement) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.status_Code = Index.Code;
@@ -182,7 +179,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Actor is ResourceReference)
           {
             var Index = new Res_Appointment_Index_actor();
-            IndexSettingSupport.SetIndex(Index, item1.Actor, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Actor, Index, FhirRequestUri, this) as Res_Appointment_Index_actor;
             if (Index != null)
             {
               ResourseEntity.actor_List.Add(Index);
@@ -196,7 +193,7 @@ namespace Blaze.DataModel.Repository
         foreach (var item3 in ResourceTyped.AppointmentType.Coding)
         {
           var Index = new Res_Appointment_Index_appointment_type();
-          Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Appointment_Index_appointment_type;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Appointment_Index_appointment_type;
           ResourseEntity.appointment_type_List.Add(Index);
         }
       }
@@ -208,7 +205,7 @@ namespace Blaze.DataModel.Repository
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
             var Index = new Res_Appointment_Index_identifier();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_Appointment_Index_identifier;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Appointment_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
         }
@@ -221,7 +218,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Actor is ResourceReference)
           {
             var Index = new Res_Appointment_Index_location();
-            IndexSettingSupport.SetIndex(Index, item1.Actor, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Actor, Index, FhirRequestUri, this) as Res_Appointment_Index_location;
             if (Index != null)
             {
               ResourseEntity.location_List.Add(Index);
@@ -237,7 +234,7 @@ namespace Blaze.DataModel.Repository
           if (item1.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ParticipationStatus>)
           {
             var Index = new Res_Appointment_Index_part_status();
-            Index = IndexSettingSupport.SetIndex(Index, item1.StatusElement) as Res_Appointment_Index_part_status;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item1.StatusElement, Index) as Res_Appointment_Index_part_status;
             ResourseEntity.part_status_List.Add(Index);
           }
         }
@@ -250,7 +247,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Actor is ResourceReference)
           {
             var Index = new Res_Appointment_Index_patient();
-            IndexSettingSupport.SetIndex(Index, item1.Actor, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Actor, Index, FhirRequestUri, this) as Res_Appointment_Index_patient;
             if (Index != null)
             {
               ResourseEntity.patient_List.Add(Index);
@@ -266,7 +263,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Actor is ResourceReference)
           {
             var Index = new Res_Appointment_Index_practitioner();
-            IndexSettingSupport.SetIndex(Index, item1.Actor, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Actor, Index, FhirRequestUri, this) as Res_Appointment_Index_practitioner;
             if (Index != null)
             {
               ResourseEntity.practitioner_List.Add(Index);
@@ -284,7 +281,7 @@ namespace Blaze.DataModel.Repository
             foreach (var item4 in item3.Coding)
             {
               var Index = new Res_Appointment_Index_service_type();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Appointment_Index_service_type;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Appointment_Index_service_type;
               ResourseEntity.service_type_List.Add(Index);
             }
           }
@@ -300,7 +297,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_Appointment_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Appointment_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_Appointment_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -316,7 +313,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Appointment_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Appointment_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Appointment_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -332,7 +329,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Appointment_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Appointment_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Appointment_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -30,7 +27,7 @@ namespace Blaze.DataModel.Repository
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Bundle>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.SingleResourceRead = true;     
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
       DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
       return DatabaseOperationOutcome;
@@ -40,12 +37,12 @@ namespace Blaze.DataModel.Repository
     {
       var ResourceTyped = Resource as Bundle;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
-      var ResourceHistoryEntity = new Res_Bundle_History();
+      var ResourceHistoryEntity = new Res_Bundle_History();  
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      ResourceEntity.Res_Bundle_History_List.Add(ResourceHistoryEntity);
+      ResourceEntity.Res_Bundle_History_List.Add(ResourceHistoryEntity); 
       this.ResetResourceEntity(ResourceEntity);
-      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);
-      this.Save();
+      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
+      this.Save();            
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
@@ -62,7 +59,7 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       ResourceEntity.IsDeleted = true;
       ResourceEntity.versionId = ResourceVersion;
-      this.Save();
+      this.Save();      
     }
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
@@ -78,7 +75,7 @@ namespace Blaze.DataModel.Repository
       {
         var ResourceEntity = DbGet<Res_Bundle>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
         if (ResourceEntity != null)
-          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
       }
       return DatabaseOperationOutcome;
     }
@@ -89,12 +86,12 @@ namespace Blaze.DataModel.Repository
       DatabaseOperationOutcome.SingleResourceRead = true;
       Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
-      {
-        DtoResource = DbGetALL<Res_Bundle>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();
+      {        
+        DtoResource = DbGetALL<Res_Bundle>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
       }
       else
       {
-        DtoResource = DbGetALL<Res_Bundle>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();
+        DtoResource = DbGetALL<Res_Bundle>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
       DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
       return DatabaseOperationOutcome;
@@ -107,7 +104,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.profile_List);
       IncludeList.Add(x => x.security_List);
       IncludeList.Add(x => x.tag_List);
-
+    
       var ResourceEntity = DbQueryEntityWithInclude<Res_Bundle>(x => x.FhirId == FhirId, IncludeList);
 
       return ResourceEntity;
@@ -116,30 +113,30 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Bundle ResourceEntity)
     {
-      ResourceEntity.composition_FhirId = null;
-      ResourceEntity.composition_Type = null;
-      ResourceEntity.composition_Url = null;
-      ResourceEntity.composition_Url_Blaze_RootUrlStoreID = null;
-      ResourceEntity.message_FhirId = null;
-      ResourceEntity.message_Type = null;
-      ResourceEntity.message_Url = null;
-      ResourceEntity.message_Url_Blaze_RootUrlStoreID = null;
-      ResourceEntity.type_Code = null;
-      ResourceEntity.type_System = null;
-      ResourceEntity.XmlBlob = null;
-
-
-      _Context.Res_Bundle_Index_profile.RemoveRange(ResourceEntity.profile_List);
-      _Context.Res_Bundle_Index_security.RemoveRange(ResourceEntity.security_List);
-      _Context.Res_Bundle_Index_tag.RemoveRange(ResourceEntity.tag_List);
-
+      ResourceEntity.composition_FhirId = null;      
+      ResourceEntity.composition_Type = null;      
+      ResourceEntity.composition_Url = null;      
+      ResourceEntity.composition_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.message_FhirId = null;      
+      ResourceEntity.message_Type = null;      
+      ResourceEntity.message_Url = null;      
+      ResourceEntity.message_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.type_Code = null;      
+      ResourceEntity.type_System = null;      
+      ResourceEntity.XmlBlob = null;      
+ 
+      
+      _Context.Res_Bundle_Index_profile.RemoveRange(ResourceEntity.profile_List);            
+      _Context.Res_Bundle_Index_security.RemoveRange(ResourceEntity.security_List);            
+      _Context.Res_Bundle_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+ 
     }
 
     private void PopulateResourceEntity(Res_Bundle ResourseEntity, string ResourceVersion, Bundle ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-      if (ResourceTyped.Entry != null)
+          if (ResourceTyped.Entry != null)
       {
         if (ResourceTyped.Entry[0] != null)
         {
@@ -151,7 +148,7 @@ namespace Blaze.DataModel.Repository
               if (item1.FullUrlElement is Hl7.Fhir.Model.FhirUri)
               {
                 var Index = new ReferenceIndex();
-                Index = IndexSettingSupport.SetIndex(Index, item1.FullUrlElement, FhirRequestUri, this) as ReferenceIndex;
+                Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.FullUrlElement, Index, FhirRequestUri, this) as ReferenceIndex;
                 if (Index != null)
                 {
                   ResourseEntity.composition_Type = Index.Type;
@@ -183,7 +180,7 @@ namespace Blaze.DataModel.Repository
               if (item1.FullUrlElement is Hl7.Fhir.Model.FhirUri)
               {
                 var Index = new ReferenceIndex();
-                Index = IndexSettingSupport.SetIndex(Index, item1.FullUrlElement, FhirRequestUri, this) as ReferenceIndex;
+                Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.FullUrlElement, Index, FhirRequestUri, this) as ReferenceIndex;
                 if (Index != null)
                 {
                   ResourseEntity.message_Type = Index.Type;
@@ -208,7 +205,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.TypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>)
         {
           var Index = new TokenIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.TypeElement) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.TypeElement, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.type_Code = Index.Code;
@@ -226,7 +223,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_Bundle_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Bundle_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_Bundle_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -242,7 +239,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Bundle_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Bundle_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Bundle_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -258,7 +255,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_Bundle_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_Bundle_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Bundle_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }
@@ -266,11 +263,11 @@ namespace Blaze.DataModel.Repository
       }
 
 
-
+      
 
     }
 
 
   }
-}
+} 
 

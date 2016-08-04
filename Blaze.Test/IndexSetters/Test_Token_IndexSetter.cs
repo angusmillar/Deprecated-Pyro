@@ -31,6 +31,29 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
+    public void AAATest_Address_StringIndexSetter_GoodFormat()
+    {
+      //Arrange
+      
+      string CodeString = "Bla";
+
+      var Code = new Coding();
+      Code.Code = CodeString;
+
+      Blaze.DataModel.DatabaseModel.Res_Account_Index_security Index = new Blaze.DataModel.DatabaseModel.Res_Account_Index_security();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as Blaze.DataModel.DatabaseModel.Res_Account_Index_security;
+
+      //Assert      
+      Assert.AreEqual(Index.Code, CodeString);
+      Assert.IsNull(Index.System);
+    }
+
+
+    
+
+    [Test]
     public void Test_Address_StringIndexSetter_CodeT_IsNull()
     {
       //Arrange

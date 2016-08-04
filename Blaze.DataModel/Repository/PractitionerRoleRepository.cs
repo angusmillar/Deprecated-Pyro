@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
 using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities;
 using Blaze.Common.Interfaces;
@@ -156,7 +153,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Organization is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Organization, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Organization, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.organization_Type = Index.Type;
@@ -178,7 +175,7 @@ namespace Blaze.DataModel.Repository
         if (ResourceTyped.Practitioner is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSettingSupport.SetIndex(Index, ResourceTyped.Practitioner, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Practitioner, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.practitioner_Type = Index.Type;
@@ -204,7 +201,7 @@ namespace Blaze.DataModel.Repository
             if (item2 is ContactPoint)
             {
               var Index = new Res_PractitionerRole_Index_email();
-              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_email;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item2, Index) as Res_PractitionerRole_Index_email;
               ResourseEntity.email_List.Add(Index);
             }
           }
@@ -218,7 +215,7 @@ namespace Blaze.DataModel.Repository
           if (item3 is Hl7.Fhir.Model.Identifier)
           {
             var Index = new Res_PractitionerRole_Index_identifier();
-            Index = IndexSettingSupport.SetIndex(Index, item3) as Res_PractitionerRole_Index_identifier;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_PractitionerRole_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
         }
@@ -231,7 +228,7 @@ namespace Blaze.DataModel.Repository
           if (item is ResourceReference)
           {
             var Index = new Res_PractitionerRole_Index_location();
-            IndexSettingSupport.SetIndex(Index, item, FhirRequestUri, this);
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_PractitionerRole_Index_location;
             if (Index != null)
             {
               ResourseEntity.location_List.Add(Index);
@@ -249,7 +246,7 @@ namespace Blaze.DataModel.Repository
             if (item2 is ContactPoint)
             {
               var Index = new Res_PractitionerRole_Index_phone();
-              Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_phone;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item2, Index) as Res_PractitionerRole_Index_phone;
               ResourseEntity.phone_List.Add(Index);
             }
           }
@@ -265,7 +262,7 @@ namespace Blaze.DataModel.Repository
             foreach (var item4 in item3.Coding)
             {
               var Index = new Res_PractitionerRole_Index_role();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_role;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PractitionerRole_Index_role;
               ResourseEntity.role_List.Add(Index);
             }
           }
@@ -281,7 +278,7 @@ namespace Blaze.DataModel.Repository
             foreach (var item4 in item3.Coding)
             {
               var Index = new Res_PractitionerRole_Index_specialty();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_specialty;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PractitionerRole_Index_specialty;
               ResourseEntity.specialty_List.Add(Index);
             }
           }
@@ -293,7 +290,7 @@ namespace Blaze.DataModel.Repository
         if (item2 is ContactPoint)
         {
           var Index = new Res_PractitionerRole_Index_telecom();
-          Index = IndexSettingSupport.SetIndex(Index, item2) as Res_PractitionerRole_Index_telecom;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item2, Index) as Res_PractitionerRole_Index_telecom;
           ResourseEntity.telecom_List.Add(Index);
         }
       }
@@ -307,7 +304,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
               var Index = new Res_PractitionerRole_Index_profile();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_profile;
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_PractitionerRole_Index_profile;
               ResourseEntity.profile_List.Add(Index);
             }
           }
@@ -323,7 +320,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_PractitionerRole_Index_security();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_security;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PractitionerRole_Index_security;
               ResourseEntity.security_List.Add(Index);
             }
           }
@@ -339,7 +336,7 @@ namespace Blaze.DataModel.Repository
             if (item4 is Hl7.Fhir.Model.Coding)
             {
               var Index = new Res_PractitionerRole_Index_tag();
-              Index = IndexSettingSupport.SetIndex(Index, item4) as Res_PractitionerRole_Index_tag;
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_PractitionerRole_Index_tag;
               ResourseEntity.tag_List.Add(Index);
             }
           }

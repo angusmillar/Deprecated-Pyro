@@ -283,8 +283,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}var Index = new {1}Index();", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
-      _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
+
+      string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
+      string ReturnType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
+      _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName + ElementNamePostFix, DbIndexType, ReturnType)));
+
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index) as {3}", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
+
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3}Index)).Set({1}{2}, Index) as {3}Index", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
@@ -303,8 +311,8 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void DatePeriodIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetLow = Index.DateTimeOffset;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetHigh = Index.DateTimeOffset;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetLow = Index.DateTimeOffsetLow;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
     }
 
     private static void StringIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
@@ -342,8 +350,15 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}if ({1}{2} is {3})", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.TargetFhirLogicalType.NameGenericType()));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}var Index = new {1}Index();", DepthSpace(_BracketDepthCounter), NonCollectionParameter.SearchParamType.ToString()));
-      _Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}, FhirRequestUri, this) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
+
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}, FhirRequestUri, this) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index, FhirRequestUri, this) as {3};", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
+      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index, FhirRequestUri, this) as {3};", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
+
+      string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
+      string ReturnType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
+      _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName + ElementNamePostFix, DbIndexType, ReturnType, true)));
 
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
