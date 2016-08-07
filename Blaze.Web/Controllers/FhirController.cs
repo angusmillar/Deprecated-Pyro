@@ -58,8 +58,7 @@ namespace Blaze.Web.Controllers
     // POST: URL/FhirApi/Patient
     [HttpPost, Route("{ResourceName}")]
     public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
-    {
-      //string test = System.Web.HttpContext.Current.Application["key"] as String;
+    {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, DtoFhirRequestUri);

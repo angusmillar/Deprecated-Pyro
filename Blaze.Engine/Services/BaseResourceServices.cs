@@ -20,14 +20,14 @@ namespace Blaze.Engine.Services
   {
     protected IResourceRepository _ResourceRepository = null;
 
-     //Constructor for dependency injection
+    //Constructor for dependency injection
     public BaseResourceServices(IUnitOfWork IUnitOfWork)
-      : base(IUnitOfWork){}
+      : base(IUnitOfWork) { }
 
     protected FHIRDefinedType _CurrentResourceType;
-    
-    public FHIRDefinedType CurrentResourceType 
-    { 
+
+    public FHIRDefinedType CurrentResourceType
+    {
       get
       {
         return _CurrentResourceType;
@@ -43,10 +43,18 @@ namespace Blaze.Engine.Services
     }
 
     //GET Search
-    // GET: URL//FhirApi/Patient&family=Smith&given=John
+    // GET: URL//FhirApi/Patient?family=Smith&given=John
     public virtual IBlazeServiceOperationOutcome Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParams)
     {
-      throw new NotImplementedException();
+
+      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, searchParams);
+
+      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
+      return oBlazeServiceOperationOutcome;
+
+      
     }
 
     // GET by FhirId and FhirVId
@@ -66,7 +74,7 @@ namespace Blaze.Engine.Services
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
-      return oBlazeServiceOperationOutcome;      
+      return oBlazeServiceOperationOutcome;
     }
 
     // Add
@@ -94,7 +102,7 @@ namespace Blaze.Engine.Services
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.AddResource(BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
       oBlazeServiceOperationOutcome.FhirResourceId = oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.FhirId;
       oBlazeServiceOperationOutcome.LastModified = oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Received;
-      oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;      
+      oBlazeServiceOperationOutcome.ResourceVersionNumber = ResourceVersionNumber;
       return oBlazeServiceOperationOutcome;
     }
 
@@ -151,7 +159,7 @@ namespace Blaze.Engine.Services
       {
         //The resource is not found in the database so add it here and return 201 Created status code
         return this.Post(BlazeServiceRequest);
-      } 
+      }
     }
 
     //Delete
@@ -168,7 +176,7 @@ namespace Blaze.Engine.Services
         //Resource exists so..
         if (!DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
         {
-          string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ResourceMatchingSearch.Version);          
+          string NewResourceVersionNumber = Support.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ResourceMatchingSearch.Version);
           _ResourceRepository.UpdateResouceAsDeleted(FhirResourceId, NewResourceVersionNumber);
           oBlazeServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
         }
@@ -177,7 +185,7 @@ namespace Blaze.Engine.Services
           oBlazeServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ResourceMatchingSearch.Version;
         }
       }
-      return oBlazeServiceOperationOutcome;      
+      return oBlazeServiceOperationOutcome;
     }
 
   }

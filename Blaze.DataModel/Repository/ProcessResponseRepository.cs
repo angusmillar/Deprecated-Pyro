@@ -7,7 +7,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Blaze.DataModel.IndexSetter;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities;
+using Blaze.Common.BusinessEntities.Search;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.Interfaces.UriSupport;
@@ -19,6 +19,13 @@ namespace Blaze.DataModel.Repository
   {
 
     public ProcessResponseRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
+
+    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      throw new NotImplementedException("Resource Search not implemented in Db layer");
+    }
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
@@ -59,6 +66,7 @@ namespace Blaze.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       ResourceEntity.IsDeleted = true;
       ResourceEntity.versionId = ResourceVersion;
+      ResourceEntity.XmlBlob = string.Empty;
       this.Save();      
     }
 
