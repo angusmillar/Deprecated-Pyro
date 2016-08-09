@@ -23,15 +23,15 @@ namespace Blaze.Common.Interfaces.Services
 
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John
-    IBlazeServiceOperationOutcome Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParams);
+    IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IBlazeServiceOperationOutcome Post(Common.Interfaces.Services.IBlazeServiceRequest BlazeServiceRequest);
+    IBlazeServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IBlazeServiceOperationOutcome Put(Common.Interfaces.Services.IBlazeServiceRequest BlazeServiceRequest);
+    IBlazeServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    

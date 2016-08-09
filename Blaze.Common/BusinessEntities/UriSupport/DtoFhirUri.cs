@@ -152,24 +152,35 @@ namespace Blaze.Common.BusinessEntities.UriSupport
           return this.Id;
       }
     }
+    /// <summary>
+    /// The Query part of the request uri (e.g ?family=millar&given=angus)
+    /// </summary>
+    public string Query { get; private set; }
 
     private void ParseUri(Uri Uri)
     {
       this.SchemaDelimiter = Uri.SchemeDelimiter;
       this.Uri = Uri;
-
+      string UriPartToParse = string.Empty;
       if (Uri.IsAbsoluteUri)
       {
         this.IsAbsoluteUri = true;
         this.Schema = Uri.Scheme;
         this.Authority = Uri.Authority;
+        UriPartToParse = Uri.OriginalString;
+        if (!string.IsNullOrWhiteSpace(Uri.Query))
+        {
+          this.Query = Uri.Query;
+          UriPartToParse = Uri.OriginalString.Substring(0, (Uri.OriginalString.Count() - this.Query.Count()));
+        }
       }
       else
       {
         this.IsAbsoluteUri = false;
+        UriPartToParse = Uri.OriginalString;
       }
 
-      ParseOutResourceIdentity(Uri.OriginalString);
+      ParseOutResourceIdentity(UriPartToParse);
 
       if (this.ResourseType == null)
       {

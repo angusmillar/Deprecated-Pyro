@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqKit;
 using System.Linq.Expressions;
 using System.Data.Entity;
 using Blaze.DataModel.DatabaseModel;
@@ -100,12 +101,16 @@ namespace Blaze.DataModel.Repository
       return ResourceEntity;
     }
 
-    protected IEnumerable<T> DbGetALL<T>(Expression<Func<T, bool>> predicate) where T : class
+    protected IQueryable<T> DbGetALL<T>(Expression<Func<T, bool>> predicate) where T : class
     {
-      IEnumerable<T> ResourceEntity = null;
-      ResourceEntity = _Context.Set<T>().Where(predicate);
+      IQueryable<T> ResourceEntity = null;
+      ResourceEntity = _Context.Set<T>().AsExpandable().Where(predicate);
       return ResourceEntity;
     }
+
+
+
+    //_Context.Set<Res_Patient>().AsExpandable().Where(MyPredicate);
 
     protected void DbAddEntity<T>(T Entity) where T : class
     {

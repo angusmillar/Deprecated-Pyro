@@ -44,13 +44,13 @@ namespace Blaze.Engine.Services
 
     //GET Search
     // GET: URL//FhirApi/Patient?family=Smith&given=John
-    public virtual IBlazeServiceOperationOutcome Get(Uri uri, Hl7.Fhir.Rest.SearchParams searchParams)
+    public virtual IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
     {
-
-      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, searchParams);
+      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
 
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.RequestUri = BlazeServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
       return oBlazeServiceOperationOutcome;
 
