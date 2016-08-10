@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
+using Blaze.DataModel.Search;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Search;
 using Blaze.Common.Interfaces;
@@ -17,6 +18,7 @@ using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Introspection;
 using LinqKit;
+
 
 namespace Blaze.DataModel.Repository
 {
@@ -26,48 +28,16 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
-
-      //(x => x.FhirId == "a99b5c95-b546-46ee-8992-19a7ca703d4a")
-      //var type = typeof(Res_Patient);
-      //var pe = Expression.Parameter(type, "x");
-      //var propertyReference = Expression.Property(pe, "FhirId");
-      //var constantReference = Expression.Constant("a99b5c95-b546-46ee-8992-19a7ca703d4a");
-      //var BinaryExpression = Expression.Equal(propertyReference, constantReference);
-      //var MyExpression = Expression.Lambda<Func<Res_Patient, bool>>(BinaryExpression, new[] { pe });
-
-
-
-
-      //MyPredicate = MyPredicate.Or(x => x.given_List.Any(c => c.String == Item));
-     
-      //Inner
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(StringIndex), "c");
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, "String");
-      ConstantExpression InnerValue = Expression.Constant("Angus");
-      BinaryExpression InnerExpression = Expression.Equal(InnerProperty, InnerValue);
-      Expression<Func<StringIndex, bool>> InnerFunction = Expression.Lambda<Func<StringIndex, bool>>(InnerExpression, InnerParameter);
-
-
-      //Outer
-      var Method = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
-
-      ParameterExpression PatientParameter = Expression.Parameter(typeof(Res_Patient), "x");
-      var PatientFunc = Expression.Lambda<Func<Res_Patient, bool>>(
-          Expression.Call(
-              Method,
-              Expression.Property(
-                  PatientParameter,
-                  typeof(Res_Patient).GetProperty("given_List")),
-              InnerFunction), PatientParameter);
-
-
-
+      
+      ResourceSearch<Res_Patient> Search = new ResourceSearch<Res_Patient>();
+      
 
       var MyPredicate = PredicateBuilder.New<Res_Patient>();
-      //MyPredicate.Or(x => x.given_List.Any(c => c.String == "Angus"));
+      MyPredicate = MyPredicate.And(Search.StringPropertyEqualTo("FhirId", "a99b5c95-b546-46ee-8992-19a7ca703d4a"));
+      MyPredicate = MyPredicate.And(Search.StringCollectionEqualToAny("given_List", "Angus"));
+      MyPredicate = MyPredicate.And(Search.StringCollectionEqualToAny("family_List", "Chalmers99"));
+      MyPredicate = MyPredicate.And(Search.StringCollectionEqualToAny("address_state_List", "Vic"));
 
-      MyPredicate = MyPredicate.Or(PatientFunc);
-      
 
 
 
@@ -98,18 +68,30 @@ namespace Blaze.DataModel.Repository
 
       List<Common.BusinessEntities.Dto.DtoResource> ReturnList = new List<Common.BusinessEntities.Dto.DtoResource>();
       foreach (var test in ResourceList)
-      {        
-        ReturnList.Add(IndexSettingSupport.SetDtoResource(test));       
+      {
+        ReturnList.Add(IndexSettingSupport.SetDtoResource(test));
       }
 
       DatabaseOperationOutcome.NumberOfRecordsPerPage = 5;
       DatabaseOperationOutcome.PageRequested = 1;
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = ResourceList.Count();                   
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = ResourceList.Count();
       DatabaseOperationOutcome.ResourcesMatchingSearchList = ReturnList;
-      
+
 
       return DatabaseOperationOutcome;
     }
+
+
+    //private Expression<Func<T, bool>> StringPropertyEqualTo<T>(string Property, string Value) where T : ResourceIndexBase
+    //{
+    //  var type = typeof(T);
+    //  var ParameterReferance = Expression.Parameter(type, "x");
+    //  var propertyReference = Expression.Property(ParameterReferance, Property);
+    //  var constantReference = Expression.Constant(Value);
+    //  var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    //}
+
   }
 }
 

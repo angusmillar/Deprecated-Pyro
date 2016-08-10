@@ -6599,6 +6599,7 @@
     <Compile Include="Repository\VisionPrescriptionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Search\ResourceSearch.cs" />
     <Compile Include="Support\FhirCodeDataTypeSupport.cs" />
     <Compile Include="Support\FhirCodeDataTypeSupportGenerated.cs">
       <DependentUpon>_GenericCodeDataTypeEnumsGenerator.txt4</DependentUpon>
