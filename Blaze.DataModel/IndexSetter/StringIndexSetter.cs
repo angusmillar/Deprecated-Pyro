@@ -1,7 +1,7 @@
 ﻿using System;
 using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Repository;
+using Blaze.Common.Tools;
 using Blaze.Common.Interfaces.UriSupport;
 using Blaze.DataModel.Repository.Interfaces;
 
@@ -83,7 +83,7 @@ namespace Blaze.DataModel.IndexSetter
       }
       if (FullAdddress != string.Empty)
       {
-        StringIndex.String = FullAdddress.Trim();
+        StringIndex.String = StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim());
         return StringIndex;
       }
       else
@@ -102,7 +102,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
-        StringIndex.String = Annotation.Text;
+        StringIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim());
         return StringIndex;
       }
       else
@@ -121,7 +121,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
-        StringIndex.String = FhirString.Value;
+        StringIndex.String = StringSupport.ToLowerAndRemoveDiacritics(FhirString.Value.Trim());
         return StringIndex;
       }
       else
@@ -150,7 +150,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (FullName != string.Empty)
       {
-        StringIndex.String = FullName.Trim();
+        StringIndex.String = StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim());
         return StringIndex;
       }
       else
@@ -170,7 +170,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
-        StringIndex.String = Markdown.Value;
+        StringIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim());
         return StringIndex;
       }
       else

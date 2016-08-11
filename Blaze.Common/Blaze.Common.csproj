@@ -92,6 +92,7 @@
     <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\StringSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
