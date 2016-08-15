@@ -8,17 +8,18 @@ using Blaze.Common.Interfaces;
 using System.Net;
 using Blaze.Engine.Search;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 
 namespace Blaze.Engine.Response
 {
-    public class BlazeServiceOperationOutcome : Common.Interfaces.IBlazeServiceOperationOutcome
+    public class BlazeServiceOperationOutcome : IBlazeServiceOperationOutcome
     {
         #region Public Properties
 
         public string FhirResourceId { get; set; }
         public Uri RequestUri { get; set; }
         public string ResourceVersionNumber { get; set; }
-        public DtoEnums.CrudOperationType OperationType { get; set; }
+        public RestEnum.CrudOperationType OperationType { get; set; }
         public DateTimeOffset? LastModified { get; set; }
         public ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
         public IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
@@ -40,7 +41,7 @@ namespace Blaze.Engine.Response
         #region Constructor
         public BlazeServiceOperationOutcome()
         {
-            this.OperationType = DtoEnums.CrudOperationType.None;
+            this.OperationType = RestEnum.CrudOperationType.None;
         }
         #endregion
 
@@ -59,11 +60,11 @@ namespace Blaze.Engine.Response
             {
                 return this.ResourceValidationOperationOutcome.HttpStatusCode;
             }
-            else if (this.OperationType == DtoEnums.CrudOperationType.Create)
+            else if (this.OperationType == RestEnum.CrudOperationType.Create)
             {
                 return HttpStatusCode.Created;
             }
-            if (this.OperationType == DtoEnums.CrudOperationType.Read)
+            if (this.OperationType == RestEnum.CrudOperationType.Read)
             {
                 if (this.DatabaseOperationOutcome.SingleResourceRead)
                 {
@@ -88,11 +89,11 @@ namespace Blaze.Engine.Response
                     return HttpStatusCode.OK;
                 }
             }
-            else if (this.OperationType == DtoEnums.CrudOperationType.Update)
+            else if (this.OperationType == RestEnum.CrudOperationType.Update)
             {
                 return HttpStatusCode.OK;
             }
-            else if (this.OperationType == DtoEnums.CrudOperationType.Delete)
+            else if (this.OperationType == RestEnum.CrudOperationType.Delete)
             {
                 return HttpStatusCode.NoContent;
             }
@@ -109,7 +110,7 @@ namespace Blaze.Engine.Response
         }
         private Resource ResolveResourceToReturn()
         {
-            if (this.OperationType == DtoEnums.CrudOperationType.Delete)
+            if (this.OperationType == RestEnum.CrudOperationType.Delete)
             {
                 return null;
             }
@@ -161,11 +162,11 @@ namespace Blaze.Engine.Response
                     throw new DtoBlazeException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
                 }
             }
-            else if (this.OperationType == DtoEnums.CrudOperationType.Create)
+            else if (this.OperationType == RestEnum.CrudOperationType.Create)
             {
                 return null;
             }
-            else if (this.OperationType == DtoEnums.CrudOperationType.Update)
+            else if (this.OperationType == RestEnum.CrudOperationType.Update)
             {
                 return null;
             }

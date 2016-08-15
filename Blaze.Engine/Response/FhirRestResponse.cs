@@ -7,6 +7,7 @@ using Blaze.Common.Interfaces;
 using System.Net.Http;
 using System.Net;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Response
@@ -28,11 +29,11 @@ namespace Blaze.Engine.Response
         {
           return Request.CreateResponse(HttpStatusCode, Resource);
         }
-        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Update)
+        else if (oBlazeServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
         {
           return Request.CreateResponse(HttpStatusCode, Resource);       
         }
-        else if (oBlazeServiceOperationOutcome.OperationType == DtoEnums.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
+        else if (oBlazeServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
         {
           HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, oBlazeServiceOperationOutcome.FhirResourceId);
           if (oBlazeServiceOperationOutcome.LastModified != null)

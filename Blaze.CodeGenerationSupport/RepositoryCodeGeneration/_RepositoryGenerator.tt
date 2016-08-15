@@ -151,16 +151,19 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(<#=item.ResourceEntityName#> ResourceEntity)
     {
 <#
-      foreach(var NonCollectionProperty in item.ResourceEntityNonCollectionProperties)
+      foreach(var NonCollectionProperty in item.ResourceEntityNonCollectionPropertiesInfoList)
       { 
+        foreach(var PropertyName in NonCollectionProperty.PropertyNameList)
+        { 
 #>
-      ResourceEntity.<#=NonCollectionProperty#> = null;      
+      ResourceEntity.<#=PropertyName#> = null;      
 <#
+        }
       }
 #> 
       
 <#
-      foreach(var CollectionPropertiesInfo in item.ResourceEntityCollectionPropertiesInfo)
+      foreach(var CollectionPropertiesInfo in item.ResourceEntityCollectionPropertiesInfoList)
       { 
 #>
       _Context.<#=CollectionPropertiesInfo.IndexEntityClassName#>.RemoveRange(ResourceEntity.<#=CollectionPropertiesInfo.IndexEntityPropertyName#>);            

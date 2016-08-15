@@ -18,23 +18,12 @@ namespace Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums
       _CodeDataTypeList = new List<string>();
       _ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
       _SearchParametersList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
-      
+
       foreach (var ResourceName in _ResourceList)
       {
-        List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
-                                                                        where x.Resource == ResourceName
-                                                                        select x).ToList();
-
-        List<FhirApiSearchParameterInfo> CollectionParameters = (from x in SearchParametersForResource
-                                                                 where x.IsCollection == true
-                                                                 select x).ToList();
-
-        List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
-                                                                    where x.IsCollection == false
-                                                                    select x).ToList();
-
-        //CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters);
-        //NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters);
+        List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
+        List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);
+        List<FhirApiSearchParameterInfo> NonCollectionParameters = SearchParameterFilter.GetIsColectionParameters(false, SearchParametersForResource);
 
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);

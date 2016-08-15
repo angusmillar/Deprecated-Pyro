@@ -12,7 +12,7 @@ using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Services;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Engine.Response;
-using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 
 namespace Blaze.Engine.Services
 {
@@ -49,7 +49,7 @@ namespace Blaze.Engine.Services
       Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
 
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.OperationType = Blaze.Common.Enum.RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.RequestUri = BlazeServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
       return oBlazeServiceOperationOutcome;
@@ -62,7 +62,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Get(string FhirId, string FhirVId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(FhirId, FhirVId);
       return oBlazeServiceOperationOutcome;
     }
@@ -72,7 +72,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Get(string FhirId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Read;
+      oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
       return oBlazeServiceOperationOutcome;
     }
@@ -82,7 +82,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Create;
+      oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
 
       //Validation of resource        
       Interfaces.IResourceValidation Validation = Blaze.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
@@ -111,7 +111,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
+      oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
       //var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
       if (String.IsNullOrWhiteSpace(BlazeServiceRequest.Resource.Id) || BlazeServiceRequest.Resource.Id != BlazeServiceRequest.ResourceId)
       {
@@ -148,7 +148,7 @@ namespace Blaze.Engine.Services
           return oBlazeServiceOperationOutcome;
         }
         IDatabaseOperationOutcome DatabaseOperationOutcomeUpdate = _ResourceRepository.UpdateResource(NewResourceVersionNumber, BlazeServiceRequest.Resource, BlazeServiceRequest.FhirRequestUri);
-        oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Update;
+        oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
         oBlazeServiceOperationOutcome.FhirResourceId = BlazeServiceRequest.ResourceId;
         oBlazeServiceOperationOutcome.LastModified = DatabaseOperationOutcomeUpdate.ResourceMatchingSearch.Received;
         oBlazeServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeUpdate.ResourceMatchingSearch.Version;
@@ -167,7 +167,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Delete(string FhirResourceId)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      oBlazeServiceOperationOutcome.OperationType = DtoEnums.CrudOperationType.Delete;
+      oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = null;
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirResourceId);

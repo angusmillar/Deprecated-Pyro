@@ -72,6 +72,7 @@
     <Compile Include="FhirApiIntrospection\FhirSearchParameterSearchPathElement.cs" />
     <Compile Include="FhirApiIntrospection\FhirXPath.cs" />
     <Compile Include="FhirApiIntrospection\SearchChoiceProperty.cs" />
+    <Compile Include="FhirApiIntrospection\SearchParameterFilter.cs" />
     <Compile Include="GenericCodeDataTypeEnums\GenericCodeDataTypeCodeGen.cs" />
     <Compile Include="GenericCodeDataTypeEnums\_GenericCodeDataTypeEnumsGenerator.cs">
       <AutoGen>True</AutoGen>
@@ -96,6 +97,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParameterEnumGeneration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SearchParameterEnumGeneration.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoItem.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoCodeGeneration.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoModel.cs" />
     <Compile Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -139,6 +148,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blaze.Common\Blaze.Common.csproj">
+      <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
+      <Name>Blaze.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SearchParameterInfoCodeGeneration\SearchParameterEnumGeneration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SearchParameterEnumGeneration.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

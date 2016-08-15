@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 using Hl7.Fhir.Model;
 
@@ -17,7 +18,7 @@ namespace Blaze.Engine.Search
     private static string _CurrentResourceName = string.Empty;
     private static string _RawSearchParameterAndValueString = string.Empty;
 
-    public static DtoSearchParameterBase CreateSearchParameter(FHIRDefinedType Resource, DtoEnums.Search.SearchParameterName SearchParameterName,
+    public static DtoSearchParameterBase CreateSearchParameter(FHIRDefinedType Resource, FhirSearchEnum.SearchParameterNameType SearchParameterName,
                   Tuple<string, string> Parameter,
                   SearchParamType SearchParameterType)
     {
@@ -52,28 +53,28 @@ namespace Blaze.Engine.Search
       switch (value)
       {
         case "above":
-          SearchParameter.Modifier = SearchModifierType.Above;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Above;
           break;
         case "below":
-          SearchParameter.Modifier = SearchModifierType.Below;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Below;
           break;
         case "contains":
-          SearchParameter.Modifier = SearchModifierType.Contains;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Contains;
           break;
         case "exact":
-          SearchParameter.Modifier = SearchModifierType.Exact;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Exact;
           break;
         case "in":
-          SearchParameter.Modifier = SearchModifierType.In;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.In;
           break;
         case "missing":
-          SearchParameter.Modifier = SearchModifierType.Missing;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Missing;
           break;
         case "notin":
-          SearchParameter.Modifier = SearchModifierType.NotIn;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.NotIn;
           break;
         case "text":
-          SearchParameter.Modifier = SearchModifierType.Text;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Text;
           break;
         default:
           {
@@ -101,10 +102,10 @@ namespace Blaze.Engine.Search
                 oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
                 throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
               }
-              SearchParameter.Modifier = SearchModifierType.Type;
+              SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
             }
             else
-              SearchParameter.Modifier = SearchModifierType.None;
+              SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.None;
           }
           break;
       }
@@ -148,7 +149,7 @@ namespace Blaze.Engine.Search
       }
       else
       {
-        oSearchParameter.Modifier = SearchModifierType.None;
+        oSearchParameter.Modifier = FhirSearchEnum.SearchModifierType.None;
         oSearchParameter.TypeModifierResource = null;
       }
     }
@@ -163,7 +164,7 @@ namespace Blaze.Engine.Search
           //Are the first two char Alpha characters 
           if (Regex.IsMatch(Value.Substring(0, 2), @"^[a-zA-Z]+$"))
           {
-            var SearchPrefixTypeDictionary = DtoEnums.Search.GetSearchPrefixTypeDictionary();
+            var SearchPrefixTypeDictionary = FhirSearchEnum.GetSearchPrefixTypeDictionary();
             if (SearchPrefixTypeDictionary.ContainsKey(Value.Substring(0, 2)))
             {
               oSearchParameter.Prefix = SearchPrefixTypeDictionary[Value.Substring(0, 2)];
@@ -172,7 +173,7 @@ namespace Blaze.Engine.Search
           }
           else
           {
-            oSearchParameter.Prefix = SearchPrefixType.None;
+            oSearchParameter.Prefix = FhirSearchEnum.SearchPrefixType.None;
           }
         }
       }

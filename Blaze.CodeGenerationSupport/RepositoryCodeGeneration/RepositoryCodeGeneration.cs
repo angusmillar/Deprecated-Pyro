@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
-using Hl7.Fhir.Model;
+using Blaze.Common.Enum;
 
 namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 {
@@ -17,27 +15,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
     {
       _ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
       _SearchParametersList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
-      
+
       var RepositoryCodeGenModel = new RepositoryCodeGenModel();
       RepositoryCodeGenModel.RepositoryItemList = new List<RepositoryItem>();
-      
+
       foreach (var ResourceName in _ResourceList)
       {
-        List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
-                                                                        where x.Resource == ResourceName
-                                                                        select x).ToList();
+        List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
+        List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);
+        List<FhirApiSearchParameterInfo> NonCollectionParameters = SearchParameterFilter.GetIsColectionParameters(false, SearchParametersForResource);
 
-        List<FhirApiSearchParameterInfo> CollectionParameters = (from x in SearchParametersForResource
-                                                                 where x.IsCollection == true
-                                                                 select x).ToList();
-
-        List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
-                                                                    where x.IsCollection == false
-                                                                    select x).ToList();
-
-        //CollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(CollectionParameters,false);
-        //NonCollectionParameters = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(NonCollectionParameters, false);
-        
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(NonCollectionParameters);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(CollectionParameters);
         FhirApiSearchParameterInfoFactory.CheckForUnhandledChoiceElements(NonCollectionParameters);
@@ -56,51 +43,64 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         foreach (FhirApiSearchParameterInfo CollectionParameter in CollectionParameters)
         {
           RepositoryItem.ResourceEntityIncludesList.Add(DatabaseModelInfo.ConstructCollectionListName(CollectionParameter));
-          IndexEntity oIndexEntity = new IndexEntity();
-          RepositoryItem.ResourceEntityCollectionPropertiesInfo.Add(oIndexEntity);
+          CollectionIndexEntity oIndexEntity = new CollectionIndexEntity();
+          RepositoryItem.ResourceEntityCollectionPropertiesInfoList.Add(oIndexEntity);
           oIndexEntity.IndexEntityClassName = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionParameter);
           oIndexEntity.IndexEntityPropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
+          oIndexEntity.SearchParameterInfo = new SearchParameterInfo();
+          oIndexEntity.SearchParameterInfo.BlazeIndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
+          oIndexEntity.SearchParameterInfo.SearchParameterName = CollectionParameter.SearchName;
+
         }
 
-        foreach(FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
+        foreach (FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
         {
           List<string> Propertylist = new List<string>();
           DatabaseModelInfo.GenerateNonCollectionPropertiesNames(Propertylist, NonCollectionParameter);
-          RepositoryItem.ResourceEntityNonCollectionProperties.AddRange(Propertylist);          
+
+          var NonColectionIndexEntity = new NonCollectionIndexEntity();
+          NonColectionIndexEntity.PropertyNameList.AddRange(Propertylist);
+          NonColectionIndexEntity.SearchParameterInfo = new SearchParameterInfo();
+          NonColectionIndexEntity.SearchParameterInfo.BlazeIndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)];
+          NonColectionIndexEntity.SearchParameterInfo.SearchParameterName = NonCollectionParameter.SearchName;
+          RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(NonColectionIndexEntity);
+
         }
-        RepositoryItem.ResourceEntityNonCollectionProperties.Add(DatabaseModelInfo.XmlBlobPropertyText);
+        var XmlBlobNonColectionIndexEntity = new NonCollectionIndexEntity();
+        XmlBlobNonColectionIndexEntity.PropertyNameList.Add(DatabaseModelInfo.XmlBlobPropertyText);
+        RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(XmlBlobNonColectionIndexEntity);
 
         //Below 'if' is for debug only
         if (ResourceName != "")
         //if (ResourceName != "Bundle")    
         //if (ResourceName == "Observation")
-        {          
+        {
           List<string> LogicList = new List<string>();
           //Non Collection search parameter logic
           //---------------------------------------------------------------------------------------
           foreach (FhirApiSearchParameterInfo NonCollectionParameter in NonCollectionParameters)
           {
-            StringBuilder Sb = new StringBuilder();                                     
-            Sb = RepositoryNonCollectionSetterLogicBuilder.Build(NonCollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");                                
-            LogicList.Add(Sb.ToString());                       
+            StringBuilder Sb = new StringBuilder();
+            Sb = RepositoryNonCollectionSetterLogicBuilder.Build(NonCollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");
+            LogicList.Add(Sb.ToString());
           }
 
           //Collection search parameter logic
           //---------------------------------------------------------------------------------------
           foreach (FhirApiSearchParameterInfo CollectionParameter in CollectionParameters)
           {
-            StringBuilder Sb = new StringBuilder();                        
-            Sb = RepositoryCollectionSetterLogicBuilder.Build(CollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");            
+            StringBuilder Sb = new StringBuilder();
+            Sb = RepositoryCollectionSetterLogicBuilder.Build(CollectionParameter, ResourceName, "ResourceTyped", "ResourseEntity");
             LogicList.Add(Sb.ToString());
           }
 
-          
+
           string CompileAllLogic = string.Empty;
           LogicList.ForEach(x => CompileAllLogic = CompileAllLogic + x);
-          RepositoryItem.EntitySetterLogic = CompileAllLogic;                         
+          RepositoryItem.EntitySetterLogic = CompileAllLogic;
         }
       }
-      
+
       return RepositoryCodeGenModel;
     }
 

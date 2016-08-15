@@ -52,9 +52,9 @@
   <ItemGroup>
     <Compile Include="BusinessEntities\Dto\DtoBlazeException.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDataBaseExceptionInfomation.cs" />
-    <Compile Include="BusinessEntities\Dto\DtoEnums.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDate.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
@@ -63,7 +63,14 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
+    <Compile Include="Enum\DatabaseEnum.cs" />
+    <Compile Include="Enum\FhirSearchEnum.cs" />
+    <Compile Include="Enum\FhirSearchEnumPartial.cs">
+      <DependentUpon>SearchParameterEnumGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="Enum\RestEnum.cs" />
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
+    <Compile Include="Interfaces\Dto\IDtoSearchParameterDbInfo.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWork.cs">
       <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
@@ -75,27 +82,23 @@
     <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\IFhirRestResponse.cs" />
     <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IConceptMapRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IValueSetRepository.cs" />
     <Compile Include="Interfaces\Services\IBaseServices.cs" />
     <Compile Include="Interfaces\Services\IBlazeServiceRequest.cs" />
     <Compile Include="Interfaces\Services\ICommonServices.cs" />
-    <Compile Include="Interfaces\Services\IConceptMapResourceServices.cs" />
     <Compile Include="Interfaces\Services\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />
-    <Compile Include="Interfaces\Repositories\IPatientRepository.cs" />
     <Compile Include="Interfaces\Services\IPatientResourceServices.cs" />
     <Compile Include="Interfaces\Services\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\Services\IValueSetResourceServices.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\StringSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Enum\SearchParameterEnumGeneration.txt4" />
     <None Include="Interfaces\Repositories\_UnitOfWorkGenerator.txt4" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.Common.Enum;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 using Hl7.Fhir.Model;
 
 namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
 {
   public class IndexSetterInterfaceCodeGeneration
-  {   
+  {
     public List<IndexSetterInterfaceCodeGenModel> Generate()
     {
       List<string> ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
@@ -19,47 +20,47 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       List<IndexSetterInterfaceCodeGenModel> FinalResultList = new List<IndexSetterInterfaceCodeGenModel>();
 
       var DateListFinal = new IndexSetterInterfaceCodeGenModel();
-      DateListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DateIndex]);
+      DateListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.DateIndex]);
       DateListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(DateListFinal);
 
       var DatePeriodListFinal = new IndexSetterInterfaceCodeGenModel();
-      DatePeriodListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.DatePeriodIndex]);
+      DatePeriodListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.DatePeriodIndex]);
       DatePeriodListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(DatePeriodListFinal);
 
       var NumberFinal = new IndexSetterInterfaceCodeGenModel();
-      NumberFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.NumberIndex]);
+      NumberFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.NumberIndex]);
       NumberFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(NumberFinal);
 
       var QuantityListFinal = new IndexSetterInterfaceCodeGenModel();
-      QuantityListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityIndex]);
+      QuantityListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.QuantityIndex]);
       QuantityListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(QuantityListFinal);
 
       var QuantityRangeListFinal = new IndexSetterInterfaceCodeGenModel();
-      QuantityRangeListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.QuantityRangeIndex]);
+      QuantityRangeListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.QuantityRangeIndex]);
       QuantityRangeListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(QuantityRangeListFinal);
 
       var ReferenceListFinal = new IndexSetterInterfaceCodeGenModel();
-      ReferenceListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.ReferenceIndex]);
+      ReferenceListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.ReferenceIndex]);
       ReferenceListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(ReferenceListFinal);
 
       var StringListFinal = new IndexSetterInterfaceCodeGenModel();
-      StringListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.StringIndex]);
+      StringListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.StringIndex]);
       StringListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(StringListFinal);
 
       var TokenListFinal = new IndexSetterInterfaceCodeGenModel();
-      TokenListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.TokenIndex]);
+      TokenListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.TokenIndex]);
       TokenListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(TokenListFinal);
 
       var UriListFinal = new IndexSetterInterfaceCodeGenModel();
-      UriListFinal.ClassName = ConstructInterfaceClassName(DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.UriIndex]);
+      UriListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.UriIndex]);
       UriListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(UriListFinal);
 
@@ -71,7 +72,6 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
                                                                         where x.Resource == ResourceName
                                                                         select x).ToList();
 
-        //SearchParametersForResource = FhirApiSearchParameterInfoFactory.CheckAndRemoveDuplicates(SearchParametersForResource);
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(SearchParametersForResource);
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
@@ -81,43 +81,42 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
           if (TypeUnquieDic.Add(Key))
           {
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
-            //string ResolvedIndexType = ResolveIndexType(Parameter.SearchParamType.ToString(), ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
             MethodInfo.IndexTypeString = DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
-            MethodInfo.IndexType = DatabaseModelInfo.StringToBlazeIndexTypeDictonary[MethodInfo.IndexTypeString];
+            MethodInfo.IndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[MethodInfo.IndexTypeString];
             MethodInfo.FhirType = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name);
 
 
             switch (MethodInfo.IndexType)
             {
-              case DatabaseModelInfo.BlazeIndexType.DateIndex:
+              case DatabaseEnum.BlazeIndexType.DateIndex:
                 DateListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.DatePeriodIndex:
+              case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
                 DatePeriodListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.NumberIndex:
+              case DatabaseEnum.BlazeIndexType.NumberIndex:
                 NumberFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.QuantityIndex:
+              case DatabaseEnum.BlazeIndexType.QuantityIndex:
                 QuantityListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.QuantityRangeIndex:
+              case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
                 QuantityRangeListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.ReferenceIndex:
+              case DatabaseEnum.BlazeIndexType.ReferenceIndex:
                 ReferenceListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.StringIndex:
+              case DatabaseEnum.BlazeIndexType.StringIndex:
                 StringListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.TokenIndex:
+              case DatabaseEnum.BlazeIndexType.TokenIndex:
                 TokenListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
-              case DatabaseModelInfo.BlazeIndexType.UriIndex:
+              case DatabaseEnum.BlazeIndexType.UriIndex:
                 UriListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
               default:
-                throw new System.ComponentModel.InvalidEnumArgumentException(MethodInfo.IndexType.ToString(), (int)MethodInfo.IndexType, typeof(DatabaseModelInfo.BlazeIndexType));
+                throw new System.ComponentModel.InvalidEnumArgumentException(MethodInfo.IndexType.ToString(), (int)MethodInfo.IndexType, typeof(DatabaseEnum.BlazeIndexType));
             }
           }
         }
@@ -140,8 +139,8 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
     {
       IndexSetterInterfaceMethod CustomTokenCodeMethodInfo = new IndexSetterInterfaceMethod();
       CustomTokenCodeMethodInfo.CustomeIndexMethod = string.Format("TokenIndex SetCodeT(Element Element, TokenIndex TokenIndex);");
-      CustomTokenCodeMethodInfo.IndexTypeString = DatabaseModelInfo.BlazeIndexTypeToStringDictonary[DatabaseModelInfo.BlazeIndexType.TokenIndex];
-      CustomTokenCodeMethodInfo.IndexType = DatabaseModelInfo.StringToBlazeIndexTypeDictonary[CustomTokenCodeMethodInfo.IndexTypeString];
+      CustomTokenCodeMethodInfo.IndexTypeString = DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.TokenIndex];
+      CustomTokenCodeMethodInfo.IndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[CustomTokenCodeMethodInfo.IndexTypeString];
       TokenListFinal.IndexSetterMethodList.Add(CustomTokenCodeMethodInfo);
     }
 
@@ -151,19 +150,19 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
     }
 
     private string ConstructInterfaceFhirType(string FhirTypeName)
-    {      
+    {
       if (FhirTypeName.Contains("Code`1"))
       {
         //Here we need to capture Fhir types of Code<???> and return as just Code, also needs to be uppercase Code not code.
         //example: Hl7.Fhir.Model.Code`1[Hl7.Fhir.Model.AllergyIntolerance+AllergyIntoleranceCategory]        
         return typeof(Code).Name;
-      }      
+      }
       else
       {
         var SplitOnDot = FhirTypeName.Split('.');
         return SplitOnDot[SplitOnDot.Length - 1];
       }
     }
-    
+
   }
 }

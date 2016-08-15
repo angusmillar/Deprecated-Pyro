@@ -17,16 +17,16 @@ namespace Blaze.Test.CodeGenerationSupport
     public void Test_GetApiSearchParameterInfo()
     {
 
-      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-      //List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      DatabaseModel.Generate();
     }
 
 
     [Test]
     public void Test_DbEntityCodeGeneration()
     {
-      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = oCreate.CodeGenerationDbTableModelList;
+      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = DatabaseModel.Generate();
     }
 
     [Test]
@@ -56,5 +56,12 @@ namespace Blaze.Test.CodeGenerationSupport
       var List = IndexSetterInterfaceGen.Generate();
     }
 
+
+    [Test]
+    public void Test_SearchParamInfoCodeGeneration()
+    {
+      var SearchParamInfoCodeGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParamInfoCodeGeneration();
+      SearchParamInfoCodeGeneration.Generate();
+    }
   }
 }

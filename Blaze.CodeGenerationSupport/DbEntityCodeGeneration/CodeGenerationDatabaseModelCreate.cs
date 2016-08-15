@@ -25,29 +25,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
     #region Public Properties
 
-    public List<CodeGenerationDbTableModel> CodeGenerationDbTableModelList
-    {
-      get { return _CodeGenerationDbTableModelList; }
-    }
-
-    #endregion
-
-    #region Constructor
-
-    public CodeGenerationDatabaseModelCreate()
+    public List<CodeGenerationDbTableModel> Generate()
     {
       _ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
       _SearchParametersList = FhirApiSearchParameterInfoFactory.GetApiSearchParameterInfo();
       _CodeGenerationDbTableModelList = new List<CodeGenerationDbTableModel>();
-      GenerateResourceCodeGenerationItems();
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private void GenerateResourceCodeGenerationItems()
-    {
 
       //Url Store Table      
       _CodeGenerationDbTableModelList.Add(Create_Blaze_RootUrlStore_Table());
@@ -58,17 +40,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         {
 
         }
-        List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
-                                                                        where x.Resource == ResourceName
-                                                                        select x).ToList();
 
-        List<FhirApiSearchParameterInfo> CollectionParameters = (from x in SearchParametersForResource
-                                                                 where x.IsCollection == true
-                                                                 select x).ToList();
+        List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
+        List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);
+        List<FhirApiSearchParameterInfo> NonCollectionParameters = SearchParameterFilter.GetIsColectionParameters(false, SearchParametersForResource);
 
-        List<FhirApiSearchParameterInfo> NonCollectionParameters = (from x in SearchParametersForResource
-                                                                    where x.IsCollection == false
-                                                                    select x).ToList();
 
         CollectionParameters = FhirApiSearchParameterInfoFactory.RemoveDuplicates(CollectionParameters);
         NonCollectionParameters = FhirApiSearchParameterInfoFactory.RemoveDuplicates(NonCollectionParameters);
@@ -85,7 +61,12 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           _CodeGenerationDbTableModelList.Add(Create_ModelResourceSearchIndexTable(ResourceName, CollectionItem));
         }
       }
+      return _CodeGenerationDbTableModelList;
     }
+
+    #endregion
+
+    #region Private Methods
 
     private CodeGenerationDbTableModel Create_ModelResourceSearchIndexTable(string ResourceName, FhirApiSearchParameterInfo CollectionItem)
     {

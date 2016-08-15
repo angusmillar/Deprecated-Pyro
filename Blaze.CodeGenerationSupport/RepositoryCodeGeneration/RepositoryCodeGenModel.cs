@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,33 +16,51 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
   public class RepositoryItem
   {
     public string RepositoryClassName { get; set; }
-    
+
     public string ResourceName { get; set; }
-    
+
     public string ResourceEntityName { get; set; }
     public string ResourceHistoryEntityName { get; set; }
     public string ResourceHistoryEntityListName { get; set; }
     public string EntitySetterLogic { get; set; }
 
     public List<string> ResourceEntityIncludesList { get; set; }
-    public List<string> ResourceEntityNonCollectionProperties { get; set; }
-    public List<IndexEntity> ResourceEntityCollectionPropertiesInfo { get; set; }
+    public List<CollectionIndexEntity> ResourceEntityCollectionPropertiesInfoList { get; set; }
+    public List<NonCollectionIndexEntity> ResourceEntityNonCollectionPropertiesInfoList { get; set; }
 
 
     public RepositoryItem()
     {
       this.EntitySetterLogic = string.Empty;
       this.ResourceEntityIncludesList = new List<string>();
-      this.ResourceEntityNonCollectionProperties = new List<string>();
-      this.ResourceEntityCollectionPropertiesInfo = new List<IndexEntity>();
+      this.ResourceEntityCollectionPropertiesInfoList = new List<CollectionIndexEntity>();
+      this.ResourceEntityNonCollectionPropertiesInfoList = new List<NonCollectionIndexEntity>();
     }
-    
+
   }
 
-  public class IndexEntity
+  public class CollectionIndexEntity
   {
     public string IndexEntityClassName { get; set; }
     public string IndexEntityPropertyName { get; set; }
+    public SearchParameterInfo SearchParameterInfo { get; set; }
+  }
+
+  public class NonCollectionIndexEntity
+  {
+    public List<string> PropertyNameList { get; set; }
+    public SearchParameterInfo SearchParameterInfo { get; set; }
+
+    public NonCollectionIndexEntity()
+    {
+      this.PropertyNameList = new List<string>();
+    }
+  }
+
+  public class SearchParameterInfo
+  {
+    public string SearchParameterName { get; set; }
+    public DatabaseEnum.BlazeIndexType BlazeIndexType { get; set; }
   }
 
 }

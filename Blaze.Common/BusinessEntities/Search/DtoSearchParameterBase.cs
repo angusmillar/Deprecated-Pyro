@@ -5,22 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 
 namespace Blaze.Common.BusinessEntities.Search
 {
-  public enum SearchPrefixType { None, Equal, NotEqual, Greater, Less, GreaterOrEqual, LessOrEqual, StartsAfter, EndsBefore, Approximately }
-  public enum SearchModifierType { None, Missing, Exact, Contains, Text, Type, Below, Above, In, NotIn }
 
   public abstract class DtoSearchParameterBase
   {
     protected const char OrDelimiter = ',';
-    public DtoEnums.Search.SearchParameterName Name { get; set; }
+    public FhirSearchEnum.SearchParameterNameType Name { get; set; }
     public FHIRDefinedType Resource { get; set; }
     public string RawValue { get; set; }
     public SearchParamType SearchParameterType { get; set; }
-    public SearchModifierType Modifier { get; set; }
+    public FhirSearchEnum.SearchModifierType Modifier { get; set; }
     public ResourceType? TypeModifierResource { get; set; }
-    public SearchPrefixType Prefix { get; set; }
+    public FhirSearchEnum.SearchPrefixType Prefix { get; set; }
     public bool HasLogicalOrProperties { get; set; }
     public abstract bool TryParseValue(string Value);
     public DtoSearchParameterBase()

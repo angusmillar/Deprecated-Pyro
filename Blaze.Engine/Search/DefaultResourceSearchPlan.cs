@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blaze.Common.Interfaces;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
@@ -17,12 +17,12 @@ namespace Blaze.Engine.Search
         //The search plan;
       if (oSearchParameters.SearchParametersList.Count == 1)
       {
-        if (oSearchParameters.SearchParametersList.TrueForAll(x => x.Modifier == SearchModifierType.None && x.Prefix == SearchPrefixType.None))
+        if (oSearchParameters.SearchParametersList.TrueForAll(x => x.Modifier == FhirSearchEnum.SearchModifierType.None && x.Prefix == FhirSearchEnum.SearchPrefixType.None))
         {
           if (!oSearchParameters.SearchParametersList.Any(x => x.HasLogicalOrProperties == true))
           {
             //_Id
-            if (oSearchParameters.SearchParametersList[0].Name == DtoEnums.Search.SearchParameterName._Id)
+            if (oSearchParameters.SearchParametersList[0].Name == FhirSearchEnum.SearchParameterNameType._id)
             {
               DtoSearchParameterString _Id = oSearchParameters.SearchParametersList[0] as DtoSearchParameterString;
               //oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _UnitOfWork.ResourceRepository.GetCurrentResourceList(_Id.Values[0], CurrentResourceType);
