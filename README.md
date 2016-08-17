@@ -2,7 +2,7 @@
 
 ## Blaze FHIR Server ##
 
-This is a FHIR server under development. The initial scope is to support the storage of all the resources required to manage the storage and retrieval of Pathology reports. This scope may be expanded out in time to Pathology Orders and then into the Radiology Report space.
+This is a FHIR server under development. 
 
 
 ## Requirements ##
@@ -11,15 +11,16 @@ Visual Studio
 SQL Server 2014 Management Studio Express 64 Bit
 
 ## Important parts ##
-
-Blaze/FhirController.cs - REST entry point, delegates execution to services defined in Blaze/Services.
-Blaze.Engine/Search - search service implementations (to be rewritten to use LINQ).
-Blaze.Engine/Services - per-resource Service implementations, handling all resource-specific operations as well as committing the resource to storage (+ separately to the search DB).
-Blaze.Engine/Validation - per-resource validation that's used by a Service before a resource is committed to storage.
-BusinessEntities - translates objects between their Blaze representation and the Entity Frameworks representation in storage.
-DataModel - sefines the storage layout in the SQL database using Entity Framework.
-Dip - dependency injection, defines interfaces that are implemented by Blaze.Engine.
-SqlForge - programmatic SQL query builder.
+Blaze Code Generation build, The folowing T4 files inspect the FHIR API and build the database and code repositories
+These woudl only need to be run to upgrade to a new FHIR API, i.e STU4. The order of running is not critical but this is the order normally followed: 
+1. Blaze.CodeGenerationSupport.DbEntityCodeGeneration._DbEntityModelGenerator.tt
+2. Blaze.CodeGenerationSupport.DbEntityCodeGeneration._DbContextGenerator.tt
+3. Blaze.CodeGenerationSupport.DbEntityCodeGeneration._DbContextConfigGenerator.tt
+4. Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums._GenericCodeDataTypeEnumsGenerator.tt
+5. Blaze.CodeGenerationSupport.IndexSetterInterfaces._IndexSetterInterfaceGeneration.tt
+6. Blaze.CodeGenerationSupport.RepositoryCodeGeneration._RepositoryGenerator.tt
+7. Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParameterEnumGeneration.tt
+8. Blaze.CodeGenerationSupport.UnitOfWorkCodeGeneration._UnitOfWorkGenerator.tt
 
 ## Repo owner or admin ##
 
