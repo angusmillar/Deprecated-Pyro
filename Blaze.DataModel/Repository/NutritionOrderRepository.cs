@@ -130,15 +130,15 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
-      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.provider_FhirId = null;      
       ResourceEntity.provider_Type = null;      
       ResourceEntity.provider_Url = null;      
-      ResourceEntity.provider_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.provider_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -188,7 +188,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -210,7 +210,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -232,7 +232,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.provider_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.provider_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

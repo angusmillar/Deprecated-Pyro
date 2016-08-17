@@ -23,6 +23,141 @@ namespace Blaze.CodeGenerationSupport
     public static string DatabaseModelBaseClassName { get { return "ModelBase"; } }
     public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }
 
+
+    public static Dictionary<DatabaseEnum.BlazeIndexType, List<string>> BlazeIndexTypeToDbPropertyNameStringList_Dictonary
+    {
+      get
+      {
+        var Dic = new Dictionary<DatabaseEnum.BlazeIndexType, List<string>>();
+
+        var DataList = new List<string>();
+        DataList.Add(DatabaseIndexPropertyConstatnts.DateIndexConstatnts.DateTimeOffset);
+        Dic.Add(DatabaseEnum.BlazeIndexType.DateIndex, DataList);
+
+        var DataPeriodList = new List<string>();
+        DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetLow);
+        DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetHigh);
+        Dic.Add(DatabaseEnum.BlazeIndexType.DatePeriodIndex, DataPeriodList);
+
+        var NumberIndexList = new List<string>();
+        NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+        NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+        Dic.Add(DatabaseEnum.BlazeIndexType.NumberIndex, NumberIndexList);
+
+
+        var QuantityIndexList = new List<string>();
+        QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Comparator);
+        QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity);
+        QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System);
+        QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code);
+        Dic.Add(DatabaseEnum.BlazeIndexType.QuantityIndex, QuantityIndexList);
+
+
+        var QuantityRangeIndexList = new List<string>();
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorLow);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemLow);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeLow);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorHigh);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh);
+        Dic.Add(DatabaseEnum.BlazeIndexType.QuantityRangeIndex, QuantityRangeIndexList);
+
+        var ReferenceIndexList = new List<string>();
+        ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+        ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
+        ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url);
+        ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID);
+        Dic.Add(DatabaseEnum.BlazeIndexType.ReferenceIndex, ReferenceIndexList);
+
+        var StringIndexList = new List<string>();
+        StringIndexList.Add(DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String);
+        Dic.Add(DatabaseEnum.BlazeIndexType.StringIndex, StringIndexList);
+
+        var TokenIndexList = new List<string>();
+        TokenIndexList.Add(DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code);        
+        TokenIndexList.Add(DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System);
+        Dic.Add(DatabaseEnum.BlazeIndexType.TokenIndex, TokenIndexList);
+
+        var UriIndexList = new List<string>();
+        UriIndexList.Add(DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);        
+        Dic.Add(DatabaseEnum.BlazeIndexType.UriIndex, UriIndexList);
+        
+        return Dic;
+      }
+    }
+
+
+    public static class DatabaseIndexPropertyConstatnts
+    {
+      public static class DatePeriodIndexConstatnts
+      {
+        public static string DateTimeOffsetLow { get { return "DateTimeOffsetLow"; } }
+        public static string DateTimeOffsetHigh { get { return "DateTimeOffsetHigh"; } }
+      }
+
+      public static class DateIndexConstatnts
+      {
+        public static string DateTimeOffset { get { return "DateTimeOffset"; } }
+      }
+
+      public static class NumberIndexConstatnts
+      {
+        public static string Comparator { get { return "Comparator"; } }
+        public static string Number { get { return "Number"; } }        
+      }
+
+      public static class QuantityIndexConstatnts
+      {
+        public static string Comparator { get { return "Comparator"; } }
+        public static string Quantity { get { return "Quantity"; } }
+        public static string System { get { return "System"; } }
+        public static string Code { get { return "Code"; } }       
+      }
+
+      public static class QuantityRangeIndexConstatnts
+      {
+        public static string ComparatorLow { get { return "ComparatorLow"; } }
+        public static string QuantityLow { get { return "QuantityLow"; } }
+        public static string SystemLow { get { return "SystemLow"; } }
+        public static string CodeLow { get { return "CodeLow"; } }
+
+        public static string ComparatorHigh { get { return "ComparatorHigh"; } }
+        public static string QuantityHigh { get { return "QuantityHigh"; } }
+        public static string SystemHigh { get { return "SystemHigh"; } }
+        public static string CodeHigh { get { return "CodeHigh"; } }     
+      }
+
+      public static class ReferenceIndexConstatnts
+      {
+        public static string ClassNameServiceRootURL_Store { get { return "ServiceRootURL_Store"; } }
+
+        public static string FhirId { get { return "FhirId"; } }
+        public static string Type { get { return "Type"; } }
+        public static string Url { get { return "Url"; } }
+        public static string ServiceRootURL_StoreID { get { return "ServiceRootURL_StoreID"; } }      
+      }
+
+      public static class StringIndexConstatnts
+      {
+        public static string String { get { return "String"; } }     
+      }
+
+      public static class TokenIndexConstatnts
+      {
+        public static string Code { get { return "Code"; } }
+        public static string System { get { return "System"; } }      
+      }
+
+      public static class UriIndexConstatnts
+      {
+        public static string Uri { get { return "Uri"; } }       
+      }
+
+    }
+
+
     /// <summary>
     /// Construct the class name string for the Resource Entity classes (e.g Res_Patient)
     /// </summary>
@@ -90,115 +225,199 @@ namespace Blaze.CodeGenerationSupport
       return SearchParameterName.Replace('-', '_');
     }
 
-    public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem)
+    public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem, bool OnlyReturnStaticPortion = false)
     {
-      string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
-
-      switch (NonCollectionItem.SearchParamType)
+      string FormatedPrefix = string.Empty;
+      if (!OnlyReturnStaticPortion)
       {
-        case Hl7.Fhir.Model.SearchParamType.Composite:
-          {
-            //Nothing to do for this type as composite type is a composite of the other types
-            //We should never get here
-            throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
-          }
-        case Hl7.Fhir.Model.SearchParamType.Date:
-          {
-
-            if (NonCollectionItem.Resource == "Specimen" && NonCollectionItem.SearchName == "collected")
-            {
-              //debug only
-            }
-
-            if (NonCollectionItem.TargetFhirLogicalType == typeof(FhirDateTime) ||
-              NonCollectionItem.TargetFhirLogicalType == typeof(Instant))
-            {
-              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
-            }
-            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Date))
-            {
-              Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
-            }
-            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Timing))
-            {
-              Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
-            }
-            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Period))
-            {
-              Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
-            }
-            else
-              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
-            break;
-          }
-        case Hl7.Fhir.Model.SearchParamType.Number:
-          {
-            Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}Number", FormatedPrefix));
-          }
-          break;
-        case Hl7.Fhir.Model.SearchParamType.Quantity:
-          {
-            if (NonCollectionItem.TargetFhirLogicalType == typeof(Quantity) ||
-              NonCollectionItem.TargetFhirLogicalType == typeof(Money))
-            {
-              Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}System", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
-            }
-            else if (NonCollectionItem.TargetFhirLogicalType == typeof(SimpleQuantity))
-            {
-              Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}System", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
-            }
-            else if (NonCollectionItem.TargetFhirLogicalType == typeof(Range))
-            {
-              Propertylist.Add(String.Format("{0}ComparatorLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}QuantityLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}SystemLow", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}CodeLow", FormatedPrefix));
-
-              Propertylist.Add(String.Format("{0}ComparatorHigh", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}QuantityHigh", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}SystemHigh", FormatedPrefix));
-              Propertylist.Add(String.Format("{0}CodeHigh", FormatedPrefix));
-            }
-            else
-              throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
-            break;
-          }
-        case Hl7.Fhir.Model.SearchParamType.Reference:
-          {
-            Propertylist.Add(String.Format("{0}FhirId", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}Type", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}Url", FormatedPrefix, DatabaseModelInfo.ApplicationName));
-            Propertylist.Add(String.Format("{0}Url_{1}_RootUrlStoreID", FormatedPrefix, DatabaseModelInfo.ApplicationName));
-          }
-          break;
-        case Hl7.Fhir.Model.SearchParamType.String:
-          {
-            Propertylist.Add(String.Format("{0}String", FormatedPrefix));
-          }
-          break;
-        case Hl7.Fhir.Model.SearchParamType.Token:
-          {
-            Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
-            Propertylist.Add(String.Format("{0}System", FormatedPrefix));
-          }
-          break;
-        case Hl7.Fhir.Model.SearchParamType.Uri:
-          {
-            Propertylist.Add(String.Format("{0}Uri", FormatedPrefix));
-          }
-          break;
-        default:
-          throw new InvalidEnumArgumentException(NonCollectionItem.SearchParamType.ToString(), (int)NonCollectionItem.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
+        FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
       }
+
+      var DatabaseIndexType = DatabaseModelInfo.GetServerSearchIndexType(NonCollectionItem);
+
+      foreach (string PropertyConstant in BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DatabaseIndexType])
+      {
+        Propertylist.Add(String.Format("{0}{1}", FormatedPrefix, PropertyConstant));
+      }
+
+
+      //switch (DatabaseIndexType)
+      //{
+      //  case DatabaseEnum.BlazeIndexType.DateIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
+      //    {
+      //      foreach(string PropertyConstant in BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DatabaseIndexType])
+      //      {
+      //        Propertylist.Add(String.Format("{0}{1}", FormatedPrefix, PropertyConstant));
+      //      }
+      //      //Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
+      //      //Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.NumberIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Number", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.QuantityIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}ComparatorLow", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}QuantityLow", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}SystemLow", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}CodeLow", FormatedPrefix));
+
+      //      Propertylist.Add(String.Format("{0}ComparatorHigh", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}QuantityHigh", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}SystemHigh", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}CodeHigh", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.ReferenceIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}FhirId", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Type", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Url", FormatedPrefix, DatabaseModelInfo.ApplicationName));
+      //      Propertylist.Add(String.Format("{0}Url_{1}_RootUrlStoreID", FormatedPrefix, DatabaseModelInfo.ApplicationName));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.StringIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}String", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.TokenIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+      //      break;
+      //    }
+      //  case DatabaseEnum.BlazeIndexType.UriIndex:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Uri", FormatedPrefix));
+      //      break;
+      //    }
+      //  default:
+      //    throw new InvalidEnumArgumentException(DatabaseIndexType.ToString(), (int)DatabaseIndexType, typeof(DatabaseEnum.BlazeIndexType));
+      //}
+
+      //switch (NonCollectionItem.SearchParamType)
+      //{
+      //  case Hl7.Fhir.Model.SearchParamType.Composite:
+      //    {
+      //      //Nothing to do for this type as composite type is a composite of the other types
+      //      //We should never get here
+      //      throw new ApplicationException("Attempt to create database fields for composite type search parameter. This should not happen.");
+      //    }
+      //  case Hl7.Fhir.Model.SearchParamType.Date:
+      //    {
+
+      //      if (NonCollectionItem.Resource == "Specimen" && NonCollectionItem.SearchName == "collected")
+      //      {
+      //        //debug only
+      //      }
+
+      //      if (NonCollectionItem.TargetFhirLogicalType == typeof(FhirDateTime) ||
+      //        NonCollectionItem.TargetFhirLogicalType == typeof(Instant))
+      //      {
+      //        Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
+      //      }
+      //      else if (NonCollectionItem.TargetFhirLogicalType == typeof(Date))
+      //      {
+      //        Propertylist.Add(String.Format("{0}DateTimeOffset", FormatedPrefix));
+      //      }
+      //      else if (NonCollectionItem.TargetFhirLogicalType == typeof(Timing))
+      //      {
+      //        Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
+      //      }
+      //      else if (NonCollectionItem.TargetFhirLogicalType == typeof(Period))
+      //      {
+      //        Propertylist.Add(String.Format("{0}DateTimeOffsetLow", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}DateTimeOffsetHigh", FormatedPrefix));
+      //      }
+      //      else
+      //        throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
+      //      break;
+      //    }
+      //  case Hl7.Fhir.Model.SearchParamType.Number:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Number", FormatedPrefix));
+      //    }
+      //    break;
+      //  case Hl7.Fhir.Model.SearchParamType.Quantity:
+      //    {
+      //      if (NonCollectionItem.TargetFhirLogicalType == typeof(Quantity) ||
+      //        NonCollectionItem.TargetFhirLogicalType == typeof(Money))
+      //      {
+      //        Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+      //      }
+      //      else if (NonCollectionItem.TargetFhirLogicalType == typeof(SimpleQuantity))
+      //      {
+      //        Propertylist.Add(String.Format("{0}Comparator", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}Quantity", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+      //      }
+      //      else if (NonCollectionItem.TargetFhirLogicalType == typeof(Range))
+      //      {
+      //        Propertylist.Add(String.Format("{0}ComparatorLow", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}QuantityLow", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}SystemLow", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}CodeLow", FormatedPrefix));
+
+      //        Propertylist.Add(String.Format("{0}ComparatorHigh", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}QuantityHigh", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}SystemHigh", FormatedPrefix));
+      //        Propertylist.Add(String.Format("{0}CodeHigh", FormatedPrefix));
+      //      }
+      //      else
+      //        throw new Exception(String.Format("Search parameter of '{0}' could not be resolved to a BaseIndex database type. TargetType was '{1}'", NonCollectionItem.SearchParamType.ToString(), NonCollectionItem.TargetFhirType.ToString()));
+      //      break;
+      //    }
+      //  case Hl7.Fhir.Model.SearchParamType.Reference:
+      //    {
+      //      Propertylist.Add(String.Format("{0}FhirId", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Type", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}Url", FormatedPrefix, DatabaseModelInfo.ApplicationName));
+      //      Propertylist.Add(String.Format("{0}Url_{1}_RootUrlStoreID", FormatedPrefix, DatabaseModelInfo.ApplicationName));
+      //    }
+      //    break;
+      //  case Hl7.Fhir.Model.SearchParamType.String:
+      //    {
+      //      Propertylist.Add(String.Format("{0}String", FormatedPrefix));
+      //    }
+      //    break;
+      //  case Hl7.Fhir.Model.SearchParamType.Token:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Code", FormatedPrefix));
+      //      Propertylist.Add(String.Format("{0}System", FormatedPrefix));
+      //    }
+      //    break;
+      //  case Hl7.Fhir.Model.SearchParamType.Uri:
+      //    {
+      //      Propertylist.Add(String.Format("{0}Uri", FormatedPrefix));
+      //    }
+      //    break;
+      //  default:
+      //    throw new InvalidEnumArgumentException(NonCollectionItem.SearchParamType.ToString(), (int)NonCollectionItem.SearchParamType, typeof(Hl7.Fhir.Model.SearchParamType));
+      //}
     }
 
     public static string GetServerSearchIndexTypeString(FhirApiSearchParameterInfo SearchParameter)
@@ -217,6 +436,24 @@ namespace Blaze.CodeGenerationSupport
         return SearchParameter.SearchParamType.ToString() + DatabaseModelInfo.IndexPrefixText;
       }
     }
+
+    public static DatabaseEnum.BlazeIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
+    {
+      if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
+        SearchParameter.TargetFhirLogicalType == typeof(Timing))
+      {
+        return DatabaseEnum.BlazeIndexType.DatePeriodIndex;
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
+      {
+        return DatabaseEnum.BlazeIndexType.QuantityRangeIndex;
+      }
+      else
+      {
+        return DatabaseEnum.StringToBlazeIndexTypeDictonary[SearchParameter.SearchParamType.ToString() + DatabaseModelInfo.IndexPrefixText];
+      }
+    }
+
 
     public static string GenerateIndexSetter(string Item, string BlazeIndexType, string ReturnType, bool IsReferanceType = false)
     {

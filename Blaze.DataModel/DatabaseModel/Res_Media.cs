@@ -17,18 +17,18 @@ namespace Blaze.DataModel.DatabaseModel
     public string operator_VersionId {get; set;}
     public string operator_FhirId {get; set;}
     public string operator_Type {get; set;}
-    public virtual Blaze_RootUrlStore operator_Url { get; set; }
-    public int? operator_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store operator_Url { get; set; }
+    public int? operator_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Blaze_RootUrlStore subject_Url { get; set; }
-    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public ICollection<Res_Media_History> Res_Media_History_List { get; set; }

@@ -26,7 +26,7 @@
   // Any output below here will go to the BlazeDbModelCodeGenerator.cs
   
   Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
+  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.Generate();
   //int counter = 0;
   foreach(var item in DbModelList)
   {  

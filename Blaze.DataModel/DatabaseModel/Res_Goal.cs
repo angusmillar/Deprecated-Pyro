@@ -16,15 +16,15 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Blaze_RootUrlStore subject_Url { get; set; }
-    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? targetdate_DateTimeOffset {get; set;}
     public ICollection<Res_Goal_History> Res_Goal_History_List { get; set; }
     public ICollection<Res_Goal_Index_category> category_List { get; set; }

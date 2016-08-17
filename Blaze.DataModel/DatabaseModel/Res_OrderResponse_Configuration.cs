@@ -31,12 +31,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.request_FhirId).IsOptional();
       Property(x => x.request_Type).IsOptional();
       HasOptional(x => x.request_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.request_Url).WithMany().HasForeignKey(x => x.request_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.request_Url).WithMany().HasForeignKey(x => x.request_ServiceRootURL_StoreID);
       Property(x => x.who_VersionId).IsOptional();
       Property(x => x.who_FhirId).IsOptional();
       Property(x => x.who_Type).IsOptional();
       HasOptional(x => x.who_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.who_Url).WithMany().HasForeignKey(x => x.who_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.who_Url).WithMany().HasForeignKey(x => x.who_ServiceRootURL_StoreID);
     }
   }
 }

@@ -30,14 +30,14 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.supplier_VersionId).IsOptional();
       Property(x => x.supplier_FhirId).IsOptional();
       Property(x => x.supplier_Type).IsOptional();
       HasOptional(x => x.supplier_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.supplier_Url).WithMany().HasForeignKey(x => x.supplier_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.supplier_Url).WithMany().HasForeignKey(x => x.supplier_ServiceRootURL_StoreID);
     }
   }
 }

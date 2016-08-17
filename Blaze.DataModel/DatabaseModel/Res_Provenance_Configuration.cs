@@ -29,7 +29,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.location_FhirId).IsOptional();
       Property(x => x.location_Type).IsOptional();
       HasOptional(x => x.location_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.location_Url).WithMany().HasForeignKey(x => x.location_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.location_Url).WithMany().HasForeignKey(x => x.location_ServiceRootURL_StoreID);
       Property(x => x.start_DateTimeOffset).IsOptional();
     }
   }

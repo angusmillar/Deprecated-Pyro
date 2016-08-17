@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hl7.Fhir.Model;
+using Blaze.Common.Enum;
 
 namespace Blaze.Common.BusinessEntities.Search
 {
@@ -13,7 +9,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterDate()
       : base()
     {      
-      this.SearchParameterType = SearchParamType.Number;
+      this.DbSearchParameterType = DatabaseEnum.BlazeIndexType.NumberIndex;
     }
     #endregion
 

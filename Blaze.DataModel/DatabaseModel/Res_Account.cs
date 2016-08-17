@@ -21,13 +21,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string owner_VersionId {get; set;}
     public string owner_FhirId {get; set;}
     public string owner_Type {get; set;}
-    public virtual Blaze_RootUrlStore owner_Url { get; set; }
-    public int? owner_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store owner_Url { get; set; }
+    public int? owner_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? period_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? period_DateTimeOffsetHigh {get; set;}
     public string status_Code {get; set;}
@@ -35,8 +35,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Blaze_RootUrlStore subject_Url { get; set; }
-    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Account_History> Res_Account_History_List { get; set; }
     public ICollection<Res_Account_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Account_Index_type> type_List { get; set; }

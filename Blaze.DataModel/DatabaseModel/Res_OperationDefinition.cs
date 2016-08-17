@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string base_VersionId {get; set;}
     public string base_FhirId {get; set;}
     public string base_Type {get; set;}
-    public virtual Blaze_RootUrlStore base_Url { get; set; }
-    public int? base_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store base_Url { get; set; }
+    public int? base_ServiceRootURL_StoreID { get; set; }
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}

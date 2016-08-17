@@ -166,7 +166,7 @@ namespace Blaze.DataModel.Repository
       foreach(var CollectionPropertiesInfo in item.ResourceEntityCollectionPropertiesInfoList)
       { 
 #>
-      _Context.<#=CollectionPropertiesInfo.IndexEntityClassName#>.RemoveRange(ResourceEntity.<#=CollectionPropertiesInfo.IndexEntityPropertyName#>);            
+      _Context.<#=CollectionPropertiesInfo.ClassName#>.RemoveRange(ResourceEntity.<#=CollectionPropertiesInfo.PropertyName#>);            
 <#
       }
 #> 

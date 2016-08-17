@@ -8,6 +8,6 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class SearchParamInfoModel
   {
-    public List<SearchParamInfoItem> SearchParamInfoItemList { get; set; }
+    public List<SearchParamEnumInfoItem> SearchParamInfoItemList { get; set; }
   }
 }

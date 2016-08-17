@@ -2,6 +2,6 @@
  
 
 // Generated helper templates
-// Blaze\Blaze.DataModel\Support\_GenericCodeDataTypeEnumsGenerator.txt4
+// Blaze.DataModel\Support\_GenericCodeDataTypeEnumsGenerator.txt4
 // Generated items
-// Blaze\Blaze.DataModel\Support\FhirCodeDataTypeSupportGenerated.cs
+// Blaze.DataModel\Support\FhirCodeDataTypeSupportGenerated.cs

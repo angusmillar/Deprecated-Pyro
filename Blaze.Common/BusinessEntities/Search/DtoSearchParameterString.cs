@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hl7.Fhir.Model;
+﻿using System.Linq;
+using Blaze.Common.Enum;
+
 
 namespace Blaze.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterString : DtoSearchParameterBase
   {
-     #region Constructor
+    #region Constructor
     public DtoSearchParameterString()
       : base()
-    {      
-      this.SearchParameterType = SearchParamType.String;      
+    {
+      this.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
     }
     #endregion
     public override bool TryParseValue(string Value)

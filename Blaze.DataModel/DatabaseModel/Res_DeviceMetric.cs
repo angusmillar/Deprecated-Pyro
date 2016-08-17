@@ -20,13 +20,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string parent_VersionId {get; set;}
     public string parent_FhirId {get; set;}
     public string parent_Type {get; set;}
-    public virtual Blaze_RootUrlStore parent_Url { get; set; }
-    public int? parent_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store parent_Url { get; set; }
+    public int? parent_ServiceRootURL_StoreID { get; set; }
     public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
-    public virtual Blaze_RootUrlStore source_Url { get; set; }
-    public int? source_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store source_Url { get; set; }
+    public int? source_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_DeviceMetric_History> Res_DeviceMetric_History_List { get; set; }
     public ICollection<Res_DeviceMetric_Index_type> type_List { get; set; }
     public ICollection<Res_DeviceMetric_Index_profile> profile_List { get; set; }

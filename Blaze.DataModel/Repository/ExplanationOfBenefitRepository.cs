@@ -127,7 +127,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.claimreference_FhirId = null;      
       ResourceEntity.claimreference_Type = null;      
       ResourceEntity.claimreference_Url = null;      
-      ResourceEntity.claimreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.claimreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.created_DateTimeOffset = null;      
       ResourceEntity.disposition_String = null;      
       ResourceEntity.facilityidentifier_Code = null;      
@@ -135,25 +135,25 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.facilityreference_FhirId = null;      
       ResourceEntity.facilityreference_Type = null;      
       ResourceEntity.facilityreference_Url = null;      
-      ResourceEntity.facilityreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.facilityreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.organizationidentifier_Code = null;      
       ResourceEntity.organizationidentifier_System = null;      
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
-      ResourceEntity.organizationreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.patientidentifier_Code = null;      
       ResourceEntity.patientidentifier_System = null;      
       ResourceEntity.patientreference_FhirId = null;      
       ResourceEntity.patientreference_Type = null;      
       ResourceEntity.patientreference_Url = null;      
-      ResourceEntity.patientreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patientreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.provideridentifier_Code = null;      
       ResourceEntity.provideridentifier_System = null;      
       ResourceEntity.providerreference_FhirId = null;      
       ResourceEntity.providerreference_Type = null;      
       ResourceEntity.providerreference_Url = null;      
-      ResourceEntity.providerreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.providerreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -198,7 +198,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.claimreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.claimreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -260,7 +260,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.facilityreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.facilityreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -296,7 +296,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.organizationreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.organizationreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -332,7 +332,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patientreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patientreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -368,7 +368,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.providerreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.providerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

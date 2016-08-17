@@ -17,8 +17,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
-    public virtual Blaze_RootUrlStore organization_Url { get; set; }
-    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store organization_Url { get; set; }
+    public int? organization_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_HealthcareService_History> Res_HealthcareService_History_List { get; set; }
     public ICollection<Res_HealthcareService_Index_characteristic> characteristic_List { get; set; }
     public ICollection<Res_HealthcareService_Index_identifier> identifier_List { get; set; }

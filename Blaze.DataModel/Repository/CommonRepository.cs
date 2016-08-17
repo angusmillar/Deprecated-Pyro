@@ -23,22 +23,22 @@ namespace Blaze.DataModel.Repository
 
     public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
-      Blaze_RootUrlStore ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();
+      ServiceRootURL_Store ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
       {
         ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;        
       }
-      Blaze_RootUrlStore ExsistingNonPrimaryRootURL = this.GetBlaze_RootUrlStore(RootUrl);
+      ServiceRootURL_Store ExsistingNonPrimaryRootURL = this.GetBlaze_RootUrlStore(RootUrl);
       if (ExsistingNonPrimaryRootURL != null)
       {
         ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;        
       }
       else
       {
-        Blaze_RootUrlStore Blaze_RootUrlStore = new Blaze_RootUrlStore();
+        ServiceRootURL_Store Blaze_RootUrlStore = new ServiceRootURL_Store();
         Blaze_RootUrlStore.IsServersPrimaryUrlRoot = true;
         Blaze_RootUrlStore.RootUrl = RootUrl;
-        _Context.Set<Blaze_RootUrlStore>().Add(Blaze_RootUrlStore);        
+        _Context.Set<ServiceRootURL_Store>().Add(Blaze_RootUrlStore);        
       }
       this.Save();
       return this.GetPrimaryRootUrlStore();
@@ -47,11 +47,11 @@ namespace Blaze.DataModel.Repository
     public DtoRootUrlStore GetPrimaryRootUrlStore()
     {
       DtoRootUrlStore DtoRootUrlStore = null;
-      Blaze_RootUrlStore Blaze_RootUrlStore = this.GetPrimaryBlaze_RootUrlStore();      
+      ServiceRootURL_Store Blaze_RootUrlStore = this.GetPrimaryBlaze_RootUrlStore();      
       if (Blaze_RootUrlStore != null)
       {
         DtoRootUrlStore = new DtoRootUrlStore();
-        DtoRootUrlStore.Blaze_RootUrlStoreID = Blaze_RootUrlStore.Blaze_RootUrlStoreID;
+        DtoRootUrlStore.ServiceRootUrlStoreID = Blaze_RootUrlStore.ServiceRootURL_StoreID;
         DtoRootUrlStore.RootUrl = Blaze_RootUrlStore.RootUrl;
         DtoRootUrlStore.IsServersPrimaryUrlRoot = Blaze_RootUrlStore.IsServersPrimaryUrlRoot;
       }
@@ -63,12 +63,12 @@ namespace Blaze.DataModel.Repository
     /// </summary>
     /// <param name="UrlString"></param>
     /// <returns></returns>
-    public Blaze_RootUrlStore GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl)
+    public ServiceRootURL_Store GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl)
     {
-      Blaze_RootUrlStore Blaze_RootUrlStore = this.GetBlaze_RootUrlStore(ServiceRootUrl);
+      ServiceRootURL_Store Blaze_RootUrlStore = this.GetBlaze_RootUrlStore(ServiceRootUrl);
       if (Blaze_RootUrlStore == null)
       {
-        Blaze_RootUrlStore = new Blaze_RootUrlStore();
+        Blaze_RootUrlStore = new ServiceRootURL_Store();
         Blaze_RootUrlStore.IsServersPrimaryUrlRoot = false;
         Blaze_RootUrlStore.RootUrl = ServiceRootUrl;
         return Blaze_RootUrlStore;
@@ -79,9 +79,9 @@ namespace Blaze.DataModel.Repository
       }
     }
 
-    protected Blaze_RootUrlStore GetPrimaryBlaze_RootUrlStore()
+    protected ServiceRootURL_Store GetPrimaryBlaze_RootUrlStore()
     {
-      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
+      return _Context.ServiceRootURL_Store.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
     }
     
     /// <summary>
@@ -89,9 +89,9 @@ namespace Blaze.DataModel.Repository
     /// </summary>
     /// <param name="UrlString"></param>
     /// <returns></returns>
-    protected Blaze_RootUrlStore GetBlaze_RootUrlStore(string ServiceRootUrl)
+    protected ServiceRootURL_Store GetBlaze_RootUrlStore(string ServiceRootUrl)
     {
-      return _Context.Blaze_RootUrlStore.SingleOrDefault(x => x.RootUrl == ServiceRootUrl);
+      return _Context.ServiceRootURL_Store.SingleOrDefault(x => x.RootUrl == ServiceRootUrl);
     }
 
     protected T DbGet<T>(Expression<Func<T, bool>> predicate) where T : class

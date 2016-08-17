@@ -97,12 +97,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_RepositoryGenerator.tt</DependentUpon>
     </Compile>
-    <Compile Include="SearchParameterInfoCodeGeneration\SearchParameterEnumGeneration.cs">
+    <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfo.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfoItem.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SearchParameterEnumGeneration.tt</DependentUpon>
+      <DependentUpon>_SearchParameterEnumGeneration.tt</DependentUpon>
     </Compile>
-    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoItem.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamEnumInfoItem.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoCodeGeneration.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoModel.cs" />
     <Compile Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.cs">
@@ -156,9 +158,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SearchParameterInfoCodeGeneration\SearchParameterEnumGeneration.tt">
+    <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SearchParameterEnumGeneration.cs</LastGenOutput>
+      <LastGenOutput>_SearchParameterEnumGeneration.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

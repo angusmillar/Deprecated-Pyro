@@ -128,19 +128,19 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.facilityreference_FhirId = null;      
       ResourceEntity.facilityreference_Type = null;      
       ResourceEntity.facilityreference_Url = null;      
-      ResourceEntity.facilityreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.facilityreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.organizationidentifier_Code = null;      
       ResourceEntity.organizationidentifier_System = null;      
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
-      ResourceEntity.organizationreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.patientidentifier_Code = null;      
       ResourceEntity.patientidentifier_System = null;      
       ResourceEntity.patientreference_FhirId = null;      
       ResourceEntity.patientreference_Type = null;      
       ResourceEntity.patientreference_Url = null;      
-      ResourceEntity.patientreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patientreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.priority_Code = null;      
       ResourceEntity.priority_System = null;      
       ResourceEntity.provideridentifier_Code = null;      
@@ -148,13 +148,13 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.providerreference_FhirId = null;      
       ResourceEntity.providerreference_Type = null;      
       ResourceEntity.providerreference_Url = null;      
-      ResourceEntity.providerreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.providerreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.targetidentifier_Code = null;      
       ResourceEntity.targetidentifier_System = null;      
       ResourceEntity.targetreference_FhirId = null;      
       ResourceEntity.targetreference_Type = null;      
       ResourceEntity.targetreference_Url = null;      
-      ResourceEntity.targetreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.targetreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.use_Code = null;      
       ResourceEntity.use_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -214,7 +214,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.facilityreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.facilityreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -250,7 +250,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.organizationreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.organizationreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -286,7 +286,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patientreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patientreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -336,7 +336,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.providerreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.providerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -372,7 +372,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.targetreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.targetreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

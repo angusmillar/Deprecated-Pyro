@@ -31,7 +31,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.organizationreference_FhirId).IsOptional();
       Property(x => x.organizationreference_Type).IsOptional();
       HasOptional(x => x.organizationreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_ServiceRootURL_StoreID);
       Property(x => x.paymentstatus_Code).IsOptional();
       Property(x => x.paymentstatus_System).IsOptional();
       Property(x => x.provideridentifier_Code).IsOptional();
@@ -40,21 +40,21 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.providerreference_FhirId).IsOptional();
       Property(x => x.providerreference_Type).IsOptional();
       HasOptional(x => x.providerreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.providerreference_Url).WithMany().HasForeignKey(x => x.providerreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.providerreference_Url).WithMany().HasForeignKey(x => x.providerreference_ServiceRootURL_StoreID);
       Property(x => x.requestidentifier_Code).IsOptional();
       Property(x => x.requestidentifier_System).IsOptional();
       Property(x => x.requestreference_VersionId).IsOptional();
       Property(x => x.requestreference_FhirId).IsOptional();
       Property(x => x.requestreference_Type).IsOptional();
       HasOptional(x => x.requestreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_ServiceRootURL_StoreID);
       Property(x => x.responseidentifier_Code).IsOptional();
       Property(x => x.responseidentifier_System).IsOptional();
       Property(x => x.responsereference_VersionId).IsOptional();
       Property(x => x.responsereference_FhirId).IsOptional();
       Property(x => x.responsereference_Type).IsOptional();
       HasOptional(x => x.responsereference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.responsereference_Url).WithMany().HasForeignKey(x => x.responsereference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.responsereference_Url).WithMany().HasForeignKey(x => x.responsereference_ServiceRootURL_StoreID);
       Property(x => x.statusdate_DateTimeOffset).IsOptional();
     }
   }

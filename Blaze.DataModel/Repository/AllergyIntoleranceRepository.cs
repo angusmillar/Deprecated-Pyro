@@ -137,15 +137,15 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
-      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.recorder_FhirId = null;      
       ResourceEntity.recorder_Type = null;      
       ResourceEntity.recorder_Url = null;      
-      ResourceEntity.recorder_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.recorder_ServiceRootURL_StoreID = null;      
       ResourceEntity.reporter_FhirId = null;      
       ResourceEntity.reporter_Type = null;      
       ResourceEntity.reporter_Url = null;      
-      ResourceEntity.reporter_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.reporter_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
       ResourceEntity.type_Code = null;      
@@ -240,7 +240,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -262,7 +262,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.recorder_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.recorder_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -284,7 +284,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.reporter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.reporter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

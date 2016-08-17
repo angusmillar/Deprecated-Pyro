@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string appointment_VersionId {get; set;}
     public string appointment_FhirId {get; set;}
     public string appointment_Type {get; set;}
-    public virtual Blaze_RootUrlStore appointment_Url { get; set; }
-    public int? appointment_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store appointment_Url { get; set; }
+    public int? appointment_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public Hl7.Fhir.Model.Quantity.QuantityComparator? length_Comparator {get; set;}
@@ -25,13 +25,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string part_of_VersionId {get; set;}
     public string part_of_FhirId {get; set;}
     public string part_of_Type {get; set;}
-    public virtual Blaze_RootUrlStore part_of_Url { get; set; }
-    public int? part_of_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store part_of_Url { get; set; }
+    public int? part_of_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_Encounter_History> Res_Encounter_History_List { get; set; }

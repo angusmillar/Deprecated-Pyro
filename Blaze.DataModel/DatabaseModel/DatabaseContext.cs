@@ -21,7 +21,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.Database.CreateIfNotExists();      
     }
 
-    public DbSet<Blaze_RootUrlStore> Blaze_RootUrlStore { get; set; }
+    public DbSet<ServiceRootURL_Store> ServiceRootURL_Store { get; set; }
     public DbSet<Res_Account> Res_Account { get; set; }
     public DbSet<Res_Account_History> Res_Account_History { get; set; }
     public DbSet<Res_Account_Index_identifier> Res_Account_Index_identifier { get; set; }
@@ -1049,7 +1049,7 @@ namespace Blaze.DataModel.DatabaseModel
       base.OnModelCreating(Mb);
       Mb.Conventions.Remove<PluralizingTableNameConvention>();
       
-      Mb.Configurations.Add(new Blaze_RootUrlStore_Configuration());
+      Mb.Configurations.Add(new ServiceRootURL_Store_Configuration());
       Mb.Configurations.Add(new Res_Account_Configuration());
       Mb.Configurations.Add(new Res_Account_History_Configuration());
       Mb.Configurations.Add(new Res_Account_Index_identifier_Configuration());

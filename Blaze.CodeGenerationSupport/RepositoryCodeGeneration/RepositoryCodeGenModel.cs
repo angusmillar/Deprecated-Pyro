@@ -41,13 +41,14 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
   public class CollectionIndexEntity
   {
-    public string IndexEntityClassName { get; set; }
-    public string IndexEntityPropertyName { get; set; }
+    public string ClassName { get; set; }
+    public string PropertyName { get; set; }
     public SearchParameterInfo SearchParameterInfo { get; set; }
   }
 
   public class NonCollectionIndexEntity
   {
+    //Need here to add a new Object List that tells the indexsetter prop type, Code, System ..etc
     public List<string> PropertyNameList { get; set; }
     public SearchParameterInfo SearchParameterInfo { get; set; }
 

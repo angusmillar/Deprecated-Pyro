@@ -32,7 +32,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.organizationreference_FhirId).IsOptional();
       Property(x => x.organizationreference_Type).IsOptional();
       HasOptional(x => x.organizationreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_ServiceRootURL_StoreID);
       Property(x => x.outcome_Code).IsOptional();
       Property(x => x.outcome_System).IsOptional();
       Property(x => x.paymentdate_DateTimeOffset).IsOptional();
@@ -42,7 +42,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.requestreference_FhirId).IsOptional();
       Property(x => x.requestreference_Type).IsOptional();
       HasOptional(x => x.requestreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_ServiceRootURL_StoreID);
     }
   }
 }

@@ -27,13 +27,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
-    public virtual Blaze_RootUrlStore organization_Url { get; set; }
-    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store organization_Url { get; set; }
+    public int? organization_ServiceRootURL_StoreID { get; set; }
     public string partof_VersionId {get; set;}
     public string partof_FhirId {get; set;}
     public string partof_Type {get; set;}
-    public virtual Blaze_RootUrlStore partof_Url { get; set; }
-    public int? partof_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store partof_Url { get; set; }
+    public int? partof_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_Location_History> Res_Location_History_List { get; set; }

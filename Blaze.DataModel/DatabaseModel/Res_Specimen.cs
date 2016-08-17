@@ -21,18 +21,18 @@ namespace Blaze.DataModel.DatabaseModel
     public string collector_VersionId {get; set;}
     public string collector_FhirId {get; set;}
     public string collector_Type {get; set;}
-    public virtual Blaze_RootUrlStore collector_Url { get; set; }
-    public int? collector_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store collector_Url { get; set; }
+    public int? collector_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Blaze_RootUrlStore subject_Url { get; set; }
-    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Specimen_History> Res_Specimen_History_List { get; set; }
     public ICollection<Res_Specimen_Index_bodysite> bodysite_List { get; set; }
     public ICollection<Res_Specimen_Index_container> container_List { get; set; }

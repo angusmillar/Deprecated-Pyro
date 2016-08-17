@@ -61,6 +61,7 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSupportedSearchParameters.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />

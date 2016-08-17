@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string schedule_VersionId {get; set;}
     public string schedule_FhirId {get; set;}
     public string schedule_Type {get; set;}
-    public virtual Blaze_RootUrlStore schedule_Url { get; set; }
-    public int? schedule_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store schedule_Url { get; set; }
+    public int? schedule_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? start_DateTimeOffset {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}

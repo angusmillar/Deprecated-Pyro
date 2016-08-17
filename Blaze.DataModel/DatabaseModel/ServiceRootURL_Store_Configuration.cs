@@ -13,12 +13,12 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 namespace Blaze.DataModel.DatabaseModel
 {
-  public class Blaze_RootUrlStore_Configuration : EntityTypeConfiguration<Blaze_RootUrlStore>
+  public class ServiceRootURL_Store_Configuration : EntityTypeConfiguration<ServiceRootURL_Store>
   {
 
-    public Blaze_RootUrlStore_Configuration()
+    public ServiceRootURL_Store_Configuration()
     {
-      HasKey(x => x.Blaze_RootUrlStoreID).Property(x => x.Blaze_RootUrlStoreID).IsRequired();
+      HasKey(x => x.ServiceRootURL_StoreID).Property(x => x.ServiceRootURL_StoreID).IsRequired();
       Property(x => x.RootUrl).IsRequired().HasMaxLength(2083).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_RootUrl") { IsUnique = true }));
       Property(x => x.IsServersPrimaryUrlRoot).IsRequired();
     }

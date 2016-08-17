@@ -30,7 +30,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.beneficiaryreference_FhirId).IsOptional();
       Property(x => x.beneficiaryreference_Type).IsOptional();
       HasOptional(x => x.beneficiaryreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.beneficiaryreference_Url).WithMany().HasForeignKey(x => x.beneficiaryreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.beneficiaryreference_Url).WithMany().HasForeignKey(x => x.beneficiaryreference_ServiceRootURL_StoreID);
       Property(x => x.dependent_Code).IsOptional();
       Property(x => x.dependent_System).IsOptional();
       Property(x => x.group_Code).IsOptional();
@@ -41,7 +41,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.issuerreference_FhirId).IsOptional();
       Property(x => x.issuerreference_Type).IsOptional();
       HasOptional(x => x.issuerreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.issuerreference_Url).WithMany().HasForeignKey(x => x.issuerreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.issuerreference_Url).WithMany().HasForeignKey(x => x.issuerreference_ServiceRootURL_StoreID);
       Property(x => x.plan_Code).IsOptional();
       Property(x => x.plan_System).IsOptional();
       Property(x => x.planholderidentifier_Code).IsOptional();
@@ -50,7 +50,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.planholderreference_FhirId).IsOptional();
       Property(x => x.planholderreference_Type).IsOptional();
       HasOptional(x => x.planholderreference_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.planholderreference_Url).WithMany().HasForeignKey(x => x.planholderreference_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.planholderreference_Url).WithMany().HasForeignKey(x => x.planholderreference_ServiceRootURL_StoreID);
       Property(x => x.sequence_Code).IsOptional();
       Property(x => x.sequence_System).IsOptional();
       Property(x => x.subplan_Code).IsOptional();

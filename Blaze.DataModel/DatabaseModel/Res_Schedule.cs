@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string actor_VersionId {get; set;}
     public string actor_FhirId {get; set;}
     public string actor_Type {get; set;}
-    public virtual Blaze_RootUrlStore actor_Url { get; set; }
-    public int? actor_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store actor_Url { get; set; }
+    public int? actor_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public ICollection<Res_Schedule_History> Res_Schedule_History_List { get; set; }

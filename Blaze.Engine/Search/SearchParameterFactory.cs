@@ -20,9 +20,9 @@ namespace Blaze.Engine.Search
 
     public static DtoSearchParameterBase CreateSearchParameter(FHIRDefinedType Resource, FhirSearchEnum.SearchParameterNameType SearchParameterName,
                   Tuple<string, string> Parameter,
-                  SearchParamType SearchParameterType)
+                  DatabaseEnum.BlazeIndexType DbSearchParameterType)
     {
-      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(SearchParameterType);
+      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DbSearchParameterType);
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
       _CurrentResourceName = Resource.ToString();
@@ -30,7 +30,7 @@ namespace Blaze.Engine.Search
       oSearchParameter.Name = SearchParameterName;      
       oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;
       _RawSearchParameterAndValueString = oSearchParameter.RawValue;
-      oSearchParameter.SearchParameterType = SearchParameterType;
+      oSearchParameter.DbSearchParameterType = DbSearchParameterType;
       ParseModifier(ParameterName, oSearchParameter);
       string Value = ParsePrefix(ParameterValue, oSearchParameter);
       if (!oSearchParameter.TryParseValue(Value))
@@ -110,33 +110,35 @@ namespace Blaze.Engine.Search
           break;
       }
     }
-    private static DtoSearchParameterBase InitalizeSearchParameter(SearchParamType SearchParameterType)
+    private static DtoSearchParameterBase InitalizeSearchParameter(DatabaseEnum.BlazeIndexType DbSearchParameterType)
     {
       DtoSearchParameterBase oSearchParameter = null;
-      switch (SearchParameterType)
+      switch (DbSearchParameterType)
       {
-        case SearchParamType.Composite:
-          throw new NotImplementedException("SearchParamType.Composite");
-        case SearchParamType.Date:
+        case DatabaseEnum.BlazeIndexType.DateIndex:
           oSearchParameter = new DtoSearchParameterDate();
           break;
-        case SearchParamType.Number:
+        case DatabaseEnum.BlazeIndexType.NumberIndex:
           oSearchParameter = new DtoSearchParameterNumber();
           break;
-        case SearchParamType.Quantity:
-          throw new NotImplementedException("SearchParamType.Quantity");
-        case SearchParamType.Reference:
-          throw new NotImplementedException("SearchParamType.Reference");
-        case SearchParamType.String:
+        case DatabaseEnum.BlazeIndexType.QuantityIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityIndex");
+        case DatabaseEnum.BlazeIndexType.ReferenceIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.ReferenceIndex");
+        case DatabaseEnum.BlazeIndexType.StringIndex:
           oSearchParameter = new DtoSearchParameterString();
           break;
-        case SearchParamType.Token:
+        case DatabaseEnum.BlazeIndexType.TokenIndex:
           oSearchParameter = new DtoSearchParameterToken();
           break;
-        case SearchParamType.Uri:
-          throw new NotImplementedException("SearchParamType.Uri");
+        case DatabaseEnum.BlazeIndexType.UriIndex:
+          throw new NotImplementedException("SearchParamType.UriDatabaseEnum.BlazeIndexType.UriIndex");
+        case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.DatePeriodIndex");
+        case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityRangeIndex");
         default:
-          break;
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(DatabaseEnum.BlazeIndexType));
       }
       return oSearchParameter;
     }
@@ -155,9 +157,9 @@ namespace Blaze.Engine.Search
     }
     private static string ParsePrefix(string Value, DtoSearchParameterBase oSearchParameter)
     {
-      if (oSearchParameter.SearchParameterType == SearchParamType.Date ||
-        oSearchParameter.SearchParameterType == SearchParamType.Number ||
-        oSearchParameter.SearchParameterType == SearchParamType.Quantity)
+      if (oSearchParameter.DbSearchParameterType == DatabaseEnum.BlazeIndexType.DateIndex ||
+        oSearchParameter.DbSearchParameterType == DatabaseEnum.BlazeIndexType.NumberIndex||
+        oSearchParameter.DbSearchParameterType == DatabaseEnum.BlazeIndexType.QuantityIndex)
       {
         if (Value.Length > 2)
         {

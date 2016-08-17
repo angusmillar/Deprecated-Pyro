@@ -29,7 +29,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.creator_FhirId).IsOptional();
       Property(x => x.creator_Type).IsOptional();
       HasOptional(x => x.creator_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.creator_Url).WithMany().HasForeignKey(x => x.creator_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.creator_Url).WithMany().HasForeignKey(x => x.creator_ServiceRootURL_StoreID);
       Property(x => x.definition_Uri).IsOptional();
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
@@ -38,12 +38,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.owner_FhirId).IsOptional();
       Property(x => x.owner_Type).IsOptional();
       HasOptional(x => x.owner_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.owner_Url).WithMany().HasForeignKey(x => x.owner_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.owner_Url).WithMany().HasForeignKey(x => x.owner_ServiceRootURL_StoreID);
       Property(x => x.parent_VersionId).IsOptional();
       Property(x => x.parent_FhirId).IsOptional();
       Property(x => x.parent_Type).IsOptional();
       HasOptional(x => x.parent_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.parent_Url).WithMany().HasForeignKey(x => x.parent_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.parent_Url).WithMany().HasForeignKey(x => x.parent_ServiceRootURL_StoreID);
       Property(x => x.priority_Code).IsOptional();
       Property(x => x.priority_System).IsOptional();
       Property(x => x.status_Code).IsOptional();
@@ -52,7 +52,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.subject_FhirId).IsOptional();
       Property(x => x.subject_Type).IsOptional();
       HasOptional(x => x.subject_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_ServiceRootURL_StoreID);
     }
   }
 }

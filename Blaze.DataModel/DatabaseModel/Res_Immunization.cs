@@ -17,31 +17,31 @@ namespace Blaze.DataModel.DatabaseModel
     public string location_VersionId {get; set;}
     public string location_FhirId {get; set;}
     public string location_Type {get; set;}
-    public virtual Blaze_RootUrlStore location_Url { get; set; }
-    public int? location_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store location_Url { get; set; }
+    public int? location_ServiceRootURL_StoreID { get; set; }
     public string lot_number_String {get; set;}
     public string manufacturer_VersionId {get; set;}
     public string manufacturer_FhirId {get; set;}
     public string manufacturer_Type {get; set;}
-    public virtual Blaze_RootUrlStore manufacturer_Url { get; set; }
-    public int? manufacturer_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store manufacturer_Url { get; set; }
+    public int? manufacturer_ServiceRootURL_StoreID { get; set; }
     public string notgiven_Code {get; set;}
     public string notgiven_System {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string performer_VersionId {get; set;}
     public string performer_FhirId {get; set;}
     public string performer_Type {get; set;}
-    public virtual Blaze_RootUrlStore performer_Url { get; set; }
-    public int? performer_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store performer_Url { get; set; }
+    public int? performer_ServiceRootURL_StoreID { get; set; }
     public string requester_VersionId {get; set;}
     public string requester_FhirId {get; set;}
     public string requester_Type {get; set;}
-    public virtual Blaze_RootUrlStore requester_Url { get; set; }
-    public int? requester_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store requester_Url { get; set; }
+    public int? requester_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_Immunization_History> Res_Immunization_History_List { get; set; }

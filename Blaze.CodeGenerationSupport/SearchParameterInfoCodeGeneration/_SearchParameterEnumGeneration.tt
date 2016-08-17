@@ -20,7 +20,7 @@
   // Any output below here will go to the BlazeDbModelCodeGenerator.cs
   SearchParamInfoCodeGeneration SearchParamInfoCodeGeneration = new SearchParamInfoCodeGeneration();      
   SearchParamInfoCodeGeneration.Generate();
-  Dictionary<string, SearchParamInfoItem> SearchParamInfoItemDic = SearchParamInfoCodeGeneration.DistinctSearchParamInfoItemDictornary;    
+  Dictionary<string, SearchParamEnumInfoItem> SearchParamEnumInfoItemDic = SearchParamInfoCodeGeneration.DistinctSearchParamEnumInfoItemDictornary;    
   manager.StartNewFile(string.Format("{0}.cs","FhirSearchEnumPartial"), "Blaze.Common", "Enum");
 #>
 using System.Collections.Generic;
@@ -34,9 +34,9 @@ namespace Blaze.Common.Enum
     public enum SearchParameterNameType
     {
 <#
-    foreach (var SearchParamInfoItem in SearchParamInfoItemDic)
+    foreach (var SearchParamEnumInfoItem in SearchParamEnumInfoItemDic)
     {#>
-      <#=SearchParamInfoItem.Value.EnumName#>,
+      <#=SearchParamEnumInfoItem.Value.EnumName#>,
 <#
     }
 #>  
@@ -47,9 +47,9 @@ namespace Blaze.Common.Enum
       return new Dictionary<string, SearchParameterNameType>()
       {
 <#
-    foreach (var SearchParamInfoItem in SearchParamInfoItemDic)
+    foreach (var SearchParamEnumInfoItem in SearchParamEnumInfoItemDic)
     {#>
-        {"<#=SearchParamInfoItem.Value.Name#>", SearchParameterNameType.<#=SearchParamInfoItem.Value.EnumName#>},       
+        {"<#=SearchParamEnumInfoItem.Value.Name#>", SearchParameterNameType.<#=SearchParamEnumInfoItem.Value.EnumName#>},       
 <#
     }
 #>  

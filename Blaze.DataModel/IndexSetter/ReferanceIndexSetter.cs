@@ -68,7 +68,7 @@ namespace Blaze.DataModel.IndexSetter
       {
         var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(FhirUri.Value);
         SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
-        ReferenceIndex.Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
+        ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
         return ReferenceIndex;
 
       }
@@ -79,7 +79,7 @@ namespace Blaze.DataModel.IndexSetter
         SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
         if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
         {
-          ReferenceIndex.Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
+          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
         }
         else
         {
@@ -119,7 +119,7 @@ namespace Blaze.DataModel.IndexSetter
         {
           if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
           {
-            ReferenceIndex.Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
+            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
           }
           else
           {
@@ -128,7 +128,7 @@ namespace Blaze.DataModel.IndexSetter
         }
         else
         {
-          ReferenceIndex.Url_Blaze_RootUrlStoreID = FhirRequestUri.PrimaryRootUrlStore.Blaze_RootUrlStoreID;
+          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
         }
         return ReferenceIndex;
       }

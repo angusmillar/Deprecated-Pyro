@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string author_VersionId {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
-    public virtual Blaze_RootUrlStore author_Url { get; set; }
-    public int? author_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store author_Url { get; set; }
+    public int? author_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Linkage_History> Res_Linkage_History_List { get; set; }
     public ICollection<Res_Linkage_Index_item> item_List { get; set; }
     public ICollection<Res_Linkage_Index_source> source_List { get; set; }

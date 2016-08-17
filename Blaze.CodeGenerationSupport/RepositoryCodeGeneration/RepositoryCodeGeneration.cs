@@ -45,8 +45,8 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           RepositoryItem.ResourceEntityIncludesList.Add(DatabaseModelInfo.ConstructCollectionListName(CollectionParameter));
           CollectionIndexEntity oIndexEntity = new CollectionIndexEntity();
           RepositoryItem.ResourceEntityCollectionPropertiesInfoList.Add(oIndexEntity);
-          oIndexEntity.IndexEntityClassName = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionParameter);
-          oIndexEntity.IndexEntityPropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
+          oIndexEntity.ClassName = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionParameter);
+          oIndexEntity.PropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
           oIndexEntity.SearchParameterInfo = new SearchParameterInfo();
           oIndexEntity.SearchParameterInfo.BlazeIndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
           oIndexEntity.SearchParameterInfo.SearchParameterName = CollectionParameter.SearchName;

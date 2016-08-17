@@ -24,7 +24,7 @@ namespace Blaze.Engine.Search
     private static DtoSearchParameters ParseToSupportedSearchParameters(SearchParams FhirSearchParameter)
     {
       var oInboundSearchParametersList = new List<DtoSearchParameterBase>();
-      var oSupportedSearchParametersForResourceList = Search.SupportedSearchParameters.GetSupportedParametersForResourceTypeList(_ResourceType);
+      var oSupportedSearchParametersForResourceList = DtoSupportedSearchParameters.GetSupportedParametersForResourceTypeList(_ResourceType);
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameType();
 
       foreach (var Parameter in FhirSearchParameter.Parameters)
@@ -41,7 +41,7 @@ namespace Blaze.Engine.Search
             var oSupportedSearchParameter = oSupportedSearchParametersForResourceList.SingleOrDefault(x => x.Name == SearchParameterNameType);
             if (oSupportedSearchParameter != null)
             {
-              DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter.Resource, (FhirSearchEnum.SearchParameterNameType)SearchParameterNameType, Parameter, oSupportedSearchParameter.SearchParameterType);
+              DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter.Resource, (FhirSearchEnum.SearchParameterNameType)SearchParameterNameType, Parameter, oSupportedSearchParameter.DbSearchParameterType);
               ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter);
               oInboundSearchParametersList.Add(oSearchParameter);
             }
@@ -75,7 +75,7 @@ namespace Blaze.Engine.Search
       return new DtoSearchParameters() { ResourceTarget = _ResourceType, SearchParametersList = oInboundSearchParametersList };
     }
 
-    private static void ValidateSearchParameterSupported(SupportedSearchParameters oSupported, DtoSearchParameterBase oInboundSearchParameter)
+    private static void ValidateSearchParameterSupported(DtoSupportedSearchParameters oSupported, DtoSearchParameterBase oInboundSearchParameter)
     {
       if (oInboundSearchParameter.Modifier != FhirSearchEnum.SearchModifierType.None)
       {

@@ -32,7 +32,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       _CodeGenerationDbTableModelList = new List<CodeGenerationDbTableModel>();
 
       //Url Store Table      
-      _CodeGenerationDbTableModelList.Add(Create_Blaze_RootUrlStore_Table());
+      _CodeGenerationDbTableModelList.Add(Create_ServiceRootUrlStore_Table());
 
       foreach (var ResourceName in _ResourceList)
       {
@@ -147,9 +147,10 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     /// Create the table that holds all URL's for the resource references
     /// </summary>
     /// <returns></returns>
-    private CodeGenerationDbTableModel Create_Blaze_RootUrlStore_Table()
+    private CodeGenerationDbTableModel Create_ServiceRootUrlStore_Table()
     {
-      string UrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
+      //string UrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
+      string UrlStoreTableClassName = "ServiceRootURL_Store";
       var TableModel = new CodeGenerationDbTableModel();
       TableModel.TableName = UrlStoreTableClassName;
       TableModel.TableCreateSyntax = GererateTableCreateSyntax(UrlStoreTableClassName, UrlStoreTableClassName);
@@ -388,14 +389,16 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           }
         case Hl7.Fhir.Model.SearchParamType.Reference:
           {
-            string RootUrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
+            //"ServiceRootURL_Store"
+            //string RootUrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
+            string RootUrlStoreTableClassName = "ServiceRootURL_Store";
             if (IsIndex)
             {
               FluentPathList.Add(String.Format("Property(x => x.{0}VersionId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsRequired();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsRequired();", Prefix));
               FluentPathList.Add(String.Format("HasRequired(x => x.{0}Url);", Prefix));
-              FluentPathList.Add(String.Format("HasRequired<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}Url_{0}ID);", RootUrlStoreTableClassName, Prefix));
+              FluentPathList.Add(String.Format("HasRequired<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}{0}ID);", RootUrlStoreTableClassName, Prefix));
             }
             else
             {
@@ -403,7 +406,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
               FluentPathList.Add(String.Format("Property(x => x.{0}FhirId).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("Property(x => x.{0}Type).IsOptional();", Prefix));
               FluentPathList.Add(String.Format("HasOptional(x => x.{0}Url);", Prefix));
-              FluentPathList.Add(String.Format("HasOptional<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}Url_{0}ID);", RootUrlStoreTableClassName, Prefix));
+              FluentPathList.Add(String.Format("HasOptional<{0}>(x => x.{1}Url).WithMany().HasForeignKey(x => x.{1}{0}ID);", RootUrlStoreTableClassName, Prefix));
             }
           }
           break;
@@ -605,8 +608,10 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             Propertylist.Add(String.Format("public string {0}VersionId {{get; set;}}", Prefix));
             Propertylist.Add(String.Format("public string {0}FhirId {{get; set;}}", Prefix));
             Propertylist.Add(String.Format("public string {0}Type {{get; set;}}", Prefix));
-            Propertylist.Add(String.Format("public virtual {1}_RootUrlStore {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
-            Propertylist.Add(String.Format("public int? {0}Url_{1}_RootUrlStoreID {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
+            //Propertylist.Add(String.Format("public virtual {1}_RootUrlStore {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
+            Propertylist.Add(String.Format("public virtual {1} {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store));
+            //Propertylist.Add(String.Format("public int? {0}Url_{1}_RootUrlStoreID {{ get; set; }}", Prefix, DatabaseModelInfo.ApplicationName));
+            Propertylist.Add(String.Format("public int? {0}{1} {{ get; set; }}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
           }
           break;
         case Hl7.Fhir.Model.SearchParamType.String:

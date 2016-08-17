@@ -23,7 +23,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.FhirId).IsRequired();
       Property(x => x.Type).IsRequired();
       HasRequired(x => x.Url);
-      HasRequired<Blaze_RootUrlStore>(x => x.Url).WithMany().HasForeignKey(x => x.Url_Blaze_RootUrlStoreID);
+      HasRequired<ServiceRootURL_Store>(x => x.Url).WithMany().HasForeignKey(x => x.ServiceRootURL_StoreID);
       HasRequired(x => x.Res_PractitionerRole).WithMany(x => x.location_List).WillCascadeOnDelete(true);
     }
   }

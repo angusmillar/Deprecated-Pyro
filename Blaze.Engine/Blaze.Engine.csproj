@@ -78,7 +78,6 @@
     <Compile Include="Search\SearchPlanNegotiator.cs" />
     <Compile Include="Search\SearchUriValidator.cs" />
     <Compile Include="Search\SearchParametersValidationOperationOutcome.cs" />
-    <Compile Include="Search\SupportedSearchParameters.cs" />
     <Compile Include="Services\BaseResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />

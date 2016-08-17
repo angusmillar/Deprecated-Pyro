@@ -16,20 +16,20 @@ namespace Blaze.DataModel.DatabaseModel
     public string care_manager_VersionId {get; set;}
     public string care_manager_FhirId {get; set;}
     public string care_manager_Type {get; set;}
-    public virtual Blaze_RootUrlStore care_manager_Url { get; set; }
-    public int? care_manager_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store care_manager_Url { get; set; }
+    public int? care_manager_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}
     public string organization_Type {get; set;}
-    public virtual Blaze_RootUrlStore organization_Url { get; set; }
-    public int? organization_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store organization_Url { get; set; }
+    public int? organization_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_EpisodeOfCare_History> Res_EpisodeOfCare_History_List { get; set; }

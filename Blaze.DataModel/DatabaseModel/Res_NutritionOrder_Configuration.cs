@@ -29,17 +29,17 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_ServiceRootURL_StoreID);
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.provider_VersionId).IsOptional();
       Property(x => x.provider_FhirId).IsOptional();
       Property(x => x.provider_Type).IsOptional();
       HasOptional(x => x.provider_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.provider_Url).WithMany().HasForeignKey(x => x.provider_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.provider_Url).WithMany().HasForeignKey(x => x.provider_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
     }

@@ -124,11 +124,11 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.composition_FhirId = null;      
       ResourceEntity.composition_Type = null;      
       ResourceEntity.composition_Url = null;      
-      ResourceEntity.composition_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.composition_ServiceRootURL_StoreID = null;      
       ResourceEntity.message_FhirId = null;      
       ResourceEntity.message_Type = null;      
       ResourceEntity.message_Url = null;      
-      ResourceEntity.message_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.message_ServiceRootURL_StoreID = null;      
       ResourceEntity.type_Code = null;      
       ResourceEntity.type_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -167,7 +167,7 @@ namespace Blaze.DataModel.Repository
                   }
                   else
                   {
-                    ResourseEntity.composition_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+                    ResourseEntity.composition_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
                   }
                 }
               }
@@ -199,7 +199,7 @@ namespace Blaze.DataModel.Repository
                   }
                   else
                   {
-                    ResourseEntity.message_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+                    ResourseEntity.message_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
                   }
                 }
               }

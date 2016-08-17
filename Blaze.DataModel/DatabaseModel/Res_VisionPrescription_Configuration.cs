@@ -29,17 +29,17 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.encounter_FhirId).IsOptional();
       Property(x => x.encounter_Type).IsOptional();
       HasOptional(x => x.encounter_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.encounter_Url).WithMany().HasForeignKey(x => x.encounter_ServiceRootURL_StoreID);
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.prescriber_VersionId).IsOptional();
       Property(x => x.prescriber_FhirId).IsOptional();
       Property(x => x.prescriber_Type).IsOptional();
       HasOptional(x => x.prescriber_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.prescriber_Url).WithMany().HasForeignKey(x => x.prescriber_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.prescriber_Url).WithMany().HasForeignKey(x => x.prescriber_ServiceRootURL_StoreID);
     }
   }
 }

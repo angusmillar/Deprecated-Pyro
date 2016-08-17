@@ -16,7 +16,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
     public FHIRDefinedType Resource { get; set; }
     public string RawValue { get; set; }
-    public SearchParamType SearchParameterType { get; set; }
+    public DatabaseEnum.BlazeIndexType DbSearchParameterType { get; set; }
     public FhirSearchEnum.SearchModifierType Modifier { get; set; }
     public ResourceType? TypeModifierResource { get; set; }
     public FhirSearchEnum.SearchPrefixType Prefix { get; set; }

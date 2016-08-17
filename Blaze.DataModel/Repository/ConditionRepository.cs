@@ -131,18 +131,18 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.asserter_FhirId = null;      
       ResourceEntity.asserter_Type = null;      
       ResourceEntity.asserter_Url = null;      
-      ResourceEntity.asserter_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.asserter_ServiceRootURL_StoreID = null;      
       ResourceEntity.clinicalstatus_Code = null;      
       ResourceEntity.clinicalstatus_System = null;      
       ResourceEntity.date_recorded_DateTimeOffset = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
-      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -179,7 +179,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.asserter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.asserter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -228,7 +228,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -250,7 +250,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

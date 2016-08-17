@@ -28,7 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.author_FhirId).IsOptional();
       Property(x => x.author_Type).IsOptional();
       HasOptional(x => x.author_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.author_Url).WithMany().HasForeignKey(x => x.author_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.author_Url).WithMany().HasForeignKey(x => x.author_ServiceRootURL_StoreID);
     }
   }
 }

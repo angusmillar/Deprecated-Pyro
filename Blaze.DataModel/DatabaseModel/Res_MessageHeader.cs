@@ -16,29 +16,29 @@ namespace Blaze.DataModel.DatabaseModel
     public string author_VersionId {get; set;}
     public string author_FhirId {get; set;}
     public string author_Type {get; set;}
-    public virtual Blaze_RootUrlStore author_Url { get; set; }
-    public int? author_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store author_Url { get; set; }
+    public int? author_ServiceRootURL_StoreID { get; set; }
     public string code_Code {get; set;}
     public string code_System {get; set;}
     public string enterer_VersionId {get; set;}
     public string enterer_FhirId {get; set;}
     public string enterer_Type {get; set;}
-    public virtual Blaze_RootUrlStore enterer_Url { get; set; }
-    public int? enterer_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store enterer_Url { get; set; }
+    public int? enterer_ServiceRootURL_StoreID { get; set; }
     public string event_Code {get; set;}
     public string event_System {get; set;}
     public string receiver_VersionId {get; set;}
     public string receiver_FhirId {get; set;}
     public string receiver_Type {get; set;}
-    public virtual Blaze_RootUrlStore receiver_Url { get; set; }
-    public int? receiver_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store receiver_Url { get; set; }
+    public int? receiver_ServiceRootURL_StoreID { get; set; }
     public string response_id_Code {get; set;}
     public string response_id_System {get; set;}
     public string responsible_VersionId {get; set;}
     public string responsible_FhirId {get; set;}
     public string responsible_Type {get; set;}
-    public virtual Blaze_RootUrlStore responsible_Url { get; set; }
-    public int? responsible_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store responsible_Url { get; set; }
+    public int? responsible_ServiceRootURL_StoreID { get; set; }
     public string source_String {get; set;}
     public string source_uri_Uri {get; set;}
     public DateTimeOffset? timestamp_DateTimeOffset {get; set;}

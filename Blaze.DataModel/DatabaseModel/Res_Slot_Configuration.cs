@@ -28,7 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.schedule_FhirId).IsOptional();
       Property(x => x.schedule_Type).IsOptional();
       HasOptional(x => x.schedule_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.schedule_Url).WithMany().HasForeignKey(x => x.schedule_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.schedule_Url).WithMany().HasForeignKey(x => x.schedule_ServiceRootURL_StoreID);
       Property(x => x.start_DateTimeOffset).IsOptional();
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();

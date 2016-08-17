@@ -9,7 +9,7 @@ namespace Blaze.Common.BusinessEntities.Dto
 {
   public class DtoRootUrlStore : IDtoRootUrlStore
   {
-    public int Blaze_RootUrlStoreID { get; set; }
+    public int ServiceRootUrlStoreID { get; set; }
     public string RootUrl { get; set; }
     public bool IsServersPrimaryUrlRoot { get; set; }
   }

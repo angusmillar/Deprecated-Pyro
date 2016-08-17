@@ -80,12 +80,6 @@
     <Compile Include="DatabaseModel\Base\DateIndex.cs" />
     <Compile Include="DatabaseModel\Base\ModelBase.cs" />
     <Compile Include="DatabaseModel\Base\TokenIndex.cs" />
-    <Compile Include="DatabaseModel\Blaze_RootUrlStore.cs">
-      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="DatabaseModel\Blaze_RootUrlStore_Configuration.cs">
-      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseModel\DatabaseContext.cs">
       <DependentUpon>_DbContextGenerator.txt4</DependentUpon>
     </Compile>
@@ -6213,6 +6207,12 @@
       <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="DatabaseModel\Res_VisionPrescription_Index_tag_Configuration.cs">
+      <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\ServiceRootURL_Store.cs">
+      <DependentUpon>_DbEntityModelGenerator.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseModel\ServiceRootURL_Store_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="IndexSetter\DateIndexSetter.cs" />

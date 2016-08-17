@@ -39,12 +39,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();
       HasOptional(x => x.organization_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.organization_Url).WithMany().HasForeignKey(x => x.organization_ServiceRootURL_StoreID);
       Property(x => x.partof_VersionId).IsOptional();
       Property(x => x.partof_FhirId).IsOptional();
       Property(x => x.partof_Type).IsOptional();
       HasOptional(x => x.partof_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.partof_Url).WithMany().HasForeignKey(x => x.partof_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.partof_Url).WithMany().HasForeignKey(x => x.partof_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
     }

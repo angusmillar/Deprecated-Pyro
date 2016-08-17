@@ -101,8 +101,12 @@ namespace Blaze.Test.IndexSetters
       //Act      
       ActualValueDelegate<TokenIndex> testDelegate = () => IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as TokenIndex;
 
-      //Assert
-      Assert.That(testDelegate, Throws.TypeOf<Blaze.Common.BusinessEntities.Dto.DtoBlazeException>());
+      //Act
+      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as TokenIndex;
+
+      //Assert            
+      Assert.IsNull(Index);
+      
     }
 
 

@@ -19,13 +19,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string request_VersionId {get; set;}
     public string request_FhirId {get; set;}
     public string request_Type {get; set;}
-    public virtual Blaze_RootUrlStore request_Url { get; set; }
-    public int? request_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store request_Url { get; set; }
+    public int? request_ServiceRootURL_StoreID { get; set; }
     public string who_VersionId {get; set;}
     public string who_FhirId {get; set;}
     public string who_Type {get; set;}
-    public virtual Blaze_RootUrlStore who_Url { get; set; }
-    public int? who_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store who_Url { get; set; }
+    public int? who_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_OrderResponse_History> Res_OrderResponse_History_List { get; set; }
     public ICollection<Res_OrderResponse_Index_fulfillment> fulfillment_List { get; set; }
     public ICollection<Res_OrderResponse_Index_identifier> identifier_List { get; set; }

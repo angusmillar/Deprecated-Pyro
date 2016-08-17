@@ -8,7 +8,7 @@ namespace Blaze.Common.Interfaces.Dto
 {
   public interface IDtoRootUrlStore
   {
-    int Blaze_RootUrlStoreID { get; set; }
+    int ServiceRootUrlStoreID { get; set; }
     string RootUrl { get; set; }
     bool IsServersPrimaryUrlRoot { get; set; }
   }

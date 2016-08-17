@@ -153,7 +153,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      
-      ResourceEntity.organization_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.organization_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -284,7 +284,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.organization_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.organization_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

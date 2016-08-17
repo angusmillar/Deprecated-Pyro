@@ -25,7 +25,7 @@
   // Any output below here will go to the BlazeDbModelCodeGenerator.cs
   
   Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.CodeGenerationDbTableModelList;
+  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.Generate();
 
   //manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"));
 #>

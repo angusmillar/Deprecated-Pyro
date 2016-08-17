@@ -17,8 +17,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string location_VersionId {get; set;}
     public string location_FhirId {get; set;}
     public string location_Type {get; set;}
-    public virtual Blaze_RootUrlStore location_Url { get; set; }
-    public int? location_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store location_Url { get; set; }
+    public int? location_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? start_DateTimeOffset {get; set;}
     public ICollection<Res_Provenance_History> Res_Provenance_History_List { get; set; }
     public ICollection<Res_Provenance_Index_agent> agent_List { get; set; }

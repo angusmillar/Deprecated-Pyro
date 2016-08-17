@@ -10,13 +10,13 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Blaze_RootUrlStore : ModelBase
+  public class ServiceRootURL_Store : ModelBase
   {
-    public int Blaze_RootUrlStoreID {get; set;}
+    public int ServiceRootURL_StoreID {get; set;}
     public string RootUrl {get; set;}
     public bool IsServersPrimaryUrlRoot {get; set;}
    
-    public Blaze_RootUrlStore()
+    public ServiceRootURL_Store()
     {
     }
   }

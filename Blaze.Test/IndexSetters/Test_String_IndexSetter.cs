@@ -35,7 +35,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       var ResultString = string.Format("{0} {1} {2} {3} {4} {5}", Line1, Line2, City, PostCode, State, Country);
-      Assert.AreEqual(Index.String, ResultString);
+      Assert.AreEqual(Index.String, Blaze.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(ResultString));
     }
 
     [Test]
@@ -82,7 +82,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(Annotation, Index) as StringIndex;
 
       //Assert      
-      Assert.AreEqual(Index.String, Text);
+      Assert.AreEqual(Index.String, Blaze.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Text));
     }
 
     [Test]
@@ -129,7 +129,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(FhirString, Index) as StringIndex;
 
       //Assert      
-      Assert.AreEqual(Index.String, Text);
+      Assert.AreEqual(Index.String, Blaze.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Text));
     }
 
     [Test]
@@ -181,7 +181,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert 
       string HumanNameString = string.Format("{0} {1} {2} {3}", Given1, Given2, Family1, Family2);     
-      Assert.AreEqual(Index.String, HumanNameString);
+      Assert.AreEqual(Index.String, Blaze.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(HumanNameString));
     }
 
     [Test]
@@ -228,7 +228,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(Markdown, Index) as StringIndex;
 
       //Assert      
-      Assert.AreEqual(Index.String, Text);
+      Assert.AreEqual(Index.String, Blaze.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Text));
     }
 
     [Test]

@@ -374,7 +374,15 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}else", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      //_Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;", 
+      //  DepthSpace(_BracketDepthCounter), 
+      //  DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
+        DepthSpace(_BracketDepthCounter),
+        DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
+        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
+
+
       _BracketDepthCounter--;
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
 

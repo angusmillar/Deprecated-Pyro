@@ -28,7 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.appointment_FhirId).IsOptional();
       Property(x => x.appointment_Type).IsOptional();
       HasOptional(x => x.appointment_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.appointment_Url).WithMany().HasForeignKey(x => x.appointment_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.appointment_Url).WithMany().HasForeignKey(x => x.appointment_ServiceRootURL_StoreID);
       Property(x => x.date_DateTimeOffsetLow).IsOptional();
       Property(x => x.date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.length_Comparator).IsOptional();
@@ -37,12 +37,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.part_of_FhirId).IsOptional();
       Property(x => x.part_of_Type).IsOptional();
       HasOptional(x => x.part_of_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.part_of_Url).WithMany().HasForeignKey(x => x.part_of_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.part_of_Url).WithMany().HasForeignKey(x => x.part_of_ServiceRootURL_StoreID);
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
-      HasOptional<Blaze_RootUrlStore>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_Url_Blaze_RootUrlStoreID);
+      HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
     }

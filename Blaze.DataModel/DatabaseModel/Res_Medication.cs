@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string manufacturer_VersionId {get; set;}
     public string manufacturer_FhirId {get; set;}
     public string manufacturer_Type {get; set;}
-    public virtual Blaze_RootUrlStore manufacturer_Url { get; set; }
-    public int? manufacturer_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store manufacturer_Url { get; set; }
+    public int? manufacturer_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Medication_History> Res_Medication_History_List { get; set; }
     public ICollection<Res_Medication_Index_code> code_List { get; set; }
     public ICollection<Res_Medication_Index_container> container_List { get; set; }

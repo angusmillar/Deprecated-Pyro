@@ -21,8 +21,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string replaced_by_VersionId {get; set;}
     public string replaced_by_FhirId {get; set;}
     public string replaced_by_Type {get; set;}
-    public virtual Blaze_RootUrlStore replaced_by_Url { get; set; }
-    public int? replaced_by_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store replaced_by_Url { get; set; }
+    public int? replaced_by_ServiceRootURL_StoreID { get; set; }
     public string responsible_String {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}

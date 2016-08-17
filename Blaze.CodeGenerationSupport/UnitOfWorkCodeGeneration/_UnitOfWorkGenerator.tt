@@ -45,7 +45,7 @@ namespace Blaze.DataModel
       _context = new Blaze.DataModel.DatabaseModel.DatabaseContext();
     }
 
-    public ICommonRepository CommonRepository
+    public IDtoCommonRepository CommonRepository
     {
       get
       {
@@ -122,7 +122,7 @@ namespace Blaze.Common.Interfaces.Repositories
 {
   public interface IUnitOfWork
   {
-    ICommonRepository CommonRepository { get; }
+    IDtoCommonRepository CommonRepository { get; }
 <#
   foreach(var Resource in _ResourceList)
   {      

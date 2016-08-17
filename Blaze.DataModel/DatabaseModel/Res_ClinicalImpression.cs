@@ -16,26 +16,26 @@ namespace Blaze.DataModel.DatabaseModel
     public string assessor_VersionId {get; set;}
     public string assessor_FhirId {get; set;}
     public string assessor_Type {get; set;}
-    public virtual Blaze_RootUrlStore assessor_Url { get; set; }
-    public int? assessor_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store assessor_Url { get; set; }
+    public int? assessor_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string previous_VersionId {get; set;}
     public string previous_FhirId {get; set;}
     public string previous_Type {get; set;}
-    public virtual Blaze_RootUrlStore previous_Url { get; set; }
-    public int? previous_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store previous_Url { get; set; }
+    public int? previous_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string trigger_VersionId {get; set;}
     public string trigger_FhirId {get; set;}
     public string trigger_Type {get; set;}
-    public virtual Blaze_RootUrlStore trigger_Url { get; set; }
-    public int? trigger_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store trigger_Url { get; set; }
+    public int? trigger_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_ClinicalImpression_History> Res_ClinicalImpression_History_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_action> action_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_finding> finding_List { get; set; }

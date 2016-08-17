@@ -19,8 +19,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string partof_VersionId {get; set;}
     public string partof_FhirId {get; set;}
     public string partof_Type {get; set;}
-    public virtual Blaze_RootUrlStore partof_Url { get; set; }
-    public int? partof_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store partof_Url { get; set; }
+    public int? partof_ServiceRootURL_StoreID { get; set; }
     public string phonetic_String {get; set;}
     public ICollection<Res_Organization_History> Res_Organization_History_List { get; set; }
     public ICollection<Res_Organization_Index_address> address_List { get; set; }

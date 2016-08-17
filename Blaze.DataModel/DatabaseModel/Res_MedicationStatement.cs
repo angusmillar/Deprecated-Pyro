@@ -19,18 +19,18 @@ namespace Blaze.DataModel.DatabaseModel
     public string medication_VersionId {get; set;}
     public string medication_FhirId {get; set;}
     public string medication_Type {get; set;}
-    public virtual Blaze_RootUrlStore medication_Url { get; set; }
-    public int? medication_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store medication_Url { get; set; }
+    public int? medication_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
-    public virtual Blaze_RootUrlStore source_Url { get; set; }
-    public int? source_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store source_Url { get; set; }
+    public int? source_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_MedicationStatement_History> Res_MedicationStatement_History_List { get; set; }

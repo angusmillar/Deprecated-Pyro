@@ -5,6 +5,7 @@
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
 <#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.Common.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
@@ -12,6 +13,7 @@
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #> 
 <#@ import namespace="Blaze.CodeGenerationSupport.IndexSetterInterfaces" #> 
+<#@ import namespace="Blaze.Common.Enum" #> 
 
 <#
   var manager = TemplateFileManager.Create(this);
@@ -28,7 +30,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 <#
     if (item.IndexSetterMethodList.Count() > 0)
     {
-      if (item.IndexSetterMethodList[0].IndexType == Blaze.CodeGenerationSupport.DatabaseModelInfo.BlazeIndexType.ReferenceIndex)
+      if (item.IndexSetterMethodList[0].IndexType == DatabaseEnum.BlazeIndexType.ReferenceIndex)
       {
 #>
 using Blaze.DataModel.Repository.Interfaces;

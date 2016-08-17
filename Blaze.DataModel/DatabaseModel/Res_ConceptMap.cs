@@ -22,20 +22,20 @@ namespace Blaze.DataModel.DatabaseModel
     public string source_VersionId {get; set;}
     public string source_FhirId {get; set;}
     public string source_Type {get; set;}
-    public virtual Blaze_RootUrlStore source_Url { get; set; }
-    public int? source_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store source_Url { get; set; }
+    public int? source_ServiceRootURL_StoreID { get; set; }
     public string source_uri_VersionId {get; set;}
     public string source_uri_FhirId {get; set;}
     public string source_uri_Type {get; set;}
-    public virtual Blaze_RootUrlStore source_uri_Url { get; set; }
-    public int? source_uri_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store source_uri_Url { get; set; }
+    public int? source_uri_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string target_VersionId {get; set;}
     public string target_FhirId {get; set;}
     public string target_Type {get; set;}
-    public virtual Blaze_RootUrlStore target_Url { get; set; }
-    public int? target_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store target_Url { get; set; }
+    public int? target_ServiceRootURL_StoreID { get; set; }
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}

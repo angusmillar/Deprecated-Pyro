@@ -1,45 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Search;
 using Blaze.Common.Enum;
+using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Search
+namespace Blaze.Common.BusinessEntities.Search
 {
-  //This class holds the information about what Search parameters are supported
-  //As new search functionality is added to the blaze server new instances 
-  //of this object will be hard coded into the supported search parameters list
-  //That list is always cross referenced against new search parameters that are sent into the server via URL
-  //and parsed into DtoSearchParameterBase object instances.
-  public class SupportedSearchParameters
+  public class DtoSupportedSearchParameters
   {
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
     public FHIRDefinedType Resource { get; set; }
-    public SearchParamType SearchParameterType { get; set; }
+    public DatabaseEnum.BlazeIndexType DbSearchParameterType { get; set; }
     public bool IsCollection { get; set; }
     public bool DbPropertyName { get; set; }
     public List<FhirSearchEnum.SearchModifierType> ModifierList { get; set; }
     public List<ResourceType> TypeModifierResourceList { get; set; }
-    public List<FhirSearchEnum.SearchPrefixType> PrefixList { get; set; }    
+    public List<FhirSearchEnum.SearchPrefixType> PrefixList { get; set; }
 
-    private static void AddSupportedParametersForAllResources(List<SupportedSearchParameters> List)
+    private static void AddSupportedParametersForAllResources(List<DtoSupportedSearchParameters> List)
     {
-      var Page = new SupportedSearchParameters();
+      var Page = new DtoSupportedSearchParameters();
       Page.Name = FhirSearchEnum.SearchParameterNameType.page;
       Page.Resource = FHIRDefinedType.Resource;
-      Page.SearchParameterType = SearchParamType.Number;
+      Page.DbSearchParameterType = DatabaseEnum.BlazeIndexType.NumberIndex;
       Page.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       Page.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
       Page.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(Page);
 
-      var _Id = new SupportedSearchParameters();
+      var _Id = new DtoSupportedSearchParameters();
       _Id.Name = FhirSearchEnum.SearchParameterNameType._id;
       _Id.Resource = FHIRDefinedType.Resource;
-      _Id.SearchParameterType = SearchParamType.String;
+      _Id.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
       _Id.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
       _Id.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
@@ -47,63 +39,63 @@ namespace Blaze.Engine.Search
 
     }
 
-    public static List<SupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRDefinedType ResourceType)
+    public static List<DtoSupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRDefinedType ResourceType)
     {
-      var List = new List<SupportedSearchParameters>();
+      var List = new List<DtoSupportedSearchParameters>();
       AddSupportedParametersForAllResources(List);
       switch (ResourceType)
       {
         case FHIRDefinedType.Patient:
           {
-            var Family = new SupportedSearchParameters();
+            var Family = new DtoSupportedSearchParameters();
             Family.Name = FhirSearchEnum.SearchParameterNameType.family;
             Family.Resource = ResourceType;
-            Family.SearchParameterType = SearchParamType.String;
-            Family.ModifierList = new List<FhirSearchEnum.SearchModifierType>();            
-            Family.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();            
-            Family.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();            
+            Family.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
+            Family.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+            Family.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            Family.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Family);
 
-            var Given = new SupportedSearchParameters();
+            var Given = new DtoSupportedSearchParameters();
             Given.Name = FhirSearchEnum.SearchParameterNameType.given;
             Given.Resource = ResourceType;
-            Given.SearchParameterType = SearchParamType.String;
+            Given.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
             Given.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Given.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
-            Given.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();            
+            Given.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Given);
 
-            var Name = new SupportedSearchParameters();
+            var Name = new DtoSupportedSearchParameters();
             Name.Name = FhirSearchEnum.SearchParameterNameType.name;
             Name.Resource = ResourceType;
-            Name.SearchParameterType = SearchParamType.String;
+            Name.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
             Name.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Name.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Name.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Name);
 
-            var Phonetic = new SupportedSearchParameters();
+            var Phonetic = new DtoSupportedSearchParameters();
             Phonetic.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             Phonetic.Resource = ResourceType;
-            Phonetic.SearchParameterType = SearchParamType.String;
+            Phonetic.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
             Phonetic.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Phonetic.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Phonetic.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Phonetic);
 
-            var Identifier = new SupportedSearchParameters();
+            var Identifier = new DtoSupportedSearchParameters();
             Identifier.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             Identifier.Resource = ResourceType;
-            Identifier.SearchParameterType = SearchParamType.Token;
+            Identifier.DbSearchParameterType = DatabaseEnum.BlazeIndexType.TokenIndex;
             Identifier.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Identifier.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Identifier.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Identifier);
 
-            var Active = new SupportedSearchParameters();
+            var Active = new DtoSupportedSearchParameters();
             Active.Name = FhirSearchEnum.SearchParameterNameType.active;
             Active.Resource = ResourceType;
-            Active.SearchParameterType = SearchParamType.Token;
+            Active.DbSearchParameterType = DatabaseEnum.BlazeIndexType.TokenIndex;
             Active.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Active.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Active.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
@@ -113,32 +105,32 @@ namespace Blaze.Engine.Search
           break;
         case FHIRDefinedType.ValueSet:
           {
-            var Description = new SupportedSearchParameters();
+            var Description = new DtoSupportedSearchParameters();
             Description.Name = FhirSearchEnum.SearchParameterNameType.description;
             Description.Resource = ResourceType;
-            Description.SearchParameterType = SearchParamType.String;
-            Description.ModifierList = new List<FhirSearchEnum.SearchModifierType>() { FhirSearchEnum.SearchModifierType.Contains, FhirSearchEnum.SearchModifierType.Exact};
+            Description.DbSearchParameterType = DatabaseEnum.BlazeIndexType.StringIndex;
+            Description.ModifierList = new List<FhirSearchEnum.SearchModifierType>() { FhirSearchEnum.SearchModifierType.Contains, FhirSearchEnum.SearchModifierType.Exact };
             Description.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Description.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Description);
 
-            var Code = new SupportedSearchParameters();
+            var Code = new DtoSupportedSearchParameters();
             Code.Name = FhirSearchEnum.SearchParameterNameType.code;
             Code.Resource = ResourceType;
-            Code.SearchParameterType = SearchParamType.Token;
+            Code.DbSearchParameterType = DatabaseEnum.BlazeIndexType.TokenIndex;
             Code.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Code.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Code.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(Code);
 
-            var Date = new SupportedSearchParameters();
+            var Date = new DtoSupportedSearchParameters();
             Date.Name = FhirSearchEnum.SearchParameterNameType.date;
             Date.Resource = ResourceType;
-            Date.SearchParameterType = SearchParamType.Date;
+            Date.DbSearchParameterType = DatabaseEnum.BlazeIndexType.DateIndex;
             Date.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Date.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
-            Date.PrefixList = new List<FhirSearchEnum.SearchPrefixType>() 
-            { 
+            Date.PrefixList = new List<FhirSearchEnum.SearchPrefixType>()
+            {
               FhirSearchEnum.SearchPrefixType.Equal,
               FhirSearchEnum.SearchPrefixType.Greater,
               FhirSearchEnum.SearchPrefixType.GreaterOrEqual,
@@ -148,10 +140,10 @@ namespace Blaze.Engine.Search
             };
             List.Add(Date);
 
-            var Context = new SupportedSearchParameters();
+            var Context = new DtoSupportedSearchParameters();
             Context.Name = FhirSearchEnum.SearchParameterNameType.context;
             Context.Resource = ResourceType;
-            Context.SearchParameterType = SearchParamType.Token;
+            Context.DbSearchParameterType = DatabaseEnum.BlazeIndexType.TokenIndex;
             Context.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             Context.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             Context.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
@@ -162,6 +154,6 @@ namespace Blaze.Engine.Search
           break;
       }
       return List;
-    }  
+    }
   }
 }

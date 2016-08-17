@@ -127,19 +127,19 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
       ResourceEntity.medication_FhirId = null;      
       ResourceEntity.medication_Type = null;      
       ResourceEntity.medication_Url = null;      
-      ResourceEntity.medication_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.medication_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
-      ResourceEntity.patient_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.prescriber_FhirId = null;      
       ResourceEntity.prescriber_Type = null;      
       ResourceEntity.prescriber_Url = null;      
-      ResourceEntity.prescriber_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.prescriber_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -186,7 +186,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -208,7 +208,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.medication_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.medication_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -230,7 +230,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -252,7 +252,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.prescriber_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.prescriber_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

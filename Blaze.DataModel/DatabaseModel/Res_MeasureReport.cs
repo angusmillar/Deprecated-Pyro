@@ -16,8 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_MeasureReport_History> Res_MeasureReport_History_List { get; set; }
     public ICollection<Res_MeasureReport_Index_profile> profile_List { get; set; }
     public ICollection<Res_MeasureReport_Index_security> security_List { get; set; }

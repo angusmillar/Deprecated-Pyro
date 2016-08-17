@@ -16,32 +16,32 @@ namespace Blaze.DataModel.DatabaseModel
     public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}
-    public virtual Blaze_RootUrlStore encounter_Url { get; set; }
-    public int? encounter_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store encounter_Url { get; set; }
+    public int? encounter_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? received_DateTimeOffset {get; set;}
     public string request_VersionId {get; set;}
     public string request_FhirId {get; set;}
     public string request_Type {get; set;}
-    public virtual Blaze_RootUrlStore request_Url { get; set; }
-    public int? request_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store request_Url { get; set; }
+    public int? request_ServiceRootURL_StoreID { get; set; }
     public string sender_VersionId {get; set;}
     public string sender_FhirId {get; set;}
     public string sender_Type {get; set;}
-    public virtual Blaze_RootUrlStore sender_Url { get; set; }
-    public int? sender_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store sender_Url { get; set; }
+    public int? sender_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? sent_DateTimeOffset {get; set;}
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_VersionId {get; set;}
     public string subject_FhirId {get; set;}
     public string subject_Type {get; set;}
-    public virtual Blaze_RootUrlStore subject_Url { get; set; }
-    public int? subject_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Communication_History> Res_Communication_History_List { get; set; }
     public ICollection<Res_Communication_Index_category> category_List { get; set; }
     public ICollection<Res_Communication_Index_identifier> identifier_List { get; set; }

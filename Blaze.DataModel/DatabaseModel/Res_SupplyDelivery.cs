@@ -18,15 +18,15 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string supplier_VersionId {get; set;}
     public string supplier_FhirId {get; set;}
     public string supplier_Type {get; set;}
-    public virtual Blaze_RootUrlStore supplier_Url { get; set; }
-    public int? supplier_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store supplier_Url { get; set; }
+    public int? supplier_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_SupplyDelivery_History> Res_SupplyDelivery_History_List { get; set; }
     public ICollection<Res_SupplyDelivery_Index_receiver> receiver_List { get; set; }
     public ICollection<Res_SupplyDelivery_Index_profile> profile_List { get; set; }

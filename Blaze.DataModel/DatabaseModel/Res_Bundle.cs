@@ -16,13 +16,13 @@ namespace Blaze.DataModel.DatabaseModel
     public string composition_VersionId {get; set;}
     public string composition_FhirId {get; set;}
     public string composition_Type {get; set;}
-    public virtual Blaze_RootUrlStore composition_Url { get; set; }
-    public int? composition_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store composition_Url { get; set; }
+    public int? composition_ServiceRootURL_StoreID { get; set; }
     public string message_VersionId {get; set;}
     public string message_FhirId {get; set;}
     public string message_Type {get; set;}
-    public virtual Blaze_RootUrlStore message_Url { get; set; }
-    public int? message_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store message_Url { get; set; }
+    public int? message_ServiceRootURL_StoreID { get; set; }
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public ICollection<Res_Bundle_History> Res_Bundle_History_List { get; set; }

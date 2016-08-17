@@ -127,7 +127,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.base_FhirId = null;      
       ResourceEntity.base_Type = null;      
       ResourceEntity.base_Url = null;      
-      ResourceEntity.base_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.base_ServiceRootURL_StoreID = null;      
       ResourceEntity.code_Code = null;      
       ResourceEntity.code_System = null;      
       ResourceEntity.date_DateTimeOffset = null;      
@@ -176,7 +176,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.base_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.base_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

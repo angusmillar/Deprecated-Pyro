@@ -126,7 +126,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.schedule_FhirId = null;      
       ResourceEntity.schedule_Type = null;      
       ResourceEntity.schedule_Url = null;      
-      ResourceEntity.schedule_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.schedule_ServiceRootURL_StoreID = null;      
       ResourceEntity.start_DateTimeOffset = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
@@ -161,7 +161,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.schedule_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.schedule_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

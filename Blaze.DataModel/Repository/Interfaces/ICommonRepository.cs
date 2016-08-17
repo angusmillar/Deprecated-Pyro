@@ -4,6 +4,6 @@ namespace Blaze.DataModel.Repository.Interfaces
 {
   public interface ICommonRepository
   {
-    Blaze_RootUrlStore GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl);
+    ServiceRootURL_Store GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl);
   }
 }

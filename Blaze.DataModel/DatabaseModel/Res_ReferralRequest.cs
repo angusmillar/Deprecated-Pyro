@@ -18,21 +18,21 @@ namespace Blaze.DataModel.DatabaseModel
     public string context_VersionId {get; set;}
     public string context_FhirId {get; set;}
     public string context_Type {get; set;}
-    public virtual Blaze_RootUrlStore context_Url { get; set; }
-    public int? context_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store context_Url { get; set; }
+    public int? context_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string parent_Code {get; set;}
     public string parent_System {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
-    public virtual Blaze_RootUrlStore patient_Url { get; set; }
-    public int? patient_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
     public string requester_VersionId {get; set;}
     public string requester_FhirId {get; set;}
     public string requester_Type {get; set;}
-    public virtual Blaze_RootUrlStore requester_Url { get; set; }
-    public int? requester_Url_Blaze_RootUrlStoreID { get; set; }
+    public virtual ServiceRootURL_Store requester_Url { get; set; }
+    public int? requester_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public ICollection<Res_ReferralRequest_History> Res_ReferralRequest_History_List { get; set; }

@@ -129,13 +129,13 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
-      ResourceEntity.organizationreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.provideridentifier_Code = null;      
       ResourceEntity.provideridentifier_System = null;      
       ResourceEntity.providerreference_FhirId = null;      
       ResourceEntity.providerreference_Type = null;      
       ResourceEntity.providerreference_Url = null;      
-      ResourceEntity.providerreference_Url_Blaze_RootUrlStoreID = null;      
+      ResourceEntity.providerreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -194,7 +194,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.organizationreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.organizationreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -230,7 +230,7 @@ namespace Blaze.DataModel.Repository
             }
             else
             {
-              ResourseEntity.providerreference_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+              ResourseEntity.providerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
