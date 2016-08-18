@@ -38,10 +38,10 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
             ResourceSearchParamInfoItem.SearchParameterNameType = UnderScoreReservedWords(CollectionIndexEntity.SearchParameterInfo.SearchParameterName.Replace("-", "_"));
             ResourceSearchParamInfoItem.ResourceName = RepositoryItem.ResourceName;
-            ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.BlazeIndexTypeToStringDictonary[CollectionIndexEntity.SearchParameterInfo.BlazeIndexType];
-            ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(CollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
-            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
-            ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(CollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
+            ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[CollectionIndexEntity.SearchParameterInfo.DbIndexType];
+            ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.IsDbCollection = true;
             ResourceSearchParamInfoItem.DbPropertyName = CollectionIndexEntity.PropertyName;
             ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
@@ -58,10 +58,10 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
               var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
               ResourceSearchParamInfoItem.SearchParameterNameType = UnderScoreReservedWords(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName.Replace("-", "_"));
               ResourceSearchParamInfoItem.ResourceName = RepositoryItem.ResourceName;
-              ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.BlazeIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.BlazeIndexType];
-              ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
-              ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
-              ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(NonCollectionIndexEntity.SearchParameterInfo.BlazeIndexType);
+              ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.DbIndexType];
+              ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+              ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+              ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
               ResourceSearchParamInfoItem.IsDbCollection = false;
               ResourceSearchParamInfoItem.DbPropertyName = PropertyName;
               ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
@@ -76,145 +76,145 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 
     }
 
-    private List<string> PopulateSearchparameterModifierList(DatabaseEnum.BlazeIndexType blazeIndexType)
+    private List<string> PopulateSearchparameterModifierList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
-      switch (blazeIndexType)
+      switch (DbIndexType)
       {
-        case DatabaseEnum.BlazeIndexType.DateIndex:
+        case DatabaseEnum.DbIndexType.DateIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DatePeriodIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.NumberIndex:
+        case DatabaseEnum.DbIndexType.NumberIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityIndex:
+        case DatabaseEnum.DbIndexType.QuantityIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
+        case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.ReferenceIndex:
+        case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.StringIndex:
+        case DatabaseEnum.DbIndexType.StringIndex:
           {
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Exact.ToString());
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.TokenIndex:
+        case DatabaseEnum.DbIndexType.TokenIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.UriIndex:
+        case DatabaseEnum.DbIndexType.UriIndex:
           {
             return ReturnList;
           }
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(blazeIndexType.ToString(), (int)blazeIndexType, typeof(DatabaseEnum.BlazeIndexType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-    private List<string> PopulateTypeModifierResourceList(DatabaseEnum.BlazeIndexType blazeIndexType)
+    private List<string> PopulateTypeModifierResourceList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
-      switch (blazeIndexType)
+      switch (DbIndexType)
       {
-        case DatabaseEnum.BlazeIndexType.DateIndex:
+        case DatabaseEnum.DbIndexType.DateIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DatePeriodIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.NumberIndex:
+        case DatabaseEnum.DbIndexType.NumberIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityIndex:
+        case DatabaseEnum.DbIndexType.QuantityIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
+        case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.ReferenceIndex:
+        case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.StringIndex:
+        case DatabaseEnum.DbIndexType.StringIndex:
           {
             //Example:
             //ReturnList.Add(Hl7.Fhir.Model.ResourceType.Account.ToString());
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.TokenIndex:
+        case DatabaseEnum.DbIndexType.TokenIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.UriIndex:
+        case DatabaseEnum.DbIndexType.UriIndex:
           {
             return ReturnList;
           }
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(blazeIndexType.ToString(), (int)blazeIndexType, typeof(DatabaseEnum.BlazeIndexType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-    private List<string> PopulatePrefixListList(DatabaseEnum.BlazeIndexType blazeIndexType)
+    private List<string> PopulatePrefixListList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
-      switch (blazeIndexType)
+      switch (DbIndexType)
       {
-        case DatabaseEnum.BlazeIndexType.DateIndex:
+        case DatabaseEnum.DbIndexType.DateIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DatePeriodIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.NumberIndex:
+        case DatabaseEnum.DbIndexType.NumberIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityIndex:
+        case DatabaseEnum.DbIndexType.QuantityIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.QuantityRangeIndex:
+        case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.ReferenceIndex:
+        case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.StringIndex:
+        case DatabaseEnum.DbIndexType.StringIndex:
           {
             //Example:
             //ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.TokenIndex:
+        case DatabaseEnum.DbIndexType.TokenIndex:
           {
             return ReturnList;
           }
-        case DatabaseEnum.BlazeIndexType.UriIndex:
+        case DatabaseEnum.DbIndexType.UriIndex:
           {
             return ReturnList;
           }
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(blazeIndexType.ToString(), (int)blazeIndexType, typeof(DatabaseEnum.BlazeIndexType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
 

@@ -124,12 +124,14 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.supplier_VersionId = null;      
       ResourceEntity.supplier_FhirId = null;      
       ResourceEntity.supplier_Type = null;      
       ResourceEntity.supplier_Url = null;      

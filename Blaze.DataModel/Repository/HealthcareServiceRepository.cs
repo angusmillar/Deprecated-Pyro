@@ -128,6 +128,7 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_HealthcareService ResourceEntity)
     {
       ResourceEntity.name_String = null;      
+      ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      

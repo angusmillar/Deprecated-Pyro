@@ -125,6 +125,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.end_Comparator = null;      
       ResourceEntity.end_Number = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

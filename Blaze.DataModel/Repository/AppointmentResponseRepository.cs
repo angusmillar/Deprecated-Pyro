@@ -122,24 +122,29 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_AppointmentResponse ResourceEntity)
     {
+      ResourceEntity.actor_VersionId = null;      
       ResourceEntity.actor_FhirId = null;      
       ResourceEntity.actor_Type = null;      
       ResourceEntity.actor_Url = null;      
       ResourceEntity.actor_ServiceRootURL_StoreID = null;      
+      ResourceEntity.appointment_VersionId = null;      
       ResourceEntity.appointment_FhirId = null;      
       ResourceEntity.appointment_Type = null;      
       ResourceEntity.appointment_Url = null;      
       ResourceEntity.appointment_ServiceRootURL_StoreID = null;      
+      ResourceEntity.location_VersionId = null;      
       ResourceEntity.location_FhirId = null;      
       ResourceEntity.location_Type = null;      
       ResourceEntity.location_Url = null;      
       ResourceEntity.location_ServiceRootURL_StoreID = null;      
       ResourceEntity.part_status_Code = null;      
       ResourceEntity.part_status_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.practitioner_VersionId = null;      
       ResourceEntity.practitioner_FhirId = null;      
       ResourceEntity.practitioner_Type = null;      
       ResourceEntity.practitioner_Url = null;      

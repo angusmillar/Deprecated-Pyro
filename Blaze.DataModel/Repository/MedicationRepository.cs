@@ -128,6 +128,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Medication ResourceEntity)
     {
+      ResourceEntity.manufacturer_VersionId = null;      
       ResourceEntity.manufacturer_FhirId = null;      
       ResourceEntity.manufacturer_Type = null;      
       ResourceEntity.manufacturer_Url = null;      

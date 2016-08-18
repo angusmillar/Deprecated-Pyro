@@ -129,21 +129,25 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_ClinicalImpression ResourceEntity)
     {
+      ResourceEntity.assessor_VersionId = null;      
       ResourceEntity.assessor_FhirId = null;      
       ResourceEntity.assessor_Type = null;      
       ResourceEntity.assessor_Url = null;      
       ResourceEntity.assessor_ServiceRootURL_StoreID = null;      
       ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.previous_VersionId = null;      
       ResourceEntity.previous_FhirId = null;      
       ResourceEntity.previous_Type = null;      
       ResourceEntity.previous_Url = null;      
       ResourceEntity.previous_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.trigger_VersionId = null;      
       ResourceEntity.trigger_FhirId = null;      
       ResourceEntity.trigger_Type = null;      
       ResourceEntity.trigger_Url = null;      

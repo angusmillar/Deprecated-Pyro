@@ -132,6 +132,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.description_String = null;      
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
@@ -139,6 +140,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.source_Uri = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      

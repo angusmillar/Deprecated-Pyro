@@ -128,10 +128,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.balance_System = null;      
       ResourceEntity.balance_Code = null;      
       ResourceEntity.name_String = null;      
+      ResourceEntity.owner_VersionId = null;      
       ResourceEntity.owner_FhirId = null;      
       ResourceEntity.owner_Type = null;      
       ResourceEntity.owner_Url = null;      
       ResourceEntity.owner_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
@@ -140,6 +142,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.period_DateTimeOffsetHigh = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
@@ -168,9 +171,9 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.balance_Comparator = Index.Comparator;
-            ResourseEntity.balance_Code = Index.Code;
-            ResourseEntity.balance_System = Index.System;
             ResourseEntity.balance_Quantity = Index.Quantity;
+            ResourseEntity.balance_System = Index.System;
+            ResourseEntity.balance_Code = Index.Code;
           }
         }
       }

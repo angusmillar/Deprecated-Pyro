@@ -126,6 +126,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.disposition_String = null;      
       ResourceEntity.organizationidentifier_Code = null;      
       ResourceEntity.organizationidentifier_System = null;      
+      ResourceEntity.organizationreference_VersionId = null;      
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
@@ -136,16 +137,19 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.requestidentifier_System = null;      
       ResourceEntity.requestorganizationidentifier_Code = null;      
       ResourceEntity.requestorganizationidentifier_System = null;      
+      ResourceEntity.requestorganizationreference_VersionId = null;      
       ResourceEntity.requestorganizationreference_FhirId = null;      
       ResourceEntity.requestorganizationreference_Type = null;      
       ResourceEntity.requestorganizationreference_Url = null;      
       ResourceEntity.requestorganizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.requestprovideridentifier_Code = null;      
       ResourceEntity.requestprovideridentifier_System = null;      
+      ResourceEntity.requestproviderreference_VersionId = null;      
       ResourceEntity.requestproviderreference_FhirId = null;      
       ResourceEntity.requestproviderreference_Type = null;      
       ResourceEntity.requestproviderreference_Url = null;      
       ResourceEntity.requestproviderreference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.requestreference_VersionId = null;      
       ResourceEntity.requestreference_FhirId = null;      
       ResourceEntity.requestreference_Type = null;      
       ResourceEntity.requestreference_Url = null;      

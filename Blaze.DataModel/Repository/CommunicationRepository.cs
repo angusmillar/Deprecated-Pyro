@@ -125,19 +125,23 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Communication ResourceEntity)
     {
+      ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
       ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.received_DateTimeOffset = null;      
+      ResourceEntity.request_VersionId = null;      
       ResourceEntity.request_FhirId = null;      
       ResourceEntity.request_Type = null;      
       ResourceEntity.request_Url = null;      
       ResourceEntity.request_ServiceRootURL_StoreID = null;      
+      ResourceEntity.sender_VersionId = null;      
       ResourceEntity.sender_FhirId = null;      
       ResourceEntity.sender_Type = null;      
       ResourceEntity.sender_Url = null;      
@@ -145,6 +149,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.sent_DateTimeOffset = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      

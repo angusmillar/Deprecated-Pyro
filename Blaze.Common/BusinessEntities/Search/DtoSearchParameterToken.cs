@@ -12,7 +12,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterToken()
       : base()
     {      
-      this.DbSearchParameterType = DatabaseEnum.BlazeIndexType.TokenIndex;      
+      this.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;      
     }
     #endregion
 

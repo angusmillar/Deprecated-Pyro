@@ -135,6 +135,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Encounter ResourceEntity)
     {
+      ResourceEntity.appointment_VersionId = null;      
       ResourceEntity.appointment_FhirId = null;      
       ResourceEntity.appointment_Type = null;      
       ResourceEntity.appointment_Url = null;      
@@ -143,10 +144,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.length_Comparator = null;      
       ResourceEntity.length_Number = null;      
+      ResourceEntity.part_of_VersionId = null;      
       ResourceEntity.part_of_FhirId = null;      
       ResourceEntity.part_of_Type = null;      
       ResourceEntity.part_of_Url = null;      
       ResourceEntity.part_of_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

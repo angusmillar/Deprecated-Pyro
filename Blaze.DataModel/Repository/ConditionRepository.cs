@@ -128,6 +128,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Condition ResourceEntity)
     {
+      ResourceEntity.asserter_VersionId = null;      
       ResourceEntity.asserter_FhirId = null;      
       ResourceEntity.asserter_Type = null;      
       ResourceEntity.asserter_Url = null;      
@@ -135,10 +136,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.clinicalstatus_Code = null;      
       ResourceEntity.clinicalstatus_System = null;      
       ResourceEntity.date_recorded_DateTimeOffset = null;      
+      ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
       ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

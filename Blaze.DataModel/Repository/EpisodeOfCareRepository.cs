@@ -125,16 +125,19 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_EpisodeOfCare ResourceEntity)
     {
+      ResourceEntity.care_manager_VersionId = null;      
       ResourceEntity.care_manager_FhirId = null;      
       ResourceEntity.care_manager_Type = null;      
       ResourceEntity.care_manager_Url = null;      
       ResourceEntity.care_manager_ServiceRootURL_StoreID = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
+      ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      
       ResourceEntity.organization_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

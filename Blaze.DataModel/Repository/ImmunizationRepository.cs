@@ -129,25 +129,30 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Immunization ResourceEntity)
     {
       ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.location_VersionId = null;      
       ResourceEntity.location_FhirId = null;      
       ResourceEntity.location_Type = null;      
       ResourceEntity.location_Url = null;      
       ResourceEntity.location_ServiceRootURL_StoreID = null;      
       ResourceEntity.lot_number_String = null;      
+      ResourceEntity.manufacturer_VersionId = null;      
       ResourceEntity.manufacturer_FhirId = null;      
       ResourceEntity.manufacturer_Type = null;      
       ResourceEntity.manufacturer_Url = null;      
       ResourceEntity.manufacturer_ServiceRootURL_StoreID = null;      
       ResourceEntity.notgiven_Code = null;      
       ResourceEntity.notgiven_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.performer_VersionId = null;      
       ResourceEntity.performer_FhirId = null;      
       ResourceEntity.performer_Type = null;      
       ResourceEntity.performer_Url = null;      
       ResourceEntity.performer_ServiceRootURL_StoreID = null;      
+      ResourceEntity.requester_VersionId = null;      
       ResourceEntity.requester_FhirId = null;      
       ResourceEntity.requester_Type = null;      
       ResourceEntity.requester_Url = null;      

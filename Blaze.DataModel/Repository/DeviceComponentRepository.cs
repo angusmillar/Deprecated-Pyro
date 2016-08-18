@@ -122,10 +122,12 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_DeviceComponent ResourceEntity)
     {
+      ResourceEntity.parent_VersionId = null;      
       ResourceEntity.parent_FhirId = null;      
       ResourceEntity.parent_Type = null;      
       ResourceEntity.parent_Url = null;      
       ResourceEntity.parent_ServiceRootURL_StoreID = null;      
+      ResourceEntity.source_VersionId = null;      
       ResourceEntity.source_FhirId = null;      
       ResourceEntity.source_Type = null;      
       ResourceEntity.source_Url = null;      

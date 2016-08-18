@@ -135,10 +135,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.near_System = null;      
       ResourceEntity.near_distance_Code = null;      
       ResourceEntity.near_distance_System = null;      
+      ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      
       ResourceEntity.organization_ServiceRootURL_StoreID = null;      
+      ResourceEntity.partof_VersionId = null;      
       ResourceEntity.partof_FhirId = null;      
       ResourceEntity.partof_Type = null;      
       ResourceEntity.partof_Url = null;      

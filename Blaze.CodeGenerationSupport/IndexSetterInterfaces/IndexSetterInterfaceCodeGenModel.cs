@@ -23,7 +23,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
 
   public class IndexSetterInterfaceMethod
   {
-    public DatabaseEnum.BlazeIndexType IndexType { get; set; }    
+    public DatabaseEnum.DbIndexType IndexType { get; set; }    
     public string IndexTypeString { get; set; }
     public string FhirType { get; set; }
     public string CustomeIndexMethod { get; set; }
@@ -40,14 +40,14 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         string FhirRequestUri = "FhirRequestUri";
         string ICommonRepository = "ICommonRepository";
         string CommonRepository = "CommonRepository";
-        if (IndexType == DatabaseEnum.BlazeIndexType.ReferenceIndex)
+        if (IndexType == DatabaseEnum.DbIndexType.ReferenceIndex)
         {
           //ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
-          return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {5});",DatabaseEnum.BlazeIndexTypeToStringDictonary[IndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, ICommonRepository, CommonRepository);
+          return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {5});",DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, ICommonRepository, CommonRepository);
         }
         else
         {
-          return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseEnum.BlazeIndexTypeToStringDictonary[IndexType], FhirType);
+          return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType);
         }
       }
     }

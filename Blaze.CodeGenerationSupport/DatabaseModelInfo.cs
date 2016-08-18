@@ -24,25 +24,25 @@ namespace Blaze.CodeGenerationSupport
     public static string DatabaseModelResourceIndexBaseClassName { get { return "ResourceIndexBase"; } }
 
 
-    public static Dictionary<DatabaseEnum.BlazeIndexType, List<string>> BlazeIndexTypeToDbPropertyNameStringList_Dictonary
+    public static Dictionary<DatabaseEnum.DbIndexType, List<string>> BlazeIndexTypeToDbPropertyNameStringList_Dictonary
     {
       get
       {
-        var Dic = new Dictionary<DatabaseEnum.BlazeIndexType, List<string>>();
+        var Dic = new Dictionary<DatabaseEnum.DbIndexType, List<string>>();
 
         var DataList = new List<string>();
         DataList.Add(DatabaseIndexPropertyConstatnts.DateIndexConstatnts.DateTimeOffset);
-        Dic.Add(DatabaseEnum.BlazeIndexType.DateIndex, DataList);
+        Dic.Add(DatabaseEnum.DbIndexType.DateIndex, DataList);
 
         var DataPeriodList = new List<string>();
         DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetLow);
         DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetHigh);
-        Dic.Add(DatabaseEnum.BlazeIndexType.DatePeriodIndex, DataPeriodList);
+        Dic.Add(DatabaseEnum.DbIndexType.DatePeriodIndex, DataPeriodList);
 
         var NumberIndexList = new List<string>();
         NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
         NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
-        Dic.Add(DatabaseEnum.BlazeIndexType.NumberIndex, NumberIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.NumberIndex, NumberIndexList);
 
 
         var QuantityIndexList = new List<string>();
@@ -50,7 +50,7 @@ namespace Blaze.CodeGenerationSupport
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code);
-        Dic.Add(DatabaseEnum.BlazeIndexType.QuantityIndex, QuantityIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.QuantityIndex, QuantityIndexList);
 
 
         var QuantityRangeIndexList = new List<string>();
@@ -62,28 +62,29 @@ namespace Blaze.CodeGenerationSupport
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh);
-        Dic.Add(DatabaseEnum.BlazeIndexType.QuantityRangeIndex, QuantityRangeIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.QuantityRangeIndex, QuantityRangeIndexList);
 
         var ReferenceIndexList = new List<string>();
+        ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
         ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
         ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
         ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url);
         ReferenceIndexList.Add(DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID);
-        Dic.Add(DatabaseEnum.BlazeIndexType.ReferenceIndex, ReferenceIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.ReferenceIndex, ReferenceIndexList);
 
         var StringIndexList = new List<string>();
         StringIndexList.Add(DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String);
-        Dic.Add(DatabaseEnum.BlazeIndexType.StringIndex, StringIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.StringIndex, StringIndexList);
 
         var TokenIndexList = new List<string>();
-        TokenIndexList.Add(DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code);        
+        TokenIndexList.Add(DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code);
         TokenIndexList.Add(DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System);
-        Dic.Add(DatabaseEnum.BlazeIndexType.TokenIndex, TokenIndexList);
+        Dic.Add(DatabaseEnum.DbIndexType.TokenIndex, TokenIndexList);
 
         var UriIndexList = new List<string>();
-        UriIndexList.Add(DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);        
-        Dic.Add(DatabaseEnum.BlazeIndexType.UriIndex, UriIndexList);
-        
+        UriIndexList.Add(DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+        Dic.Add(DatabaseEnum.DbIndexType.UriIndex, UriIndexList);
+
         return Dic;
       }
     }
@@ -91,6 +92,16 @@ namespace Blaze.CodeGenerationSupport
 
     public static class DatabaseIndexPropertyConstatnts
     {
+
+      public static class BaseResourceIndexConstatnts
+      {
+        public static string FhirId { get { return "FhirId"; } }
+        public static string IsDeleted { get { return "IsDeleted"; } }
+        public static string lastUpdated { get { return "lastUpdated"; } }
+        public static string versionId { get { return "versionId"; } }
+        public static string XmlBlob { get { return "XmlBlob"; } }
+      }
+
       public static class DatePeriodIndexConstatnts
       {
         public static string DateTimeOffsetLow { get { return "DateTimeOffsetLow"; } }
@@ -105,7 +116,7 @@ namespace Blaze.CodeGenerationSupport
       public static class NumberIndexConstatnts
       {
         public static string Comparator { get { return "Comparator"; } }
-        public static string Number { get { return "Number"; } }        
+        public static string Number { get { return "Number"; } }
       }
 
       public static class QuantityIndexConstatnts
@@ -113,7 +124,7 @@ namespace Blaze.CodeGenerationSupport
         public static string Comparator { get { return "Comparator"; } }
         public static string Quantity { get { return "Quantity"; } }
         public static string System { get { return "System"; } }
-        public static string Code { get { return "Code"; } }       
+        public static string Code { get { return "Code"; } }
       }
 
       public static class QuantityRangeIndexConstatnts
@@ -126,33 +137,34 @@ namespace Blaze.CodeGenerationSupport
         public static string ComparatorHigh { get { return "ComparatorHigh"; } }
         public static string QuantityHigh { get { return "QuantityHigh"; } }
         public static string SystemHigh { get { return "SystemHigh"; } }
-        public static string CodeHigh { get { return "CodeHigh"; } }     
+        public static string CodeHigh { get { return "CodeHigh"; } }
       }
 
       public static class ReferenceIndexConstatnts
       {
         public static string ClassNameServiceRootURL_Store { get { return "ServiceRootURL_Store"; } }
 
+        public static string VersionId { get { return "VersionId"; } }
         public static string FhirId { get { return "FhirId"; } }
         public static string Type { get { return "Type"; } }
         public static string Url { get { return "Url"; } }
-        public static string ServiceRootURL_StoreID { get { return "ServiceRootURL_StoreID"; } }      
+        public static string ServiceRootURL_StoreID { get { return "ServiceRootURL_StoreID"; } }
       }
 
       public static class StringIndexConstatnts
       {
-        public static string String { get { return "String"; } }     
+        public static string String { get { return "String"; } }
       }
 
       public static class TokenIndexConstatnts
       {
         public static string Code { get { return "Code"; } }
-        public static string System { get { return "System"; } }      
+        public static string System { get { return "System"; } }
       }
 
       public static class UriIndexConstatnts
       {
-        public static string Uri { get { return "Uri"; } }       
+        public static string Uri { get { return "Uri"; } }
       }
 
     }
@@ -425,11 +437,11 @@ namespace Blaze.CodeGenerationSupport
       if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
         SearchParameter.TargetFhirLogicalType == typeof(Timing))
       {
-        return DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.DatePeriodIndex];
+        return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DatePeriodIndex];
       }
       else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
       {
-        return DatabaseEnum.BlazeIndexTypeToStringDictonary[DatabaseEnum.BlazeIndexType.QuantityRangeIndex];
+        return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.QuantityRangeIndex];
       }
       else
       {
@@ -437,33 +449,33 @@ namespace Blaze.CodeGenerationSupport
       }
     }
 
-    public static DatabaseEnum.BlazeIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
+    public static DatabaseEnum.DbIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
     {
       if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
         SearchParameter.TargetFhirLogicalType == typeof(Timing))
       {
-        return DatabaseEnum.BlazeIndexType.DatePeriodIndex;
+        return DatabaseEnum.DbIndexType.DatePeriodIndex;
       }
       else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
       {
-        return DatabaseEnum.BlazeIndexType.QuantityRangeIndex;
+        return DatabaseEnum.DbIndexType.QuantityRangeIndex;
       }
       else
       {
-        return DatabaseEnum.StringToBlazeIndexTypeDictonary[SearchParameter.SearchParamType.ToString() + DatabaseModelInfo.IndexPrefixText];
+        return DatabaseEnum.StringToDbIndexTypeDictonary[SearchParameter.SearchParamType.ToString() + DatabaseModelInfo.IndexPrefixText];
       }
     }
 
 
-    public static string GenerateIndexSetter(string Item, string BlazeIndexType, string ReturnType, bool IsReferanceType = false)
+    public static string GenerateIndexSetter(string Item, string DbIndexType, string ReturnType, bool IsReferanceType = false)
     {
       if (IsReferanceType)
       {
-        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index, FhirRequestUri, this) as {2};", BlazeIndexType, Item, ReturnType);
+        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index, FhirRequestUri, this) as {2};", DbIndexType, Item, ReturnType);
       }
       else
       {
-        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index) as {2};", BlazeIndexType, Item, ReturnType);
+        return string.Format("Index = IndexSetterFactory.Create(typeof({0})).Set({1}, Index) as {2};", DbIndexType, Item, ReturnType);
       }
 
     }

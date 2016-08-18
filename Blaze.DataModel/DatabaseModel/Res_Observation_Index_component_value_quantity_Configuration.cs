@@ -19,10 +19,10 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_Observation_Index_component_value_quantity_Configuration()
     {
       HasKey(x => x.Res_Observation_Index_component_value_quantityID).Property(x => x.Res_Observation_Index_component_value_quantityID).IsRequired();
-      Property(x => x.Comparator).IsRequired();
+      Property(x => x.Comparator).IsOptional();
       Property(x => x.Quantity).IsRequired();
-      Property(x => x.System).IsRequired();
-      Property(x => x.Code).IsRequired();
+      Property(x => x.System).IsOptional();
+      Property(x => x.Code).IsOptional();
       HasRequired(x => x.Res_Observation).WithMany(x => x.component_value_quantity_List).WillCascadeOnDelete(true);
     }
   }

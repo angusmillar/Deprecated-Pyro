@@ -126,18 +126,22 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Order ResourceEntity)
     {
       ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.source_VersionId = null;      
       ResourceEntity.source_FhirId = null;      
       ResourceEntity.source_Type = null;      
       ResourceEntity.source_Url = null;      
       ResourceEntity.source_ServiceRootURL_StoreID = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
       ResourceEntity.subject_ServiceRootURL_StoreID = null;      
+      ResourceEntity.target_VersionId = null;      
       ResourceEntity.target_FhirId = null;      
       ResourceEntity.target_Type = null;      
       ResourceEntity.target_Url = null;      

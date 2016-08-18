@@ -125,24 +125,28 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_MessageHeader ResourceEntity)
     {
+      ResourceEntity.author_VersionId = null;      
       ResourceEntity.author_FhirId = null;      
       ResourceEntity.author_Type = null;      
       ResourceEntity.author_Url = null;      
       ResourceEntity.author_ServiceRootURL_StoreID = null;      
       ResourceEntity.code_Code = null;      
       ResourceEntity.code_System = null;      
+      ResourceEntity.enterer_VersionId = null;      
       ResourceEntity.enterer_FhirId = null;      
       ResourceEntity.enterer_Type = null;      
       ResourceEntity.enterer_Url = null;      
       ResourceEntity.enterer_ServiceRootURL_StoreID = null;      
       ResourceEntity.event_Code = null;      
       ResourceEntity.event_System = null;      
+      ResourceEntity.receiver_VersionId = null;      
       ResourceEntity.receiver_FhirId = null;      
       ResourceEntity.receiver_Type = null;      
       ResourceEntity.receiver_Url = null;      
       ResourceEntity.receiver_ServiceRootURL_StoreID = null;      
       ResourceEntity.response_id_Code = null;      
       ResourceEntity.response_id_System = null;      
+      ResourceEntity.responsible_VersionId = null;      
       ResourceEntity.responsible_FhirId = null;      
       ResourceEntity.responsible_Type = null;      
       ResourceEntity.responsible_Url = null;      

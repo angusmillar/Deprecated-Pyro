@@ -124,6 +124,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.claimindentifier_Code = null;      
       ResourceEntity.claimindentifier_System = null;      
+      ResourceEntity.claimreference_VersionId = null;      
       ResourceEntity.claimreference_FhirId = null;      
       ResourceEntity.claimreference_Type = null;      
       ResourceEntity.claimreference_Url = null;      
@@ -132,24 +133,28 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.disposition_String = null;      
       ResourceEntity.facilityidentifier_Code = null;      
       ResourceEntity.facilityidentifier_System = null;      
+      ResourceEntity.facilityreference_VersionId = null;      
       ResourceEntity.facilityreference_FhirId = null;      
       ResourceEntity.facilityreference_Type = null;      
       ResourceEntity.facilityreference_Url = null;      
       ResourceEntity.facilityreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.organizationidentifier_Code = null;      
       ResourceEntity.organizationidentifier_System = null;      
+      ResourceEntity.organizationreference_VersionId = null;      
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
       ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.patientidentifier_Code = null;      
       ResourceEntity.patientidentifier_System = null;      
+      ResourceEntity.patientreference_VersionId = null;      
       ResourceEntity.patientreference_FhirId = null;      
       ResourceEntity.patientreference_Type = null;      
       ResourceEntity.patientreference_Url = null;      
       ResourceEntity.patientreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.provideridentifier_Code = null;      
       ResourceEntity.provideridentifier_System = null;      
+      ResourceEntity.providerreference_VersionId = null;      
       ResourceEntity.providerreference_FhirId = null;      
       ResourceEntity.providerreference_Type = null;      
       ResourceEntity.providerreference_Url = null;      

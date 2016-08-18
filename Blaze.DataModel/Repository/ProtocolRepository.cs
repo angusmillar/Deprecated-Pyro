@@ -122,6 +122,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Protocol ResourceEntity)
     {
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      

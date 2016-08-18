@@ -124,6 +124,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.beneficiaryidentifier_Code = null;      
       ResourceEntity.beneficiaryidentifier_System = null;      
+      ResourceEntity.beneficiaryreference_VersionId = null;      
       ResourceEntity.beneficiaryreference_FhirId = null;      
       ResourceEntity.beneficiaryreference_Type = null;      
       ResourceEntity.beneficiaryreference_Url = null;      
@@ -134,6 +135,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.group_System = null;      
       ResourceEntity.issueridentifier_Code = null;      
       ResourceEntity.issueridentifier_System = null;      
+      ResourceEntity.issuerreference_VersionId = null;      
       ResourceEntity.issuerreference_FhirId = null;      
       ResourceEntity.issuerreference_Type = null;      
       ResourceEntity.issuerreference_Url = null;      
@@ -142,6 +144,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.plan_System = null;      
       ResourceEntity.planholderidentifier_Code = null;      
       ResourceEntity.planholderidentifier_System = null;      
+      ResourceEntity.planholderreference_VersionId = null;      
       ResourceEntity.planholderreference_FhirId = null;      
       ResourceEntity.planholderreference_Type = null;      
       ResourceEntity.planholderreference_Url = null;      

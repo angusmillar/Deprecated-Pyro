@@ -9,7 +9,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterDate()
       : base()
     {      
-      this.DbSearchParameterType = DatabaseEnum.BlazeIndexType.NumberIndex;
+      this.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
     }
     #endregion
 

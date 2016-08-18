@@ -126,10 +126,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.code_Code = null;      
       ResourceEntity.code_System = null;      
       ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.request_VersionId = null;      
       ResourceEntity.request_FhirId = null;      
       ResourceEntity.request_Type = null;      
       ResourceEntity.request_Url = null;      
       ResourceEntity.request_ServiceRootURL_StoreID = null;      
+      ResourceEntity.who_VersionId = null;      
       ResourceEntity.who_FhirId = null;      
       ResourceEntity.who_Type = null;      
       ResourceEntity.who_Url = null;      

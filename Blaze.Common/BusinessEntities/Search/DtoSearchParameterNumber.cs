@@ -10,7 +10,7 @@ namespace Blaze.Common.BusinessEntities.Search
     #region Constructor
     public DtoSearchParameterNumber() : base()
     {
-      this.DbSearchParameterType = DatabaseEnum.BlazeIndexType.NumberIndex;
+      this.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
     }
     #endregion
     public override bool TryParseValue(string Value)

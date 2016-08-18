@@ -128,6 +128,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.category_Code = null;      
       ResourceEntity.category_System = null;      
+      ResourceEntity.context_VersionId = null;      
       ResourceEntity.context_FhirId = null;      
       ResourceEntity.context_Type = null;      
       ResourceEntity.context_Url = null;      
@@ -135,10 +136,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.parent_Code = null;      
       ResourceEntity.parent_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.requester_VersionId = null;      
       ResourceEntity.requester_FhirId = null;      
       ResourceEntity.requester_Type = null;      
       ResourceEntity.requester_Url = null;      

@@ -44,7 +44,7 @@ namespace Blaze.Test.IndexSetters
       RootUrlStore.ServiceRootURL_StoreID = 0;
       RootUrlStore.IsServersPrimaryUrlRoot = false;
       RootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(RootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(RootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -57,7 +57,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
       //Test GetAndOrAddBlaze_RootUrlStore not called because Reference url root matches server root url
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
     }
 
     [Test]
@@ -91,7 +91,7 @@ namespace Blaze.Test.IndexSetters
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -107,7 +107,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.VersionId);
       Assert.IsNull(Index.ServiceRootURL_StoreID);
       //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
     [Test]
@@ -141,7 +141,7 @@ namespace Blaze.Test.IndexSetters
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -157,7 +157,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.VersionId, "5");
       Assert.IsNull(Index.ServiceRootURL_StoreID);
       //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
     [Test]
@@ -195,7 +195,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.IsNull(Index);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceUrlString), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceUrlString), Times.Never));
     }
 
     [Test]
@@ -239,7 +239,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
       Assert.AreEqual(Index.ServiceRootURL_StoreID, 1);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never));
     }
 
     [Test]
@@ -278,7 +278,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.IsNull(Index);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceUrlString), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceUrlString), Times.Never));
     }
 
 
@@ -313,7 +313,7 @@ namespace Blaze.Test.IndexSetters
       RootUrlStore.ServiceRootURL_StoreID = 0;
       RootUrlStore.IsServersPrimaryUrlRoot = false;
       RootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(RootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(RootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -326,7 +326,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
       //Test GetAndOrAddBlaze_RootUrlStore not called because Reference url root matches server root url
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
     }
 
     [Test]
@@ -360,7 +360,7 @@ namespace Blaze.Test.IndexSetters
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -376,7 +376,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.VersionId);
       Assert.IsNull(Index.ServiceRootURL_StoreID);
       //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
     [Test]
@@ -410,7 +410,7 @@ namespace Blaze.Test.IndexSetters
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
-      MockICommonRepository.Setup(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
+      MockICommonRepository.Setup(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison)).Returns(ReferanceRootUrlStore);
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -426,7 +426,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.VersionId, "5");
       Assert.IsNull(Index.ServiceRootURL_StoreID);
       //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
     [Test]
@@ -464,7 +464,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.IsNull(Index);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceUrlString), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceUrlString), Times.Never));
     }
 
     [Test]
@@ -508,7 +508,7 @@ namespace Blaze.Test.IndexSetters
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
       Assert.AreEqual(Index.ServiceRootURL_StoreID, 1);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never));
     }
 
     [Test]
@@ -547,7 +547,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.IsNull(Index);
-      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddBlaze_RootUrlStore(ReferanceUrlString), Times.Never));
+      Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceUrlString), Times.Never));
     }
 
   }

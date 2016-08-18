@@ -83,7 +83,7 @@ namespace Blaze.DataModel.IndexSetter
         }
         else
         {
-          ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+          ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
         }
         return ReferenceIndex;
       }
@@ -123,7 +123,7 @@ namespace Blaze.DataModel.IndexSetter
           }
           else
           {
-            ReferenceIndex.Url = CommonRepository.GetAndOrAddBlaze_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+            ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
           }
         }
         else

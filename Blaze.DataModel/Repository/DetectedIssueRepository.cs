@@ -123,6 +123,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_DetectedIssue ResourceEntity)
     {
+      ResourceEntity.author_VersionId = null;      
       ResourceEntity.author_FhirId = null;      
       ResourceEntity.author_Type = null;      
       ResourceEntity.author_Url = null;      
@@ -130,6 +131,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

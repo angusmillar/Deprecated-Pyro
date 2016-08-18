@@ -130,6 +130,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.accession_Code = null;      
       ResourceEntity.accession_System = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

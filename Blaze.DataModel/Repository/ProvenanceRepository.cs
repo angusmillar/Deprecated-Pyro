@@ -129,6 +129,7 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Provenance ResourceEntity)
     {
       ResourceEntity.end_DateTimeOffset = null;      
+      ResourceEntity.location_VersionId = null;      
       ResourceEntity.location_FhirId = null;      
       ResourceEntity.location_Type = null;      
       ResourceEntity.location_Url = null;      

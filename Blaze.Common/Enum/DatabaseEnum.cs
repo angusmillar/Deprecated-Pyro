@@ -8,7 +8,7 @@ namespace Blaze.Common.Enum
 {
   public static class DatabaseEnum
   {
-    public enum BlazeIndexType
+    public enum DbIndexType
     {
       DateIndex,
       DatePeriodIndex,
@@ -21,38 +21,38 @@ namespace Blaze.Common.Enum
       UriIndex
     };
 
-    public static Dictionary<BlazeIndexType, string> BlazeIndexTypeToStringDictonary
+    public static Dictionary<DbIndexType, string> DbIndexTypeToStringDictonary
     {
       get
       {
-        var Dic = new Dictionary<BlazeIndexType, string>();
-        Dic.Add(BlazeIndexType.DateIndex, "DateIndex");
-        Dic.Add(BlazeIndexType.DatePeriodIndex, "DatePeriodIndex");
-        Dic.Add(BlazeIndexType.NumberIndex, "NumberIndex");
-        Dic.Add(BlazeIndexType.QuantityIndex, "QuantityIndex");
-        Dic.Add(BlazeIndexType.QuantityRangeIndex, "QuantityRangeIndex");
-        Dic.Add(BlazeIndexType.ReferenceIndex, "ReferenceIndex");
-        Dic.Add(BlazeIndexType.StringIndex, "StringIndex");
-        Dic.Add(BlazeIndexType.TokenIndex, "TokenIndex");
-        Dic.Add(BlazeIndexType.UriIndex, "UriIndex");
+        var Dic = new Dictionary<DbIndexType, string>();
+        Dic.Add(DbIndexType.DateIndex, "DateIndex");
+        Dic.Add(DbIndexType.DatePeriodIndex, "DatePeriodIndex");
+        Dic.Add(DbIndexType.NumberIndex, "NumberIndex");
+        Dic.Add(DbIndexType.QuantityIndex, "QuantityIndex");
+        Dic.Add(DbIndexType.QuantityRangeIndex, "QuantityRangeIndex");
+        Dic.Add(DbIndexType.ReferenceIndex, "ReferenceIndex");
+        Dic.Add(DbIndexType.StringIndex, "StringIndex");
+        Dic.Add(DbIndexType.TokenIndex, "TokenIndex");
+        Dic.Add(DbIndexType.UriIndex, "UriIndex");
         return Dic;
       }
     }
 
-    public static Dictionary<string, BlazeIndexType> StringToBlazeIndexTypeDictonary
+    public static Dictionary<string, DbIndexType> StringToDbIndexTypeDictonary
     {
       get
       {
-        var Dic = new Dictionary<string, BlazeIndexType>();
-        Dic.Add("DateIndex", BlazeIndexType.DateIndex);
-        Dic.Add("DatePeriodIndex", BlazeIndexType.DatePeriodIndex);
-        Dic.Add("NumberIndex", BlazeIndexType.NumberIndex);
-        Dic.Add("QuantityIndex", BlazeIndexType.QuantityIndex);
-        Dic.Add("QuantityRangeIndex", BlazeIndexType.QuantityRangeIndex);
-        Dic.Add("ReferenceIndex", BlazeIndexType.ReferenceIndex);
-        Dic.Add("StringIndex", BlazeIndexType.StringIndex);
-        Dic.Add("TokenIndex", BlazeIndexType.TokenIndex);
-        Dic.Add("UriIndex", BlazeIndexType.UriIndex);
+        var Dic = new Dictionary<string, DbIndexType>();
+        Dic.Add("DateIndex", DbIndexType.DateIndex);
+        Dic.Add("DatePeriodIndex", DbIndexType.DatePeriodIndex);
+        Dic.Add("NumberIndex", DbIndexType.NumberIndex);
+        Dic.Add("QuantityIndex", DbIndexType.QuantityIndex);
+        Dic.Add("QuantityRangeIndex", DbIndexType.QuantityRangeIndex);
+        Dic.Add("ReferenceIndex", DbIndexType.ReferenceIndex);
+        Dic.Add("StringIndex", DbIndexType.StringIndex);
+        Dic.Add("TokenIndex", DbIndexType.TokenIndex);
+        Dic.Add("UriIndex", DbIndexType.UriIndex);
         return Dic;
       }
     }

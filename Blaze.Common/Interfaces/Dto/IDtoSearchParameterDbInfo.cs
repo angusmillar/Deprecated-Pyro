@@ -11,7 +11,7 @@ namespace Blaze.Common.Interfaces.Dto
   public interface IDtoSearchParameterDbInfo
   {
     FhirSearchEnum.SearchParameterNameType NameType { get; set; }    
-    DatabaseEnum.BlazeIndexType BlazeIndexType { get; set; }
+    DatabaseEnum.DbIndexType BlazeIndexType { get; set; }
     bool IsCollectionIndex { get; set; }
     string DatabasePropertyName { get; set; }
   }

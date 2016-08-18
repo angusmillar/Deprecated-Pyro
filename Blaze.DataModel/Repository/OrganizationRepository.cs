@@ -132,6 +132,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.active_Code = null;      
       ResourceEntity.active_System = null;      
       ResourceEntity.name_String = null;      
+      ResourceEntity.partof_VersionId = null;      
       ResourceEntity.partof_FhirId = null;      
       ResourceEntity.partof_Type = null;      
       ResourceEntity.partof_Url = null;      

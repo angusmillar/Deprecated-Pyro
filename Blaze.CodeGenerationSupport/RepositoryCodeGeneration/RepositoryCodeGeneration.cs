@@ -48,7 +48,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           oIndexEntity.ClassName = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(ResourceName, CollectionParameter);
           oIndexEntity.PropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
           oIndexEntity.SearchParameterInfo = new SearchParameterInfo();
-          oIndexEntity.SearchParameterInfo.BlazeIndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
+          oIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
           oIndexEntity.SearchParameterInfo.SearchParameterName = CollectionParameter.SearchName;
 
         }
@@ -61,7 +61,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           var NonColectionIndexEntity = new NonCollectionIndexEntity();
           NonColectionIndexEntity.PropertyNameList.AddRange(Propertylist);
           NonColectionIndexEntity.SearchParameterInfo = new SearchParameterInfo();
-          NonColectionIndexEntity.SearchParameterInfo.BlazeIndexType = DatabaseEnum.StringToBlazeIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)];
+          NonColectionIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)];
           NonColectionIndexEntity.SearchParameterInfo.SearchParameterName = NonCollectionParameter.SearchName;
           RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(NonColectionIndexEntity);
 

@@ -61,7 +61,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
   public class SearchParameterInfo
   {
     public string SearchParameterName { get; set; }
-    public DatabaseEnum.BlazeIndexType BlazeIndexType { get; set; }
+    public DatabaseEnum.DbIndexType DbIndexType { get; set; }
   }
 
 }

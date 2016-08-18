@@ -126,6 +126,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.disposition_String = null;      
       ResourceEntity.organizationidentifier_Code = null;      
       ResourceEntity.organizationidentifier_System = null;      
+      ResourceEntity.organizationreference_VersionId = null;      
       ResourceEntity.organizationreference_FhirId = null;      
       ResourceEntity.organizationreference_Type = null;      
       ResourceEntity.organizationreference_Url = null;      
@@ -135,6 +136,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.paymentdate_DateTimeOffset = null;      
       ResourceEntity.requestidentifier_Code = null;      
       ResourceEntity.requestidentifier_System = null;      
+      ResourceEntity.requestreference_VersionId = null;      
       ResourceEntity.requestreference_FhirId = null;      
       ResourceEntity.requestreference_Type = null;      
       ResourceEntity.requestreference_Url = null;      

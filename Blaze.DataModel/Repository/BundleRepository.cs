@@ -121,10 +121,12 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Bundle ResourceEntity)
     {
+      ResourceEntity.composition_VersionId = null;      
       ResourceEntity.composition_FhirId = null;      
       ResourceEntity.composition_Type = null;      
       ResourceEntity.composition_Url = null;      
       ResourceEntity.composition_ServiceRootURL_StoreID = null;      
+      ResourceEntity.message_VersionId = null;      
       ResourceEntity.message_FhirId = null;      
       ResourceEntity.message_Type = null;      
       ResourceEntity.message_Url = null;      

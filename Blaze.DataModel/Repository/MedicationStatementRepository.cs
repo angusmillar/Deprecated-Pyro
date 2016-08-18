@@ -126,14 +126,17 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.effective_DateTimeOffset = null;      
       ResourceEntity.effective_DateTimeOffsetLow = null;      
       ResourceEntity.effective_DateTimeOffsetHigh = null;      
+      ResourceEntity.medication_VersionId = null;      
       ResourceEntity.medication_FhirId = null;      
       ResourceEntity.medication_Type = null;      
       ResourceEntity.medication_Url = null;      
       ResourceEntity.medication_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.source_VersionId = null;      
       ResourceEntity.source_FhirId = null;      
       ResourceEntity.source_Type = null;      
       ResourceEntity.source_Url = null;      

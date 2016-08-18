@@ -123,6 +123,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Linkage ResourceEntity)
     {
+      ResourceEntity.author_VersionId = null;      
       ResourceEntity.author_FhirId = null;      
       ResourceEntity.author_Type = null;      
       ResourceEntity.author_Url = null;      

@@ -30,7 +30,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 <#
     if (item.IndexSetterMethodList.Count() > 0)
     {
-      if (item.IndexSetterMethodList[0].IndexType == DatabaseEnum.BlazeIndexType.ReferenceIndex)
+      if (item.IndexSetterMethodList[0].IndexType == DatabaseEnum.DbIndexType.ReferenceIndex)
       {
 #>
 using Blaze.DataModel.Repository.Interfaces;

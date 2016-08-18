@@ -13,7 +13,7 @@ namespace Blaze.DataModel
   {
     private Blaze.DataModel.DatabaseModel.DatabaseContext _context = null;
 
-    private CommonRepository _CommonRepository;
+    private CommonRepository _CommonRepository;    
     private AccountRepository _AccountRepository;
     private AllergyIntoleranceRepository _AllergyIntoleranceRepository;
     private AppointmentRepository _AppointmentRepository;

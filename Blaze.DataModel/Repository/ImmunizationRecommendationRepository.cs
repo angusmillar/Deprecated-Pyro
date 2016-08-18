@@ -129,6 +129,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_ImmunizationRecommendation ResourceEntity)
     {
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      

@@ -127,14 +127,17 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_NutritionOrder ResourceEntity)
     {
       ResourceEntity.datetime_DateTimeOffset = null;      
+      ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
       ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.provider_VersionId = null;      
       ResourceEntity.provider_FhirId = null;      
       ResourceEntity.provider_Type = null;      
       ResourceEntity.provider_Url = null;      

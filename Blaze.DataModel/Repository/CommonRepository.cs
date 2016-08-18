@@ -63,7 +63,7 @@ namespace Blaze.DataModel.Repository
     /// </summary>
     /// <param name="UrlString"></param>
     /// <returns></returns>
-    public ServiceRootURL_Store GetAndOrAddBlaze_RootUrlStore(string ServiceRootUrl)
+    public ServiceRootURL_Store GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
     {
       ServiceRootURL_Store Blaze_RootUrlStore = this.GetBlaze_RootUrlStore(ServiceRootUrl);
       if (Blaze_RootUrlStore == null)

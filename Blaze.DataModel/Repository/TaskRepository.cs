@@ -125,6 +125,7 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Task ResourceEntity)
     {
       ResourceEntity.created_DateTimeOffset = null;      
+      ResourceEntity.creator_VersionId = null;      
       ResourceEntity.creator_FhirId = null;      
       ResourceEntity.creator_Type = null;      
       ResourceEntity.creator_Url = null;      
@@ -133,10 +134,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
       ResourceEntity.modified_DateTimeOffset = null;      
+      ResourceEntity.owner_VersionId = null;      
       ResourceEntity.owner_FhirId = null;      
       ResourceEntity.owner_Type = null;      
       ResourceEntity.owner_Url = null;      
       ResourceEntity.owner_ServiceRootURL_StoreID = null;      
+      ResourceEntity.parent_VersionId = null;      
       ResourceEntity.parent_FhirId = null;      
       ResourceEntity.parent_Type = null;      
       ResourceEntity.parent_Url = null;      
@@ -145,6 +148,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.priority_System = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      

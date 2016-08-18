@@ -137,24 +137,29 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
+      ResourceEntity.device_VersionId = null;      
       ResourceEntity.device_FhirId = null;      
       ResourceEntity.device_Type = null;      
       ResourceEntity.device_Url = null;      
       ResourceEntity.device_ServiceRootURL_StoreID = null;      
+      ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
       ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.specimen_VersionId = null;      
       ResourceEntity.specimen_FhirId = null;      
       ResourceEntity.specimen_Type = null;      
       ResourceEntity.specimen_Url = null;      
       ResourceEntity.specimen_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
@@ -380,9 +385,9 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.value_quantity_Comparator = Index.Comparator;
-            ResourseEntity.value_quantity_Code = Index.Code;
-            ResourseEntity.value_quantity_System = Index.System;
             ResourseEntity.value_quantity_Quantity = Index.Quantity;
+            ResourseEntity.value_quantity_System = Index.System;
+            ResourseEntity.value_quantity_Code = Index.Code;
           }
         }
       }

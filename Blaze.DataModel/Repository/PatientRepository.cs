@@ -150,6 +150,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.deceased_System = null;      
       ResourceEntity.gender_Code = null;      
       ResourceEntity.gender_System = null;      
+      ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      

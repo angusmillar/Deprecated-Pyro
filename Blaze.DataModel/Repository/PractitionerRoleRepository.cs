@@ -128,10 +128,12 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_PractitionerRole ResourceEntity)
     {
+      ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
       ResourceEntity.organization_Url = null;      
       ResourceEntity.organization_ServiceRootURL_StoreID = null;      
+      ResourceEntity.practitioner_VersionId = null;      
       ResourceEntity.practitioner_FhirId = null;      
       ResourceEntity.practitioner_Type = null;      
       ResourceEntity.practitioner_Url = null;      

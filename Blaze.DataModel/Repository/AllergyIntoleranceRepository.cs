@@ -134,14 +134,17 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.criticality_System = null;      
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.last_date_DateTimeOffset = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.recorder_VersionId = null;      
       ResourceEntity.recorder_FhirId = null;      
       ResourceEntity.recorder_Type = null;      
       ResourceEntity.recorder_Url = null;      
       ResourceEntity.recorder_ServiceRootURL_StoreID = null;      
+      ResourceEntity.reporter_VersionId = null;      
       ResourceEntity.reporter_FhirId = null;      
       ResourceEntity.reporter_Type = null;      
       ResourceEntity.reporter_Url = null;      

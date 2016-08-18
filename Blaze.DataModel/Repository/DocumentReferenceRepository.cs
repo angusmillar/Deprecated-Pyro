@@ -136,16 +136,19 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_DocumentReference ResourceEntity)
     {
+      ResourceEntity.authenticator_VersionId = null;      
       ResourceEntity.authenticator_FhirId = null;      
       ResourceEntity.authenticator_Type = null;      
       ResourceEntity.authenticator_Url = null;      
       ResourceEntity.authenticator_ServiceRootURL_StoreID = null;      
       ResourceEntity.created_DateTimeOffset = null;      
+      ResourceEntity.custodian_VersionId = null;      
       ResourceEntity.custodian_FhirId = null;      
       ResourceEntity.custodian_Type = null;      
       ResourceEntity.custodian_Url = null;      
       ResourceEntity.custodian_ServiceRootURL_StoreID = null;      
       ResourceEntity.description_String = null;      
+      ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
       ResourceEntity.encounter_Url = null;      
@@ -153,6 +156,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
       ResourceEntity.indexed_DateTimeOffset = null;      
+      ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
@@ -161,6 +165,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.period_DateTimeOffsetHigh = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
+      ResourceEntity.subject_VersionId = null;      
       ResourceEntity.subject_FhirId = null;      
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      

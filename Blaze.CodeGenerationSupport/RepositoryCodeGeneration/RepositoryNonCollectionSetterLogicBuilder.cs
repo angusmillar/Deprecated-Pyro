@@ -71,7 +71,12 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
 
       string ElementString = string.Empty;
+      Type Test = NonCollectionParameter.TargetFhirLogicalType;
       Type CurrentTargetDataType = NonCollectionParameter.SearchParameterNavigationPathList[NonCollectionParameter.SearchParameterNavigationPathList.Count - 1].DataType;
+      if (Test != CurrentTargetDataType)
+      {
+        //throw new Exception();
+      }
       ElementString = "Element";
 
       string ElementNamePostFix = string.Empty;
@@ -81,7 +86,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
            CurrentTargetDataType == typeof(PositiveInt)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        TokenIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);        
       }
       else if (CurrentTargetDataType == typeof(Coding) ||
                CurrentTargetDataType == typeof(Identifier) ||
@@ -93,19 +98,19 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         }
         StandardIndexStetter(NonCollectionParameter);
-        TokenIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
       }
       else if ((CurrentTargetDataType == typeof(FhirDateTime) ||
                 CurrentTargetDataType == typeof(Date) ||
                 CurrentTargetDataType == typeof(Instant)))
       {
-        StandardIndexStetter(NonCollectionParameter, ElementString);
-        DateIndexStetter(NonCollectionParameter);
+        StandardIndexStetter(NonCollectionParameter, ElementString);        
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
       }
       else if ((CurrentTargetDataType == typeof(Period)))
       {
         StandardIndexStetter(NonCollectionParameter);
-        DatePeriodIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex);        
       }
       else if ((CurrentTargetDataType == typeof(ResourceReference)))
       {
@@ -114,12 +119,12 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if ((CurrentTargetDataType == typeof(Integer)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        NumberIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.NumberIndex);        
       }
       else if ((CurrentTargetDataType == typeof(Duration)))
       {
         StandardIndexStetter(NonCollectionParameter);
-        NumberIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.NumberIndex);        
       }
       else if ((CurrentTargetDataType == typeof(FhirUri) ||
                 CurrentTargetDataType == typeof(Oid)))
@@ -131,7 +136,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         else if (NonCollectionParameter.SearchParamType == SearchParamType.Uri)
         {
           StandardIndexStetter(NonCollectionParameter, ElementString);
-          UriIndexStetter(NonCollectionParameter);
+          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.UriIndex);          
         }
         else
         {
@@ -142,18 +147,18 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
                CurrentTargetDataType == typeof(Quantity))
       {
         StandardIndexStetter(NonCollectionParameter);
-        QuantityIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex);        
       }
       else if ((CurrentTargetDataType == typeof(FhirString)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
         if (NonCollectionParameter.SearchParamType == SearchParamType.Token)
         {
-          TokenIndexStetter(NonCollectionParameter);
+          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.String)
         {
-          StringIndexStetter(NonCollectionParameter);
+          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.StringIndex);          
         }
         else
         {
@@ -163,7 +168,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if (GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen.IsSubclassOfRawGeneric(typeof(Code<>), CurrentTargetDataType))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        TokenIndexStetter(NonCollectionParameter);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
       }
       else if ((CurrentTargetDataType == typeof(Element)))
       {
@@ -175,22 +180,22 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(Identifier))
           {
             StandardIndexStetter(NonCollectionParameter);
-            TokenIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
           }
           else if (TargetChoiceDataType == typeof(FhirBoolean))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            TokenIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
           }
           else if (TargetChoiceDataType == typeof(Identifier))
           {
             StandardIndexStetter(NonCollectionParameter);
-            TokenIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
           }
           else if (TargetChoiceDataType == typeof(FhirDateTime))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            TokenIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
           }
           else
           {
@@ -218,17 +223,17 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
             TargetChoiceDataType == typeof(Date))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            DateIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);            
           }
           else if (TargetChoiceDataType == typeof(Age))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DateIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);            
           }
           else if (TargetChoiceDataType == typeof(Period))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DatePeriodIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex);
           }
           else
           {
@@ -240,7 +245,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(Quantity))
           {
             StandardIndexStetter(NonCollectionParameter);
-            QuantityIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex);
           }
           else
           {
@@ -251,8 +256,8 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (TargetChoiceDataType == typeof(FhirString))
           {
-            StandardIndexStetter(NonCollectionParameter);
-            StringIndexStetter(NonCollectionParameter);
+            StandardIndexStetter(NonCollectionParameter);            
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.StringIndex);
           }
           else
           {
@@ -277,8 +282,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
 
-      //_Sb.AppendLine(String.Format("{0}if ({1}{2} is {3})", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.TargetFhirLogicalType.NameGenericType()));
-
       _Sb.AppendLine(String.Format("{0}if ({1}{2} is {3})", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.TargetFhirLogicalType.NameGenericType()));
 
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
@@ -289,56 +292,24 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       string ReturnType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
       _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName + ElementNamePostFix, DbIndexType, ReturnType)));
 
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index) as {3}", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
-
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3}Index)).Set({1}{2}, Index) as {3}Index", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
     }
 
-    private static void TokenIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
+
+    private static void DynamicIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType DbIndexType)
     {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Code = Index.Code;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_System = Index.System;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      foreach (string PropertyName in DatabaseModelInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
+      {
+        _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
+        DepthSpace(_BracketDepthCounter),
+        DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
+        PropertyName));
+      }
     }
 
-    private static void DateIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffset = Index.DateTimeOffset;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
-    private static void DatePeriodIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetLow = Index.DateTimeOffsetLow;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
-    private static void StringIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_String = Index.String;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
-    private static void UriIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Uri = Index.Uri;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
-    private static void NumberIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Comparator = Index.Comparator;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Number = Index.Number;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
-    private static void QuantityIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
-    {
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Comparator = Index.Comparator;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Code = Index.Code;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_System = Index.System;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Quantity = Index.Quantity;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-    }
-
+   
     private static void ResourceReferenceIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, string ElementNamePostFix)
     {
       BundleResourceCustomLogic(NonCollectionParameter);
@@ -351,11 +322,6 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
       _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
-
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSettingSupport.SetIndex(Index, {1}{2}, FhirRequestUri, this) as {3}Index;", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index, FhirRequestUri, this) as {3};", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, NonCollectionParameter.SearchParamType.ToString()));
-      //_Sb.AppendLine(String.Format("{0}Index = IndexSetterFactory.Create(typeof({3})).Set({1}{2}, Index, FhirRequestUri, this) as {3};", DepthSpace(_BracketDepthCounter), _CurrentChainName, ElementNamePostFix, DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)));
-
       string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
       string ReturnType = DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter);
       _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName + ElementNamePostFix, DbIndexType, ReturnType, true)));
@@ -363,25 +329,32 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Type = Index.Type;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_FhirId = Index.FhirId;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
-      _Sb.AppendLine(String.Format("{0}if (Index.Url != null)", DepthSpace(_BracketDepthCounter)));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};", 
+        DepthSpace(_BracketDepthCounter), 
+        DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
+        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};", 
+        DepthSpace(_BracketDepthCounter), 
+        DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
+        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId));
+      _Sb.AppendLine(String.Format("{0}if (Index.{1} != null)", 
+        DepthSpace(_BracketDepthCounter),
+        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url = Index.Url;", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
+      _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};", 
+        DepthSpace(_BracketDepthCounter), 
+        DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
+        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
       _BracketDepthCounter--;
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}else", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
-      //_Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;", 
-      //  DepthSpace(_BracketDepthCounter), 
-      //  DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName)));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
         DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
         DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
-
 
       _BracketDepthCounter--;
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
