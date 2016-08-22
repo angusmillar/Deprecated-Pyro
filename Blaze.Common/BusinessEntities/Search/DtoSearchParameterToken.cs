@@ -8,7 +8,7 @@ namespace Blaze.Common.BusinessEntities.Search
   {
     protected const char TokenDelimiter = '|';
 
-     #region Constructor
+    #region Constructor
     public DtoSearchParameterToken()
       : base()
     {      

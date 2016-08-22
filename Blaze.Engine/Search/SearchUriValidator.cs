@@ -24,7 +24,7 @@ namespace Blaze.Engine.Search
     private static DtoSearchParameters ParseToSupportedSearchParameters(SearchParams FhirSearchParameter)
     {
       var oInboundSearchParametersList = new List<DtoSearchParameterBase>();
-      var oSupportedSearchParametersForResourceList = DtoSupportedSearchParameters.GetSupportedParametersForResourceTypeList(_ResourceType);
+      var oSupportedSearchParametersForResourceList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType);
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameType();
 
       foreach (var Parameter in FhirSearchParameter.Parameters)

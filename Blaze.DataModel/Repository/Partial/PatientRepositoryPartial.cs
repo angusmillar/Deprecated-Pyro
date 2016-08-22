@@ -33,6 +33,8 @@ namespace Blaze.DataModel.Repository
 
 
       var MyPredicate = PredicateBuilder.New<Res_Patient>();
+
+
       //MyPredicate = MyPredicate.And(Search.StringPropertyEqualTo("FhirId", "96d6d5a3-d3da-493a-b4f2-e8ec1241f8d7"));
       //MyPredicate = MyPredicate.And(Search.StringCollectionEqualToAny("given_List", "Angus"));
       //MyPredicate = MyPredicate.And(Search.StringCollectionAnyStartsWith("family_List", "héllo"));  //"héllo UPPER"
@@ -48,8 +50,11 @@ namespace Blaze.DataModel.Repository
       //MyPredicate = MyPredicate.And(x => x.family_List.Any(c => c.String.Contains("llo")));
       //MyPredicate = MyPredicate.And(Search.StringCollectionAnyContains("family_List", "llo"));
       //MyPredicate = MyPredicate.And(Search.StringPropertyStartsOrEndsWith("FhirId", "e8ec1241f8d7"));
-      MyPredicate = MyPredicate.And(Search.StringCollectionAnyStartsOrEndsWith("family_List", "per"));
+      //MyPredicate = MyPredicate.And(Search.StringCollectionAnyStartsOrEndsWith("family_List", "per"));
       //MyPredicate = MyPredicate.Or(x => x.FhirId == "a99b5c95-b546-46ee-8992-19a7ca703d4a");
+
+      //      MyPredicate = MyPredicate.Or(x => x.active_Code == "Code" && x.active_System == "System");
+      MyPredicate = MyPredicate.And(Search.TokenPropertyEqualTo("gender_Code", new DtoSearchParameterToken.TokenValue() { Code = "female", System = "" }));
 
       ////MyPredicate = MyPredicate.Or(MyExpression);
 

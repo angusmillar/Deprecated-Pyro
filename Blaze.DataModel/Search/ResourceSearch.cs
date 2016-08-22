@@ -49,7 +49,7 @@ namespace Blaze.DataModel.Search
       var constantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
 
       var MethodStartsWithCall = Expression.Call(propertyReference, MethodStartsWith, constantReference);
-      var MethodEndsWithCall = Expression.Call(propertyReference, MethodEndsWith, constantReference);      
+      var MethodEndsWithCall = Expression.Call(propertyReference, MethodEndsWith, constantReference);
       var OrExpression = Expression.OrElse(MethodStartsWithCall, MethodEndsWithCall);
 
       return Expression.Lambda<Func<T, bool>>(OrExpression, ParameterReferance);
@@ -144,7 +144,6 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
 
-
     public Expression<Func<T, bool>> StringCollectionAnyContains(string Property, string Value)
     {
       //(x => x.family_List.Any(c => c.String.Contains("Mill")));
@@ -168,6 +167,37 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
 
+    public Expression<Func<T, bool>> TokenPropertyEqualTo(string Property, Common.BusinessEntities.Search.DtoSearchParameterToken.TokenValue TokenValue)
+    {
+      //MyPredicate = MyPredicate.Or(x => x.active_Code == "Code" && x.active_System == "System");
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+
+      if (string.IsNullOrWhiteSpace(TokenValue.System))
+      {
+        var CodePropertyReference = Expression.Property(ParameterReferance, "gender_Code");
+        var CodeConstantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(TokenValue.Code.Trim()));
+        var CodeBinaryExpression = Expression.Equal(CodePropertyReference, CodeConstantReference);
+        return Expression.Lambda<Func<T, bool>>(CodeBinaryExpression, new[] { ParameterReferance });
+
+      }
+      else
+      {
+        var CodePropertyReference = Expression.Property(ParameterReferance, "gender_Code");
+        var CodeConstantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(TokenValue.Code.Trim()));
+        var CodeBinaryExpression = Expression.Equal(CodePropertyReference, CodeConstantReference);
+
+        var SystemPropertyReference = Expression.Property(ParameterReferance, "gender_System");
+        var SystemConstantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(TokenValue.Code.Trim()));
+        var SystemBinaryExpression = Expression.Equal(SystemPropertyReference, SystemConstantReference);
+
+        var CodeAndSystemExpression = Expression.And(CodeBinaryExpression, SystemBinaryExpression);
+
+        return Expression.Lambda<Func<T, bool>>(CodeAndSystemExpression, new[] { ParameterReferance });
+
+      }
+
+    }
 
   }
 }

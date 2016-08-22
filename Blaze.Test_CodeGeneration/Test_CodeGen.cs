@@ -58,10 +58,18 @@ namespace Blaze.Test.CodeGenerationSupport
 
 
     [Test]
-    public void Test_SearchParamInfoCodeGeneration()
+    public void Test_SearchParamEnumInfoCodeGeneration()
     {
-      var SearchParamInfoCodeGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParamInfoCodeGeneration();
-      SearchParamInfoCodeGeneration.Generate();
+      var SearchParamEnumInfoCodeGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParamEnumCodeGeneration();
+      SearchParamEnumInfoCodeGeneration.Generate();
+    }
+
+    [Test]
+    public void Test_SearchParameterToDbInfoGeneration()
+    {
+      var SearchParameterToDbInfoGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParameterToDbInfoGeneration();
+      SearchParameterToDbInfoGeneration.Generate();
+      var test = SearchParameterToDbInfoGeneration.ResourceSearchParamInfoList;
     }
   }
 }

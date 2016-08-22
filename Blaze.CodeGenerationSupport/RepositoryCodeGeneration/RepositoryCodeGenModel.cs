@@ -64,4 +64,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
     public DatabaseEnum.DbIndexType DbIndexType { get; set; }
   }
 
+
+
+
 }

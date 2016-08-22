@@ -99,14 +99,19 @@
     </Compile>
     <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfo.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfoItem.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParameterToDbInfoGeneration.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.cs">
+      <DependentUpon>_SearchParameterToDbInfoGeneration.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_SearchParameterEnumGeneration.tt</DependentUpon>
     </Compile>
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParamEnumInfoItem.cs" />
-    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoCodeGeneration.cs" />
-    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamInfoModel.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\SearchParamEnumCodeGeneration.cs" />
     <Compile Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -158,6 +163,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_SearchParameterToDbInfoGeneration.cs</LastGenOutput>
+    </Content>
     <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_SearchParameterEnumGeneration.cs</LastGenOutput>

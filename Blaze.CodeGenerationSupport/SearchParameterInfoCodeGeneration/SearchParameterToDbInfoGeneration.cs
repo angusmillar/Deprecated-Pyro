@@ -7,9 +7,8 @@ using Hl7.Fhir.Model;
 
 namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
-  public class SearchParamInfoCodeGeneration
+  public class SearchParameterToDbInfoGeneration
   {
-    public Dictionary<string, SearchParamEnumInfoItem> DistinctSearchParamEnumInfoItemDictornary = null;
     public List<ResourceSearchParamInfo> ResourceSearchParamInfoList = null;
 
     public void Generate()
@@ -17,9 +16,6 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
       var RepositoryCodeGeneration = new Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
       var RepositoryCodeGenModel = RepositoryCodeGeneration.Generate();
 
-
-
-      DistinctSearchParamEnumInfoItemDictornary = new Dictionary<string, SearchParamEnumInfoItem>();
       ResourceSearchParamInfoList = new List<ResourceSearchParamInfo>();
 
       foreach (RepositoryItem RepositoryItem in RepositoryCodeGenModel.RepositoryItemList)
@@ -33,17 +29,15 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         {
           if (CollectionIndexEntity.SearchParameterInfo != null)
           {
-            AddSearchNameToDictornary(CollectionIndexEntity.SearchParameterInfo.SearchParameterName);
-
             var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
-            ResourceSearchParamInfoItem.SearchParameterNameType = UnderScoreReservedWords(CollectionIndexEntity.SearchParameterInfo.SearchParameterName.Replace("-", "_"));
-            ResourceSearchParamInfoItem.ResourceName = RepositoryItem.ResourceName;
+            ResourceSearchParamInfoItem.SearchParameterNameType = DatabaseModelInfo.UnderScoreCSharpReservedWords(DatabaseModelInfo.ContructSearchParameterName(CollectionIndexEntity.SearchParameterInfo.SearchParameterName));
+            ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
             ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[CollectionIndexEntity.SearchParameterInfo.DbIndexType];
-            ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
-            ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
-            ResourceSearchParamInfoItem.IsDbCollection = true;
-            ResourceSearchParamInfoItem.DbPropertyName = CollectionIndexEntity.PropertyName;
+            ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.IsDbCollection = "true";
+            ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(CollectionIndexEntity.SearchParameterInfo.SearchParameterName);
             ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
           }
         }
@@ -51,32 +45,24 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         {
           if (NonCollectionIndexEntity.SearchParameterInfo != null)
           {
-            AddSearchNameToDictornary(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName);
 
-            foreach (string PropertyName in NonCollectionIndexEntity.PropertyNameList)
-            {
-              var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
-              ResourceSearchParamInfoItem.SearchParameterNameType = UnderScoreReservedWords(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName.Replace("-", "_"));
-              ResourceSearchParamInfoItem.ResourceName = RepositoryItem.ResourceName;
-              ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.DbIndexType];
-              ResourceSearchParamInfoItem.ModifierList = PopulateSearchparameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
-              ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
-              ResourceSearchParamInfoItem.PrefixList = PopulatePrefixListList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
-              ResourceSearchParamInfoItem.IsDbCollection = false;
-              ResourceSearchParamInfoItem.DbPropertyName = PropertyName;
-              ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
-            }
+            var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
+            ResourceSearchParamInfoItem.SearchParameterNameType = DatabaseModelInfo.UnderScoreCSharpReservedWords(DatabaseModelInfo.ContructSearchParameterName(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName));
+            ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
+            ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.DbIndexType];
+            ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.IsDbCollection = "false";
+            ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName);
+            ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
+
           }
         }
-        AddSearchNameToDictornary("_id");
-        AddSearchNameToDictornary("page");
       }
-
-
-
     }
 
-    private List<string> PopulateSearchparameterModifierList(DatabaseEnum.DbIndexType DbIndexType)
+    private List<string> PopulateSearchParameterModifierList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
       switch (DbIndexType)
@@ -170,7 +156,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-    private List<string> PopulatePrefixListList(DatabaseEnum.DbIndexType DbIndexType)
+    private List<string> PopulatePrefixList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
       switch (DbIndexType)
@@ -217,23 +203,6 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-
-    private void AddSearchNameToDictornary(string SearchParameterName)
-    {
-      string EnumName = UnderScoreReservedWords(SearchParameterName.Replace("-", "_"));
-      if (!DistinctSearchParamEnumInfoItemDictornary.ContainsKey(EnumName))
-      {
-        DistinctSearchParamEnumInfoItemDictornary.Add(EnumName, new SearchParamEnumInfoItem() { EnumName = EnumName, Name = SearchParameterName });
-      }
-      else
-      {
-        if (DistinctSearchParamEnumInfoItemDictornary[EnumName].Name != SearchParameterName)
-        {
-          throw new Exception(String.Format("Duplicate Search Parameters EnumNames with different Search parameter names. EnumName:'{0}', SearchNames: '{1}' and '{2}'", EnumName, DistinctSearchParamEnumInfoItemDictornary[EnumName].Name, SearchParameterName));
-        }
-      }
-    }
-
 
     //Some Search Parameters are C# reserved words, we will underscore prefix them
     private string UnderScoreReservedWords(string text)

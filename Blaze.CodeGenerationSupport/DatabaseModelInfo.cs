@@ -207,10 +207,7 @@ namespace Blaze.CodeGenerationSupport
     /// <returns></returns>
     public static string ConstructCollectionListName(FhirApiSearchParameterInfo oFhirApiSearchParameterInfo)
     {
-      if (oFhirApiSearchParameterInfo.SearchParamType == SearchParamType.Composite)
-        return DatabaseModelInfo.ContructSearchParameterName(oFhirApiSearchParameterInfo.SearchName).Replace("_[x]", "") + DatabaseModelInfo.ListPostfixText;
-      else
-        return DatabaseModelInfo.ContructSearchParameterName(oFhirApiSearchParameterInfo.SearchName) + DatabaseModelInfo.ListPostfixText;
+      return DatabaseModelInfo.ContructSearchParameterName(oFhirApiSearchParameterInfo.SearchName) + DatabaseModelInfo.ListPostfixText;
     }
 
     /// <summary>
@@ -234,7 +231,7 @@ namespace Blaze.CodeGenerationSupport
     /// <returns></returns>
     public static string ContructSearchParameterName(string SearchParameterName)
     {
-      return SearchParameterName.Replace('-', '_');
+      return SearchParameterName.Replace('-', '_').Replace("_[x]", "");
     }
 
     public static void GenerateNonCollectionPropertiesNames(List<string> Propertylist, FhirApiSearchParameterInfo NonCollectionItem, bool OnlyReturnStaticPortion = false)
@@ -519,6 +516,21 @@ namespace Blaze.CodeGenerationSupport
         }
       }
       return friendlyName;
+    }
+
+    //Some Search Parameters are C# reserved words, we will underscore prefix them
+    public static string UnderScoreCSharpReservedWords(string text)
+    {
+      string Prefix = "_";
+      if (text == "class" ||
+          text == "event" ||
+          text == "abstract" ||
+          text == "base" ||
+          text == "operator")
+        return Prefix + text;
+      else
+        return text;
+
     }
 
   }

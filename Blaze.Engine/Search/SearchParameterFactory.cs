@@ -25,7 +25,8 @@ namespace Blaze.Engine.Search
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DbSearchParameterType);
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
-      _CurrentResourceName = Resource.ToString();
+      _CurrentResourceName = ModelInfo.FhirTypeToFhirTypeName(Resource);
+      //_CurrentResourceName = Resource.ToString();
       oSearchParameter.Resource = Resource;
       oSearchParameter.Name = SearchParameterName;      
       oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;

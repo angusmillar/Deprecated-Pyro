@@ -62,12 +62,15 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
     <Compile Include="BusinessEntities\Search\DtoSupportedSearchParameters.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSupportedSearchParametersFactory.cs">
+      <DependentUpon>_SearchParameterToDbInfoGeneration.txt4</DependentUpon>
+    </Compile>
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
     <Compile Include="Enum\FhirSearchEnum.cs" />
     <Compile Include="Enum\FhirSearchEnumPartial.cs">
-      <DependentUpon>SearchParameterEnumGeneration.txt4</DependentUpon>
+      <DependentUpon>_SearchParameterEnumGeneration.txt4</DependentUpon>
     </Compile>
     <Compile Include="Enum\RestEnum.cs" />
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
@@ -99,11 +102,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Enum\SearchParameterEnumGeneration.txt4" />
+    <None Include="BusinessEntities\Search\_SearchParameterToDbInfoGeneration.txt4" />
+    <None Include="Enum\_SearchParameterEnumGeneration.txt4" />
     <None Include="Interfaces\Repositories\_UnitOfWorkGenerator.txt4" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Search\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
