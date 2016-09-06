@@ -13,27 +13,31 @@ namespace Blaze.Engine.Support
       return 1;
     }
 
-    public static int GetLastPageNumber(int NumberOfRecordsPerPage, int TotalNumberOfRecords)
+    public static int GetLastPageNumber(int PagesTotal)
     {
-      return (TotalNumberOfRecords / NumberOfRecordsPerPage) + 1;
+      return PagesTotal + 1;
     }
 
-    public static int GetNextPageNumber(int PageCurrentlyRequired, int LastPageNumber)
+    public static int GetNextPageNumber(int PageCurrentlyRequired, int PagesTotal)
     {
-      if ((PageCurrentlyRequired + 1) > LastPageNumber)
-        return LastPageNumber;
+      if (PageCurrentlyRequired >= PagesTotal)
+        return PagesTotal + 1;
       else
-        return PageCurrentlyRequired + 1;
+        return PageCurrentlyRequired + 2;
     }
 
-    public static int GetPreviousPageNumber(int PageCurrentlyRequired, int LastPageNumber)
+    public static int GetPreviousPageNumber(int PageCurrentlyRequired)
     {
-      if ((PageCurrentlyRequired - 1) < 1)
+      if (PageCurrentlyRequired > 1)
+      {
+        //Remember that PageCurrentlyRequired is in terms of the db, 
+        //when we showq the users we add one, therefore Previous is just the db number without adding 1
+        return PageCurrentlyRequired;
+      }
+      else
+      {
         return 1;
-      if ((PageCurrentlyRequired - 1) > LastPageNumber)
-        return LastPageNumber;
-      else
-        return PageCurrentlyRequired - 1;
+      }
     }
 
     public static Uri GetPageNavigationUri(Uri RequestUri, int NewPageNumber)

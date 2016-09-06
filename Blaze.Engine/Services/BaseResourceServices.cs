@@ -46,9 +46,14 @@ namespace Blaze.Engine.Services
     // GET: URL//FhirApi/Patient?family=Smith&given=John
     public virtual IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
     {
-      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
-
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
+      if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
+      {
+        oBlazeServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;
+        return oBlazeServiceOperationOutcome;
+      }
+      
       oBlazeServiceOperationOutcome.OperationType = Blaze.Common.Enum.RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.RequestUri = BlazeServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);

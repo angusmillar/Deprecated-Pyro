@@ -206,11 +206,11 @@ namespace Blaze.Engine.Response
             FhirBundle.Total = this.DatabaseOperationOutcome.ResourcesMatchingSearchCount;
 
             //Paging           
-            int LastPageNumber = Support.PagingSupport.GetLastPageNumber(this.DatabaseOperationOutcome.NumberOfRecordsPerPage, this.DatabaseOperationOutcome.ResourcesMatchingSearchCount);
+            int LastPageNumber = Support.PagingSupport.GetLastPageNumber(this.DatabaseOperationOutcome.PagesTotal);
             FhirBundle.FirstLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, 1);
             FhirBundle.LastLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, LastPageNumber);
-            FhirBundle.NextLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetNextPageNumber(this.DatabaseOperationOutcome.PageRequested, LastPageNumber));
-            FhirBundle.PreviousLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetPreviousPageNumber(this.DatabaseOperationOutcome.PageRequested, LastPageNumber));
+            FhirBundle.NextLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetNextPageNumber(this.DatabaseOperationOutcome.PageRequested, this.DatabaseOperationOutcome.PagesTotal));
+            FhirBundle.PreviousLink = Support.PagingSupport.GetPageNavigationUri(this.RequestUri, Support.PagingSupport.GetPreviousPageNumber(this.DatabaseOperationOutcome.PageRequested));
 
             foreach (DtoResource DtoResource in this.DatabaseOperationOutcome.ResourcesMatchingSearchList)
             {

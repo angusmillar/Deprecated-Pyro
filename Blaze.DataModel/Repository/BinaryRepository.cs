@@ -95,11 +95,11 @@ namespace Blaze.DataModel.Repository
       Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
       {        
-        DtoResource = DbGetALL<Res_Binary>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
+        DtoResource = DbGetAll<Res_Binary>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
       }
       else
       {
-        DtoResource = DbGetALL<Res_Binary>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
+        DtoResource = DbGetAll<Res_Binary>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
       DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
       return DatabaseOperationOutcome;

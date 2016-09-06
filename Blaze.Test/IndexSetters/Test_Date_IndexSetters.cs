@@ -21,7 +21,35 @@ namespace Blaze.Test.IndexSetters
       IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
 
       //Assert
-      Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, new TimeSpan()), Index.DateTimeOffset);
+      Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
+    }
+
+    [Test]
+    public void Test_Date_DateIndexSetter_GoodFormat_MonthYearOnly()
+    {
+      //Arrange
+      var Date = new Date("1974-12");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
+
+      //Assert
+      Assert.AreEqual(new DateTimeOffset(1974, 12, 01, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
+    }
+
+    [Test]
+    public void Test_Date_DateIndexSetter_GoodFormat_YearOnly()
+    {
+      //Arrange
+      var Date = new Date("1974");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
+
+      //Assert
+      Assert.AreEqual(new DateTimeOffset(1974, 01, 01, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
     }
 
     [Test]
@@ -53,7 +81,36 @@ namespace Blaze.Test.IndexSetters
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
     }
-    
+
+
+    [Test]
+    public void Test_FhirDateTime_DateIndexSetter_BadFormat_NoTimeZone()
+    {
+      //Arrange
+      var FhirDateTime = new FhirDateTime("1974-12-25T14:35:45:00");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime, Index) as DateIndex;
+
+      //Assert
+      Assert.That(testDelegate, Throws.TypeOf<FormatException>());
+    }
+
+    [Test]
+    public void Test_FhirDateTime_DateIndexSetter_BadFormat_NoSecs()
+    {
+      //Arrange
+      var FhirDateTime = new FhirDateTime("1974-12-25T14:35-05:00");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime, Index) as DateIndex;
+
+      //Assert
+      Assert.That(testDelegate, Throws.TypeOf<FormatException>());
+    }
+
     [Test]
     public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat()
     {
@@ -69,6 +126,34 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
+    public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat_With_MilliSecs()
+    {
+      //Arrange
+      var FhirString = new FhirString("1974-12-25T14:35:45.123-05:00");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+
+      //Assert
+      Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, 123 , new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
+    }
+
+    [Test]
+    public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat_MonthOnly_NoTimeZone()
+    {
+      //Arrange
+      var FhirString = new FhirString("1974-12");
+      DateIndex Index = new DateIndex();
+
+      //Act
+      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+
+      //Assert
+      Assert.AreEqual(new DateTimeOffset(1974, 12, 1, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
+    }
+
+    [Test]
     public void Test_FhirString_DateIndexSetter_Date_GoodFormat()
     {
       //Arrange
@@ -79,14 +164,47 @@ namespace Blaze.Test.IndexSetters
       IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
 
       //Assert
-      Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, new TimeSpan(0)), Index.DateTimeOffset);
+      Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
     }
 
+
     [Test]
-    public void Test_FhirString_DateIndexSetter_BadFormat()
+    public void Test_FhirString_DateIndexSetter_BadErrorFormat()
     {
       //Arrange
       var FhirString = new FhirString("1974XX-12-25T14:3554:45-05:00");
+      DateIndex DateIndex = new DateIndex();
+
+
+      //Act
+      DateIndex = IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, DateIndex) as DateIndex;
+
+      //Assert
+      Assert.IsNull(DateIndex);
+
+    }
+
+    [Test]
+    public void Test_FhirString_DateIndexSetter_BadFormat_NoTimeZone()
+    {
+      //Arrange
+      var FhirString = new FhirString("1974-12-25T14:35:45");
+      DateIndex DateIndex = new DateIndex();
+
+
+      //Act
+      DateIndex = IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, DateIndex) as DateIndex;
+
+      //Assert
+      Assert.IsNull(DateIndex);
+
+    }
+
+    [Test]
+    public void Test_FhirString_DateIndexSetter_BadFormat_NoSecs()
+    {
+      //Arrange
+      var FhirString = new FhirString("1974-12-25T14:35-05:00");
       DateIndex DateIndex = new DateIndex();
 
 

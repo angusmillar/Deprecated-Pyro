@@ -1,5 +1,6 @@
 ﻿using System;
-using Blaze.Common.Enum;
+using System.Collections.Generic;
+
 
 namespace Blaze.Common.BusinessEntities.Search
 {
@@ -8,26 +9,55 @@ namespace Blaze.Common.BusinessEntities.Search
     #region Constructor
     public DtoSearchParameterDate()
       : base()
-    {      
-      this.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+    {
+      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.DateIndex;
     }
     #endregion
 
-    public override bool TryParseValue(string Value)
+    public List<DtoSearchParameterDateValue> ValueList { get; set; }
+
+    public override bool TryParseValue(string Values)
     {
-      DateTimeOffset DateTime;
-      if (DateTimeOffset.TryParse(Value, out DateTime))
+      this.ValueList = new List<DtoSearchParameterDateValue>();
+      foreach (var Value in Values.Split(OrDelimiter))
       {
-        this.Value = DateTime;
-        return true;
+        DateTimeOffset DateTimeOffset;
+        var DtoSearchParameterDateValue = new DtoSearchParameterDateValue();
+        var Date = DtoSearchParameterDateValue.ParsePrefix(Value);
+        if (DateTimeOffset.TryParse(Date, out DateTimeOffset))
+        {
+          DtoSearchParameterDateValue.Value = DateTimeOffset;
+          ValueList.Add(DtoSearchParameterDateValue);
+        }
+        else
+        {
+          return false;
+        }
       }
-      else
+      if (ValueList.Count > 1)
+      {
+        this.HasLogicalOrProperties = true;
+      }
+      if (this.ValueList.Count == 0)
       {
         return false;
       }
+      else
+      {
+        return true;
+      }
     }
 
-    public DateTimeOffset Value { get; set; }
-
+    public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    {
+      foreach (var Value in ValueList)
+      {
+        if (!Value.ValidatePreFix(DtoSupportedSearchParameters))
+        {
+          return false;
+        }
+      }
+      return true;
+    }    
   }
 }

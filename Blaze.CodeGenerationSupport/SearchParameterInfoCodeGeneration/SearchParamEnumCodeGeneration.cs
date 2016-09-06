@@ -33,6 +33,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         }
         AddSearchNameToDictornary("_id");
         AddSearchNameToDictornary("page");
+        AddSearchNameToDictornary("_sort");
       }
     }
 

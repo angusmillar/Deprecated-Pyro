@@ -71,11 +71,9 @@
     <Compile Include="Response\BlazeServiceOperationOutcome.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Rest\ContentType.cs" />
-    <Compile Include="Search\DefaultResourceSearchPlan.cs" />
     <Compile Include="Search\SearchParameterFactory.cs" />
     <Compile Include="Search\SearchPlanBase.cs" />
     <Compile Include="Search\SearchPlanValidationOperationOutcome.cs" />
-    <Compile Include="Search\SearchPlanNegotiator.cs" />
     <Compile Include="Search\SearchUriValidator.cs" />
     <Compile Include="Search\SearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Services\BaseResourceServices.cs" />

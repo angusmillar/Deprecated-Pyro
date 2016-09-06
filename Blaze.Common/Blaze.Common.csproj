@@ -57,14 +57,19 @@
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDate.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterDateValue.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterNumberValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterValueBase.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterWithPrefixBase.cs" />
     <Compile Include="BusinessEntities\Search\DtoSupportedSearchParameters.cs" />
     <Compile Include="BusinessEntities\Search\DtoSupportedSearchParametersFactory.cs">
       <DependentUpon>_SearchParameterToDbInfoGeneration.txt4</DependentUpon>
     </Compile>
+    <Compile Include="BusinessEntities\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
@@ -98,6 +103,8 @@
     <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\FhirDateTimeSupport.cs" />
+    <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\StringSupport.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +114,7 @@
     <None Include="Interfaces\Repositories\_UnitOfWorkGenerator.txt4" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Search\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

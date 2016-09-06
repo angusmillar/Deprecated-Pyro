@@ -6600,11 +6600,13 @@
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="Search\ResourceSearch.cs" />
+    <Compile Include="Search\ResourceSearchExtensions.cs" />
     <Compile Include="Support\FhirCodeDataTypeSupport.cs" />
     <Compile Include="Support\FhirCodeDataTypeSupportGenerated.cs">
       <DependentUpon>_GenericCodeDataTypeEnumsGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="Support\IndexSettingSupport.cs" />
+    <Compile Include="Support\PaginationSupport.cs" />
     <Compile Include="UnitOfWork.cs">
       <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
     </Compile>

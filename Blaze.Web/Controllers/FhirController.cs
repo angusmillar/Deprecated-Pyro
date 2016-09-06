@@ -39,8 +39,10 @@ namespace Blaze.Web.Controllers
     [HttpGet, Route("{ResourceName}")]
     public HttpResponseMessage Search(string ResourceName)
     {
+      var Test = Request.Headers;
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      
       IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(DtoFhirRequestUri, Request.GetSearchParams());
       IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(BlazeServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);   

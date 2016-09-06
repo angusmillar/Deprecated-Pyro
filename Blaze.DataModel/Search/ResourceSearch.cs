@@ -12,6 +12,9 @@ namespace Blaze.DataModel.Search
 {
   public class ResourceSearch<T> where T : ResourceIndexBase
   {
+    private string CollectionPostfix = "List";
+    private string DateIndexPostfix = "DateTimeOffset";
+
     public Expression<Func<T, bool>> StringPropertyEqualTo(string Property, string Value)
     {
       //(x => x.FhirId == "a99b5c95-b546-46ee-8992-19a7ca703d4a")
@@ -33,7 +36,6 @@ namespace Blaze.DataModel.Search
       var propertyReference = Expression.Property(ParameterReferance, Property);
       var constantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
       var MethodStartsWithCall = Expression.Call(propertyReference, MethodStartsWith, constantReference);
-      //var BinaryExpression = Expression.Equal(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(MethodStartsWithCall, ParameterReferance);
     }
 
@@ -65,7 +67,6 @@ namespace Blaze.DataModel.Search
       var propertyReference = Expression.Property(ParameterReferance, Property);
       var constantReference = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
       var MethodContainsCall = Expression.Call(propertyReference, MethodContains, constantReference);
-      //var BinaryExpression = Expression.Equal(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(MethodContainsCall, ParameterReferance);
     }
 
@@ -73,9 +74,9 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.Equals("héllo UPPER")))
       var type = typeof(T);
-
+      string DbPropertyName = Property + "_" + CollectionPostfix;
       //Inner
-      MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1).Single();
+      MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(String)).Single();
 
       ParameterExpression InnerParameter = Expression.Parameter(typeof(StringIndex), "c");
       MemberExpression InnerProperty = Expression.Property(InnerParameter, "String");
@@ -88,7 +89,7 @@ namespace Blaze.DataModel.Search
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
 
       ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(Property));
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
@@ -97,6 +98,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
+      string DbPropertyName = Property + "_" + CollectionPostfix;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -111,7 +113,7 @@ namespace Blaze.DataModel.Search
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
 
       ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(Property));
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
@@ -120,6 +122,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
+      string DbPropertyName = Property + "_" + CollectionPostfix;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -139,7 +142,7 @@ namespace Blaze.DataModel.Search
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
 
       ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(Property));
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
@@ -148,6 +151,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.Contains("Mill")));
       var type = typeof(T);
+      string DbPropertyName = Property + "_" + CollectionPostfix;
 
       //Inner
       MethodInfo MethodContains = typeof(String).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
@@ -162,7 +166,7 @@ namespace Blaze.DataModel.Search
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
 
       ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(Property));
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
@@ -198,6 +202,49 @@ namespace Blaze.DataModel.Search
       }
 
     }
+
+
+    public Expression<Func<T, bool>> DatePropertyEqualTo(string Property, DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset == TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + DateIndexPostfix);
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+
+    public Expression<Func<T, bool>> DateCollectionAnyStartsOrEndsWith(string Property, DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset == TestDate);
+      var type = typeof(T);
+      string DbPropertyName = Property + "_" + CollectionPostfix;
+
+      //Inner
+      MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
+      MethodInfo MethodEndsWith = typeof(String).GetMethods().Where(m => m.Name == "EndsWith" && m.GetParameters().Length == 1).Single();
+
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(StringIndex), "c");
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, "String");
+      ConstantExpression InnerValue = Expression.Constant(Value);
+
+      MethodCallExpression MethodStartsWithCall = Expression.Call(InnerProperty, MethodStartsWith, InnerValue);
+      MethodCallExpression MethodEndsWithCall = Expression.Call(InnerProperty, MethodEndsWith, InnerValue);
+
+      var OrExpression = Expression.OrElse(MethodStartsWithCall, MethodEndsWithCall);
+      Expression<Func<StringIndex, bool>> InnerFunction = Expression.Lambda<Func<StringIndex, bool>>(OrExpression, InnerParameter);
+
+      //Outer Any
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
 
   }
 }

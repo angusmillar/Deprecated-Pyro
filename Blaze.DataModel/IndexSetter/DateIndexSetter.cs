@@ -61,10 +61,10 @@ namespace Blaze.DataModel.IndexSetter
       //E.g: "1974-12-25"      
       DateTime TempDate = new DateTime();
       if (Date.IsValidValue(Date.Value))
-      {
+      {        
         if (DateTime.TryParse(Date.Value, out TempDate))
         {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDate, new TimeSpan(0));
+          DateIndex.DateTimeOffset = new DateTimeOffset(TempDate, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
           return DateIndex;
         }
         else
@@ -110,7 +110,7 @@ namespace Blaze.DataModel.IndexSetter
         var TempDateTime = new DateTime();
         if (DateTime.TryParse(FhirString.Value, out TempDateTime))
         {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDateTime, new TimeSpan(0));
+          DateIndex.DateTimeOffset = new DateTimeOffset(TempDateTime, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
           return DateIndex;
         }
         else
@@ -130,7 +130,6 @@ namespace Blaze.DataModel.IndexSetter
         {
           return null;
         }
-
       }
       else
       {

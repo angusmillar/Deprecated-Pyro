@@ -18,99 +18,39 @@ namespace Blaze.Engine.Search
     private static string _CurrentResourceName = string.Empty;
     private static string _RawSearchParameterAndValueString = string.Empty;
 
-    public static DtoSearchParameterBase CreateSearchParameter(FHIRDefinedType Resource, FhirSearchEnum.SearchParameterNameType SearchParameterName,
-                  Tuple<string, string> Parameter,
-                  DatabaseEnum.DbIndexType DbSearchParameterType)
+    public static DtoSearchParameterBase CreateSearchParameter(DtoSupportedSearchParameters DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
     {
-      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DbSearchParameterType);
+      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.DbSearchParameterType);
+
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
-      _CurrentResourceName = ModelInfo.FhirTypeToFhirTypeName(Resource);
-      //_CurrentResourceName = Resource.ToString();
-      oSearchParameter.Resource = Resource;
-      oSearchParameter.Name = SearchParameterName;      
+      _CurrentResourceName = ModelInfo.FhirTypeToFhirTypeName(DtoSupportedSearchParametersResource.Resource);
+      oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
+      oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
+      oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
+      oSearchParameter.DbPropertyName = DtoSupportedSearchParametersResource.DbPropertyName;
       oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;
       _RawSearchParameterAndValueString = oSearchParameter.RawValue;
-      oSearchParameter.DbSearchParameterType = DbSearchParameterType;
-      ParseModifier(ParameterName, oSearchParameter);
-      string Value = ParsePrefix(ParameterValue, oSearchParameter);
-      if (!oSearchParameter.TryParseValue(Value))
+      oSearchParameter.DbSearchParameterType = DtoSupportedSearchParametersResource.DbSearchParameterType;
+      if (!ParseModifier(ParameterName, oSearchParameter))
       {
-        var oIssueComponent = new OperationOutcome.IssueComponent();
-        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-        oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", Resource.ToString(), oSearchParameter.RawValue));
-        oIssueComponent.Details.Text = String.Format("Unable to parse the given search parameter value for parameter = value: {0}", oSearchParameter.RawValue);
-        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-        var oOperationOutcome = new OperationOutcome();
-        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+        oSearchParameter.IsValid = false;
+        oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
+      }
+      //string Value = ParsePrefix(ParameterValue, oSearchParameter);
+      if (oSearchParameter.TryParseValue(ParameterValue))
+      {
+        oSearchParameter.IsValid = true;
+      }
+      else
+      {
+        oSearchParameter.IsValid = false;
+        oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter value to the appropriate type of: {oSearchParameter.DbSearchParameterType.ToString()} for parameter = value: '{ParameterValue}', ";
       }
       return oSearchParameter;
     }
 
-    private static void ParseModifierType(DtoSearchParameterBase SearchParameter, string value)
-    {
-      switch (value)
-      {
-        case "above":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Above;
-          break;
-        case "below":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Below;
-          break;
-        case "contains":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Contains;
-          break;
-        case "exact":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Exact;
-          break;
-        case "in":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.In;
-          break;
-        case "missing":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Missing;
-          break;
-        case "notin":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.NotIn;
-          break;
-        case "text":
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Text;
-          break;
-        default:
-          {
-            if (value.Contains('[') && value.Contains(']'))
-            {
-              char[] delimiters = { '[', ']' };
-              string TypedResourceName = value.Split(delimiters)[1].Trim();
 
-              Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
-              if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-              {                
-                FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(TypedResourceName);
-                SearchParameter.Resource = FHIRDefinedType;                                  
-              }
-              else
-              {
-                //The Resource stated in the Type is not a known FHIR resource by the FHIR API in use so throw an error;
-                var oIssueComponent = new OperationOutcome.IssueComponent();
-                oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-                oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-                oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "SEARCH_NONE", String.Format("Error: no processable search found for '{0}' search parameters '{1}", _CurrentResourceName, _RawSearchParameterAndValueString));
-                oIssueComponent.Details.Text = String.Format("Unable to parse the given search parameter value for parameter = value: {0}. The Resource stated in the brackets [{1}] is not a known resource type by the FHIR API in use.", _RawSearchParameterAndValueString, TypedResourceName);
-                oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-                var oOperationOutcome = new OperationOutcome();
-                oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-                throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-              }
-              SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
-            }
-            else
-              SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.None;
-          }
-          break;
-      }
-    }
     private static DtoSearchParameterBase InitalizeSearchParameter(DatabaseEnum.DbIndexType DbSearchParameterType)
     {
       DtoSearchParameterBase oSearchParameter = null;
@@ -120,6 +60,7 @@ namespace Blaze.Engine.Search
           oSearchParameter = new DtoSearchParameterDate();
           break;
         case DatabaseEnum.DbIndexType.NumberIndex:
+          //oSearchParameter = new DtoSearchParameterNumberValue();
           oSearchParameter = new DtoSearchParameterNumber();
           break;
         case DatabaseEnum.DbIndexType.QuantityIndex:
@@ -143,44 +84,76 @@ namespace Blaze.Engine.Search
       }
       return oSearchParameter;
     }
-    private static void ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
+    private static bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
     {
-
       if (Name.Contains(_ParameterNameModifierDilimeter))
       {
-        ParseModifierType(oSearchParameter, Name.Split(_ParameterNameModifierDilimeter)[1]);
+        return ParseModifierType(oSearchParameter, Name.Split(_ParameterNameModifierDilimeter)[1]);
       }
       else
       {
         oSearchParameter.Modifier = FhirSearchEnum.SearchModifierType.None;
         oSearchParameter.TypeModifierResource = null;
+        return true;
       }
     }
-    private static string ParsePrefix(string Value, DtoSearchParameterBase oSearchParameter)
+    private static bool ParseModifierType(DtoSearchParameterBase SearchParameter, string value)
     {
-      if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DateIndex ||
-        oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.NumberIndex||
-        oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityIndex)
+      var SearchModifierTypeDic = FhirSearchEnum.GetSearchModifierTypeDictionary();
+      if (SearchModifierTypeDic.ContainsKey(value))
       {
-        if (Value.Length > 2)
+        SearchParameter.Modifier = SearchModifierTypeDic[value];
+        return true;
+      }
+      else
+      {
+        if (value.StartsWith("."))
         {
-          //Are the first two char Alpha characters 
-          if (Regex.IsMatch(Value.Substring(0, 2), @"^[a-zA-Z]+$"))
+          char[] delimiters = { '.'};
+          string TypedResourceName = value.Split(delimiters)[1].Trim();
+
+          Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
+          //Type ResourceType = ModelInfo.GetTypeForResourceName(TypedResourceName);
+          
+          if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
           {
-            var SearchPrefixTypeDictionary = FhirSearchEnum.GetSearchPrefixTypeDictionary();
-            if (SearchPrefixTypeDictionary.ContainsKey(Value.Substring(0, 2)))
-            {
-              oSearchParameter.Prefix = SearchPrefixTypeDictionary[Value.Substring(0, 2)];
-              Value = Value.Substring(2);
-            }
-          }
-          else
-          {
-            oSearchParameter.Prefix = FhirSearchEnum.SearchPrefixType.None;
+            FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(TypedResourceName);
+            SearchParameter.TypeModifierResource = FHIRDefinedType;
+            SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
+            return true;
           }
         }
+        return false;
       }
-      return Value;
     }
+
+    //private static string ParsePrefix(string Value, DtoSearchParameterBase oSearchParameter)
+    //{
+    //  if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DateIndex ||
+    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DatePeriodIndex ||
+    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.NumberIndex ||
+    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityRangeIndex ||        
+    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityIndex)
+    //  {
+    //    if (Value.Length > 2)
+    //    {
+    //      //Are the first two char Alpha characters 
+    //      if (Regex.IsMatch(Value.Substring(0, 2), @"^[a-zA-Z]+$"))
+    //      {
+    //        var SearchPrefixTypeDictionary = FhirSearchEnum.GetSearchPrefixTypeDictionary();
+    //        if (SearchPrefixTypeDictionary.ContainsKey(Value.Substring(0, 2)))
+    //        {
+    //          oSearchParameter.Prefix = SearchPrefixTypeDictionary[Value.Substring(0, 2)];
+    //          Value = Value.Substring(2);
+    //        }
+    //      }
+    //      else
+    //      {
+    //        oSearchParameter.Prefix = FhirSearchEnum.SearchPrefixType.None;
+    //      }
+    //    }
+    //  }
+    //  return Value;
+    //}
   }
 }

@@ -13,7 +13,8 @@ namespace Blaze.DataModel.Repository
     public List<DtoResource> ResourcesMatchingSearchList { get; set; }    
     public int ResourcesMatchingSearchCount { get; set; }
     public int PageRequested { get; set; }
-    public int NumberOfRecordsPerPage { get; set; }
+    public int PagesTotal { get; set; }
+    //public int NumberOfRecordsPerPage { get; set; }
 
     public bool SingleResourceRead { get; set; }
     public DtoResource ResourceMatchingSearch { get; set; }

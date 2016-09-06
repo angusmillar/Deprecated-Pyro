@@ -53,7 +53,21 @@ namespace Blaze.Common.Enum
       NotIn
     }
 
-
-
+    public static Dictionary<string, SearchModifierType> GetSearchModifierTypeDictionary()
+    {
+      return new Dictionary<string, SearchModifierType>()
+      {
+        {"missing", SearchModifierType.Missing},
+        {"exact", SearchModifierType.Exact},
+        {"contains", SearchModifierType.Contains},
+        {"text", SearchModifierType.Text},
+        {"type", SearchModifierType.Type},
+        {"below", SearchModifierType.Below},
+        {"above", SearchModifierType.Above},
+        {"in", SearchModifierType.In},
+        {"notin", SearchModifierType.NotIn}
+      };
+    }
+  
   }
 }

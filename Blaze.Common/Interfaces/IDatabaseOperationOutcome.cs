@@ -10,8 +10,9 @@ namespace Blaze.Common.Interfaces
 {
   public interface IDatabaseOperationOutcome
   {    
-    int NumberOfRecordsPerPage { get; set; }
-    int PageRequested { get; set; }    
+    //int NumberOfRecordsPerPage { get; set; }
+    int PageRequested { get; set; } 
+    int PagesTotal { get; set; }   
     int ResourcesMatchingSearchCount { get; set; }
     List<DtoResource> ResourcesMatchingSearchList { get; set; }    
     bool SingleResourceRead { get; set; }

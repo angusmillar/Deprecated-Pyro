@@ -48,5 +48,11 @@ namespace Blaze.Common.BusinessEntities.Search
       public string System { get; set; }
       public string Code { get; set; }
     }
+
+    public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    {
+      //Token Search parameters never have prefixes so just return true;
+      return true;
+    }
   }
 }

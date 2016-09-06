@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.Enum;
 
 namespace Blaze.Common.BusinessEntities.Search
@@ -18,10 +17,17 @@ namespace Blaze.Common.BusinessEntities.Search
     public string RawValue { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public FhirSearchEnum.SearchModifierType Modifier { get; set; }
-    public ResourceType? TypeModifierResource { get; set; }
-    public FhirSearchEnum.SearchPrefixType Prefix { get; set; }
-    public bool HasLogicalOrProperties { get; set; }
+    public FHIRDefinedType? TypeModifierResource { get; set; }    
+    public bool HasLogicalOrProperties { get; set; }    
+    public string DbPropertyName { get; set; }
+    public bool IsDbCollection { get; set; }
+    public bool IsValid { get; set; }
+    public string InvalidMessage { get; set; }
+
     public abstract bool TryParseValue(string Value);
+    public abstract bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters);
+
+
     public DtoSearchParameterBase()
     {
       this.HasLogicalOrProperties = false;

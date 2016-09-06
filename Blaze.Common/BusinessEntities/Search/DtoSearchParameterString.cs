@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Blaze.Common.Enum;
 
 
@@ -20,6 +21,13 @@ namespace Blaze.Common.BusinessEntities.Search
         this.HasLogicalOrProperties = true;
       return true;
     }
+
+    public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    {
+      //String Search parameter types never have prefixes so always return true.
+      return true;      
+    }
+
     public string[] Values { get; set; }
   }
 }

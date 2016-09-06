@@ -9,8 +9,8 @@ namespace Blaze.Common.BusinessEntities.Search
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
     public FHIRDefinedType Resource { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
-    public bool IsCollection { get; set; }
-    public bool DbPropertyName { get; set; }
+    public bool IsDbCollection { get; set; }
+    public string DbPropertyName { get; set; }
     public List<FhirSearchEnum.SearchModifierType> ModifierList { get; set; }
     public List<ResourceType> TypeModifierResourceList { get; set; }
     public List<FhirSearchEnum.SearchPrefixType> PrefixList { get; set; }
@@ -34,6 +34,15 @@ namespace Blaze.Common.BusinessEntities.Search
       _Id.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
       _Id.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(_Id);
+
+      var _Sort = new DtoSupportedSearchParameters();
+      _Sort.Name = FhirSearchEnum.SearchParameterNameType._sort;
+      _Sort.Resource = FHIRDefinedType.Resource;
+      _Sort.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+      _Sort.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+      _Sort.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+      _Sort.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
+      List.Add(_Sort);
 
     }
 

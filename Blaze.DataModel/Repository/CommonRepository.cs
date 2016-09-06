@@ -7,8 +7,12 @@ using LinqKit;
 using System.Linq.Expressions;
 using System.Data.Entity;
 using Blaze.DataModel.DatabaseModel;
+using Blaze.DataModel.DatabaseModel.Base;
+using Blaze.DataModel.Search;
 using Blaze.Common.Interfaces.Repositories;
 using Blaze.Common.BusinessEntities.Dto;
+using Blaze.Common.BusinessEntities.Search;
+
 
 namespace Blaze.DataModel.Repository
 {
@@ -21,24 +25,197 @@ namespace Blaze.DataModel.Repository
     }
     #endregion
 
+    protected ExpressionStarter<T> PredicateGenerator<T>(DtoSearchParameters DtoSearchParameters) where T : ResourceIndexBase
+    {
+      var Search = new ResourceSearch<T>();
+      var MainPredicate = LinqKit.PredicateBuilder.New<T>();
+      ExpressionStarter<T> NewPredicate = null;
+
+
+      foreach (DtoSearchParameterBase SearchItem in DtoSearchParameters.SearchParametersList)
+      {
+        NewPredicate = LinqKit.PredicateBuilder.New<T>();
+        switch (SearchItem.DbSearchParameterType)
+        {
+          case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
+            {
+              
+              if (SearchItem is DtoSearchParameterDate)
+              {
+                var SearchTypeDate = SearchItem as DtoSearchParameterDate;
+                foreach (var SearchValue in SearchTypeDate.ValueList)
+                {
+                  
+                  switch (SearchTypeDate.Modifier)
+                  {
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.None:
+                      if (SearchTypeDate.IsDbCollection)
+                      {                        
+                        NewPredicate = NewPredicate.Or(Search.DateCollectionAnyStartsOrEndsWith(SearchTypeDate.DbPropertyName, SearchValue.Value));
+                      }
+                      else
+                      {
+                        DateTimeOffset Test = new DateTimeOffset(SearchValue.Value.Date, new TimeSpan(0));
+                        NewPredicate = NewPredicate.Or(Search.DatePropertyEqualTo(SearchTypeDate.DbPropertyName, Test));                        
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Missing:
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
+                      if (SearchTypeDate.IsDbCollection)
+                      {
+                        //Predicate = Predicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      else
+                      {
+                        //Predicate = Predicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
+                      if (SearchTypeDate.IsDbCollection)
+                      {
+                        //Predicate = Predicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      else
+                      {
+                        //Predicate = Predicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Text:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Type:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Below:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Above:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.In:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.NotIn:
+                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
+                    default:
+                      throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeDate.Modifier.ToString(), (int)SearchTypeDate.Modifier, typeof(Common.Enum.FhirSearchEnum.SearchModifierType));
+                  }
+                }       
+              }
+            }
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex:
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
+            {
+              if (SearchItem is DtoSearchParameterNumber)
+              {
+                var SearchTypeNumber = SearchItem as DtoSearchParameterNumber;
+                foreach (var SearchValue in SearchTypeNumber.ValueList)
+                {
+                  if (SearchTypeNumber.Name != Common.Enum.FhirSearchEnum.SearchParameterNameType.page)
+                  {
+                    //ToDo: more needed here
+                  }
+
+                }                
+              }
+            }
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
+            {
+              if (SearchItem is DtoSearchParameterString)
+              {
+                var SearchTypeString = SearchItem as DtoSearchParameterString;
+                foreach (var SearchValue in SearchTypeString.Values)
+                {
+                  switch (SearchTypeString.Modifier)
+                  {
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.None:
+                      if (SearchTypeString.IsDbCollection)
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      else
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringPropertyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Missing:
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
+                      if (SearchTypeString.IsDbCollection)
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      else
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
+                      if (SearchTypeString.IsDbCollection)
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      else
+                      {
+                        NewPredicate = NewPredicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue));
+                      }
+                      break;
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Text:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Type:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Below:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.Above:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.In:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    case Common.Enum.FhirSearchEnum.SearchModifierType.NotIn:
+                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+                    default:
+                      throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeString.Modifier.ToString(), (int)SearchTypeString.Modifier, typeof(Common.Enum.FhirSearchEnum.SearchModifierType));
+                  }
+                }                
+              }
+            }
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
+            break;
+          case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
+            break;
+          default:
+            break;
+        }
+        //NewPredicate = NewPredicate.And(NewPredicate);
+        MainPredicate.Extend<T>(NewPredicate, PredicateOperator.And);
+      }
+
+      return MainPredicate;
+    }
+
     public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       ServiceRootURL_Store ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
       {
-        ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;        
+        ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;
       }
       ServiceRootURL_Store ExsistingNonPrimaryRootURL = this.GetBlaze_RootUrlStore(RootUrl);
       if (ExsistingNonPrimaryRootURL != null)
       {
-        ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;        
+        ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;
       }
       else
       {
         ServiceRootURL_Store Blaze_RootUrlStore = new ServiceRootURL_Store();
         Blaze_RootUrlStore.IsServersPrimaryUrlRoot = true;
         Blaze_RootUrlStore.RootUrl = RootUrl;
-        _Context.Set<ServiceRootURL_Store>().Add(Blaze_RootUrlStore);        
+        _Context.Set<ServiceRootURL_Store>().Add(Blaze_RootUrlStore);
       }
       this.Save();
       return this.GetPrimaryRootUrlStore();
@@ -47,7 +224,7 @@ namespace Blaze.DataModel.Repository
     public DtoRootUrlStore GetPrimaryRootUrlStore()
     {
       DtoRootUrlStore DtoRootUrlStore = null;
-      ServiceRootURL_Store Blaze_RootUrlStore = this.GetPrimaryBlaze_RootUrlStore();      
+      ServiceRootURL_Store Blaze_RootUrlStore = this.GetPrimaryBlaze_RootUrlStore();
       if (Blaze_RootUrlStore != null)
       {
         DtoRootUrlStore = new DtoRootUrlStore();
@@ -83,7 +260,7 @@ namespace Blaze.DataModel.Repository
     {
       return _Context.ServiceRootURL_Store.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
     }
-    
+
     /// <summary>
     /// Get a RootUrlStore by Url string
     /// </summary>
@@ -101,16 +278,19 @@ namespace Blaze.DataModel.Repository
       return ResourceEntity;
     }
 
-    protected IQueryable<T> DbGetALL<T>(Expression<Func<T, bool>> predicate) where T : class
+    protected IQueryable<T> DbGetAll<T>(Expression<Func<T, bool>> predicate) where T : class
     {
       IQueryable<T> ResourceEntity = null;
       ResourceEntity = _Context.Set<T>().AsExpandable().Where(predicate);
       return ResourceEntity;
     }
 
-
-
-    //_Context.Set<Res_Patient>().AsExpandable().Where(MyPredicate);
+    protected int DbGetALLCount<T>(Expression<Func<T, bool>> predicate) where T : class
+    {
+      IQueryable<T> ResourceEntity = null;
+      ResourceEntity = _Context.Set<T>().AsExpandable().Where(predicate);
+      return ResourceEntity.Count();
+    }
 
     protected void DbAddEntity<T>(T Entity) where T : class
     {

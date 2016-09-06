@@ -13,6 +13,6 @@ namespace Blaze.Engine.Search
   {    
     public HttpStatusCode HttpStatusCode { get; set; }
     public OperationOutcome FhirOperationOutcome { get; set; }
-    public DtoSearchParameters SearchParameters { get; set; }
+    public DtoSearchParameters SearchParameters { get; set; }    
   }
 }
