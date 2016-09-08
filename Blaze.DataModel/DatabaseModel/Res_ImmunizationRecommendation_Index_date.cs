@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_ImmunizationRecommendation_Index_date : DateIndex
+  public class Res_ImmunizationRecommendation_Index_date : DateTimeIndex
   {
     public int Res_ImmunizationRecommendation_Index_dateID {get; set;}
     public virtual Res_ImmunizationRecommendation Res_ImmunizationRecommendation { get; set; }

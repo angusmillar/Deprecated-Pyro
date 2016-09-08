@@ -194,7 +194,7 @@ namespace Blaze.DataModel.Repository
           if (item1.ExpiryElement is Hl7.Fhir.Model.FhirDateTime)
           {
             var Index = new Res_Substance_Index_expiry();
-            Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item1.ExpiryElement, Index) as Res_Substance_Index_expiry;
+            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.ExpiryElement, Index) as Res_Substance_Index_expiry;
             ResourseEntity.expiry_List.Add(Index);
           }
         }

@@ -173,8 +173,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.CreatedElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.CreatedElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
@@ -235,8 +235,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.LastModifiedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.LastModifiedElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.LastModifiedElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.modified_DateTimeOffset = Index.DateTimeOffset;

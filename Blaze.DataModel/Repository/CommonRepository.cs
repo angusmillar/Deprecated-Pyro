@@ -100,7 +100,7 @@ namespace Blaze.DataModel.Repository
               }
             }
             break;
-          case Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex:
+          case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
             {

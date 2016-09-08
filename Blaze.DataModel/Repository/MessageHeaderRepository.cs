@@ -343,8 +343,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.TimestampElement is Hl7.Fhir.Model.Instant)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.TimestampElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.TimestampElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.timestamp_DateTimeOffset = Index.DateTimeOffset;

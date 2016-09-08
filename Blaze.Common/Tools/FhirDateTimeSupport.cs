@@ -10,39 +10,18 @@ namespace Blaze.Common.Tools
 {
   public static class FhirDateTimeSupport
   {
-    public enum Pression
+    public static int? ConvertDateTimeToInteger(Date Date)
     {
-      Year,
-      YearMonth,
-      YearMonthDay,
-      HourMin,
-      Sec,
-      MilliSec,
-    }
-
-    public static Pression GetPression(string DateTimeString)
-    {
-      if (Regex.IsMatch(DateTimeString as string, "^" + FhirDateTime.PATTERN + "$", RegexOptions.Singleline))
+      //2001-05-06
+      int DateInt = 0;
+      if (Int32.TryParse(Date.Value.Replace("-", "").Replace(" ","").PadRight(8, '0'), out DateInt))
       {
-        return Pression.MilliSec;
-      }
-      else if (Regex.IsMatch(DateTimeString as string, "^" + FhirDateTime.FMT_YEARMONTHDAY + "$", RegexOptions.Singleline))
-      {
-        return Pression.YearMonthDay;
-      }
-      else if (Regex.IsMatch(DateTimeString as string, "^" + FhirDateTime.FMT_YEARMONTH + "$", RegexOptions.Singleline))
-      {
-        return Pression.YearMonth;
-      }
-      else if (Regex.IsMatch(DateTimeString as string, "^" + FhirDateTime.FMT_YEAR + "$", RegexOptions.Singleline))
-      {
-        return Pression.Year;
+        return DateInt;
       }
       else
       {
-        return Pression.YearMonthDay;
+        return null;
       }
-      
     }
 
   }

@@ -267,7 +267,15 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
       foreach (string PropertyName in DatabaseModelInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
       {
-        if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex)
+        if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex)
+        {
+          FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
+        }
+        else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateIndex)
+        {
+          FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
+        }
+        else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex)
         {
           FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
         }
@@ -423,13 +431,18 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       {
         case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
           {
-            Propertylist.Add(String.Format("public DateTimeOffset{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.DateTimeOffset));
+            Propertylist.Add(String.Format("public int{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date));
           }
           break;
-        case Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex:
+        case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
           {
-            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetLow));
-            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetHigh));
+            Propertylist.Add(String.Format("public DateTimeOffset{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimeIndexConstatnts.DateTimeOffset));
+          }
+          break;
+        case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
+          {
+            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow));
+            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:

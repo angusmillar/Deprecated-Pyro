@@ -27,27 +27,16 @@ namespace Blaze.DataModel.IndexSetter
         {
           return SetDate(FhirElement as Date, DateIndex);
         }
-        else if (FhirElement is FhirDateTime)
-        {
-          return SetFhirDateTime(FhirElement as FhirDateTime, DateIndex);
-        }
-        else if (FhirElement is FhirString)
-        {
-          return SetFhirString(FhirElement as FhirString, DateIndex);
-        }
-        else if (FhirElement is Instant)
-        {
-          return SetInstant(FhirElement as Instant, DateIndex);
-        }
         else
         {
-          throw new Exception(string.Format("FhirElement was unexpected type for QuantityRangeIndexSetter, type was {0}", FhirElement.ToString()));
+          throw new Exception(string.Format("FhirElement was unexpected type for DateIndexSetter, type was {0}", FhirElement.ToString()));
         }
       }
       else
       {
         throw new InvalidCastException(string.Format("DateIndexSetter expected typeof {0} yet was passed typeof {1}", typeof(DateIndex).Name, ModelBase.GetType().Name));
       }
+
     }
 
     public DateIndex SetDate(Date Date, DateIndex DateIndex)
@@ -58,13 +47,13 @@ namespace Blaze.DataModel.IndexSetter
       if (DateIndex == null)
         throw new ArgumentNullException("DateIndex cannot be null for method.");
 
-      //E.g: "1974-12-25"      
-      DateTime TempDate = new DateTime();
+      //E.g: "1974-12-25"            
       if (Date.IsValidValue(Date.Value))
-      {        
-        if (DateTime.TryParse(Date.Value, out TempDate))
+      {
+        int? DateAsInteger = Blaze.Common.Tools.FhirDateTimeSupport.ConvertDateTimeToInteger(Date);
+        if (DateAsInteger.HasValue)
         {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDate, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
+          DateIndex.Date = DateAsInteger.Value;
           return DateIndex;
         }
         else
@@ -78,82 +67,5 @@ namespace Blaze.DataModel.IndexSetter
       }
     }
 
-    public DateIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateIndex DateIndex)
-    {
-      if (FhirDateTime == null)
-        throw new ArgumentNullException("FhirDateTime cannot be null for method.");
-
-      if (DateIndex == null)
-        throw new ArgumentNullException("DateIndex cannot be null for method.");
-
-      if (FhirDateTime.IsValidValue(FhirDateTime.Value))
-      {
-        DateIndex.DateTimeOffset = FhirDateTime.ToDateTimeOffset();
-        return DateIndex;
-      }
-      else
-      {
-        throw new FormatException(string.Format("The date & time given '{0}' is not a valid FHIR date & time format.", FhirDateTime.Value));
-      }
-    }
-
-    public DateIndex SetFhirString(FhirString FhirString, DateIndex DateIndex)
-    {
-      if (FhirString == null)
-        throw new ArgumentNullException("FhirString cannot be null for method.");
-
-      if (DateIndex == null)
-        throw new ArgumentNullException("DateIndex cannot be null for method.");
-
-      if (Date.IsValidValue(FhirString.Value))
-      {
-        var TempDateTime = new DateTime();
-        if (DateTime.TryParse(FhirString.Value, out TempDateTime))
-        {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDateTime, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
-          return DateIndex;
-        }
-        else
-        {
-          return null;
-        }
-      }
-      if (FhirDateTime.IsValidValue(FhirString.Value))
-      {
-        var TempDateTimeOffset = new DateTimeOffset();
-        if (DateTimeOffset.TryParse(FhirString.Value, out TempDateTimeOffset))
-        {
-          DateIndex.DateTimeOffset = TempDateTimeOffset;
-          return DateIndex;
-        }
-        else
-        {
-          return null;
-        }
-      }
-      else
-      {
-        return null;
-      }
-    }
-
-    public DateIndex SetInstant(Instant Instant, DateIndex DateIndex)
-    {
-      if (Instant == null)
-        throw new ArgumentNullException("Instant cannot be null for method.");
-
-      if (DateIndex == null)
-        throw new ArgumentNullException("DateIndex cannot be null for method.");
-
-      if (Instant.Value != null)
-      {
-        DateIndex.DateTimeOffset = (DateTimeOffset)Instant.Value;
-        return DateIndex;
-      }
-      else
-      {
-        return null;
-      }
-    }
   }
 }

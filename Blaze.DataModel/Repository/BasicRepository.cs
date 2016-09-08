@@ -128,7 +128,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.author_Type = null;      
       ResourceEntity.author_Url = null;      
       ResourceEntity.author_ServiceRootURL_StoreID = null;      
-      ResourceEntity.created_DateTimeOffset = null;      
+      ResourceEntity.created_Date = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
@@ -184,7 +184,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.CreatedElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.created_Date = Index.Date;
           }
         }
       }

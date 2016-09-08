@@ -19,7 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_AllergyIntolerance_Index_onset_Configuration()
     {
       HasKey(x => x.Res_AllergyIntolerance_Index_onsetID).Property(x => x.Res_AllergyIntolerance_Index_onsetID).IsRequired();
-      Property(x => x.DateTimeOffset).IsRequired();
+      Property(x => x.DateTimeOffset).IsOptional();
       HasRequired(x => x.Res_AllergyIntolerance).WithMany(x => x.onset_List).WillCascadeOnDelete(true);
     }
   }

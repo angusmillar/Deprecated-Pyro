@@ -205,8 +205,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.RecordedDateElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.RecordedDateElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.RecordedDateElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
@@ -218,8 +218,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.LastOccurenceElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.LastOccurenceElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.LastOccurenceElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.last_date_DateTimeOffset = Index.DateTimeOffset;
@@ -360,7 +360,7 @@ namespace Blaze.DataModel.Repository
           if (item1.OnsetElement is Hl7.Fhir.Model.FhirDateTime)
           {
             var Index = new Res_AllergyIntolerance_Index_onset();
-            Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item1.OnsetElement, Index) as Res_AllergyIntolerance_Index_onset;
+            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.OnsetElement, Index) as Res_AllergyIntolerance_Index_onset;
             ResourseEntity.onset_List.Add(Index);
           }
         }

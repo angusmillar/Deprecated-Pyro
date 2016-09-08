@@ -5,7 +5,6 @@ namespace Blaze.DataModel.IndexSetter
 {
   public interface IQuantityRangeIndexSetter : IIndexSetter
   {
-    QuantityRangeIndex SetRange(Range Range, QuantityRangeIndex QuantityRangeIndex);
       
   }
 }

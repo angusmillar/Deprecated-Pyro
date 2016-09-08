@@ -71,7 +71,11 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           {
             return ReturnList;
           }
-        case DatabaseEnum.DbIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DateTimeIndex:
+          {
+            return ReturnList;
+          }
+        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
             return ReturnList;
           }
@@ -118,7 +122,11 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           {
             return ReturnList;
           }
-        case DatabaseEnum.DbIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DateTimeIndex:
+          {
+            return ReturnList;
+          }
+        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
             return ReturnList;
           }
@@ -165,7 +173,11 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           {
             return ReturnList;
           }
-        case DatabaseEnum.DbIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DateTimeIndex:
+          {
+            return ReturnList;
+          }
+        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
             return ReturnList;
           }

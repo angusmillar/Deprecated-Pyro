@@ -61,8 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IndexSetters\Test_DatePeriod_IndexSetters.cs" />
-    <Compile Include="IndexSetters\Test_Date_IndexSetters.cs" />
+    <Compile Include="IndexSetters\Test_DateTimePeriod_IndexSetters.cs" />
+    <Compile Include="IndexSetters\Test_DateTime_IndexSetters.cs" />
     <Compile Include="IndexSetters\Test_Number_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_QuantityRange_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_Quantity_IndexSetter.cs" />
@@ -72,7 +72,6 @@
     <Compile Include="IndexSetters\Test_Uri_IndexSetter.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\Test_FhirDateTimeSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

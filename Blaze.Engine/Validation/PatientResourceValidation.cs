@@ -20,9 +20,8 @@ namespace Blaze.Engine.Validation
 
       //StartChecking the Patient Resource
       if (oPatient.BirthDate != null)
-      {
-        DateTime oDate;
-        if (!DateTime.TryParse(oPatient.BirthDate, out oDate))
+      {        
+        if (!Date.IsValidValue(oPatient.BirthDateElement.Value))
         {
           var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;

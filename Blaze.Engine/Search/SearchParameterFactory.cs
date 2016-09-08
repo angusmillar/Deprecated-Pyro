@@ -75,7 +75,7 @@ namespace Blaze.Engine.Search
           break;
         case DatabaseEnum.DbIndexType.UriIndex:
           throw new NotImplementedException("SearchParamType.UriDatabaseEnum.BlazeIndexType.UriIndex");
-        case DatabaseEnum.DbIndexType.DatePeriodIndex:
+        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.DatePeriodIndex");
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityRangeIndex");

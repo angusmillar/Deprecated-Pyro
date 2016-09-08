@@ -153,7 +153,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.responsereference_Type = null;      
       ResourceEntity.responsereference_Url = null;      
       ResourceEntity.responsereference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.statusdate_DateTimeOffset = null;      
+      ResourceEntity.statusdate_Date = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -172,8 +172,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.CreatedElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.CreatedElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
@@ -347,7 +347,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.StatusDateElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.statusdate_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.statusdate_Date = Index.Date;
           }
         }
       }

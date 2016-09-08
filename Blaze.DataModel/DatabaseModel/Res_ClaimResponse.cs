@@ -24,7 +24,7 @@ namespace Blaze.DataModel.DatabaseModel
     public int? organizationreference_ServiceRootURL_StoreID { get; set; }
     public string outcome_Code {get; set;}
     public string outcome_System {get; set;}
-    public DateTimeOffset? paymentdate_DateTimeOffset {get; set;}
+    public int? paymentdate_Date {get; set;}
     public string requestidentifier_Code {get; set;}
     public string requestidentifier_System {get; set;}
     public string requestreference_VersionId {get; set;}

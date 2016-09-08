@@ -299,7 +299,7 @@ namespace Blaze.DataModel.Repository
           if (item1.Value is Hl7.Fhir.Model.Range)
           {
             var Index = new Res_Group_Index_value();
-            Index = IndexSetterFactory.Create(typeof(QuantityRangeIndex)).Set(item1.Value, Index) as Res_Group_Index_value;
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item1.Value, Index) as Res_Group_Index_value;
             ResourseEntity.value_List.Add(Index);
           }
         }

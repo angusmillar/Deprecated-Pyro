@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     public int? asserter_ServiceRootURL_StoreID { get; set; }
     public string clinicalstatus_Code {get; set;}
     public string clinicalstatus_System {get; set;}
-    public DateTimeOffset? date_recorded_DateTimeOffset {get; set;}
+    public int? date_recorded_Date {get; set;}
     public string encounter_VersionId {get; set;}
     public string encounter_FhirId {get; set;}
     public string encounter_Type {get; set;}

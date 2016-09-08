@@ -24,10 +24,15 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       DateListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
       FinalResultList.Add(DateListFinal);
 
-      var DatePeriodListFinal = new IndexSetterInterfaceCodeGenModel();
-      DatePeriodListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DatePeriodIndex]);
-      DatePeriodListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
-      FinalResultList.Add(DatePeriodListFinal);
+      var DateTimeListFinal = new IndexSetterInterfaceCodeGenModel();
+      DateTimeListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DateTimeIndex]);
+      DateTimeListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
+      FinalResultList.Add(DateTimeListFinal);
+
+      var DateTimePeriodListFinal = new IndexSetterInterfaceCodeGenModel();
+      DateTimePeriodListFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DateTimePeriodIndex]);
+      DateTimePeriodListFinal.ImplementsInterface = DatabaseModelInfo.IndexSetterBaseInterfaceName;
+      FinalResultList.Add(DateTimePeriodListFinal);
 
       var NumberFinal = new IndexSetterInterfaceCodeGenModel();
       NumberFinal.ClassName = ConstructInterfaceClassName(DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.NumberIndex]);
@@ -76,10 +81,10 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
 
-          TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}", Parameter.Resource, Parameter.SearchParamType, Parameter.TargetFhirLogicalType, Parameter.SearchPath));
+          TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}, {4}", Parameter.Resource, Parameter.SearchName, Parameter.SearchParamType, Parameter.TargetFhirLogicalType, Parameter.SearchPath));
           string Key = string.Format("{0}, {1}", Parameter.SearchParamType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
           if (TypeUnquieDic.Add(Key))
-          {
+          {            
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
             MethodInfo.IndexTypeString = DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
             MethodInfo.IndexType = DatabaseEnum.StringToDbIndexTypeDictonary[MethodInfo.IndexTypeString];
@@ -90,9 +95,13 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
             {
               case DatabaseEnum.DbIndexType.DateIndex:
                 DateListFinal.IndexSetterMethodList.Add(MethodInfo);
+                DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
                 break;
-              case DatabaseEnum.DbIndexType.DatePeriodIndex:
-                DatePeriodListFinal.IndexSetterMethodList.Add(MethodInfo);
+              case DatabaseEnum.DbIndexType.DateTimeIndex:
+                DateTimeListFinal.IndexSetterMethodList.Add(MethodInfo);
+                break;
+              case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
+                DateTimePeriodListFinal.IndexSetterMethodList.Add(MethodInfo);
                 break;
               case DatabaseEnum.DbIndexType.NumberIndex:
                 NumberFinal.IndexSetterMethodList.Add(MethodInfo);

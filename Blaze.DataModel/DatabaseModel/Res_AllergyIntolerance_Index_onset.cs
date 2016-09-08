@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_AllergyIntolerance_Index_onset : DateIndex
+  public class Res_AllergyIntolerance_Index_onset : DateTimeIndex
   {
     public int Res_AllergyIntolerance_Index_onsetID {get; set;}
     public virtual Res_AllergyIntolerance Res_AllergyIntolerance { get; set; }

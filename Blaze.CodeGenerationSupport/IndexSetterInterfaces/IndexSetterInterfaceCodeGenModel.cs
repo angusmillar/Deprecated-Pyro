@@ -41,12 +41,12 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         string ICommonRepository = "ICommonRepository";
         string CommonRepository = "CommonRepository";
         if (IndexType == DatabaseEnum.DbIndexType.ReferenceIndex)
-        {
-          //ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, CommonRepository CommonRepository);
+        {          
           return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {5});",DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, ICommonRepository, CommonRepository);
         }
         else
         {
+          // DateTimeIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateTimeIndex DateTimeIndex);
           return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType);
         }
       }

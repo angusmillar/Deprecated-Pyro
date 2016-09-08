@@ -24,7 +24,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      Property(x => x.birthdate_DateTimeOffset).IsOptional();
+      Property(x => x.birthdate_Date).IsOptional();
       Property(x => x.gender_Code).IsOptional();
       Property(x => x.gender_System).IsOptional();
       Property(x => x.organization_VersionId).IsOptional();

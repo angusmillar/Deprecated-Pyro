@@ -239,8 +239,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CoveragePeriod is Hl7.Fhir.Model.Period)
         {
-          var Index = new DatePeriodIndex();
-          Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(ResourceTyped.CoveragePeriod, Index) as DatePeriodIndex;
+          var Index = new DateTimePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.CoveragePeriod, Index) as DateTimePeriodIndex;
           if (Index != null)
           {
             ResourseEntity.period_DateTimeOffsetLow = Index.DateTimeOffsetLow;

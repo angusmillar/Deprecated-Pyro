@@ -137,7 +137,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if ((CurrentTargetDataType == typeof(Period) ||
                 CurrentTargetDataType == typeof(Timing)))
       {
-        DateIndexStetter(CollectionParameter);
+        DateTimeIndexStetter(CollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(SimpleQuantity) ||
                 CurrentTargetDataType == typeof(Coding) ||
@@ -194,15 +194,15 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           if (CollectionParameter.TargetFhirChoiceType == typeof(Timing))
           {
-            DateIndexStetter(CollectionParameter);
+            DateTimeIndexStetter(CollectionParameter);
           }
           else if (CollectionParameter.TargetFhirChoiceType == typeof(Period))
           {
-            DateIndexStetter(CollectionParameter);
+            DateTimeIndexStetter(CollectionParameter);
           }
           else if (CollectionParameter.TargetFhirChoiceType == typeof(FhirString))
           {
-            DateIndexStetter(CollectionParameter);
+            DateTimeIndexStetter(CollectionParameter);
           }
           else
           {
@@ -217,7 +217,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           }
           else
           {
-            throw new ApplicationException(String.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
+            throw new ApplicationException(string.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
           }
         }
         else if (CollectionParameter.SearchParamType == SearchParamType.String)
@@ -228,29 +228,29 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           }
           else
           {
-            throw new ApplicationException(String.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
+            throw new ApplicationException(string.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
           }
         }
         else if (CollectionParameter.SearchParamType == SearchParamType.Number)
         {
-          throw new ApplicationException(String.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
+          throw new ApplicationException(string.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
         }
         else if (CollectionParameter.SearchParamType == SearchParamType.Uri)
         {
-          throw new ApplicationException(String.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
+          throw new ApplicationException(string.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
         }
         else if (CollectionParameter.SearchParamType == SearchParamType.Composite)
         {
-          throw new ApplicationException(String.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
+          throw new ApplicationException(string.Format("The Collection search parameter type {0} could not handle the Logical element type of {1}", CollectionParameter.SearchParamType.ToString(), CollectionParameter.TargetFhirLogicalType.ToString()));
         }
         else
         {
-          throw new ApplicationException(String.Format("The Collection search parameter type is unknown: {0}", CollectionParameter.SearchParamType.ToString()));
+          throw new ApplicationException(string.Format("The Collection search parameter type is unknown: {0}", CollectionParameter.SearchParamType.ToString()));
         }
       }
       else
       {
-        throw new ApplicationException(String.Format("The Collection BuildIndexSetterLogic was given a DataType it can not handle for the resource {0}, DataType was: {1}", CollectionParameter.Resource, CurrentTargetDataType.ToString()));
+        throw new ApplicationException(string.Format("The Collection BuildIndexSetterLogic was given a DataType it can not handle for the resource {0}, DataType was: {1}", CollectionParameter.Resource, CurrentTargetDataType.ToString()));
       }
     }
 
@@ -363,7 +363,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter);
       string ReturnType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
       _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName, DbIndexType, ReturnType)));
-      
+
     }
 
     private static void ContactPointIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
@@ -392,7 +392,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _BracketDepthCounter++;
 
       _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
-      
+
       string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter);
       string ReturnType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
       _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName, DbIndexType, ReturnType)));
@@ -413,7 +413,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         _CurrentChainName = String.Format("item{0}", _ChainCounter.ToString());
       }
 
-      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));     
+      _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
 
       string DbIndexType = DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.StringIndex];
       string ReturnType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
@@ -440,7 +440,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         string DbIndexType = DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.ReferenceIndex];
         string ReturnIndexType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
-        _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter("item", DbIndexType, ReturnIndexType, true)));        
+        _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter("item", DbIndexType, ReturnIndexType, true)));
 
         _Sb.AppendLine(String.Format("{0}if (Index != null)", DepthSpace(_BracketDepthCounter)));
         _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
@@ -452,7 +452,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
         _BracketDepthCounter++;
         _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
-                
+
         string DbIndexType = DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.ReferenceIndex];
         string ReturnIndexType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
         _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName, DbIndexType, ReturnIndexType, true)));
@@ -465,7 +465,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       }
     }
 
-    private static void DateIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
+    private static void DateTimeIndexStetter(FhirApiSearchParameterInfo CollectionParameter)
     {
       _Sb.AppendLine(String.Format("{0}if ({1} != null)", DepthSpace(_BracketDepthCounter), _CurrentChainName));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
@@ -483,23 +483,21 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
       _Sb.AppendLine(String.Format("{0}var Index = new {1}();", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter)));
-      
+
       string DbIndexType = DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter);
       string ReturnType = DatabaseModelInfo.ConstructClassNameForResourceSearchClass(_ResourceName, CollectionParameter);
       _Sb.AppendLine(String.Format("{0}{1}", DepthSpace(_BracketDepthCounter), DatabaseModelInfo.GenerateIndexSetter(_CurrentChainName, DbIndexType, ReturnType)));
-      
+
     }
 
     private static void ResolvePropertyChainNames(int i, FhirSearchParameterSearchPathElement CurrentItem)
     {
       if (i > 1)
       {
-        //_PropertyNameChain = RepositoryCodeGenSupport.ResolvePropertyChainNames(i, CurrentItem, _PropertyNameChain);        
         RepositoryCodeGenSupport.ResolvePropertyNameChainList(i, CurrentItem, _PropertyNameChainList);
       }
       else
       {
-        //_PropertyNameChain = RepositoryCodeGenSupport.UppercaseFirst(CurrentItem.PropertyName);
         _PropertyNameChainList.Add(RepositoryCodeGenSupport.UppercaseFirst(CurrentItem.PropertyName));
       }
     }

@@ -15,7 +15,7 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_PatientID {get; set;}
     public string active_Code {get; set;}
     public string active_System {get; set;}
-    public DateTimeOffset? birthdate_DateTimeOffset {get; set;}
+    public int? birthdate_Date {get; set;}
     public DateTimeOffset? death_date_DateTimeOffset {get; set;}
     public string deceased_Code {get; set;}
     public string deceased_System {get; set;}

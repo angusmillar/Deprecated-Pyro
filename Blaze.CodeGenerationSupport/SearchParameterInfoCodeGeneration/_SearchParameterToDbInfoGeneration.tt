@@ -50,7 +50,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.<#=ResourceSearchParamInfoItem.SearchParameterNameType#>;
             SupportedSearchParameter.Resource = ResourceType;
-            SupportedSearchParameter.IsCollection = <#=ResourceSearchParamInfoItem.IsDbCollection#>;
+            SupportedSearchParameter.IsDbCollection = <#=ResourceSearchParamInfoItem.IsDbCollection#>;
             SupportedSearchParameter.DbPropertyName = "<#=ResourceSearchParamInfoItem.DbBasePropertyName#>";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.<#=ResourceSearchParamInfoItem.DbSearchParameterType#>;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();

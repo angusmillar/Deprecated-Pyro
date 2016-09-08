@@ -11,7 +11,8 @@ namespace Blaze.Common.Enum
     public enum DbIndexType
     {
       DateIndex,
-      DatePeriodIndex,
+      DateTimeIndex,
+      DateTimePeriodIndex,
       NumberIndex,
       QuantityIndex,
       QuantityRangeIndex,
@@ -27,7 +28,8 @@ namespace Blaze.Common.Enum
       {
         var Dic = new Dictionary<DbIndexType, string>();
         Dic.Add(DbIndexType.DateIndex, "DateIndex");
-        Dic.Add(DbIndexType.DatePeriodIndex, "DatePeriodIndex");
+        Dic.Add(DbIndexType.DateTimeIndex, "DateTimeIndex");        
+        Dic.Add(DbIndexType.DateTimePeriodIndex, "DateTimePeriodIndex");
         Dic.Add(DbIndexType.NumberIndex, "NumberIndex");
         Dic.Add(DbIndexType.QuantityIndex, "QuantityIndex");
         Dic.Add(DbIndexType.QuantityRangeIndex, "QuantityRangeIndex");
@@ -45,7 +47,8 @@ namespace Blaze.Common.Enum
       {
         var Dic = new Dictionary<string, DbIndexType>();
         Dic.Add("DateIndex", DbIndexType.DateIndex);
-        Dic.Add("DatePeriodIndex", DbIndexType.DatePeriodIndex);
+        Dic.Add("DateTimeIndex", DbIndexType.DateTimeIndex);
+        Dic.Add("DateTimePeriodIndex", DbIndexType.DateTimePeriodIndex);
         Dic.Add("NumberIndex", DbIndexType.NumberIndex);
         Dic.Add("QuantityIndex", DbIndexType.QuantityIndex);
         Dic.Add("QuantityRangeIndex", DbIndexType.QuantityRangeIndex);

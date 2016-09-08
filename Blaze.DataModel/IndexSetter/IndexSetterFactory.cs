@@ -11,13 +11,17 @@ namespace Blaze.DataModel.IndexSetter
   {
     public static IIndexSetter Create(Type IndexType)
     {
-      if (IndexType == typeof(DateIndex))
+      if (IndexType == typeof(DateTimeIndex))
+      {
+        return new DateTimeIndexSetter();
+      }
+      else if (IndexType == typeof(DateTimePeriodIndex))
+      {
+        return new DateTimePeriodIndexSetter();
+      }
+      else if (IndexType == typeof(DateIndex))
       {
         return new DateIndexSetter();
-      }
-      else if (IndexType == typeof(DatePeriodIndex))
-      {
-        return new DatePeriodIndexSetter();
       }
       else if (IndexType == typeof(NumberIndex))
       {

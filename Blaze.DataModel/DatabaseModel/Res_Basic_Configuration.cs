@@ -29,7 +29,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.author_Type).IsOptional();
       HasOptional(x => x.author_Url);
       HasOptional<ServiceRootURL_Store>(x => x.author_Url).WithMany().HasForeignKey(x => x.author_ServiceRootURL_StoreID);
-      Property(x => x.created_DateTimeOffset).IsOptional();
+      Property(x => x.created_Date).IsOptional();
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();

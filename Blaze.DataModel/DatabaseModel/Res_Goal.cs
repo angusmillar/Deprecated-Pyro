@@ -25,7 +25,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual ServiceRootURL_Store subject_Url { get; set; }
     public int? subject_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? targetdate_DateTimeOffset {get; set;}
+    public int? targetdate_Date {get; set;}
     public ICollection<Res_Goal_History> Res_Goal_History_List { get; set; }
     public ICollection<Res_Goal_Index_category> category_List { get; set; }
     public ICollection<Res_Goal_Index_identifier> identifier_List { get; set; }

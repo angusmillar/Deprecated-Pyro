@@ -8,17 +8,17 @@ using NUnit.Framework.Constraints;
 namespace Blaze.Test.IndexSetters
 {
   [TestFixture]
-  class Test_Date_IndexSetters
+  class Test_DateTime_IndexSetters
   {
     [Test]
     public void Test_Date_DateIndexSetter_GoodFormat()
     {
       //Arrange
       var Date = new Date("1974-12-25");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
@@ -29,10 +29,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Date = new Date("1974-12");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 01, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
@@ -43,10 +43,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Date = new Date("1974");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 01, 01, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
@@ -58,10 +58,10 @@ namespace Blaze.Test.IndexSetters
 
       //Arrange
       var Date = new Date("25-12-1974");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(Date, Index) as DateIndex;
+      ActualValueDelegate<DateTimeIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index) as DateTimeIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());
@@ -74,9 +74,9 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35:45-05:00");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirDateTime, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
@@ -88,10 +88,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35:45:00");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime, Index) as DateIndex;
+      ActualValueDelegate<DateTimeIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirDateTime, Index) as DateTimeIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());
@@ -102,10 +102,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35-05:00");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirDateTime, Index) as DateIndex;
+      ActualValueDelegate<DateTimeIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirDateTime, Index) as DateTimeIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());
@@ -116,10 +116,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45-05:00");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
@@ -130,10 +130,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45.123-05:00");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, 123 , new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
@@ -144,10 +144,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 1, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
@@ -158,10 +158,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25");
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
@@ -173,11 +173,11 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974XX-12-25T14:3554:45-05:00");
-      DateIndex DateIndex = new DateIndex();
+      DateTimeIndex DateIndex = new DateTimeIndex();
 
 
       //Act
-      DateIndex = IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, DateIndex) as DateIndex;
+      DateIndex = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, DateIndex) as DateTimeIndex;
 
       //Assert
       Assert.IsNull(DateIndex);
@@ -189,11 +189,11 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45");
-      DateIndex DateIndex = new DateIndex();
+      DateTimeIndex DateIndex = new DateTimeIndex();
 
 
       //Act
-      DateIndex = IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, DateIndex) as DateIndex;
+      DateIndex = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, DateIndex) as DateTimeIndex;
 
       //Assert
       Assert.IsNull(DateIndex);
@@ -205,11 +205,11 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35-05:00");
-      DateIndex DateIndex = new DateIndex();
+      DateTimeIndex DateIndex = new DateTimeIndex();
 
 
       //Act
-      DateIndex = IndexSetterFactory.Create(typeof(DateIndex)).Set(FhirString, DateIndex) as DateIndex;
+      DateIndex = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(FhirString, DateIndex) as DateTimeIndex;
 
       //Assert
       Assert.IsNull(DateIndex);
@@ -221,10 +221,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Instant = new Instant(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)));
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateIndex)).Set(Instant, Index);
+      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Instant, Index);
 
       //Assert
       Assert.AreEqual(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)), Index.DateTimeOffset);
@@ -235,10 +235,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Instant = new Instant(null);
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(Instant, Index) as DateIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Instant, Index) as DateTimeIndex;
 
       //Assert
       Assert.IsNull(Index);
@@ -249,10 +249,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       Instant Instant = null;
-      DateIndex Index = new DateIndex();
+      DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      ActualValueDelegate<DateIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateIndex)).Set(Instant, Index) as DateIndex;
+      ActualValueDelegate<DateTimeIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Instant, Index) as DateTimeIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());

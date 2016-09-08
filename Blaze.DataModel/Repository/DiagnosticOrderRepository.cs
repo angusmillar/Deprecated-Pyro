@@ -350,7 +350,7 @@ namespace Blaze.DataModel.Repository
           if (item1.DateTimeElement is Hl7.Fhir.Model.FhirDateTime)
           {
             var Index = new Res_DiagnosticOrder_Index_event_date();
-            Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item1.DateTimeElement, Index) as Res_DiagnosticOrder_Index_event_date;
+            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.DateTimeElement, Index) as Res_DiagnosticOrder_Index_event_date;
             ResourseEntity.event_date_List.Add(Index);
           }
         }
@@ -391,7 +391,7 @@ namespace Blaze.DataModel.Repository
             if (item2.DateTimeElement is Hl7.Fhir.Model.FhirDateTime)
             {
               var Index = new Res_DiagnosticOrder_Index_item_date();
-              Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item2.DateTimeElement, Index) as Res_DiagnosticOrder_Index_item_date;
+              Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item2.DateTimeElement, Index) as Res_DiagnosticOrder_Index_item_date;
               ResourseEntity.item_date_List.Add(Index);
             }
           }

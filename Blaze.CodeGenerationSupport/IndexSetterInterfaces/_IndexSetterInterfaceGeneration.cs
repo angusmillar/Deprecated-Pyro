@@ -13,5 +13,6 @@
 // Blaze.DataModel\IndexSetter\IQuantityRangeIndexSetter.cs
 // Blaze.DataModel\IndexSetter\IQuantityIndexSetter.cs
 // Blaze.DataModel\IndexSetter\INumberIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IDatePeriodIndexSetter.cs
+// Blaze.DataModel\IndexSetter\IDateTimePeriodIndexSetter.cs
+// Blaze.DataModel\IndexSetter\IDateTimeIndexSetter.cs
 // Blaze.DataModel\IndexSetter\IDateIndexSetter.cs

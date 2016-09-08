@@ -26,7 +26,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.active_Code).IsOptional();
       Property(x => x.active_System).IsOptional();
-      Property(x => x.birthdate_DateTimeOffset).IsOptional();
+      Property(x => x.birthdate_Date).IsOptional();
       Property(x => x.death_date_DateTimeOffset).IsOptional();
       Property(x => x.deceased_Code).IsOptional();
       Property(x => x.deceased_System).IsOptional();

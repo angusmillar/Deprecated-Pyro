@@ -101,17 +101,22 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         StandardIndexStetter(NonCollectionParameter);
         DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
       }
-      else if ((CurrentTargetDataType == typeof(FhirDateTime) ||
-                CurrentTargetDataType == typeof(Date) ||
+      else if ((CurrentTargetDataType == typeof(FhirDateTime) ||                
                 CurrentTargetDataType == typeof(Instant)))
+      {
+        StandardIndexStetter(NonCollectionParameter, ElementString);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex);
+      }
+      else if (CurrentTargetDataType == typeof(Date))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
         DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
       }
+
       else if ((CurrentTargetDataType == typeof(Period)))
       {
         StandardIndexStetter(NonCollectionParameter);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex);
+        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex);
       }
       else if ((CurrentTargetDataType == typeof(ResourceReference)))
       {
@@ -220,21 +225,21 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.Date)
         {
-          if (TargetChoiceDataType == typeof(FhirDateTime) ||
-            TargetChoiceDataType == typeof(Date))
+          if (TargetChoiceDataType == typeof(FhirDateTime))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
-          }
-          else if (TargetChoiceDataType == typeof(Age))
-          {
-            StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex);
           }
           else if (TargetChoiceDataType == typeof(Period))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DatePeriodIndex);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex);
+          }
+          else if (TargetChoiceDataType == typeof(Date) ||
+                   TargetChoiceDataType == typeof(Age))
+          {
+            StandardIndexStetter(NonCollectionParameter);
+            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
           }
           else
           {

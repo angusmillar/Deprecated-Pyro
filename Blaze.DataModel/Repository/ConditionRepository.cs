@@ -135,7 +135,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.asserter_ServiceRootURL_StoreID = null;      
       ResourceEntity.clinicalstatus_Code = null;      
       ResourceEntity.clinicalstatus_System = null;      
-      ResourceEntity.date_recorded_DateTimeOffset = null;      
+      ResourceEntity.date_recorded_Date = null;      
       ResourceEntity.encounter_VersionId = null;      
       ResourceEntity.encounter_FhirId = null;      
       ResourceEntity.encounter_Type = null;      
@@ -210,7 +210,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.DateRecordedElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.date_recorded_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.date_recorded_Date = Index.Date;
           }
         }
       }

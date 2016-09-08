@@ -35,7 +35,7 @@ namespace Blaze.DataModel.DatabaseModel
       HasOptional<ServiceRootURL_Store>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_ServiceRootURL_StoreID);
       Property(x => x.outcome_Code).IsOptional();
       Property(x => x.outcome_System).IsOptional();
-      Property(x => x.paymentdate_DateTimeOffset).IsOptional();
+      Property(x => x.paymentdate_Date).IsOptional();
       Property(x => x.requestidentifier_Code).IsOptional();
       Property(x => x.requestidentifier_System).IsOptional();
       Property(x => x.requestreference_VersionId).IsOptional();

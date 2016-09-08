@@ -31,6 +31,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             AddSearchNameToDictornary(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName);
           }
         }
+        //These are search parameters used by all resources, should re-factor this 
         AddSearchNameToDictornary("_id");
         AddSearchNameToDictornary("page");
         AddSearchNameToDictornary("_sort");

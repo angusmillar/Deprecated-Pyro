@@ -153,7 +153,7 @@ namespace Blaze.DataModel.IndexSetter
       {
         TokenIndex.System = Coding.System.Trim();
       }
-      return TokenIndex;      
+      return TokenIndex;
     }
 
     public TokenIndex SetContactPoint(ContactPoint ContactPoint, TokenIndex TokenIndex)
@@ -213,7 +213,7 @@ namespace Blaze.DataModel.IndexSetter
 
       TokenIndex.Code = FhirDateTime.Value;
       TokenIndex.System = null;
-      return TokenIndex;        
+      return TokenIndex;
     }
 
     public TokenIndex SetFhirString(FhirString FhirString, TokenIndex TokenIndex)
@@ -307,6 +307,21 @@ namespace Blaze.DataModel.IndexSetter
         TokenIndex.System = Quantity.Unit.Trim();
       }
       return TokenIndex;
+    }
+
+    public TokenIndex SetRange(Range Range, TokenIndex TokenIndex)
+    {
+      if (Range == null)
+        throw new ArgumentNullException("Range cannot be null for method.");
+
+      if (TokenIndex == null)
+        throw new ArgumentNullException("TokenIndex cannot be null for method.");
+
+      //There is no way to sensibly turn a Range into a Token type, so we just return
+      //null and ignore setting the index. The reason this method is here is due to some search parameters
+      //being a choice type where one of the choices is valid for token, like Boolean, yet others are 
+      //not like Range as seen for the 'value' search parameter on the 'Group' resource .  
+      return null;
     }
   }
 }

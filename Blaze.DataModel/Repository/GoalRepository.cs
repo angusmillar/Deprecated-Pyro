@@ -135,7 +135,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
       ResourceEntity.subject_ServiceRootURL_StoreID = null;      
-      ResourceEntity.targetdate_DateTimeOffset = null;      
+      ResourceEntity.targetdate_Date = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -217,7 +217,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Target, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.targetdate_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.targetdate_Date = Index.Date;
           }
         }
       }

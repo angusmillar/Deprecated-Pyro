@@ -186,8 +186,8 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Collection.Collected is Hl7.Fhir.Model.FhirDateTime)
           {
-            var Index = new DateIndex();
-            Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Collection.Collected, Index) as DateIndex;
+            var Index = new DateTimeIndex();
+            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Collection.Collected, Index) as DateTimeIndex;
             if (Index != null)
             {
               ResourseEntity.collected_DateTimeOffset = Index.DateTimeOffset;
@@ -202,8 +202,8 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Collection.Collected is Hl7.Fhir.Model.Period)
           {
-            var Index = new DatePeriodIndex();
-            Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(ResourceTyped.Collection.Collected, Index) as DatePeriodIndex;
+            var Index = new DateTimePeriodIndex();
+            Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Collection.Collected, Index) as DateTimePeriodIndex;
             if (Index != null)
             {
               ResourseEntity.collected_DateTimeOffsetLow = Index.DateTimeOffsetLow;

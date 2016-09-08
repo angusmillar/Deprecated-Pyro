@@ -184,7 +184,7 @@ namespace Blaze.DataModel.Repository
           if (item1.DateElement is Hl7.Fhir.Model.FhirDateTime)
           {
             var Index = new Res_ImmunizationRecommendation_Index_date();
-            Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item1.DateElement, Index) as Res_ImmunizationRecommendation_Index_date;
+            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.DateElement, Index) as Res_ImmunizationRecommendation_Index_date;
             ResourseEntity.date_List.Add(Index);
           }
         }

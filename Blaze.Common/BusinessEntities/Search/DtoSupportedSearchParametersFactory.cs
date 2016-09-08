@@ -9,14 +9,14 @@ namespace Blaze.Common.BusinessEntities.Search
     public static List<DtoSupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRDefinedType ResourceType)
     {
       var List = new List<DtoSupportedSearchParameters>();
-      DtoSupportedSearchParameters.AddSupportedParametersForAllResources(List);
-      DtoSupportedSearchParameters SupportedSearchParameter = null;
+      Blaze.Common.BusinessEntities.Search.DtoSupportedSearchParameters.AddSupportedParametersForAllResources(List);
+      DtoSupportedSearchParameters SupportedSearchParameter = null; 
       switch (ResourceType)
       {
-
+      
         case FHIRDefinedType.Account:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -27,7 +27,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -38,7 +38,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -49,7 +49,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -60,7 +60,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -71,7 +71,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.balance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -82,7 +82,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -91,11 +91,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.owner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -106,7 +106,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -117,18 +117,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.period;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "period";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -139,7 +139,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -152,10 +152,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.AllergyIntolerance:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -166,7 +166,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.manifestation;
             SupportedSearchParameter.Resource = ResourceType;
@@ -177,18 +177,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.onset;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "onset";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.route;
             SupportedSearchParameter.Resource = ResourceType;
@@ -199,7 +199,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.severity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -210,7 +210,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.substance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -221,7 +221,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.substance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -232,7 +232,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -243,7 +243,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -254,7 +254,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -265,7 +265,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -276,7 +276,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.criticality;
             SupportedSearchParameter.Resource = ResourceType;
@@ -287,29 +287,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.last_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "last_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -320,7 +320,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.recorder;
             SupportedSearchParameter.Resource = ResourceType;
@@ -331,7 +331,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reporter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -342,7 +342,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -353,7 +353,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -366,10 +366,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Appointment:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -380,7 +380,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.appointment_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -391,7 +391,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -402,7 +402,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -413,7 +413,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.part_status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -424,7 +424,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -435,7 +435,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -446,7 +446,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.service_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -457,7 +457,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -468,7 +468,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -479,7 +479,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -490,18 +490,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -514,10 +514,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.AppointmentResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -528,7 +528,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -539,7 +539,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -550,7 +550,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -561,7 +561,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -572,7 +572,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.appointment;
             SupportedSearchParameter.Resource = ResourceType;
@@ -583,7 +583,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -594,7 +594,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.part_status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -605,7 +605,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -616,7 +616,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -629,10 +629,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.AuditEvent:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -643,7 +643,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.agent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -654,7 +654,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.agent_name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -663,11 +663,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.altid;
             SupportedSearchParameter.Resource = ResourceType;
@@ -678,7 +678,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -689,7 +689,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity_id;
             SupportedSearchParameter.Resource = ResourceType;
@@ -700,7 +700,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity_name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -709,11 +709,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -724,7 +724,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -735,7 +735,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -746,7 +746,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.policy;
             SupportedSearchParameter.Resource = ResourceType;
@@ -757,7 +757,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subtype;
             SupportedSearchParameter.Resource = ResourceType;
@@ -768,7 +768,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.user;
             SupportedSearchParameter.Resource = ResourceType;
@@ -779,7 +779,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -790,7 +790,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -801,7 +801,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -812,7 +812,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.action;
             SupportedSearchParameter.Resource = ResourceType;
@@ -823,18 +823,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.site;
             SupportedSearchParameter.Resource = ResourceType;
@@ -845,7 +845,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -856,7 +856,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -869,10 +869,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Basic:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -883,7 +883,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -894,7 +894,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -905,7 +905,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -916,7 +916,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -927,7 +927,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -938,7 +938,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
@@ -949,7 +949,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -960,7 +960,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -973,10 +973,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Binary:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -987,7 +987,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -998,7 +998,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1009,7 +1009,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.contenttype;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1022,10 +1022,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.BodySite:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1036,7 +1036,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1047,7 +1047,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1058,7 +1058,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1069,7 +1069,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1080,7 +1080,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1093,10 +1093,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Bundle:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1107,7 +1107,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1118,7 +1118,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1129,7 +1129,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.composition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1140,7 +1140,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.message;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1151,7 +1151,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1164,10 +1164,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.CarePlan:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activitycode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1178,40 +1178,40 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activitydate;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitydate";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activitydate;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitydate";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activitydate;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitydate";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activityreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1222,7 +1222,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.condition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1233,7 +1233,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.goal;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1244,7 +1244,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.participant;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1255,7 +1255,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1266,7 +1266,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relatedcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1277,7 +1277,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relatedplan;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1288,7 +1288,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1299,7 +1299,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1310,7 +1310,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1321,18 +1321,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1343,7 +1343,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1356,10 +1356,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.CareTeam:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1370,7 +1370,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.participant;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1381,7 +1381,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1392,7 +1392,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1403,7 +1403,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1414,7 +1414,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1425,7 +1425,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1436,18 +1436,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1458,7 +1458,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1471,10 +1471,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Claim:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1485,7 +1485,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1496,7 +1496,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1507,7 +1507,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1518,18 +1518,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1540,7 +1540,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1551,7 +1551,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1562,7 +1562,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1573,7 +1573,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1584,7 +1584,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1595,7 +1595,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.priority;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1606,7 +1606,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1617,7 +1617,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.providerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1628,7 +1628,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.targetidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1639,7 +1639,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.targetreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1650,7 +1650,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1663,10 +1663,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ClaimResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1677,7 +1677,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1688,7 +1688,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1699,7 +1699,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1710,18 +1710,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1730,11 +1730,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1745,7 +1745,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1756,7 +1756,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.outcome;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1767,7 +1767,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.paymentdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1778,7 +1778,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1789,7 +1789,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1802,10 +1802,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ClinicalImpression:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.action;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1816,7 +1816,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.finding;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1827,7 +1827,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.investigation;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1838,7 +1838,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.plan;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1849,7 +1849,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.problem;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1860,7 +1860,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resolved;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1871,7 +1871,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.ruledout;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1882,7 +1882,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.trigger_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1893,7 +1893,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1904,7 +1904,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1915,7 +1915,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1926,7 +1926,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.assessor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1937,18 +1937,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1959,7 +1959,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.previous;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1970,7 +1970,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1981,7 +1981,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.trigger;
             SupportedSearchParameter.Resource = ResourceType;
@@ -1994,10 +1994,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.CodeSystem:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2008,7 +2008,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2019,7 +2019,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.language;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2030,7 +2030,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2041,7 +2041,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2052,7 +2052,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2063,18 +2063,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2083,11 +2083,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2098,7 +2098,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2107,11 +2107,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2120,11 +2120,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2135,7 +2135,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.system;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2146,7 +2146,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2157,7 +2157,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2170,10 +2170,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Communication:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2184,7 +2184,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2195,7 +2195,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medium;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2206,7 +2206,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.recipient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2217,7 +2217,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2228,7 +2228,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2239,7 +2239,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2250,7 +2250,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2261,7 +2261,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2272,18 +2272,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.received;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "received";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.request;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2294,7 +2294,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.sender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2305,18 +2305,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.sent;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "sent";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2327,7 +2327,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2340,10 +2340,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.CommunicationRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2354,7 +2354,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2365,7 +2365,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medium;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2376,7 +2376,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.priority;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2387,7 +2387,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.recipient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2398,7 +2398,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2409,7 +2409,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2420,7 +2420,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2431,7 +2431,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2442,7 +2442,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2453,18 +2453,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requested;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requested";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requester;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2475,7 +2475,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.sender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2486,7 +2486,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2497,7 +2497,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2508,23 +2508,23 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.time;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "time";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.CompartmentDefinition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resource;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2535,7 +2535,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2546,7 +2546,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2557,7 +2557,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2568,7 +2568,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2579,18 +2579,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2599,11 +2599,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2614,7 +2614,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2627,10 +2627,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Composition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.attester;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2641,7 +2641,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2652,7 +2652,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._class;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2663,7 +2663,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2674,7 +2674,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entry;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2685,18 +2685,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.period;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "period";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.section;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2707,7 +2707,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2718,7 +2718,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2729,7 +2729,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2740,7 +2740,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2751,7 +2751,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.confidentiality;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2762,18 +2762,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2784,7 +2784,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2795,7 +2795,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2806,7 +2806,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2817,7 +2817,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2828,7 +2828,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2837,16 +2837,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ConceptMap:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2857,7 +2857,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dependson;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2868,7 +2868,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.product;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2879,7 +2879,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2890,7 +2890,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source_system;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2901,7 +2901,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2912,7 +2912,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target_system;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2923,7 +2923,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2934,7 +2934,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2945,7 +2945,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2956,18 +2956,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2976,11 +2976,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -2991,7 +2991,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3000,11 +3000,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3013,11 +3013,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3028,7 +3028,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source_uri;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3039,7 +3039,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3050,7 +3050,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3061,7 +3061,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3072,7 +3072,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3083,7 +3083,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3096,10 +3096,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Condition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.body_site;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3110,7 +3110,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3121,7 +3121,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3132,7 +3132,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.evidence;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3143,7 +3143,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3154,7 +3154,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.severity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3165,7 +3165,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.stage;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3176,7 +3176,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3187,7 +3187,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3198,7 +3198,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3209,7 +3209,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.asserter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3220,7 +3220,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.clinicalstatus;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3231,7 +3231,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date_recorded;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3242,7 +3242,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3253,7 +3253,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3266,10 +3266,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Conformance:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3280,7 +3280,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._event;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3291,7 +3291,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.format;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3302,7 +3302,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.mode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3313,7 +3313,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resource;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3324,7 +3324,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resourceprofile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3335,7 +3335,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.securityservice;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3346,7 +3346,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.supported_profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3357,7 +3357,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3368,7 +3368,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3379,7 +3379,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3390,18 +3390,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3410,11 +3410,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.fhirversion;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3425,7 +3425,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3434,11 +3434,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3447,11 +3447,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.software;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3460,11 +3460,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3475,7 +3475,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3486,7 +3486,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3499,10 +3499,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Contract:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.agent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3513,7 +3513,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.authority;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3524,7 +3524,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.domain;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3535,7 +3535,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3546,7 +3546,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.signer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3557,7 +3557,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3568,7 +3568,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3579,7 +3579,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.ttopic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3590,7 +3590,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3601,7 +3601,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3612,7 +3612,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3623,7 +3623,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3634,23 +3634,23 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.issued;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issued";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Coverage:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3661,7 +3661,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3672,7 +3672,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3683,7 +3683,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3694,7 +3694,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.beneficiaryidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3705,7 +3705,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.beneficiaryreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3716,7 +3716,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dependent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3727,7 +3727,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.group;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3738,7 +3738,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.issueridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3749,7 +3749,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.issuerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3760,7 +3760,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.plan;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3771,7 +3771,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.planholderidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3782,7 +3782,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.planholderreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3793,7 +3793,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.sequence;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3804,7 +3804,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subplan;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3815,7 +3815,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3828,10 +3828,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DataElement:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3842,7 +3842,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3853,7 +3853,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3862,11 +3862,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3877,7 +3877,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3888,7 +3888,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3899,7 +3899,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3910,18 +3910,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3930,11 +3930,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3943,11 +3943,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3958,7 +3958,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.stringency;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3969,7 +3969,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3980,7 +3980,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -3989,16 +3989,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DecisionSupportRule:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4009,7 +4009,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4020,7 +4020,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4031,7 +4031,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4042,7 +4042,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4053,7 +4053,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4062,11 +4062,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4077,7 +4077,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4086,11 +4086,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4099,16 +4099,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DecisionSupportServiceModule:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4119,7 +4119,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4130,7 +4130,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4141,7 +4141,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4152,7 +4152,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4163,7 +4163,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4172,11 +4172,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4187,7 +4187,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4196,11 +4196,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4209,16 +4209,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DetectedIssue:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4229,7 +4229,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.implicated;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4240,7 +4240,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4251,7 +4251,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4262,7 +4262,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4273,7 +4273,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4284,18 +4284,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4306,7 +4306,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4319,10 +4319,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Device:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4333,7 +4333,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4344,7 +4344,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4355,7 +4355,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4366,7 +4366,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4377,7 +4377,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4388,7 +4388,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.manufacturer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4397,11 +4397,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.model;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4410,11 +4410,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4425,7 +4425,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4436,7 +4436,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.udicarrier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4447,7 +4447,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4460,10 +4460,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DeviceComponent:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4474,7 +4474,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4485,7 +4485,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4496,7 +4496,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4507,7 +4507,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4518,7 +4518,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4531,10 +4531,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DeviceMetric:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4545,7 +4545,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4556,7 +4556,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4567,7 +4567,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4578,7 +4578,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4589,7 +4589,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4600,7 +4600,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4611,7 +4611,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4624,10 +4624,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DeviceUseRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4638,7 +4638,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4649,7 +4649,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4660,7 +4660,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.device;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4671,7 +4671,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4682,7 +4682,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4695,10 +4695,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DeviceUseStatement:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4709,7 +4709,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4720,7 +4720,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4731,7 +4731,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.device;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4742,7 +4742,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4753,7 +4753,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4766,10 +4766,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DiagnosticOrder:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4780,7 +4780,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4791,7 +4791,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.bodysite;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4802,7 +4802,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4813,18 +4813,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.event_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "event_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.event_status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4835,7 +4835,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4846,18 +4846,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "item_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item_past_status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4868,7 +4868,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item_status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4879,7 +4879,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specimen;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4890,7 +4890,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specimen;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4901,7 +4901,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4912,7 +4912,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4923,7 +4923,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4934,7 +4934,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4945,7 +4945,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.orderer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4956,7 +4956,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4967,7 +4967,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4978,7 +4978,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -4991,10 +4991,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DiagnosticReport:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5005,7 +5005,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5016,7 +5016,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.diagnosis;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5027,7 +5027,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5038,7 +5038,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.image;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5049,7 +5049,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.request;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5060,7 +5060,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.result;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5071,7 +5071,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specimen;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5082,7 +5082,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5093,7 +5093,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5104,7 +5104,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5115,29 +5115,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5148,18 +5148,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.issued;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issued";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5170,7 +5170,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5181,7 +5181,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5192,7 +5192,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5205,10 +5205,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DocumentManifest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5219,7 +5219,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.content_ref;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5230,7 +5230,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5241,7 +5241,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.recipient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5252,7 +5252,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_id;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5263,7 +5263,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_ref;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5274,7 +5274,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5285,7 +5285,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5296,7 +5296,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5307,7 +5307,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5318,18 +5318,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5338,11 +5338,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5353,7 +5353,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5364,7 +5364,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5375,7 +5375,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5386,7 +5386,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5399,10 +5399,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.DocumentReference:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5413,7 +5413,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._class;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5424,7 +5424,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._event;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5435,7 +5435,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facility;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5446,7 +5446,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.format;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5457,7 +5457,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5468,7 +5468,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.language;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5479,7 +5479,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5490,7 +5490,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_id;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5501,7 +5501,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_ref;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5512,7 +5512,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relatesto;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5523,7 +5523,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relation;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5534,7 +5534,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.securitylabel;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5545,7 +5545,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.setting;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5556,7 +5556,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5567,7 +5567,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5578,7 +5578,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5589,7 +5589,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5600,7 +5600,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.authenticator;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5611,18 +5611,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.custodian;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5633,7 +5633,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5642,11 +5642,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5657,7 +5657,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5668,18 +5668,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.indexed;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "indexed";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5690,18 +5690,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.period;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "period";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5712,7 +5712,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5725,10 +5725,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.EligibilityRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5739,7 +5739,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5750,7 +5750,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5761,7 +5761,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5772,18 +5772,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5794,7 +5794,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5805,7 +5805,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5816,7 +5816,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5827,7 +5827,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5838,7 +5838,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5849,7 +5849,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5860,7 +5860,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.providerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5873,10 +5873,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.EligibilityResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5887,7 +5887,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5898,7 +5898,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5909,7 +5909,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5920,18 +5920,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5940,11 +5940,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5955,7 +5955,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5966,7 +5966,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.outcome;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5977,7 +5977,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5988,7 +5988,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -5999,7 +5999,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6010,7 +6010,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestprovideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6021,7 +6021,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestproviderreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6032,7 +6032,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6045,10 +6045,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Encounter:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.condition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6059,7 +6059,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.episodeofcare;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6070,7 +6070,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6081,7 +6081,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.incomingreferral;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6092,7 +6092,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.indication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6103,7 +6103,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6114,18 +6114,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location_period;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location_period";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.participant;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6136,7 +6136,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.participant_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6147,7 +6147,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6158,7 +6158,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.procedure;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6169,7 +6169,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reason;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6180,7 +6180,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.special_arrangement;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6191,7 +6191,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6202,7 +6202,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6213,7 +6213,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6224,7 +6224,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6235,7 +6235,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.appointment;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6246,18 +6246,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.length;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6268,7 +6268,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.part_of;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6279,7 +6279,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6290,7 +6290,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6303,10 +6303,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.EnrollmentRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6317,7 +6317,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6328,7 +6328,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6339,7 +6339,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6350,7 +6350,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6361,7 +6361,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6374,10 +6374,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.EnrollmentResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6388,7 +6388,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6399,7 +6399,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6410,7 +6410,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6423,10 +6423,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.EpisodeOfCare:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.condition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6437,7 +6437,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6448,7 +6448,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.incomingreferral;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6459,7 +6459,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6470,7 +6470,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6481,7 +6481,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6492,7 +6492,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6503,7 +6503,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.care_manager;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6514,18 +6514,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6536,7 +6536,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6547,7 +6547,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6560,10 +6560,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ExpansionProfile:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6574,7 +6574,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6585,7 +6585,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6596,18 +6596,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6616,11 +6616,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6631,7 +6631,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6640,11 +6640,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6653,11 +6653,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6668,7 +6668,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6679,7 +6679,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6692,10 +6692,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ExplanationOfBenefit:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6706,7 +6706,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6717,7 +6717,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6728,7 +6728,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6739,7 +6739,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.claimindentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6750,7 +6750,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.claimreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6761,18 +6761,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6781,11 +6781,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6796,7 +6796,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6807,7 +6807,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6818,7 +6818,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6829,7 +6829,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6840,7 +6840,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patientreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6851,7 +6851,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6862,7 +6862,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.providerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6875,10 +6875,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.FamilyMemberHistory:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6889,7 +6889,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6900,7 +6900,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relationship;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6911,7 +6911,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6922,7 +6922,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6933,7 +6933,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6944,18 +6944,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6966,7 +6966,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6979,10 +6979,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Flag:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -6993,7 +6993,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7004,7 +7004,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7015,7 +7015,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7026,18 +7026,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7048,7 +7048,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7059,7 +7059,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7072,10 +7072,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Goal:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7086,7 +7086,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7097,7 +7097,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7108,7 +7108,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7119,7 +7119,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7130,7 +7130,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7141,7 +7141,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7152,7 +7152,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7163,7 +7163,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.targetdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7176,10 +7176,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Group:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.characteristic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7190,7 +7190,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7201,7 +7201,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.exclude;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7212,7 +7212,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7223,7 +7223,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.member;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7234,7 +7234,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7245,7 +7245,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7256,7 +7256,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7267,18 +7267,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.QuantityRangeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7289,7 +7289,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7300,7 +7300,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7311,7 +7311,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actual;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7322,7 +7322,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7335,10 +7335,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.GuidanceResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7349,7 +7349,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7360,7 +7360,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7373,10 +7373,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.HealthcareService:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.characteristic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7387,7 +7387,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7398,7 +7398,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7409,7 +7409,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.programname;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7418,11 +7418,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.servicecategory;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7433,7 +7433,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.servicetype;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7444,7 +7444,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7455,7 +7455,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7466,7 +7466,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7477,7 +7477,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7486,11 +7486,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7503,10 +7503,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ImagingExcerpt:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.selected_study;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7517,7 +7517,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7528,7 +7528,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7539,7 +7539,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7550,7 +7550,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7561,7 +7561,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7572,18 +7572,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.authoring_time;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authoring_time";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7594,7 +7594,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7607,10 +7607,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ImagingObjectSelection:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.selected_study;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7621,7 +7621,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7632,7 +7632,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7643,7 +7643,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7654,7 +7654,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7665,7 +7665,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7676,18 +7676,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.authoring_time;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authoring_time";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7698,7 +7698,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7711,10 +7711,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ImagingStudy:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.bodysite;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7725,7 +7725,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dicom_class;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7736,7 +7736,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7747,7 +7747,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.modality;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7758,7 +7758,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.order;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7769,7 +7769,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.series;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7780,7 +7780,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.uid;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7791,7 +7791,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7802,7 +7802,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7813,7 +7813,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7824,7 +7824,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.accession;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7835,7 +7835,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7846,18 +7846,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.started;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "started";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.study;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7870,10 +7870,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Immunization:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dose_sequence;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7884,7 +7884,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7895,7 +7895,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reaction;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7906,18 +7906,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reaction_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reaction_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reason;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7928,7 +7928,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reason_not_given;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7939,7 +7939,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.vaccine_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7950,7 +7950,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7961,7 +7961,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7972,7 +7972,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -7983,18 +7983,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8005,7 +8005,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.lot_number;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8014,11 +8014,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.manufacturer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8029,7 +8029,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.notgiven;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8040,7 +8040,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8051,7 +8051,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8062,7 +8062,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requester;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8073,7 +8073,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8086,21 +8086,21 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ImmunizationRecommendation:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dose_number;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8111,7 +8111,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dose_sequence;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8122,7 +8122,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8133,7 +8133,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.information;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8144,7 +8144,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8155,7 +8155,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.support;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8166,7 +8166,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.vaccine_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8177,7 +8177,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8188,7 +8188,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8199,7 +8199,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8210,7 +8210,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8223,10 +8223,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ImplementationGuide:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8237,7 +8237,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dependency;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8248,7 +8248,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resource;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8259,7 +8259,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.resource;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8270,7 +8270,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8281,7 +8281,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8292,7 +8292,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8303,18 +8303,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8323,11 +8323,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.experimental;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8338,7 +8338,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8347,11 +8347,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8360,11 +8360,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8375,7 +8375,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8386,7 +8386,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8399,10 +8399,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Library:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8413,7 +8413,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8424,7 +8424,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8435,7 +8435,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8446,7 +8446,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8457,7 +8457,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8466,11 +8466,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8481,7 +8481,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8490,11 +8490,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8503,16 +8503,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Linkage:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8523,7 +8523,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8534,7 +8534,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8545,7 +8545,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8556,7 +8556,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8567,7 +8567,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8580,10 +8580,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.List:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8594,7 +8594,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.empty_reason;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8605,7 +8605,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8616,7 +8616,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8627,7 +8627,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.notes;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8636,11 +8636,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8651,7 +8651,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8662,7 +8662,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8673,18 +8673,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8695,7 +8695,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8706,7 +8706,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8717,7 +8717,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8728,7 +8728,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8739,7 +8739,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8748,16 +8748,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Location:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8766,11 +8766,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8781,7 +8781,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8792,7 +8792,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8803,7 +8803,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8814,7 +8814,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8825,7 +8825,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8834,11 +8834,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8847,11 +8847,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8860,11 +8860,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8873,11 +8873,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8888,7 +8888,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8897,11 +8897,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.near;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8912,7 +8912,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.near_distance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8923,7 +8923,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8934,7 +8934,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.partof;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8945,7 +8945,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8958,10 +8958,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Measure:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8972,7 +8972,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8983,7 +8983,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -8994,7 +8994,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9005,7 +9005,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9016,7 +9016,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9025,11 +9025,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9040,7 +9040,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9049,11 +9049,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9062,16 +9062,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MeasureReport:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9082,7 +9082,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9093,7 +9093,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9104,7 +9104,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9117,10 +9117,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Media:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9131,7 +9131,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subtype;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9142,7 +9142,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.view;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9153,7 +9153,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9164,7 +9164,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9175,7 +9175,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9186,18 +9186,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._operator;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9208,7 +9208,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9219,7 +9219,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9230,7 +9230,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9243,10 +9243,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Medication:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9257,7 +9257,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.container;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9268,7 +9268,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.form;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9279,7 +9279,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.ingredient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9290,7 +9290,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.ingredient_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9301,7 +9301,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.package_item;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9312,7 +9312,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.package_item_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9323,7 +9323,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9334,7 +9334,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9345,7 +9345,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9356,7 +9356,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.manufacturer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9369,10 +9369,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MedicationAdministration:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9383,7 +9383,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.device;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9394,7 +9394,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9405,7 +9405,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9416,7 +9416,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9427,7 +9427,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9438,29 +9438,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effectivetime;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effectivetime";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effectivetime;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effectivetime";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9471,7 +9471,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9482,7 +9482,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9493,7 +9493,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9504,7 +9504,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.prescription;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9515,7 +9515,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9526,7 +9526,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.wasnotgiven;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9539,10 +9539,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MedicationDispense:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9553,7 +9553,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.prescription;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9564,7 +9564,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.receiver;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9575,7 +9575,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.responsibleparty;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9586,7 +9586,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9597,7 +9597,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9608,7 +9608,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9619,7 +9619,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9630,7 +9630,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.destination;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9641,7 +9641,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dispenser;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9652,7 +9652,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9663,7 +9663,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9674,7 +9674,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9685,7 +9685,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9696,34 +9696,34 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.whenhandedover;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "whenhandedover";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.whenprepared;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "whenprepared";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MedicationOrder:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9734,7 +9734,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9745,7 +9745,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9756,7 +9756,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9767,7 +9767,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9778,18 +9778,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.datewritten;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datewritten";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9800,7 +9800,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9811,7 +9811,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9822,7 +9822,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.prescriber;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9833,7 +9833,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9846,10 +9846,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MedicationStatement:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9860,7 +9860,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9871,7 +9871,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9882,7 +9882,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9893,7 +9893,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9904,29 +9904,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effective;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effective";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effective;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effective";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.medication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9937,7 +9937,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9948,7 +9948,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9959,7 +9959,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9972,10 +9972,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.MessageHeader:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.data;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9986,7 +9986,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.destination;
             SupportedSearchParameter.Resource = ResourceType;
@@ -9995,11 +9995,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.destination_uri;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10010,7 +10010,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10021,7 +10021,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10032,7 +10032,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10043,7 +10043,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10054,7 +10054,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10065,7 +10065,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10076,7 +10076,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.enterer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10087,7 +10087,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._event;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10098,7 +10098,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.receiver;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10109,7 +10109,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.response_id;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10120,7 +10120,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.responsible;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10131,7 +10131,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10140,11 +10140,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source_uri;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10155,23 +10155,23 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.timestamp;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "timestamp";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ModuleDefinition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10182,7 +10182,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10193,7 +10193,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10206,10 +10206,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.NamingSystem:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.contact;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10218,11 +10218,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10233,7 +10233,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.id_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10244,18 +10244,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.period;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "period";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10266,7 +10266,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10277,7 +10277,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10286,11 +10286,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10301,7 +10301,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10312,7 +10312,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10323,18 +10323,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.kind;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10345,7 +10345,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10354,11 +10354,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10367,11 +10367,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.replaced_by;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10382,7 +10382,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.responsible;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10391,11 +10391,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10408,10 +10408,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.NutritionOrder:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.additive;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10422,7 +10422,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.formula;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10433,7 +10433,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10444,7 +10444,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.oraldiet;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10455,7 +10455,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.supplement;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10466,7 +10466,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10477,7 +10477,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10488,7 +10488,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10499,18 +10499,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.datetime;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datetime";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10521,7 +10521,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10532,7 +10532,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provider;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10543,7 +10543,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10556,10 +10556,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Observation:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10570,7 +10570,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10581,7 +10581,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.component_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10592,7 +10592,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.component_data_absent_reason;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10603,7 +10603,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.component_value_concept;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10614,7 +10614,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.component_value_quantity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10625,7 +10625,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.component_value_string;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10634,11 +10634,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.data_absent_reason;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10649,7 +10649,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10660,7 +10660,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10671,7 +10671,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10682,7 +10682,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.related_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10693,7 +10693,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_concept;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10704,7 +10704,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10715,7 +10715,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10726,7 +10726,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10737,29 +10737,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.device;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10770,7 +10770,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10781,7 +10781,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10792,7 +10792,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specimen;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10803,7 +10803,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10814,7 +10814,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10825,29 +10825,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "value_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "value_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_quantity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10858,7 +10858,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_string;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10867,16 +10867,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.OperationDefinition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10887,7 +10887,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.paramprofile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10898,7 +10898,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10909,7 +10909,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10920,7 +10920,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10931,7 +10931,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10942,7 +10942,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._base;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10953,7 +10953,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10964,18 +10964,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.instance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10986,7 +10986,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.kind;
             SupportedSearchParameter.Resource = ResourceType;
@@ -10997,7 +10997,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11006,11 +11006,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11019,11 +11019,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11034,7 +11034,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.system;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11045,7 +11045,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11056,7 +11056,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11069,10 +11069,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.OperationOutcome:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11083,7 +11083,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11094,7 +11094,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11107,10 +11107,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Order:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.detail;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11121,7 +11121,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11132,18 +11132,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.when;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "when";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.when_code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11154,7 +11154,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11165,7 +11165,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11176,7 +11176,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11187,18 +11187,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11209,7 +11209,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11220,7 +11220,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11231,7 +11231,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11244,10 +11244,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.OrderResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.fulfillment;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11258,7 +11258,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11269,7 +11269,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11280,7 +11280,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11291,7 +11291,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11302,7 +11302,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11313,18 +11313,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.request;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11335,7 +11335,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.who;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11348,10 +11348,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.OrderSet:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11362,7 +11362,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.topic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11373,7 +11373,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11384,7 +11384,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11395,7 +11395,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11406,7 +11406,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11415,11 +11415,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11430,7 +11430,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11439,11 +11439,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11452,16 +11452,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Organization:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11470,11 +11470,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11483,11 +11483,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11496,11 +11496,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11509,11 +11509,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11522,11 +11522,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11537,7 +11537,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11548,7 +11548,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11559,7 +11559,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11570,7 +11570,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11581,7 +11581,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11592,7 +11592,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.active;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11603,7 +11603,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11612,11 +11612,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.partof;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11627,7 +11627,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11636,16 +11636,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Parameters:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11656,7 +11656,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11667,7 +11667,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11680,10 +11680,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Patient:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11692,11 +11692,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11705,11 +11705,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11718,11 +11718,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11731,11 +11731,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11744,11 +11744,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11759,7 +11759,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.animal_breed;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11770,7 +11770,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.animal_species;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11781,7 +11781,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.careprovider;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11792,7 +11792,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11803,7 +11803,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.family;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11812,11 +11812,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.given;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11825,11 +11825,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11840,7 +11840,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.language;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11851,7 +11851,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.link;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11862,7 +11862,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11871,11 +11871,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11886,7 +11886,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11895,11 +11895,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11910,7 +11910,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11921,7 +11921,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11932,7 +11932,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11943,7 +11943,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.active;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11954,7 +11954,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.birthdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11965,18 +11965,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.death_date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "death_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.deceased;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11987,7 +11987,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.deceased;
             SupportedSearchParameter.Resource = ResourceType;
@@ -11998,7 +11998,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12009,7 +12009,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12022,10 +12022,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.PaymentNotice:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12036,7 +12036,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12047,7 +12047,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12058,7 +12058,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12069,18 +12069,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12091,7 +12091,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12102,7 +12102,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.paymentstatus;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12113,7 +12113,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12124,7 +12124,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.providerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12135,7 +12135,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12146,7 +12146,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12157,7 +12157,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.responseidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12168,7 +12168,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.responsereference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12179,7 +12179,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.statusdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12192,10 +12192,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.PaymentReconciliation:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12206,7 +12206,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12217,7 +12217,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12228,7 +12228,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12239,18 +12239,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12259,11 +12259,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12274,7 +12274,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12285,7 +12285,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.outcome;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12296,7 +12296,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12307,7 +12307,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12318,7 +12318,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12329,7 +12329,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestprovideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12340,7 +12340,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestproviderreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12351,7 +12351,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12364,10 +12364,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Person:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12376,11 +12376,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12389,11 +12389,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12402,11 +12402,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12415,11 +12415,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12428,11 +12428,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12443,7 +12443,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12454,7 +12454,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12465,7 +12465,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.link;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12476,7 +12476,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12485,11 +12485,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12500,7 +12500,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12511,7 +12511,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12520,11 +12520,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12535,7 +12535,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.relatedperson;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12546,7 +12546,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12557,7 +12557,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12568,7 +12568,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12579,7 +12579,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12590,7 +12590,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.birthdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12601,7 +12601,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12612,7 +12612,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12625,10 +12625,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Practitioner:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12637,11 +12637,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12650,11 +12650,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12663,11 +12663,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12676,11 +12676,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12689,11 +12689,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12704,7 +12704,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.communication;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12715,7 +12715,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12726,7 +12726,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12737,7 +12737,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.family;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12746,11 +12746,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.given;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12759,11 +12759,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12774,7 +12774,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12785,7 +12785,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12796,7 +12796,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12805,11 +12805,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12820,7 +12820,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12831,7 +12831,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12842,7 +12842,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12851,11 +12851,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.role;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12866,7 +12866,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specialty;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12877,7 +12877,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12888,7 +12888,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12899,7 +12899,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12910,7 +12910,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12921,7 +12921,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12932,7 +12932,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12945,10 +12945,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.PractitionerRole:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12959,7 +12959,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12970,7 +12970,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12981,7 +12981,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -12992,7 +12992,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.role;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13003,7 +13003,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specialty;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13014,7 +13014,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13025,7 +13025,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13036,7 +13036,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13047,7 +13047,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13058,7 +13058,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organization;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13069,7 +13069,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.practitioner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13082,10 +13082,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Procedure:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13096,7 +13096,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13107,7 +13107,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13118,7 +13118,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13129,7 +13129,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13140,7 +13140,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13151,29 +13151,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13184,7 +13184,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13195,7 +13195,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13206,7 +13206,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13219,10 +13219,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ProcedureRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13233,7 +13233,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13244,7 +13244,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13255,7 +13255,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13266,7 +13266,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13277,7 +13277,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.orderer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13288,7 +13288,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13299,7 +13299,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13310,7 +13310,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13323,10 +13323,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ProcessRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13337,7 +13337,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13348,7 +13348,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13359,7 +13359,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13370,7 +13370,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.action;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13381,7 +13381,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13392,7 +13392,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13403,7 +13403,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.provideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13414,7 +13414,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.providerreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13427,10 +13427,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ProcessResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13441,7 +13441,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13452,7 +13452,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13463,7 +13463,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13474,7 +13474,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13485,7 +13485,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13496,7 +13496,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13507,7 +13507,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationidentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13518,7 +13518,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestorganizationreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13529,7 +13529,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestprovideridentifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13540,7 +13540,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestproviderreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13551,7 +13551,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requestreference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13564,10 +13564,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Protocol:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13578,7 +13578,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13589,7 +13589,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13600,7 +13600,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13611,7 +13611,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13624,10 +13624,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Provenance:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.agent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13638,7 +13638,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13649,7 +13649,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.entity_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13660,7 +13660,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13671,7 +13671,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.sig;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13682,7 +13682,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13693,7 +13693,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.userid;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13704,7 +13704,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13715,7 +13715,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13726,7 +13726,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13737,18 +13737,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.end;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "end";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13759,23 +13759,23 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.start;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "start";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Questionnaire:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13786,7 +13786,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13797,7 +13797,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13808,7 +13808,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13819,7 +13819,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13830,7 +13830,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13841,18 +13841,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13861,11 +13861,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13876,7 +13876,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.title;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13885,11 +13885,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13898,16 +13898,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.QuestionnaireResponse:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13918,7 +13918,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13929,7 +13929,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13940,7 +13940,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.author;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13951,18 +13951,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.authored;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authored";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13973,7 +13973,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13984,7 +13984,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.questionnaire;
             SupportedSearchParameter.Resource = ResourceType;
@@ -13995,7 +13995,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14006,7 +14006,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14017,7 +14017,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14030,10 +14030,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ReferralRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.basedon;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14044,7 +14044,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.priority;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14055,7 +14055,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.recipient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14066,7 +14066,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.specialty;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14077,7 +14077,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14088,7 +14088,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14099,7 +14099,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14110,7 +14110,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14121,7 +14121,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14132,7 +14132,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14143,18 +14143,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14165,7 +14165,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14176,7 +14176,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requester;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14187,7 +14187,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14200,10 +14200,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.RelatedPerson:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14212,11 +14212,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_city;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14225,11 +14225,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_country;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14238,11 +14238,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_postalcode;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14251,11 +14251,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_state;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14264,11 +14264,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.address_use;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14279,7 +14279,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.email;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14290,7 +14290,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14301,7 +14301,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14310,11 +14310,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phone;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14325,7 +14325,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.phonetic;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14334,11 +14334,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.telecom;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14349,7 +14349,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14360,7 +14360,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14371,7 +14371,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14382,7 +14382,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.birthdate;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14393,7 +14393,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14404,7 +14404,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14417,10 +14417,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.RiskAssessment:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.method;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14431,7 +14431,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14442,7 +14442,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14453,7 +14453,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14464,7 +14464,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.condition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14475,18 +14475,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14497,7 +14497,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14508,7 +14508,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14519,7 +14519,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14530,7 +14530,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14543,10 +14543,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Schedule:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14557,7 +14557,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14568,7 +14568,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14579,7 +14579,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14590,7 +14590,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14601,7 +14601,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.actor;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14612,23 +14612,23 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.SearchParameter:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14639,7 +14639,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.target;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14650,7 +14650,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14661,7 +14661,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14672,7 +14672,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14683,7 +14683,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._base;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14694,7 +14694,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14705,7 +14705,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14714,11 +14714,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14727,11 +14727,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14742,7 +14742,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14755,10 +14755,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Sequence:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.chromosome;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14769,7 +14769,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.species;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14780,7 +14780,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14791,7 +14791,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14802,7 +14802,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14813,7 +14813,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.end;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14824,7 +14824,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14835,7 +14835,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.start;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14846,7 +14846,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14859,10 +14859,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Slot:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14873,7 +14873,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.slot_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14884,7 +14884,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14895,7 +14895,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14906,7 +14906,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14917,7 +14917,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.schedule;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14928,18 +14928,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.start;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "start";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14952,10 +14952,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Specimen:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.bodysite;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14966,7 +14966,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.container;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14977,7 +14977,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.container_id;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14988,7 +14988,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -14999,7 +14999,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15010,7 +15010,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15021,7 +15021,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15032,7 +15032,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15043,7 +15043,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15054,7 +15054,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.accession;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15065,29 +15065,29 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.collected;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "collected";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.collected;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "collected";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DatePeriodIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.collector;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15098,7 +15098,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15109,7 +15109,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15122,10 +15122,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.StructureDefinition:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.base_path;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15136,7 +15136,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.base_path;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15147,7 +15147,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15158,7 +15158,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15169,7 +15169,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.ext_context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15178,11 +15178,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15193,7 +15193,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.path;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15204,7 +15204,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.path;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15215,7 +15215,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.valueset;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15226,7 +15226,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.valueset;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15237,7 +15237,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15248,7 +15248,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15259,7 +15259,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15270,7 +15270,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._abstract;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15281,7 +15281,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._base;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15292,7 +15292,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context_type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15303,18 +15303,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.derivation;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15325,7 +15325,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15334,11 +15334,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.display;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15347,11 +15347,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.experimental;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15362,7 +15362,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.kind;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15373,7 +15373,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15382,11 +15382,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15395,11 +15395,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15410,7 +15410,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15421,7 +15421,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15432,7 +15432,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15445,10 +15445,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.StructureMap:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15459,7 +15459,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15470,7 +15470,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15481,7 +15481,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15492,7 +15492,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15503,18 +15503,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15523,11 +15523,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.experimental;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15538,7 +15538,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15547,11 +15547,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15560,11 +15560,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15575,7 +15575,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15586,7 +15586,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15599,10 +15599,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Subscription:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.contact;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15613,7 +15613,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15624,7 +15624,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15635,7 +15635,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15646,7 +15646,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15657,7 +15657,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.criteria;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15666,11 +15666,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.payload;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15679,11 +15679,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15694,7 +15694,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15705,7 +15705,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15718,10 +15718,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Substance:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.category;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15732,7 +15732,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.code;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15743,7 +15743,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.container_identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15754,18 +15754,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.expiry;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "expiry";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15776,7 +15776,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.quantity;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15787,7 +15787,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.substance;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15798,7 +15798,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15809,7 +15809,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15820,7 +15820,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15833,10 +15833,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.SupplyDelivery:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.receiver;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15847,7 +15847,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15858,7 +15858,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15869,7 +15869,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15880,7 +15880,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15891,7 +15891,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15902,7 +15902,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15913,7 +15913,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.supplier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15926,10 +15926,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.SupplyRequest:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.kind;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15940,7 +15940,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.supplier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15951,7 +15951,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15962,7 +15962,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15973,7 +15973,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -15984,18 +15984,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16006,7 +16006,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16017,7 +16017,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.source;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16028,7 +16028,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16041,10 +16041,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.Task:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.failure;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16055,7 +16055,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.performer;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16066,7 +16066,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.type;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16077,7 +16077,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16088,7 +16088,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16099,7 +16099,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16110,18 +16110,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.created;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.creator;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16132,7 +16132,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.definition;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16143,7 +16143,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16154,18 +16154,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.modified;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "modified";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.owner;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16176,7 +16176,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16187,7 +16187,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.priority;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16198,7 +16198,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16209,7 +16209,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.subject;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16222,10 +16222,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.TestScript:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.testscript_capability;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16234,11 +16234,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.testscript_setup_capability;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16247,11 +16247,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.testscript_test_capability;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16260,11 +16260,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16275,7 +16275,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16286,7 +16286,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16297,7 +16297,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16306,11 +16306,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16321,7 +16321,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16330,11 +16330,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16347,10 +16347,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.ValueSet:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.context;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16361,7 +16361,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reference;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16372,7 +16372,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16383,7 +16383,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16394,7 +16394,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16405,18 +16405,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16425,11 +16425,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.expansion;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16440,7 +16440,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16451,7 +16451,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16460,11 +16460,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16473,11 +16473,11 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
-            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Exact);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16488,7 +16488,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.url;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16499,7 +16499,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.version;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16512,10 +16512,10 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-
+      
         case FHIRDefinedType.VisionPrescription:
-          {
-
+          {            
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16526,7 +16526,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.profile;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16537,7 +16537,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.security;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16548,7 +16548,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.tag;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16559,18 +16559,18 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.datewritten;
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datewritten";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16581,7 +16581,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16592,7 +16592,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
             List.Add(SupportedSearchParameter);
-
+      
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.prescriber;
             SupportedSearchParameter.Resource = ResourceType;
@@ -16605,12 +16605,12 @@ namespace Blaze.Common.BusinessEntities.Search
             List.Add(SupportedSearchParameter);
           }
           break;
-        default:
+   default:
           break;
       }
       return List;
     }
   }
 }
-
+   
 

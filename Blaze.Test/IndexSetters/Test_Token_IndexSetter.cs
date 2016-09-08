@@ -11,7 +11,7 @@ namespace Blaze.Test.IndexSetters
   class Test_Token_IndexSetter
   {
     [Test]
-    public void Test_Address_StringIndexSetter_GoodFormat()
+    public void Test_Address_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       Bundle.BundleType TheCode = Bundle.BundleType.Document;
@@ -31,7 +31,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void AAATest_Address_StringIndexSetter_GoodFormat()
+    public void AAATest_Address_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       
@@ -49,12 +49,10 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.Code, CodeString);
       Assert.IsNull(Index.System);
     }
-
-
     
 
     [Test]
-    public void Test_Address_StringIndexSetter_CodeT_IsNull()
+    public void Test_Address_TokenIndexSetter_CodeT_IsNull()
     {
       //Arrange
       Bundle.BundleType TheCode = Bundle.BundleType.Document;
@@ -72,7 +70,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Address_StringIndexSetter_No_Code_Set()
+    public void Test_Address_TokenIndexSetter_No_Code_Set()
     {
       //Arrange
       var Code = new Code<Bundle.BundleType>();
@@ -87,7 +85,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Address_StringIndexSetter_UnsupportedCodeType()
+    public void Test_Address_TokenIndexSetter_UnsupportedCodeType()
     {
       //Arrange
       var TheCode = Hl7.Fhir.Model.Bundle.SearchEntryMode.Include;
@@ -111,7 +109,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_Code_StringIndexSetter_GoodFormat()
+    public void Test_Code_TokenIndexSetter_GoodFormat()
     {
       //Arrange      
       string CodeString = "SomeCode";
@@ -130,7 +128,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Code_StringIndexSetter_No_Code_Set()
+    public void Test_Code_TokenIndexSetter_No_Code_Set()
     {
       //Arrange      
       string CodeString = "";
@@ -148,7 +146,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Code_StringIndexSetter_Code_IsNull()
+    public void Test_Code_TokenIndexSetter_Code_IsNull()
     {
       //Arrange      
       Code Code = null;
@@ -162,7 +160,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_CodableConcept_StringIndexSetter_UnsupportedCodeType()
+    public void Test_CodableConcept_TokenIndexSetter_UnsupportedCodeType()
     {
       //Arrange
       var CodeableConcept = new CodeableConcept();
@@ -179,7 +177,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_Coding_StringIndexSetter_GoodFormat()
+    public void Test_Coding_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheCode = "SomeCode";
@@ -199,7 +197,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Coding_StringIndexSetter_OnlyCode()
+    public void Test_Coding_TokenIndexSetter_OnlyCode()
     {
       //Arrange
       string TheCode = "SomeCode";
@@ -217,7 +215,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Coding_StringIndexSetter_OnlySystem()
+    public void Test_Coding_TokenIndexSetter_OnlySystem()
     {
       //Arrange
       string TheSystem = "SomeCodeSystem";
@@ -235,7 +233,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Coding_StringIndexSetter_Coding_IsNull()
+    public void Test_Coding_TokenIndexSetter_Coding_IsNull()
     {
       //Arrange
       Coding Coding = null;
@@ -250,7 +248,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Coding_StringIndexSetter_No_Code_Set()
+    public void Test_Coding_TokenIndexSetter_No_Code_Set()
     {
       //Arrange
       var Code = new Coding();
@@ -266,7 +264,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_ContactPoint_StringIndexSetter_GoodFormat()
+    public void Test_ContactPoint_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheValue = "angusmillar@iinet.net.au";
@@ -287,7 +285,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_ContactPoint_StringIndexSetter_OnlyCode()
+    public void Test_ContactPoint_TokenIndexSetter_OnlyCode()
     {
       //Arrange
       string TheValue = "angusmillar@iinet.net.au";
@@ -305,7 +303,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_ContactPoint_StringIndexSetter_OnlySystem()
+    public void Test_ContactPoint_TokenIndexSetter_OnlySystem()
     {
       //Arrange      
       ContactPoint.ContactPointSystem TheSystem = Hl7.Fhir.Model.ContactPoint.ContactPointSystem.Email;
@@ -324,7 +322,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_ContactPoint_StringIndexSetter_ContactPoint_IsNull()
+    public void Test_ContactPoint_TokenIndexSetter_ContactPoint_IsNull()
     {
       //Arrange
       ContactPoint ContactPoint = null;
@@ -339,7 +337,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_ContactPoint_StringIndexSetter_No_Code_Set()
+    public void Test_ContactPoint_TokenIndexSetter_No_Code_Set()
     {
       //Arrange
       var Code = new ContactPoint();
@@ -355,7 +353,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_FhirBoolean_StringIndexSetter_GoodFormatTrue()
+    public void Test_FhirBoolean_TokenIndexSetter_GoodFormatTrue()
     {
       //Arrange
       bool TheCode = true;
@@ -374,7 +372,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirBoolean_StringIndexSetter_GoodFormatFalse()
+    public void Test_FhirBoolean_TokenIndexSetter_GoodFormatFalse()
     {
       //Arrange
       bool TheCode = false;
@@ -393,7 +391,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirBoolean_StringIndexSetter_FhirBoolean_IsNull()
+    public void Test_FhirBoolean_TokenIndexSetter_FhirBoolean_IsNull()
     {
       //Arrange     
       FhirBoolean FhirBoolean = null;
@@ -408,7 +406,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirBoolean_StringIndexSetter_No_Code_Set_As_Null()
+    public void Test_FhirBoolean_TokenIndexSetter_No_Code_Set_As_Null()
     {
       //Arrange
       var FhirBoolean = new FhirBoolean();
@@ -424,7 +422,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirDate_StringIndexSetter_GoodFormat()
+    public void Test_FhirDate_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheCode = "2012-12-28T09:03:04+11:00";
@@ -443,7 +441,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirDate_StringIndexSetter_BadFormat()
+    public void Test_FhirDate_TokenIndexSetter_BadFormat()
     {
       //Arrange
       string TheCode = "2012-12-28T09:03:04+11:90";
@@ -461,7 +459,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirDateTime_StringIndexSetter_FhirDateTime_IsNull()
+    public void Test_FhirDateTime_TokenIndexSetter_FhirDateTime_IsNull()
     {
       //Arrange           
       FhirDateTime FhirDateTime = null;
@@ -475,7 +473,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_StringIndexSetter_GoodFormat()
+    public void Test_FhirString_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheCode = "Some string stuff";
@@ -494,7 +492,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_StringIndexSetter_EmptyString()
+    public void Test_FhirString_TokenIndexSetter_EmptyString()
     {
       //Arrange
       string TheCode = string.Empty;
@@ -512,7 +510,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_StringIndexSetter_FhirString_IsNull()
+    public void Test_FhirString_TokenIndexSetter_FhirString_IsNull()
     {
       //Arrange           
       FhirString FhirString = null;
@@ -527,7 +525,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_Id_StringIndexSetter_GoodFormat()
+    public void Test_Id_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheCode = "4d09741b-e407-4a1f-808a-4b9bf864d956";
@@ -546,7 +544,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Id_StringIndexSetter_EmptyString()
+    public void Test_Id_TokenIndexSetter_EmptyString()
     {
       //Arrange
       string TheCode = string.Empty;
@@ -564,7 +562,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Id_StringIndexSetter_FhirString_IsNull()
+    public void Test_Id_TokenIndexSetter_FhirString_IsNull()
     {
       //Arrange           
       Id Id = null;
@@ -579,7 +577,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_Identifier_StringIndexSetter_GoodFormat()
+    public void Test_Identifier_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       string TheCode = "1234567890123456";
@@ -600,7 +598,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Identifier_StringIndexSetter_System_IsNull()
+    public void Test_Identifier_TokenIndexSetter_System_IsNull()
     {
       //Arrange
       string TheCode = "1234567890";
@@ -620,7 +618,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Identifier_StringIndexSetter_Value_IsNull()
+    public void Test_Identifier_TokenIndexSetter_Value_IsNull()
     {
       //Arrange      
       string TheSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
@@ -640,7 +638,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Identifier_StringIndexSetter_Identifier_IsNull()
+    public void Test_Identifier_TokenIndexSetter_Identifier_IsNull()
     {
       //Arrange           
       Identifier Identifier = null;
@@ -655,7 +653,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_PositiveInt_StringIndexSetter_GoodFormat()
+    public void Test_PositiveInt_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       int TheCode = 12345;
@@ -675,7 +673,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_PositiveInt_StringIndexSetter_Value_IsNull()
+    public void Test_PositiveInt_TokenIndexSetter_Value_IsNull()
     {
       //Arrange            
       var PositiveInt = new PositiveInt();
@@ -691,7 +689,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_PositiveInt_StringIndexSetter_Identifier_IsNull()
+    public void Test_PositiveInt_TokenIndexSetter_Identifier_IsNull()
     {
       //Arrange           
       PositiveInt PositiveInt = null;
@@ -706,7 +704,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_Quantity_StringIndexSetter_GoodFormat()
+    public void Test_Quantity_TokenIndexSetter_GoodFormat()
     {
       //Arrange
       decimal TheCode = 001123.5500M;
@@ -728,7 +726,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Quantity_StringIndexSetter_Value_IsNull()
+    public void Test_Quantity_TokenIndexSetter_Value_IsNull()
     {
       //Arrange            
       var Quantity = new Quantity();
@@ -744,7 +742,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Quantity_StringIndexSetter_Quantity_IsNull()
+    public void Test_Quantity_TokenIndexSetter_Quantity_IsNull()
     {
       //Arrange           
       Quantity Quantity = null;
@@ -755,6 +753,25 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
+    }
+
+
+    [Test]
+    public void Test_Range_TokenIndexSetter_GoodFormat_ISNull()
+    {
+      //Arrange     
+      var Range = new Range();
+      Range.Low.Value = 10.0M;
+      Range.High.Value = 10.0M;      
+
+      TokenIndex Index = new TokenIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Range, Index) as TokenIndex;
+
+      //Assert      
+      Assert.IsNull(Index);
+      
     }
 
 

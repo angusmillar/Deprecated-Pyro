@@ -18,7 +18,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string author_Type {get; set;}
     public virtual ServiceRootURL_Store author_Url { get; set; }
     public int? author_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? created_DateTimeOffset {get; set;}
+    public int? created_Date {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}

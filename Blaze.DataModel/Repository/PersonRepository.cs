@@ -137,7 +137,7 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Person ResourceEntity)
     {
-      ResourceEntity.birthdate_DateTimeOffset = null;      
+      ResourceEntity.birthdate_Date = null;      
       ResourceEntity.gender_Code = null;      
       ResourceEntity.gender_System = null;      
       ResourceEntity.organization_VersionId = null;      
@@ -182,7 +182,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.BirthDateElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.birthdate_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.birthdate_Date = Index.Date;
           }
         }
       }

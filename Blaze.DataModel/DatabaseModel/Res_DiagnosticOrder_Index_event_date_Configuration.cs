@@ -19,7 +19,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_DiagnosticOrder_Index_event_date_Configuration()
     {
       HasKey(x => x.Res_DiagnosticOrder_Index_event_dateID).Property(x => x.Res_DiagnosticOrder_Index_event_dateID).IsRequired();
-      Property(x => x.DateTimeOffset).IsRequired();
+      Property(x => x.DateTimeOffset).IsOptional();
       HasRequired(x => x.Res_DiagnosticOrder).WithMany(x => x.event_date_List).WillCascadeOnDelete(true);
     }
   }

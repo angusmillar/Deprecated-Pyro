@@ -20,12 +20,12 @@ namespace Blaze.DataModel.Repository
 
     public PatientRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    //public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
-    //{
-    //  IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-    //  DatabaseOperationOutcome.SingleResourceRead = true;
-    //  throw new NotImplementedException("Resource Search not implemented in Db layer");
-    //}
+    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      throw new NotImplementedException("Resource Search not implemented in Db layer");
+    }
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
@@ -142,7 +142,7 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.active_Code = null;      
       ResourceEntity.active_System = null;      
-      ResourceEntity.birthdate_DateTimeOffset = null;      
+      ResourceEntity.birthdate_Date = null;      
       ResourceEntity.death_date_DateTimeOffset = null;      
       ResourceEntity.deceased_Code = null;      
       ResourceEntity.deceased_System = null;      
@@ -209,7 +209,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.BirthDateElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.birthdate_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.birthdate_Date = Index.Date;
           }
         }
       }
@@ -218,8 +218,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Deceased is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Deceased, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Deceased, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.death_date_DateTimeOffset = Index.DateTimeOffset;

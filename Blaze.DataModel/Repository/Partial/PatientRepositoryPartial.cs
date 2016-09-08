@@ -24,7 +24,7 @@ namespace Blaze.DataModel.Repository
 {
   public partial class PatientRepository : CommonRepository, IResourceRepository
   {
-    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    public IDatabaseOperationOutcome GetResourceBySearch2(DtoSearchParameters DtoSearchParameters)
     {
       //MyPredicate = MyPredicate.And(Search.StringPropertyEqualTo("FhirId", "96d6d5a3-d3da-493a-b4f2-e8ec1241f8d7"));
       //MyPredicate = MyPredicate.And(Search.StringCollectionEqualToAny("given_List", "Angus"));
@@ -52,7 +52,7 @@ namespace Blaze.DataModel.Repository
 
       var Predicate = PredicateGenerator<Res_Patient>(DtoSearchParameters);
 
-     // DateTimeOffset TestDate = DateTimeOffset.Now;
+      // DateTimeOffset TestDate = DateTimeOffset.Now;
       //Predicate = Predicate.Or(x => x.birthdate_DateTimeOffset == TestDate);
 
 

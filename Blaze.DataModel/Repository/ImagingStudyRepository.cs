@@ -197,8 +197,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.StartedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.StartedElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.StartedElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.started_DateTimeOffset = Index.DateTimeOffset;

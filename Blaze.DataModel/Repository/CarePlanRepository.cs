@@ -172,8 +172,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Period is Hl7.Fhir.Model.Period)
         {
-          var Index = new DatePeriodIndex();
-          Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(ResourceTyped.Period, Index) as DatePeriodIndex;
+          var Index = new DateTimePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Period, Index) as DateTimePeriodIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
@@ -251,7 +251,7 @@ namespace Blaze.DataModel.Repository
             if (item1.Detail.Scheduled is Timing)
             {
               var Index = new Res_CarePlan_Index_activitydate();
-              Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
+              Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
               ResourseEntity.activitydate_List.Add(Index);
             }
           }
@@ -267,7 +267,7 @@ namespace Blaze.DataModel.Repository
             if (item1.Detail.Scheduled is Period)
             {
               var Index = new Res_CarePlan_Index_activitydate();
-              Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
+              Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
               ResourseEntity.activitydate_List.Add(Index);
             }
           }
@@ -283,7 +283,7 @@ namespace Blaze.DataModel.Repository
             if (item1.Detail.Scheduled is FhirString)
             {
               var Index = new Res_CarePlan_Index_activitydate();
-              Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
+              Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
               ResourseEntity.activitydate_List.Add(Index);
             }
           }

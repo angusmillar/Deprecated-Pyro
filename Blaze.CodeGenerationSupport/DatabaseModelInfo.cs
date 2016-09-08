@@ -30,14 +30,18 @@ namespace Blaze.CodeGenerationSupport
       {
         var Dic = new Dictionary<DatabaseEnum.DbIndexType, List<string>>();
 
-        var DataList = new List<string>();
-        DataList.Add(DatabaseIndexPropertyConstatnts.DateIndexConstatnts.DateTimeOffset);
-        Dic.Add(DatabaseEnum.DbIndexType.DateIndex, DataList);
+        var DateList = new List<string>();
+        DateList.Add(DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+        Dic.Add(DatabaseEnum.DbIndexType.DateIndex, DateList);
 
-        var DataPeriodList = new List<string>();
-        DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetLow);
-        DataPeriodList.Add(DatabaseIndexPropertyConstatnts.DatePeriodIndexConstatnts.DateTimeOffsetHigh);
-        Dic.Add(DatabaseEnum.DbIndexType.DatePeriodIndex, DataPeriodList);
+        var DateTimeList = new List<string>();
+        DateTimeList.Add(DatabaseIndexPropertyConstatnts.DateTimeIndexConstatnts.DateTimeOffset);        
+        Dic.Add(DatabaseEnum.DbIndexType.DateTimeIndex, DateTimeList);
+
+        var DateTimePeriodList = new List<string>();
+        DateTimePeriodList.Add(DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+        DateTimePeriodList.Add(DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+        Dic.Add(DatabaseEnum.DbIndexType.DateTimePeriodIndex, DateTimePeriodList);
 
         var NumberIndexList = new List<string>();
         NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
@@ -102,15 +106,20 @@ namespace Blaze.CodeGenerationSupport
         public static string XmlBlob { get { return "XmlBlob"; } }
       }
 
-      public static class DatePeriodIndexConstatnts
+      public static class DateTimePeriodIndexConstatnts
       {
         public static string DateTimeOffsetLow { get { return "DateTimeOffsetLow"; } }
         public static string DateTimeOffsetHigh { get { return "DateTimeOffsetHigh"; } }
       }
 
+      public static class DateTimeIndexConstatnts
+      {
+        public static string DateTimeOffset { get { return "DateTimeOffset"; } }        
+      }
+
       public static class DateIndexConstatnts
       {
-        public static string DateTimeOffset { get { return "DateTimeOffset"; } }
+        public static string Date { get { return "Date"; } }
       }
 
       public static class NumberIndexConstatnts
@@ -250,12 +259,81 @@ namespace Blaze.CodeGenerationSupport
       }
     }
 
+
     public static string GetServerSearchIndexTypeString(FhirApiSearchParameterInfo SearchParameter)
+    {
+      return DatabaseEnum.DbIndexTypeToStringDictonary[GetServerSearchIndexType(SearchParameter)];      
+    }
+
+    public static DatabaseEnum.DbIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
+    {
+      switch (SearchParameter.SearchParamType)
+      {
+        case SearchParamType.Number:
+          return DatabaseEnum.DbIndexType.NumberIndex;
+        case SearchParamType.Date:
+          if (SearchParameter.TargetFhirLogicalType == typeof(Date))
+          {
+            return DatabaseEnum.DbIndexType.DateIndex;
+          }
+          else if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
+                   SearchParameter.TargetFhirLogicalType == typeof(Timing))
+          {
+            return DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+          }
+          else
+          {
+            return DatabaseEnum.DbIndexType.DateTimeIndex;
+          }
+        case SearchParamType.String:
+          return DatabaseEnum.DbIndexType.StringIndex;
+        case SearchParamType.Token:
+          return DatabaseEnum.DbIndexType.TokenIndex;
+        case SearchParamType.Reference:
+          return DatabaseEnum.DbIndexType.ReferenceIndex;
+        case SearchParamType.Composite:
+          throw new Exception("Should never get a Composite here.");
+        case SearchParamType.Quantity:
+          if (SearchParameter.TargetFhirLogicalType == typeof(Range))
+          {
+            return DatabaseEnum.DbIndexType.QuantityRangeIndex;
+          }
+          else
+          {
+            return DatabaseEnum.DbIndexType.QuantityIndex;
+          }
+        case SearchParamType.Uri:
+          return DatabaseEnum.DbIndexType.UriIndex;
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.SearchParamType.ToString(), (int)SearchParameter.SearchParamType, typeof(DatabaseEnum.DbIndexType));
+      }
+    }
+
+
+
+
+    public static string GetServerSearchIndexTypeStringOLD(FhirApiSearchParameterInfo SearchParameter)
     {
       if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
         SearchParameter.TargetFhirLogicalType == typeof(Timing))
       {
-        return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DatePeriodIndex];
+        return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DateTimePeriodIndex];
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(Date))
+      {
+        return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DateIndex];
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(FhirDateTime) ||
+               SearchParameter.TargetFhirLogicalType == typeof(Instant))
+      {
+        if (SearchParameter.SearchParamType == SearchParamType.Token)
+        {
+          return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.TokenIndex];
+        }
+        else
+        {
+          return DatabaseEnum.DbIndexTypeToStringDictonary[DatabaseEnum.DbIndexType.DateTimeIndex];
+        }        
       }
       else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
       {
@@ -267,12 +345,27 @@ namespace Blaze.CodeGenerationSupport
       }
     }
 
-    public static DatabaseEnum.DbIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
+    public static DatabaseEnum.DbIndexType GetServerSearchIndexTypeOLD(FhirApiSearchParameterInfo SearchParameter)
     {
       if (SearchParameter.TargetFhirLogicalType == typeof(Period) ||
         SearchParameter.TargetFhirLogicalType == typeof(Timing))
       {
-        return DatabaseEnum.DbIndexType.DatePeriodIndex;
+        return DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(Date))
+      {
+        return DatabaseEnum.DbIndexType.DateIndex;
+      }
+      else if (SearchParameter.TargetFhirLogicalType == typeof(FhirDateTime))
+      {
+        if (SearchParameter.SearchParamType == SearchParamType.Token)
+        {
+          return DatabaseEnum.DbIndexType.TokenIndex;
+        }
+        else
+        {
+          return DatabaseEnum.DbIndexType.DateTimeIndex;
+        }        
       }
       else if (SearchParameter.TargetFhirLogicalType == typeof(Range))
       {

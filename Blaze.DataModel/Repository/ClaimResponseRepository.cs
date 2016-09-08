@@ -133,7 +133,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
       ResourceEntity.outcome_Code = null;      
       ResourceEntity.outcome_System = null;      
-      ResourceEntity.paymentdate_DateTimeOffset = null;      
+      ResourceEntity.paymentdate_Date = null;      
       ResourceEntity.requestidentifier_Code = null;      
       ResourceEntity.requestidentifier_System = null;      
       ResourceEntity.requestreference_VersionId = null;      
@@ -159,8 +159,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.CreatedElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.CreatedElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.CreatedElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.created_DateTimeOffset = Index.DateTimeOffset;
@@ -239,7 +239,7 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.PaymentDateElement, Index) as DateIndex;
           if (Index != null)
           {
-            ResourseEntity.paymentdate_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.paymentdate_Date = Index.Date;
           }
         }
       }

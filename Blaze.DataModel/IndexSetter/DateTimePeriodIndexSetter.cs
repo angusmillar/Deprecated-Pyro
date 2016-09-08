@@ -11,7 +11,7 @@ using Blaze.DataModel.Repository.Interfaces;
 
 namespace Blaze.DataModel.IndexSetter
 {
-  public class DatePeriodIndexSetter : IDatePeriodIndexSetter
+  public class DateTimePeriodIndexSetter : IDateTimePeriodIndexSetter
   {
     public ModelBase Set(Element FhirElement, ModelBase ModelBase, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
     {
@@ -24,9 +24,9 @@ namespace Blaze.DataModel.IndexSetter
         throw new ArgumentNullException("FhirElement cannot be null for method.");
       }
 
-      if (ModelBase is DatePeriodIndex)
+      if (ModelBase is DateTimePeriodIndex)
       {
-        var DatePeriodIndex = ModelBase as DatePeriodIndex;
+        var DatePeriodIndex = ModelBase as DateTimePeriodIndex;
         if (FhirElement is Period)
         {
           return SetPeriod(FhirElement as Period, DatePeriodIndex);
@@ -42,11 +42,11 @@ namespace Blaze.DataModel.IndexSetter
       }
       else
       {
-        throw new InvalidCastException(string.Format("DateIndexSetter expected typeof {0} yet was passed typeof {1}", typeof(DatePeriodIndex).Name, ModelBase.GetType().Name));
+        throw new InvalidCastException(string.Format("DateIndexSetter expected typeof {0} yet was passed typeof {1}", typeof(DateTimePeriodIndex).Name, ModelBase.GetType().Name));
       }
     }
 
-    public DatePeriodIndex SetPeriod(Period Period, DatePeriodIndex DatePeriodIndex)
+    public DateTimePeriodIndex SetPeriod(Period Period, DateTimePeriodIndex DatePeriodIndex)
     {
       if (Period == null)
         throw new ArgumentNullException("Period cannot be null for method.");
@@ -92,7 +92,7 @@ namespace Blaze.DataModel.IndexSetter
       return DatePeriodIndex;
     }
 
-    public DatePeriodIndex SetTiming(Timing Timing, DatePeriodIndex DatePeriodIndex)
+    public DateTimePeriodIndex SetTiming(Timing Timing, DateTimePeriodIndex DatePeriodIndex)
     {
       if (Timing == null)
         throw new ArgumentNullException("Timing cannot be null for method.");

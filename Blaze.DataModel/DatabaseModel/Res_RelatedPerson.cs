@@ -13,7 +13,7 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_RelatedPerson : ResourceIndexBase
   {
     public int Res_RelatedPersonID {get; set;}
-    public DateTimeOffset? birthdate_DateTimeOffset {get; set;}
+    public int? birthdate_Date {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
     public string patient_VersionId {get; set;}

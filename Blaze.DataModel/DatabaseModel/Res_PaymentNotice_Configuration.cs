@@ -55,7 +55,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.responsereference_Type).IsOptional();
       HasOptional(x => x.responsereference_Url);
       HasOptional<ServiceRootURL_Store>(x => x.responsereference_Url).WithMany().HasForeignKey(x => x.responsereference_ServiceRootURL_StoreID);
-      Property(x => x.statusdate_DateTimeOffset).IsOptional();
+      Property(x => x.statusdate_Date).IsOptional();
     }
   }
 }

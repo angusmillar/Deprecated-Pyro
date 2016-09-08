@@ -8,7 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Blaze.Test.IndexSetters
 {
   [TestFixture]
-  class Test_DatePeriod_IndexSetters
+  class Test_DateTimePeriod_IndexSetters
   {
     [Test]
     public void Test_Period_DatePeriodIndexSetter_GoodFormat()
@@ -19,10 +19,10 @@ namespace Blaze.Test.IndexSetters
       var HighDateTimeOffSet = new DateTimeOffset(1974, 12, 25, 11, 35, 45, new TimeSpan(-5, 00, 00));
       Period.Start = "1974-12-25T10:35:45-05:00";
       Period.End = "1974-12-25T11:35:45-05:00";
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert
       Assert.AreEqual(Index.DateTimeOffsetLow, LowDateTimeOffSet);
@@ -37,10 +37,10 @@ namespace Blaze.Test.IndexSetters
       var HighDateTimeOffSet = new DateTimeOffset(1974, 12, 25, 11, 35, 45, new TimeSpan(-5, 00, 00));
       Period.StartElement = null;
       Period.End = "1974-12-25T11:35:45-05:00";
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert
       Assert.IsNull(Index.DateTimeOffsetLow);
@@ -56,10 +56,10 @@ namespace Blaze.Test.IndexSetters
 
       Period.Start = "1974-12-25T10:35:45-05:00";
       Period.EndElement = null;
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert      
       Assert.AreEqual(Index.DateTimeOffsetLow, LowDateTimeOffSet);
@@ -76,10 +76,10 @@ namespace Blaze.Test.IndexSetters
 
       Period.StartElement = null;
       Period.EndElement = null;
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert            
       Assert.IsNull(Index);
@@ -91,10 +91,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange      
       Period Period = null;
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act      
-      ActualValueDelegate<DatePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      ActualValueDelegate<DateTimePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
@@ -110,10 +110,10 @@ namespace Blaze.Test.IndexSetters
       var HighDateTimeOffSet = new DateTimeOffset(1974, 12, 25, 11, 35, 45, new TimeSpan(-5, 00, 00));
       Period.Start = "1974-12-25TXXX10:35:45-05:00";
       Period.End = "1974-12-25T11:35:45-05:00";
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act      
-      ActualValueDelegate<DatePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      ActualValueDelegate<DateTimePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());      
@@ -128,10 +128,10 @@ namespace Blaze.Test.IndexSetters
       var HighDateTimeOffSet = new DateTimeOffset(1974, 12, 25, 11, 35, 45, new TimeSpan(-5, 00, 00));
       Period.Start = "1974-12-25T10:35:45-05:00";
       Period.End = "1974-12-25T11XXX:35:45-05:00";
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act      
-      ActualValueDelegate<DatePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex;
+      ActualValueDelegate<DateTimePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex;
      
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());
@@ -144,10 +144,10 @@ namespace Blaze.Test.IndexSetters
       var Period = new Period();
       Period.Start = "1974-12-25XXXT10:35:45-05:00";
       Period.End = "1974-12-25T11XXX:35:45-05:00";
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
-      ActualValueDelegate<DatePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Period, Index) as DatePeriodIndex; ;
+      ActualValueDelegate<DateTimePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Period, Index) as DateTimePeriodIndex; ;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());      
@@ -158,7 +158,7 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Timing = new Timing();
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       var LowDate = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00));
       var HighDate = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00));
@@ -180,7 +180,7 @@ namespace Blaze.Test.IndexSetters
 
       
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Timing, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Timing, Index) as DateTimePeriodIndex;
 
       //Assert      
       Assert.AreEqual(Index.DateTimeOffsetLow, LowDate);
@@ -192,7 +192,7 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Timing = new Timing();
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       var LowDate = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00));
       var HighDate = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00));
@@ -205,7 +205,7 @@ namespace Blaze.Test.IndexSetters
       Timing.EventElement.Add(EventStart2);
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Timing, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Timing, Index) as DateTimePeriodIndex;
 
       //Assert      
       Assert.AreEqual(Index.DateTimeOffsetLow, LowDate);
@@ -217,7 +217,7 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var Timing = new Timing();
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       Timing.EventElement = new System.Collections.Generic.List<FhirDateTime>();
   
@@ -226,7 +226,7 @@ namespace Blaze.Test.IndexSetters
       Timing.Repeat.DurationUnit = Timing.UnitsOfTime.Min;
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Timing, Index) as DatePeriodIndex;
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Timing, Index) as DateTimePeriodIndex;
 
       //Assert            
       Assert.IsNull(Index);
@@ -237,10 +237,10 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       Timing Timing = null;
-      DatePeriodIndex Index = new DatePeriodIndex();
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act      
-      ActualValueDelegate<DatePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DatePeriodIndex)).Set(Timing, Index) as DatePeriodIndex;
+      ActualValueDelegate<DateTimePeriodIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(Timing, Index) as DateTimePeriodIndex;
 
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());

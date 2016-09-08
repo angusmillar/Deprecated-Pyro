@@ -44,7 +44,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string responsereference_Type {get; set;}
     public virtual ServiceRootURL_Store responsereference_Url { get; set; }
     public int? responsereference_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? statusdate_DateTimeOffset {get; set;}
+    public int? statusdate_Date {get; set;}
     public ICollection<Res_PaymentNotice_History> Res_PaymentNotice_History_List { get; set; }
     public ICollection<Res_PaymentNotice_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_PaymentNotice_Index_profile> profile_List { get; set; }

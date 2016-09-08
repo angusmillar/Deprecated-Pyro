@@ -69,7 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseModel\Base\DatePeriodIndex.cs" />
+    <Compile Include="DatabaseModel\Base\DateIndex.cs" />
+    <Compile Include="DatabaseModel\Base\DateTimePeriodIndex.cs" />
     <Compile Include="DatabaseModel\Base\QuantityRangeIndex.cs" />
     <Compile Include="DatabaseModel\Base\ResourceIndexBase.cs" />
     <Compile Include="DatabaseModel\Base\NumberIndex.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="DatabaseModel\Base\ReferenceIndex.cs" />
     <Compile Include="DatabaseModel\Base\StringIndex.cs" />
     <Compile Include="DatabaseModel\Base\UriIndex.cs" />
-    <Compile Include="DatabaseModel\Base\DateIndex.cs" />
+    <Compile Include="DatabaseModel\Base\DateTimeIndex.cs" />
     <Compile Include="DatabaseModel\Base\ModelBase.cs" />
     <Compile Include="DatabaseModel\Base\TokenIndex.cs" />
     <Compile Include="DatabaseModel\DatabaseContext.cs">
@@ -6216,11 +6217,15 @@
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="IndexSetter\DateIndexSetter.cs" />
-    <Compile Include="IndexSetter\DatePeriodIndexSetter.cs" />
+    <Compile Include="IndexSetter\DateTimeIndexSetter.cs" />
+    <Compile Include="IndexSetter\DateTimePeriodIndexSetter.cs" />
     <Compile Include="IndexSetter\IDateIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IDatePeriodIndexSetter.cs">
+    <Compile Include="IndexSetter\IDateTimeIndexSetter.cs">
+      <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
+    </Compile>
+    <Compile Include="IndexSetter\IDateTimePeriodIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
     <Compile Include="IndexSetter\IIndexSetter.cs" />

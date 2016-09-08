@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Blaze.DataModel.DatabaseModel.Base
 {
-  public class DatePeriodIndex : ModelBase
+  public class DateTimeIndex : ModelBase
   {
-    public DateTimeOffset? DateTimeOffsetLow { get; set; }
-    public DateTimeOffset? DateTimeOffsetHigh { get; set; }
+    public DateTimeOffset DateTimeOffset { get; set; }
   }
 }

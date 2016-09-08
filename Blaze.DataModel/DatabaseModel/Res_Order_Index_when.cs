@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Order_Index_when : DatePeriodIndex
+  public class Res_Order_Index_when : DateTimePeriodIndex
   {
     public int Res_Order_Index_whenID {get; set;}
     public virtual Res_Order Res_Order { get; set; }

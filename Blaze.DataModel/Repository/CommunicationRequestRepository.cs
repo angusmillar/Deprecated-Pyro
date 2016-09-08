@@ -221,8 +221,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.RequestedOnElement is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.RequestedOnElement, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.RequestedOnElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.requested_DateTimeOffset = Index.DateTimeOffset;
@@ -314,8 +314,8 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Scheduled is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateIndex();
-          Index = IndexSetterFactory.Create(typeof(DateIndex)).Set(ResourceTyped.Scheduled, Index) as DateIndex;
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Scheduled, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.time_DateTimeOffset = Index.DateTimeOffset;

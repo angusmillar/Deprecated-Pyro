@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_Substance_Index_expiry : DateIndex
+  public class Res_Substance_Index_expiry : DateTimeIndex
   {
     public int Res_Substance_Index_expiryID {get; set;}
     public virtual Res_Substance Res_Substance { get; set; }
