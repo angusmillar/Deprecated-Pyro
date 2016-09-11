@@ -6337,6 +6337,7 @@
     <Compile Include="Repository\DataElementRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Repository\DateIndexPredicateBuilder.cs" />
     <Compile Include="Repository\DecisionSupportRuleRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
@@ -6574,6 +6575,7 @@
     <Compile Include="Repository\SpecimenRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Repository\StringIndexPredicateBuilder.cs" />
     <Compile Include="Repository\StructureDefinitionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>

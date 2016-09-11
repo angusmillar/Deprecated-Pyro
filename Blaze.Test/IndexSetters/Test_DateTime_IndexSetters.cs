@@ -11,7 +11,7 @@ namespace Blaze.Test.IndexSetters
   class Test_DateTime_IndexSetters
   {
     [Test]
-    public void Test_Date_DateIndexSetter_GoodFormat()
+    public void Test_Date_DateTimeIndexSetter_GoodFormat()
     {
       //Arrange
       var Date = new Date("1974-12-25");
@@ -25,7 +25,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Date_DateIndexSetter_GoodFormat_MonthYearOnly()
+    public void Test_Date_DateTimeIndexSetter_GoodFormat_MonthYearOnly()
     {
       //Arrange
       var Date = new Date("1974-12");
@@ -39,21 +39,22 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Date_DateIndexSetter_GoodFormat_YearOnly()
+    public void Test_Date_DateTimeIndexSetter_GoodFormat_YearOnly()
     {
       //Arrange
       var Date = new Date("1974");
       DateTimeIndex Index = new DateTimeIndex();
 
       //Act
-      IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index);
+      ActualValueDelegate<DateTimeIndex> testDelegate = () => IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(Date, Index) as DateTimeIndex;
 
       //Assert
-      Assert.AreEqual(new DateTimeOffset(1974, 01, 01, 00, 00, 00, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)), Index.DateTimeOffset);
+      Assert.That(testDelegate, Throws.TypeOf<FormatException>());    
+     
     }
 
     [Test]
-    public void Test_Date_DateIndexSetter_BadFormat()
+    public void Test_Date_DateTimeIndexSetter_BadFormat()
     {
 
       //Arrange
@@ -70,7 +71,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_FhirDateTime_DateIndexSetter_GoodFormat()
+    public void Test_FhirDateTime_DateTimeIndexSetter_GoodFormat()
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35:45-05:00");
@@ -84,7 +85,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_FhirDateTime_DateIndexSetter_BadFormat_NoTimeZone()
+    public void Test_FhirDateTime_DateTimeIndexSetter_BadFormat_NoTimeZone()
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35:45:00");
@@ -98,7 +99,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirDateTime_DateIndexSetter_BadFormat_NoSecs()
+    public void Test_FhirDateTime_DateTimeIndexSetter_BadFormat_NoSecs()
     {
       //Arrange
       var FhirDateTime = new FhirDateTime("1974-12-25T14:35-05:00");
@@ -112,7 +113,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat()
+    public void Test_FhirString_DateTimeIndexSetter_DateTime_GoodFormat()
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45-05:00");
@@ -126,7 +127,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat_With_MilliSecs()
+    public void Test_FhirString_DateTimeIndexSetter_DateTime_GoodFormat_With_MilliSecs()
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45.123-05:00");
@@ -140,7 +141,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_DateTime_GoodFormat_MonthOnly_NoTimeZone()
+    public void Test_FhirString_DateTimeIndexSetter_DateTime_GoodFormat_MonthOnly_NoTimeZone()
     {
       //Arrange
       var FhirString = new FhirString("1974-12");
@@ -154,7 +155,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_Date_GoodFormat()
+    public void Test_FhirString_DateTimeIndexSetter_Date_GoodFormat()
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25");
@@ -169,7 +170,7 @@ namespace Blaze.Test.IndexSetters
 
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_BadErrorFormat()
+    public void Test_FhirString_DateTimeIndexSetter_BadErrorFormat()
     {
       //Arrange
       var FhirString = new FhirString("1974XX-12-25T14:3554:45-05:00");
@@ -185,7 +186,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_BadFormat_NoTimeZone()
+    public void Test_FhirString_DateTimeIndexSetter_BadFormat_NoTimeZone()
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35:45");
@@ -201,7 +202,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_FhirString_DateIndexSetter_BadFormat_NoSecs()
+    public void Test_FhirString_DateTimeIndexSetter_BadFormat_NoSecs()
     {
       //Arrange
       var FhirString = new FhirString("1974-12-25T14:35-05:00");
@@ -217,7 +218,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Instant_DateIndexSetter_GoodFormat()
+    public void Test_Instant_DateTimeIndexSetter_GoodFormat()
     {
       //Arrange
       var Instant = new Instant(new DateTimeOffset(1974, 12, 25, 14, 35, 45, new TimeSpan(-05, 00, 00)));
@@ -231,7 +232,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Instant_DateIndexSetter_InstantValue_IsNull()
+    public void Test_Instant_DateTimeIndexSetter_InstantValue_IsNull()
     {
       //Arrange
       var Instant = new Instant(null);
@@ -245,7 +246,7 @@ namespace Blaze.Test.IndexSetters
     }
 
     [Test]
-    public void Test_Instant_DateIndexSetter_Instant_IsNull()
+    public void Test_Instant_DateTimeIndexSetter_Instant_IsNull()
     {
       //Arrange
       Instant Instant = null;

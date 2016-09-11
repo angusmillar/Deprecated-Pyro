@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Blaze.Common.Database;
 using System.ComponentModel;
 using Hl7.Fhir.Model;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
@@ -110,7 +110,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       TableModel.TableClassModel = new CodeGenerationDbTableClassModel();
       TableModel.TableClassModel.ClassName = ClassNameResourceHistory;
       TableModel.TableClassModel.ClassInheritanceList.Clear();
-      TableModel.TableClassModel.ClassInheritanceList.Add(DatabaseModelInfo.DatabaseModelResourceIndexBaseClassName);
+      TableModel.TableClassModel.ClassInheritanceList.Add(StaticDatabaseInfo.DatabaseModelResourceIndexBaseClassName);
       GenerateTableClassModelPropertiesForResource(TableModel.TableClassModel.PropertyList, NonCollectionParameters, CollectionParameters, ResourceName, true);
       return TableModel;
     }
@@ -130,7 +130,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       TableModel.TableClassModel = new CodeGenerationDbTableClassModel();
       TableModel.TableClassModel.ClassName = ClassNameResource;
       TableModel.TableClassModel.ClassInheritanceList.Clear();
-      TableModel.TableClassModel.ClassInheritanceList.Add(DatabaseModelInfo.DatabaseModelResourceIndexBaseClassName);
+      TableModel.TableClassModel.ClassInheritanceList.Add(StaticDatabaseInfo.DatabaseModelResourceIndexBaseClassName);
       GenerateTableClassModelPropertiesForResource(TableModel.TableClassModel.PropertyList, NonCollectionParameters, CollectionParameters, ResourceName, false);
       GenerateTableClassModelPropertyConstructorInstantiationForMainResource(TableModel.TableClassModel.PropertyConstructorInstantiationList, NonCollectionParameters, CollectionParameters, ResourceName);
 
@@ -149,7 +149,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     private CodeGenerationDbTableModel Create_ServiceRootUrlStore_Table()
     {
       //string UrlStoreTableClassName = String.Format("{0}_RootUrlStore", DatabaseModelInfo.ApplicationName);
-      string UrlStoreTableClassName = DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store;
+      string UrlStoreTableClassName = StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store;
       var TableModel = new CodeGenerationDbTableModel();
       TableModel.TableName = UrlStoreTableClassName;
       TableModel.TableCreateSyntax = GererateTableCreateSyntax(UrlStoreTableClassName, UrlStoreTableClassName);
@@ -183,11 +183,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
     private void GenerateConfigurationFluentStatmentsForMainResource(List<string> FluentPathList, string TableClassName, List<FhirApiSearchParameterInfo> NonCollectionParameters)
     {
       FluentPathList.Add(string.Format("HasKey(x => x.{0}ID).Property(x => x.{0}ID).IsRequired();", TableClassName));
-      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", DatabaseModelInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.IsDeleted));
-      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute(\"IX_{0}\") {{ IsUnique = true }}));", DatabaseModelInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.FhirId));
-      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", DatabaseModelInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.lastUpdated));
-      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", DatabaseModelInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.versionId));
-      FluentPathList.Add(string.Format("Property(x => x.XmlBlob).IsRequired();", DatabaseModelInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.XmlBlob));
+      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.IsDeleted));
+      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute(\"IX_{0}\") {{ IsUnique = true }}));", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.FhirId));
+      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.lastUpdated));
+      FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.versionId));
+      FluentPathList.Add(string.Format("Property(x => x.XmlBlob).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.XmlBlob));
       foreach (var NonCollectionItem in NonCollectionParameters)
       {
         string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
@@ -265,7 +265,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       }
 
       Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
-      foreach (string PropertyName in DatabaseModelInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
+      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
       {
         if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex)
         {
@@ -281,7 +281,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.NumberIndex)
         {
-          if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator)
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator)
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
           }
@@ -292,7 +292,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex)
         {
-          if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity && IsCollection)
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity && IsCollection)
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsRequired));
           }
@@ -307,7 +307,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.TokenIndex)
         {
-          if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code && IsCollection)
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code && IsCollection)
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsRequired));
           }
@@ -318,20 +318,20 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex)
         {
-          if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID)
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID)
           {
             FluentPathList.Add(String.Format("Has{0}<{1}>(x => x.{2}{3}).WithMany().HasForeignKey(x => x.{2}{4});",
               RequiredOrOptional,
-              DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store,
+              StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store,
               Prefix,
-              DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url,
+              StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url,
               PropertyName));
           }
-          else if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url)
+          else if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url)
           {
             FluentPathList.Add(String.Format("Has{0}(x => x.{1}{2});", RequiredOrOptional, Prefix, PropertyName));
           }
-          else if (PropertyName == DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId)
+          else if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId)
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
           }
@@ -431,70 +431,70 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       {
         case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
           {
-            Propertylist.Add(String.Format("public int{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date));
+            Propertylist.Add(String.Format("public int{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
           {
-            Propertylist.Add(String.Format("public DateTimeOffset{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimeIndexConstatnts.DateTimeOffset));
+            Propertylist.Add(String.Format("public DateTimeOffset{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimeIndexConstatnts.DateTimeOffset));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
-            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow));
-            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh));
+            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow));
+            Propertylist.Add(String.Format("public DateTimeOffset? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
           {
-            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}{2} {{get; set;}}", IsOptional, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator));
-            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number));
+            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}{2} {{get; set;}}", IsOptional, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator));
+            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
           {
-            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}{2} {{get; set;}}", IsOptional, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Comparator));
-            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code));
+            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}{2} {{get; set;}}", IsOptional, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Comparator));
+            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
-            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorLow));
-            Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemLow));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeLow));
+            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorLow));
+            Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemLow));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeLow));
 
-            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorHigh));
-            Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh));
+            Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorHigh));
+            Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
           {
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type));
-            Propertylist.Add(String.Format("public virtual {1} {0}Url {{ get; set; }}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store));
-            Propertylist.Add(String.Format("public int? {0}{1} {{ get; set; }}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type));
+            Propertylist.Add(String.Format("public virtual {1} {0}Url {{ get; set; }}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ClassNameServiceRootURL_Store));
+            Propertylist.Add(String.Format("public int? {0}{1} {{ get; set; }}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
           {
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
           {
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code));
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
           {
-            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, DatabaseModelInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri));
           }
           break;
         default:

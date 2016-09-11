@@ -59,6 +59,10 @@ namespace Blaze.Engine.Search
         case DatabaseEnum.DbIndexType.DateIndex:
           oSearchParameter = new DtoSearchParameterDate();
           break;
+        case DatabaseEnum.DbIndexType.DateTimeIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityIndex");
+        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
+          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.DatePeriodIndex");
         case DatabaseEnum.DbIndexType.NumberIndex:
           //oSearchParameter = new DtoSearchParameterNumberValue();
           oSearchParameter = new DtoSearchParameterNumber();
@@ -75,8 +79,6 @@ namespace Blaze.Engine.Search
           break;
         case DatabaseEnum.DbIndexType.UriIndex:
           throw new NotImplementedException("SearchParamType.UriDatabaseEnum.BlazeIndexType.UriIndex");
-        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.DatePeriodIndex");
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityRangeIndex");
         default:
@@ -109,12 +111,12 @@ namespace Blaze.Engine.Search
       {
         if (value.StartsWith("."))
         {
-          char[] delimiters = { '.'};
+          char[] delimiters = { '.' };
           string TypedResourceName = value.Split(delimiters)[1].Trim();
 
           Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
           //Type ResourceType = ModelInfo.GetTypeForResourceName(TypedResourceName);
-          
+
           if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
           {
             FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(TypedResourceName);

@@ -761,7 +761,11 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange     
       var Range = new Range();
+      
+      Range.Low = new SimpleQuantity();
       Range.Low.Value = 10.0M;
+
+      Range.High = new SimpleQuantity();
       Range.High.Value = 10.0M;      
 
       TokenIndex Index = new TokenIndex();

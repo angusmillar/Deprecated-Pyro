@@ -23,17 +23,33 @@ namespace Blaze.Common.BusinessEntities.Search
       this.ValueList = new List<DtoSearchParameterNumberValue>();
       double TempDouble;
       foreach (var Value in Values.Split(OrDelimiter))
-      {        
+      {
         var DtoSearchParameterNumber = new DtoSearchParameterNumberValue();
-        var Number = DtoSearchParameterNumber.ParsePrefix(Value);
-        if (Double.TryParse(Number, out TempDouble))
-        {          
-          DtoSearchParameterNumber.Value = TempDouble;
-          this.ValueList.Add(DtoSearchParameterNumber);
+        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
+        {
+          bool? IsMissing = DtoSearchParameterNumber.ParseModifierEqualToMissing(Value);
+          if (IsMissing.HasValue)
+          {
+            DtoSearchParameterNumber.IsMissing = IsMissing.Value;
+            this.ValueList.Add(DtoSearchParameterNumber);
+          }
+          else
+          {
+            return false;
+          }
         }
         else
         {
-          return false;
+          var Number = DtoSearchParameterNumber.ParsePrefix(Value);
+          if (Double.TryParse(Number, out TempDouble))
+          {
+            DtoSearchParameterNumber.Value = TempDouble;
+            this.ValueList.Add(DtoSearchParameterNumber);
+          }
+          else
+          {
+            return false;
+          }
         }
       }
       if (this.ValueList.Count == 0)
@@ -43,15 +59,15 @@ namespace Blaze.Common.BusinessEntities.Search
     }
     public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
     {
-      foreach(var Value in ValueList)
+      foreach (var Value in ValueList)
       {
         if (!Value.ValidatePreFix(DtoSupportedSearchParameters))
         {
           return false;
-        }       
+        }
       }
       return true;
     }
-    
+
   }
 }

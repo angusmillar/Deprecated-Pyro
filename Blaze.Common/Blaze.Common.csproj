@@ -62,6 +62,7 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterStringValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterToken.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterValueBase.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterWithPrefixBase.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="BusinessEntities\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
+    <Compile Include="Database\StaticDatabaseInfo.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
     <Compile Include="Enum\FhirSearchEnum.cs" />
     <Compile Include="Enum\FhirSearchEnumPartial.cs">

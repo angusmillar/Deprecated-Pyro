@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.Enum;
+using Blaze.Common.Database;
 using Hl7.Fhir.Model;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 
@@ -44,7 +45,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         {
           BuildPropertyTargetChainLogic(CollectionParameter);
           BuildIndexSetterLogic(CollectionParameter);
-          _Sb.AppendLine(String.Format("{0}{1}.{2}{3}.Add(Index);", DepthSpace(_BracketDepthCounter), _ResourceTypedName, CollectionParameter.SearchName.Replace("-", "_").ToLower(), DatabaseModelInfo.ListPostfixText));
+          _Sb.AppendLine(String.Format("{0}{1}.{2}{3}.Add(Index);", DepthSpace(_BracketDepthCounter), _ResourceTypedName, CollectionParameter.SearchName.Replace("-", "_").ToLower(), StaticDatabaseInfo.ListPostfixText));
           CloseBrackets();
           _Sb.AppendLine("");
           var debugOnlyString = _Sb.ToString();

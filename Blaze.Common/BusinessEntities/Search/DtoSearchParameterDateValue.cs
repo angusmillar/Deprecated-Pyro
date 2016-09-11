@@ -7,6 +7,6 @@ namespace Blaze.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterDateValue : DtoSearchParameterValueWithPrefix
   {
-    public DateTimeOffset Value { get; set; }
+    public int Value { get; set; }
   }
 }

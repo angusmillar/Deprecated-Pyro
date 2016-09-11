@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 using Blaze.Common.Enum;
+using Blaze.Common.Database;
 
 namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 {
@@ -67,7 +68,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         }
         var XmlBlobNonColectionIndexEntity = new NonCollectionIndexEntity();
-        XmlBlobNonColectionIndexEntity.PropertyNameList.Add(DatabaseModelInfo.XmlBlobPropertyText);
+        XmlBlobNonColectionIndexEntity.PropertyNameList.Add(StaticDatabaseInfo.XmlBlobPropertyText);
         RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(XmlBlobNonColectionIndexEntity);
 
         //Below 'if' is for debug only

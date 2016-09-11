@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Hl7.Fhir.Model;
 
 
 namespace Blaze.Common.BusinessEntities.Search
@@ -19,19 +20,43 @@ namespace Blaze.Common.BusinessEntities.Search
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<DtoSearchParameterDateValue>();
-      foreach (var Value in Values.Split(OrDelimiter))
+      foreach (string Value in Values.Split(OrDelimiter))
       {
-        DateTimeOffset DateTimeOffset;
         var DtoSearchParameterDateValue = new DtoSearchParameterDateValue();
-        var Date = DtoSearchParameterDateValue.ParsePrefix(Value);
-        if (DateTimeOffset.TryParse(Date, out DateTimeOffset))
+        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
         {
-          DtoSearchParameterDateValue.Value = DateTimeOffset;
-          ValueList.Add(DtoSearchParameterDateValue);
+          bool? IsMissing = DtoSearchParameterDateValue.ParseModifierEqualToMissing(Value);
+          if (IsMissing.HasValue)
+          {
+            DtoSearchParameterDateValue.IsMissing = IsMissing.Value;
+            ValueList.Add(DtoSearchParameterDateValue);
+          }
+          else
+          {
+            return false;
+          }
         }
         else
         {
-          return false;
+          int? DateInt = null;
+          var Date = DtoSearchParameterDateValue.ParsePrefix(Value);
+          if (Hl7.Fhir.Model.Date.IsValidValue(Date))
+          {
+            DateInt = Common.Tools.FhirDateTimeSupport.ConvertDateToInteger(new Date(Date));
+            if (DateInt.HasValue)
+            {
+              DtoSearchParameterDateValue.Value = (int)DateInt;
+              ValueList.Add(DtoSearchParameterDateValue);
+            }
+            else
+            {
+              return false;
+            }
+          }
+          else
+          {
+            return false;
+          }
         }
       }
       if (ValueList.Count > 1)
@@ -58,6 +83,6 @@ namespace Blaze.Common.BusinessEntities.Search
         }
       }
       return true;
-    }    
+    }
   }
 }

@@ -69,6 +69,10 @@ namespace Blaze.DataModel.IndexSetter
         {
           return SetQuantity(FhirElement as Quantity, StringIndex);
         }
+        else if (FhirElement is Range)
+        {
+          return SetRange(FhirElement as Range, StringIndex);
+        }
         else
         {
           throw new Exception(string.Format("FhirElement was unexpected type for TokenIndex, type was {0}", FhirElement.ToString()));

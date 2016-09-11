@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Blaze.Common.Database;
 using Hl7.Fhir.Model;
 using Blaze.CodeGenerationSupport.FhirApiIntrospection;
 
@@ -305,7 +305,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void DynamicIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType DbIndexType)
     {
-      foreach (string PropertyName in DatabaseModelInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
+      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
       {
         _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
@@ -336,20 +336,20 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
         DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
-        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type));
+        StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type));
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
         DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
-        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId));
+        StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId));
       _Sb.AppendLine(String.Format("{0}if (Index.{1} != null)",
         DepthSpace(_BracketDepthCounter),
-        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
+        StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
       _Sb.AppendLine(String.Format("{0}{{", DepthSpace(_BracketDepthCounter)));
       _BracketDepthCounter++;
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
         DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
-        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
+        StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url));
       _BracketDepthCounter--;
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));
       _Sb.AppendLine(String.Format("{0}else", DepthSpace(_BracketDepthCounter)));
@@ -358,7 +358,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),
         DatabaseModelInfo.ContructSearchParameterName(NonCollectionParameter.SearchName),
-        DatabaseModelInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
+        StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID));
 
       _BracketDepthCounter--;
       _Sb.AppendLine(String.Format("{0}}}", DepthSpace(_BracketDepthCounter)));

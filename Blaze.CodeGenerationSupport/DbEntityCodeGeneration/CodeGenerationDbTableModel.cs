@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blaze.Common.Database;
 
 namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 {
@@ -45,7 +43,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       this.PropertyConstructorInstantiationList = new List<string>();      
       this.ClassInheritanceList = new List<string>();
       if (InheritFromBaseClass)      
-        this.ClassInheritanceList.Add(DatabaseModelInfo.DatabaseModelBaseClassName);
+        this.ClassInheritanceList.Add(StaticDatabaseInfo.DatabaseModelBaseClassName);
     }
 
     /// <summary>

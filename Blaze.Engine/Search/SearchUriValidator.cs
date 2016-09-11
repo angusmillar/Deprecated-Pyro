@@ -89,6 +89,13 @@ namespace Blaze.Engine.Search
     private static bool ValidateSearchParameterSupported(DtoSupportedSearchParameters oSupported, DtoSearchParameterBase oInboundSearchParameter)
     {
       DtoUnspportedSearchParameter DtoUnspportedSearchParameter = null;
+
+      if (!oInboundSearchParameter.IsValid)
+      {
+        DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
+        DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + oInboundSearchParameter.InvalidMessage + ", ";
+      }
+
       if (oInboundSearchParameter.Modifier != FhirSearchEnum.SearchModifierType.None)
       {
         if (!oSupported.ModifierList.Contains(oInboundSearchParameter.Modifier))
@@ -111,7 +118,7 @@ namespace Blaze.Engine.Search
         {
           PreFixListString = $"({PreFixListString})";
         }
-        DtoUnspportedSearchParameter.ReasonMessage = $"The one or more of the search parameter prefixes are not supported by this server against resource type of :'{oInboundSearchParameter.Resource.ToString()}', the whole parameter given was : '{DtoUnspportedSearchParameter.RawParameter}'. The prefixes that are supported are: {PreFixListString}, ";
+        DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The one or more of the search parameter prefixes are not supported by this server against resource type of :'{oInboundSearchParameter.Resource.ToString()}', the whole parameter given was : '{DtoUnspportedSearchParameter.RawParameter}'. The prefixes that are supported are: {PreFixListString}, ";
       }
 
       if (oInboundSearchParameter.TypeModifierResource != null)

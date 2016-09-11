@@ -37,71 +37,13 @@ namespace Blaze.DataModel.Repository
         NewPredicate = LinqKit.PredicateBuilder.New<T>();
         switch (SearchItem.DbSearchParameterType)
         {
-          case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
-            {
-              
-              if (SearchItem is DtoSearchParameterDate)
-              {
-                var SearchTypeDate = SearchItem as DtoSearchParameterDate;
-                foreach (var SearchValue in SearchTypeDate.ValueList)
-                {
-                  
-                  switch (SearchTypeDate.Modifier)
-                  {
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.None:
-                      if (SearchTypeDate.IsDbCollection)
-                      {                        
-                        NewPredicate = NewPredicate.Or(Search.DateCollectionAnyStartsOrEndsWith(SearchTypeDate.DbPropertyName, SearchValue.Value));
-                      }
-                      else
-                      {
-                        DateTimeOffset Test = new DateTimeOffset(SearchValue.Value.Date, new TimeSpan(0));
-                        NewPredicate = NewPredicate.Or(Search.DatePropertyEqualTo(SearchTypeDate.DbPropertyName, Test));                        
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Missing:
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
-                      if (SearchTypeDate.IsDbCollection)
-                      {
-                        //Predicate = Predicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      else
-                      {
-                        //Predicate = Predicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
-                      if (SearchTypeDate.IsDbCollection)
-                      {
-                        //Predicate = Predicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      else
-                      {
-                        //Predicate = Predicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Text:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Type:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Below:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Above:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.In:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.NotIn:
-                      throw new FormatException($"The search modifier: {SearchTypeDate.Modifier.ToString()} is not supported for search parameter types of date.");
-                    default:
-                      throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeDate.Modifier.ToString(), (int)SearchTypeDate.Modifier, typeof(Common.Enum.FhirSearchEnum.SearchModifierType));
-                  }
-                }       
-              }
-            }
+          case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
+            throw new NotImplementedException();
+          case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:            
+            NewPredicate = DateIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-            break;
+            throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
             {
               if (SearchItem is DtoSearchParameterNumber)
@@ -114,90 +56,33 @@ namespace Blaze.DataModel.Repository
                     //ToDo: more needed here
                   }
 
-                }                
+                }
               }
             }
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
-            break;
+            throw new NotImplementedException();            
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
-            break;
+            throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
-            break;
-          case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
-            {
-              if (SearchItem is DtoSearchParameterString)
-              {
-                var SearchTypeString = SearchItem as DtoSearchParameterString;
-                foreach (var SearchValue in SearchTypeString.Values)
-                {
-                  switch (SearchTypeString.Modifier)
-                  {
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.None:
-                      if (SearchTypeString.IsDbCollection)
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      else
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringPropertyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Missing:
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
-                      if (SearchTypeString.IsDbCollection)
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      else
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
-                      if (SearchTypeString.IsDbCollection)
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      else
-                      {
-                        NewPredicate = NewPredicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue));
-                      }
-                      break;
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Text:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Type:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Below:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.Above:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.In:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    case Common.Enum.FhirSearchEnum.SearchModifierType.NotIn:
-                      throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-                    default:
-                      throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeString.Modifier.ToString(), (int)SearchTypeString.Modifier, typeof(Common.Enum.FhirSearchEnum.SearchModifierType));
-                  }
-                }                
-              }
-            }
+            throw new NotImplementedException();
+          case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:            
+            NewPredicate = StringIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);                          
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
-            break;
+            throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
-            break;
+            throw new NotImplementedException();
           default:
-            break;
-        }
-        //NewPredicate = NewPredicate.And(NewPredicate);
+            throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.DbSearchParameterType.ToString(), (int)SearchItem.DbSearchParameterType, typeof(Common.Enum.DatabaseEnum.DbIndexType));
+        }        
         MainPredicate.Extend<T>(NewPredicate, PredicateOperator.And);
       }
 
       return MainPredicate;
     }
-
+    
+    
     public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       ServiceRootURL_Store ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();

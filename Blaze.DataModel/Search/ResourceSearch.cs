@@ -12,9 +12,6 @@ namespace Blaze.DataModel.Search
 {
   public class ResourceSearch<T> where T : ResourceIndexBase
   {
-    private string CollectionPostfix = "List";
-    private string DateIndexPostfix = "DateTimeOffset";
-
     public Expression<Func<T, bool>> StringPropertyEqualTo(string Property, string Value)
     {
       //(x => x.FhirId == "a99b5c95-b546-46ee-8992-19a7ca703d4a")
@@ -74,7 +71,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.Equals("héllo UPPER")))
       var type = typeof(T);
-      string DbPropertyName = Property + "_" + CollectionPostfix;
+      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
       //Inner
       MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(String)).Single();
 
@@ -98,7 +95,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + "_" + CollectionPostfix;
+      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -122,7 +119,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + "_" + CollectionPostfix;
+      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -151,7 +148,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.Contains("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + "_" + CollectionPostfix;
+      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodContains = typeof(String).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
@@ -204,46 +201,97 @@ namespace Blaze.DataModel.Search
     }
 
 
-    public Expression<Func<T, bool>> DatePropertyEqualTo(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DatePropertyIsNotNull(string Property)
     {
-      //(x => x.birthdate_DateTimeOffset == TestDate);
+      //(x => x.birthdate_DateTimeOffset != null);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + DateIndexPostfix);
-      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DatePropertyIsNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset == null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(null);
       var BinaryExpression = Expression.Equal(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
 
 
-    public Expression<Func<T, bool>> DateCollectionAnyStartsOrEndsWith(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DatePropertyEqualTo(string Property, int Value)
     {
       //(x => x.birthdate_DateTimeOffset == TestDate);
       var type = typeof(T);
-      string DbPropertyName = Property + "_" + CollectionPostfix;
-
-      //Inner
-      MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
-      MethodInfo MethodEndsWith = typeof(String).GetMethods().Where(m => m.Name == "EndsWith" && m.GetParameters().Length == 1).Single();
-
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(StringIndex), "c");
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, "String");
-      ConstantExpression InnerValue = Expression.Constant(Value);
-
-      MethodCallExpression MethodStartsWithCall = Expression.Call(InnerProperty, MethodStartsWith, InnerValue);
-      MethodCallExpression MethodEndsWithCall = Expression.Call(InnerProperty, MethodEndsWith, InnerValue);
-
-      var OrExpression = Expression.OrElse(MethodStartsWithCall, MethodEndsWithCall);
-      Expression<Func<StringIndex, bool>> InnerFunction = Expression.Lambda<Func<StringIndex, bool>>(OrExpression, InnerParameter);
-
-      //Outer Any
-      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(StringIndex));
-
-      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
-      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
-      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
+
+    public Expression<Func<T, bool>> DatePropertyNotEqualTo(string Property, int Value)
+    {
+      //(x => x.birthdate_DateTimeOffset != TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+
+    public Expression<Func<T, bool>> DatePropertyGreaterThan(string Property, int Value)
+    {
+      //(x => x.birthdate_DateTimeOffset > TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.GreaterThan(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DatePropertyGreaterThanOrEqualTo(string Property, int Value)
+    {
+      //(x => x.birthdate_DateTimeOffset >= TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.GreaterThanOrEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+
+    public Expression<Func<T, bool>> DatePropertyLessThan(string Property, int Value)
+    {
+      //(x => x.birthdate_DateTimeOffset < TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.LessThan(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DatePropertyLessThanOrEqualTo(string Property, int Value)
+    {
+      //(x => x.birthdate_DateTimeOffset <= TestDate);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var constantReference = Expression.Constant(Value, typeof(int?));
+      var BinaryExpression = Expression.LessThanOrEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
 
 
   }
