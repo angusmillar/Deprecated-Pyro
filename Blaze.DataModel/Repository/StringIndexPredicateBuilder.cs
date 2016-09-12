@@ -13,40 +13,62 @@ namespace Blaze.DataModel.Repository
       if (SearchItem is DtoSearchParameterString)
       {
         var SearchTypeString = SearchItem as DtoSearchParameterString;
-        foreach (var SearchValue in SearchTypeString.Values)
+        foreach (var SearchValue in SearchTypeString.ValueList)
         {
           switch (SearchTypeString.Modifier)
           {
             case Common.Enum.FhirSearchEnum.SearchModifierType.None:
               if (SearchTypeString.IsDbCollection)
               {
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               else
               {
-                NewPredicate = NewPredicate.Or(Search.StringPropertyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringPropertyStartsOrEndsWith(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               break;
             case Common.Enum.FhirSearchEnum.SearchModifierType.Missing:
+              if (SearchTypeString.IsDbCollection)
+              {
+                if (SearchValue.IsMissing)
+                {
+                  NewPredicate = NewPredicate.Or(Search.StringCollectionIsNull(SearchTypeString.DbPropertyName));
+                }
+                else
+                {
+                  NewPredicate = NewPredicate.Or(Search.StringCollectionIsNotNull(SearchTypeString.DbPropertyName));
+                }
+              }
+              else
+              {
+                if (SearchValue.IsMissing)
+                {
+                  NewPredicate = NewPredicate.Or(Search.StringPropertyIsNull(SearchTypeString.DbPropertyName));
+                }
+                else
+                {
+                  NewPredicate = NewPredicate.Or(Search.StringPropertyIsNotNull(SearchTypeString.DbPropertyName));
+                }
+              }
               break;
             case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
               if (SearchTypeString.IsDbCollection)
               {
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               else
               {
-                NewPredicate = NewPredicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringPropertyEqualTo(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               break;
             case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
               if (SearchTypeString.IsDbCollection)
               {
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               else
               {
-                NewPredicate = NewPredicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue));
+                NewPredicate = NewPredicate.Or(Search.StringPropertyContains(SearchTypeString.DbPropertyName, SearchValue.Value));
               }
               break;
             case Common.Enum.FhirSearchEnum.SearchModifierType.Text:

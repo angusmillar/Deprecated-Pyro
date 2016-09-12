@@ -8,6 +8,6 @@ namespace Blaze.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterStringValue : DtoSearchParameterValueBase
   {
-
+    public string Value { get; set; }
   }
 }

@@ -98,6 +98,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.StringIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Exact.ToString());
             return ReturnList;

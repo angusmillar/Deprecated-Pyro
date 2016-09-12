@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaze.Common.Database;
 using Blaze.Common.Tools;
 using Blaze.DataModel.DatabaseModel.Base;
 using System.Linq.Expressions;
@@ -12,6 +13,29 @@ namespace Blaze.DataModel.Search
 {
   public class ResourceSearch<T> where T : ResourceIndexBase
   {
+    //---- String Index Expressions ------------------------------------------------------
+    public Expression<Func<T, bool>> StringPropertyIsNotNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset != null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> StringPropertyIsNull(string Property)
+    {      
+      //(x => x.birthdate_DateTimeOffset == null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.StringIndexConstatnts.String);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
     public Expression<Func<T, bool>> StringPropertyEqualTo(string Property, string Value)
     {
       //(x => x.FhirId == "a99b5c95-b546-46ee-8992-19a7ca703d4a")
@@ -67,11 +91,43 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(MethodContainsCall, ParameterReferance);
     }
 
+    public Expression<Func<T, bool>> StringCollectionIsNotNull(string Property)
+    {
+      //(x => x.given_List.Count > 0);
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(StringIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.GreaterThan(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> StringCollectionIsNull(string Property)
+    {
+      //(x => x.given_List.Count == 0);
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(StringIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.Equal(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
+
     public Expression<Func<T, bool>> StringCollectionAnyEqualTo(string Property, string Value)
     {
       //(x => x.family_List.Any(c => c.String.Equals("héllo UPPER")))
       var type = typeof(T);
-      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
       //Inner
       MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(String)).Single();
 
@@ -95,7 +151,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -119,7 +175,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -148,7 +204,7 @@ namespace Blaze.DataModel.Search
     {
       //(x => x.family_List.Any(c => c.String.Contains("Mill")));
       var type = typeof(T);
-      string DbPropertyName = Property + Common.Database.StaticDatabaseInfo.ListPostfixText;
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
 
       //Inner
       MethodInfo MethodContains = typeof(String).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
@@ -167,6 +223,8 @@ namespace Blaze.DataModel.Search
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
     }
+
+    //---- Token Index Expressions ------------------------------------------------------
 
     public Expression<Func<T, bool>> TokenPropertyEqualTo(string Property, Common.BusinessEntities.Search.DtoSearchParameterToken.TokenValue TokenValue)
     {
@@ -200,13 +258,13 @@ namespace Blaze.DataModel.Search
 
     }
 
-
+    //---- Date Index Expressions ------------------------------------------------------
     public Expression<Func<T, bool>> DatePropertyIsNotNull(string Property)
     {
       //(x => x.birthdate_DateTimeOffset != null);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(null);
       var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
@@ -217,19 +275,18 @@ namespace Blaze.DataModel.Search
       //(x => x.birthdate_DateTimeOffset == null);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(null);
       var BinaryExpression = Expression.Equal(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
-
 
     public Expression<Func<T, bool>> DatePropertyEqualTo(string Property, int Value)
     {
       //(x => x.birthdate_DateTimeOffset == TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.Equal(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
@@ -240,19 +297,18 @@ namespace Blaze.DataModel.Search
       //(x => x.birthdate_DateTimeOffset != TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
-
 
     public Expression<Func<T, bool>> DatePropertyGreaterThan(string Property, int Value)
     {
       //(x => x.birthdate_DateTimeOffset > TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.GreaterThan(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
@@ -263,19 +319,18 @@ namespace Blaze.DataModel.Search
       //(x => x.birthdate_DateTimeOffset >= TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.GreaterThanOrEqual(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
-
 
     public Expression<Func<T, bool>> DatePropertyLessThan(string Property, int Value)
     {
       //(x => x.birthdate_DateTimeOffset < TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.LessThan(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
@@ -286,13 +341,10 @@ namespace Blaze.DataModel.Search
       //(x => x.birthdate_DateTimeOffset <= TestDate);
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + Common.Database.StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
       var constantReference = Expression.Constant(Value, typeof(int?));
       var BinaryExpression = Expression.LessThanOrEqual(propertyReference, constantReference);
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
     }
-
-
-
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blaze.Common.Enum;
 
@@ -14,20 +15,49 @@ namespace Blaze.Common.BusinessEntities.Search
       this.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
     }
     #endregion
-    public override bool TryParseValue(string Value)
-    {
-      this.Values = Value.Split(OrDelimiter);
-      if (this.Values.Count() > 1)
-        this.HasLogicalOrProperties = true;
-      return true;
-    }
+    public List<DtoSearchParameterStringValue> ValueList { get; set; }
 
+    public override bool TryParseValue(string Values)
+    {
+      this.ValueList = new List<DtoSearchParameterStringValue>();
+      foreach (string Value in Values.Split(OrDelimiter))
+      {
+        var DtoSearchParameterStringValue = new DtoSearchParameterStringValue();
+        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
+        {
+          bool? IsMissing = DtoSearchParameterStringValue.ParseModifierEqualToMissing(Value);
+          if (IsMissing.HasValue)
+          {
+            DtoSearchParameterStringValue.IsMissing = IsMissing.Value;
+            this.ValueList.Add(DtoSearchParameterStringValue);
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          DtoSearchParameterStringValue.Value = Value.Trim();
+          this.ValueList.Add(DtoSearchParameterStringValue);
+        }
+      }
+      if (this.ValueList.Count() > 1)
+        this.HasLogicalOrProperties = true;
+      if (this.ValueList.Count > 0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
     public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
     {
       //String Search parameter types never have prefixes so always return true.
-      return true;      
+      return true;
     }
 
-    public string[] Values { get; set; }
   }
 }

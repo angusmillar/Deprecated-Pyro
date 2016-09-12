@@ -69,7 +69,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       FinalResultList.Add(UriListFinal);
 
       CustomTokenInterfaceMethodForCodeTType(TokenListFinal);
-      TypeAnalysisFullList.Add("Resource, Search Parameter Name, Search Parameter Type, DB Index Type, Logical Target Type, Path");
+      TypeAnalysisFullList.Add("Resource, Search Parameter Name, Search Parameter Type, DB Index Type, IsCollection, Logical Target Type, Path");
       foreach (var ResourceName in ResourceList)
       {
         List<FhirApiSearchParameterInfo> SearchParametersForResource = (from x in _SearchParametersList
@@ -80,7 +80,7 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
 
-          TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}, {4}, {5}", Parameter.Resource, Parameter.SearchName, Parameter.SearchParamType, DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), Parameter.TargetFhirLogicalType, Parameter.SearchPath));
+          TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}", Parameter.Resource, Parameter.SearchName, Parameter.SearchParamType, DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), Parameter.IsCollection.ToString(), Parameter.TargetFhirLogicalType, Parameter.SearchPath));
           string Key = string.Format("{0}, {1}", Parameter.SearchParamType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
           if (TypeUnquieDic.Add(Key))
           {

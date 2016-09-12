@@ -1,23 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
-using System.Data.SqlClient;
-using System.Data.Entity;
-using System.Linq.Expressions;
 using Blaze.DataModel.DatabaseModel;
-using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Blaze.DataModel.Search;
-using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Search;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.UriSupport;
-using Hl7.Fhir.Introspection;
-using LinqKit;
 
 
 namespace Blaze.DataModel.Repository
@@ -52,8 +41,8 @@ namespace Blaze.DataModel.Repository
 
       var Predicate = PredicateGenerator<Res_Patient>(DtoSearchParameters);
 
-      // DateTimeOffset TestDate = DateTimeOffset.Now;
-      //Predicate = Predicate.Or(x => x.birthdate_DateTimeOffset == TestDate);
+      //var Predicate = LinqKit.PredicateBuilder.New<Res_Patient>();
+      //Predicate = Predicate.Or(x => x.given_List.Count == 0);
 
 
 
