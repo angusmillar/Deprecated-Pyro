@@ -1,35 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blaze.Common.Tools;
 using Hl7.Fhir.Model;
 
 
 namespace Blaze.Common.BusinessEntities.Search
 {
-  public class DtoSearchParameterDate : DtoSearchParameterBase
+  public class DtoSearchParameterDateTime : DtoSearchParameterBase
   {
     #region Constructor
-    public DtoSearchParameterDate()
+    public DtoSearchParameterDateTime()
       : base()
     {
-      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.DateIndex;
+      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex;
     }
     #endregion
 
-    public List<DtoSearchParameterDateValue> ValueList { get; set; }
+    public List<DtoSearchParameterDateTimeValue> ValueList { get; set; }
 
     public override bool TryParseValue(string Values)
     {
-      this.ValueList = new List<DtoSearchParameterDateValue>();
+      this.ValueList = new List<DtoSearchParameterDateTimeValue>();
       foreach (string Value in Values.Split(OrDelimiter))
       {
-        var DtoSearchParameterDateValue = new DtoSearchParameterDateValue();
+        var DtoSearchParameterDateTimeValue = new DtoSearchParameterDateTimeValue();
         if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
         {
-          bool? IsMissing = DtoSearchParameterDateValue.ParseModifierEqualToMissing(Value);
+          bool? IsMissing = DtoSearchParameterDateTimeValue.ParseModifierEqualToMissing(Value);
           if (IsMissing.HasValue)
           {
-            DtoSearchParameterDateValue.IsMissing = IsMissing.Value;
-            ValueList.Add(DtoSearchParameterDateValue);
+            DtoSearchParameterDateTimeValue.IsMissing = IsMissing.Value;
+            ValueList.Add(DtoSearchParameterDateTimeValue);
           }
           else
           {
@@ -38,20 +39,21 @@ namespace Blaze.Common.BusinessEntities.Search
         }
         else
         {
-          int? DateInt = null;
-          var Date = DtoSearchParameterDateValue.ParsePrefix(Value);
-          if (Hl7.Fhir.Model.Date.IsValidValue(Date))
+          var DateTimeStirng = DtoSearchParameterDateTimeValue.ParsePrefix(Value);
+          FhirDateTimeSupport FhirDateTimeSupport = new FhirDateTimeSupport(DateTimeStirng.Trim());
+          if (FhirDateTimeSupport.IsValid)
           {
-            DateInt = Common.Tools.FhirTimeSupport.ConvertDateToInteger(new Date(Date));
-            if (DateInt.HasValue)
+            if (FhirDateTimeSupport.Value.HasValue)
             {
-              DtoSearchParameterDateValue.Value = (int)DateInt;
-              ValueList.Add(DtoSearchParameterDateValue);
+              DtoSearchParameterDateTimeValue.Value = FhirDateTimeSupport.Value.Value;
+              DtoSearchParameterDateTimeValue.Precision = FhirDateTimeSupport.Precision;
+              ValueList.Add(DtoSearchParameterDateTimeValue);
             }
             else
             {
               return false;
             }
+
           }
           else
           {

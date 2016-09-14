@@ -6,6 +6,7 @@ using Blaze.DataModel.DatabaseModel;
 using Blaze.DataModel.DatabaseModel.Base;
 using Blaze.DataModel.Support;
 using Blaze.DataModel.IndexSetter;
+using Blaze.DataModel.Search;
 using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Search;
 using Blaze.Common.Interfaces;
@@ -17,14 +18,31 @@ namespace Blaze.DataModel.Repository
 {
   public partial class CoverageRepository : CommonRepository, IResourceRepository
   {
-
     public CoverageRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
     {
+      var Predicate = PredicateGenerator<Res_Coverage>(DtoSearchParameters);
+      int TotalRecordCount = DbGetALLCount<Res_Coverage>(Predicate);
+      var Query = DbGetAll<Res_Coverage>(Predicate);
+
+      //Todo: Sort not implemented just defaulting to last update order
+      Query = Query.OrderBy(x => x.lastUpdated);      
+      int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      
+      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+      Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
+
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      throw new NotImplementedException("Resource Search not implemented in Db layer");
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ResourcesMatchingSearchCount = TotalRecordCount;
+      DatabaseOperationOutcome.ResourcesMatchingSearchList = DtoResourceList;
+
+
+      return DatabaseOperationOutcome;  
     }
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)

@@ -24,22 +24,22 @@ namespace Blaze.DataModel.Repository
               }
               else
               {
-                Common.Tools.FhirDateTimeSupport.DatePrecision Precision = Common.Tools.FhirDateTimeSupport.DatePrecision.Year;
+                Common.Tools.FhirTimeSupport.DatePrecision Precision = Common.Tools.FhirTimeSupport.DatePrecision.Year;
                 switch (SearchValue.Prefix)
                 {
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
-                    Precision = Common.Tools.FhirDateTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
+                    Precision = Common.Tools.FhirTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
                     NewPredicate = EqualToPredicate(Search, NewPredicate, SearchTypeDate, SearchValue, Precision);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
-                    Precision = Common.Tools.FhirDateTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
+                    Precision = Common.Tools.FhirTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
                     NewPredicate = EqualToPredicate(Search, NewPredicate, SearchTypeDate, SearchValue, Precision);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    Precision = Common.Tools.FhirDateTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
-                    if (Precision != Common.Tools.FhirDateTimeSupport.DatePrecision.Day)
+                    Precision = Common.Tools.FhirTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
+                    if (Precision != Common.Tools.FhirTimeSupport.DatePrecision.Day)
                     {
-                      var HighDate = Common.Tools.FhirDateTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
+                      var HighDate = Common.Tools.FhirTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
                       var LowExpression = Search.DatePropertyLessThan(SearchTypeDate.DbPropertyName, SearchValue.Value);
                       var HighExpression = Search.DatePropertyGreaterThan(SearchTypeDate.DbPropertyName, HighDate);
                       var HighAndLowPredicate = LinqKit.PredicateBuilder.Or<T>(LowExpression, HighExpression);
@@ -60,10 +60,10 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = NewPredicate.Or(Search.DatePropertyGreaterThanOrEqualTo(SearchTypeDate.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
-                    Precision = Common.Tools.FhirDateTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
-                    if (Precision != Common.Tools.FhirDateTimeSupport.DatePrecision.Day)
+                    Precision = Common.Tools.FhirTimeSupport.GetIntegerDatePrecision(SearchValue.Value);
+                    if (Precision != Common.Tools.FhirTimeSupport.DatePrecision.Day)
                     {
-                      var HighDate = Common.Tools.FhirDateTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
+                      var HighDate = Common.Tools.FhirTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
                       NewPredicate = NewPredicate.Or(Search.DatePropertyLessThanOrEqualTo(SearchTypeDate.DbPropertyName, HighDate));
                     }
                     else
@@ -149,11 +149,11 @@ namespace Blaze.DataModel.Repository
       return NewPredicate;
     }
 
-    private static ExpressionStarter<T> EqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDate SearchTypeDate, DtoSearchParameterDateValue SearchValue, Common.Tools.FhirDateTimeSupport.DatePrecision Precision) where T : ResourceIndexBase
+    private static ExpressionStarter<T> EqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDate SearchTypeDate, DtoSearchParameterDateValue SearchValue, Common.Tools.FhirTimeSupport.DatePrecision Precision) where T : ResourceIndexBase
     {
-      if (Precision != Common.Tools.FhirDateTimeSupport.DatePrecision.Day)
+      if (Precision != Common.Tools.FhirTimeSupport.DatePrecision.Day)
       {
-        var HighDate = Common.Tools.FhirDateTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
+        var HighDate = Common.Tools.FhirTimeSupport.AddToIntegerDate(SearchValue.Value, 1, Precision);
         var LowExpression = Search.DatePropertyGreaterThanOrEqualTo(SearchTypeDate.DbPropertyName, SearchValue.Value);
         var HighExpression = Search.DatePropertyLessThan(SearchTypeDate.DbPropertyName, HighDate);
         var HighAndLowPredicate = LinqKit.PredicateBuilder.And<T>(LowExpression, HighExpression);

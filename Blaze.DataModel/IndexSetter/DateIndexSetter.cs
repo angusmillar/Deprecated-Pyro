@@ -50,7 +50,7 @@ namespace Blaze.DataModel.IndexSetter
       //E.g: "1974-12-25"            
       if (Date.IsValidValue(Date.Value))
       {
-        int? DateAsInteger = Blaze.Common.Tools.FhirDateTimeSupport.ConvertDateToInteger(Date);
+        int? DateAsInteger = Blaze.Common.Tools.FhirTimeSupport.ConvertDateToInteger(Date);
         if (DateAsInteger.HasValue)
         {
           DateIndex.Date = DateAsInteger.Value;

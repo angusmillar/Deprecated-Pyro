@@ -1,141 +1,192 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using System.Text.RegularExpressions;
+
 
 namespace Blaze.Common.Tools
 {
-  public static class FhirDateTimeSupport
+  public class FhirDateTimeSupport
   {
-    private static int YearInteger = 10000;
-    private static int MonthInteger = 100;    
 
-    public enum DatePrecision { Year, Month, Day};
+    //private readonly static string DateAndTimeZoneDelimiter = "-";
+    //private readonly static string PlusTimeZoneDelimiter = "+";
+    //private readonly static string TimeDelimiter = "T";
+    private readonly static string MilliSecDelimiter = ".";
+    private readonly static string HourMinSecDelimiter = ":";
 
-    public static int? ConvertDateToInteger(Date Date)
+    public enum DateTimePrecision { Year, Month, Day, HourMin, Sec, MilliSec };
+    public DateTimeOffset? Value { get; set; }
+    public DateTimePrecision Precision { get; set; }
+    private bool _IsValid;
+
+    public bool IsValid
     {
-      //2001-05-06
-      int DateInt = 0;
-      if (Int32.TryParse(Date.Value.Replace("-", "").Replace(" ","").PadRight(8, '0'), out DateInt))
+      get { return _IsValid; }      
+    }
+
+    public FhirDateTimeSupport(string Value)
+    {
+      _IsValid = Parse(Value);
+    }
+
+    private bool Parse(string FhirDateTime)
+    {
+      if (string.IsNullOrWhiteSpace(FhirDateTime))
+        throw new NullReferenceException("Fhir DateTime cannot be null of empty string.");
+
+      DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
+      if (FhirDateTime.Length == 29)
       {
-        return DateInt;
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFFzzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }              
+      }
+      else if (FhirDateTime.Length == 28)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFzzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 27)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.Fzzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 25)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:sszzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Sec;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      else if (FhirDateTime.Length == 23)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFF", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == MilliSecDelimiter)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FF", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == HourMinSecDelimiter)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mmzzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.HourMin;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 21)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.F", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.MilliSec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 19)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Sec;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 16)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.HourMin;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      else if (FhirDateTime.Length == 10)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-dd", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Day;
+          this.Value = Result.Value;
+          return true;
+        }        
+      }
+      else if (FhirDateTime.Length == 7)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Month;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      else if (FhirDateTime.Length == 4)
+      {
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy", false);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Year;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      this.Value = null;
+      return false;
+    }
+
+    private DateTimeOffset? ConvertToDateTimeOffSet(string Value, string Format, bool HasTimeZone)
+    {
+      DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
+      if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
+      {        
+        return TempDateTimeOffset;
       }
       else
       {
         return null;
       }
     }
-
-    public static int? ConvertDateToInteger(DateTime Date, DatePrecision Precision)
-    {
-      int DateInt = 0;
-      switch (Precision)
-      {
-        case DatePrecision.Year:
-          if (Int32.TryParse(Date.Year.ToString().PadRight(8, '0'), out DateInt))
-          {
-            return DateInt;
-          }
-          else
-          {
-            return null;
-          }
-        case DatePrecision.Month:
-          if (Int32.TryParse((Date.Year.ToString() + Date.Month.ToString().PadLeft(2,'0')).PadRight(8,'0'), out DateInt))
-          {
-            return DateInt;
-          }
-          else
-          {
-            return null;
-          }
-        case DatePrecision.Day:
-          if (Int32.TryParse((Date.Year.ToString() + Date.Month.ToString().PadLeft(2, '0') + Date.Day.ToString().PadLeft(2, '0')), out DateInt))
-          {
-            return DateInt;
-          }
-          else
-          {
-            return null;
-          }
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(Precision.ToString(), (int)Precision, typeof(DatePrecision));
-      }
-      
-    }
-
-    public static DatePrecision GetIntegerDatePrecision(int IntegerDate)
-    {
-      //19870425
-      if ((IntegerDate % YearInteger) == 0)
-      {
-        return DatePrecision.Year;
-      }
-      else if ((IntegerDate % MonthInteger) == 0)
-      {
-        return DatePrecision.Month;
-      }
-      else if ((IntegerDate / 10000000) == 1)
-      {
-        return DatePrecision.Day;
-      }
-      else
-      {
-        throw new FormatException($"Error in date integer calculation of precision for FHIR Date. Date Integer was: {IntegerDate.ToString()}");
-      }
-    }
-
-    public static int AddToIntegerDate(int DateInteger, int AmountToAdd, DatePrecision TypeToAdd)
-    {
-      string DateString = DateInteger.ToString();
-      DateTime DateTimetemp = DateTime.MinValue;
-      //Get the current precision of the date
-      var Precision = FhirDateTimeSupport.GetIntegerDatePrecision(DateInteger);
-      //Convert the DateInteger to a DateTime Type
-      switch (Precision)
-      {
-        case DatePrecision.Year:
-          DateTimetemp = new DateTime(Convert.ToInt32(DateString.Substring(0, 4)), 1, 1);          
-          break;
-        case DatePrecision.Month:
-          DateTimetemp = new DateTime(Convert.ToInt32(DateString.Substring(0, 4)), Convert.ToInt32(DateString.Substring(4, 2)), 1);
-          break;
-        case DatePrecision.Day:
-          DateTimetemp = new DateTime(Convert.ToInt32(DateString.Substring(0, 4)), Convert.ToInt32(DateString.Substring(4, 2)), Convert.ToInt32(DateString.Substring(6, 2)));
-          break;
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(Precision.ToString(), (int)Precision, typeof(DatePrecision));
-      }
-      //Add the correct type to the dateTime
-      switch (TypeToAdd)
-      {
-        case DatePrecision.Year:
-          DateTimetemp = DateTimetemp.AddYears(AmountToAdd);
-          break;
-        case DatePrecision.Month:
-          if (Precision == DatePrecision.Year)
-            AmountToAdd = AmountToAdd - 1;
-          DateTimetemp = DateTimetemp.AddMonths(AmountToAdd);
-          break;
-        case DatePrecision.Day:
-          if (Precision != DatePrecision.Day)
-            AmountToAdd = AmountToAdd - 1;
-          DateTimetemp = DateTimetemp.AddDays(AmountToAdd);
-          break;
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(TypeToAdd.ToString(), (int)TypeToAdd, typeof(DatePrecision));
-      }
-
-      //Convert back to a DateInteger
-      int? TempInt = FhirDateTimeSupport.ConvertDateToInteger(DateTimetemp, Precision);
-      if (TempInt.HasValue)
-        return TempInt.Value;
-      else
-        throw new NullReferenceException("Error in Converting a DateTime to a integer date, it returned null.");
-    }
+    
+    
 
   }
 }

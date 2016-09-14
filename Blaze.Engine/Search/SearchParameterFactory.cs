@@ -60,7 +60,8 @@ namespace Blaze.Engine.Search
           oSearchParameter = new DtoSearchParameterDate();
           break;
         case DatabaseEnum.DbIndexType.DateTimeIndex:
-          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityIndex");
+          oSearchParameter = new DtoSearchParameterDateTime();
+          break;
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.DatePeriodIndex");
         case DatabaseEnum.DbIndexType.NumberIndex:

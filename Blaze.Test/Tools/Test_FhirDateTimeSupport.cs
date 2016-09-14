@@ -10,222 +10,224 @@ namespace Blaze.Test.IndexSetters
   class Test_FhirDateTimeSupport
   {
     [Test]
-    public void Test_FhirDateToDateIntegerYearMonthDay()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMinSecMilli_AndTimeZoneMinus()
     {
       //Arrange
-      var FhirDate = new Date("1974-12-25");
-      int Expected = 19741225;
-
+      string FhirDateTime = "1974-12-25T12:35:15.123-03:00";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, 123, new TimeSpan(-3,0,0));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.MilliSec, Result.Precision);
     }
 
     [Test]
-    public void Test_FhirDateToDateIntegerYearMonth()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMinSecMilli()
     {
       //Arrange
-      var FhirDate = new Date("1974-12");
-      int Expected = 19741200;
-
+      string FhirDateTime = "1974-12-25T12:35:15.123";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, 123, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.MilliSec, Result.Precision);
     }
 
     [Test]
-    public void Test_FhirDateToDateIntegerYear()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMinSec()
     {
       //Arrange
-      var FhirDate = new Date("1974");
-      int Expected = 19740000;
-
+      string FhirDateTime = "1974-12-25T12:35:15";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.Sec, Result.Precision);
     }
 
-
     [Test]
-    public void Test_DateTimeToDateIntegerYearMonthDay()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMinSec_TimeZone()
     {
       //Arrange
-      var FhirDate = new DateTime(1974, 12, 25);
-      int Expected = 19741225;
+      string FhirDateTime = "1974-12-25T12:35:15+02:00";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, new TimeSpan(2,0,0));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate, FhirDateTimeSupport.DatePrecision.Day);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.Sec, Result.Precision);
     }
 
     [Test]
-    public void Test_DateTimeToDateIntegerYearMonth()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMin()
     {
       //Arrange
-      var FhirDate = new DateTime(1974, 12, 1);
-      int Expected = 19741200;
+      string FhirDateTime = "1974-12-25T12:35";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate, FhirDateTimeSupport.DatePrecision.Month);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.HourMin, Result.Precision);
     }
 
     [Test]
-    public void Test_DateTimeToDateIntegerYear()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMin_TimeZone()
     {
       //Arrange
-      var FhirDate = new DateTime(1974, 1, 1);
-      int Expected = 19740000;
+      string FhirDateTime = "1974-12-25T12:35-04:00";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4,0,0));
 
       //Act
-      int? Result = FhirDateTimeSupport.ConvertDateToInteger(FhirDate, FhirDateTimeSupport.DatePrecision.Year);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
       Assert.AreEqual(Expected, Result.Value);
-    }
-
-    [Test]
-    public void Test_DatePrecision_Year()
-    {
-      //Arrange
-      int DateInt = 19740000;
-      FhirDateTimeSupport.DatePrecision Expected = FhirDateTimeSupport.DatePrecision.Year;
-
-      //Act
-      FhirDateTimeSupport.DatePrecision Result = FhirDateTimeSupport.GetIntegerDatePrecision(DateInt);
-
-      //Assert
-      Assert.AreEqual(Expected, Result);
-    }
-
-    [Test]
-    public void Test_DatePrecision_Month()
-    {
-      //Arrange
-      int DateInt = 19740900;
-      FhirDateTimeSupport.DatePrecision Expected = FhirDateTimeSupport.DatePrecision.Month;
-
-      //Act
-      FhirDateTimeSupport.DatePrecision Result = FhirDateTimeSupport.GetIntegerDatePrecision(DateInt);
-
-      //Assert
-      Assert.AreEqual(Expected, Result);
-    }
-
-    [Test]
-    public void Test_DatePrecision_Day()
-    {
-      //Arrange
-      int DateInt = 19740930;
-      FhirDateTimeSupport.DatePrecision Expected = FhirDateTimeSupport.DatePrecision.Day;
-
-      //Act
-      FhirDateTimeSupport.DatePrecision Result = FhirDateTimeSupport.GetIntegerDatePrecision(DateInt);
-
-      //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.HourMin, Result.Precision);
     }
 
 
     [Test]
-    public void Test_AddDay_To_FullDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDay()
     {
       //Arrange
-      int DateInt = 19740930;
-      int Expected = 19741001;
+      string FhirDateTime = "1974-12-25";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 1, FhirDateTimeSupport.DatePrecision.Day);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.Day, Result.Precision);
     }
 
     [Test]
-    public void Test_AddMonth_To_FullDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_Year()
     {
       //Arrange
-      int DateInt = 19740930;
-      int Expected = 19741030;
+      string FhirDateTime = "1974";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 1, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 1, FhirDateTimeSupport.DatePrecision.Month);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.Year, Result.Precision);
     }
 
     [Test]
-    public void Test_AddYear_To_FullDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_Month()
     {
       //Arrange
-      int DateInt = 19740930;
-      int Expected = 19750930;
+      string FhirDateTime = "1974-09";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 9, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 1, FhirDateTimeSupport.DatePrecision.Year);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.AreEqual(Expected, Result.Value);
+      Assert.IsTrue(Result.IsValid);
+      Assert.AreEqual(FhirDateTimeSupport.DateTimePrecision.Month, Result.Precision);
     }
 
 
     [Test]
-    public void Test_AddDay_To_MonthDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_Month_BadFormat()
     {
       //Arrange
-      int DateInt = 19740900;
-      int Expected = 19741000;
+      string FhirDateTime = "197X-09";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 9, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 31, FhirDateTimeSupport.DatePrecision.Day);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.IsFalse(Result.Value.HasValue);
+      Assert.IsFalse(Result.IsValid);
     }
 
     [Test]
-    public void Test_AddMonth_To_MonthDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_Year_BadFormat()
     {
       //Arrange
-      int DateInt = 19740900;
-      int Expected = 19750100;
+      string FhirDateTime = "1t74";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 1, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 4, FhirDateTimeSupport.DatePrecision.Month);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.IsFalse(Result.Value.HasValue);
+      Assert.IsFalse(Result.IsValid);
     }
 
     [Test]
-    public void Test_AddYear_To_MonthDateInteger()
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDay_BadFormat()
     {
       //Arrange
-      int DateInt = 19740900;
-      int Expected = 19750900;
+      string FhirDateTime = "1974-12-38";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
 
       //Act
-      int Result = FhirDateTimeSupport.AddToIntegerDate(DateInt, 1, FhirDateTimeSupport.DatePrecision.Year);
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
       //Assert
-      Assert.AreEqual(Expected, Result);
+      Assert.IsFalse(Result.Value.HasValue);
+      Assert.IsFalse(Result.IsValid);
     }
 
+    [Test]
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMin_TimeZone_BadFormat()
+    {
+      //Arrange
+      string FhirDateTime = "1974-12-25T12:35-40:00";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4, 0, 0));
 
+      //Act
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
 
+      //Assert
+      Assert.IsFalse(Result.Value.HasValue);
+      Assert.IsFalse(Result.IsValid);
+    }
+
+    [Test]
+    public void Test_FhirDateTimeTo_DateTimeOffset_YearMonthDayHourMinSecMilli_AndTimeZoneMinus_BadFormat()
+    {
+      //Arrange
+      string FhirDateTime = "1974-12-25T12:35:70.123-03:00";
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, 123, new TimeSpan(-3, 0, 0));
+
+      //Act
+      FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
+
+      //Assert
+      Assert.IsFalse(Result.Value.HasValue);
+      Assert.IsFalse(Result.IsValid);
+    }
   }
 }

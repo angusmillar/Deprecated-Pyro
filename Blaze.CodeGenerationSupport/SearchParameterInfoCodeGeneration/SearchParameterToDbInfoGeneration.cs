@@ -74,6 +74,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.DateTimeIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
@@ -183,6 +184,12 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.DateTimeIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.NotEqual.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Equal.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Greater.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Less.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:

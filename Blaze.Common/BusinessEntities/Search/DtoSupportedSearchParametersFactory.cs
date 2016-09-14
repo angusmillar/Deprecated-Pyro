@@ -186,9 +186,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "onset";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.route;
@@ -296,9 +303,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.last_date;
@@ -307,9 +321,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "last_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
@@ -499,9 +520,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
@@ -834,9 +862,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.site;
@@ -1218,9 +1253,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "activitydate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.activityreference;
@@ -1536,9 +1578,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityidentifier;
@@ -1728,9 +1777,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
@@ -1963,9 +2019,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
@@ -2089,9 +2152,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -2301,9 +2371,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "received";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.request;
@@ -2334,9 +2411,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "sent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
@@ -2482,9 +2566,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "requested";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.requester;
@@ -2537,9 +2628,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "time";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
           }
           break;
       
@@ -2608,9 +2706,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
@@ -2792,9 +2897,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -2987,9 +3099,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -3431,9 +3550,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -3679,9 +3805,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "issued";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
           }
           break;
       
@@ -3956,9 +4089,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.name;
@@ -4339,9 +4479,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
@@ -4870,9 +5017,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "event_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.event_status;
@@ -4903,9 +5057,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "item_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.item_past_status;
@@ -5172,9 +5333,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
@@ -5205,9 +5373,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "issued";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
@@ -5375,9 +5550,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -5669,9 +5851,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.custodian;
@@ -5727,9 +5916,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "indexed";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
@@ -5831,9 +6027,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.facilityidentifier;
@@ -5979,9 +6182,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
@@ -6656,9 +6866,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -6824,9 +7041,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
@@ -7008,9 +7232,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.gender;
@@ -7645,9 +7876,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "authoring_time";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
@@ -7749,9 +7987,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "authoring_time";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
@@ -7919,9 +8164,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "started";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.study;
@@ -7979,9 +8231,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "reaction_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.reason;
@@ -8056,9 +8315,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
@@ -8163,9 +8429,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.dose_number;
@@ -8377,9 +8650,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -8754,9 +9034,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -9277,9 +9564,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType._operator;
@@ -9529,9 +9823,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "effectivetime";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effectivetime;
@@ -9787,9 +10088,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "whenhandedover";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.whenprepared;
@@ -9798,9 +10106,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "whenprepared";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
           }
           break;
       
@@ -9869,9 +10184,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "datewritten";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -9995,9 +10317,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "effective";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.effective;
@@ -10248,9 +10577,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "timestamp";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
           }
           break;
       
@@ -10418,9 +10754,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.kind;
@@ -10597,9 +10940,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "datetime";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -10836,9 +11186,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
@@ -10924,9 +11281,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "value_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.value_date;
@@ -11064,9 +11428,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.instance;
@@ -11289,9 +11660,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.patient;
@@ -11415,9 +11793,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.request;
@@ -12093,9 +12478,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "death_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.deceased;
@@ -12197,9 +12589,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.organizationidentifier;
@@ -12374,9 +12773,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.disposition;
@@ -13310,9 +13716,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.date;
@@ -13896,9 +14309,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "end";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.location;
@@ -13918,9 +14338,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "start";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
           }
           break;
       
@@ -14000,9 +14427,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.publisher;
@@ -14113,9 +14547,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "authored";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -14305,9 +14746,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.parent;
@@ -14651,9 +15099,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;
@@ -15106,9 +15561,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "start";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.status;
@@ -15243,9 +15705,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "collected";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.collected;
@@ -15482,9 +15951,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.derivation;
@@ -15686,9 +16162,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -15942,9 +16425,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "expiry";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
@@ -16172,9 +16662,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.identifier;
@@ -16298,9 +16795,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.creator;
@@ -16342,9 +16846,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "modified";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.owner;
@@ -16598,9 +17109,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.description;
@@ -16755,9 +17273,16 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.DbPropertyName = "datewritten";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
-            SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+            SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
+   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
             SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
-            List.Add(SupportedSearchParameter);
+                    SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.NotEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Equal);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Greater);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.Less);
+           SupportedSearchParameter.PrefixList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual);
+   List.Add(SupportedSearchParameter);
       
             SupportedSearchParameter = new DtoSupportedSearchParameters();
             SupportedSearchParameter.Name = FhirSearchEnum.SearchParameterNameType.encounter;

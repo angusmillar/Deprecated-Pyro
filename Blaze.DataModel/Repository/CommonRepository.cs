@@ -38,7 +38,8 @@ namespace Blaze.DataModel.Repository
         switch (SearchItem.DbSearchParameterType)
         {
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
-            throw new NotImplementedException();
+            NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:            
             NewPredicate = DateIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
