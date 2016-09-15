@@ -44,7 +44,8 @@ namespace Blaze.DataModel.Repository
             NewPredicate = DateIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-            throw new NotImplementedException();
+            NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
             {
               if (SearchItem is DtoSearchParameterNumber)

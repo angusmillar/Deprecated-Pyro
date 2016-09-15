@@ -6338,6 +6338,7 @@
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="Repository\DateIndexPredicateBuilder.cs" />
+    <Compile Include="Repository\DateTimePeriodPredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePredicateBuilder.cs" />
     <Compile Include="Repository\DecisionSupportRuleRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>

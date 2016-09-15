@@ -479,7 +479,7 @@ namespace Blaze.DataModel.Search
 
       ParameterExpression InnerParameter = Expression.Parameter(typeof(DateTimeIndex), "c");
       MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimeIndexConstatnts.DateTimeOffset);
-      ConstantExpression InnerValue = Expression.Constant(Value);      
+      ConstantExpression InnerValue = Expression.Constant(Value);
       MethodCallExpression MethodEqualsCall = Expression.Call(InnerProperty, MethodEquals, InnerValue);
       Expression<Func<DateTimeIndex, bool>> InnerFunction = Expression.Lambda<Func<DateTimeIndex, bool>>(MethodEqualsCall, InnerParameter);
 
@@ -597,6 +597,104 @@ namespace Blaze.DataModel.Search
       MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
       return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
+
+    //---- DateTimePeriod Index Expressions ------------------------------------------------------
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyIsNotNull(string Property)
+    {
+      //(x => x. date_DateTimeOffsetLow != null && date_DateTimeOffsetHigh != null );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpressionLow = Expression.NotEqual(propertyReferenceLow, constantReference);
+      var BinaryExpressionHigh = Expression.NotEqual(propertyReferenceLow, constantReference);
+      var BinaryExpressionAnd = Expression.And(BinaryExpressionLow, BinaryExpressionHigh);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyIsNull(string Property)
+    {
+      //(x => x. date_DateTimeOffsetLow == null && date_DateTimeOffsetHigh == null );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpressionLow = Expression.Equal(propertyReferenceLow, constantReference);
+      var BinaryExpressionHigh = Expression.Equal(propertyReferenceLow, constantReference);
+      var BinaryExpressionAnd = Expression.And(BinaryExpressionLow, BinaryExpressionHigh);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyEqualTo(string Property, DateTimeOffset Value)
+    {
+      //(x => x. date_DateTimeOffsetLow <= Value && date_DateTimeOffsetHigh >= Value );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
+      var BinaryExpressionLow = Expression.LessThanOrEqual(propertyReferenceLow, constantReference);
+      var BinaryExpressionHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, constantReference);
+      var BinaryExpressionAnd = Expression.And(BinaryExpressionLow, BinaryExpressionHigh);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyNotEqualTo(string Property, DateTimeOffset Value)
+    {
+      //(x => x. date_DateTimeOffsetLow > Value || date_DateTimeOffsetHigh < Value );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
+      var BinaryExpressionLow = Expression.GreaterThan(propertyReferenceLow, constantReference);
+      var BinaryExpressionHigh = Expression.LessThan(propertyReferenceHigh, constantReference);
+      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThan(string Property, DateTimeOffset Value)
+    {
+      //(x => x.date_DateTimeOffsetHigh < Value || x.date_DateTimeOffsetHigh == null && x.date_DateTimeOffsetLow > Value  );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReferenceValue = Expression.Constant(Value, typeof(DateTimeOffset?));
+      //var constantReferenceNull = Expression.Constant(null);
+
+      //var BinaryExpressionNotNull = Expression.NotEqual(propertyReferenceHigh, constantReferenceNull);
+      var BinaryExpressionLow = Expression.GreaterThan(propertyReferenceLow, constantReferenceValue);
+      var BinaryExpressionHigh = Expression.GreaterThan(propertyReferenceHigh, constantReferenceValue);
+
+      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThanOrEqualTo(string Property, DateTimeOffset Value)
+    {
+      //(x => x.date_DateTimeOffsetLow >= Value || x.date_DateTimeOffsetHigh >= Value  );
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+      var constantReferenceValue = Expression.Constant(Value, typeof(DateTimeOffset?));
+
+      var BinaryExpressionLow = Expression.GreaterThanOrEqual(propertyReferenceLow, constantReferenceValue);
+      var BinaryExpressionHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, constantReferenceValue);
+
+
+      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
     }
   }
 }
