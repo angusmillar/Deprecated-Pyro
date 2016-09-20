@@ -79,9 +79,13 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(SearchParametersForResource);
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
-
+          if (Parameter.Resource == "DiagnosticReport" && Parameter.SearchName == "date")
+          {
+            //debug only
+          }
           TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}", Parameter.Resource, Parameter.SearchName, Parameter.SearchParamType, DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), Parameter.IsCollection.ToString(), Parameter.TargetFhirLogicalType, Parameter.SearchPath));
-          string Key = string.Format("{0}, {1}", Parameter.SearchParamType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
+          //string Key = string.Format("{0}, {1}", Parameter.DbIndexType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
+          string Key = string.Format("{0}, {1}", DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
           if (TypeUnquieDic.Add(Key))
           {
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
@@ -131,9 +135,11 @@ namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
       }
 
       //Debug file output
-      //----------------------------------------------------------------------------------------------
-      //System.IO.File.AppendAllLines(@"C:\temp\BlaseDebugTypeUnquieInfo.csv", TypeUnquieDic);
-      System.IO.File.AppendAllLines(@"C:\temp\BlaseDebugTypeFullInfo.csv", TypeAnalysisFullList);
+      //----------------------------------------------------------------------------------------------      
+      string FilePath = @"C:\temp\BlaseDebugTypeFullInfo.csv";
+      if (System.IO.File.Exists(FilePath))
+        System.IO.File.Delete(FilePath);
+      System.IO.File.AppendAllLines(FilePath, TypeAnalysisFullList);
       //----------------------------------------------------------------------------------------------
 
 

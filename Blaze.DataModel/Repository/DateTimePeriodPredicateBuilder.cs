@@ -23,7 +23,7 @@ namespace Blaze.DataModel.Repository
                 switch (SearchValue.Prefix)
                 {
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
-                    //NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeDateTime, SearchValue);
+                    NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeDateTime, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
                     //NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeDateTime, SearchValue);
@@ -74,31 +74,16 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = PropertyNotEqualToPredicate(Search, NewPredicate, SearchTypeDateTime, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThan(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThan(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
-                    // NewPredicate = NewPredicate.Or(Search.DateTimePropertyLessThan(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyLessThan(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    if (SearchValue.Precision != Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-                    {
-                      NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThanOrEqualTo(SearchTypeDateTime.DbPropertyName, CalculateHighDateTimeForRange(SearchValue)));
-                      NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-                    }
-                    else
-                    {
-                      NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-                    }                    
+                    NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
-                    if (SearchValue.Precision != Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-                    {
-                      //NewPredicate = NewPredicate.Or(Search.DateTimePropertyLessThanOrEqualTo(SearchTypeDateTime.DbPropertyName, CalculateHighDateTimeForRange(SearchValue)));
-                    }
-                    else
-                    {
-                      // NewPredicate = NewPredicate.Or(Search.DateTimePropertyLessThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-                    }
+                    NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyLessThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
                     throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
@@ -119,11 +104,11 @@ namespace Blaze.DataModel.Repository
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
                     if (SearchValue.IsMissing)
                     {
-                      // NewPredicate = NewPredicate.Or(Search.DateTimeCollectionIsNull(SearchTypeDateTime.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionIsNull(SearchTypeDateTime.DbPropertyName));
                     }
                     else
                     {
-                      //NewPredicate = NewPredicate.Or(Search.DateTimeCollectionIsNotNull(SearchTypeDateTime.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionIsNotNull(SearchTypeDateTime.DbPropertyName));
                     }
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
@@ -210,23 +195,13 @@ namespace Blaze.DataModel.Repository
       return NewPredicate;
     }
 
-    //private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  if (SearchValue.Precision != Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-    //  {
-    //    DateTimeOffset HighDateTime = CalculateHighDateTimeForRange(SearchValue);
-    //    var LowExpression = Search.DateTimeCollectionGreaterThanOrEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value);
-    //    var HighExpression = Search.DateTimeCollectionLessThan(SearchTypeDateTime.DbPropertyName, HighDateTime);
-    //    var HighAndLowPredicate = LinqKit.PredicateBuilder.And<T>(LowExpression, HighExpression);
-    //    NewPredicate = NewPredicate.Or(HighAndLowPredicate);
-    //    return NewPredicate;
-    //  }
-    //  else
-    //  {
-    //    NewPredicate = NewPredicate.Or(Search.DateTimeCollectionAnyEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-    //    return NewPredicate;
-    //  }
-    //}
+    private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
+    {
+      var Expression = Search.DateTimePeriodCollectionAnyEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
+
+    }
 
     //private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
     //{
@@ -248,38 +223,16 @@ namespace Blaze.DataModel.Repository
 
     private static ExpressionStarter<T> PropertyEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
     {
-      if (SearchValue.Precision != Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-      {
-        DateTimeOffset HighDateTime = CalculateHighDateTimeForRange(SearchValue);
-        var LowExpression = Search.DateTimePeriodPropertyEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value);
-        var HighExpression = Search.DateTimePeriodPropertyEqualTo(SearchTypeDateTime.DbPropertyName, HighDateTime);
-        var HighOrLowPredicate = LinqKit.PredicateBuilder.Or(LowExpression, HighExpression);
-        NewPredicate = NewPredicate.Or(HighOrLowPredicate);
-        return NewPredicate;
-      }
-      else
-      {
-        NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-        return NewPredicate;
-      }
+      var Expression = Search.DateTimePeriodPropertyEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
     }
 
     private static ExpressionStarter<T> PropertyNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
     {
-      if (SearchValue.Precision != Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-      {
-        DateTimeOffset HighDateTime = CalculateHighDateTimeForRange(SearchValue);
-        var LowExpression = Search.DateTimePeriodPropertyNotEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value);
-        var HighExpression = Search.DateTimePeriodPropertyNotEqualTo(SearchTypeDateTime.DbPropertyName, HighDateTime);
-        var HighAndLowPredicate = PredicateBuilder.And(LowExpression, HighExpression);
-        NewPredicate = NewPredicate.Or(HighAndLowPredicate);
-        return NewPredicate;
-      }
-      else
-      {
-        NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyNotEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value));
-        return NewPredicate;
-      }
+      var Expression = Search.DateTimePeriodPropertyNotEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
     }
 
     private static DateTimeOffset CalculateHighDateTimeForRange(DtoSearchParameterDateTimeValue SearchValue)
@@ -307,11 +260,7 @@ namespace Blaze.DataModel.Repository
       }
       else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
       {
-        //Can not set for milliseconds dues to equal being a >= and <. We can't take or add more or less than a single
-        //millisecond so we always just return the same value for High as the low. Then due to the equal being a >= and < 
-        //operation it will always return false.
-        //So if the search is at a millisecond precision then we must just do a straight comparison and not a range comparison, i.e (value == index) .
-        throw new Exception("Can not calculate high dateTime value with a precision of milliseconds for index search range equality.");
+        HighDateTime = SearchValue.Value;
       }
       else
       {

@@ -632,69 +632,653 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
     }
 
-    public Expression<Func<T, bool>> DateTimePeriodPropertyEqualTo(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DateTimePeriodPropertyEqualTo(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      //(x => x. date_DateTimeOffsetLow <= Value && date_DateTimeOffsetHigh >= Value );
-      var type = typeof(T);
-      var ParameterReferance = Expression.Parameter(type, "x");
-      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
-      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
-      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
-      var BinaryExpressionLow = Expression.LessThanOrEqual(propertyReferenceLow, constantReference);
-      var BinaryExpressionHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, constantReference);
-      var BinaryExpressionAnd = Expression.And(BinaryExpressionLow, BinaryExpressionHigh);
-      return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+      MemberExpression propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+
+      //Build Inner Expression
+      Expression BinaryExpression_Final = DateTimePeriodEqualToExpression(Property, propertyReferenceLow, SearchValueLow, propertyReferenceHigh, SearchValueHigh);
+      
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
 
-    public Expression<Func<T, bool>> DateTimePeriodPropertyNotEqualTo(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DateTimePeriodPropertyNotEqualTo(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
       //(x => x. date_DateTimeOffsetLow > Value || date_DateTimeOffsetHigh < Value );
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
+
       var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
       var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
-      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset?));
-      var BinaryExpressionLow = Expression.GreaterThan(propertyReferenceLow, constantReference);
-      var BinaryExpressionHigh = Expression.LessThan(propertyReferenceHigh, constantReference);
-      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
-      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
+
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsHigherThan_SearchHigh);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsHigherThan_SearchHigh);
+
+      //BinaryExpression_C
+      //(x.date_DateTimeOffsetLow > ValueHigh || x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_C = Expression.Or(BinaryExpression_ResourceLow_IsHigherThan_SearchHigh, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
+
+      //BinaryExpression_D
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_D = Expression.Add(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsNull);
+
+
+      //(BinaryExpression_A Or BinaryExpression_B) 
+      var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
+      var BinaryExpression_BB = Expression.Or(BinaryExpression_C, BinaryExpression_D);
+
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_BB);
+
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
 
-    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThan(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThan(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      //(x => x.date_DateTimeOffsetHigh < Value || x.date_DateTimeOffsetHigh == null && x.date_DateTimeOffsetLow > Value  );
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
+
       var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
       var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
-      var constantReferenceValue = Expression.Constant(Value, typeof(DateTimeOffset?));
-      //var constantReferenceNull = Expression.Constant(null);
 
-      //var BinaryExpressionNotNull = Expression.NotEqual(propertyReferenceHigh, constantReferenceNull);
-      var BinaryExpressionLow = Expression.GreaterThan(propertyReferenceLow, constantReferenceValue);
-      var BinaryExpressionHigh = Expression.GreaterThan(propertyReferenceHigh, constantReferenceValue);
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
 
-      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
 
-      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh > ValueHigh)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsNotNull);
+
+      //BinaryExpression_C
+      //(x.date_DateTimeOffsetHigh > ValueHigh)
+
+      //(BinaryExpression_A Or BinaryExpression_B) 
+      var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
 
-    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThanOrEqualTo(string Property, DateTimeOffset Value)
+    public Expression<Func<T, bool>> DateTimePeriodPropertyGreaterThanOrEqualTo(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      //(x => x.date_DateTimeOffsetLow >= Value || x.date_DateTimeOffsetHigh >= Value  );
       var type = typeof(T);
       var ParameterReferance = Expression.Parameter(type, "x");
+
       var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
       var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
-      var constantReferenceValue = Expression.Constant(Value, typeof(DateTimeOffset?));
 
-      var BinaryExpressionLow = Expression.GreaterThanOrEqual(propertyReferenceLow, constantReferenceValue);
-      var BinaryExpressionHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, constantReferenceValue);
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
 
 
-      var BinaryExpressionOr = Expression.Or(BinaryExpressionLow, BinaryExpressionHigh);
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
 
-      return Expression.Lambda<Func<T, bool>>(BinaryExpressionOr, new[] { ParameterReferance });
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsNotNull);
+
+      //BinaryExpression_C
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+
+
+      //(BinaryExpression_A Or BinaryExpression_B) 
+      var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyLessThan(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    {
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
+
+
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsNotNull);
+
+
+      //(BinaryExpression_A Or BinaryExpression_B) 
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_A, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodPropertyLessThanOrEqualTo(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    {
+
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+
+      var propertyReferenceLow = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      var propertyReferenceHigh = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
+
+
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh);
+
+      //BinaryExpression_C
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+
+
+      //(BinaryExpression_A Or BinaryExpression_B) 
+      var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+
+    public Expression<Func<T, bool>> DateTimePeriodCollectionIsNotNull(string Property)
+    {
+      //(x => x.date_List.Count > 0);
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(DateTimeIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.GreaterThan(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodCollectionIsNull(string Property)
+    {
+      //(x => x.date_List.Count == 0);
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(DateTimeIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.Equal(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> DateTimePeriodCollectionAnyEqualTo(string Property, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(DateTimePeriodIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(DateTimePeriodIndex), "c");
+      MemberExpression propertyReferenceLow = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateTimePeriodIndexConstatnts.DateTimeOffsetHigh);
+
+      //Build Inner Expression
+      Expression E_InnerExpression = DateTimePeriodEqualToExpression(Property, propertyReferenceLow, SearchValueLow, propertyReferenceHigh, SearchValueHigh);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<DateTimePeriodIndex, bool>> InnerFunction = Expression.Lambda<Func<DateTimePeriodIndex, bool>>(E_InnerExpression, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
+
+
+    private static Expression DateTimePeriodEqualToExpression(
+      string Property, 
+      MemberExpression propertyReferenceLow,
+      DateTimeOffset SearchValueLow,
+      MemberExpression propertyReferenceHigh,
+      DateTimeOffset SearchValueHigh)
+    {
+      
+      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.date_DateTimeOffsetLow == Null)
+      var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow != Null)
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetHigh != Null)
+      var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
+
+      //(x.date_DateTimeOffsetLow <= ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow < ValueLow)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow >= ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow > ValueLow)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow < ValueHigh)
+      var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow >= ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetLow > ValueHigh)
+      var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh < ValueHigh)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh >= ValueHigh)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
+
+      //(x.date_DateTimeOffsetHigh <= ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
+
+      //(x.date_DateTimeOffsetHigh > ValueLow)
+      var BinaryExpression_ResourceHigh_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceLow);
+
+
+
+
+      //BinaryExpression_A
+      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow <= ValueHigh)
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh);
+
+      //BinaryExpression_B
+      //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow);
+
+      //BinaryExpression_C
+      //(x.date_DateTimeOffsetLow >= ValueLow && x.date_DateTimeOffsetLow <= ValueHigh )
+      var BinaryExpression_C = Expression.And(BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow, BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh);
+
+      //BinaryExpression_D
+      //(x.date_DateTimeOffsetHigh >= ValueLow && x.date_DateTimeOffsetHigh <= ValueHigh )
+      var BinaryExpression_D = Expression.And(BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow, BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh);
+
+
+      //(BinaryExpression_A Or BinaryExpression_B) Or (BinaryExpression_C Or BinaryExpression_D)
+      var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
+      var BinaryExpression_BB = Expression.Or(BinaryExpression_C, BinaryExpression_D);
+
+
+
+
+      Expression BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_BB);
+      return BinaryExpression_Final;
+    }
+
+
   }
+
 }

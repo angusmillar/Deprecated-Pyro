@@ -13,7 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_DiagnosticReport : ResourceIndexBase
   {
     public int Res_DiagnosticReportID {get; set;}
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string encounter_VersionId {get; set;}

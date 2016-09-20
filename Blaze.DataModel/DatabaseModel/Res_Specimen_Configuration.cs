@@ -26,7 +26,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.accession_Code).IsOptional();
       Property(x => x.accession_System).IsOptional();
-      Property(x => x.collected_DateTimeOffset).IsOptional();
       Property(x => x.collected_DateTimeOffsetLow).IsOptional();
       Property(x => x.collected_DateTimeOffsetHigh).IsOptional();
       Property(x => x.collector_VersionId).IsOptional();

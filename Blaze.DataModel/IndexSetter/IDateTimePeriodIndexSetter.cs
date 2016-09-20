@@ -7,6 +7,8 @@ namespace Blaze.DataModel.IndexSetter
   {
     DateTimePeriodIndex SetPeriod(Period Period, DateTimePeriodIndex DateTimePeriodIndex);
     DateTimePeriodIndex SetTiming(Timing Timing, DateTimePeriodIndex DateTimePeriodIndex);
+    DateTimePeriodIndex SetFhirString(FhirString FhirString, DateTimePeriodIndex DateTimePeriodIndex);
+    DateTimePeriodIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateTimePeriodIndex DateTimePeriodIndex);
       
   }
 }

@@ -147,7 +147,8 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.accession_Code = null;      
       ResourceEntity.accession_System = null;      
-      ResourceEntity.collected_DateTimeOffset = null;      
+      ResourceEntity.collected_DateTimeOffsetLow = null;      
+      ResourceEntity.collected_DateTimeOffsetHigh = null;      
       ResourceEntity.collected_DateTimeOffsetLow = null;      
       ResourceEntity.collected_DateTimeOffsetHigh = null;      
       ResourceEntity.collector_VersionId = null;      
@@ -204,11 +205,12 @@ namespace Blaze.DataModel.Repository
         {
           if (ResourceTyped.Collection.Collected is Hl7.Fhir.Model.FhirDateTime)
           {
-            var Index = new DateTimeIndex();
-            Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Collection.Collected, Index) as DateTimeIndex;
+            var Index = new DateTimePeriodIndex();
+            Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Collection.Collected, Index) as DateTimePeriodIndex;
             if (Index != null)
             {
-              ResourseEntity.collected_DateTimeOffset = Index.DateTimeOffset;
+              ResourseEntity.collected_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+              ResourseEntity.collected_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
             }
           }
         }

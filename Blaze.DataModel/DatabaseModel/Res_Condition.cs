@@ -26,7 +26,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string encounter_Type {get; set;}
     public virtual ServiceRootURL_Store encounter_Url { get; set; }
     public int? encounter_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? onset_DateTimeOffset {get; set;}
     public DateTimeOffset? onset_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? onset_DateTimeOffsetHigh {get; set;}
     public string onset_info_String {get; set;}

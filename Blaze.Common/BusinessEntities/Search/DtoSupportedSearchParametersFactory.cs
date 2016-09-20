@@ -1272,7 +1272,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitydate";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -5373,7 +5373,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -9905,7 +9905,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effectivetime";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -10406,7 +10406,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effective";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -11289,7 +11289,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -11391,7 +11391,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "value_date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -13840,7 +13840,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
@@ -15843,7 +15843,7 @@ namespace Blaze.Common.BusinessEntities.Search
             SupportedSearchParameter.Resource = ResourceType;
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "collected";
-            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();

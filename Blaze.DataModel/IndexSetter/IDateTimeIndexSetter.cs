@@ -7,7 +7,6 @@ namespace Blaze.DataModel.IndexSetter
   {
     DateTimeIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateTimeIndex DateTimeIndex);
     DateTimeIndex SetInstant(Instant Instant, DateTimeIndex DateTimeIndex);
-    DateTimeIndex SetFhirString(FhirString FhirString, DateTimeIndex DateTimeIndex);
       
   }
 }

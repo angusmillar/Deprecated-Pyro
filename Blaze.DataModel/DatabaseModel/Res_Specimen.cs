@@ -15,7 +15,6 @@ namespace Blaze.DataModel.DatabaseModel
     public int Res_SpecimenID {get; set;}
     public string accession_Code {get; set;}
     public string accession_System {get; set;}
-    public DateTimeOffset? collected_DateTimeOffset {get; set;}
     public DateTimeOffset? collected_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? collected_DateTimeOffsetHigh {get; set;}
     public string collector_VersionId {get; set;}

@@ -73,6 +73,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       string ElementString = string.Empty;
       Type TargetChoiceDataTypeTest = NonCollectionParameter.TargetFhirChoiceType;
       Type Test = NonCollectionParameter.TargetFhirLogicalType;
+
       Type CurrentTargetDataType = NonCollectionParameter.SearchParameterNavigationPathList[NonCollectionParameter.SearchParameterNavigationPathList.Count - 1].DataType;
       if (Test != CurrentTargetDataType)
       {
@@ -87,7 +88,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
            CurrentTargetDataType == typeof(PositiveInt)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if (CurrentTargetDataType == typeof(Coding) ||
                CurrentTargetDataType == typeof(Identifier) ||
@@ -99,24 +100,24 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
         }
         StandardIndexStetter(NonCollectionParameter);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
-      else if ((CurrentTargetDataType == typeof(FhirDateTime) ||                
+      else if ((CurrentTargetDataType == typeof(FhirDateTime) ||
                 CurrentTargetDataType == typeof(Instant)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if (CurrentTargetDataType == typeof(Date))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
 
       else if ((CurrentTargetDataType == typeof(Period)))
       {
         StandardIndexStetter(NonCollectionParameter);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(ResourceReference)))
       {
@@ -125,12 +126,12 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if ((CurrentTargetDataType == typeof(Integer)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.NumberIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(Duration)))
       {
         StandardIndexStetter(NonCollectionParameter);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.NumberIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(FhirUri) ||
                 CurrentTargetDataType == typeof(Oid)))
@@ -142,7 +143,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         else if (NonCollectionParameter.SearchParamType == SearchParamType.Uri)
         {
           StandardIndexStetter(NonCollectionParameter, ElementString);
-          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.UriIndex);
+          DynamicIndexStetter(NonCollectionParameter);
         }
         else
         {
@@ -153,18 +154,18 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
                CurrentTargetDataType == typeof(Quantity))
       {
         StandardIndexStetter(NonCollectionParameter);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(FhirString)))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
         if (NonCollectionParameter.SearchParamType == SearchParamType.Token)
         {
-          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+          DynamicIndexStetter(NonCollectionParameter);
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.String)
         {
-          DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.StringIndex);
+          DynamicIndexStetter(NonCollectionParameter);
         }
         else
         {
@@ -174,7 +175,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       else if (GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen.IsSubclassOfRawGeneric(typeof(Code<>), CurrentTargetDataType))
       {
         StandardIndexStetter(NonCollectionParameter, ElementString);
-        DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+        DynamicIndexStetter(NonCollectionParameter);
       }
       else if ((CurrentTargetDataType == typeof(Element)))
       {
@@ -186,22 +187,22 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(Identifier))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else if (TargetChoiceDataType == typeof(FhirBoolean))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else if (TargetChoiceDataType == typeof(Identifier))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else if (TargetChoiceDataType == typeof(FhirDateTime))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.TokenIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else
           {
@@ -228,18 +229,18 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(FhirDateTime))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else if (TargetChoiceDataType == typeof(Period))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else if (TargetChoiceDataType == typeof(Date) ||
                    TargetChoiceDataType == typeof(Age))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.DateIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else
           {
@@ -251,7 +252,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(Quantity))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else
           {
@@ -263,7 +264,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           if (TargetChoiceDataType == typeof(FhirString))
           {
             StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType.StringIndex);
+            DynamicIndexStetter(NonCollectionParameter);
           }
           else
           {
@@ -303,9 +304,9 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
       _BracketDepthCounter++;
     }
 
-    private static void DynamicIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter, Common.Enum.DatabaseEnum.DbIndexType DbIndexType)
+    private static void DynamicIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
-      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
+      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionParameter.DbIndexType])
       {
         _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),

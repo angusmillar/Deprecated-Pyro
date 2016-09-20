@@ -13,7 +13,7 @@ using Hl7.Fhir.Model;
 namespace Blaze.CodeGenerationSupport
 {
   public static class DatabaseModelInfo
-  { 
+  {
     /// <summary>
     /// Construct the class name string for the Resource Entity classes (e.g Res_Patient)
     /// </summary>
@@ -85,10 +85,7 @@ namespace Blaze.CodeGenerationSupport
       {
         FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
       }
-
-      var DatabaseIndexType = DatabaseModelInfo.GetServerSearchIndexType(NonCollectionItem);
-
-      foreach (string PropertyConstant in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DatabaseIndexType])
+      foreach (string PropertyConstant in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionItem.DbIndexType])
       {
         Propertylist.Add(String.Format("{0}{1}", FormatedPrefix, PropertyConstant));
       }
@@ -96,7 +93,7 @@ namespace Blaze.CodeGenerationSupport
 
     public static string GetServerSearchIndexTypeString(FhirApiSearchParameterInfo SearchParameter)
     {
-      return DatabaseEnum.DbIndexTypeToStringDictonary[GetServerSearchIndexType(SearchParameter)];      
+      return DatabaseEnum.DbIndexTypeToStringDictonary[SearchParameter.DbIndexType];
     }
 
     public static DatabaseEnum.DbIndexType GetServerSearchIndexType(FhirApiSearchParameterInfo SearchParameter)
@@ -142,7 +139,7 @@ namespace Blaze.CodeGenerationSupport
           throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.SearchParamType.ToString(), (int)SearchParameter.SearchParamType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-    
+
     public static string GenerateIndexSetter(string Item, string DbIndexType, string ReturnType, bool IsReferanceType = false)
     {
       if (IsReferanceType)
@@ -210,6 +207,43 @@ namespace Blaze.CodeGenerationSupport
       else
         return text;
 
+    }
+
+    /// <summary>
+    /// This is to fix the issue where you have the same search parameter name being equal to many logical types of date variant
+    /// For instance the Specimen Resource has a search parameter 'collected' which can be a DateTime or a Period. In this
+    /// case we want the search index to be of type DateTimePeriod where the high and low will both be equal to the single DateTime value.
+    /// This way the search logic does not need to look in two places, two different search indexes for the one search parameter.    
+    /// </summary>
+    /// <param name="SearchParameterList"></param>
+    internal static void SetServerSearchIndexType(List<FhirApiSearchParameterInfo> SearchParameterList)
+    {
+      var ResourceList = ModelInfo.SupportedResources;
+
+      foreach (string ResourceName in ResourceList)
+      {
+        List<FhirApiSearchParameterInfo> ResourceSearchParameterList = (from x in SearchParameterList
+                                                                        where x.Resource == ResourceName
+                                                                        select x).ToList();
+        foreach (var SearchItem in ResourceSearchParameterList)
+        {
+          DatabaseEnum.DbIndexType TempDbIndexType = DatabaseModelInfo.GetServerSearchIndexType(SearchItem);
+
+          if (SearchItem.SearchParamType == SearchParamType.Date)
+          {
+            List<FhirApiSearchParameterInfo> SameSearchNamesList = (from x in ResourceSearchParameterList
+                                                                    where x.SearchName == SearchItem.SearchName
+                                                                    select x).ToList();
+            if (SameSearchNamesList.Count > 1 &&
+              SameSearchNamesList.Exists(x => x.TargetFhirLogicalType == typeof(Period) &&
+              TempDbIndexType == DatabaseEnum.DbIndexType.DateTimeIndex))
+            {
+              TempDbIndexType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            }
+          }
+          SearchItem.DbIndexType = TempDbIndexType;
+        }
+      }
     }
 
   }

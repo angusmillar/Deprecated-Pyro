@@ -147,7 +147,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_DiagnosticReport ResourceEntity)
     {
-      ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.date_DateTimeOffsetLow = null;      
+      ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.encounter_VersionId = null;      
@@ -198,11 +199,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Effective is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Effective, Index) as DateTimeIndex;
+          var Index = new DateTimePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Effective, Index) as DateTimePeriodIndex;
           if (Index != null)
           {
-            ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+            ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
           }
         }
       }

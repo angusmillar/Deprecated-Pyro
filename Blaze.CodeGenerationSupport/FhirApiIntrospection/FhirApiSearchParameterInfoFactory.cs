@@ -186,9 +186,9 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       //System.IO.File.WriteAllText(@"C:\temp\FHIRSearchParameters.csv",StringBuild.ToString());
       #endregion
       int test = oFhirXPathList.Count();
+      DatabaseModelInfo.SetServerSearchIndexType(_ResourceSearchInfoList);
       return _ResourceSearchInfoList;
     }
-
 
     public static List<FhirApiSearchParameterInfo> RemoveDuplicates(List<FhirApiSearchParameterInfo> InboundList)
     {
@@ -208,77 +208,19 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
       foreach (var item in Dic)
       {
-        //If there is only one for the Search name then there is no duplicate so add to final list
-        if (item.Value.Count == 1)
-        {
-          FinalList.Add(item.Value[0]);
-        }
-        else
-        {
-          //Group each that have the same SearchParamType and  TargetFhirLogicalType for the given Search name                             
-          var DistinctItemsInfoList = item.Value.GroupBy(x => new { x.SearchParamType, x.TargetFhirLogicalType.Name }).ToList();
-          FhirApiSearchParameterInfo HasFhirDateTime = null;
-          FhirApiSearchParameterInfo HasPeriod = null;
-          FhirApiSearchParameterInfo HasQuantity = null;
-          FhirApiSearchParameterInfo HasQuantityRange = null;
+        //Add the first item from the set so as to remove the duplicates
+        var FirstType = item.Value[0].DbIndexType;
 
-          //Loop through the contents of each group checking for the types that need to be split as they are stored in different index Types
-          //'FhirDateTime' & 'Period' are both searched for using the search type of 'Date', yet each is stored differently, so we can not remove one or the other as duplicates
-          //Same goes for 'Quantity' and 'Range'  
-          foreach (var Distinct in DistinctItemsInfoList)
-          {
-            if (Distinct.ElementAt(0).SearchParamType == SearchParamType.Date)
-            {
-              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "FhirDateTime")
-              {
-                HasFhirDateTime = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
-              }
-              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Period")
-              {
-                HasPeriod = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
-              }
-            }
-            if (Distinct.ElementAt(0).SearchParamType == SearchParamType.Quantity)
-            {
-              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Quantity")
-              {
-                HasQuantity = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
-              }
-              if (Distinct.ElementAt(0).TargetFhirLogicalType.Name == "Range")
-              {
-                HasQuantityRange = item.Value.Where(x => x.SearchParamType == Distinct.ElementAt(0).SearchParamType && x.TargetFhirLogicalType.Name == Distinct.ElementAt(0).TargetFhirLogicalType.Name).ToList()[0];
-              }
-            }
-          }
-
-          //Detect that we had both for the same Search name so add both so that indexes are built for each 
-          if (HasFhirDateTime != null)
-          {
-            if (HasPeriod != null)
-            {
-              FinalList.Add(HasFhirDateTime);
-              FinalList.Add(HasPeriod);
-            }
-          }
-          //Detect that we had both for the same Search name so add both so that indexes are built for each 
-          else if (HasQuantity != null)
-          {
-            if (HasQuantityRange != null)
-            {
-              FinalList.Add(HasQuantity);
-              FinalList.Add(HasQuantityRange);
-            }
-          }
-          //Otherwise just add the first as they all need the same index type and the others are ducplicates
-          else
-          {
-            FinalList.Add(item.Value[0]);
-          }
+        // This is just a sanity check to make sure things are in order. 
+        if (item.Value.Count != item.Value.Select(x => (Common.Enum.DatabaseEnum.DbIndexType)x.DbIndexType == FirstType).Count())
+        {
+          throw new Exception("Search index error, we have a search parameter with many logical target types and yet the DbIndexType are different. This should can not happen.");
         }
+
+        FinalList.Add(item.Value[0]);
       }
       return FinalList;
     }
-
 
     /// <summary>
     /// Corrections to the search parameters prior to building the repositories

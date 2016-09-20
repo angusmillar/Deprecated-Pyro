@@ -13,7 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_MedicationAdministration : ResourceIndexBase
   {
     public int Res_MedicationAdministrationID {get; set;}
-    public DateTimeOffset? effectivetime_DateTimeOffset {get; set;}
     public DateTimeOffset? effectivetime_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? effectivetime_DateTimeOffsetHigh {get; set;}
     public string encounter_VersionId {get; set;}

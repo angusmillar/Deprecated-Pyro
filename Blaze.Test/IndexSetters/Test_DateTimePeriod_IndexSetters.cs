@@ -246,6 +246,125 @@ namespace Blaze.Test.IndexSetters
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
     }
 
+    [Test]
+    public void Test_FhirString_DateTimePeriodIndexSetter_GoodFormat_NoRange()
+    {
+      //Arrange
+      var FhirString = new FhirString();
+      var DateTimeOffSet = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+      
+      FhirString.Value = "1974-12-25T10:35:45-05:00";
+      
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.AreEqual(Index.DateTimeOffsetLow, DateTimeOffSet);
+      Assert.AreEqual(Index.DateTimeOffsetHigh, DateTimeOffSet);
+
+    }
+
+    [Test]
+    public void Test_FhirString_DateTimePeriodIndexSetter_BadFormat()
+    {
+      //Arrange
+      var FhirString = new FhirString();
+      var DateTimeOffSet = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+
+      FhirString.Value = "1974-12-25T25:35:45-05:00";
+
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.IsNull(Index);      
+    }
+
+
+    [Test]
+    public void Test_FhirString_DateTimePeriodIndexSetter_GoodFormat_WithRange_FormatOne()
+    {
+      //Arrange
+      var FhirString = new FhirString();
+      var DateTimeOffSetLow = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+      var DateTimeOffSetHigh = new DateTimeOffset(1974, 12, 25, 11, 00, 45, new TimeSpan(-5, 00, 00));
+
+      FhirString.Value = "1974-12-25T10:35:45-05:00 - 1974-12-25T11:00:45-05:00";
+
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.AreEqual(Index.DateTimeOffsetLow, DateTimeOffSetLow);
+      Assert.AreEqual(Index.DateTimeOffsetHigh, DateTimeOffSetHigh);
+
+    }
+
+    [Test]
+    public void Test_FhirString_DateTimePeriodIndexSetter_GoodFormat_WithRange_FormatTwo()
+    {
+      //Arrange
+      var FhirString = new FhirString();
+      var DateTimeOffSetLow = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+      var DateTimeOffSetHigh = new DateTimeOffset(1974, 12, 25, 11, 00, 45, new TimeSpan(-5, 00, 00));
+
+      FhirString.Value = "1974-12-25T10:35:45-05:00 1974-12-25T11:00:45-05:00";
+
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.AreEqual(Index.DateTimeOffsetLow, DateTimeOffSetLow);
+      Assert.AreEqual(Index.DateTimeOffsetHigh, DateTimeOffSetHigh);
+
+    }
+
+    [Test]
+    public void Test_FhirString_DateTimePeriodIndexSetter_BadFormat_WithRange()
+    {
+      //Arrange
+      var FhirString = new FhirString();
+      var DateTimeOffSetLow = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+      var DateTimeOffSetHigh = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+
+      FhirString.Value = "1974-12-25T10:35:45-05:00 to 1974-12-25T11:00:45-05:00";
+
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.IsNull(Index);      
+
+    }
+
+    [Test]
+    public void Test_FhirDateTime_DateTimePeriodIndexSetter_GoodFormat_NoRange()
+    {
+      //Arrange
+      
+      var DateTimeOffSet = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
+      var FhirDateTime = new FhirDateTime(DateTimeOffSet);
+      
+      DateTimePeriodIndex Index = new DateTimePeriodIndex();
+
+      //Act
+      Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirDateTime, Index) as DateTimePeriodIndex;
+
+      //Assert
+      Assert.AreEqual(Index.DateTimeOffsetLow, DateTimeOffSet);
+      Assert.AreEqual(Index.DateTimeOffsetHigh, DateTimeOffSet);
+
+    }
 
 
   }

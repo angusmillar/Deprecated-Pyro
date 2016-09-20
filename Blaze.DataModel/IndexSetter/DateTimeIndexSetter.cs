@@ -58,13 +58,13 @@ namespace Blaze.DataModel.IndexSetter
       if (DateIndex == null)
         throw new ArgumentNullException("DateIndex cannot be null for method.");
 
-      //E.g: "1974-12-25"      
-      DateTime TempDate = new DateTime();
+      //e.g: "1974-12-25T08:30:15.123+10:00"            
       if (Date.IsValidValue(Date.Value))
-      {        
-        if (DateTime.TryParse(Date.Value, out TempDate))
+      {
+        Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(Date.Value);         
+        if (oFhirDateTimeTool.IsValid)
         {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDate, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
+          DateIndex.DateTimeOffset = oFhirDateTimeTool.Value.Value;
           return DateIndex;
         }
         else
@@ -85,11 +85,19 @@ namespace Blaze.DataModel.IndexSetter
 
       if (DateIndex == null)
         throw new ArgumentNullException("DateIndex cannot be null for method.");
-
+      
       if (FhirDateTime.IsValidValue(FhirDateTime.Value))
       {
-        DateIndex.DateTimeOffset = FhirDateTime.ToDateTimeOffset();
-        return DateIndex;
+        Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(FhirDateTime.Value);
+        if (oFhirDateTimeTool.IsValid)
+        {
+          DateIndex.DateTimeOffset = oFhirDateTimeTool.Value.Value;
+          return DateIndex;
+        }
+        else
+        {
+          throw new FormatException(string.Format("Unable to convert the given FhirDateTime '{0}' to a valid datetime.", FhirDateTime.Value));
+        }
       }
       else
       {
@@ -105,36 +113,16 @@ namespace Blaze.DataModel.IndexSetter
       if (DateIndex == null)
         throw new ArgumentNullException("DateIndex cannot be null for method.");
 
-      if (Date.IsValidValue(FhirString.Value))
+      if (Date.IsValidValue(FhirString.Value) || FhirDateTime.IsValidValue(FhirString.Value))
       {
-        var TempDateTime = new DateTime();
-        if (DateTime.TryParse(FhirString.Value, out TempDateTime))
+        Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(FhirString.Value);
+        if (oFhirDateTimeTool.IsValid)
         {
-          DateIndex.DateTimeOffset = new DateTimeOffset(TempDateTime, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
+          DateIndex.DateTimeOffset = oFhirDateTimeTool.Value.Value;
           return DateIndex;
         }
-        else
-        {
-          return null;
-        }
       }
-      if (FhirDateTime.IsValidValue(FhirString.Value))
-      {
-        var TempDateTimeOffset = new DateTimeOffset();
-        if (DateTimeOffset.TryParse(FhirString.Value, out TempDateTimeOffset))
-        {
-          DateIndex.DateTimeOffset = TempDateTimeOffset;
-          return DateIndex;
-        }
-        else
-        {
-          return null;
-        }
-      }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public DateTimeIndex SetInstant(Instant Instant, DateTimeIndex DateIndex)
@@ -145,9 +133,9 @@ namespace Blaze.DataModel.IndexSetter
       if (DateIndex == null)
         throw new ArgumentNullException("DateIndex cannot be null for method.");
 
-      if (Instant.Value != null)
+      if (Instant.Value.HasValue)
       {
-        DateIndex.DateTimeOffset = (DateTimeOffset)Instant.Value;
+        DateIndex.DateTimeOffset = Instant.Value.Value;
         return DateIndex;
       }
       else

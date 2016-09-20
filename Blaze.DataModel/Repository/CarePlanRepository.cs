@@ -301,7 +301,7 @@ namespace Blaze.DataModel.Repository
             if (item1.Detail.Scheduled is FhirString)
             {
               var Index = new Res_CarePlan_Index_activitydate();
-              Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
+              Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(item1.Detail.Scheduled, Index) as Res_CarePlan_Index_activitydate;
               ResourseEntity.activitydate_List.Add(Index);
             }
           }

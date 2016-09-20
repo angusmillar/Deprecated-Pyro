@@ -36,7 +36,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "Bundle")
+        if (ResourceName == "DiagnosticReport")
         {
 
         }
@@ -264,7 +264,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         RequiredOrOptional = IsRequired;
       }
 
-      Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
+      //Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
+      Common.Enum.DatabaseEnum.DbIndexType DbIndexType = FhirApiSearchParameterInfo.DbIndexType;
       foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
       {
         if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex)
@@ -425,8 +426,8 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
       {
         IsOptionalOrRequired = IsOptional;
       }
-
-      Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
+      //Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
+      Common.Enum.DatabaseEnum.DbIndexType DbIndexType = FhirApiSearchParameterInfo.DbIndexType;
       switch (DbIndexType)
       {
         case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:

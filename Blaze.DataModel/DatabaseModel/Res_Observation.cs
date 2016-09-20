@@ -13,7 +13,6 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Observation : ResourceIndexBase
   {
     public int Res_ObservationID {get; set;}
-    public DateTimeOffset? date_DateTimeOffset {get; set;}
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public string device_VersionId {get; set;}
@@ -43,7 +42,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string subject_Type {get; set;}
     public virtual ServiceRootURL_Store subject_Url { get; set; }
     public int? subject_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? value_date_DateTimeOffset {get; set;}
     public DateTimeOffset? value_date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? value_date_DateTimeOffsetHigh {get; set;}
     public Hl7.Fhir.Model.Quantity.QuantityComparator? value_quantity_Comparator {get; set;}

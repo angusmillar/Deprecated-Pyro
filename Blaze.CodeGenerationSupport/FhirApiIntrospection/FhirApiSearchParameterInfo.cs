@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Blaze.Common.Enum;
 
 namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 {
@@ -17,6 +18,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
     public string Resource { get; set; }
     public SearchParamType SearchParamType { get; set; }
+    public DatabaseEnum.DbIndexType DbIndexType { get; set; }
     public Type TargetFhirType 
     { 
       get

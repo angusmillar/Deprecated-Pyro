@@ -152,7 +152,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Observation ResourceEntity)
     {
-      ResourceEntity.date_DateTimeOffset = null;      
+      ResourceEntity.date_DateTimeOffsetLow = null;      
+      ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.device_VersionId = null;      
@@ -182,7 +183,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.subject_Type = null;      
       ResourceEntity.subject_Url = null;      
       ResourceEntity.subject_ServiceRootURL_StoreID = null;      
-      ResourceEntity.value_date_DateTimeOffset = null;      
+      ResourceEntity.value_date_DateTimeOffsetLow = null;      
+      ResourceEntity.value_date_DateTimeOffsetHigh = null;      
       ResourceEntity.value_date_DateTimeOffsetLow = null;      
       ResourceEntity.value_date_DateTimeOffsetHigh = null;      
       ResourceEntity.value_quantity_Comparator = null;      
@@ -220,11 +222,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Effective is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Effective, Index) as DateTimeIndex;
+          var Index = new DateTimePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Effective, Index) as DateTimePeriodIndex;
           if (Index != null)
           {
-            ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+            ResourseEntity.date_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
           }
         }
       }
@@ -371,11 +374,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Value is Hl7.Fhir.Model.FhirDateTime)
         {
-          var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Value, Index) as DateTimeIndex;
+          var Index = new DateTimePeriodIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(ResourceTyped.Value, Index) as DateTimePeriodIndex;
           if (Index != null)
           {
-            ResourseEntity.value_date_DateTimeOffset = Index.DateTimeOffset;
+            ResourseEntity.value_date_DateTimeOffsetLow = Index.DateTimeOffsetLow;
+            ResourseEntity.value_date_DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
           }
         }
       }
