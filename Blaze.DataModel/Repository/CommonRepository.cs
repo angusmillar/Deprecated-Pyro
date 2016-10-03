@@ -40,7 +40,7 @@ namespace Blaze.DataModel.Repository
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
             NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
-          case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:            
+          case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
             NewPredicate = DateIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
@@ -57,34 +57,35 @@ namespace Blaze.DataModel.Repository
                   {
                     //ToDo: more needed here
                   }
-
                 }
               }
+              NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             }
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
-            throw new NotImplementedException();            
+            throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
             throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
             throw new NotImplementedException();
-          case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:            
-            NewPredicate = StringIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);                          
+          case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
+            NewPredicate = StringIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
-            throw new NotImplementedException();
+            NewPredicate = TokenIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
             throw new NotImplementedException();
           default:
             throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.DbSearchParameterType.ToString(), (int)SearchItem.DbSearchParameterType, typeof(Common.Enum.DatabaseEnum.DbIndexType));
-        }        
+        }
         MainPredicate.Extend<T>(NewPredicate, PredicateOperator.And);
       }
 
       return MainPredicate;
     }
-    
-    
+
+
     public DtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       ServiceRootURL_Store ExsistingPrimaryRootURL = this.GetPrimaryBlaze_RootUrlStore();

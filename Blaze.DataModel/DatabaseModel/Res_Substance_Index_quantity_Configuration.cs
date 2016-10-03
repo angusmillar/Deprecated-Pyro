@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     {
       HasKey(x => x.Res_Substance_Index_quantityID).Property(x => x.Res_Substance_Index_quantityID).IsRequired();
       Property(x => x.Comparator).IsOptional();
-      Property(x => x.Quantity).IsRequired();
+      Property(x => x.Quantity).IsRequired().HasPrecision(28,14);
       Property(x => x.System).IsOptional();
       Property(x => x.Code).IsOptional();
       HasRequired(x => x.Res_Substance).WithMany(x => x.quantity_List).WillCascadeOnDelete(true);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Blaze.CodeGenerationSupport.RepositoryCodeGeneration;
 using Blaze.Common.BusinessEntities.Search;
@@ -38,7 +39,8 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.IsDbCollection = "true";
             ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(CollectionIndexEntity.SearchParameterInfo.SearchParameterName);
-            ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
+            if (!DoesResourceSearchParamInfoItemListAlreadyContainSearchParameter(ResourceSearchParamInfoItem, ResourceSearchParamInfo.ResourceSearchParamInfoItemList))
+              ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
           }
         }
         foreach (NonCollectionIndexEntity NonCollectionIndexEntity in RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList)
@@ -55,11 +57,23 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.IsDbCollection = "false";
             ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName);
-            ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
+            if (!DoesResourceSearchParamInfoItemListAlreadyContainSearchParameter(ResourceSearchParamInfoItem, ResourceSearchParamInfo.ResourceSearchParamInfoItemList))
+              ResourceSearchParamInfo.ResourceSearchParamInfoItemList.Add(ResourceSearchParamInfoItem);
 
           }
         }
       }
+    }
+    /// <summary>
+    /// Some Resource search parameters have a choice of different resource target types and are there for listed many times, we need to remove the duplicates 
+    /// when building this search parameter list as they all have the same search parameter type
+    /// </summary>
+    /// <param name="resourceSearchParamInfoItem"></param>
+    /// <param name="CurrentResourceSearchParameterList"></param>
+    /// <returns></returns>
+    private bool DoesResourceSearchParamInfoItemListAlreadyContainSearchParameter(ResourceSearchParamInfoItem resourceSearchParamInfoItem, List<ResourceSearchParamInfoItem> CurrentResourceSearchParameterList)
+    {
+      return CurrentResourceSearchParameterList.Exists(x => x.ResourceType == resourceSearchParamInfoItem.ResourceType && x.SearchParameterNameType == resourceSearchParamInfoItem.SearchParameterNameType);
     }
 
     private List<string> PopulateSearchParameterModifierList(DatabaseEnum.DbIndexType DbIndexType)
@@ -84,6 +98,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.NumberIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityIndex:
@@ -107,6 +122,16 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.TokenIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            //The modifiers below are supported in the spec for token but not 
+            //implemented by this server as yet
+
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Text.ToString());
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.In.ToString());
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Above.ToString());
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.In.ToString());
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.NotIn.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.UriIndex:
@@ -205,6 +230,12 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.NumberIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.NotEqual.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Equal.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Greater.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.Less.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityIndex:

@@ -66,7 +66,6 @@ namespace Blaze.Engine.Search
           oSearchParameter = new DtoSearchParameterDateTime();
           break;
         case DatabaseEnum.DbIndexType.NumberIndex:
-          //oSearchParameter = new DtoSearchParameterNumberValue();
           oSearchParameter = new DtoSearchParameterNumber();
           break;
         case DatabaseEnum.DbIndexType.QuantityIndex:

@@ -286,6 +286,10 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
           }
+          else if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number)
+          {
+            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, RequiredOrOptional));
+          }
           else
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, RequiredOrOptional));
@@ -293,9 +297,16 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex)
         {
-          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity && IsCollection)
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity)
           {
-            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsRequired));
+            if (IsCollection)
+            {
+              FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, IsRequired));
+            }
+            else
+            {
+              FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, IsOptional));
+            }
           }
           else
           {
@@ -304,7 +315,15 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex)
         {
-          FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
+          if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh ||
+            PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow)
+          {
+            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, IsOptional));            
+          }
+          else
+          {
+            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
+          }
         }
         else if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.TokenIndex)
         {

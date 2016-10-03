@@ -18,13 +18,39 @@ namespace Blaze.Common.Tools
     }
 
     public static string ToLowerFast(string text)
-    {           
+    {
       return text.ToLower(System.Globalization.CultureInfo.CurrentCulture);
     }
 
     public static string ToLowerAndRemoveDiacritics(string text)
     {
       return ToLowerFast(RemoveDiacritics(text));
+    }
+
+    public static int GetScaleFromDecimal(string value)
+    {
+      const string DecimalPoint = ".";
+      if (value.Contains(DecimalPoint))
+      {
+        return value.Length - (value.IndexOf(DecimalPoint) + 1);
+      }
+      else
+      {
+        return 0;
+      }
+    }
+
+    public static int GetPrecisionFromDecimal(string value)
+    {
+      const string DecimalPoint = ".";
+      if (value.Contains(DecimalPoint))
+      {
+        return value.Length - 1;
+      }
+      else
+      {
+        return value.Length;
+      }
     }
 
 

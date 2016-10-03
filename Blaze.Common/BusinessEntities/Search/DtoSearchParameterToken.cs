@@ -11,48 +11,79 @@ namespace Blaze.Common.BusinessEntities.Search
     #region Constructor
     public DtoSearchParameterToken()
       : base()
-    {      
-      this.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;      
+    {
+      this.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
     }
     #endregion
 
-    public override bool TryParseValue(string Value)
-    {
-      var Temp = Value.Split(OrDelimiter);
+    public List<DtoSearchParameterTokenValue> ValueList { get; set; }
 
-      if (Temp.Count() > 1)
-        this.HasLogicalOrProperties = true;
-      List<TokenValue> oList = new List<TokenValue>();
-      foreach (var item in Temp)
+    public override bool TryParseValue(string Values)
+    {
+      this.ValueList = new List<DtoSearchParameterTokenValue>();
+      foreach (var Value in Values.Split(OrDelimiter))
       {
-        var oTokenValue = new TokenValue();
-        if (item.Contains(TokenDelimiter))
+        var DtoSearchParameterNumber = new DtoSearchParameterTokenValue();
+        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
         {
-          var oSplit = item.Split(TokenDelimiter);
-          oTokenValue.System = oSplit[0];
-          oTokenValue.Code = oSplit[1];
+          bool? IsMissing = DtoSearchParameterNumber.ParseModifierEqualToMissing(Value);
+          if (IsMissing.HasValue)
+          {
+            DtoSearchParameterNumber.IsMissing = IsMissing.Value;
+            this.ValueList.Add(DtoSearchParameterNumber);
+          }
+          else
+          {
+            return false;
+          }
         }
         else
         {
-          oTokenValue.Code = item;
+          if (Value.Contains(TokenDelimiter))
+          {
+            string[] CodeSystemSplit = Value.Split(TokenDelimiter);
+            DtoSearchParameterNumber.Code = CodeSystemSplit[1].Trim();
+            DtoSearchParameterNumber.System = CodeSystemSplit[0].Trim();            
+            if (string.IsNullOrEmpty(DtoSearchParameterNumber.Code) && string.IsNullOrEmpty(DtoSearchParameterNumber.System))
+            {
+              return false;
+            }
+            else if (string.IsNullOrEmpty(DtoSearchParameterNumber.System))
+            {
+              DtoSearchParameterNumber.SearchType = DtoSearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem;
+            }
+            else if (string.IsNullOrEmpty(DtoSearchParameterNumber.Code))
+            {
+              DtoSearchParameterNumber.SearchType = DtoSearchParameterTokenValue.TokenSearchType.MatchSystemOnly;
+            }
+            else
+            {
+              DtoSearchParameterNumber.SearchType = DtoSearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem;
+            }
+            this.ValueList.Add(DtoSearchParameterNumber);
+          }
+          else
+          {
+            DtoSearchParameterNumber.SearchType = DtoSearchParameterTokenValue.TokenSearchType.MatchCodeOnly;
+            DtoSearchParameterNumber.Code = Value.Trim();
+            if (string.IsNullOrEmpty(DtoSearchParameterNumber.Code))
+            {
+              return false;
+            }
+            this.ValueList.Add(DtoSearchParameterNumber);
+          }
         }
-        oList.Add(oTokenValue);
       }
-      this.Values = oList.ToArray();
-      return true;
+      if (this.ValueList.Count == 0)
+        return false;
+      else
+        return true;
     }
-    public TokenValue[] Values { get; set; }
-
-    public class TokenValue
-    {
-      public string System { get; set; }
-      public string Code { get; set; }
-    }
-
     public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
     {
-      //Token Search parameters never have prefixes so just return true;
+      //Token search parameters do not contain prefixes, so return true      
       return true;
     }
+
   }
 }

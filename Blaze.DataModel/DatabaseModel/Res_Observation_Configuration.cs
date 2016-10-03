@@ -56,7 +56,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.value_date_DateTimeOffsetLow).IsOptional();
       Property(x => x.value_date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.value_quantity_Comparator).IsOptional();
-      Property(x => x.value_quantity_Quantity).IsOptional();
+      Property(x => x.value_quantity_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.value_quantity_System).IsOptional();
       Property(x => x.value_quantity_Code).IsOptional();
       Property(x => x.value_string_String).IsOptional();

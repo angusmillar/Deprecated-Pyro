@@ -6339,6 +6339,8 @@
     </Compile>
     <Compile Include="Repository\DateIndexPredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePeriodPredicateBuilder.cs" />
+    <Compile Include="Repository\NumberIndexPredicateBuilder.cs" />
+    <Compile Include="Repository\TokenIndexPredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePredicateBuilder.cs" />
     <Compile Include="Repository\DecisionSupportRuleRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
@@ -6608,6 +6610,9 @@
     <Compile Include="Repository\VisionPrescriptionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Search\TokenExpression.cs" />
+    <Compile Include="Search\NumberExpression.cs" />
+    <Compile Include="Search\DateTimePeriodExpression.cs" />
     <Compile Include="Search\ResourceSearch.cs" />
     <Compile Include="Search\ResourceSearchExtensions.cs" />
     <Compile Include="Support\FhirCodeDataTypeSupport.cs" />

@@ -20,8 +20,7 @@ namespace Blaze.Common.BusinessEntities.Search
 
     public override bool TryParseValue(string Values)
     {
-      this.ValueList = new List<DtoSearchParameterNumberValue>();
-      double TempDouble;
+      this.ValueList = new List<DtoSearchParameterNumberValue>();      
       foreach (var Value in Values.Split(OrDelimiter))
       {
         var DtoSearchParameterNumber = new DtoSearchParameterNumberValue();
@@ -40,8 +39,11 @@ namespace Blaze.Common.BusinessEntities.Search
         }
         else
         {
+          decimal TempDouble;
           var Number = DtoSearchParameterNumber.ParsePrefix(Value);
-          if (Double.TryParse(Number, out TempDouble))
+          DtoSearchParameterNumber.Precision = Tools.StringSupport.GetPrecisionFromDecimal(Number);
+          DtoSearchParameterNumber.Scale = Tools.StringSupport.GetScaleFromDecimal(Number);
+          if (Decimal.TryParse(Number, out TempDouble))
           {
             DtoSearchParameterNumber.Value = TempDouble;
             this.ValueList.Add(DtoSearchParameterNumber);
