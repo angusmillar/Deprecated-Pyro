@@ -1048,19 +1048,52 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(BinaryExpressionAnd, new[] { ParameterReferance });
     }
 
-    public Expression<Func<T, bool>> NumberPropertyEqualTo(string Property, decimal LowNumber, decimal HighNumber)
+    public Expression<Func<T, bool>> NumberPropertyEqualTo(string Property, decimal LowNumber, decimal MidNumber, decimal HighNumber)
     {
       var ParameterReferance = Expression.Parameter(typeof(T), "x");
       MemberExpression propertyReferenceComparator = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
       MemberExpression propertyReferenceNumber = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
 
-      Expression BinaryExpression_Final = NumberExpression.NumberEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, HighNumber);
+      Expression BinaryExpression_Final = NumberExpression.EqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, MidNumber, HighNumber);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> NumberPropertyNotEqualTo(string Property, decimal LowNumber, decimal MidNumber, decimal HighNumber)
+    {
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+      MemberExpression propertyReferenceComparator = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      Expression BinaryExpression_Final = NumberExpression.NotEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, MidNumber, HighNumber);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> NumberPropertyGreaterThan(string Property, decimal MidNumber)
+    {
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+      MemberExpression propertyReferenceComparator = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      Expression BinaryExpression_Final = NumberExpression.GreaterThanExpression(propertyReferenceComparator, propertyReferenceNumber, MidNumber);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> NumberPropertyGreaterThanOrEqualTo(string Property, decimal MidNumber)
+    {
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+      MemberExpression propertyReferenceComparator = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      Expression BinaryExpression_Final = NumberExpression.GreaterThanOrEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, MidNumber);
 
       return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
 
 
-    public Expression<Func<T, bool>> NumberCollectionAnyEqualTo(string Property, decimal LowNumber, decimal HighNumber)
+    public Expression<Func<T, bool>> NumberCollectionAnyEqualTo(string Property, decimal LowNumber, decimal MidNumber, decimal HighNumber)
     {
       string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
 
@@ -1068,15 +1101,99 @@ namespace Blaze.DataModel.Search
       MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(TokenIndex));
 
       //Expression For Any Method
-      ParameterExpression PE_Inner = Expression.Parameter(typeof(TokenIndex), "c");
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(NumberIndex), "c");
       MemberExpression propertyReferenceComparator = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
       MemberExpression propertyReferenceNumber = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
 
       //Build Inner Expression
-      Expression E_InnerExpression = NumberExpression.NumberEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, HighNumber);
+      Expression E_InnerExpression = NumberExpression.EqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, MidNumber, HighNumber);
 
       //Wrap Any Method Expression into Function
-      Expression<Func<TokenIndex, bool>> InnerFunction = Expression.Lambda<Func<TokenIndex, bool>>(E_InnerExpression, PE_Inner);
+      Expression<Func<NumberIndex, bool>> InnerFunction = Expression.Lambda<Func<NumberIndex, bool>>(E_InnerExpression, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
+
+    public Expression<Func<T, bool>> NumberCollectionAllNotEqualTo(string Property, decimal LowNumber, decimal MidNumber, decimal HighNumber)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_All = typeof(Enumerable).GetMethods().Where(m => m.Name == "All" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(DateTimePeriodIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(NumberIndex), "c");
+      MemberExpression propertyReferenceComparator = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      //Build Inner Expression
+      Expression E_InnerExpression = NumberExpression.NotEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, LowNumber, MidNumber, HighNumber);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<NumberIndex, bool>> InnerFunction = Expression.Lambda<Func<NumberIndex, bool>>(E_InnerExpression, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAllCall = Expression.Call(ME_All, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAllCall, PE_Outer);
+    }
+
+    public Expression<Func<T, bool>> NumberCollectionAnyGreaterThan(string Property, decimal MidNumber)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(TokenIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(NumberIndex), "c");
+      MemberExpression propertyReferenceComparator = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      //Build Inner Expression
+      Expression E_InnerExpression = NumberExpression.GreaterThanExpression(propertyReferenceComparator, propertyReferenceNumber, MidNumber);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<NumberIndex, bool>> InnerFunction = Expression.Lambda<Func<NumberIndex, bool>>(E_InnerExpression, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
+
+    public Expression<Func<T, bool>> NumberCollectionAnyGreaterThanOrEqualTo(string Property, decimal MidNumber)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(TokenIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(NumberIndex), "c");
+      MemberExpression propertyReferenceComparator = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(PE_Inner, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+
+      //Build Inner Expression
+      Expression E_InnerExpression = NumberExpression.GreaterThanOrEqualToExpression(propertyReferenceComparator, propertyReferenceNumber, MidNumber);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<NumberIndex, bool>> InnerFunction = Expression.Lambda<Func<NumberIndex, bool>>(E_InnerExpression, PE_Inner);
 
       ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
       MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));

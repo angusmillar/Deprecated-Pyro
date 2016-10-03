@@ -29,16 +29,16 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    //NewPredicate = CollectionNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = CollectionNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    //NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                    NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
                     //NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                    NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
                     ///NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
@@ -64,16 +64,16 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = PropertyEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    //NewPredicate = PropertyNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = PropertyNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    //NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                    NewPredicate = NewPredicate.Or(Search.NumberPropertyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
                     //NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                    NewPredicate = NewPredicate.Or(Search.NumberPropertyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
                     //NewPredicate = NewPredicate.Or(Search.DateTimePeriodPropertyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
@@ -189,26 +189,26 @@ namespace Blaze.DataModel.Repository
     }
 
 
-    //private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  var NotEqualToExpression = Search.DateTimePeriodCollectionAnyNotEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
-    //  var CollectionIsNullExpression = Search.DateTimePeriodCollectionIsNull(SearchTypeDateTime.DbPropertyName);
-    //  NewPredicate = NewPredicate.Or(NotEqualToExpression);
-    //  NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
-    //  return NewPredicate;
-    //}
+    private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
+    {
+      var NotEqualToExpression = Search.NumberCollectionAllNotEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
+      var CollectionIsNullExpression = Search.NumberCollectionIsNull(SearchTypeNumber.DbPropertyName);
+      NewPredicate = NewPredicate.Or(NotEqualToExpression);
+      NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
+      return NewPredicate;
+    }
 
-    //private static ExpressionStarter<T> PropertyNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  var Expression = Search.DateTimePeriodPropertyNotEqualTo(SearchTypeDateTime.DbPropertyName, SearchValue.Value, CalculateHighNumber(SearchValue));
-    //  NewPredicate = NewPredicate.Or(Expression);
-    //  return NewPredicate;
-    //}
+    private static ExpressionStarter<T> PropertyNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
+    {
+      var Expression = Search.NumberPropertyNotEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
+    }
 
 
     private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
     {
-      var Expression = Search.NumberCollectionAnyEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), CalculateHighNumber(SearchValue));
+      var Expression = Search.NumberCollectionAnyEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
       NewPredicate = NewPredicate.Or(Expression);
       return NewPredicate;
 
@@ -216,7 +216,7 @@ namespace Blaze.DataModel.Repository
 
     private static ExpressionStarter<T> PropertyEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
     {
-      var Expression = Search.NumberPropertyEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), CalculateHighNumber(SearchValue));
+      var Expression = Search.NumberPropertyEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
       NewPredicate = NewPredicate.Or(Expression);
       return NewPredicate;
     }
