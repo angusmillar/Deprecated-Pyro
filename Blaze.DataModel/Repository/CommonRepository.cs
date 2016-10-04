@@ -41,7 +41,7 @@ namespace Blaze.DataModel.Repository
             NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
-            NewPredicate = DateIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
             NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
@@ -63,16 +63,17 @@ namespace Blaze.DataModel.Repository
             }
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
-            throw new NotImplementedException();
+            NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
             throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
             throw new NotImplementedException();
           case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
-            NewPredicate = StringIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = StringPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
-            NewPredicate = TokenIndexPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
             throw new NotImplementedException();

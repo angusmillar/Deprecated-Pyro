@@ -6,7 +6,7 @@ using Blaze.Common.BusinessEntities.Search;
 
 namespace Blaze.DataModel.Repository
 {
-  public static class StringIndexPredicateBuilder
+  public static class StringPredicateBuilder
   {
     public static ExpressionStarter<T> Build<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterBase SearchItem) where T : ResourceIndexBase
     {

@@ -60,6 +60,7 @@ namespace Blaze.Common.Database
         public static string Quantity { get { return "Quantity"; } }
         public static string System { get { return "System"; } }
         public static string Code { get { return "Code"; } }
+        //public static string Unit { get { return "Unit"; } }
       }
 
       public static class QuantityRangeIndexConstatnts
@@ -135,6 +136,7 @@ namespace Blaze.Common.Database
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code);
+        //QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Unit);
         Dic.Add(DatabaseEnum.DbIndexType.QuantityIndex, QuantityIndexList);
 
 

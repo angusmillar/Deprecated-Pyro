@@ -196,6 +196,9 @@ namespace Blaze.DataModel.Search
       //(x.length_Number > ValueMid)
       var BinaryExpression_ResourceNumber_IsHigherThan_SearchMid = Expression.GreaterThan(propertyReferenceNumber, SearchValueReferenceMid);
 
+      //(x.length_Number >= ValueMid)
+      //var BinaryExpression_ResourceNumber_IsHigherThanOrEqualTo_SearchMid = Expression.GreaterThanOrEqual(propertyReferenceNumber, SearchValueReferenceMid);
+
 
       //(x.length_Number > ValueMid) And (x.length_Comparator == null)
       var BinaryExpression_Final_A = Expression.And(BinaryExpression_ResourceNumber_IsHigherThan_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
@@ -272,18 +275,154 @@ namespace Blaze.DataModel.Search
       return BinaryExpression_Final_ABCD;
     }
 
-
-
-    public static Expression ComparatorEqualToExpression(
+    public static Expression LessThanExpression(
       MemberExpression propertyReferenceComparator,
-      int SearchValueComparator)
+      MemberExpression propertyReferenceNumber,
+      decimal SearchValueMid)
     {
-      var SearchValueReferenceComparator = Expression.Constant(SearchValueComparator);
 
-      //(x.length_Comparator == 1)
-      var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, SearchValueReferenceComparator);
+      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
 
-      Expression BinaryExpression_Final = BinaryExpression_ResourceComparator_IsEqualTo_Equal;
+      var ConstantReferenceNull = Expression.Constant(null);
+      var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceLessThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.LessOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceLessThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.LessThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+
+      //(x.length_Comparator == null)
+      var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
+
+      //(x.length_Comparator == GreaterThanOrEqualTo)
+      var BinaryExpression_ResourceComparator_IsEqualTo_GreaterThanOrEqualTo = Expression.Equal(propertyReferenceComparator, ConstantReferanceGreaterThanOrEqualTo);
+
+      //(x.length_Comparator == GreaterThan)
+      var BinaryExpression_ResourceComparator_IsEqualTo_GreaterThan = Expression.Equal(propertyReferenceComparator, ConstantReferanceGreaterThan);
+
+      //(x.length_Comparator == LessThanOrEqualTo)
+      var BinaryExpression_ResourceComparator_IsEqualTo_LessThanOrEqualTo = Expression.Equal(propertyReferenceComparator, ConstantReferanceLessThanOrEqualTo);
+
+      //(x.length_Comparator == LessThan)
+      var BinaryExpression_ResourceComparator_IsEqualTo_LessThan = Expression.Equal(propertyReferenceComparator, ConstantReferanceLessThan);
+
+      //(x.length_Number < ValueMid)
+      var BinaryExpression_ResourceNumber_IsLowerThan_SearchMid = Expression.LessThan(propertyReferenceNumber, SearchValueReferenceMid);
+
+      //(x.length_Number <= ValueMid)
+      var BinaryExpression_ResourceNumber_IsLowerThanOrEqualTo_SearchMid = Expression.LessThanOrEqual(propertyReferenceNumber, SearchValueReferenceMid);
+
+
+
+      //(x.length_Number < ValueMid) And (x.length_Comparator == null)
+      var BinaryExpression_Final_A = Expression.And(BinaryExpression_ResourceNumber_IsLowerThan_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
+
+      //(x.length_Comparator == LessThanOrEqualTo) or (x.length_Comparator == LessThan)
+      var BinaryExpression_Final_B = Expression.Or(BinaryExpression_ResourceComparator_IsEqualTo_LessThanOrEqualTo, BinaryExpression_ResourceComparator_IsEqualTo_LessThan);
+
+      //(x.length_Number < ValueMid && x.length_Comparator == GreaterThanOrEqualTo)
+      var BinaryExpression_Final_C = Expression.And(BinaryExpression_ResourceNumber_IsLowerThan_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_GreaterThanOrEqualTo);
+
+      //(x.length_Number < ValueMid && x.length_Comparator == GreaterThan)
+      var BinaryExpression_Final_D = Expression.And(BinaryExpression_ResourceNumber_IsLowerThan_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_GreaterThan);
+
+
+      var BinaryExpression_Final_AB = Expression.Or(BinaryExpression_Final_A, BinaryExpression_Final_B);
+      var BinaryExpression_Final_CD = Expression.Or(BinaryExpression_Final_C, BinaryExpression_Final_D);
+      var BinaryExpression_Final_ABCD = Expression.Or(BinaryExpression_Final_AB, BinaryExpression_Final_CD);
+
+      return BinaryExpression_Final_ABCD;
+    }
+
+    public static Expression LessThanOrEqualToExpression(
+      MemberExpression propertyReferenceComparator,
+      MemberExpression propertyReferenceNumber,
+      decimal SearchValueMid)
+    {
+      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
+
+      var ConstantReferenceNull = Expression.Constant(null);
+      var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceLessThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.LessOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+      var ConstantReferanceLessThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.LessThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
+
+      //(x.length_Comparator == null)
+      var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
+
+      //(x.length_Comparator == GreaterThanOrEqualTo)
+      var BinaryExpression_ResourceComparator_IsEqualTo_GreaterThanOrEqualTo = Expression.Equal(propertyReferenceComparator, ConstantReferanceGreaterThanOrEqualTo);
+
+      //(x.length_Comparator == GreaterThan)
+      var BinaryExpression_ResourceComparator_IsEqualTo_GreaterThan = Expression.Equal(propertyReferenceComparator, ConstantReferanceGreaterThan);
+
+      //(x.length_Comparator == LessThanOrEqualTo)
+      var BinaryExpression_ResourceComparator_IsEqualTo_LessThanOrEqualTo = Expression.Equal(propertyReferenceComparator, ConstantReferanceLessThanOrEqualTo);
+
+      //(x.length_Comparator == LessThan)
+      var BinaryExpression_ResourceComparator_IsEqualTo_LessThan = Expression.Equal(propertyReferenceComparator, ConstantReferanceLessThan);
+
+      //(x.length_Number <= ValueMid)
+      var BinaryExpression_ResourceNumber_IsLessThanOrEqualTo_SearchMid = Expression.LessThanOrEqual(propertyReferenceNumber, SearchValueReferenceMid);
+
+
+      //(x.length_Number < ValueMid)
+      var BinaryExpression_ResourceNumber_IsLessThan_SearchMid = Expression.LessThan(propertyReferenceNumber, SearchValueReferenceMid);
+
+
+      //(x.length_Number <= ValueMid) And (x.length_Comparator == null)
+      var BinaryExpression_Final_A = Expression.And(BinaryExpression_ResourceNumber_IsLessThanOrEqualTo_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
+
+      //(x.length_Comparator == LessThanOrEqualTo) or (x.length_Comparator == LessThan)
+      var BinaryExpression_Final_B = Expression.Or(BinaryExpression_ResourceComparator_IsEqualTo_LessThanOrEqualTo, BinaryExpression_ResourceComparator_IsEqualTo_LessThan);
+
+      //(x.length_Number <= ValueMid && x.length_Comparator == GreaterThanOrEqualTo)
+      var BinaryExpression_Final_C = Expression.And(BinaryExpression_ResourceNumber_IsLessThanOrEqualTo_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_GreaterThanOrEqualTo);
+
+      //(x.length_Number < ValueMid && x.length_Comparator == GreaterThan)
+      var BinaryExpression_Final_D = Expression.And(BinaryExpression_ResourceNumber_IsLessThan_SearchMid, BinaryExpression_ResourceComparator_IsEqualTo_GreaterThan);
+
+      var BinaryExpression_Final_AB = Expression.Or(BinaryExpression_Final_A, BinaryExpression_Final_B);
+      var BinaryExpression_Final_CD = Expression.Or(BinaryExpression_Final_C, BinaryExpression_Final_D);
+      var BinaryExpression_Final_ABCD = Expression.Or(BinaryExpression_Final_AB, BinaryExpression_Final_CD);
+
+      return BinaryExpression_Final_ABCD;
+    }
+
+
+
+    public static Expression IsNullExpression(
+      MemberExpression propertyReferenceComparator,
+      MemberExpression propertyReferenceNumber)
+    {
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.length_Number == null)
+      var BinaryExpression_ResourceNumber_IsEqualTo_Null = Expression.Equal(propertyReferenceNumber, ConstantReferenceNull);
+
+      //(x.length_Comparator == null)
+      //var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
+
+      //Expression BinaryExpression_Final = Expression.Add(BinaryExpression_ResourceNumber_IsEqualTo_Null, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
+
+      Expression BinaryExpression_Final = BinaryExpression_ResourceNumber_IsEqualTo_Null;
+
+      return BinaryExpression_Final;
+    }
+
+    public static Expression IsNotNullExpression(
+      MemberExpression propertyReferenceComparator,
+      MemberExpression propertyReferenceNumber)
+    {
+      var ConstantReferenceNull = Expression.Constant(null);
+
+      //(x.length_Number == null)
+      var BinaryExpression_ResourceNumber_IsEqualTo_NotNull = Expression.NotEqual(propertyReferenceNumber, ConstantReferenceNull);
+
+      //(x.length_Comparator == null)
+      //var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
+
+      //Expression BinaryExpression_Final = Expression.Add(BinaryExpression_ResourceNumber_IsEqualTo_Null, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
+
+      Expression BinaryExpression_Final = BinaryExpression_ResourceNumber_IsEqualTo_NotNull;
 
       return BinaryExpression_Final;
     }

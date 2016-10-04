@@ -157,9 +157,15 @@ namespace Blaze.DataModel.IndexSetter
         {
           QuantityIndex.System = null;
         }
-        //SimpleQuantity has no Comparator as per standard 
-        QuantityIndex.Comparator = null;
-
+        //Note: Simple Quantity should not have a Comparator but the FHIR API allows it so will record in on is found.
+        if (SimpleQuantity.Comparator.HasValue)
+        {
+          QuantityIndex.Comparator = SimpleQuantity.Comparator.Value;
+        }
+        else
+        {
+          QuantityIndex.Comparator = null;
+        }
         return QuantityIndex;
       }
       else

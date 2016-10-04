@@ -69,7 +69,8 @@ namespace Blaze.Engine.Search
           oSearchParameter = new DtoSearchParameterNumber();
           break;
         case DatabaseEnum.DbIndexType.QuantityIndex:
-          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityIndex");
+          oSearchParameter = new DtoSearchParameterQuantity();
+          break;
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.ReferenceIndex");
         case DatabaseEnum.DbIndexType.StringIndex:

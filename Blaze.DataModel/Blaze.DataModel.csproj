@@ -6337,10 +6337,11 @@
     <Compile Include="Repository\DataElementRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="Repository\DateIndexPredicateBuilder.cs" />
+    <Compile Include="Repository\DatePredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePeriodPredicateBuilder.cs" />
-    <Compile Include="Repository\NumberIndexPredicateBuilder.cs" />
-    <Compile Include="Repository\TokenIndexPredicateBuilder.cs" />
+    <Compile Include="Repository\QuantityPredicateBuilder.cs" />
+    <Compile Include="Repository\NumberPredicateBuilder.cs" />
+    <Compile Include="Repository\TokenPredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePredicateBuilder.cs" />
     <Compile Include="Repository\DecisionSupportRuleRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
@@ -6579,7 +6580,7 @@
     <Compile Include="Repository\SpecimenRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="Repository\StringIndexPredicateBuilder.cs" />
+    <Compile Include="Repository\StringPredicateBuilder.cs" />
     <Compile Include="Repository\StructureDefinitionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>

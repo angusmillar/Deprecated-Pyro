@@ -60,6 +60,8 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDate.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDateTimeValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDateValue.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterQuantityValue.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterQuantity.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumberValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Tools\FhirDateSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
+    <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Tools\StringSupport.cs" />
   </ItemGroup>
   <ItemGroup>
