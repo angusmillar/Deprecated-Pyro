@@ -79,6 +79,16 @@ namespace Blaze.DataModel.IndexSetter
         {
           QuantityIndex.Comparator = null;
         }
+        if (!string.IsNullOrWhiteSpace(Money.Unit))
+        {
+          QuantityIndex.Unit = Money.Unit;
+        }
+        else
+        {
+          QuantityIndex.Unit = null;
+        }
+
+
         return QuantityIndex;
       }
       else
@@ -122,6 +132,15 @@ namespace Blaze.DataModel.IndexSetter
         {
           QuantityIndex.Comparator = null;
         }
+        if (!string.IsNullOrWhiteSpace(Quantity.Unit))
+        {
+          QuantityIndex.Unit = Quantity.Unit;
+        }
+        else
+        {
+          QuantityIndex.Unit = null;
+        }
+
         return QuantityIndex;
       }
       else
@@ -165,6 +184,14 @@ namespace Blaze.DataModel.IndexSetter
         else
         {
           QuantityIndex.Comparator = null;
+        }
+        if (!string.IsNullOrWhiteSpace(SimpleQuantity.Unit))
+        {
+          QuantityIndex.Unit = SimpleQuantity.Unit;
+        }
+        else
+        {
+          QuantityIndex.Unit = null;
         }
         return QuantityIndex;
       }

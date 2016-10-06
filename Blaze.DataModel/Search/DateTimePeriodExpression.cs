@@ -16,12 +16,10 @@ namespace Blaze.DataModel.Search
     public static Expression EqualToExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh >= ValueLow)
@@ -87,13 +85,10 @@ namespace Blaze.DataModel.Search
     public static Expression NotEqualToExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
@@ -144,12 +139,10 @@ namespace Blaze.DataModel.Search
     public static Expression GreaterThanOrEqualToExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
@@ -190,13 +183,11 @@ namespace Blaze.DataModel.Search
     public static Expression GreaterThanExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
-      var ConstantReferenceNull = Expression.Constant(null);
+      ConstantExpression ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
       var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
@@ -232,12 +223,10 @@ namespace Blaze.DataModel.Search
     public static Expression LessThanOrEqualToExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
@@ -279,12 +268,10 @@ namespace Blaze.DataModel.Search
     public static Expression LessThanExpression(
       string Property,
       MemberExpression propertyReferenceLow,
-      DateTimeOffset SearchValueLow,
+      ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
-      DateTimeOffset SearchValueHigh)
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
@@ -320,61 +307,3 @@ namespace Blaze.DataModel.Search
 
 
 }
-
-// ============== Examples ================================================================================
-////(x.date_DateTimeOffsetLow == Null)
-//var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
-
-////(x.date_DateTimeOffsetLow != Null)
-//var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
-
-////(x.date_DateTimeOffsetHigh == Null)
-//var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
-
-////(x.date_DateTimeOffsetHigh != Null)
-//var BinaryExpression_ResourceHigh_IsNotNull = Expression.NotEqual(propertyReferenceHigh, ConstantReferenceNull);
-
-////(x.date_DateTimeOffsetLow <= ValueLow)
-//var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetLow < ValueLow)
-//var BinaryExpression_ResourceLow_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceLow, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetLow >= ValueLow)
-//var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetLow > ValueLow)
-//var BinaryExpression_ResourceLow_IsHigherThan_SearchLow = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetLow <= ValueHigh)
-//var BinaryExpression_ResourceLow_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetLow < ValueHigh)
-//var BinaryExpression_ResourceLow_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceLow, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetLow >= ValueHigh)
-//var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetLow > ValueHigh)
-//var BinaryExpression_ResourceLow_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceLow, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetHigh <= ValueHigh)
-//var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetHigh < ValueHigh)
-//var BinaryExpression_ResourceHigh_IsLowerThan_SearchHigh = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetHigh >= ValueHigh)
-//var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchHigh = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetHigh >= ValueHigh)
-//var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
-
-////(x.date_DateTimeOffsetHigh <= ValueLow)
-//var BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchLow = Expression.LessThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetHigh < ValueLow)
-//var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
-
-////(x.date_DateTimeOffsetHigh >= ValueLow)
-//var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);

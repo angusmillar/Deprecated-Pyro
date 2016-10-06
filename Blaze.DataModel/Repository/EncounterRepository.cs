@@ -161,7 +161,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.length_Comparator = null;      
-      ResourceEntity.length_Number = null;      
+      ResourceEntity.length_Quantity = null;      
       ResourceEntity.part_of_VersionId = null;      
       ResourceEntity.part_of_FhirId = null;      
       ResourceEntity.part_of_Type = null;      
@@ -246,7 +246,7 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.length_Comparator = Index.Comparator;
-            ResourseEntity.length_Number = Index.Number;
+            ResourseEntity.length_Quantity = Index.Quantity;
           }
         }
       }

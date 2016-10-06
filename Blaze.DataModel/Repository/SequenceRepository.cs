@@ -142,14 +142,14 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Sequence ResourceEntity)
     {
       ResourceEntity.end_Comparator = null;      
-      ResourceEntity.end_Number = null;      
+      ResourceEntity.end_Quantity = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.start_Comparator = null;      
-      ResourceEntity.start_Number = null;      
+      ResourceEntity.start_Quantity = null;      
       ResourceEntity.type_Code = null;      
       ResourceEntity.type_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -178,7 +178,7 @@ namespace Blaze.DataModel.Repository
             if (Index != null)
             {
               ResourseEntity.end_Comparator = Index.Comparator;
-              ResourseEntity.end_Number = Index.Number;
+              ResourseEntity.end_Quantity = Index.Quantity;
             }
           }
         }
@@ -217,7 +217,7 @@ namespace Blaze.DataModel.Repository
             if (Index != null)
             {
               ResourseEntity.start_Comparator = Index.Comparator;
-              ResourseEntity.start_Number = Index.Number;
+              ResourseEntity.start_Quantity = Index.Quantity;
             }
           }
         }

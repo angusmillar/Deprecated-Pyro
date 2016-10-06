@@ -14,14 +14,14 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_SequenceID {get; set;}
     public Hl7.Fhir.Model.Quantity.QuantityComparator? end_Comparator {get; set;}
-    public decimal? end_Number {get; set;}
+    public decimal? end_Quantity {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual ServiceRootURL_Store patient_Url { get; set; }
     public int? patient_ServiceRootURL_StoreID { get; set; }
     public Hl7.Fhir.Model.Quantity.QuantityComparator? start_Comparator {get; set;}
-    public decimal? start_Number {get; set;}
+    public decimal? start_Quantity {get; set;}
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public ICollection<Res_Sequence_History> Res_Sequence_History_List { get; set; }

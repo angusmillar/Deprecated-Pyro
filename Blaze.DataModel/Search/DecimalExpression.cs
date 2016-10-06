@@ -11,18 +11,15 @@ using System.Reflection;
 
 namespace Blaze.DataModel.Search
 {
-  public static class NumberExpression
+  public static class DecimalExpression
   {
     public static Expression EqualToExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueLow,
-      decimal SearchValueMid,
-      decimal SearchValueHigh)
+      ConstantExpression SearchValueReferenceLow,
+      ConstantExpression SearchValueReferenceMid,
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(decimal?));
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(decimal?));
 
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -91,13 +88,10 @@ namespace Blaze.DataModel.Search
     public static Expression NotEqualToExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueLow,
-      decimal SearchValueMid,
-      decimal SearchValueHigh)
+      ConstantExpression SearchValueReferenceLow,
+      ConstantExpression SearchValueReferenceMid,
+      ConstantExpression SearchValueReferenceHigh)
     {
-      var SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(decimal?));
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-      var SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(decimal?));
 
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -167,11 +161,8 @@ namespace Blaze.DataModel.Search
     public static Expression GreaterThanExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueMid)
+      ConstantExpression SearchValueReferenceMid)
     {
-
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
       var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -223,10 +214,8 @@ namespace Blaze.DataModel.Search
     public static Expression GreaterThanOrEqualToExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueMid)
+      ConstantExpression SearchValueReferenceMid)
     {
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
       var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -278,11 +267,8 @@ namespace Blaze.DataModel.Search
     public static Expression LessThanExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueMid)
+      ConstantExpression SearchValueReferenceMid)
     {
-
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
       var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -335,10 +321,8 @@ namespace Blaze.DataModel.Search
     public static Expression LessThanOrEqualToExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber,
-      decimal SearchValueMid)
+      ConstantExpression SearchValueReferenceMid)
     {
-      var SearchValueReferenceMid = Expression.Constant(SearchValueMid, typeof(decimal?));
-
       var ConstantReferenceNull = Expression.Constant(null);
       var ConstantReferanceGreaterThanOrEqualTo = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
       var ConstantReferanceGreaterThan = Expression.Constant(Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterThan, typeof(Hl7.Fhir.Model.Quantity.QuantityComparator?));
@@ -387,8 +371,6 @@ namespace Blaze.DataModel.Search
       return BinaryExpression_Final_ABCD;
     }
 
-
-
     public static Expression IsNullExpression(
       MemberExpression propertyReferenceComparator,
       MemberExpression propertyReferenceNumber)
@@ -397,11 +379,6 @@ namespace Blaze.DataModel.Search
 
       //(x.length_Number == null)
       var BinaryExpression_ResourceNumber_IsEqualTo_Null = Expression.Equal(propertyReferenceNumber, ConstantReferenceNull);
-
-      //(x.length_Comparator == null)
-      //var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
-
-      //Expression BinaryExpression_Final = Expression.Add(BinaryExpression_ResourceNumber_IsEqualTo_Null, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
 
       Expression BinaryExpression_Final = BinaryExpression_ResourceNumber_IsEqualTo_Null;
 
@@ -416,11 +393,6 @@ namespace Blaze.DataModel.Search
 
       //(x.length_Number == null)
       var BinaryExpression_ResourceNumber_IsEqualTo_NotNull = Expression.NotEqual(propertyReferenceNumber, ConstantReferenceNull);
-
-      //(x.length_Comparator == null)
-      //var BinaryExpression_ResourceComparator_IsEqualTo_Equal = Expression.Equal(propertyReferenceComparator, ConstantReferenceNull);
-
-      //Expression BinaryExpression_Final = Expression.Add(BinaryExpression_ResourceNumber_IsEqualTo_Null, BinaryExpression_ResourceComparator_IsEqualTo_Equal);
 
       Expression BinaryExpression_Final = BinaryExpression_ResourceNumber_IsEqualTo_NotNull;
 

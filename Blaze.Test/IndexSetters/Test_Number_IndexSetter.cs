@@ -25,7 +25,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(Duration, Index) as NumberIndex;
 
       //Assert
-      Assert.AreEqual(Index.Number, Value);
+      Assert.AreEqual(Index.Quantity, Value);
       Assert.AreEqual(Index.Comparator, Comparator);
     }
 
@@ -43,7 +43,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(Duration, Index) as NumberIndex;
 
       //Assert
-      Assert.AreEqual(Index.Number, Value);
+      Assert.AreEqual(Index.Quantity, Value);
       Assert.IsNull(Index.Comparator);
     }
 
@@ -91,7 +91,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(Integer, Index) as NumberIndex;
 
       //Assert
-      Assert.AreEqual(Index.Number, Value);
+      Assert.AreEqual(Index.Quantity, Value);
       Assert.IsNull(Index.Comparator);
     }
 
@@ -139,7 +139,7 @@ namespace Blaze.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(PositiveInt, Index) as NumberIndex;
 
       //Assert
-      Assert.AreEqual(Index.Number, Value);
+      Assert.AreEqual(Index.Quantity, Value);
       Assert.IsNull(Index.Comparator);
     }
 

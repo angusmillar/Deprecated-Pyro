@@ -17,6 +17,7 @@ namespace Blaze.DataModel.DatabaseModel
     public decimal? balance_Quantity {get; set;}
     public string balance_System {get; set;}
     public string balance_Code {get; set;}
+    public string balance_Unit {get; set;}
     public string name_String {get; set;}
     public string owner_VersionId {get; set;}
     public string owner_FhirId {get; set;}

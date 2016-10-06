@@ -10,6 +10,6 @@ namespace Blaze.DataModel.DatabaseModel.Base
   public class NumberIndex : ModelBase
   {
     public Quantity.QuantityComparator? Comparator { get; set; }
-    public decimal Number { get; set; }
+    public decimal Quantity { get; set; }
   }
 }

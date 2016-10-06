@@ -286,7 +286,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}();", Prefix, PropertyName, IsOptional));
           }
-          else if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number)
+          else if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Quantity)
           {
             FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, RequiredOrOptional));
           }
@@ -318,7 +318,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           if (PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh ||
             PropertyName == StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow)
           {
-            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, IsOptional));            
+            FluentPathList.Add(String.Format("Property(x => x.{0}{1}).Is{2}().HasPrecision(28,14);", Prefix, PropertyName, IsOptional));
           }
           else
           {
@@ -468,7 +468,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
         case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
           {
             Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator{0} {1}{2} {{get; set;}}", IsOptional, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator));
-            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number));
+            Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Quantity));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
@@ -477,6 +477,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             Propertylist.Add(String.Format("public decimal{0} {1}{2} {{get; set;}}", IsOptionalOrRequired, Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Unit));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
@@ -485,11 +486,13 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
             Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemLow));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeLow));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.UnitLow));
 
             Propertylist.Add(String.Format("public Hl7.Fhir.Model.Quantity.QuantityComparator? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorHigh));
             Propertylist.Add(String.Format("public decimal? {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh));
             Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh));
+            Propertylist.Add(String.Format("public string {0}{1} {{get; set;}}", Prefix, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.UnitLow));
           }
           break;
         case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:

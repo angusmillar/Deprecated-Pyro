@@ -56,11 +56,13 @@ namespace Blaze.DataModel.IndexSetter
         QuantityRangeIndex.CodeLow = Range.Low.Code;
         QuantityRangeIndex.SystemLow = Range.Low.System;
         QuantityRangeIndex.QuantityLow = Range.Low.Value.Value;
+        QuantityRangeIndex.UnitLow = Range.Low.Unit;
 
         QuantityRangeIndex.ComparatorHigh = Range.High.Comparator;
         QuantityRangeIndex.CodeHigh = Range.High.Code;
         QuantityRangeIndex.SystemHigh = Range.High.System;
         QuantityRangeIndex.QuantityHigh = Range.High.Value.Value;
+        QuantityRangeIndex.UnitHigh = Range.High.Unit;
 
         return QuantityRangeIndex;
       }

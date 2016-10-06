@@ -14,7 +14,8 @@ SQL Server 2014 Management Studio Express 64 Bit
 Blaze Code Generation build, The folowing T4 files inspect the FHIR API and build the database and code repositories
 These would only need to be run to upgrade to a new FHIR API, i.e upgrade to STU4. 
 The order of running is critical for the rows with astrixs i.e (7.* & 8.*). 
-Aside to this the order below is the order normally followed:
+Aside to this the order below is the order normally followed, you will also need to recompile the 'Blaze.CodeGenerationSupport' 
+project after each is run as the T4 Template engine appear to lock the FHIR API dll on each run, recompile appears to unlock this dll:
  
 1. Blaze.CodeGenerationSupport.DbEntityCodeGeneration._DbEntityModelGenerator.tt
 2. Blaze.CodeGenerationSupport.DbEntityCodeGeneration._DbContextGenerator.tt

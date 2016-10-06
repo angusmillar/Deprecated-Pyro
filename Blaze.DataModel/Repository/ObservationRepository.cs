@@ -191,6 +191,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.value_quantity_Quantity = null;      
       ResourceEntity.value_quantity_System = null;      
       ResourceEntity.value_quantity_Code = null;      
+      ResourceEntity.value_quantity_Unit = null;      
       ResourceEntity.value_string_String = null;      
       ResourceEntity.XmlBlob = null;      
  
@@ -410,6 +411,7 @@ namespace Blaze.DataModel.Repository
             ResourseEntity.value_quantity_Quantity = Index.Quantity;
             ResourseEntity.value_quantity_System = Index.System;
             ResourseEntity.value_quantity_Code = Index.Code;
+            ResourseEntity.value_quantity_Unit = Index.Unit;
           }
         }
       }

@@ -28,6 +28,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.balance_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.balance_System).IsOptional();
       Property(x => x.balance_Code).IsOptional();
+      Property(x => x.balance_Unit).IsOptional();
       Property(x => x.name_String).IsOptional();
       Property(x => x.owner_VersionId).IsOptional();
       Property(x => x.owner_FhirId).IsOptional();

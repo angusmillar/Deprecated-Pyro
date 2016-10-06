@@ -59,6 +59,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.value_quantity_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.value_quantity_System).IsOptional();
       Property(x => x.value_quantity_Code).IsOptional();
+      Property(x => x.value_quantity_Unit).IsOptional();
       Property(x => x.value_string_String).IsOptional();
     }
   }

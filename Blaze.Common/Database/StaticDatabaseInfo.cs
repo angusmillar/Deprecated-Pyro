@@ -50,8 +50,8 @@ namespace Blaze.Common.Database
 
       public static class NumberIndexConstatnts
       {
-        public static string Comparator { get { return "Comparator"; } }
-        public static string Number { get { return "Number"; } }
+        public static string Comparator { get { return QuantityIndexConstatnts.Comparator; } }
+        public static string Quantity { get { return QuantityIndexConstatnts.Quantity; } }
       }
 
       public static class QuantityIndexConstatnts
@@ -60,7 +60,7 @@ namespace Blaze.Common.Database
         public static string Quantity { get { return "Quantity"; } }
         public static string System { get { return "System"; } }
         public static string Code { get { return "Code"; } }
-        //public static string Unit { get { return "Unit"; } }
+        public static string Unit { get { return "Unit"; } }
       }
 
       public static class QuantityRangeIndexConstatnts
@@ -69,11 +69,13 @@ namespace Blaze.Common.Database
         public static string QuantityLow { get { return "QuantityLow"; } }
         public static string SystemLow { get { return "SystemLow"; } }
         public static string CodeLow { get { return "CodeLow"; } }
+        public static string UnitLow { get { return "UnitLow"; } }
 
         public static string ComparatorHigh { get { return "ComparatorHigh"; } }
         public static string QuantityHigh { get { return "QuantityHigh"; } }
         public static string SystemHigh { get { return "SystemHigh"; } }
         public static string CodeHigh { get { return "CodeHigh"; } }
+        public static string UnitHigh { get { return "UnitHigh"; } }
       }
 
       public static class ReferenceIndexConstatnts
@@ -127,7 +129,7 @@ namespace Blaze.Common.Database
 
         var NumberIndexList = new List<string>();
         NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Comparator);
-        NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Number);
+        NumberIndexList.Add(DatabaseIndexPropertyConstatnts.NumberIndexConstatnts.Quantity);
         Dic.Add(DatabaseEnum.DbIndexType.NumberIndex, NumberIndexList);
 
 
@@ -136,7 +138,7 @@ namespace Blaze.Common.Database
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Quantity);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System);
         QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code);
-        //QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Unit);
+        QuantityIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Unit);
         Dic.Add(DatabaseEnum.DbIndexType.QuantityIndex, QuantityIndexList);
 
 
@@ -145,10 +147,12 @@ namespace Blaze.Common.Database
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityLow);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemLow);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeLow);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.UnitLow);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.ComparatorHigh);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.QuantityHigh);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.SystemHigh);
         QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.CodeHigh);
+        QuantityRangeIndexList.Add(DatabaseIndexPropertyConstatnts.QuantityRangeIndexConstatnts.UnitHigh);
         Dic.Add(DatabaseEnum.DbIndexType.QuantityRangeIndex, QuantityRangeIndexList);
 
         var ReferenceIndexList = new List<string>();

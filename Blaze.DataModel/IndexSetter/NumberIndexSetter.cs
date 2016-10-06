@@ -54,7 +54,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (Duration.Value.HasValue)
       {
-        NumberIndex.Number = (decimal)Duration.Value;
+        NumberIndex.Quantity = (decimal)Duration.Value;
         if (Duration.Comparator.HasValue)
         {
           NumberIndex.Comparator = Duration.Comparator.Value;
@@ -81,7 +81,7 @@ namespace Blaze.DataModel.IndexSetter
 
       if (Integer.Value.HasValue)
       {
-        NumberIndex.Number = Convert.ToInt32(Integer.Value);
+        NumberIndex.Quantity = Convert.ToInt32(Integer.Value);
         NumberIndex.Comparator = null;
         return NumberIndex;
       }
@@ -103,7 +103,7 @@ namespace Blaze.DataModel.IndexSetter
       {
         if (PositiveInt.Value < 0)
           throw new FormatException(string.Format("PositiveInt must be a positive value, value was : {0}", PositiveInt.Value.ToString()));
-        NumberIndex.Number = Convert.ToInt32(PositiveInt.Value);
+        NumberIndex.Quantity = Convert.ToInt32(PositiveInt.Value);
         NumberIndex.Comparator = null;
         return NumberIndex;
       }

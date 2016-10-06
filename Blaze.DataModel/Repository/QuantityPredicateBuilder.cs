@@ -23,25 +23,25 @@ namespace Blaze.DataModel.Repository
                 switch (SearchValue.Prefix)
                 {
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
-                    //NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
-                    //NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    //NewPredicate = CollectionNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = CollectionNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    //NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityCollectionAnyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
-                    //NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityCollectionAnyLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityCollectionAnyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityCollectionAnyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
                     throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
@@ -64,19 +64,19 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = PropertyEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    //NewPredicate = PropertyNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
+                    NewPredicate = PropertyNotEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    //NewPredicate = NewPredicate.Or(Search.NumberPropertyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityPropertyGreaterThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
-                    //NewPredicate = NewPredicate.Or(Search.NumberPropertyLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityPropertyLessThan(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.NumberPropertyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityPropertyGreaterThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
-                    //NewPredicate = NewPredicate.Or(Search.NumberPropertyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
+                    NewPredicate = NewPredicate.Or(Search.QuantityPropertyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value, SearchValue.System, SearchValue.Code));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
                     throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
@@ -97,11 +97,11 @@ namespace Blaze.DataModel.Repository
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
                     if (SearchValue.IsMissing)
                     {
-                      //NewPredicate = NewPredicate.Or(Search.NumberCollectionIsNull(SearchTypeNumber.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.QuantityCollectionIsNull(SearchTypeNumber.DbPropertyName));
                     }
                     else
                     {
-                      //NewPredicate = NewPredicate.Or(Search.NumberCollectionIsNotNull(SearchTypeNumber.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.QuantityCollectionIsNotNull(SearchTypeNumber.DbPropertyName));
                     }
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
@@ -133,11 +133,11 @@ namespace Blaze.DataModel.Repository
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.None:
                     if (SearchValue.IsMissing)
                     {
-                      //NewPredicate = NewPredicate.Or(Search.NumberPropertyIsNull(SearchTypeNumber.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.QuantityPropertyIsNull(SearchTypeNumber.DbPropertyName));
                     }
                     else
                     {
-                      //NewPredicate = NewPredicate.Or(Search.NumberPropertyIsNotNull(SearchTypeNumber.DbPropertyName));
+                      NewPredicate = NewPredicate.Or(Search.QuantityPropertyIsNotNull(SearchTypeNumber.DbPropertyName));
                     }
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
@@ -188,40 +188,62 @@ namespace Blaze.DataModel.Repository
       return NewPredicate;
     }
 
+    private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterQuantity SearchTypeNumber, DtoSearchParameterQuantityValue SearchValue) where T : ResourceIndexBase
+    {
+      var Expression = Search.QuantityCollectionAnyEqualTo(
+         SearchTypeNumber.DbPropertyName,
+         Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.Value,
+         Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.System,
+         SearchValue.Code);
 
-    //private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  var NotEqualToExpression = Search.NumberCollectionAllNotEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
-    //  var CollectionIsNullExpression = Search.NumberCollectionIsNull(SearchTypeNumber.DbPropertyName);
-    //  NewPredicate = NewPredicate.Or(NotEqualToExpression);
-    //  NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
-    //  return NewPredicate;
-    //}
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
+    }
 
-    //private static ExpressionStarter<T> PropertyNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  var Expression = Search.NumberPropertyNotEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
-    //  NewPredicate = NewPredicate.Or(Expression);
-    //  return NewPredicate;
-    //}
+    private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterQuantity SearchTypeNumber, DtoSearchParameterQuantityValue SearchValue) where T : ResourceIndexBase
+    {
+      var NotEqualTo_Expression = Search.QuantityCollectionAllNotEqualTo(
+         SearchTypeNumber.DbPropertyName,
+         Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.Value,
+         Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.System,
+         SearchValue.Code);
 
+      var CollectionNotNull_Expression2 = Search.QuantityCollectionIsNotNull(SearchTypeNumber.DbPropertyName);
 
-    //private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
-    //{
-    //  var Expression = Search.NumberCollectionAnyEqualTo(SearchTypeNumber.DbPropertyName, CalculateLowNumber(SearchValue), SearchValue.Value, CalculateHighNumber(SearchValue));
-    //  NewPredicate = NewPredicate.Or(Expression);
-    //  return NewPredicate;
+      ExpressionStarter<T> NewAndPredicate = LinqKit.PredicateBuilder.New<T>();
+      NewAndPredicate = NewAndPredicate.And(NotEqualTo_Expression);
+      NewAndPredicate = NewAndPredicate.And(CollectionNotNull_Expression2);
 
-    //}
+      NewPredicate = NewPredicate.Or(NewAndPredicate);
+      return NewPredicate;
+    }
 
+    private static ExpressionStarter<T> PropertyNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterQuantity SearchTypeNumber, DtoSearchParameterQuantityValue SearchValue) where T : ResourceIndexBase
+    {
+      var Expression = Search.QuantityPropertyNotEqualTo(SearchTypeNumber.DbPropertyName,
+         Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.Value,
+         Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale),
+         SearchValue.System,
+         SearchValue.Code);
+
+      NewPredicate = NewPredicate.Or(Expression);
+      return NewPredicate;
+    }
+    
     private static ExpressionStarter<T> PropertyEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterQuantity SearchTypeNumber, DtoSearchParameterQuantityValue SearchValue) where T : ResourceIndexBase
     {
-      var Expression = Search.QuantityPropertyEqualTo(SearchTypeNumber.DbPropertyName, 
-        Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), 
-        SearchValue.Value, 
+      var Expression = Search.QuantityPropertyEqualTo(SearchTypeNumber.DbPropertyName,
+        Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale),
+        SearchValue.Value,
         Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale),
         SearchValue.System,
         SearchValue.Code);
+
       NewPredicate = NewPredicate.Or(Expression);
       return NewPredicate;
     }

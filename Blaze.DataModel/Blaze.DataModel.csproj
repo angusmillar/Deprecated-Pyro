@@ -6611,8 +6611,9 @@
     <Compile Include="Repository\VisionPrescriptionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Search\QuantityExpression.cs" />
     <Compile Include="Search\TokenExpression.cs" />
-    <Compile Include="Search\NumberExpression.cs" />
+    <Compile Include="Search\DecimalExpression.cs" />
     <Compile Include="Search\DateTimePeriodExpression.cs" />
     <Compile Include="Search\ResourceSearch.cs" />
     <Compile Include="Search\ResourceSearchExtensions.cs" />

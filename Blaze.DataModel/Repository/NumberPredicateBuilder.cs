@@ -192,9 +192,14 @@ namespace Blaze.DataModel.Repository
     private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterNumber SearchTypeNumber, DtoSearchParameterNumberValue SearchValue) where T : ResourceIndexBase
     {
       var NotEqualToExpression = Search.NumberCollectionAllNotEqualTo(SearchTypeNumber.DbPropertyName, Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), SearchValue.Value, Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale));
-      var CollectionIsNullExpression = Search.NumberCollectionIsNull(SearchTypeNumber.DbPropertyName);
-      NewPredicate = NewPredicate.Or(NotEqualToExpression);
-      NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
+      var CollectionNotNull_Expression = Search.NumberCollectionIsNull(SearchTypeNumber.DbPropertyName);
+
+      ExpressionStarter<T> NewAndPredicate = LinqKit.PredicateBuilder.New<T>();
+      NewAndPredicate = NewAndPredicate.And(NotEqualToExpression);
+      NewAndPredicate = NewAndPredicate.And(CollectionNotNull_Expression);
+
+      NewPredicate = NewPredicate.Or(NewAndPredicate);
+      
       return NewPredicate;
     }
 

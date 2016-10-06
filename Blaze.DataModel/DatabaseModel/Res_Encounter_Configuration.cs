@@ -32,7 +32,7 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.date_DateTimeOffsetLow).IsOptional();
       Property(x => x.date_DateTimeOffsetHigh).IsOptional();
       Property(x => x.length_Comparator).IsOptional();
-      Property(x => x.length_Number).IsOptional().HasPrecision(28,14);
+      Property(x => x.length_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.part_of_VersionId).IsOptional();
       Property(x => x.part_of_FhirId).IsOptional();
       Property(x => x.part_of_Type).IsOptional();

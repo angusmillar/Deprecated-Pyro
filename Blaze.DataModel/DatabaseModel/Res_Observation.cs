@@ -48,6 +48,7 @@ namespace Blaze.DataModel.DatabaseModel
     public decimal? value_quantity_Quantity {get; set;}
     public string value_quantity_System {get; set;}
     public string value_quantity_Code {get; set;}
+    public string value_quantity_Unit {get; set;}
     public string value_string_String {get; set;}
     public ICollection<Res_Observation_History> Res_Observation_History_List { get; set; }
     public ICollection<Res_Observation_Index_category> category_List { get; set; }

@@ -25,14 +25,14 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.end_Comparator).IsOptional();
-      Property(x => x.end_Number).IsOptional().HasPrecision(28,14);
+      Property(x => x.end_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.start_Comparator).IsOptional();
-      Property(x => x.start_Number).IsOptional().HasPrecision(28,14);
+      Property(x => x.start_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.type_Code).IsOptional();
       Property(x => x.type_System).IsOptional();
     }

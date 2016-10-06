@@ -13,5 +13,6 @@ namespace Blaze.DataModel.DatabaseModel.Base
     public decimal Quantity { get; set; }
     public string System { get; set; }
     public string Code { get; set; }
+    public string Unit { get; set; }
   }
 }

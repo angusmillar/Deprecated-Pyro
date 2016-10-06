@@ -145,6 +145,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.balance_Quantity = null;      
       ResourceEntity.balance_System = null;      
       ResourceEntity.balance_Code = null;      
+      ResourceEntity.balance_Unit = null;      
       ResourceEntity.name_String = null;      
       ResourceEntity.owner_VersionId = null;      
       ResourceEntity.owner_FhirId = null;      
@@ -192,6 +193,7 @@ namespace Blaze.DataModel.Repository
             ResourseEntity.balance_Quantity = Index.Quantity;
             ResourseEntity.balance_System = Index.System;
             ResourseEntity.balance_Code = Index.Code;
+            ResourseEntity.balance_Unit = Index.Unit;
           }
         }
       }
