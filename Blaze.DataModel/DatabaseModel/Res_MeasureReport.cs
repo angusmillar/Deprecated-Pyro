@@ -19,15 +19,15 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual ServiceRootURL_Store patient_Url { get; set; }
     public int? patient_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_MeasureReport_History> Res_MeasureReport_History_List { get; set; }
-    public ICollection<Res_MeasureReport_Index_profile> profile_List { get; set; }
-    public ICollection<Res_MeasureReport_Index_security> security_List { get; set; }
-    public ICollection<Res_MeasureReport_Index_tag> tag_List { get; set; }
+    public ICollection<Res_MeasureReport_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_MeasureReport_Index__security> _security_List { get; set; }
+    public ICollection<Res_MeasureReport_Index__tag> _tag_List { get; set; }
    
     public Res_MeasureReport()
     {
-      this.profile_List = new HashSet<Res_MeasureReport_Index_profile>();
-      this.security_List = new HashSet<Res_MeasureReport_Index_security>();
-      this.tag_List = new HashSet<Res_MeasureReport_Index_tag>();
+      this._profile_List = new HashSet<Res_MeasureReport_Index__profile>();
+      this._security_List = new HashSet<Res_MeasureReport_Index__security>();
+      this._tag_List = new HashSet<Res_MeasureReport_Index__tag>();
       this.Res_MeasureReport_History_List = new HashSet<Res_MeasureReport_History>();
     }
   }

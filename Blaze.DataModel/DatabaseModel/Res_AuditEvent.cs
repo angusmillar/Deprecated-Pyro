@@ -35,9 +35,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_AuditEvent_Index_policy> policy_List { get; set; }
     public ICollection<Res_AuditEvent_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_AuditEvent_Index_user> user_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_profile> profile_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_security> security_List { get; set; }
-    public ICollection<Res_AuditEvent_Index_tag> tag_List { get; set; }
+    public ICollection<Res_AuditEvent_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_AuditEvent_Index__security> _security_List { get; set; }
+    public ICollection<Res_AuditEvent_Index__tag> _tag_List { get; set; }
    
     public Res_AuditEvent()
     {
@@ -53,9 +53,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.policy_List = new HashSet<Res_AuditEvent_Index_policy>();
       this.subtype_List = new HashSet<Res_AuditEvent_Index_subtype>();
       this.user_List = new HashSet<Res_AuditEvent_Index_user>();
-      this.profile_List = new HashSet<Res_AuditEvent_Index_profile>();
-      this.security_List = new HashSet<Res_AuditEvent_Index_security>();
-      this.tag_List = new HashSet<Res_AuditEvent_Index_tag>();
+      this._profile_List = new HashSet<Res_AuditEvent_Index__profile>();
+      this._security_List = new HashSet<Res_AuditEvent_Index__security>();
+      this._tag_List = new HashSet<Res_AuditEvent_Index__tag>();
       this.Res_AuditEvent_History_List = new HashSet<Res_AuditEvent_History>();
     }
   }

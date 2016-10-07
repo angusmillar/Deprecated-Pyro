@@ -26,9 +26,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Medication_Index_ingredient_code> ingredient_code_List { get; set; }
     public ICollection<Res_Medication_Index_package_item> package_item_List { get; set; }
     public ICollection<Res_Medication_Index_package_item_code> package_item_code_List { get; set; }
-    public ICollection<Res_Medication_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Medication_Index_security> security_List { get; set; }
-    public ICollection<Res_Medication_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Medication_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Medication_Index__security> _security_List { get; set; }
+    public ICollection<Res_Medication_Index__tag> _tag_List { get; set; }
    
     public Res_Medication()
     {
@@ -39,9 +39,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.ingredient_code_List = new HashSet<Res_Medication_Index_ingredient_code>();
       this.package_item_List = new HashSet<Res_Medication_Index_package_item>();
       this.package_item_code_List = new HashSet<Res_Medication_Index_package_item_code>();
-      this.profile_List = new HashSet<Res_Medication_Index_profile>();
-      this.security_List = new HashSet<Res_Medication_Index_security>();
-      this.tag_List = new HashSet<Res_Medication_Index_tag>();
+      this._profile_List = new HashSet<Res_Medication_Index__profile>();
+      this._security_List = new HashSet<Res_Medication_Index__security>();
+      this._tag_List = new HashSet<Res_Medication_Index__tag>();
       this.Res_Medication_History_List = new HashSet<Res_Medication_History>();
     }
   }

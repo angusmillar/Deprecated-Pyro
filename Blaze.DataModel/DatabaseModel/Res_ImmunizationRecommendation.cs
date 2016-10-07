@@ -27,9 +27,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ImmunizationRecommendation_Index_status> status_List { get; set; }
     public ICollection<Res_ImmunizationRecommendation_Index_support> support_List { get; set; }
     public ICollection<Res_ImmunizationRecommendation_Index_vaccine_type> vaccine_type_List { get; set; }
-    public ICollection<Res_ImmunizationRecommendation_Index_profile> profile_List { get; set; }
-    public ICollection<Res_ImmunizationRecommendation_Index_security> security_List { get; set; }
-    public ICollection<Res_ImmunizationRecommendation_Index_tag> tag_List { get; set; }
+    public ICollection<Res_ImmunizationRecommendation_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_ImmunizationRecommendation_Index__security> _security_List { get; set; }
+    public ICollection<Res_ImmunizationRecommendation_Index__tag> _tag_List { get; set; }
    
     public Res_ImmunizationRecommendation()
     {
@@ -41,9 +41,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.status_List = new HashSet<Res_ImmunizationRecommendation_Index_status>();
       this.support_List = new HashSet<Res_ImmunizationRecommendation_Index_support>();
       this.vaccine_type_List = new HashSet<Res_ImmunizationRecommendation_Index_vaccine_type>();
-      this.profile_List = new HashSet<Res_ImmunizationRecommendation_Index_profile>();
-      this.security_List = new HashSet<Res_ImmunizationRecommendation_Index_security>();
-      this.tag_List = new HashSet<Res_ImmunizationRecommendation_Index_tag>();
+      this._profile_List = new HashSet<Res_ImmunizationRecommendation_Index__profile>();
+      this._security_List = new HashSet<Res_ImmunizationRecommendation_Index__security>();
+      this._tag_List = new HashSet<Res_ImmunizationRecommendation_Index__tag>();
       this.Res_ImmunizationRecommendation_History_List = new HashSet<Res_ImmunizationRecommendation_History>();
     }
   }

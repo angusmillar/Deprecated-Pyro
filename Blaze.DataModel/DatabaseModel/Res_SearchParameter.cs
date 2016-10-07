@@ -25,17 +25,17 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_SearchParameter_History> Res_SearchParameter_History_List { get; set; }
     public ICollection<Res_SearchParameter_Index_context> context_List { get; set; }
     public ICollection<Res_SearchParameter_Index_target> target_List { get; set; }
-    public ICollection<Res_SearchParameter_Index_profile> profile_List { get; set; }
-    public ICollection<Res_SearchParameter_Index_security> security_List { get; set; }
-    public ICollection<Res_SearchParameter_Index_tag> tag_List { get; set; }
+    public ICollection<Res_SearchParameter_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_SearchParameter_Index__security> _security_List { get; set; }
+    public ICollection<Res_SearchParameter_Index__tag> _tag_List { get; set; }
    
     public Res_SearchParameter()
     {
       this.context_List = new HashSet<Res_SearchParameter_Index_context>();
       this.target_List = new HashSet<Res_SearchParameter_Index_target>();
-      this.profile_List = new HashSet<Res_SearchParameter_Index_profile>();
-      this.security_List = new HashSet<Res_SearchParameter_Index_security>();
-      this.tag_List = new HashSet<Res_SearchParameter_Index_tag>();
+      this._profile_List = new HashSet<Res_SearchParameter_Index__profile>();
+      this._security_List = new HashSet<Res_SearchParameter_Index__security>();
+      this._tag_List = new HashSet<Res_SearchParameter_Index__tag>();
       this.Res_SearchParameter_History_List = new HashSet<Res_SearchParameter_History>();
     }
   }

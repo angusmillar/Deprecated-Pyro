@@ -1713,8 +1713,8 @@ namespace Blaze.DataModel.Search
       MemberExpression propertyReferenceSystem = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.System);
       MemberExpression propertyReferenceCode = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Code);
       MemberExpression propertyReferenceUnit = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.QuantityIndexConstatnts.Unit);
-      
-      ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal));      
+
+      ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal));
 
       ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
       ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
@@ -1890,7 +1890,209 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
     }
 
+    //---- QuantityRange Index Expressions ------------------------------------------------------
 
+    //Not implemented as there are no QuantityRange search parameters as yet in FHIR spec, as of this early STU3 release
+
+    //---- Uri Index Expressions ------------------------------------------------------
+
+    public Expression<Func<T, bool>> UriPropertyEqualTo(string Property, string Value)
+    {
+      //(x => x.Meta.profile == "https://www.megaspin.net/store/default.asp?pid=b-tack-chop-ii")
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property);
+      var constantReference = Expression.Constant(Value);
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> UriPropertyIsNotNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset != null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> UriPropertyIsNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset == null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> UriPropertyContains(string Property, string Value)
+    {
+      MethodInfo MethodContains = typeof(string).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
+
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property);
+      var constantReference = Expression.Constant(Value);
+      var MethodContainsCall = Expression.Call(propertyReference, MethodContains, constantReference);
+      return Expression.Lambda<Func<T, bool>>(MethodContainsCall, ParameterReferance);
+    }
+
+    public Expression<Func<T, bool>> UriPropertyStartsWith(string Property, string Value)
+    {
+      //(x => x.FhirId.StartsWith("a99b5c95-b546-46ee-8992-19a7ca703d4a"))      
+      MethodInfo MethodStartsWith = typeof(string).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
+
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property);
+      var constantReference = Expression.Constant(Value);
+      var MethodStartsWithCall = Expression.Call(propertyReference, MethodStartsWith, constantReference);
+      return Expression.Lambda<Func<T, bool>>(MethodStartsWithCall, ParameterReferance);
+    }
+
+    public Expression<Func<T, bool>> UriPropertyEndsWith(string Property, string Value)
+    {
+      //(x => x.FhirId.StartsWith("a99b5c95-b546-46ee-8992-19a7ca703d4a"))      
+      MethodInfo MethodStartsWith = typeof(string).GetMethods().Where(m => m.Name == "EndsWith" && m.GetParameters().Length == 1).Single();
+
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property);
+      var constantReference = Expression.Constant(Value);
+      var MethodStartsWithCall = Expression.Call(propertyReference, MethodStartsWith, constantReference);
+      return Expression.Lambda<Func<T, bool>>(MethodStartsWithCall, ParameterReferance);
+    }
+
+
+    public Expression<Func<T, bool>> UriCollectionAnyEqualTo(string Property, string Value)
+    {
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+      //Inner
+      MethodInfo MethodEquals = typeof(string).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string)).Single();
+
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      ConstantExpression InnerValue = Expression.Constant(Value);
+
+      MethodCallExpression MethodEqualsCall = Expression.Call(InnerProperty, MethodEquals, InnerValue);
+      Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodEqualsCall, InnerParameter);
+
+      //Outer Any
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> UriCollectionAnyContains(string Property, string Value)
+    {
+      //(x => x.family_List.Any(c => c.String.Contains("Mill")));
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Inner
+      MethodInfo MethodContains = typeof(string).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
+
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      ConstantExpression InnerValue = Expression.Constant(Value);
+      MethodCallExpression MethodContainsCall = Expression.Call(InnerProperty, MethodContains, InnerValue);
+      Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodContainsCall, InnerParameter);
+
+      //Outer Any
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> UriCollectionAnyStartsWith(string Property, string Value)
+    {
+      //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Inner
+      MethodInfo MethodStartsWith = typeof(string).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
+
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      ConstantExpression InnerValue = Expression.Constant(Value);
+      MethodCallExpression MethodStartsWithCall = Expression.Call(InnerProperty, MethodStartsWith, InnerValue);
+      Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodStartsWithCall, InnerParameter);
+
+      //Outer Any
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> UriCollectionAnyEndsWith(string Property, string Value)
+    {
+      //(x => x.family_List.Any(c => c.String.StartsWith("Mill")));
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Inner
+      MethodInfo MethodEndsWith = typeof(string).GetMethods().Where(m => m.Name == "EndsWith" && m.GetParameters().Length == 1).Single();
+
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      ConstantExpression InnerValue = Expression.Constant(Value);
+      MethodCallExpression MethodStartsWithCall = Expression.Call(InnerProperty, MethodEndsWith, InnerValue);
+      Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodStartsWithCall, InnerParameter);
+
+      //Outer Any
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
+
+    public Expression<Func<T, bool>> UriCollectionIsNull(string Property)
+    {
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression ResourceParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(ResourceParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodCountCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.Equal(MethodCountCall, constantReference);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, ResourceParameter);
+    }
+
+    public Expression<Func<T, bool>> UriCollectionIsNotNull(string Property)
+    {
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(UriIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.GreaterThan(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
 
 
   }

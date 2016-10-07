@@ -52,9 +52,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Immunization_Index_reason> reason_List { get; set; }
     public ICollection<Res_Immunization_Index_reason_not_given> reason_not_given_List { get; set; }
     public ICollection<Res_Immunization_Index_vaccine_code> vaccine_code_List { get; set; }
-    public ICollection<Res_Immunization_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Immunization_Index_security> security_List { get; set; }
-    public ICollection<Res_Immunization_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Immunization_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Immunization_Index__security> _security_List { get; set; }
+    public ICollection<Res_Immunization_Index__tag> _tag_List { get; set; }
    
     public Res_Immunization()
     {
@@ -65,9 +65,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.reason_List = new HashSet<Res_Immunization_Index_reason>();
       this.reason_not_given_List = new HashSet<Res_Immunization_Index_reason_not_given>();
       this.vaccine_code_List = new HashSet<Res_Immunization_Index_vaccine_code>();
-      this.profile_List = new HashSet<Res_Immunization_Index_profile>();
-      this.security_List = new HashSet<Res_Immunization_Index_security>();
-      this.tag_List = new HashSet<Res_Immunization_Index_tag>();
+      this._profile_List = new HashSet<Res_Immunization_Index__profile>();
+      this._security_List = new HashSet<Res_Immunization_Index__security>();
+      this._tag_List = new HashSet<Res_Immunization_Index__tag>();
       this.Res_Immunization_History_List = new HashSet<Res_Immunization_History>();
     }
   }

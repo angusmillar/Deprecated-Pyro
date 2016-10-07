@@ -44,11 +44,11 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = NewPredicate.Or(Search.NumberCollectionAnyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.EndsBefore:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Approximately:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   default:
                     throw new System.ComponentModel.InvalidEnumArgumentException(SearchValue.Prefix.ToString(), (int)SearchValue.Prefix, typeof(Common.Enum.FhirSearchEnum.SearchPrefixType));
                 }
@@ -79,11 +79,11 @@ namespace Blaze.DataModel.Repository
                     NewPredicate = NewPredicate.Or(Search.NumberPropertyLessThanOrEqualTo(SearchTypeNumber.DbPropertyName, SearchValue.Value));
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.EndsBefore:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Approximately:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number.");
                   default:
                     throw new System.ComponentModel.InvalidEnumArgumentException(SearchValue.Prefix.ToString(), (int)SearchValue.Prefix, typeof(Common.Enum.FhirSearchEnum.SearchPrefixType));
                 }
@@ -105,23 +105,23 @@ namespace Blaze.DataModel.Repository
                     }
                     break;
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Equal:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.NotEqual:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Greater:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Less:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.GreaterOrEqual:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.LessOrEqual:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.StartsAfter:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.EndsBefore:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   case Common.Enum.FhirSearchEnum.SearchPrefixType.Approximately:
-                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
+                    throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                   default:
                     throw new System.ComponentModel.InvalidEnumArgumentException(SearchValue.Prefix.ToString(), (int)SearchValue.Prefix, typeof(Common.Enum.FhirSearchEnum.SearchPrefixType));
                 }
@@ -199,7 +199,7 @@ namespace Blaze.DataModel.Repository
       NewAndPredicate = NewAndPredicate.And(CollectionNotNull_Expression);
 
       NewPredicate = NewPredicate.Or(NewAndPredicate);
-      
+
       return NewPredicate;
     }
 

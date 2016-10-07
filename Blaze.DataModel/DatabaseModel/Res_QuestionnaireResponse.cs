@@ -47,15 +47,15 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual ServiceRootURL_Store subject_Url { get; set; }
     public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_QuestionnaireResponse_History> Res_QuestionnaireResponse_History_List { get; set; }
-    public ICollection<Res_QuestionnaireResponse_Index_profile> profile_List { get; set; }
-    public ICollection<Res_QuestionnaireResponse_Index_security> security_List { get; set; }
-    public ICollection<Res_QuestionnaireResponse_Index_tag> tag_List { get; set; }
+    public ICollection<Res_QuestionnaireResponse_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_QuestionnaireResponse_Index__security> _security_List { get; set; }
+    public ICollection<Res_QuestionnaireResponse_Index__tag> _tag_List { get; set; }
    
     public Res_QuestionnaireResponse()
     {
-      this.profile_List = new HashSet<Res_QuestionnaireResponse_Index_profile>();
-      this.security_List = new HashSet<Res_QuestionnaireResponse_Index_security>();
-      this.tag_List = new HashSet<Res_QuestionnaireResponse_Index_tag>();
+      this._profile_List = new HashSet<Res_QuestionnaireResponse_Index__profile>();
+      this._security_List = new HashSet<Res_QuestionnaireResponse_Index__security>();
+      this._tag_List = new HashSet<Res_QuestionnaireResponse_Index__tag>();
       this.Res_QuestionnaireResponse_History_List = new HashSet<Res_QuestionnaireResponse_History>();
     }
   }

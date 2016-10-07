@@ -31,6 +31,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterBase()
     {
       this.HasLogicalOrProperties = false;
+      this.IsValid = true;
     }
   }
 }

@@ -45,9 +45,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ClinicalImpression_Index_resolved> resolved_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_ruledout> ruledout_List { get; set; }
     public ICollection<Res_ClinicalImpression_Index_trigger_code> trigger_code_List { get; set; }
-    public ICollection<Res_ClinicalImpression_Index_profile> profile_List { get; set; }
-    public ICollection<Res_ClinicalImpression_Index_security> security_List { get; set; }
-    public ICollection<Res_ClinicalImpression_Index_tag> tag_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index__security> _security_List { get; set; }
+    public ICollection<Res_ClinicalImpression_Index__tag> _tag_List { get; set; }
    
     public Res_ClinicalImpression()
     {
@@ -59,9 +59,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.resolved_List = new HashSet<Res_ClinicalImpression_Index_resolved>();
       this.ruledout_List = new HashSet<Res_ClinicalImpression_Index_ruledout>();
       this.trigger_code_List = new HashSet<Res_ClinicalImpression_Index_trigger_code>();
-      this.profile_List = new HashSet<Res_ClinicalImpression_Index_profile>();
-      this.security_List = new HashSet<Res_ClinicalImpression_Index_security>();
-      this.tag_List = new HashSet<Res_ClinicalImpression_Index_tag>();
+      this._profile_List = new HashSet<Res_ClinicalImpression_Index__profile>();
+      this._security_List = new HashSet<Res_ClinicalImpression_Index__security>();
+      this._tag_List = new HashSet<Res_ClinicalImpression_Index__tag>();
       this.Res_ClinicalImpression_History_List = new HashSet<Res_ClinicalImpression_History>();
     }
   }

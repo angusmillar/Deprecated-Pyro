@@ -44,9 +44,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_StructureDefinition_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_path> path_List { get; set; }
     public ICollection<Res_StructureDefinition_Index_valueset> valueset_List { get; set; }
-    public ICollection<Res_StructureDefinition_Index_profile> profile_List { get; set; }
-    public ICollection<Res_StructureDefinition_Index_security> security_List { get; set; }
-    public ICollection<Res_StructureDefinition_Index_tag> tag_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index__security> _security_List { get; set; }
+    public ICollection<Res_StructureDefinition_Index__tag> _tag_List { get; set; }
    
     public Res_StructureDefinition()
     {
@@ -57,9 +57,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_StructureDefinition_Index_identifier>();
       this.path_List = new HashSet<Res_StructureDefinition_Index_path>();
       this.valueset_List = new HashSet<Res_StructureDefinition_Index_valueset>();
-      this.profile_List = new HashSet<Res_StructureDefinition_Index_profile>();
-      this.security_List = new HashSet<Res_StructureDefinition_Index_security>();
-      this.tag_List = new HashSet<Res_StructureDefinition_Index_tag>();
+      this._profile_List = new HashSet<Res_StructureDefinition_Index__profile>();
+      this._security_List = new HashSet<Res_StructureDefinition_Index__security>();
+      this._tag_List = new HashSet<Res_StructureDefinition_Index__tag>();
       this.Res_StructureDefinition_History_List = new HashSet<Res_StructureDefinition_History>();
     }
   }

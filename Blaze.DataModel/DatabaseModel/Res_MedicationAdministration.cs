@@ -48,18 +48,18 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_MedicationAdministration_Index_code> code_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_device> device_List { get; set; }
     public ICollection<Res_MedicationAdministration_Index_identifier> identifier_List { get; set; }
-    public ICollection<Res_MedicationAdministration_Index_profile> profile_List { get; set; }
-    public ICollection<Res_MedicationAdministration_Index_security> security_List { get; set; }
-    public ICollection<Res_MedicationAdministration_Index_tag> tag_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index__security> _security_List { get; set; }
+    public ICollection<Res_MedicationAdministration_Index__tag> _tag_List { get; set; }
    
     public Res_MedicationAdministration()
     {
       this.code_List = new HashSet<Res_MedicationAdministration_Index_code>();
       this.device_List = new HashSet<Res_MedicationAdministration_Index_device>();
       this.identifier_List = new HashSet<Res_MedicationAdministration_Index_identifier>();
-      this.profile_List = new HashSet<Res_MedicationAdministration_Index_profile>();
-      this.security_List = new HashSet<Res_MedicationAdministration_Index_security>();
-      this.tag_List = new HashSet<Res_MedicationAdministration_Index_tag>();
+      this._profile_List = new HashSet<Res_MedicationAdministration_Index__profile>();
+      this._security_List = new HashSet<Res_MedicationAdministration_Index__security>();
+      this._tag_List = new HashSet<Res_MedicationAdministration_Index__tag>();
       this.Res_MedicationAdministration_History_List = new HashSet<Res_MedicationAdministration_History>();
     }
   }

@@ -49,9 +49,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Encounter_Index_reason> reason_List { get; set; }
     public ICollection<Res_Encounter_Index_special_arrangement> special_arrangement_List { get; set; }
     public ICollection<Res_Encounter_Index_type> type_List { get; set; }
-    public ICollection<Res_Encounter_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Encounter_Index_security> security_List { get; set; }
-    public ICollection<Res_Encounter_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Encounter_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Encounter_Index__security> _security_List { get; set; }
+    public ICollection<Res_Encounter_Index__tag> _tag_List { get; set; }
    
     public Res_Encounter()
     {
@@ -69,9 +69,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.reason_List = new HashSet<Res_Encounter_Index_reason>();
       this.special_arrangement_List = new HashSet<Res_Encounter_Index_special_arrangement>();
       this.type_List = new HashSet<Res_Encounter_Index_type>();
-      this.profile_List = new HashSet<Res_Encounter_Index_profile>();
-      this.security_List = new HashSet<Res_Encounter_Index_security>();
-      this.tag_List = new HashSet<Res_Encounter_Index_tag>();
+      this._profile_List = new HashSet<Res_Encounter_Index__profile>();
+      this._security_List = new HashSet<Res_Encounter_Index__security>();
+      this._tag_List = new HashSet<Res_Encounter_Index__tag>();
       this.Res_Encounter_History_List = new HashSet<Res_Encounter_History>();
     }
   }

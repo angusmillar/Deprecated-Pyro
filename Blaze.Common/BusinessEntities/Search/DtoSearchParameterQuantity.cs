@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Blaze.Common.BusinessEntities.Search
 {
+
+  /// <summary>
+  /// Class: DtoSearchParameterQuantity
+  /// This same class can be used for both Quantity and QuantityRange type searches
+  /// </summary>
   public class DtoSearchParameterQuantity : DtoSearchParameterBase
   {
-    #region Constructor
+    #region Private Properties
     private const char VerticalBarDelimiter = '|';
     #endregion
 

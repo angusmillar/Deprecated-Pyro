@@ -46,9 +46,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_DiagnosticOrder_Index_item_past_status> item_past_status_List { get; set; }
     public ICollection<Res_DiagnosticOrder_Index_item_status> item_status_List { get; set; }
     public ICollection<Res_DiagnosticOrder_Index_specimen> specimen_List { get; set; }
-    public ICollection<Res_DiagnosticOrder_Index_profile> profile_List { get; set; }
-    public ICollection<Res_DiagnosticOrder_Index_security> security_List { get; set; }
-    public ICollection<Res_DiagnosticOrder_Index_tag> tag_List { get; set; }
+    public ICollection<Res_DiagnosticOrder_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_DiagnosticOrder_Index__security> _security_List { get; set; }
+    public ICollection<Res_DiagnosticOrder_Index__tag> _tag_List { get; set; }
    
     public Res_DiagnosticOrder()
     {
@@ -62,9 +62,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.item_past_status_List = new HashSet<Res_DiagnosticOrder_Index_item_past_status>();
       this.item_status_List = new HashSet<Res_DiagnosticOrder_Index_item_status>();
       this.specimen_List = new HashSet<Res_DiagnosticOrder_Index_specimen>();
-      this.profile_List = new HashSet<Res_DiagnosticOrder_Index_profile>();
-      this.security_List = new HashSet<Res_DiagnosticOrder_Index_security>();
-      this.tag_List = new HashSet<Res_DiagnosticOrder_Index_tag>();
+      this._profile_List = new HashSet<Res_DiagnosticOrder_Index__profile>();
+      this._security_List = new HashSet<Res_DiagnosticOrder_Index__security>();
+      this._tag_List = new HashSet<Res_DiagnosticOrder_Index__tag>();
       this.Res_DiagnosticOrder_History_List = new HashSet<Res_DiagnosticOrder_History>();
     }
   }

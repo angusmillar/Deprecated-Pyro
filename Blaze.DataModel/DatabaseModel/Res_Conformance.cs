@@ -34,9 +34,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Conformance_Index_resourceprofile> resourceprofile_List { get; set; }
     public ICollection<Res_Conformance_Index_securityservice> securityservice_List { get; set; }
     public ICollection<Res_Conformance_Index_supported_profile> supported_profile_List { get; set; }
-    public ICollection<Res_Conformance_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Conformance_Index_security> security_List { get; set; }
-    public ICollection<Res_Conformance_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Conformance_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Conformance_Index__security> _security_List { get; set; }
+    public ICollection<Res_Conformance_Index__tag> _tag_List { get; set; }
    
     public Res_Conformance()
     {
@@ -48,9 +48,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.resourceprofile_List = new HashSet<Res_Conformance_Index_resourceprofile>();
       this.securityservice_List = new HashSet<Res_Conformance_Index_securityservice>();
       this.supported_profile_List = new HashSet<Res_Conformance_Index_supported_profile>();
-      this.profile_List = new HashSet<Res_Conformance_Index_profile>();
-      this.security_List = new HashSet<Res_Conformance_Index_security>();
-      this.tag_List = new HashSet<Res_Conformance_Index_tag>();
+      this._profile_List = new HashSet<Res_Conformance_Index__profile>();
+      this._security_List = new HashSet<Res_Conformance_Index__security>();
+      this._tag_List = new HashSet<Res_Conformance_Index__tag>();
       this.Res_Conformance_History_List = new HashSet<Res_Conformance_History>();
     }
   }

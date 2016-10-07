@@ -38,9 +38,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Person_Index_practitioner> practitioner_List { get; set; }
     public ICollection<Res_Person_Index_relatedperson> relatedperson_List { get; set; }
     public ICollection<Res_Person_Index_telecom> telecom_List { get; set; }
-    public ICollection<Res_Person_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Person_Index_security> security_List { get; set; }
-    public ICollection<Res_Person_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Person_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Person_Index__security> _security_List { get; set; }
+    public ICollection<Res_Person_Index__tag> _tag_List { get; set; }
    
     public Res_Person()
     {
@@ -60,9 +60,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.practitioner_List = new HashSet<Res_Person_Index_practitioner>();
       this.relatedperson_List = new HashSet<Res_Person_Index_relatedperson>();
       this.telecom_List = new HashSet<Res_Person_Index_telecom>();
-      this.profile_List = new HashSet<Res_Person_Index_profile>();
-      this.security_List = new HashSet<Res_Person_Index_security>();
-      this.tag_List = new HashSet<Res_Person_Index_tag>();
+      this._profile_List = new HashSet<Res_Person_Index__profile>();
+      this._security_List = new HashSet<Res_Person_Index__security>();
+      this._tag_List = new HashSet<Res_Person_Index__tag>();
       this.Res_Person_History_List = new HashSet<Res_Person_History>();
     }
   }

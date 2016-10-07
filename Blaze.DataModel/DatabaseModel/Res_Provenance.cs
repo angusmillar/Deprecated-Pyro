@@ -28,9 +28,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Provenance_Index_sig> sig_List { get; set; }
     public ICollection<Res_Provenance_Index_target> target_List { get; set; }
     public ICollection<Res_Provenance_Index_userid> userid_List { get; set; }
-    public ICollection<Res_Provenance_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Provenance_Index_security> security_List { get; set; }
-    public ICollection<Res_Provenance_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Provenance_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Provenance_Index__security> _security_List { get; set; }
+    public ICollection<Res_Provenance_Index__tag> _tag_List { get; set; }
    
     public Res_Provenance()
     {
@@ -41,9 +41,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.sig_List = new HashSet<Res_Provenance_Index_sig>();
       this.target_List = new HashSet<Res_Provenance_Index_target>();
       this.userid_List = new HashSet<Res_Provenance_Index_userid>();
-      this.profile_List = new HashSet<Res_Provenance_Index_profile>();
-      this.security_List = new HashSet<Res_Provenance_Index_security>();
-      this.tag_List = new HashSet<Res_Provenance_Index_tag>();
+      this._profile_List = new HashSet<Res_Provenance_Index__profile>();
+      this._security_List = new HashSet<Res_Provenance_Index__security>();
+      this._tag_List = new HashSet<Res_Provenance_Index__tag>();
       this.Res_Provenance_History_List = new HashSet<Res_Provenance_History>();
     }
   }

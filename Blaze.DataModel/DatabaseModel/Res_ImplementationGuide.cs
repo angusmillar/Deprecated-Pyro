@@ -28,18 +28,18 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_ImplementationGuide_Index_context> context_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_dependency> dependency_List { get; set; }
     public ICollection<Res_ImplementationGuide_Index_resource> resource_List { get; set; }
-    public ICollection<Res_ImplementationGuide_Index_profile> profile_List { get; set; }
-    public ICollection<Res_ImplementationGuide_Index_security> security_List { get; set; }
-    public ICollection<Res_ImplementationGuide_Index_tag> tag_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index__security> _security_List { get; set; }
+    public ICollection<Res_ImplementationGuide_Index__tag> _tag_List { get; set; }
    
     public Res_ImplementationGuide()
     {
       this.context_List = new HashSet<Res_ImplementationGuide_Index_context>();
       this.dependency_List = new HashSet<Res_ImplementationGuide_Index_dependency>();
       this.resource_List = new HashSet<Res_ImplementationGuide_Index_resource>();
-      this.profile_List = new HashSet<Res_ImplementationGuide_Index_profile>();
-      this.security_List = new HashSet<Res_ImplementationGuide_Index_security>();
-      this.tag_List = new HashSet<Res_ImplementationGuide_Index_tag>();
+      this._profile_List = new HashSet<Res_ImplementationGuide_Index__profile>();
+      this._security_List = new HashSet<Res_ImplementationGuide_Index__security>();
+      this._tag_List = new HashSet<Res_ImplementationGuide_Index__tag>();
       this.Res_ImplementationGuide_History_List = new HashSet<Res_ImplementationGuide_History>();
     }
   }

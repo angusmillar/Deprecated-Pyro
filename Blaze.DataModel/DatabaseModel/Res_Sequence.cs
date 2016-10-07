@@ -27,17 +27,17 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Sequence_History> Res_Sequence_History_List { get; set; }
     public ICollection<Res_Sequence_Index_chromosome> chromosome_List { get; set; }
     public ICollection<Res_Sequence_Index_species> species_List { get; set; }
-    public ICollection<Res_Sequence_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Sequence_Index_security> security_List { get; set; }
-    public ICollection<Res_Sequence_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Sequence_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Sequence_Index__security> _security_List { get; set; }
+    public ICollection<Res_Sequence_Index__tag> _tag_List { get; set; }
    
     public Res_Sequence()
     {
       this.chromosome_List = new HashSet<Res_Sequence_Index_chromosome>();
       this.species_List = new HashSet<Res_Sequence_Index_species>();
-      this.profile_List = new HashSet<Res_Sequence_Index_profile>();
-      this.security_List = new HashSet<Res_Sequence_Index_security>();
-      this.tag_List = new HashSet<Res_Sequence_Index_tag>();
+      this._profile_List = new HashSet<Res_Sequence_Index__profile>();
+      this._security_List = new HashSet<Res_Sequence_Index__security>();
+      this._tag_List = new HashSet<Res_Sequence_Index__tag>();
       this.Res_Sequence_History_List = new HashSet<Res_Sequence_History>();
     }
   }

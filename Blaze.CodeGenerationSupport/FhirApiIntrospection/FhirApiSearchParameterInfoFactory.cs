@@ -83,7 +83,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.IsCollection = true;
         _SearchParameterInfo.Resource = ResourceName;
         _SearchParameterInfo.SearchParamType = SearchParamType.Uri;
-        _SearchParameterInfo.SearchName = "profile";
+        _SearchParameterInfo.SearchName = "_profile";
         _SearchParameterInfo.IsChoice = false;
         _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:profile";
         _SearchParameterInfo.CompositeSearchParameterList = null;
@@ -115,7 +115,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.IsCollection = true;
         _SearchParameterInfo.Resource = ResourceName;
         _SearchParameterInfo.SearchParamType = SearchParamType.Token;
-        _SearchParameterInfo.SearchName = "security";
+        _SearchParameterInfo.SearchName = "_security";
         _SearchParameterInfo.IsChoice = false;
         _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:security";
         _SearchParameterInfo.CompositeSearchParameterList = null;
@@ -146,7 +146,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.IsCollection = true;
         _SearchParameterInfo.Resource = ResourceName;
         _SearchParameterInfo.SearchParamType = SearchParamType.Token;
-        _SearchParameterInfo.SearchName = "tag";
+        _SearchParameterInfo.SearchName = "_tag";
         _SearchParameterInfo.IsChoice = false;
         _SearchParameterInfo.SearchPath = "f:Account/f:meta/f:tag";
         _SearchParameterInfo.CompositeSearchParameterList = null;

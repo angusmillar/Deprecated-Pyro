@@ -131,9 +131,9 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.context_List);
       IncludeList.Add(x => x.description_List);
       IncludeList.Add(x => x.identifier_List);
-      IncludeList.Add(x => x.profile_List);
-      IncludeList.Add(x => x.security_List);
-      IncludeList.Add(x => x.tag_List);
+      IncludeList.Add(x => x._profile_List);
+      IncludeList.Add(x => x._security_List);
+      IncludeList.Add(x => x._tag_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_DataElement>(x => x.FhirId == FhirId, IncludeList);
 
@@ -159,9 +159,9 @@ namespace Blaze.DataModel.Repository
       _Context.Res_DataElement_Index_context.RemoveRange(ResourceEntity.context_List);            
       _Context.Res_DataElement_Index_description.RemoveRange(ResourceEntity.description_List);            
       _Context.Res_DataElement_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
-      _Context.Res_DataElement_Index_profile.RemoveRange(ResourceEntity.profile_List);            
-      _Context.Res_DataElement_Index_security.RemoveRange(ResourceEntity.security_List);            
-      _Context.Res_DataElement_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+      _Context.Res_DataElement_Index__profile.RemoveRange(ResourceEntity._profile_List);            
+      _Context.Res_DataElement_Index__security.RemoveRange(ResourceEntity._security_List);            
+      _Context.Res_DataElement_Index__tag.RemoveRange(ResourceEntity._tag_List);            
  
     }
 
@@ -328,9 +328,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              var Index = new Res_DataElement_Index_profile();
-              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_DataElement_Index_profile;
-              ResourseEntity.profile_List.Add(Index);
+              var Index = new Res_DataElement_Index__profile();
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_DataElement_Index__profile;
+              ResourseEntity._profile_List.Add(Index);
             }
           }
         }
@@ -344,9 +344,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              var Index = new Res_DataElement_Index_security();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DataElement_Index_security;
-              ResourseEntity.security_List.Add(Index);
+              var Index = new Res_DataElement_Index__security();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DataElement_Index__security;
+              ResourseEntity._security_List.Add(Index);
             }
           }
         }
@@ -360,9 +360,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              var Index = new Res_DataElement_Index_tag();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DataElement_Index_tag;
-              ResourseEntity.tag_List.Add(Index);
+              var Index = new Res_DataElement_Index__tag();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DataElement_Index__tag;
+              ResourseEntity._tag_List.Add(Index);
             }
           }
         }

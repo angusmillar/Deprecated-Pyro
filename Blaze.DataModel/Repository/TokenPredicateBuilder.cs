@@ -52,21 +52,21 @@ namespace Blaze.DataModel.Repository
               }
               break;
             case Common.Enum.FhirSearchEnum.SearchModifierType.Exact:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.Contains:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.Text:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.Type:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.Below:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.Above:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.In:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             case Common.Enum.FhirSearchEnum.SearchModifierType.NotIn:
-              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of date.");
+              throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
             default:
               throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeToken.Modifier.ToString(), (int)SearchTypeToken.Modifier, typeof(Common.Enum.FhirSearchEnum.SearchModifierType));
           }

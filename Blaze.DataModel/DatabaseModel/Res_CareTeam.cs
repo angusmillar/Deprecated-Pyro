@@ -30,9 +30,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_CareTeam_Index_participant> participant_List { get; set; }
     public ICollection<Res_CareTeam_Index_status> status_List { get; set; }
     public ICollection<Res_CareTeam_Index_type> type_List { get; set; }
-    public ICollection<Res_CareTeam_Index_profile> profile_List { get; set; }
-    public ICollection<Res_CareTeam_Index_security> security_List { get; set; }
-    public ICollection<Res_CareTeam_Index_tag> tag_List { get; set; }
+    public ICollection<Res_CareTeam_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_CareTeam_Index__security> _security_List { get; set; }
+    public ICollection<Res_CareTeam_Index__tag> _tag_List { get; set; }
    
     public Res_CareTeam()
     {
@@ -40,9 +40,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.participant_List = new HashSet<Res_CareTeam_Index_participant>();
       this.status_List = new HashSet<Res_CareTeam_Index_status>();
       this.type_List = new HashSet<Res_CareTeam_Index_type>();
-      this.profile_List = new HashSet<Res_CareTeam_Index_profile>();
-      this.security_List = new HashSet<Res_CareTeam_Index_security>();
-      this.tag_List = new HashSet<Res_CareTeam_Index_tag>();
+      this._profile_List = new HashSet<Res_CareTeam_Index__profile>();
+      this._security_List = new HashSet<Res_CareTeam_Index__security>();
+      this._tag_List = new HashSet<Res_CareTeam_Index__tag>();
       this.Res_CareTeam_History_List = new HashSet<Res_CareTeam_History>();
     }
   }

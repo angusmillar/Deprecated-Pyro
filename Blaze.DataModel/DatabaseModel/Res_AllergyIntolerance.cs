@@ -45,9 +45,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_AllergyIntolerance_Index_route> route_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_severity> severity_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_substance> substance_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_profile> profile_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_security> security_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_tag> tag_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index__security> _security_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index__tag> _tag_List { get; set; }
    
     public Res_AllergyIntolerance()
     {
@@ -57,9 +57,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.route_List = new HashSet<Res_AllergyIntolerance_Index_route>();
       this.severity_List = new HashSet<Res_AllergyIntolerance_Index_severity>();
       this.substance_List = new HashSet<Res_AllergyIntolerance_Index_substance>();
-      this.profile_List = new HashSet<Res_AllergyIntolerance_Index_profile>();
-      this.security_List = new HashSet<Res_AllergyIntolerance_Index_security>();
-      this.tag_List = new HashSet<Res_AllergyIntolerance_Index_tag>();
+      this._profile_List = new HashSet<Res_AllergyIntolerance_Index__profile>();
+      this._security_List = new HashSet<Res_AllergyIntolerance_Index__security>();
+      this._tag_List = new HashSet<Res_AllergyIntolerance_Index__tag>();
       this.Res_AllergyIntolerance_History_List = new HashSet<Res_AllergyIntolerance_History>();
     }
   }

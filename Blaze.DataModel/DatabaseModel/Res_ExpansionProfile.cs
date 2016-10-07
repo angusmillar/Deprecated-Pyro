@@ -25,15 +25,15 @@ namespace Blaze.DataModel.DatabaseModel
     public string version_Code {get; set;}
     public string version_System {get; set;}
     public ICollection<Res_ExpansionProfile_History> Res_ExpansionProfile_History_List { get; set; }
-    public ICollection<Res_ExpansionProfile_Index_profile> profile_List { get; set; }
-    public ICollection<Res_ExpansionProfile_Index_security> security_List { get; set; }
-    public ICollection<Res_ExpansionProfile_Index_tag> tag_List { get; set; }
+    public ICollection<Res_ExpansionProfile_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_ExpansionProfile_Index__security> _security_List { get; set; }
+    public ICollection<Res_ExpansionProfile_Index__tag> _tag_List { get; set; }
    
     public Res_ExpansionProfile()
     {
-      this.profile_List = new HashSet<Res_ExpansionProfile_Index_profile>();
-      this.security_List = new HashSet<Res_ExpansionProfile_Index_security>();
-      this.tag_List = new HashSet<Res_ExpansionProfile_Index_tag>();
+      this._profile_List = new HashSet<Res_ExpansionProfile_Index__profile>();
+      this._security_List = new HashSet<Res_ExpansionProfile_Index__security>();
+      this._tag_List = new HashSet<Res_ExpansionProfile_Index__tag>();
       this.Res_ExpansionProfile_History_List = new HashSet<Res_ExpansionProfile_History>();
     }
   }

@@ -34,9 +34,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_NamingSystem_Index_telecom> telecom_List { get; set; }
     public ICollection<Res_NamingSystem_Index_type> type_List { get; set; }
     public ICollection<Res_NamingSystem_Index_value> value_List { get; set; }
-    public ICollection<Res_NamingSystem_Index_profile> profile_List { get; set; }
-    public ICollection<Res_NamingSystem_Index_security> security_List { get; set; }
-    public ICollection<Res_NamingSystem_Index_tag> tag_List { get; set; }
+    public ICollection<Res_NamingSystem_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_NamingSystem_Index__security> _security_List { get; set; }
+    public ICollection<Res_NamingSystem_Index__tag> _tag_List { get; set; }
    
     public Res_NamingSystem()
     {
@@ -47,9 +47,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.telecom_List = new HashSet<Res_NamingSystem_Index_telecom>();
       this.type_List = new HashSet<Res_NamingSystem_Index_type>();
       this.value_List = new HashSet<Res_NamingSystem_Index_value>();
-      this.profile_List = new HashSet<Res_NamingSystem_Index_profile>();
-      this.security_List = new HashSet<Res_NamingSystem_Index_security>();
-      this.tag_List = new HashSet<Res_NamingSystem_Index_tag>();
+      this._profile_List = new HashSet<Res_NamingSystem_Index__profile>();
+      this._security_List = new HashSet<Res_NamingSystem_Index__security>();
+      this._tag_List = new HashSet<Res_NamingSystem_Index__tag>();
       this.Res_NamingSystem_History_List = new HashSet<Res_NamingSystem_History>();
     }
   }

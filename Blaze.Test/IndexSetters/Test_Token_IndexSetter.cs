@@ -34,22 +34,22 @@ namespace Blaze.Test.IndexSetters
     public void AAATest_Address_TokenIndexSetter_GoodFormat()
     {
       //Arrange
-      
+
       string CodeString = "Bla";
 
       var Code = new Coding();
       Code.Code = CodeString;
 
-      Blaze.DataModel.DatabaseModel.Res_Account_Index_security Index = new Blaze.DataModel.DatabaseModel.Res_Account_Index_security();
+      Blaze.DataModel.DatabaseModel.Res_Account_Index__security Index = new Blaze.DataModel.DatabaseModel.Res_Account_Index__security();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as Blaze.DataModel.DatabaseModel.Res_Account_Index_security;
+      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as Blaze.DataModel.DatabaseModel.Res_Account_Index__security;
 
       //Assert      
       Assert.AreEqual(Index.Code, CodeString);
       Assert.IsNull(Index.System);
     }
-    
+
 
     [Test]
     public void Test_Address_TokenIndexSetter_CodeT_IsNull()
@@ -104,7 +104,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert            
       Assert.IsNull(Index);
-      
+
     }
 
 
@@ -761,12 +761,12 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange     
       var Range = new Range();
-      
+
       Range.Low = new SimpleQuantity();
       Range.Low.Value = 10.0M;
 
       Range.High = new SimpleQuantity();
-      Range.High.Value = 10.0M;      
+      Range.High.Value = 10.0M;
 
       TokenIndex Index = new TokenIndex();
 
@@ -775,7 +775,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert      
       Assert.IsNull(Index);
-      
+
     }
 
 

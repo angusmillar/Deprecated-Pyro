@@ -134,9 +134,9 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.related_id_List);
       IncludeList.Add(x => x.related_ref_List);
       IncludeList.Add(x => x.type_List);
-      IncludeList.Add(x => x.profile_List);
-      IncludeList.Add(x => x.security_List);
-      IncludeList.Add(x => x.tag_List);
+      IncludeList.Add(x => x._profile_List);
+      IncludeList.Add(x => x._security_List);
+      IncludeList.Add(x => x._tag_List);
     
       var ResourceEntity = DbQueryEntityWithInclude<Res_DocumentManifest>(x => x.FhirId == FhirId, IncludeList);
 
@@ -173,9 +173,9 @@ namespace Blaze.DataModel.Repository
       _Context.Res_DocumentManifest_Index_related_id.RemoveRange(ResourceEntity.related_id_List);            
       _Context.Res_DocumentManifest_Index_related_ref.RemoveRange(ResourceEntity.related_ref_List);            
       _Context.Res_DocumentManifest_Index_type.RemoveRange(ResourceEntity.type_List);            
-      _Context.Res_DocumentManifest_Index_profile.RemoveRange(ResourceEntity.profile_List);            
-      _Context.Res_DocumentManifest_Index_security.RemoveRange(ResourceEntity.security_List);            
-      _Context.Res_DocumentManifest_Index_tag.RemoveRange(ResourceEntity.tag_List);            
+      _Context.Res_DocumentManifest_Index__profile.RemoveRange(ResourceEntity._profile_List);            
+      _Context.Res_DocumentManifest_Index__security.RemoveRange(ResourceEntity._security_List);            
+      _Context.Res_DocumentManifest_Index__tag.RemoveRange(ResourceEntity._tag_List);            
  
     }
 
@@ -402,9 +402,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.FhirUri)
             {
-              var Index = new Res_DocumentManifest_Index_profile();
-              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_DocumentManifest_Index_profile;
-              ResourseEntity.profile_List.Add(Index);
+              var Index = new Res_DocumentManifest_Index__profile();
+              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4, Index) as Res_DocumentManifest_Index__profile;
+              ResourseEntity._profile_List.Add(Index);
             }
           }
         }
@@ -418,9 +418,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              var Index = new Res_DocumentManifest_Index_security();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DocumentManifest_Index_security;
-              ResourseEntity.security_List.Add(Index);
+              var Index = new Res_DocumentManifest_Index__security();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DocumentManifest_Index__security;
+              ResourseEntity._security_List.Add(Index);
             }
           }
         }
@@ -434,9 +434,9 @@ namespace Blaze.DataModel.Repository
           {
             if (item4 is Hl7.Fhir.Model.Coding)
             {
-              var Index = new Res_DocumentManifest_Index_tag();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DocumentManifest_Index_tag;
-              ResourseEntity.tag_List.Add(Index);
+              var Index = new Res_DocumentManifest_Index__tag();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_DocumentManifest_Index__tag;
+              ResourseEntity._tag_List.Add(Index);
             }
           }
         }

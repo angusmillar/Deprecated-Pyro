@@ -31,17 +31,17 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_SupplyRequest_History> Res_SupplyRequest_History_List { get; set; }
     public ICollection<Res_SupplyRequest_Index_kind> kind_List { get; set; }
     public ICollection<Res_SupplyRequest_Index_supplier> supplier_List { get; set; }
-    public ICollection<Res_SupplyRequest_Index_profile> profile_List { get; set; }
-    public ICollection<Res_SupplyRequest_Index_security> security_List { get; set; }
-    public ICollection<Res_SupplyRequest_Index_tag> tag_List { get; set; }
+    public ICollection<Res_SupplyRequest_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_SupplyRequest_Index__security> _security_List { get; set; }
+    public ICollection<Res_SupplyRequest_Index__tag> _tag_List { get; set; }
    
     public Res_SupplyRequest()
     {
       this.kind_List = new HashSet<Res_SupplyRequest_Index_kind>();
       this.supplier_List = new HashSet<Res_SupplyRequest_Index_supplier>();
-      this.profile_List = new HashSet<Res_SupplyRequest_Index_profile>();
-      this.security_List = new HashSet<Res_SupplyRequest_Index_security>();
-      this.tag_List = new HashSet<Res_SupplyRequest_Index_tag>();
+      this._profile_List = new HashSet<Res_SupplyRequest_Index__profile>();
+      this._security_List = new HashSet<Res_SupplyRequest_Index__security>();
+      this._tag_List = new HashSet<Res_SupplyRequest_Index__tag>();
       this.Res_SupplyRequest_History_List = new HashSet<Res_SupplyRequest_History>();
     }
   }

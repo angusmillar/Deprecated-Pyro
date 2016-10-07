@@ -27,9 +27,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_DataElement_Index_context> context_List { get; set; }
     public ICollection<Res_DataElement_Index_description> description_List { get; set; }
     public ICollection<Res_DataElement_Index_identifier> identifier_List { get; set; }
-    public ICollection<Res_DataElement_Index_profile> profile_List { get; set; }
-    public ICollection<Res_DataElement_Index_security> security_List { get; set; }
-    public ICollection<Res_DataElement_Index_tag> tag_List { get; set; }
+    public ICollection<Res_DataElement_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_DataElement_Index__security> _security_List { get; set; }
+    public ICollection<Res_DataElement_Index__tag> _tag_List { get; set; }
    
     public Res_DataElement()
     {
@@ -37,9 +37,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.context_List = new HashSet<Res_DataElement_Index_context>();
       this.description_List = new HashSet<Res_DataElement_Index_description>();
       this.identifier_List = new HashSet<Res_DataElement_Index_identifier>();
-      this.profile_List = new HashSet<Res_DataElement_Index_profile>();
-      this.security_List = new HashSet<Res_DataElement_Index_security>();
-      this.tag_List = new HashSet<Res_DataElement_Index_tag>();
+      this._profile_List = new HashSet<Res_DataElement_Index__profile>();
+      this._security_List = new HashSet<Res_DataElement_Index__security>();
+      this._tag_List = new HashSet<Res_DataElement_Index__tag>();
       this.Res_DataElement_History_List = new HashSet<Res_DataElement_History>();
     }
   }

@@ -39,9 +39,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Order_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Order_Index_when> when_List { get; set; }
     public ICollection<Res_Order_Index_when_code> when_code_List { get; set; }
-    public ICollection<Res_Order_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Order_Index_security> security_List { get; set; }
-    public ICollection<Res_Order_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Order_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Order_Index__security> _security_List { get; set; }
+    public ICollection<Res_Order_Index__tag> _tag_List { get; set; }
    
     public Res_Order()
     {
@@ -49,9 +49,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.identifier_List = new HashSet<Res_Order_Index_identifier>();
       this.when_List = new HashSet<Res_Order_Index_when>();
       this.when_code_List = new HashSet<Res_Order_Index_when_code>();
-      this.profile_List = new HashSet<Res_Order_Index_profile>();
-      this.security_List = new HashSet<Res_Order_Index_security>();
-      this.tag_List = new HashSet<Res_Order_Index_tag>();
+      this._profile_List = new HashSet<Res_Order_Index__profile>();
+      this._security_List = new HashSet<Res_Order_Index__security>();
+      this._tag_List = new HashSet<Res_Order_Index__tag>();
       this.Res_Order_History_List = new HashSet<Res_Order_History>();
     }
   }

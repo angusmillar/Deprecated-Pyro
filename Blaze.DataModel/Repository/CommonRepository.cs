@@ -76,7 +76,8 @@ namespace Blaze.DataModel.Repository
             NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
-            throw new NotImplementedException();
+            NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           default:
             throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.DbSearchParameterType.ToString(), (int)SearchItem.DbSearchParameterType, typeof(Common.Enum.DatabaseEnum.DbIndexType));
         }

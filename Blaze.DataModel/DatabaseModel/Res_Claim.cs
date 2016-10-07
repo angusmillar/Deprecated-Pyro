@@ -55,16 +55,16 @@ namespace Blaze.DataModel.DatabaseModel
     public string use_System {get; set;}
     public ICollection<Res_Claim_History> Res_Claim_History_List { get; set; }
     public ICollection<Res_Claim_Index_identifier> identifier_List { get; set; }
-    public ICollection<Res_Claim_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Claim_Index_security> security_List { get; set; }
-    public ICollection<Res_Claim_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Claim_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Claim_Index__security> _security_List { get; set; }
+    public ICollection<Res_Claim_Index__tag> _tag_List { get; set; }
    
     public Res_Claim()
     {
       this.identifier_List = new HashSet<Res_Claim_Index_identifier>();
-      this.profile_List = new HashSet<Res_Claim_Index_profile>();
-      this.security_List = new HashSet<Res_Claim_Index_security>();
-      this.tag_List = new HashSet<Res_Claim_Index_tag>();
+      this._profile_List = new HashSet<Res_Claim_Index__profile>();
+      this._security_List = new HashSet<Res_Claim_Index__security>();
+      this._tag_List = new HashSet<Res_Claim_Index__tag>();
       this.Res_Claim_History_List = new HashSet<Res_Claim_History>();
     }
   }

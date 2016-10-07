@@ -36,13 +36,8 @@ namespace Blaze.Engine.Search
       {
         oSearchParameter.IsValid = false;
         oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
-      }
-      //string Value = ParsePrefix(ParameterValue, oSearchParameter);
-      if (oSearchParameter.TryParseValue(ParameterValue))
-      {
-        oSearchParameter.IsValid = true;
-      }
-      else
+      }      
+      if (!oSearchParameter.TryParseValue(ParameterValue))      
       {
         oSearchParameter.IsValid = false;
         oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter value to the appropriate type of: {oSearchParameter.DbSearchParameterType.ToString()} for parameter = value: '{ParameterValue}', ";
@@ -50,43 +45,33 @@ namespace Blaze.Engine.Search
       return oSearchParameter;
     }
 
-
     private static DtoSearchParameterBase InitalizeSearchParameter(DatabaseEnum.DbIndexType DbSearchParameterType)
     {
-      DtoSearchParameterBase oSearchParameter = null;
       switch (DbSearchParameterType)
       {
         case DatabaseEnum.DbIndexType.DateIndex:
-          oSearchParameter = new DtoSearchParameterDate();
-          break;
+          return new DtoSearchParameterDate();
         case DatabaseEnum.DbIndexType.DateTimeIndex:
-          oSearchParameter = new DtoSearchParameterDateTime();
-          break;
+          return new DtoSearchParameterDateTime();
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-          oSearchParameter = new DtoSearchParameterDateTime();
-          break;
+          return new DtoSearchParameterDateTime();
         case DatabaseEnum.DbIndexType.NumberIndex:
-          oSearchParameter = new DtoSearchParameterNumber();
-          break;
+          return new DtoSearchParameterNumber();
         case DatabaseEnum.DbIndexType.QuantityIndex:
-          oSearchParameter = new DtoSearchParameterQuantity();
-          break;
+          return new DtoSearchParameterQuantity();
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           throw new NotImplementedException("DatabaseEnum.BlazeIndexType.ReferenceIndex");
         case DatabaseEnum.DbIndexType.StringIndex:
-          oSearchParameter = new DtoSearchParameterString();
-          break;
+          return new DtoSearchParameterString();
         case DatabaseEnum.DbIndexType.TokenIndex:
-          oSearchParameter = new DtoSearchParameterToken();
-          break;
+          return new DtoSearchParameterToken();
         case DatabaseEnum.DbIndexType.UriIndex:
-          throw new NotImplementedException("SearchParamType.UriDatabaseEnum.BlazeIndexType.UriIndex");
+          return new DtoSearchParameterUri();
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
-          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.QuantityRangeIndex");
+          return new DtoSearchParameterQuantity();
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(DatabaseEnum.DbIndexType));
       }
-      return oSearchParameter;
     }
     private static bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
     {
@@ -131,33 +116,5 @@ namespace Blaze.Engine.Search
       }
     }
 
-    //private static string ParsePrefix(string Value, DtoSearchParameterBase oSearchParameter)
-    //{
-    //  if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DateIndex ||
-    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DatePeriodIndex ||
-    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.NumberIndex ||
-    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityRangeIndex ||        
-    //    oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityIndex)
-    //  {
-    //    if (Value.Length > 2)
-    //    {
-    //      //Are the first two char Alpha characters 
-    //      if (Regex.IsMatch(Value.Substring(0, 2), @"^[a-zA-Z]+$"))
-    //      {
-    //        var SearchPrefixTypeDictionary = FhirSearchEnum.GetSearchPrefixTypeDictionary();
-    //        if (SearchPrefixTypeDictionary.ContainsKey(Value.Substring(0, 2)))
-    //        {
-    //          oSearchParameter.Prefix = SearchPrefixTypeDictionary[Value.Substring(0, 2)];
-    //          Value = Value.Substring(2);
-    //        }
-    //      }
-    //      else
-    //      {
-    //        oSearchParameter.Prefix = FhirSearchEnum.SearchPrefixType.None;
-    //      }
-    //    }
-    //  }
-    //  return Value;
-    //}
   }
 }

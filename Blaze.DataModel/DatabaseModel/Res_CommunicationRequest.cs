@@ -48,9 +48,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_CommunicationRequest_Index_medium> medium_List { get; set; }
     public ICollection<Res_CommunicationRequest_Index_priority> priority_List { get; set; }
     public ICollection<Res_CommunicationRequest_Index_recipient> recipient_List { get; set; }
-    public ICollection<Res_CommunicationRequest_Index_profile> profile_List { get; set; }
-    public ICollection<Res_CommunicationRequest_Index_security> security_List { get; set; }
-    public ICollection<Res_CommunicationRequest_Index_tag> tag_List { get; set; }
+    public ICollection<Res_CommunicationRequest_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_CommunicationRequest_Index__security> _security_List { get; set; }
+    public ICollection<Res_CommunicationRequest_Index__tag> _tag_List { get; set; }
    
     public Res_CommunicationRequest()
     {
@@ -59,9 +59,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.medium_List = new HashSet<Res_CommunicationRequest_Index_medium>();
       this.priority_List = new HashSet<Res_CommunicationRequest_Index_priority>();
       this.recipient_List = new HashSet<Res_CommunicationRequest_Index_recipient>();
-      this.profile_List = new HashSet<Res_CommunicationRequest_Index_profile>();
-      this.security_List = new HashSet<Res_CommunicationRequest_Index_security>();
-      this.tag_List = new HashSet<Res_CommunicationRequest_Index_tag>();
+      this._profile_List = new HashSet<Res_CommunicationRequest_Index__profile>();
+      this._security_List = new HashSet<Res_CommunicationRequest_Index__security>();
+      this._tag_List = new HashSet<Res_CommunicationRequest_Index__tag>();
       this.Res_CommunicationRequest_History_List = new HashSet<Res_CommunicationRequest_History>();
     }
   }

@@ -47,9 +47,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_MessageHeader_Index_destination> destination_List { get; set; }
     public ICollection<Res_MessageHeader_Index_destination_uri> destination_uri_List { get; set; }
     public ICollection<Res_MessageHeader_Index_target> target_List { get; set; }
-    public ICollection<Res_MessageHeader_Index_profile> profile_List { get; set; }
-    public ICollection<Res_MessageHeader_Index_security> security_List { get; set; }
-    public ICollection<Res_MessageHeader_Index_tag> tag_List { get; set; }
+    public ICollection<Res_MessageHeader_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_MessageHeader_Index__security> _security_List { get; set; }
+    public ICollection<Res_MessageHeader_Index__tag> _tag_List { get; set; }
    
     public Res_MessageHeader()
     {
@@ -57,9 +57,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.destination_List = new HashSet<Res_MessageHeader_Index_destination>();
       this.destination_uri_List = new HashSet<Res_MessageHeader_Index_destination_uri>();
       this.target_List = new HashSet<Res_MessageHeader_Index_target>();
-      this.profile_List = new HashSet<Res_MessageHeader_Index_profile>();
-      this.security_List = new HashSet<Res_MessageHeader_Index_security>();
-      this.tag_List = new HashSet<Res_MessageHeader_Index_tag>();
+      this._profile_List = new HashSet<Res_MessageHeader_Index__profile>();
+      this._security_List = new HashSet<Res_MessageHeader_Index__security>();
+      this._tag_List = new HashSet<Res_MessageHeader_Index__tag>();
       this.Res_MessageHeader_History_List = new HashSet<Res_MessageHeader_History>();
     }
   }

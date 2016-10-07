@@ -108,6 +108,8 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
+            //None supported as yet as no QuantityRange search types in STU3 to date.
+            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.ReferenceIndex:
@@ -137,6 +139,12 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.UriIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Above.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Exact.ToString());
             return ReturnList;
           }
         default:
@@ -251,24 +259,27 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
+            //None supported as yet as no QuantityRange search types in STU3 to date.
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
+            //Any search parameter that's value is a string will not have prefixes
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.StringIndex:
           {
-            //Example:
-            //ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
+            //Any search parameter that's value is a string will not have prefixes
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.TokenIndex:
           {
+            //Any search parameter that's value is a string will not have prefixes
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.UriIndex:
           {
+            //Any search parameter that's value is a string will not have prefixes
             return ReturnList;
           }
         default:

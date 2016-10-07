@@ -39,18 +39,18 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Procedure_Index_code> code_List { get; set; }
     public ICollection<Res_Procedure_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Procedure_Index_performer> performer_List { get; set; }
-    public ICollection<Res_Procedure_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Procedure_Index_security> security_List { get; set; }
-    public ICollection<Res_Procedure_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Procedure_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Procedure_Index__security> _security_List { get; set; }
+    public ICollection<Res_Procedure_Index__tag> _tag_List { get; set; }
    
     public Res_Procedure()
     {
       this.code_List = new HashSet<Res_Procedure_Index_code>();
       this.identifier_List = new HashSet<Res_Procedure_Index_identifier>();
       this.performer_List = new HashSet<Res_Procedure_Index_performer>();
-      this.profile_List = new HashSet<Res_Procedure_Index_profile>();
-      this.security_List = new HashSet<Res_Procedure_Index_security>();
-      this.tag_List = new HashSet<Res_Procedure_Index_tag>();
+      this._profile_List = new HashSet<Res_Procedure_Index__profile>();
+      this._security_List = new HashSet<Res_Procedure_Index__security>();
+      this._tag_List = new HashSet<Res_Procedure_Index__tag>();
       this.Res_Procedure_History_List = new HashSet<Res_Procedure_History>();
     }
   }

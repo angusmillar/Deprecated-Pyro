@@ -35,18 +35,18 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Media_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Media_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_Media_Index_view> view_List { get; set; }
-    public ICollection<Res_Media_Index_profile> profile_List { get; set; }
-    public ICollection<Res_Media_Index_security> security_List { get; set; }
-    public ICollection<Res_Media_Index_tag> tag_List { get; set; }
+    public ICollection<Res_Media_Index__profile> _profile_List { get; set; }
+    public ICollection<Res_Media_Index__security> _security_List { get; set; }
+    public ICollection<Res_Media_Index__tag> _tag_List { get; set; }
    
     public Res_Media()
     {
       this.identifier_List = new HashSet<Res_Media_Index_identifier>();
       this.subtype_List = new HashSet<Res_Media_Index_subtype>();
       this.view_List = new HashSet<Res_Media_Index_view>();
-      this.profile_List = new HashSet<Res_Media_Index_profile>();
-      this.security_List = new HashSet<Res_Media_Index_security>();
-      this.tag_List = new HashSet<Res_Media_Index_tag>();
+      this._profile_List = new HashSet<Res_Media_Index__profile>();
+      this._security_List = new HashSet<Res_Media_Index__security>();
+      this._tag_List = new HashSet<Res_Media_Index__tag>();
       this.Res_Media_History_List = new HashSet<Res_Media_History>();
     }
   }
