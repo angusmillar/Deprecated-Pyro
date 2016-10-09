@@ -65,6 +65,8 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumberValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumber.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameters.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterReferanceValue.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterReferance.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterUri.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterString.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterUriValue.cs" />

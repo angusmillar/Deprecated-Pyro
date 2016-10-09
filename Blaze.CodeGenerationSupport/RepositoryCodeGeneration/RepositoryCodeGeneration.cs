@@ -51,6 +51,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           oIndexEntity.SearchParameterInfo = new SearchParameterInfo();
           oIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
           oIndexEntity.SearchParameterInfo.SearchParameterName = CollectionParameter.SearchName;
+          oIndexEntity.SearchParameterInfo.ReferanceResourceTypeList = CollectionParameter.ReferanceTargetResourceType;
 
         }
 
@@ -64,6 +65,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           NonColectionIndexEntity.SearchParameterInfo = new SearchParameterInfo();
           NonColectionIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)];
           NonColectionIndexEntity.SearchParameterInfo.SearchParameterName = NonCollectionParameter.SearchName;
+          NonColectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList = NonCollectionParameter.ReferanceTargetResourceType;
           RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(NonColectionIndexEntity);
 
         }

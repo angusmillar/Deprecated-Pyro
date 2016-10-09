@@ -60,7 +60,7 @@ namespace Blaze.Engine.Search
         case DatabaseEnum.DbIndexType.QuantityIndex:
           return new DtoSearchParameterQuantity();
         case DatabaseEnum.DbIndexType.ReferenceIndex:
-          throw new NotImplementedException("DatabaseEnum.BlazeIndexType.ReferenceIndex");
+          return new DtoSearchParameterReferance();
         case DatabaseEnum.DbIndexType.StringIndex:
           return new DtoSearchParameterString();
         case DatabaseEnum.DbIndexType.TokenIndex:
@@ -91,23 +91,23 @@ namespace Blaze.Engine.Search
       var SearchModifierTypeDic = FhirSearchEnum.GetSearchModifierTypeDictionary();
       if (SearchModifierTypeDic.ContainsKey(value))
       {
-        SearchParameter.Modifier = SearchModifierTypeDic[value];
+        SearchParameter.Modifier = SearchModifierTypeDic[value];         
         return true;
       }
       else
       {
+        string TypedResourceName = value;
         if (value.StartsWith("."))
         {
           char[] delimiters = { '.' };
-          string TypedResourceName = value.Split(delimiters)[1].Trim();
-
-          Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
-          //Type ResourceType = ModelInfo.GetTypeForResourceName(TypedResourceName);
-
+          TypedResourceName = value.Split(delimiters)[1].Trim();
+        }
+        else
+        {
+          Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);          
           if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-          {
-            FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(TypedResourceName);
-            SearchParameter.TypeModifierResource = FHIRDefinedType;
+          {            
+            SearchParameter.TypeModifierResource = TypedResourceName;
             SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
             return true;
           }

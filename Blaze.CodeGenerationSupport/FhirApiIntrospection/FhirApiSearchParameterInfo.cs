@@ -14,13 +14,14 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     public FhirApiSearchParameterInfo()
     {
       this.SearchParameterNavigationPathList = new List<FhirSearchParameterSearchPathElement>();
+      this.ReferanceTargetResourceType = new List<ResourceType>();
     }
 
     public string Resource { get; set; }
     public SearchParamType SearchParamType { get; set; }
     public DatabaseEnum.DbIndexType DbIndexType { get; set; }
-    public Type TargetFhirType 
-    { 
+    public Type TargetFhirType
+    {
       get
       {
         if (SearchParameterNavigationPathList != null)
@@ -59,7 +60,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       }
     }
     public bool IsCollection { get; set; }
-    public bool IsChoice { get; set; }    
+    public bool IsChoice { get; set; }
+    public List<ResourceType> ReferanceTargetResourceType { get; set; }
     public List<FhirSearchParameterSearchPathElement> SearchParameterNavigationPathList { get; set; }
     public List<FhirApiSearchParameterInfo> CompositeSearchParameterList { get; set; }
   }

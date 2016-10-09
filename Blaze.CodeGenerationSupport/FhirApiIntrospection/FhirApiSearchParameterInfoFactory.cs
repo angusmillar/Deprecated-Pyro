@@ -42,6 +42,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           _CurrentSearchParameterDef = SearchParameterDef;
 
+
           //For debugging a specific resource
           //bool testbool = false;
           //if (SearchParameterDef.Resource == "Bundle" && SearchParameterDef.Name == "composition")
@@ -365,6 +366,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         _SearchParameterInfo.SearchName = _CurrentSearchParameterDef.Name;
         _SearchParameterInfo.IsChoice = (_CurrentSearchParameterDef.Path.Count() > 1);
         _SearchParameterInfo.SearchPath = SearchXPath;
+        if (_CurrentSearchParameterDef.Target != null)
+          _SearchParameterInfo.ReferanceTargetResourceType = _CurrentSearchParameterDef.Target.ToList();
         _ResourceSearchInfoList.Add(_SearchParameterInfo);
       }
     }

@@ -62,6 +62,11 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
   {
     public string SearchParameterName { get; set; }
     public DatabaseEnum.DbIndexType DbIndexType { get; set; }
+    public List<Hl7.Fhir.Model.ResourceType> ReferanceResourceTypeList { get; set; }
+    public SearchParameterInfo()
+    {
+      this.ReferanceResourceTypeList = new List<Hl7.Fhir.Model.ResourceType>();
+    } 
   }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Support;
 using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 
@@ -103,6 +104,14 @@ namespace Blaze.Engine.Search
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
           DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The parameter's modifier: '{oInboundSearchParameter.Modifier.ToString()}' is not supported by this server for the resource type '{oInboundSearchParameter.Resource.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}', ";          
         }
+        if (oInboundSearchParameter.Modifier == FhirSearchEnum.SearchModifierType.Type)
+        {
+          if (!oSupported.TypeModifierResourceList.Contains(oInboundSearchParameter.TypeModifierResource))
+          {
+            DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
+            DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The reference search parameter modifier was expected to be a Fhir resource type that is supported for this search parameter. The Resource given was: {oInboundSearchParameter.TypeModifierResource} which is not supported for this search parameter.', ";
+          }
+        }
       }            
 
       if (!oInboundSearchParameter.ValidatePrefixes(oSupported))
@@ -123,7 +132,7 @@ namespace Blaze.Engine.Search
 
       if (oInboundSearchParameter.TypeModifierResource != null)
       {
-        if (oSupported.TypeModifierResourceList.Contains((Hl7.Fhir.Model.ResourceType)oInboundSearchParameter.TypeModifierResource))
+        if (oSupported.TypeModifierResourceList.Contains(oInboundSearchParameter.TypeModifierResource))
         {
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
           DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the 'Resource' type found in the 'Type[]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);          

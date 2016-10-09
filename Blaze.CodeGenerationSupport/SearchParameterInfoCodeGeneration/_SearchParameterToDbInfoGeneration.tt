@@ -61,11 +61,11 @@ namespace Blaze.Common.BusinessEntities.Search
 <#
         }
 #>
-   SupportedSearchParameter.TypeModifierResourceList = new List<Hl7.Fhir.Model.ResourceType>();
+   SupportedSearchParameter.TypeModifierResourceList = new List<string>();
          <# 
         foreach (var ModifierTypeModifierResource in ResourceSearchParamInfoItem.TypeModifierResourceList)
         {#>
-            SupportedSearchParameter.TypeModifierResourceList.Add(Hl7.Fhir.Model.ResourceType.<#=ModifierTypeModifierResource#>);
+            SupportedSearchParameter.TypeModifierResourceList.Add("<#=ModifierTypeModifierResource#>");
 <#
         }
 #>

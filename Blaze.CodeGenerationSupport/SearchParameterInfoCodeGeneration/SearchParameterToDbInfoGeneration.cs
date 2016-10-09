@@ -21,6 +21,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 
       foreach (RepositoryItem RepositoryItem in RepositoryCodeGenModel.RepositoryItemList)
       {
+
         var ResourceSearchParamInfo = new ResourceSearchParamInfo();
         ResourceSearchParamInfo.ResourceName = RepositoryItem.ResourceName;
         ResourceSearchParamInfo.ResourceSearchParamInfoItemList = new List<ResourceSearchParamInfoItem>();
@@ -35,7 +36,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
             ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[CollectionIndexEntity.SearchParameterInfo.DbIndexType];
             ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
-            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList);
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.IsDbCollection = "true";
             ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(CollectionIndexEntity.SearchParameterInfo.SearchParameterName);
@@ -53,7 +54,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
             ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.DbIndexType];
             ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
-            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
+            ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList);
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.IsDbCollection = "false";
             ResourceSearchParamInfoItem.DbBasePropertyName = DatabaseModelInfo.ContructSearchParameterName(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName);
@@ -151,56 +152,24 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
       }
     }
-    private List<string> PopulateTypeModifierResourceList(DatabaseEnum.DbIndexType DbIndexType)
+    private List<string> PopulateTypeModifierResourceList(List<Hl7.Fhir.Model.ResourceType> ReferanceResourceTypeList)
     {
       var ReturnList = new List<string>();
-      switch (DbIndexType)
+      
+      foreach (ResourceType ResourceType in ReferanceResourceTypeList)
       {
-        case DatabaseEnum.DbIndexType.DateIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.DateTimeIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.NumberIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.QuantityIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.QuantityRangeIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.ReferenceIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.StringIndex:
-          {
-            //Example:
-            //ReturnList.Add(Hl7.Fhir.Model.ResourceType.Account.ToString());
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.TokenIndex:
-          {
-            return ReturnList;
-          }
-        case DatabaseEnum.DbIndexType.UriIndex:
-          {
-            return ReturnList;
-          }
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(DatabaseEnum.DbIndexType));
+        //Just double checking the FHIR API that the Resource given is valid
+        Type Type = ModelInfo.GetTypeForFhirType(ResourceType.ToString());
+        if (Type != null && ModelInfo.IsKnownResource(Type))
+        {
+          ReturnList.Add(ModelInfo.GetFhirTypeNameForType(Type));
+        }
+        else
+        {
+          throw new Exception($"The Reference Resource Type for a search parameter is not a valid resource type, Resource name was: {ResourceType.ToString()}");
+        }        
       }
+      return ReturnList;
     }
     private List<string> PopulatePrefixList(DatabaseEnum.DbIndexType DbIndexType)
     {

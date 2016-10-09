@@ -100,11 +100,6 @@
     <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfo.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\ResourceSearchParamInfoItem.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParameterToDbInfoGeneration.cs" />
-    <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.cs">
-      <DependentUpon>_SearchParameterToDbInfoGeneration.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,6 +107,11 @@
     </Compile>
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParamEnumInfoItem.cs" />
     <Compile Include="SearchParameterInfoCodeGeneration\SearchParamEnumCodeGeneration.cs" />
+    <Compile Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.cs">
+      <DependentUpon>_SearchParameterToDbInfoGeneration.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="UnitOfWorkCodeGeneration\_UnitOfWorkGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -163,13 +163,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>_SearchParameterToDbInfoGeneration.cs</LastGenOutput>
-    </Content>
     <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterEnumGeneration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_SearchParameterEnumGeneration.cs</LastGenOutput>
+    </Content>
+    <Content Include="SearchParameterInfoCodeGeneration\_SearchParameterToDbInfoGeneration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_SearchParameterToDbInfoGeneration.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
