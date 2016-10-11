@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Hl7.Fhir.Support;
 using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 
 namespace Blaze.Engine.Search
 {
-  class SearchUriValidator
+  public class SearchParameterValidator
   {
     private static SearchParametersValidationOperationOutcome _SearchParametersValidationOperationOutcome;
     private static FHIRDefinedType _ResourceType;
@@ -18,7 +17,7 @@ namespace Blaze.Engine.Search
     {
       _ResourceType = ResourceType;
       _SearchParametersValidationOperationOutcome = new SearchParametersValidationOperationOutcome();
-      SearchUriValidator.ParseToSupportedSearchParameters(SearchParameter, _SearchParametersValidationOperationOutcome);
+      SearchParameterValidator.ParseToSupportedSearchParameters(SearchParameter, _SearchParametersValidationOperationOutcome);
       return _SearchParametersValidationOperationOutcome;
     }
 
@@ -27,7 +26,8 @@ namespace Blaze.Engine.Search
       _SearchParametersValidationOperationOutcome.SearchParameters = new DtoSearchParameters();
       _SearchParametersValidationOperationOutcome.SearchParameters.ResourceTarget = _ResourceType;
       _SearchParametersValidationOperationOutcome.SearchParameters.SearchParametersList = new List<DtoSearchParameterBase>();
-      _SearchParametersValidationOperationOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();      
+      _SearchParametersValidationOperationOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+
       var oSupportedSearchParametersForResourceList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType);
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameType();
 

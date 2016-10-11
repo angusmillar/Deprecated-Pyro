@@ -47,7 +47,7 @@ namespace Blaze.Engine.Services
     public virtual IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
     {
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchUriValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
+      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchParameterValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
       if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
       {
         oBlazeServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;

@@ -38,7 +38,15 @@ namespace Blaze.Common.BusinessEntities.Search
         }
         else
         {
-          DtoSearchParameterStringValue.Value = Value.Trim();
+          //Chained Parameter
+          if (this.Modifier == FhirSearchEnum.SearchModifierType.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
+          {
+             //SearchParametersValidationOperationOutcome Validate(FHIRDefinedType ResourceType, SearchParams SearchParameter)
+          }
+          else
+          {
+            DtoSearchParameterStringValue.Value = Value.Trim();
+          }          
           this.ValueList.Add(DtoSearchParameterStringValue);
         }
       }
