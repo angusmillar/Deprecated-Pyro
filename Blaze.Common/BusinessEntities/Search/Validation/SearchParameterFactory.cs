@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Blaze.Common.BusinessEntities.Dto;
+using System.Collections.Generic;
 using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Search
+namespace Blaze.Common.BusinessEntities.Search.Validation
 {
   public static class SearchParameterFactory
   {
@@ -19,7 +15,7 @@ namespace Blaze.Engine.Search
     private static string _RawSearchParameterAndValueString = string.Empty;
 
     public static DtoSearchParameterBase CreateSearchParameter(DtoSupportedSearchParameters DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
-    {
+    {      
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.DbSearchParameterType);
 
       string ParameterName = Parameter.Item1;
@@ -36,11 +32,31 @@ namespace Blaze.Engine.Search
       {
         oSearchParameter.IsValid = false;
         oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
-      }      
-      if (!oSearchParameter.TryParseValue(ParameterValue))      
+      }
+
+      if (oSearchParameter.Modifier == FhirSearchEnum.SearchModifierType.Type &&
+        !string.IsNullOrWhiteSpace(oSearchParameter.TypeModifierResource) &&
+        ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
-        oSearchParameter.IsValid = false;
-        oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter value to the appropriate type of: {oSearchParameter.DbSearchParameterType.ToString()} for parameter = value: '{ParameterValue}', ";
+        //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
+        var SearchParameterGeneric = new Blaze.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
+        SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
+        var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
+        SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
+        Validation.SearchParametersValidationOperationOutcome SearchParametersValidationOperationOutcome = Validation.SearchParameterValidator.Validate((Hl7.Fhir.Model.FHIRDefinedType)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
+        oSearchParameter.ChainedSearchParameter = SearchParametersValidationOperationOutcome;
+      }
+      else
+      {
+        if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.ReferenceIndex)
+        {
+          (oSearchParameter as DtoSearchParameterReferance).AllowedReferanceResourceList = DtoSupportedSearchParametersResource.TypeModifierResourceList;
+        }
+
+        if (!oSearchParameter.TryParseValue(ParameterValue))
+        {
+          oSearchParameter.IsValid = false;          
+        }
       }
       return oSearchParameter;
     }
@@ -97,21 +113,19 @@ namespace Blaze.Engine.Search
       else
       {
         string TypedResourceName = value;
-        if (value.StartsWith("."))
+        if (value.Contains("."))
         {
           char[] delimiters = { '.' };
-          TypedResourceName = value.Split(delimiters)[1].Trim();
+          TypedResourceName = value.Split(delimiters)[0].Trim();
         }
-        else
-        {
-          Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);          
-          if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-          {            
-            SearchParameter.TypeModifierResource = TypedResourceName;
-            SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
-            return true;
-          }
-        }
+        
+        Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);          
+        if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+        {            
+          SearchParameter.TypeModifierResource = TypedResourceName;
+          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
+          return true;
+        }        
         return false;
       }
     }

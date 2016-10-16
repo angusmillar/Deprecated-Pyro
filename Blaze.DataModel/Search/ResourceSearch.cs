@@ -1890,10 +1890,7 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
     }
 
-    //---- QuantityRange Index Expressions ------------------------------------------------------
-
-    //Not implemented as there are no QuantityRange search parameters as yet in FHIR spec, as of this early STU3 release
-
+    
     //---- Uri Index Expressions ------------------------------------------------------
 
     public Expression<Func<T, bool>> UriPropertyEqualTo(string Property, string Value)
@@ -2094,6 +2091,91 @@ namespace Blaze.DataModel.Search
       return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
     }
 
+
+    //---- Referance Index Expressions ------------------------------------------------------
+
+    public Expression<Func<T, bool>> ReferancePropertyEqualTo_ByKey(string Property, int UrlStoreKey, string Resource, string FhirId, string History)
+    {
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+      MemberExpression propertyReferenceUrlStoreKey = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID);
+      MemberExpression propertyReferenceResource = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);    
+      MemberExpression propertyReferenceFhirId = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      MemberExpression propertyReferenceHistory = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
+
+      
+
+      ConstantExpression SearchValueReferenceUrlStoreKey = Expression.Constant(UrlStoreKey, typeof(int?));
+      ConstantExpression SearchValueReferenceResource = Expression.Constant(Resource, typeof(string));
+      ConstantExpression SearchValueReferenceFhirID = Expression.Constant(FhirId, typeof(string));
+      ConstantExpression SearchValueReferenceHistory = Expression.Constant(History, typeof(string));
+
+
+      Expression BinaryExpression_Final = ReferanceExpression.EqualTo_ByURLStoreKey_Expression(
+        propertyReferenceUrlStoreKey,
+        propertyReferenceResource,
+        propertyReferenceFhirId,
+        propertyReferenceHistory,
+        SearchValueReferenceUrlStoreKey,
+        SearchValueReferenceResource,
+        SearchValueReferenceFhirID,
+        SearchValueReferenceHistory);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> ReferancePropertyEqualTo_ByUrlString(string Property, string UrlString, string Resource, string FhirId, string History)
+    {
+      var ParameterReferance = Expression.Parameter(typeof(T), "x");
+
+
+      //-------------------------------------------------------------------------------
+      //(x => x.organization_Url.RootUrl == "www.bla.com");
+      //ParameterExpression InnerParameter = Expression.Parameter(typeof(DatabaseModel.ServiceRootURL_Store), "c");
+      //MemberExpression InnerPropertUrl = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+
+      
+
+
+
+      //var ParameterReferanceServiceRootURL_Store = Expression.Parameter(typeof(Blaze.DataModel.DatabaseModel.ServiceRootURL_Store), "v");
+
+
+      //-------------------------------------------------------------------------------------------------
+
+      MemberExpression propertyReferenceUrl = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url);
+      MemberExpression propertyReferenceServiceRootURL_StoreRootUrl = Expression.Property(propertyReferenceUrl, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ServiceRootURL_Store.RootUrl);
+      MemberExpression propertyReferenceResource = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
+      MemberExpression propertyReferenceFhirId = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      MemberExpression propertyReferenceHistory = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
+
+
+
+      ConstantExpression SearchValueReferenceUrlString = Expression.Constant(UrlString, typeof(string));
+      ConstantExpression SearchValueReferenceResource = Expression.Constant(Resource, typeof(string));
+      ConstantExpression SearchValueReferenceFhirID = Expression.Constant(FhirId, typeof(string));
+      ConstantExpression SearchValueReferenceHistory = Expression.Constant(History, typeof(string));
+
+
+      Expression BinaryExpression_Final = ReferanceExpression.EqualTo_ByURLString_Expression(
+        propertyReferenceUrl,
+        propertyReferenceServiceRootURL_StoreRootUrl,
+        propertyReferenceResource,
+        propertyReferenceFhirId,
+        propertyReferenceHistory,
+        SearchValueReferenceUrlString,
+        SearchValueReferenceResource,
+        SearchValueReferenceFhirID,
+        SearchValueReferenceHistory);
+
+
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
+    }
+
+
+    //---- QuantityRange Index Expressions ------------------------------------------------------
+
+    //Not implemented as there are no QuantityRange search parameters as yet in FHIR spec, as of this early STU3 release
 
   }
 

@@ -42,7 +42,7 @@ namespace Blaze.DataModel.Repository
       var Predicate = PredicateGenerator<Res_Patient>(DtoSearchParameters);
 
       //var Predicate = LinqKit.PredicateBuilder.New<Res_Patient>();
-      //Predicate = Predicate.Or(x => x.given_List.Count == 0);
+      Predicate = Predicate.Or(x => x.organization_Url.RootUrl == "www.bla.com");
 
 
 

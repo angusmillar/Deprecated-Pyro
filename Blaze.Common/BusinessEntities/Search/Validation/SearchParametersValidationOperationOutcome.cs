@@ -7,7 +7,7 @@ using Hl7.Fhir.Model;
 using Blaze.Common.BusinessEntities.Search;
 using System.Net;
 
-namespace Blaze.Engine.Search
+namespace Blaze.Common.BusinessEntities.Search.Validation
 {
   public class SearchParametersValidationOperationOutcome : Common.Interfaces.ISearchParametersValidationOperationOutcome
   {    

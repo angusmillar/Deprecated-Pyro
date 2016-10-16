@@ -115,6 +115,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Type.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.StringIndex:
@@ -155,7 +156,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
     private List<string> PopulateTypeModifierResourceList(List<Hl7.Fhir.Model.ResourceType> ReferanceResourceTypeList)
     {
       var ReturnList = new List<string>();
-      
+
       foreach (ResourceType ResourceType in ReferanceResourceTypeList)
       {
         //Just double checking the FHIR API that the Resource given is valid
@@ -167,7 +168,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         else
         {
           throw new Exception($"The Reference Resource Type for a search parameter is not a valid resource type, Resource name was: {ResourceType.ToString()}");
-        }        
+        }
       }
       return ReturnList;
     }

@@ -38,8 +38,7 @@ namespace Blaze.Web.Controllers
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     [HttpGet, Route("{ResourceName}")]
     public HttpResponseMessage Search(string ResourceName)
-    {
-      var Test = Request.Headers;
+    {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       

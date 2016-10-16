@@ -66,9 +66,10 @@ namespace Blaze.DataModel.Repository
             NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
-            throw new NotImplementedException();
+            throw new NotImplementedException("QuantityRangeIndex searches are not supported in this version.");
           case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
-            throw new NotImplementedException();
+            NewPredicate = ReferancePredicateBuilder.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
+            break;
           case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
             NewPredicate = StringPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;

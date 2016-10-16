@@ -29,40 +29,89 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     private readonly char UriDelimieter = '/';
     private readonly string HistorySegmentName = "_history";
     private readonly string RegexResourceDilimeter = "|";
+    protected bool IsValidFhirUri = false;
 
     public DtoFhirUri(Uri Uri)
     {
-      ParseUri(Uri);
+      if (ParseUri2(Uri))
+      {
+        this.IsValidFhirUri = true;
+      }
+      else
+      {
+        this.IsValidFhirUri = false;
+      }
     }
+
+    //public DtoFhirUri(Uri Uri)
+    //{
+    //  ParseUri(Uri);
+    //}
 
     public DtoFhirUri(string UriString)
     {
       if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
-      {        
+      {
         var Uri = new Uri(UriString);
-        this.ParseUri(Uri);
+        if (this.ParseUri2(Uri))
+        {
+          this.IsValidFhirUri = true;
+        }
+        else
+        {
+          this.IsValidFhirUri = false;
+        }
       }
       else
       {
         if (HttpUtil.IsRestResourceIdentity(UriString))
         {
           this.IsAbsoluteUri = false;
-          ParseOutResourceIdentity(UriString);
+          if (ParseOutResourceIdentity2(UriString))
+          {
+            this.IsValidFhirUri = true;
+          }
+          else
+          {
+            this.IsValidFhirUri = false;
+          }
         }
         else
         {
-          var oIssueComponent = new OperationOutcome.IssueComponent();
-          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
-          oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_RESOURCE_TYPE_MISMATCH", String.Format("Resource Type Mismatch"));
-          oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type and Id in the URL, URL was : {0}", Uri.AbsoluteUri);
-          oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-          var oOperationOutcome = new OperationOutcome();
-          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+          this.IsValidFhirUri = false;
         }
       }
     }
+
+
+    //public DtoFhirUri(string UriString)
+    //{
+    //  if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
+    //  {        
+    //    var Uri = new Uri(UriString);
+    //    this.ParseUri(Uri);
+    //  }
+    //  else
+    //  {
+    //    if (HttpUtil.IsRestResourceIdentity(UriString))
+    //    {
+    //      this.IsAbsoluteUri = false;
+    //      ParseOutResourceIdentity(UriString);
+    //    }
+    //    else
+    //    {
+    //      var oIssueComponent = new OperationOutcome.IssueComponent();
+    //      oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
+    //      oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
+    //      oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_RESOURCE_TYPE_MISMATCH", String.Format("Resource Type Mismatch"));
+    //      oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type and Id in the URL, URL was : {0}", Uri.AbsoluteUri);
+    //      oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
+    //      var oOperationOutcome = new OperationOutcome();
+    //      oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+    //      throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+    //    }
+    //  }
+    //}
 
     public bool IsAbsoluteUri { get; private set; }
     public bool IsRelativeUri { get { return !this.IsAbsoluteUri; } }
@@ -156,6 +205,78 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     /// The Query part of the request uri (e.g ?family=millar&given=angus)
     /// </summary>
     public string Query { get; private set; }
+
+    public static bool TryParse(Uri Uri, out IFhirUri FhirUri)
+    {
+      FhirUri = new DtoFhirUri(Uri);
+      var DtoFhirUri = FhirUri as DtoFhirUri;
+      if (DtoFhirUri.IsValidFhirUri)
+      {
+        return true;
+      }
+      else
+      {
+        FhirUri = null;
+        return false;
+      }
+    }
+
+    public static bool TryParse(string Uri, out IFhirUri FhirUri)
+    {
+      FhirUri = new DtoFhirUri(Uri);
+      var DtoFhirUri = FhirUri as DtoFhirUri;
+      if (DtoFhirUri.IsValidFhirUri)
+      {
+        return true;
+      }
+      else
+      {
+        FhirUri = null;
+        return false;
+      }
+    }
+
+    private bool ParseUri2(Uri Uri)
+    {
+      this.SchemaDelimiter = Uri.SchemeDelimiter;
+      this.Uri = Uri;
+      string UriPartToParse = string.Empty;
+      if (Uri.IsAbsoluteUri)
+      {
+        this.IsAbsoluteUri = true;
+        this.Schema = Uri.Scheme;
+        this.Authority = Uri.Authority;
+        UriPartToParse = Uri.AbsolutePath;
+        if (!string.IsNullOrWhiteSpace(Uri.Query))
+        {
+          this.Query = Uri.Query;
+          //UriPartToParse = Uri.AbsolutePath.Substring(0, (Uri.AbsolutePath.Count() - this.Query.Count()));
+        }
+      }
+      else
+      {
+        this.IsAbsoluteUri = false;
+        UriPartToParse = Uri.OriginalString;
+      }
+
+      if (!ParseOutResourceIdentity2(UriPartToParse))
+        return false;      
+
+      if (this.ResourseType == null)
+      {
+        return false;
+      }
+
+      if (this.Id != null)
+      {
+        if (!HttpUtil.IsRestResourceIdentity(Uri))
+        {
+          return false;
+        }
+      }      
+      return true;
+    }
+
 
     private void ParseUri(Uri Uri)
     {
@@ -273,6 +394,62 @@ namespace Blaze.Common.BusinessEntities.UriSupport
         }
       }
       this.ApiSegments = ApiSegmentList.ToArray();
+    }
+
+    private bool ParseOutResourceIdentity2(string UrlPart)
+    {
+      var ApiSegmentList = new List<string>();
+      string FhirResourceRegexPattern = string.Empty;
+      FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+
+      string[] AbsolutePathArray = null;
+      UrlPart = System.Net.WebUtility.UrlDecode(UrlPart);
+      AbsolutePathArray = UrlPart.Split(UriDelimieter);
+      for (int i = 0; i < AbsolutePathArray.Length; i++)
+      {
+        if (this.ResourseType == null)
+        {
+          if (Regex.IsMatch(AbsolutePathArray[i], FhirResourceRegexPattern))
+          {
+            this.ResourseType = AbsolutePathArray[i];
+          }
+          else
+          {
+            if (i > 0)
+            {
+              ApiSegmentList.Add(AbsolutePathArray[i]);
+            }
+          }
+        }
+        else
+        {
+          if (this.Id == null)
+          {
+            //for now I am amusing Id could contain the _historyversion as well, e.g Patient/123?_history=2
+            this.Id = AbsolutePathArray[i];
+          }
+          else
+          {
+            if (this.IsHistory)
+            {
+              this.VersionId = AbsolutePathArray[i];
+            }
+            else
+            {
+              if (Regex.IsMatch(AbsolutePathArray[i], HistorySegmentName, RegexOptions.IgnoreCase))
+              {
+                this.IsHistory = true;
+              }
+              else
+              {
+                return false;
+              }
+            }
+          }
+        }
+      }
+      this.ApiSegments = ApiSegmentList.ToArray();
+      return true;
     }
 
     private string ApiSegmentsToPath()

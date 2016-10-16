@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.Common.Interfaces;
 using System.Net;
-using Blaze.Engine.Search;
 using Blaze.Common.BusinessEntities.Dto;
 using Blaze.Common.Enum;
 

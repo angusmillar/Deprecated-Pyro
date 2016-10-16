@@ -11,6 +11,7 @@ namespace Blaze.Common.BusinessEntities.Search
   public class DtoSearchParameters
   {
     public FHIRDefinedType ResourceTarget { get; set; }
+    public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
     public List<DtoSearchParameterBase> SearchParametersList { get; set; }
     public List<DtoUnspportedSearchParameter> DtoUnspportedSearchParameterList { get; set; }
     public List<Sort> SortList { get; set; }

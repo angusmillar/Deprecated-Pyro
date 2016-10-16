@@ -60,6 +60,7 @@
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDate.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDateTimeValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterDateValue.cs" />
+    <Compile Include="BusinessEntities\Search\DtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterQuantityValue.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterQuantity.cs" />
     <Compile Include="BusinessEntities\Search\DtoSearchParameterNumberValue.cs" />
@@ -80,6 +81,10 @@
       <DependentUpon>_SearchParameterToDbInfoGeneration.txt4</DependentUpon>
     </Compile>
     <Compile Include="BusinessEntities\Search\DtoUnspportedSearchParameter.cs" />
+    <Compile Include="BusinessEntities\Search\Validation\SearchParameterFactory.cs" />
+    <Compile Include="BusinessEntities\Search\Validation\SearchParametersValidationOperationOutcome.cs" />
+    <Compile Include="BusinessEntities\Search\Validation\SearchParameterValidator.cs" />
+    <Compile Include="BusinessEntities\Search\Validation\SearchPlanValidationOperationOutcome.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
     <Compile Include="Database\StaticDatabaseInfo.cs" />

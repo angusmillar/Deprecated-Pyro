@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Blaze.Common.BusinessEntities.Search
 {
-  public class DtoSearchParameterReferanceValue: DtoSearchParameterValueBase
-  {
-    public string Value { get; set; }
+  public class DtoSearchParameterReferanceValue : DtoSearchParameterValueBase
+  {  
+    public Blaze.Common.Interfaces.UriSupport.IFhirUri FhirUri { get; set; }
   }
 }

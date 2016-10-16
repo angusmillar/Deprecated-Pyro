@@ -64,33 +64,33 @@ namespace Blaze.DataModel.IndexSetter
       if (!Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(FhirUri.Value))
         return null;
 
+      IFhirUri ReferanceUri = null;
       if (Uri.IsWellFormedUriString(FhirUri.Value, UriKind.Relative))
-      {
-        var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(FhirUri.Value);
-        SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
-        ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
-        return ReferenceIndex;
-
+      {        
+        if (DtoFhirUri.TryParse(FhirUri.Value.Trim(), out ReferanceUri))
+        {
+          SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
+          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+          return ReferenceIndex;
+        }        
       }
       else if (Uri.IsWellFormedUriString(FhirUri.Value, UriKind.Absolute))
       {
-        Uri Uri = new System.Uri(FhirUri.Value);
-        var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(Uri);
-        SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
-        if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+        if (DtoFhirUri.TryParse(FhirUri.Value.Trim(), out ReferanceUri))
         {
-          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
-        }
-        else
-        {
-          ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
-        }
-        return ReferenceIndex;
+          SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
+          if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+          {
+            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+          }
+          else
+          {
+            ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+          }
+          return ReferenceIndex;
+        } 
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public ReferenceIndex SetResourceReference(ResourceReference ResourceReference, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
@@ -113,32 +113,32 @@ namespace Blaze.DataModel.IndexSetter
 
       if (!ResourceReference.IsContainedReference && ResourceReference.Url != null)
       {
-        var ReferanceUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ResourceReference.Url);
-        SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
-        if (ResourceReference.Url.IsAbsoluteUri)
+        IFhirUri ReferanceUri = null;
+        if (DtoFhirUri.TryParse(ResourceReference.Url, out ReferanceUri))
         {
-          if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+          SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
+          if (ResourceReference.Url.IsAbsoluteUri)
           {
-            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+            if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+            {
+              ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+            }
+            else
+            {
+              ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+            }
           }
           else
           {
-            ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
           }
-        }
-        else
-        {
-          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
-        }
-        return ReferenceIndex;
-      }
-      else
-      {
-        return null;
-      }
+          return ReferenceIndex;
+        }        
+      }      
+      return null;      
     }
 
-    private static void SetResourceIndentityElements(ReferenceIndex ReferenceIndex, DtoFhirUri ReferanceUri)
+    private static void SetResourceIndentityElements(ReferenceIndex ReferenceIndex, IFhirUri ReferanceUri)
     {
       ReferenceIndex.Type = ReferanceUri.ResourseType;
       ReferenceIndex.VersionId = ReferanceUri.VersionId;

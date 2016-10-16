@@ -105,6 +105,12 @@ namespace Blaze.Common.Database
         public static string Uri { get { return "Uri"; } }
       }
 
+      public static class ServiceRootURL_Store
+      {
+        public static string RootUrl { get { return "RootUrl"; } }
+        public static string IsServersPrimaryUrlRoot { get { return "IsServersPrimaryUrlRoot"; } }
+      }
+
     }
 
 

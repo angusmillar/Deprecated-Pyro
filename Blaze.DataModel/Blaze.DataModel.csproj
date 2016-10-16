@@ -6348,6 +6348,7 @@
     <Compile Include="Repository\QuantityRangePredicateBuilder.cs" />
     <Compile Include="Repository\QuantityPredicateBuilder.cs" />
     <Compile Include="Repository\NumberPredicateBuilder.cs" />
+    <Compile Include="Repository\ReferancePredicateBuilder.cs" />
     <Compile Include="Repository\UriPredicateBuilder.cs" />
     <Compile Include="Repository\TokenPredicateBuilder.cs" />
     <Compile Include="Repository\DateTimePredicateBuilder.cs" />
@@ -6619,6 +6620,7 @@
     <Compile Include="Repository\VisionPrescriptionRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
+    <Compile Include="Search\ReferanceExpression.cs" />
     <Compile Include="Search\QuantityExpression.cs" />
     <Compile Include="Search\TokenExpression.cs" />
     <Compile Include="Search\DecimalExpression.cs" />

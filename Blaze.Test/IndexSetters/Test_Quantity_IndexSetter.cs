@@ -185,7 +185,7 @@ namespace Blaze.Test.IndexSetters
 
       //Assert
       Assert.AreEqual(Index.Quantity, Value);
-      Assert.IsNull(Index.Comparator);
+      Assert.AreEqual(Index.Comparator, Comparator);
       Assert.AreEqual(Index.Code, Code);
       Assert.AreEqual(Index.System, System);
     }

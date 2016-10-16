@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
-using Hl7.Fhir.Model;
-using Blaze.Engine.CustomException;
-using System.Web.UI;
-using System.IO;
 using Blaze.Common.Interfaces;
 using Blaze.Common.Interfaces.Services;
 using Blaze.Common.Interfaces.Repositories;
-using Blaze.Engine.Response;
+using Blaze.Common.BusinessEntities.Search.Validation;
 using Blaze.Common.Enum;
+using Hl7.Fhir.Model;
 
 namespace Blaze.Engine.Services
 {
@@ -45,15 +38,15 @@ namespace Blaze.Engine.Services
     //GET Search
     // GET: URL//FhirApi/Patient?family=Smith&given=John
     public virtual IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
-    {
+    {      
       var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
-      Search.SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = Blaze.Engine.Search.SearchParameterValidator.Validate(_CurrentResourceType, BlazeServiceRequest.SearchParams);
+      SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = SearchParameterValidator.Validate(_CurrentResourceType, new Common.BusinessEntities.Search.DtoSearchParameterGeneric(BlazeServiceRequest.SearchParams));
       if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
       {
         oBlazeServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;
         return oBlazeServiceOperationOutcome;
       }
-      
+      oSearchParametersValidationOperationOutcome.SearchParameters.PrimaryRootUrlStore = BlazeServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
       oBlazeServiceOperationOutcome.OperationType = Blaze.Common.Enum.RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.RequestUri = BlazeServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);

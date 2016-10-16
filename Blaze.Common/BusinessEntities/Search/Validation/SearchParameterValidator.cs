@@ -6,22 +6,22 @@ using Hl7.Fhir.Rest;
 using Blaze.Common.Enum;
 using Blaze.Common.BusinessEntities.Search;
 
-namespace Blaze.Engine.Search
+namespace Blaze.Common.BusinessEntities.Search.Validation
 {
   public class SearchParameterValidator
   {
     private static SearchParametersValidationOperationOutcome _SearchParametersValidationOperationOutcome;
     private static FHIRDefinedType _ResourceType;
 
-    public static SearchParametersValidationOperationOutcome Validate(FHIRDefinedType ResourceType, SearchParams SearchParameter)
+    public static SearchParametersValidationOperationOutcome Validate(FHIRDefinedType ResourceType, DtoSearchParameterGeneric SearchParameterGeneric)
     {
       _ResourceType = ResourceType;
       _SearchParametersValidationOperationOutcome = new SearchParametersValidationOperationOutcome();
-      SearchParameterValidator.ParseToSupportedSearchParameters(SearchParameter, _SearchParametersValidationOperationOutcome);
+      SearchParameterValidator.ParseToSupportedSearchParameters(SearchParameterGeneric, _SearchParametersValidationOperationOutcome);
       return _SearchParametersValidationOperationOutcome;
     }
 
-    private static void ParseToSupportedSearchParameters(SearchParams FhirSearchParameter, SearchParametersValidationOperationOutcome _SearchParametersValidationOperationOutcome)
+    private static void ParseToSupportedSearchParameters(DtoSearchParameterGeneric SearchParameterGeneric, SearchParametersValidationOperationOutcome _SearchParametersValidationOperationOutcome)
     {      
       _SearchParametersValidationOperationOutcome.SearchParameters = new DtoSearchParameters();
       _SearchParametersValidationOperationOutcome.SearchParameters.ResourceTarget = _ResourceType;
@@ -31,7 +31,7 @@ namespace Blaze.Engine.Search
       var oSupportedSearchParametersForResourceList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType);
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameType();
 
-      foreach (var Parameter in FhirSearchParameter.Parameters)
+      foreach (var Parameter in SearchParameterGeneric.ParameterList)
       {
         //We will just ignore an empty parameter such as this last '&' URL?family=Smith&given=John&
         if (Parameter.Item1 + Parameter.Item2 != string.Empty)
@@ -46,6 +46,11 @@ namespace Blaze.Engine.Search
             if (oSupportedSearchParameter != null)
             {
               DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
+              if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.ReferenceIndex)
+              {
+                oSearchParameter.PrimaryRootUrlStore = _SearchParametersValidationOperationOutcome.SearchParameters.PrimaryRootUrlStore;
+              }
+
               if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter))
               {
                 _SearchParametersValidationOperationOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
@@ -70,10 +75,10 @@ namespace Blaze.Engine.Search
       }
 
       
-      if (FhirSearchParameter.Sort != null)
+      if (SearchParameterGeneric.Sort != null)
       {
         _SearchParametersValidationOperationOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
-        foreach (var SortItem in FhirSearchParameter.Sort)
+        foreach (var SortItem in SearchParameterGeneric.Sort)
         {
           if (oSearchParameterNameDictionary.ContainsKey(SortItem.Item1.Trim()))
           {
@@ -132,10 +137,10 @@ namespace Blaze.Engine.Search
 
       if (oInboundSearchParameter.TypeModifierResource != null)
       {
-        if (oSupported.TypeModifierResourceList.Contains(oInboundSearchParameter.TypeModifierResource))
+        if (!oSupported.TypeModifierResourceList.Contains(oInboundSearchParameter.TypeModifierResource))
         {
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
-          DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the 'Resource' type found in the 'Type[]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);          
+          DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the 'Resource' type found in the '[ResourceType]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);          
         }
       }
 

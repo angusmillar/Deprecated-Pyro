@@ -17,12 +17,14 @@ namespace Blaze.Common.BusinessEntities.Search
     public string RawValue { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public FhirSearchEnum.SearchModifierType Modifier { get; set; }
-    public string TypeModifierResource { get; set; }    
-    public bool HasLogicalOrProperties { get; set; }    
+    public string TypeModifierResource { get; set; }
+    public Validation.SearchParametersValidationOperationOutcome ChainedSearchParameter { get; set; }
+    public bool HasLogicalOrProperties { get; set; }
     public string DbPropertyName { get; set; }
     public bool IsDbCollection { get; set; }
     public bool IsValid { get; set; }
     public string InvalidMessage { get; set; }
+    public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
 
     public abstract bool TryParseValue(string Value);
     public abstract bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters);
