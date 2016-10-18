@@ -116,6 +116,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Type.ToString());
+            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.StringIndex:
@@ -142,7 +143,6 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         case DatabaseEnum.DbIndexType.UriIndex:
           {
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Above.ToString());
             ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());

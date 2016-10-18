@@ -2126,29 +2126,12 @@ namespace Blaze.DataModel.Search
     public Expression<Func<T, bool>> ReferancePropertyEqualTo_ByUrlString(string Property, string UrlString, string Resource, string FhirId, string History)
     {
       var ParameterReferance = Expression.Parameter(typeof(T), "x");
-
-
-      //-------------------------------------------------------------------------------
-      //(x => x.organization_Url.RootUrl == "www.bla.com");
-      //ParameterExpression InnerParameter = Expression.Parameter(typeof(DatabaseModel.ServiceRootURL_Store), "c");
-      //MemberExpression InnerPropertUrl = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
-
       
-
-
-
-      //var ParameterReferanceServiceRootURL_Store = Expression.Parameter(typeof(Blaze.DataModel.DatabaseModel.ServiceRootURL_Store), "v");
-
-
-      //-------------------------------------------------------------------------------------------------
-
       MemberExpression propertyReferenceUrl = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url);
       MemberExpression propertyReferenceServiceRootURL_StoreRootUrl = Expression.Property(propertyReferenceUrl, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ServiceRootURL_Store.RootUrl);
       MemberExpression propertyReferenceResource = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
       MemberExpression propertyReferenceFhirId = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
       MemberExpression propertyReferenceHistory = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
-
-
 
       ConstantExpression SearchValueReferenceUrlString = Expression.Constant(UrlString, typeof(string));
       ConstantExpression SearchValueReferenceResource = Expression.Constant(Resource, typeof(string));
@@ -2167,11 +2150,154 @@ namespace Blaze.DataModel.Search
         SearchValueReferenceFhirID,
         SearchValueReferenceHistory);
 
-
-
       return Expression.Lambda<Func<T, bool>>(BinaryExpression_Final, new[] { ParameterReferance });
     }
 
+    public Expression<Func<T, bool>> ReferancePropertyIsNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset == null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.Equal(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+    public Expression<Func<T, bool>> ReferancePropertyIsNotNull(string Property)
+    {
+      //(x => x.birthdate_DateTimeOffset != null);
+      var type = typeof(T);
+      var ParameterReferance = Expression.Parameter(type, "x");
+      var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      var constantReference = Expression.Constant(null);
+      var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
+    }
+
+
+    public Expression<Func<T, bool>> ReferanceCollectionAnyEqualTo_ByKey(string Property, int UrlStoreKey, string Resource, string FhirId, string History)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ReferenceIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(ReferenceIndex), "c");
+
+
+      MemberExpression propertyReferenceUrlStoreKey = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.ServiceRootURL_StoreID);
+      MemberExpression propertyReferenceResource = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
+      MemberExpression propertyReferenceFhirId = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      MemberExpression propertyReferenceHistory = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
+
+      ConstantExpression SearchValueReferenceUrlStoreKey = Expression.Constant(UrlStoreKey, typeof(int?));
+      ConstantExpression SearchValueReferenceResource = Expression.Constant(Resource, typeof(string));
+      ConstantExpression SearchValueReferenceFhirID = Expression.Constant(FhirId, typeof(string));
+      ConstantExpression SearchValueReferenceHistory = Expression.Constant(History, typeof(string));
+      
+      //Build Inner Expression
+      Expression BinaryExpression_Final = ReferanceExpression.EqualTo_ByURLStoreKey_Expression(
+        propertyReferenceUrlStoreKey,
+        propertyReferenceResource,
+        propertyReferenceFhirId,
+        propertyReferenceHistory,
+        SearchValueReferenceUrlStoreKey,
+        SearchValueReferenceResource,
+        SearchValueReferenceFhirID,
+        SearchValueReferenceHistory);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<ReferenceIndex, bool>> InnerFunction = Expression.Lambda<Func<ReferenceIndex, bool>>(BinaryExpression_Final, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
+
+    public Expression<Func<T, bool>> ReferanceCollectionAnyEqualTo_ByUrlString(string Property, string UrlString, string Resource, string FhirId, string History)
+    {
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      //Outer Any Method
+      MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ReferenceIndex));
+
+      //Expression For Any Method
+      ParameterExpression PE_Inner = Expression.Parameter(typeof(ReferenceIndex), "c");
+
+
+      MemberExpression propertyReferenceUrl = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Url);
+      MemberExpression propertyReferenceServiceRootURL_StoreRootUrl = Expression.Property(propertyReferenceUrl, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ServiceRootURL_Store.RootUrl);
+      MemberExpression propertyReferenceResource = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.Type);
+      MemberExpression propertyReferenceFhirId = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.FhirId);
+      MemberExpression propertyReferenceHistory = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.ReferenceIndexConstatnts.VersionId);
+
+      ConstantExpression SearchValueReferenceUrlString = Expression.Constant(UrlString, typeof(string));
+      ConstantExpression SearchValueReferenceResource = Expression.Constant(Resource, typeof(string));
+      ConstantExpression SearchValueReferenceFhirID = Expression.Constant(FhirId, typeof(string));
+      ConstantExpression SearchValueReferenceHistory = Expression.Constant(History, typeof(string));
+
+      //Build Inner Expression
+      Expression BinaryExpression_Final = ReferanceExpression.EqualTo_ByURLString_Expression(
+        propertyReferenceUrl,
+        propertyReferenceServiceRootURL_StoreRootUrl,
+        propertyReferenceResource,
+        propertyReferenceFhirId,
+        propertyReferenceHistory,
+        SearchValueReferenceUrlString,
+        SearchValueReferenceResource,
+        SearchValueReferenceFhirID,
+        SearchValueReferenceHistory);
+
+      //Wrap Any Method Expression into Function
+      Expression<Func<ReferenceIndex, bool>> InnerFunction = Expression.Lambda<Func<ReferenceIndex, bool>>(BinaryExpression_Final, PE_Inner);
+
+      ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      //Call Any Method with Function
+      MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      //Wrap final expression into function
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
+
+    public Expression<Func<T, bool>> ReferanceCollectionIsNull(string Property)
+    {
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(ReferenceIndex));
+
+      ParameterExpression ResourceParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(ResourceParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodCountCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.Equal(MethodCountCall, constantReference);
+
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, ResourceParameter);
+    }
+
+    public Expression<Func<T, bool>> ReferanceCollectionIsNotNull(string Property)
+    {
+      var type = typeof(T);
+      string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      MethodInfo MethodCount = typeof(Enumerable).GetMethods().Where(m => m.Name == "Count" && m.GetParameters().Length == 1).Single().MakeGenericMethod(typeof(ReferenceIndex));
+
+      ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodCount, CollectionProperty);
+      ConstantExpression constantReference = Expression.Constant(0);
+      BinaryExpression BinaryExpression = Expression.GreaterThan(MethodAnyCall, constantReference);
+      return Expression.Lambda<Func<T, bool>>(BinaryExpression, PatientParameter);
+    }
 
     //---- QuantityRange Index Expressions ------------------------------------------------------
 

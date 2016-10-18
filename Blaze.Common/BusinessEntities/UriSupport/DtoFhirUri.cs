@@ -31,7 +31,8 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     private readonly string RegexResourceDilimeter = "|";
     protected bool IsValidFhirUri = false;
 
-    public DtoFhirUri(Uri Uri)
+    internal DtoFhirUri(){}
+    internal DtoFhirUri(Uri Uri)
     {
       if (ParseUri2(Uri))
       {
@@ -48,7 +49,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     //  ParseUri(Uri);
     //}
 
-    public DtoFhirUri(string UriString)
+    internal DtoFhirUri(string UriString)
     {
       if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
       {
@@ -151,7 +152,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     /// <summary>
     /// The Version Id of the identity, null unless IsHistory is true 
     /// </summary>
-    public string VersionId { get; private set; }    
+    public string VersionId { get; private set; }
     /// <summary>
     /// Returns the full Service Root part as a Uri DataType
     /// </summary>
@@ -208,7 +209,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
 
     public static bool TryParse(Uri Uri, out IFhirUri FhirUri)
     {
-      FhirUri = new DtoFhirUri(Uri);
+      FhirUri = Common.CommonFactory.GetFhirUri(Uri);
       var DtoFhirUri = FhirUri as DtoFhirUri;
       if (DtoFhirUri.IsValidFhirUri)
       {
@@ -223,7 +224,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
 
     public static bool TryParse(string Uri, out IFhirUri FhirUri)
     {
-      FhirUri = new DtoFhirUri(Uri);
+      FhirUri = Common.CommonFactory.GetFhirUri(Uri);
       var DtoFhirUri = FhirUri as DtoFhirUri;
       if (DtoFhirUri.IsValidFhirUri)
       {
@@ -260,7 +261,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
       }
 
       if (!ParseOutResourceIdentity2(UriPartToParse))
-        return false;      
+        return false;
 
       if (this.ResourseType == null)
       {
@@ -273,7 +274,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
         {
           return false;
         }
-      }      
+      }
       return true;
     }
 

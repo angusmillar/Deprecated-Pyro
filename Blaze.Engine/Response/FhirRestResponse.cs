@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blaze.Common.Interfaces;
+using Blaze.Common.Interfaces.Services;
 using System.Net.Http;
 using System.Net;
 using Blaze.Common.BusinessEntities.Dto;
@@ -13,15 +10,15 @@ using Hl7.Fhir.Model;
 namespace Blaze.Engine.Response
 {
   public static class FhirRestResponse
-  {    
-    public static HttpResponseMessage GetHttpResponseMessage(IBlazeServiceOperationOutcome oBlazeServiceOperationOutcome, HttpRequestMessage Request)
+  {
+    public static HttpResponseMessage GetHttpResponseMessage(IServiceOperationOutcome oBlazeServiceOperationOutcome, HttpRequestMessage Request)
     {
       //Todo: to support CORS it appears I need to return this 'Access-Control-Allow-Origin' in the HTTP header
 
 
       HttpStatusCode HttpStatusCode = oBlazeServiceOperationOutcome.HttpStatusCodeToReturn;
-      Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn(); 
-      
+      Resource Resource = oBlazeServiceOperationOutcome.ResourceToReturn();
+
       //OK: 200
       if (HttpStatusCode == HttpStatusCode.OK)
       {
@@ -31,7 +28,7 @@ namespace Blaze.Engine.Response
         }
         else if (oBlazeServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
         {
-          return Request.CreateResponse(HttpStatusCode, Resource);       
+          return Request.CreateResponse(HttpStatusCode, Resource);
         }
         else if (oBlazeServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Delete && oBlazeServiceOperationOutcome.ResourceVersionNumber != null)
         {
@@ -58,7 +55,7 @@ namespace Blaze.Engine.Response
       else if (HttpStatusCode == HttpStatusCode.Created)
       {
         HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
-       
+
         string BaseURLPath = String.Format("{0}://{1}{2}", Request.RequestUri.Scheme, Request.RequestUri.Authority, Request.RequestUri.LocalPath);
         BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
 
@@ -67,9 +64,9 @@ namespace Blaze.Engine.Response
       }
       //Gone: 410 - Search for a resource that no longer there, it is deleted or has never existed. 
       else if (HttpStatusCode == HttpStatusCode.Gone)
-      {        
-        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);        
-        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Version.ToString() + "\"");                  
+      {
+        HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
+        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Version.ToString() + "\"");
         return Response;
       }
       //No Content: 204
@@ -81,10 +78,10 @@ namespace Blaze.Engine.Response
           Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.ResourceVersionNumber + "\"");
         }
         return Response;
-      }  
+      }
       else if (HttpStatusCode == System.Net.HttpStatusCode.NotFound)
       {
-        return Request.CreateResponse(HttpStatusCode);          
+        return Request.CreateResponse(HttpStatusCode);
       }
       //Forbidden: 403..and others
       else
@@ -97,7 +94,7 @@ namespace Blaze.Engine.Response
         }
         else
         {
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();          
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
           OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
@@ -107,7 +104,7 @@ namespace Blaze.Engine.Response
           return Request.CreateResponse(HttpStatusCode, OpOutCome);
         }
       }
-      
+
     }
   }
 }

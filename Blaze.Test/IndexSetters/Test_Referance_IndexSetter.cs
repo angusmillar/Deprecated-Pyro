@@ -19,7 +19,8 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrl = "http://somewhere.net.au/FhirApi/Patient";
       string ReferanceUrl = "http://somewhere.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrl));
+      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrl));
+      
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrl;
@@ -28,7 +29,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var RootUrl = new Uri(ServiceRootUrl);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(RootUrl);
+      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(RootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var DtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -66,7 +67,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
@@ -75,7 +76,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -116,7 +117,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10/_history/5";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
@@ -125,7 +126,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -177,7 +178,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -207,17 +208,17 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ReferanceUrlString);
+      IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(ReferanceUrlString);
+      //IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ReferanceUrlString);
 
-      var FhirUri = new FhirUri();
-
+      FhirUri FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
 
       //Mok the inbound Request Url, this contains the service root url from the db.
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -260,7 +261,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -288,7 +289,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrl = "http://somewhere.net.au/FhirApi/Patient";
       string ReferanceUrl = "http://somewhere.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrl));
+      IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrl));
 
       var ResourceReference = new ResourceReference();
       ResourceReference.Reference = ReferanceUrl;
@@ -297,7 +298,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var RootUrl = new Uri(ServiceRootUrl);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(RootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(RootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var DtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -335,7 +336,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var ResourceReference = new ResourceReference();
       ResourceReference.Reference = ReferanceUrlString;
@@ -344,7 +345,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -385,7 +386,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10/_history/5";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var ResourceReference = new ResourceReference();
       ResourceReference.Reference = ReferanceUrlString;
@@ -394,7 +395,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -446,7 +447,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -476,7 +477,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "Encounter/10";
-      IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ReferanceUrlString);
+      IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(ReferanceUrlString);
 
       var ResourceReference = new ResourceReference();
 
@@ -486,7 +487,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
@@ -529,7 +530,7 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();

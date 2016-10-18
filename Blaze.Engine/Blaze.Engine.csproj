@@ -67,16 +67,15 @@
     <Compile Include="RepositorySupport\RepositorySwitcher.cs">
       <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="Response\BlazeServiceOperationOutcome.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Rest\ContentType.cs" />
     <Compile Include="Services\BaseResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\DefaultResourceServices.cs" />
+    <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
-    <Compile Include="Support\PagingSupport.cs" />
     <Compile Include="Support\ResourceVersionNumber.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />

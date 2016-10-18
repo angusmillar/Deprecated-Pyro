@@ -1,9 +1,9 @@
 ﻿using System;
 using Blaze.Common.Enum;
 
-namespace Blaze.Common.Interfaces
+namespace Blaze.Common.Interfaces.Services
 {
-  public interface IBlazeServiceOperationOutcome
+  public interface IServiceOperationOutcome
   {
     string FhirResourceId { get; set; }
     Common.Interfaces.IDatabaseOperationOutcome DatabaseOperationOutcome { get; set; }

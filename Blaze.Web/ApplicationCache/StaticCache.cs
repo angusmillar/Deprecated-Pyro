@@ -18,7 +18,7 @@ namespace Blaze.Web.ApplicationCache
       if (PrimaryRootUrlStore == null)
       {
 #if DEBUG
-        PrimaryRootUrlStore = new DtoRootUrlStore();
+        PrimaryRootUrlStore = Common.CommonFactory.GetRootUrlStore();
         PrimaryRootUrlStore.IsServersPrimaryUrlRoot = true;
         PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
         PrimaryRootUrlStore.RootUrl = "localhost:50579/fhirapi";
@@ -33,7 +33,7 @@ namespace Blaze.Web.ApplicationCache
 
     public static IDtoRootUrlStore GetDtoRootUrlStore()
     {
-      return HttpContext.Current.Application[Key] as DtoRootUrlStore;
+      return HttpContext.Current.Application[Key] as IDtoRootUrlStore;
     }
   }
 }

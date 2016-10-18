@@ -38,7 +38,7 @@ namespace Blaze.Test.Tools
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{Id}";
 
       //Act
-      IFhirUri FhirUri = new DtoFhirUri(Url);
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(Url);
 
 
       //Assert
@@ -72,7 +72,7 @@ namespace Blaze.Test.Tools
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{Id}";
 
       //Act
-      IFhirUri FhirUri = new DtoFhirUri(Url);
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(Url);
 
 
       //Assert
@@ -108,7 +108,7 @@ namespace Blaze.Test.Tools
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{Id}/_history/{VersionId}";
 
       //Act
-      IFhirUri FhirUri = new DtoFhirUri(Url);
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(Url);
 
 
       //Assert
@@ -143,7 +143,7 @@ namespace Blaze.Test.Tools
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}{Query}";
 
       //Act
-      IFhirUri FhirUri = new DtoFhirUri(Url);
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(Url);
 
 
       //Assert
@@ -171,7 +171,7 @@ namespace Blaze.Test.Tools
       string Url = $"{ResourseType}/{FhirId}";
       Uri test = new Uri(Url, UriKind.Relative);
       //Act
-      IFhirUri FhirUri = new DtoFhirUri(test);
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(test);
 
 
       //Assert

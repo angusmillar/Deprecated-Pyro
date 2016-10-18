@@ -37,9 +37,9 @@ namespace Blaze.Engine.Services
 
     //GET Search
     // GET: URL//FhirApi/Patient?family=Smith&given=John
-    public virtual IBlazeServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
-    {      
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+    public virtual IServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest)
+    {
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = SearchParameterValidator.Validate(_CurrentResourceType, new Common.BusinessEntities.Search.DtoSearchParameterGeneric(BlazeServiceRequest.SearchParams));
       if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
       {
@@ -52,14 +52,14 @@ namespace Blaze.Engine.Services
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
       return oBlazeServiceOperationOutcome;
 
-      
+
     }
 
     // GET by FhirId and FhirVId
     // GET URL/FhirApi/Patient/5    
-    public virtual IBlazeServiceOperationOutcome Get(string FhirId, string FhirVId)
+    public virtual IServiceOperationOutcome Get(string FhirId, string FhirVId)
     {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(FhirId, FhirVId);
       return oBlazeServiceOperationOutcome;
@@ -67,9 +67,9 @@ namespace Blaze.Engine.Services
 
     // GET by FhirId
     // GET URL/FhirApi/Patient/5    
-    public virtual IBlazeServiceOperationOutcome Get(string FhirId)
+    public virtual IServiceOperationOutcome Get(string FhirId)
     {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oBlazeServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
       return oBlazeServiceOperationOutcome;
@@ -77,9 +77,9 @@ namespace Blaze.Engine.Services
 
     // Add
     // POST: URL/FhirApi/Patient
-    public virtual IBlazeServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest)
+    public virtual IServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest)
     {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
 
       //Validation of resource        
@@ -106,9 +106,9 @@ namespace Blaze.Engine.Services
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    public virtual IBlazeServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest)
+    public virtual IServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest)
     {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
       //var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
       if (String.IsNullOrWhiteSpace(BlazeServiceRequest.Resource.Id) || BlazeServiceRequest.Resource.Id != BlazeServiceRequest.ResourceId)
@@ -162,9 +162,9 @@ namespace Blaze.Engine.Services
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5
-    public virtual IBlazeServiceOperationOutcome Delete(string FhirResourceId)
+    public virtual IServiceOperationOutcome Delete(string FhirResourceId)
     {
-      var oBlazeServiceOperationOutcome = new Blaze.Engine.Response.BlazeServiceOperationOutcome();
+      IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
       oBlazeServiceOperationOutcome.FhirResourceId = FhirResourceId;
       oBlazeServiceOperationOutcome.ResourceVersionNumber = null;
