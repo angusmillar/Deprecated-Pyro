@@ -284,6 +284,7 @@
     <None Include="Properties\PublishProfiles\BlazeOneFileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\BlazeTest.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Images\PyroIcon2.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />

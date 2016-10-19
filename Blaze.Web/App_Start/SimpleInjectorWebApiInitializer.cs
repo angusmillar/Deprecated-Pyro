@@ -32,15 +32,11 @@ namespace Blaze.Web.App_Start
     private static void InitializeContainer(Container container)
     {
       //Register interfaces with simple injector
-      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);      
-      //container.Register<IUnitOfWork, DataModel.UnitOfWork>(Lifestyle.Scoped);      
+      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);            
       container.Register<IFhirServiceNegotiator, Blaze.Web.BlazeService.FhirServiceNegotiator>(Lifestyle.Singleton);      
       container.Register<IPatientResourceServices, Blaze.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);
-      container.Register<IDefaultResourceServices, Blaze.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);            
-
-      //container.Register<IValueSetResourceServices, Blaze.Engine.Services.ValueSetResourceServices>(Lifestyle.Scoped);
-      //container.Register<IConceptMapResourceServices, Blaze.Engine.Services.ConceptMapResourceServices>(Lifestyle.Scoped);
-      
+      container.Register<IDefaultResourceServices, Blaze.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
+      container.Register<ICommonServices, Blaze.Engine.Services.CommonServices>(Lifestyle.Scoped);
 
     }
   }

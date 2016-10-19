@@ -30,7 +30,10 @@ namespace Blaze.Web.Controllers
     [HttpGet, Route("metadata")]
     public HttpResponseMessage Metadata()
     {
-
+      ICommonServices oService = _FhirServiceNegotiator.GetService();
+      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService, Request.RequestUri);
+      var Testing = new Blaze.Engine.Services.MetadataService();
+      Hl7.Fhir.Model.Resource ResourceMetaData = Testing.GetServersConformanceResource(DtoFhirRequestUri);
       throw new NotImplementedException();
     }
 

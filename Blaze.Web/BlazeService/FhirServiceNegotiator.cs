@@ -24,6 +24,11 @@ namespace Blaze.Web.BlazeService
       _Container = Container;
     }
 
+    public ICommonServices GetService()
+    {
+      return _Container.GetInstance<ICommonServices>();
+    }
+
     public IBaseResourceServices GetService(string ResourceName)
     {
       Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);   
