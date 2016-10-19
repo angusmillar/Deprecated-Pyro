@@ -10,5 +10,6 @@ namespace Blaze.Common.Interfaces.Services
   public interface IFhirServiceNegotiator
   {
     IBaseResourceServices GetService(string type);
+    ICommonServices GetService();
   }
 }
