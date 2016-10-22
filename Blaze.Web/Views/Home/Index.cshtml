@@ -1,23 +1,23 @@
-﻿
-
+﻿@model Blaze.Web.Models.HomeView
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">           
             <div class="row">
-                <div class="col-sm-6">
-                    <h1>Pyro FHIR Server</h1>
-                    <p>Fhir Endpoint:</p><code class="alert-info">Test.STU3.PyroHealth.net/FhirApi/</code>
+                <div class="col-sm-9">                    
+                    <h2>Pyro Server</h2>
+                    <p class="small">FHIR Server Implementation</p>
+                    <blockquote>
+                        <p><img style="float:left" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" />Fhir Endpoint: <code class="text-muted">@Model.FhirApiEndpoint</code></p>
+                    </blockquote>
                 </div>
-                <div class="col-sm-6">
-                    <div class="pull-right">
-                        <img class="img-responsive" src="~/Images/PyroIcon2.jpg" alt="Pyro" />
-                    </div>
+                <div class="col-sm-3">
+                    <img class="img-responsive" src="~/Content/Images/PyroIcon-150.png" alt="Pyro" />                    
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
                     <h4 class="text-info"><span class="glyphicon glyphicon-wrench"></span> Implementation</h4>
-                    <p>This Pyro Server implements the May 2016 WGM Connectathon release of FHIR STU3 and is built utilising the official <a href="http://ewoutkramer.github.io/fhir-net-api/">.NET API for FHIR</a>. </p>
+                    <p>This server implements the May 2016 WGM Connectathon release of FHIR STU3 and is built utilising the official <a href="http://ewoutkramer.github.io/fhir-net-api/">.NET API for FHIR</a>. </p>
                     <p>The server supports CRUD, VRead and all search parameters and Resources as of the <a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">May 2016 STU3</a> version of FHIR. </p> 
                     <p>This server is used for testing only and it's resources maybe removed and reset at any time.</p>                    
                 </div>
@@ -25,14 +25,16 @@
                     <h4 class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> Who am I?</h4>
                     <p>My name is <a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">Angus Millar</a>. 
                     I am a keen integration specialist with many years of health informatics experience. 
-                    My passion lies in Pathology systems and data yet over my years I have been exposed to all accepts of health 
-                    integration having worked at Kestral Computing, QLD Health, NeHTA and the ADHA.</p>
+                    My passion is in diagnostic systems and data although I have been exposed to all accepts of health 
+                    integration having worked at Clinipath, Kestral Computing, QLD Health, NeHTA and the ADHA.</p>
                 </div>
                 <div class="col-sm-4">
                     <h4 class="text-info"><span class="glyphicon glyphicon-info-sign"></span> Information</h4>                    
                     <p>Links to interesting FHIR based resources</p>
-                    <p><a href="http://hl7.org/fhir/2016May/index.html" class="btn btn-primary btn-sm">FHIR Standard May 2016 STU3 &raquo;</a></p>
-                    <p><a href="http://fhir-drills.github.io/" class="btn btn-primary btn-sm">Fhir Drills, FHIR tutorials &raquo;</a></p>
+                    <p><a href="http://hl7.org/fhir/2016May/index.html" class="btn btn-default btn-sm">FHIR Standard May 2016 STU3 &raquo;</a></p>
+                    <p><a href="http://fhir-drills.github.io/" class="btn btn-default btn-sm">Fhir Drills, FHIR tutorials &raquo;</a></p>
+                    <p><a href="http://www.healthintersections.com.au/" class="btn btn-default btn-sm">Health Intersections &raquo;</a></p>
+                    
                 </div>
             </div>
         </div>
