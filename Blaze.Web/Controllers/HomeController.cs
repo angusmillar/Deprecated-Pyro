@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Blaze.Web.Models;
 
 namespace Blaze.Web.Controllers
 {
@@ -10,10 +11,11 @@ namespace Blaze.Web.Controllers
   {
     public ActionResult Index()
     {
-      ViewBag.Title = "Home Page";
-      
+      ViewBag.Title = "Pyro Fhir Server";
+      var HomeView = new HomeView();      
+      HomeView.FhirApiEndpoint = "Test.STU3.PyroHealth.net/FhirApi";
 
-      return View();
+      return View(HomeView);
     }
   }
 }
