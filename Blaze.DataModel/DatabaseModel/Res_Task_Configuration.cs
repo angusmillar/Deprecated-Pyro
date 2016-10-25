@@ -25,12 +25,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.created_DateTimeOffset).IsOptional();
-      Property(x => x.creator_VersionId).IsOptional();
-      Property(x => x.creator_FhirId).IsOptional();
-      Property(x => x.creator_Type).IsOptional();
-      HasOptional(x => x.creator_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.creator_Url).WithMany().HasForeignKey(x => x.creator_ServiceRootURL_StoreID);
       Property(x => x.definition_Uri).IsOptional();
+      Property(x => x.focus_VersionId).IsOptional();
+      Property(x => x.focus_FhirId).IsOptional();
+      Property(x => x.focus_Type).IsOptional();
+      HasOptional(x => x.focus_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.focus_Url).WithMany().HasForeignKey(x => x.focus_ServiceRootURL_StoreID);
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
       Property(x => x.modified_DateTimeOffset).IsOptional();
@@ -39,20 +39,20 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.owner_Type).IsOptional();
       HasOptional(x => x.owner_Url);
       HasOptional<ServiceRootURL_Store>(x => x.owner_Url).WithMany().HasForeignKey(x => x.owner_ServiceRootURL_StoreID);
-      Property(x => x.parent_VersionId).IsOptional();
-      Property(x => x.parent_FhirId).IsOptional();
-      Property(x => x.parent_Type).IsOptional();
-      HasOptional(x => x.parent_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.parent_Url).WithMany().HasForeignKey(x => x.parent_ServiceRootURL_StoreID);
+      Property(x => x.patient_VersionId).IsOptional();
+      Property(x => x.patient_FhirId).IsOptional();
+      Property(x => x.patient_Type).IsOptional();
+      HasOptional(x => x.patient_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
       Property(x => x.priority_Code).IsOptional();
       Property(x => x.priority_System).IsOptional();
+      Property(x => x.requester_VersionId).IsOptional();
+      Property(x => x.requester_FhirId).IsOptional();
+      Property(x => x.requester_Type).IsOptional();
+      HasOptional(x => x.requester_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.requester_Url).WithMany().HasForeignKey(x => x.requester_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
-      Property(x => x.subject_VersionId).IsOptional();
-      Property(x => x.subject_FhirId).IsOptional();
-      Property(x => x.subject_Type).IsOptional();
-      HasOptional(x => x.subject_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_ServiceRootURL_StoreID);
     }
   }
 }

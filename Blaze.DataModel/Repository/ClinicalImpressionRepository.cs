@@ -128,13 +128,11 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_ClinicalImpression, object>>>();
       IncludeList.Add(x => x.action_List);
-      IncludeList.Add(x => x.finding_List);
+      IncludeList.Add(x => x.finding_code_List);
+      IncludeList.Add(x => x.finding_ref_List);
       IncludeList.Add(x => x.investigation_List);
       IncludeList.Add(x => x.plan_List);
       IncludeList.Add(x => x.problem_List);
-      IncludeList.Add(x => x.resolved_List);
-      IncludeList.Add(x => x.ruledout_List);
-      IncludeList.Add(x => x.trigger_code_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -152,6 +150,11 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.assessor_Type = null;      
       ResourceEntity.assessor_Url = null;      
       ResourceEntity.assessor_ServiceRootURL_StoreID = null;      
+      ResourceEntity.context_VersionId = null;      
+      ResourceEntity.context_FhirId = null;      
+      ResourceEntity.context_Type = null;      
+      ResourceEntity.context_Url = null;      
+      ResourceEntity.context_ServiceRootURL_StoreID = null;      
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
@@ -165,22 +168,20 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.previous_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
-      ResourceEntity.trigger_VersionId = null;      
-      ResourceEntity.trigger_FhirId = null;      
-      ResourceEntity.trigger_Type = null;      
-      ResourceEntity.trigger_Url = null;      
-      ResourceEntity.trigger_ServiceRootURL_StoreID = null;      
+      ResourceEntity.subject_VersionId = null;      
+      ResourceEntity.subject_FhirId = null;      
+      ResourceEntity.subject_Type = null;      
+      ResourceEntity.subject_Url = null;      
+      ResourceEntity.subject_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
       _Context.Res_ClinicalImpression_Index_action.RemoveRange(ResourceEntity.action_List);            
-      _Context.Res_ClinicalImpression_Index_finding.RemoveRange(ResourceEntity.finding_List);            
+      _Context.Res_ClinicalImpression_Index_finding_code.RemoveRange(ResourceEntity.finding_code_List);            
+      _Context.Res_ClinicalImpression_Index_finding_ref.RemoveRange(ResourceEntity.finding_ref_List);            
       _Context.Res_ClinicalImpression_Index_investigation.RemoveRange(ResourceEntity.investigation_List);            
       _Context.Res_ClinicalImpression_Index_plan.RemoveRange(ResourceEntity.plan_List);            
       _Context.Res_ClinicalImpression_Index_problem.RemoveRange(ResourceEntity.problem_List);            
-      _Context.Res_ClinicalImpression_Index_resolved.RemoveRange(ResourceEntity.resolved_List);            
-      _Context.Res_ClinicalImpression_Index_ruledout.RemoveRange(ResourceEntity.ruledout_List);            
-      _Context.Res_ClinicalImpression_Index_trigger_code.RemoveRange(ResourceEntity.trigger_code_List);            
       _Context.Res_ClinicalImpression_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_ClinicalImpression_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_ClinicalImpression_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -213,6 +214,28 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Context != null)
+      {
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.context_Type = Index.Type;
+            ResourseEntity.context_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.context_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.context_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
       if (ResourceTyped.Date != null)
       {
         if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
@@ -226,12 +249,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Patient != null)
+      if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Patient, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -284,23 +307,23 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Trigger != null)
+      if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Trigger is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Trigger, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.trigger_Type = Index.Type;
-            ResourseEntity.trigger_FhirId = Index.FhirId;
+            ResourseEntity.subject_Type = Index.Type;
+            ResourseEntity.subject_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.trigger_Url = Index.Url;
+              ResourseEntity.subject_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.trigger_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -326,11 +349,31 @@ namespace Blaze.DataModel.Repository
       {
         if (item1.Item != null)
         {
-          foreach (var item4 in item1.Item.Coding)
+          if (item1.Item is CodeableConcept)
           {
-            var Index = new Res_ClinicalImpression_Index_finding();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_ClinicalImpression_Index_finding;
-            ResourseEntity.finding_List.Add(Index);
+            CodeableConcept CodeableConcept = item1.Item as CodeableConcept;
+            foreach (var item4 in CodeableConcept.Coding)
+            {
+              var Index = new Res_ClinicalImpression_Index_finding_code();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_ClinicalImpression_Index_finding_code;
+              ResourseEntity.finding_code_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Finding)
+      {
+        if (item1.Item != null)
+        {
+          if (item1.Item is ResourceReference)
+          {
+            var Index = new Res_ClinicalImpression_Index_finding_ref();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Item, Index, FhirRequestUri, this) as Res_ClinicalImpression_Index_finding_ref;
+            if (Index != null)
+            {
+              ResourseEntity.finding_ref_List.Add(Index);
+            }
           }
         }
       }
@@ -382,49 +425,6 @@ namespace Blaze.DataModel.Repository
             {
               ResourseEntity.problem_List.Add(Index);
             }
-          }
-        }
-      }
-
-      if (ResourceTyped.Resolved != null)
-      {
-        foreach (var item3 in ResourceTyped.Resolved)
-        {
-          if (item3 != null)
-          {
-            foreach (var item4 in item3.Coding)
-            {
-              var Index = new Res_ClinicalImpression_Index_resolved();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_ClinicalImpression_Index_resolved;
-              ResourseEntity.resolved_List.Add(Index);
-            }
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.RuledOut)
-      {
-        if (item1.Item != null)
-        {
-          foreach (var item4 in item1.Item.Coding)
-          {
-            var Index = new Res_ClinicalImpression_Index_ruledout();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_ClinicalImpression_Index_ruledout;
-            ResourseEntity.ruledout_List.Add(Index);
-          }
-        }
-      }
-
-      if (ResourceTyped.Trigger != null)
-      {
-        if (ResourceTyped.Trigger is CodeableConcept)
-        {
-          CodeableConcept CodeableConcept = ResourceTyped.Trigger as CodeableConcept;
-          foreach (var item3 in CodeableConcept.Coding)
-          {
-            var Index = new Res_ClinicalImpression_Index_trigger_code();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_ClinicalImpression_Index_trigger_code;
-            ResourseEntity.trigger_code_List.Add(Index);
           }
         }
       }

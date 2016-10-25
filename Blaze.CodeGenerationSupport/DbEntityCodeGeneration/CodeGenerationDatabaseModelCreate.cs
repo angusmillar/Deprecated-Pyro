@@ -36,10 +36,11 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
       foreach (var ResourceName in _ResourceList)
       {
-        if (ResourceName == "DiagnosticReport")
-        {
-
-        }
+        //bool tempDebug = true;
+        //if (ResourceName == "Condition")
+        //{
+        //  tempDebug = false;
+        //}
 
         List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
         List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);

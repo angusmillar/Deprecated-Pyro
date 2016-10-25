@@ -45,7 +45,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
 
           //For debugging a specific resource
           //bool testbool = false;
-          //if (SearchParameterDef.Resource == "Bundle" && SearchParameterDef.Name == "composition")
+          //if (SearchParameterDef.Resource == "ClinicalImpression" && SearchParameterDef.Name == "finding-code")
+          ////if (SearchParameterDef.Resource == "Observation" && SearchParameterDef.Name == "value-concept")
           //{
           //  testbool = true;
           //}
@@ -213,7 +214,7 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         var FirstType = item.Value[0].DbIndexType;
 
         // This is just a sanity check to make sure things are in order. 
-        if (item.Value.Count != item.Value.Select(x => (Common.Enum.DatabaseEnum.DbIndexType)x.DbIndexType == FirstType).Count())
+        if (item.Value.Count != item.Value.Select(x => x.DbIndexType == FirstType).ToArray().Where(z => z == true).Count())
         {
           throw new Exception("Search index error, we have a search parameter with many logical target types and yet the DbIndexType are different. This should can not happen.");
         }
@@ -284,6 +285,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
         {
           InboundList.Remove(item);
         }
+
+
+
+
 
       }
 
@@ -628,13 +633,21 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       RemoveSearchParameterFromList(SearchParameterList, "DataElement", "objectClass");
       RemoveSearchParameterFromList(SearchParameterList, "DataElement", "objectClassProperty");
 
-      //The 'race' parameter on the Patient Resource is a US-Realm extension and shooudl not really be listed in the FHIR API 
+      //The 'race' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
       RemoveSearchParameterFromList(SearchParameterList, "Patient", "race");
 
       //The 'ethnicity' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
       RemoveSearchParameterFromList(SearchParameterList, "Patient", "ethnicity");
 
+      //This set of Condition search parameters are very confused in the standard, not supporting them for now.
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-age");
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-boolean");
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-date");
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-info");
 
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "onset-age");
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "onset-date");
+      RemoveSearchParameterFromList(SearchParameterList, "Condition", "onset-info");
 
       //--- Correction to search parameters -----------------------------------------------------------------
 
@@ -648,14 +661,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       {
         if (ResourceCompositionSearchParameter.Path.Count() == 1)
         {
-          if (ResourceCompositionSearchParameter.Path[0] == "Bundle.entry.resource[0]" &&
-            ResourceCompositionSearchParameter.XPath == "f:Bundle/f:entry/f:resource[0]" &&
-            ResourceCompositionSearchParameter.Expression == "Bundle.entry.resource[0]")
+          if (ResourceCompositionSearchParameter.Path[0] == "Bundle.entry[0].resource" &&
+            ResourceCompositionSearchParameter.XPath == "f:Bundle/f:entry[0]/f:resource" &&
+            ResourceCompositionSearchParameter.Expression == "Bundle.entry[0].resource")
           {
-            //ResourceCompositionSearchParameter.Path[0] = "Bundle.entry[0].resource";
-            //ResourceCompositionSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
-            //ResourceCompositionSearchParameter.Expression = "Bundle.entry.item(0).resource";
-
             ResourceCompositionSearchParameter.Path[0] = "Bundle.entry[0].fullUrl";
             ResourceCompositionSearchParameter.XPath = "f:Bundle/f:entry[0]/f:fullUrl";
             ResourceCompositionSearchParameter.Expression = "Bundle.entry[0].fullUrl";
@@ -669,14 +678,10 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       {
         if (ResourceMessageSearchParameter.Path.Count() == 1)
         {
-          if (ResourceMessageSearchParameter.Path[0] == "Bundle.entry.resource[0]" &&
-            ResourceMessageSearchParameter.XPath == "f:Bundle/f:entry/f:resource[0]" &&
-            ResourceMessageSearchParameter.Expression == "Bundle.entry.resource[0]")
+          if (ResourceMessageSearchParameter.Path[0] == "Bundle.entry[0].resource" &&
+            ResourceMessageSearchParameter.XPath == "f:Bundle/f:entry[0]/f:resource" &&
+            ResourceMessageSearchParameter.Expression == "Bundle.entry[0].resource")
           {
-            //ResourceMessageSearchParameter.Path[0] = "Bundle.entry[0].resource";
-            //ResourceMessageSearchParameter.XPath = "f:Bundle/f:entry[0]/f:resource";
-            //ResourceMessageSearchParameter.Expression = "Bundle.entry.item(0).resource";
-
             ResourceMessageSearchParameter.Path[0] = "Bundle.entry[0].fullUrl";
             ResourceMessageSearchParameter.XPath = "f:Bundle/f:entry[0]/f:fullUrl";
             ResourceMessageSearchParameter.Expression = "Bundle.entry[0].fullUrl";
@@ -690,53 +695,130 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
       //I am removing and not supporting Range because it is a token and there is no standard way to express a range as a string.
 
 
-      var ResourceConditionSearchParameterList = (from x in SearchParameterList
-                                                  where x.Resource == "Condition"
-                                                  select x);
+      //var ResourceConditionSearchParameterList = (from x in SearchParameterList
+      //                                            where x.Resource == "Condition"
+      //                                            select x);
 
-      //Work on 'onset' search parameter
-      var ResourceOnsetSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "onset").SingleOrDefault();
-      if (ResourceOnsetSearchParameter != null)
+      ////Work on 'abatement-age' search parameter
+      //var ResourceAbatementageSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "abatement-age").SingleOrDefault();
+      //if (ResourceAbatementageSearchParameter != null)
+      //{
+      //  if (ResourceAbatementageSearchParameter.Path.Count() == 6)
+      //  {
+      //    if (ResourceAbatementageSearchParameter.Path[0] == "Condition.abatementDateTime" &&
+      //        ResourceAbatementageSearchParameter.Path[1] == "Condition.abatementAge" &&
+      //        ResourceAbatementageSearchParameter.Path[2] == "Condition.abatementBoolean" &&
+      //        ResourceAbatementageSearchParameter.Path[3] == "Condition.abatementPeriod" &&
+      //        ResourceAbatementageSearchParameter.Path[4] == "Condition.abatementRange" &&
+      //        ResourceAbatementageSearchParameter.Path[5] == "Condition.abatementString" &&
+              
+      //        ResourceAbatementageSearchParameter.XPath == "f:Condition/f:abatementDateTime | f:Condition/f:abatementAge | f:Condition/f:abatementBoolean | f:Condition/f:abatementPeriod | f:Condition/f:abatementRange | f:Condition/f:abatementString" &&
+      //        ResourceAbatementageSearchParameter.Expression == "Condition.abatement.as(Quantity) | Condition.abatement.as(Range)")
+      //    {
+      //      string[] NewPath = { ResourceAbatementageSearchParameter.Path[1],
+      //                           ResourceAbatementageSearchParameter.Path[4]};
+
+      //      ResourceAbatementageSearchParameter.Path = NewPath;
+      //      ResourceAbatementageSearchParameter.XPath = "f:Condition/f:abatementAge | f:Condition/f:abatementRange";            
+      //    }
+      //  }
+      //}
+
+      ////Work on 'abatement-age' search parameter
+      //var ResourceAbatementinfoSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "abatement-info").SingleOrDefault();
+      //if (ResourceAbatementinfoSearchParameter != null)
+      //{
+      //  if (ResourceAbatementinfoSearchParameter.Path.Count() == 6)
+      //  {
+      //    if (ResourceAbatementinfoSearchParameter.Path[0] == "Condition.abatementDateTime" &&
+      //        ResourceAbatementinfoSearchParameter.Path[1] == "Condition.abatementAge" &&
+      //        ResourceAbatementinfoSearchParameter.Path[2] == "Condition.abatementBoolean" &&
+      //        ResourceAbatementinfoSearchParameter.Path[3] == "Condition.abatementPeriod" &&
+      //        ResourceAbatementinfoSearchParameter.Path[4] == "Condition.abatementRange" &&
+      //        ResourceAbatementinfoSearchParameter.Path[5] == "Condition.abatementString" &&
+
+      //        ResourceAbatementinfoSearchParameter.XPath == "f:Condition/f:abatementDateTime | f:Condition/f:abatementAge | f:Condition/f:abatementBoolean | f:Condition/f:abatementPeriod | f:Condition/f:abatementRange | f:Condition/f:abatementString" &&
+      //        ResourceAbatementinfoSearchParameter.Expression == "Condition.abatement.as(string)")
+      //    {
+      //      string[] NewPath = { ResourceAbatementinfoSearchParameter.Path[1],
+      //                           ResourceAbatementinfoSearchParameter.Path[4]};
+
+      //      ResourceAbatementinfoSearchParameter.Path = NewPath;
+      //      ResourceAbatementinfoSearchParameter.XPath = "f:Condition/f:abatementAge | f:Condition/f:abatementRange";
+      //    }
+      //  }
+      //}
+
+
+      ////Work on 'onset-info' search parameter
+      //var ResourceOnsetInfoSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "onset-info").SingleOrDefault();
+      //if (ResourceOnsetInfoSearchParameter != null)
+      //{
+      //  if (ResourceOnsetInfoSearchParameter.Path.Count() == 5)
+      //  {
+      //    if (ResourceOnsetInfoSearchParameter.Path[1] == "Condition.onsetAge" &&
+      //        ResourceOnsetInfoSearchParameter.Path[4] == "Condition.onsetString" &&
+      //        ResourceOnsetInfoSearchParameter.XPath == "f:Condition/f:onsetDateTime | f:Condition/f:onsetAge | f:Condition/f:onsetPeriod | f:Condition/f:onsetRange | f:Condition/f:onsetString" &&
+      //        ResourceOnsetInfoSearchParameter.Expression == "Condition.onset")
+      //    {
+      //      string[] NewPath = { ResourceOnsetInfoSearchParameter.Path[1],
+      //                           ResourceOnsetInfoSearchParameter.Path[4]};
+
+      //      ResourceOnsetInfoSearchParameter.Path = NewPath;
+      //      ResourceOnsetInfoSearchParameter.XPath = "f:Condition/f:onsetAge | f:Condition/f:onsetString";
+      //      ResourceOnsetInfoSearchParameter.Expression = "Condition.onset";
+
+      //    }
+      //  }
+      //}
+
+
+      var ResourceClinicalImpressionSearchParameterList = (from x in SearchParameterList
+                                                           where x.Resource == "ClinicalImpression"
+                                                           select x);
+
+      //For both of these 'finding-code' and 'finding-ref' the XPath included 
+      //conflicting data types, 'CodeableConcept' and 'Reference'. Each had to be removed as per the datatype of each.
+      //The Error in the FHIR API is in the XPath string only. 
+      //Work on "finding-code" search parameter
+      var Resource_findingCode_SearchParameter = ResourceClinicalImpressionSearchParameterList.ToList().Where(x => x.Name == "finding-code").SingleOrDefault();
+      if (Resource_findingCode_SearchParameter != null)
       {
-        if (ResourceOnsetSearchParameter.Path.Count() == 5)
+        if (Resource_findingCode_SearchParameter.Path.Count() == 2)
         {
-          if (ResourceOnsetSearchParameter.Path[1] == "Condition.onsetAge" &&
-              ResourceOnsetSearchParameter.Path[4] == "Condition.onsetString" &&
-              ResourceOnsetSearchParameter.XPath == "f:Condition/f:onsetDateTime | f:Condition/f:onsetAge | f:Condition/f:onsetPeriod | f:Condition/f:onsetRange | f:Condition/f:onsetString" &&
-              ResourceOnsetSearchParameter.Expression == "Condition.onset")
+          if (Resource_findingCode_SearchParameter.Path[0] == "ClinicalImpression.finding.itemCodeableConcept" &&
+              Resource_findingCode_SearchParameter.Path[1] == "ClinicalImpression.finding.itemReference" &&
+              Resource_findingCode_SearchParameter.XPath == "f:ClinicalImpression/f:finding/f:itemCodeableConcept | f:ClinicalImpression/f:finding/f:itemReference" &&
+              Resource_findingCode_SearchParameter.Expression == "ClinicalImpression.finding.item.as(CodeableConcept)")
           {
-            string[] NewPath = { ResourceOnsetSearchParameter.Path[0],
-                                 ResourceOnsetSearchParameter.Path[2]};
+            string[] NewPath = { Resource_findingCode_SearchParameter.Path[0] };
+            Resource_findingCode_SearchParameter.Path = NewPath;
+            Resource_findingCode_SearchParameter.XPath = "f:ClinicalImpression/f:finding/f:itemCodeableConcept";
+          }
+        }
+      }
 
-            ResourceOnsetSearchParameter.Path = NewPath;
-            ResourceOnsetSearchParameter.XPath = "f:Condition/f:onsetDateTime | f:Condition/f:onsetPeriod";
-            ResourceOnsetSearchParameter.Expression = "Condition.onset";
+      //Work on "finding-ref" search parameter
+      var Resource_findingref_SearchParameter = ResourceClinicalImpressionSearchParameterList.ToList().Where(x => x.Name == "finding-ref").SingleOrDefault();
+      if (Resource_findingref_SearchParameter != null)
+      {
+        if (Resource_findingref_SearchParameter.Path.Count() == 2)
+        {
+          if (Resource_findingref_SearchParameter.Path[0] == "ClinicalImpression.finding.itemCodeableConcept" &&
+              Resource_findingref_SearchParameter.Path[1] == "ClinicalImpression.finding.itemReference" &&
+              Resource_findingref_SearchParameter.XPath == "f:ClinicalImpression/f:finding/f:itemCodeableConcept | f:ClinicalImpression/f:finding/f:itemReference" &&
+              Resource_findingref_SearchParameter.Expression == "ClinicalImpression.finding.item.as(Reference)")
+          {
+            string[] NewPath = { Resource_findingref_SearchParameter.Path[1] };
+            Resource_findingref_SearchParameter.Path = NewPath;
+            Resource_findingref_SearchParameter.XPath = "f:ClinicalImpression/f:finding/f:itemReference";
 
           }
         }
       }
 
-      //Work on 'onset-info' search parameter
-      var ResourceOnsetInfoSearchParameter = ResourceConditionSearchParameterList.ToList().Where(x => x.Name == "onset-info").SingleOrDefault();
-      if (ResourceOnsetInfoSearchParameter != null)
-      {
-        if (ResourceOnsetInfoSearchParameter.Path.Count() == 5)
-        {
-          if (ResourceOnsetInfoSearchParameter.Path[1] == "Condition.onsetAge" &&
-              ResourceOnsetInfoSearchParameter.Path[4] == "Condition.onsetString" &&
-              ResourceOnsetInfoSearchParameter.XPath == "f:Condition/f:onsetDateTime | f:Condition/f:onsetAge | f:Condition/f:onsetPeriod | f:Condition/f:onsetRange | f:Condition/f:onsetString" &&
-              ResourceOnsetInfoSearchParameter.Expression == "Condition.onset")
-          {
-            string[] NewPath = { ResourceOnsetInfoSearchParameter.Path[1],
-                                 ResourceOnsetInfoSearchParameter.Path[4]};
 
-            ResourceOnsetInfoSearchParameter.Path = NewPath;
-            ResourceOnsetInfoSearchParameter.XPath = "f:Condition/f:onsetAge | f:Condition/f:onsetString";
-            ResourceOnsetInfoSearchParameter.Expression = "Condition.onset";
 
-          }
-        }
-      }
 
 
 

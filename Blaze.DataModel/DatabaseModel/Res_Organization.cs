@@ -30,6 +30,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Organization_Index_address_state> address_state_List { get; set; }
     public ICollection<Res_Organization_Index_address_use> address_use_List { get; set; }
     public ICollection<Res_Organization_Index_identifier> identifier_List { get; set; }
+    public ICollection<Res_Organization_Index_name> name_List { get; set; }
     public ICollection<Res_Organization_Index_type> type_List { get; set; }
     public ICollection<Res_Organization_Index__profile> _profile_List { get; set; }
     public ICollection<Res_Organization_Index__security> _security_List { get; set; }
@@ -44,6 +45,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.address_state_List = new HashSet<Res_Organization_Index_address_state>();
       this.address_use_List = new HashSet<Res_Organization_Index_address_use>();
       this.identifier_List = new HashSet<Res_Organization_Index_identifier>();
+      this.name_List = new HashSet<Res_Organization_Index_name>();
       this.type_List = new HashSet<Res_Organization_Index_type>();
       this._profile_List = new HashSet<Res_Organization_Index__profile>();
       this._security_List = new HashSet<Res_Organization_Index__security>();

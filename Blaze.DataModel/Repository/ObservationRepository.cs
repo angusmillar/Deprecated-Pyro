@@ -129,17 +129,18 @@ namespace Blaze.DataModel.Repository
       var IncludeList = new List<Expression<Func<Res_Observation, object>>>();
       IncludeList.Add(x => x.category_List);
       IncludeList.Add(x => x.code_List);
-      IncludeList.Add(x => x.component_code_List);
-      IncludeList.Add(x => x.component_data_absent_reason_List);
-      IncludeList.Add(x => x.component_value_concept_List);
-      IncludeList.Add(x => x.component_value_quantity_List);
-      IncludeList.Add(x => x.component_value_string_List);
+      IncludeList.Add(x => x.code_List);
+      IncludeList.Add(x => x.data_absent_reason_List);
       IncludeList.Add(x => x.data_absent_reason_List);
       IncludeList.Add(x => x.identifier_List);
+      IncludeList.Add(x => x.method_List);
       IncludeList.Add(x => x.performer_List);
       IncludeList.Add(x => x.related_target_List);
       IncludeList.Add(x => x.related_type_List);
       IncludeList.Add(x => x.value_concept_List);
+      IncludeList.Add(x => x.value_concept_List);
+      IncludeList.Add(x => x.value_quantity_List);
+      IncludeList.Add(x => x.value_string_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -198,17 +199,18 @@ namespace Blaze.DataModel.Repository
       
       _Context.Res_Observation_Index_category.RemoveRange(ResourceEntity.category_List);            
       _Context.Res_Observation_Index_code.RemoveRange(ResourceEntity.code_List);            
-      _Context.Res_Observation_Index_component_code.RemoveRange(ResourceEntity.component_code_List);            
-      _Context.Res_Observation_Index_component_data_absent_reason.RemoveRange(ResourceEntity.component_data_absent_reason_List);            
-      _Context.Res_Observation_Index_component_value_concept.RemoveRange(ResourceEntity.component_value_concept_List);            
-      _Context.Res_Observation_Index_component_value_quantity.RemoveRange(ResourceEntity.component_value_quantity_List);            
-      _Context.Res_Observation_Index_component_value_string.RemoveRange(ResourceEntity.component_value_string_List);            
+      _Context.Res_Observation_Index_code.RemoveRange(ResourceEntity.code_List);            
+      _Context.Res_Observation_Index_data_absent_reason.RemoveRange(ResourceEntity.data_absent_reason_List);            
       _Context.Res_Observation_Index_data_absent_reason.RemoveRange(ResourceEntity.data_absent_reason_List);            
       _Context.Res_Observation_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
+      _Context.Res_Observation_Index_method.RemoveRange(ResourceEntity.method_List);            
       _Context.Res_Observation_Index_performer.RemoveRange(ResourceEntity.performer_List);            
       _Context.Res_Observation_Index_related_target.RemoveRange(ResourceEntity.related_target_List);            
       _Context.Res_Observation_Index_related_type.RemoveRange(ResourceEntity.related_type_List);            
       _Context.Res_Observation_Index_value_concept.RemoveRange(ResourceEntity.value_concept_List);            
+      _Context.Res_Observation_Index_value_concept.RemoveRange(ResourceEntity.value_concept_List);            
+      _Context.Res_Observation_Index_value_quantity.RemoveRange(ResourceEntity.value_quantity_List);            
+      _Context.Res_Observation_Index_value_string.RemoveRange(ResourceEntity.value_string_List);            
       _Context.Res_Observation_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Observation_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_Observation_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -337,7 +339,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Status != null)
       {
-        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Observation.ObservationStatus>)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationStatus>)
         {
           var Index = new TokenIndex();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;
@@ -431,11 +433,17 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Category != null)
       {
-        foreach (var item3 in ResourceTyped.Category.Coding)
+        foreach (var item3 in ResourceTyped.Category)
         {
-          var Index = new Res_Observation_Index_category();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_category;
-          ResourseEntity.category_List.Add(Index);
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = new Res_Observation_Index_category();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_category;
+              ResourseEntity.category_List.Add(Index);
+            }
+          }
         }
       }
 
@@ -455,65 +463,9 @@ namespace Blaze.DataModel.Repository
         {
           foreach (var item4 in item1.Code.Coding)
           {
-            var Index = new Res_Observation_Index_component_code();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_code;
-            ResourseEntity.component_code_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Component)
-      {
-        if (item1.DataAbsentReason != null)
-        {
-          foreach (var item4 in item1.DataAbsentReason.Coding)
-          {
-            var Index = new Res_Observation_Index_component_data_absent_reason();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_data_absent_reason;
-            ResourseEntity.component_data_absent_reason_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Component)
-      {
-        if (item1.Value != null)
-        {
-          if (item1.Value is CodeableConcept)
-          {
-            CodeableConcept CodeableConcept = item1.Value as CodeableConcept;
-            foreach (var item4 in CodeableConcept.Coding)
-            {
-              var Index = new Res_Observation_Index_component_value_concept();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_component_value_concept;
-              ResourseEntity.component_value_concept_List.Add(Index);
-            }
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Component)
-      {
-        if (item1.Value != null)
-        {
-          if (item1.Value is Hl7.Fhir.Model.Quantity)
-          {
-            var Index = new Res_Observation_Index_component_value_quantity();
-            Index = IndexSetterFactory.Create(typeof(QuantityIndex)).Set(item1.Value, Index) as Res_Observation_Index_component_value_quantity;
-            ResourseEntity.component_value_quantity_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Component)
-      {
-        if (item1.Value != null)
-        {
-          if (item1.Value is Hl7.Fhir.Model.FhirString)
-          {
-            var Index = new Res_Observation_Index_component_value_string();
-            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item1.Value, Index) as Res_Observation_Index_component_value_string;
-            ResourseEntity.component_value_string_List.Add(Index);
+            var Index = new Res_Observation_Index_code();
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_code;
+            ResourseEntity.code_List.Add(Index);
           }
         }
       }
@@ -528,6 +480,19 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      foreach (var item1 in ResourceTyped.Component)
+      {
+        if (item1.DataAbsentReason != null)
+        {
+          foreach (var item4 in item1.DataAbsentReason.Coding)
+          {
+            var Index = new Res_Observation_Index_data_absent_reason();
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_data_absent_reason;
+            ResourseEntity.data_absent_reason_List.Add(Index);
+          }
+        }
+      }
+
       if (ResourceTyped.Identifier != null)
       {
         foreach (var item3 in ResourceTyped.Identifier)
@@ -538,6 +503,16 @@ namespace Blaze.DataModel.Repository
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
           }
+        }
+      }
+
+      if (ResourceTyped.Method != null)
+      {
+        foreach (var item3 in ResourceTyped.Method.Coding)
+        {
+          var Index = new Res_Observation_Index_method();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_method;
+          ResourseEntity.method_List.Add(Index);
         }
       }
 
@@ -596,6 +571,49 @@ namespace Blaze.DataModel.Repository
             var Index = new Res_Observation_Index_value_concept();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Observation_Index_value_concept;
             ResourseEntity.value_concept_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Component)
+      {
+        if (item1.Value != null)
+        {
+          if (item1.Value is CodeableConcept)
+          {
+            CodeableConcept CodeableConcept = item1.Value as CodeableConcept;
+            foreach (var item4 in CodeableConcept.Coding)
+            {
+              var Index = new Res_Observation_Index_value_concept();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Observation_Index_value_concept;
+              ResourseEntity.value_concept_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Component)
+      {
+        if (item1.Value != null)
+        {
+          if (item1.Value is Hl7.Fhir.Model.Quantity)
+          {
+            var Index = new Res_Observation_Index_value_quantity();
+            Index = IndexSetterFactory.Create(typeof(QuantityIndex)).Set(item1.Value, Index) as Res_Observation_Index_value_quantity;
+            ResourseEntity.value_quantity_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Component)
+      {
+        if (item1.Value != null)
+        {
+          if (item1.Value is Hl7.Fhir.Model.FhirString)
+          {
+            var Index = new Res_Observation_Index_value_string();
+            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item1.Value, Index) as Res_Observation_Index_value_string;
+            ResourseEntity.value_string_List.Add(Index);
           }
         }
       }

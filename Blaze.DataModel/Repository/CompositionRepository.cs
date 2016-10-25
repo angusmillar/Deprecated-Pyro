@@ -193,7 +193,7 @@ namespace Blaze.DataModel.Repository
 
           if (ResourceTyped.Confidentiality != null)
       {
-        if (ResourceTyped.ConfidentialityElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3CodeSystemConfidentiality>)
+        if (ResourceTyped.ConfidentialityElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.ConfidentialityClassification>)
         {
           var Index = new TokenIndex();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ConfidentialityElement, Index) as TokenIndex;

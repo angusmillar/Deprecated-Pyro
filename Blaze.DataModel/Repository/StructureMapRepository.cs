@@ -182,10 +182,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;

@@ -14,34 +14,34 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_EligibilityRequestID {get; set;}
     public DateTimeOffset? created_DateTimeOffset {get; set;}
-    public string facilityidentifier_Code {get; set;}
-    public string facilityidentifier_System {get; set;}
-    public string facilityreference_VersionId {get; set;}
-    public string facilityreference_FhirId {get; set;}
-    public string facilityreference_Type {get; set;}
-    public virtual ServiceRootURL_Store facilityreference_Url { get; set; }
-    public int? facilityreference_ServiceRootURL_StoreID { get; set; }
-    public string organizationidentifier_Code {get; set;}
-    public string organizationidentifier_System {get; set;}
-    public string organizationreference_VersionId {get; set;}
-    public string organizationreference_FhirId {get; set;}
-    public string organizationreference_Type {get; set;}
-    public virtual ServiceRootURL_Store organizationreference_Url { get; set; }
-    public int? organizationreference_ServiceRootURL_StoreID { get; set; }
-    public string patientidentifier_Code {get; set;}
-    public string patientidentifier_System {get; set;}
-    public string patientreference_VersionId {get; set;}
-    public string patientreference_FhirId {get; set;}
-    public string patientreference_Type {get; set;}
-    public virtual ServiceRootURL_Store patientreference_Url { get; set; }
-    public int? patientreference_ServiceRootURL_StoreID { get; set; }
-    public string provideridentifier_Code {get; set;}
-    public string provideridentifier_System {get; set;}
-    public string providerreference_VersionId {get; set;}
-    public string providerreference_FhirId {get; set;}
-    public string providerreference_Type {get; set;}
-    public virtual ServiceRootURL_Store providerreference_Url { get; set; }
-    public int? providerreference_ServiceRootURL_StoreID { get; set; }
+    public string facility_identifier_Code {get; set;}
+    public string facility_identifier_System {get; set;}
+    public string facility_reference_VersionId {get; set;}
+    public string facility_reference_FhirId {get; set;}
+    public string facility_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store facility_reference_Url { get; set; }
+    public int? facility_reference_ServiceRootURL_StoreID { get; set; }
+    public string organization_identifier_Code {get; set;}
+    public string organization_identifier_System {get; set;}
+    public string organization_reference_VersionId {get; set;}
+    public string organization_reference_FhirId {get; set;}
+    public string organization_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store organization_reference_Url { get; set; }
+    public int? organization_reference_ServiceRootURL_StoreID { get; set; }
+    public string patient_identifier_Code {get; set;}
+    public string patient_identifier_System {get; set;}
+    public string patient_reference_VersionId {get; set;}
+    public string patient_reference_FhirId {get; set;}
+    public string patient_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store patient_reference_Url { get; set; }
+    public int? patient_reference_ServiceRootURL_StoreID { get; set; }
+    public string provider_identifier_Code {get; set;}
+    public string provider_identifier_System {get; set;}
+    public string provider_reference_VersionId {get; set;}
+    public string provider_reference_FhirId {get; set;}
+    public string provider_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store provider_reference_Url { get; set; }
+    public int? provider_reference_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_EligibilityRequest_History> Res_EligibilityRequest_History_List { get; set; }
     public ICollection<Res_EligibilityRequest_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_EligibilityRequest_Index__profile> _profile_List { get; set; }

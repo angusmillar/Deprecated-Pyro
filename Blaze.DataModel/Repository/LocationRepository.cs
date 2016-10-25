@@ -129,6 +129,7 @@ namespace Blaze.DataModel.Repository
       var IncludeList = new List<Expression<Func<Res_Location, object>>>();
       IncludeList.Add(x => x.address_List);
       IncludeList.Add(x => x.identifier_List);
+      IncludeList.Add(x => x.name_List);
       IncludeList.Add(x => x.type_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
@@ -151,8 +152,11 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.name_String = null;      
       ResourceEntity.near_Code = null;      
       ResourceEntity.near_System = null;      
-      ResourceEntity.near_distance_Code = null;      
+      ResourceEntity.near_distance_Comparator = null;      
+      ResourceEntity.near_distance_Quantity = null;      
       ResourceEntity.near_distance_System = null;      
+      ResourceEntity.near_distance_Code = null;      
+      ResourceEntity.near_distance_Unit = null;      
       ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
       ResourceEntity.organization_Type = null;      
@@ -170,6 +174,7 @@ namespace Blaze.DataModel.Repository
       
       _Context.Res_Location_Index_address.RemoveRange(ResourceEntity.address_List);            
       _Context.Res_Location_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
+      _Context.Res_Location_Index_name.RemoveRange(ResourceEntity.name_List);            
       _Context.Res_Location_Index_type.RemoveRange(ResourceEntity.type_List);            
       _Context.Res_Location_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Location_Index__security.RemoveRange(ResourceEntity._security_List);            
@@ -293,12 +298,15 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.Position is Hl7.Fhir.Model.Location.PositionComponent)
         {
-          var Index = new TokenIndex();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Position, Index) as TokenIndex;
+          var Index = new QuantityIndex();
+          Index = IndexSetterFactory.Create(typeof(QuantityIndex)).Set(ResourceTyped.Position, Index) as QuantityIndex;
           if (Index != null)
           {
-            ResourseEntity.near_distance_Code = Index.Code;
+            ResourseEntity.near_distance_Comparator = Index.Comparator;
+            ResourseEntity.near_distance_Quantity = Index.Quantity;
             ResourseEntity.near_distance_System = Index.System;
+            ResourseEntity.near_distance_Code = Index.Code;
+            ResourseEntity.near_distance_Unit = Index.Unit;
           }
         }
       }
@@ -377,6 +385,19 @@ namespace Blaze.DataModel.Repository
             var Index = new Res_Location_Index_identifier();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Location_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Alias != null)
+      {
+        foreach (var item3 in ResourceTyped.AliasElement)
+        {
+          if (item3 is Hl7.Fhir.Model.FhirString)
+          {
+            var Index = new Res_Location_Index_name();
+            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3, Index) as Res_Location_Index_name;
+            ResourseEntity.name_List.Add(Index);
           }
         }
       }

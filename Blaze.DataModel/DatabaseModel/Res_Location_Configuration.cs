@@ -33,8 +33,11 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.name_String).IsOptional();
       Property(x => x.near_Code).IsOptional();
       Property(x => x.near_System).IsOptional();
-      Property(x => x.near_distance_Code).IsOptional();
+      Property(x => x.near_distance_Comparator).IsOptional();
+      Property(x => x.near_distance_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.near_distance_System).IsOptional();
+      Property(x => x.near_distance_Code).IsOptional();
+      Property(x => x.near_distance_Unit).IsOptional();
       Property(x => x.organization_VersionId).IsOptional();
       Property(x => x.organization_FhirId).IsOptional();
       Property(x => x.organization_Type).IsOptional();

@@ -15,6 +15,7 @@ namespace Blaze.DataModel
 
     private CommonRepository _CommonRepository;    
     private AccountRepository _AccountRepository;
+    private ActivityDefinitionRepository _ActivityDefinitionRepository;
     private AllergyIntoleranceRepository _AllergyIntoleranceRepository;
     private AppointmentRepository _AppointmentRepository;
     private AppointmentResponseRepository _AppointmentResponseRepository;
@@ -36,10 +37,10 @@ namespace Blaze.DataModel
     private ConceptMapRepository _ConceptMapRepository;
     private ConditionRepository _ConditionRepository;
     private ConformanceRepository _ConformanceRepository;
+    private ConsentRepository _ConsentRepository;
     private ContractRepository _ContractRepository;
     private CoverageRepository _CoverageRepository;
     private DataElementRepository _DataElementRepository;
-    private DecisionSupportRuleRepository _DecisionSupportRuleRepository;
     private DecisionSupportServiceModuleRepository _DecisionSupportServiceModuleRepository;
     private DetectedIssueRepository _DetectedIssueRepository;
     private DeviceRepository _DeviceRepository;
@@ -47,13 +48,14 @@ namespace Blaze.DataModel
     private DeviceMetricRepository _DeviceMetricRepository;
     private DeviceUseRequestRepository _DeviceUseRequestRepository;
     private DeviceUseStatementRepository _DeviceUseStatementRepository;
-    private DiagnosticOrderRepository _DiagnosticOrderRepository;
     private DiagnosticReportRepository _DiagnosticReportRepository;
+    private DiagnosticRequestRepository _DiagnosticRequestRepository;
     private DocumentManifestRepository _DocumentManifestRepository;
     private DocumentReferenceRepository _DocumentReferenceRepository;
     private EligibilityRequestRepository _EligibilityRequestRepository;
     private EligibilityResponseRepository _EligibilityResponseRepository;
     private EncounterRepository _EncounterRepository;
+    private EndpointRepository _EndpointRepository;
     private EnrollmentRequestRepository _EnrollmentRequestRepository;
     private EnrollmentResponseRepository _EnrollmentResponseRepository;
     private EpisodeOfCareRepository _EpisodeOfCareRepository;
@@ -65,8 +67,7 @@ namespace Blaze.DataModel
     private GroupRepository _GroupRepository;
     private GuidanceResponseRepository _GuidanceResponseRepository;
     private HealthcareServiceRepository _HealthcareServiceRepository;
-    private ImagingExcerptRepository _ImagingExcerptRepository;
-    private ImagingObjectSelectionRepository _ImagingObjectSelectionRepository;
+    private ImagingManifestRepository _ImagingManifestRepository;
     private ImagingStudyRepository _ImagingStudyRepository;
     private ImmunizationRepository _ImmunizationRepository;
     private ImmunizationRecommendationRepository _ImmunizationRecommendationRepository;
@@ -84,28 +85,24 @@ namespace Blaze.DataModel
     private MedicationOrderRepository _MedicationOrderRepository;
     private MedicationStatementRepository _MedicationStatementRepository;
     private MessageHeaderRepository _MessageHeaderRepository;
-    private ModuleDefinitionRepository _ModuleDefinitionRepository;
     private NamingSystemRepository _NamingSystemRepository;
-    private NutritionOrderRepository _NutritionOrderRepository;
+    private NutritionRequestRepository _NutritionRequestRepository;
     private ObservationRepository _ObservationRepository;
     private OperationDefinitionRepository _OperationDefinitionRepository;
     private OperationOutcomeRepository _OperationOutcomeRepository;
-    private OrderRepository _OrderRepository;
-    private OrderResponseRepository _OrderResponseRepository;
-    private OrderSetRepository _OrderSetRepository;
     private OrganizationRepository _OrganizationRepository;
     private ParametersRepository _ParametersRepository;
     private PatientRepository _PatientRepository;
     private PaymentNoticeRepository _PaymentNoticeRepository;
     private PaymentReconciliationRepository _PaymentReconciliationRepository;
     private PersonRepository _PersonRepository;
+    private PlanDefinitionRepository _PlanDefinitionRepository;
     private PractitionerRepository _PractitionerRepository;
     private PractitionerRoleRepository _PractitionerRoleRepository;
     private ProcedureRepository _ProcedureRepository;
     private ProcedureRequestRepository _ProcedureRequestRepository;
     private ProcessRequestRepository _ProcessRequestRepository;
     private ProcessResponseRepository _ProcessResponseRepository;
-    private ProtocolRepository _ProtocolRepository;
     private ProvenanceRepository _ProvenanceRepository;
     private QuestionnaireRepository _QuestionnaireRepository;
     private QuestionnaireResponseRepository _QuestionnaireResponseRepository;
@@ -150,6 +147,16 @@ namespace Blaze.DataModel
         if (this._AccountRepository == null)
           this._AccountRepository = new AccountRepository(_context);
         return _AccountRepository;
+      }
+    }
+
+    public IResourceRepository ActivityDefinitionRepository
+    {
+      get
+      {
+        if (this._ActivityDefinitionRepository == null)
+          this._ActivityDefinitionRepository = new ActivityDefinitionRepository(_context);
+        return _ActivityDefinitionRepository;
       }
     }
 
@@ -363,6 +370,16 @@ namespace Blaze.DataModel
       }
     }
 
+    public IResourceRepository ConsentRepository
+    {
+      get
+      {
+        if (this._ConsentRepository == null)
+          this._ConsentRepository = new ConsentRepository(_context);
+        return _ConsentRepository;
+      }
+    }
+
     public IResourceRepository ContractRepository
     {
       get
@@ -390,16 +407,6 @@ namespace Blaze.DataModel
         if (this._DataElementRepository == null)
           this._DataElementRepository = new DataElementRepository(_context);
         return _DataElementRepository;
-      }
-    }
-
-    public IResourceRepository DecisionSupportRuleRepository
-    {
-      get
-      {
-        if (this._DecisionSupportRuleRepository == null)
-          this._DecisionSupportRuleRepository = new DecisionSupportRuleRepository(_context);
-        return _DecisionSupportRuleRepository;
       }
     }
 
@@ -473,16 +480,6 @@ namespace Blaze.DataModel
       }
     }
 
-    public IResourceRepository DiagnosticOrderRepository
-    {
-      get
-      {
-        if (this._DiagnosticOrderRepository == null)
-          this._DiagnosticOrderRepository = new DiagnosticOrderRepository(_context);
-        return _DiagnosticOrderRepository;
-      }
-    }
-
     public IResourceRepository DiagnosticReportRepository
     {
       get
@@ -490,6 +487,16 @@ namespace Blaze.DataModel
         if (this._DiagnosticReportRepository == null)
           this._DiagnosticReportRepository = new DiagnosticReportRepository(_context);
         return _DiagnosticReportRepository;
+      }
+    }
+
+    public IResourceRepository DiagnosticRequestRepository
+    {
+      get
+      {
+        if (this._DiagnosticRequestRepository == null)
+          this._DiagnosticRequestRepository = new DiagnosticRequestRepository(_context);
+        return _DiagnosticRequestRepository;
       }
     }
 
@@ -540,6 +547,16 @@ namespace Blaze.DataModel
         if (this._EncounterRepository == null)
           this._EncounterRepository = new EncounterRepository(_context);
         return _EncounterRepository;
+      }
+    }
+
+    public IResourceRepository EndpointRepository
+    {
+      get
+      {
+        if (this._EndpointRepository == null)
+          this._EndpointRepository = new EndpointRepository(_context);
+        return _EndpointRepository;
       }
     }
 
@@ -653,23 +670,13 @@ namespace Blaze.DataModel
       }
     }
 
-    public IResourceRepository ImagingExcerptRepository
+    public IResourceRepository ImagingManifestRepository
     {
       get
       {
-        if (this._ImagingExcerptRepository == null)
-          this._ImagingExcerptRepository = new ImagingExcerptRepository(_context);
-        return _ImagingExcerptRepository;
-      }
-    }
-
-    public IResourceRepository ImagingObjectSelectionRepository
-    {
-      get
-      {
-        if (this._ImagingObjectSelectionRepository == null)
-          this._ImagingObjectSelectionRepository = new ImagingObjectSelectionRepository(_context);
-        return _ImagingObjectSelectionRepository;
+        if (this._ImagingManifestRepository == null)
+          this._ImagingManifestRepository = new ImagingManifestRepository(_context);
+        return _ImagingManifestRepository;
       }
     }
 
@@ -843,16 +850,6 @@ namespace Blaze.DataModel
       }
     }
 
-    public IResourceRepository ModuleDefinitionRepository
-    {
-      get
-      {
-        if (this._ModuleDefinitionRepository == null)
-          this._ModuleDefinitionRepository = new ModuleDefinitionRepository(_context);
-        return _ModuleDefinitionRepository;
-      }
-    }
-
     public IResourceRepository NamingSystemRepository
     {
       get
@@ -863,13 +860,13 @@ namespace Blaze.DataModel
       }
     }
 
-    public IResourceRepository NutritionOrderRepository
+    public IResourceRepository NutritionRequestRepository
     {
       get
       {
-        if (this._NutritionOrderRepository == null)
-          this._NutritionOrderRepository = new NutritionOrderRepository(_context);
-        return _NutritionOrderRepository;
+        if (this._NutritionRequestRepository == null)
+          this._NutritionRequestRepository = new NutritionRequestRepository(_context);
+        return _NutritionRequestRepository;
       }
     }
 
@@ -900,36 +897,6 @@ namespace Blaze.DataModel
         if (this._OperationOutcomeRepository == null)
           this._OperationOutcomeRepository = new OperationOutcomeRepository(_context);
         return _OperationOutcomeRepository;
-      }
-    }
-
-    public IResourceRepository OrderRepository
-    {
-      get
-      {
-        if (this._OrderRepository == null)
-          this._OrderRepository = new OrderRepository(_context);
-        return _OrderRepository;
-      }
-    }
-
-    public IResourceRepository OrderResponseRepository
-    {
-      get
-      {
-        if (this._OrderResponseRepository == null)
-          this._OrderResponseRepository = new OrderResponseRepository(_context);
-        return _OrderResponseRepository;
-      }
-    }
-
-    public IResourceRepository OrderSetRepository
-    {
-      get
-      {
-        if (this._OrderSetRepository == null)
-          this._OrderSetRepository = new OrderSetRepository(_context);
-        return _OrderSetRepository;
       }
     }
 
@@ -993,6 +960,16 @@ namespace Blaze.DataModel
       }
     }
 
+    public IResourceRepository PlanDefinitionRepository
+    {
+      get
+      {
+        if (this._PlanDefinitionRepository == null)
+          this._PlanDefinitionRepository = new PlanDefinitionRepository(_context);
+        return _PlanDefinitionRepository;
+      }
+    }
+
     public IResourceRepository PractitionerRepository
     {
       get
@@ -1050,16 +1027,6 @@ namespace Blaze.DataModel
         if (this._ProcessResponseRepository == null)
           this._ProcessResponseRepository = new ProcessResponseRepository(_context);
         return _ProcessResponseRepository;
-      }
-    }
-
-    public IResourceRepository ProtocolRepository
-    {
-      get
-      {
-        if (this._ProtocolRepository == null)
-          this._ProtocolRepository = new ProtocolRepository(_context);
-        return _ProtocolRepository;
       }
     }
 

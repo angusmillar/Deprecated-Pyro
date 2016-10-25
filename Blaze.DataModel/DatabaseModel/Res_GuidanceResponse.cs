@@ -13,6 +13,16 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_GuidanceResponse : ResourceIndexBase
   {
     public int Res_GuidanceResponseID {get; set;}
+    public string patient_VersionId {get; set;}
+    public string patient_FhirId {get; set;}
+    public string patient_Type {get; set;}
+    public virtual ServiceRootURL_Store patient_Url { get; set; }
+    public int? patient_ServiceRootURL_StoreID { get; set; }
+    public string subject_VersionId {get; set;}
+    public string subject_FhirId {get; set;}
+    public string subject_Type {get; set;}
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_GuidanceResponse_History> Res_GuidanceResponse_History_List { get; set; }
     public ICollection<Res_GuidanceResponse_Index__profile> _profile_List { get; set; }
     public ICollection<Res_GuidanceResponse_Index__security> _security_List { get; set; }

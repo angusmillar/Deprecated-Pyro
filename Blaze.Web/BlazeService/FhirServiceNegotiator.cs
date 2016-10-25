@@ -42,8 +42,8 @@ namespace Blaze.Web.BlazeService
         else
         {
           IDefaultResourceServices DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
-          FHIRDefinedType FHIRDefinedType = (FHIRDefinedType)ModelInfo.FhirTypeNameToFhirType(ResourceName);
-          DefaultResourceServices.SetCurrentResourceType = FHIRDefinedType;
+          FHIRAllTypes FHIRAllTypes = (FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName);
+          DefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;
           return DefaultResourceServices;
         }                
       }

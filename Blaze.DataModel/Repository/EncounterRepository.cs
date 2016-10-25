@@ -158,6 +158,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.appointment_Type = null;      
       ResourceEntity.appointment_Url = null;      
       ResourceEntity.appointment_ServiceRootURL_StoreID = null;      
+      ResourceEntity.class_Code = null;      
+      ResourceEntity.class_System = null;      
       ResourceEntity.date_DateTimeOffsetLow = null;      
       ResourceEntity.date_DateTimeOffsetHigh = null;      
       ResourceEntity.length_Comparator = null;      
@@ -219,6 +221,20 @@ namespace Blaze.DataModel.Repository
             {
               ResourseEntity.appointment_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
+          }
+        }
+      }
+
+      if (ResourceTyped.Class != null)
+      {
+        if (ResourceTyped.Class is Hl7.Fhir.Model.Coding)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Class, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.class_Code = Index.Code;
+            ResourseEntity.class_System = Index.System;
           }
         }
       }
@@ -297,7 +313,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Status != null)
       {
-        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Encounter.EncounterState>)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Encounter.EncounterStatus>)
         {
           var Index = new TokenIndex();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;

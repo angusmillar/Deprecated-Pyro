@@ -141,6 +141,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Schedule ResourceEntity)
     {
+      ResourceEntity.active_Code = null;      
+      ResourceEntity.active_System = null;      
       ResourceEntity.actor_VersionId = null;      
       ResourceEntity.actor_FhirId = null;      
       ResourceEntity.actor_Type = null;      
@@ -163,7 +165,21 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Actor != null)
+          if (ResourceTyped.Active != null)
+      {
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ActiveElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Actor != null)
       {
         if (ResourceTyped.Actor is Hl7.Fhir.Model.ResourceReference)
         {

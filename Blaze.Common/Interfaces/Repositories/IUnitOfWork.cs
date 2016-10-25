@@ -10,6 +10,7 @@ namespace Blaze.Common.Interfaces.Repositories
   {
     IDtoCommonRepository CommonRepository { get; }
     IResourceRepository AccountRepository { get; }    
+    IResourceRepository ActivityDefinitionRepository { get; }    
     IResourceRepository AllergyIntoleranceRepository { get; }    
     IResourceRepository AppointmentRepository { get; }    
     IResourceRepository AppointmentResponseRepository { get; }    
@@ -31,10 +32,10 @@ namespace Blaze.Common.Interfaces.Repositories
     IResourceRepository ConceptMapRepository { get; }    
     IResourceRepository ConditionRepository { get; }    
     IResourceRepository ConformanceRepository { get; }    
+    IResourceRepository ConsentRepository { get; }    
     IResourceRepository ContractRepository { get; }    
     IResourceRepository CoverageRepository { get; }    
     IResourceRepository DataElementRepository { get; }    
-    IResourceRepository DecisionSupportRuleRepository { get; }    
     IResourceRepository DecisionSupportServiceModuleRepository { get; }    
     IResourceRepository DetectedIssueRepository { get; }    
     IResourceRepository DeviceRepository { get; }    
@@ -42,13 +43,14 @@ namespace Blaze.Common.Interfaces.Repositories
     IResourceRepository DeviceMetricRepository { get; }    
     IResourceRepository DeviceUseRequestRepository { get; }    
     IResourceRepository DeviceUseStatementRepository { get; }    
-    IResourceRepository DiagnosticOrderRepository { get; }    
     IResourceRepository DiagnosticReportRepository { get; }    
+    IResourceRepository DiagnosticRequestRepository { get; }    
     IResourceRepository DocumentManifestRepository { get; }    
     IResourceRepository DocumentReferenceRepository { get; }    
     IResourceRepository EligibilityRequestRepository { get; }    
     IResourceRepository EligibilityResponseRepository { get; }    
     IResourceRepository EncounterRepository { get; }    
+    IResourceRepository EndpointRepository { get; }    
     IResourceRepository EnrollmentRequestRepository { get; }    
     IResourceRepository EnrollmentResponseRepository { get; }    
     IResourceRepository EpisodeOfCareRepository { get; }    
@@ -60,8 +62,7 @@ namespace Blaze.Common.Interfaces.Repositories
     IResourceRepository GroupRepository { get; }    
     IResourceRepository GuidanceResponseRepository { get; }    
     IResourceRepository HealthcareServiceRepository { get; }    
-    IResourceRepository ImagingExcerptRepository { get; }    
-    IResourceRepository ImagingObjectSelectionRepository { get; }    
+    IResourceRepository ImagingManifestRepository { get; }    
     IResourceRepository ImagingStudyRepository { get; }    
     IResourceRepository ImmunizationRepository { get; }    
     IResourceRepository ImmunizationRecommendationRepository { get; }    
@@ -79,28 +80,24 @@ namespace Blaze.Common.Interfaces.Repositories
     IResourceRepository MedicationOrderRepository { get; }    
     IResourceRepository MedicationStatementRepository { get; }    
     IResourceRepository MessageHeaderRepository { get; }    
-    IResourceRepository ModuleDefinitionRepository { get; }    
     IResourceRepository NamingSystemRepository { get; }    
-    IResourceRepository NutritionOrderRepository { get; }    
+    IResourceRepository NutritionRequestRepository { get; }    
     IResourceRepository ObservationRepository { get; }    
     IResourceRepository OperationDefinitionRepository { get; }    
     IResourceRepository OperationOutcomeRepository { get; }    
-    IResourceRepository OrderRepository { get; }    
-    IResourceRepository OrderResponseRepository { get; }    
-    IResourceRepository OrderSetRepository { get; }    
     IResourceRepository OrganizationRepository { get; }    
     IResourceRepository ParametersRepository { get; }    
     IResourceRepository PatientRepository { get; }    
     IResourceRepository PaymentNoticeRepository { get; }    
     IResourceRepository PaymentReconciliationRepository { get; }    
     IResourceRepository PersonRepository { get; }    
+    IResourceRepository PlanDefinitionRepository { get; }    
     IResourceRepository PractitionerRepository { get; }    
     IResourceRepository PractitionerRoleRepository { get; }    
     IResourceRepository ProcedureRepository { get; }    
     IResourceRepository ProcedureRequestRepository { get; }    
     IResourceRepository ProcessRequestRepository { get; }    
     IResourceRepository ProcessResponseRepository { get; }    
-    IResourceRepository ProtocolRepository { get; }    
     IResourceRepository ProvenanceRepository { get; }    
     IResourceRepository QuestionnaireRepository { get; }    
     IResourceRepository QuestionnaireResponseRepository { get; }    

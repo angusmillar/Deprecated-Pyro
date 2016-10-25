@@ -13,35 +13,37 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Coverage : ResourceIndexBase
   {
     public int Res_CoverageID {get; set;}
-    public string beneficiaryidentifier_Code {get; set;}
-    public string beneficiaryidentifier_System {get; set;}
-    public string beneficiaryreference_VersionId {get; set;}
-    public string beneficiaryreference_FhirId {get; set;}
-    public string beneficiaryreference_Type {get; set;}
-    public virtual ServiceRootURL_Store beneficiaryreference_Url { get; set; }
-    public int? beneficiaryreference_ServiceRootURL_StoreID { get; set; }
-    public string dependent_Code {get; set;}
-    public string dependent_System {get; set;}
+    public string beneficiary_identifier_Code {get; set;}
+    public string beneficiary_identifier_System {get; set;}
+    public string beneficiary_reference_VersionId {get; set;}
+    public string beneficiary_reference_FhirId {get; set;}
+    public string beneficiary_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store beneficiary_reference_Url { get; set; }
+    public int? beneficiary_reference_ServiceRootURL_StoreID { get; set; }
+    public Hl7.Fhir.Model.Quantity.QuantityComparator? dependent_Comparator {get; set;}
+    public decimal? dependent_Quantity {get; set;}
     public string group_Code {get; set;}
     public string group_System {get; set;}
-    public string issueridentifier_Code {get; set;}
-    public string issueridentifier_System {get; set;}
-    public string issuerreference_VersionId {get; set;}
-    public string issuerreference_FhirId {get; set;}
-    public string issuerreference_Type {get; set;}
-    public virtual ServiceRootURL_Store issuerreference_Url { get; set; }
-    public int? issuerreference_ServiceRootURL_StoreID { get; set; }
+    public string issuer_identifier_Code {get; set;}
+    public string issuer_identifier_System {get; set;}
+    public string issuer_reference_VersionId {get; set;}
+    public string issuer_reference_FhirId {get; set;}
+    public string issuer_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store issuer_reference_Url { get; set; }
+    public int? issuer_reference_ServiceRootURL_StoreID { get; set; }
     public string plan_Code {get; set;}
     public string plan_System {get; set;}
-    public string planholderidentifier_Code {get; set;}
-    public string planholderidentifier_System {get; set;}
-    public string planholderreference_VersionId {get; set;}
-    public string planholderreference_FhirId {get; set;}
-    public string planholderreference_Type {get; set;}
-    public virtual ServiceRootURL_Store planholderreference_Url { get; set; }
-    public int? planholderreference_ServiceRootURL_StoreID { get; set; }
-    public string sequence_Code {get; set;}
-    public string sequence_System {get; set;}
+    public string planholder_identifier_Code {get; set;}
+    public string planholder_identifier_System {get; set;}
+    public string planholder_reference_VersionId {get; set;}
+    public string planholder_reference_FhirId {get; set;}
+    public string planholder_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store planholder_reference_Url { get; set; }
+    public int? planholder_reference_ServiceRootURL_StoreID { get; set; }
+    public Hl7.Fhir.Model.Quantity.QuantityComparator? sequence_Comparator {get; set;}
+    public decimal? sequence_Quantity {get; set;}
+    public string subgroup_Code {get; set;}
+    public string subgroup_System {get; set;}
     public string subplan_Code {get; set;}
     public string subplan_System {get; set;}
     public string type_Code {get; set;}

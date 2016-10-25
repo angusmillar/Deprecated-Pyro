@@ -24,8 +24,8 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
-      Property(x => x.claimindentifier_Code).IsOptional();
-      Property(x => x.claimindentifier_System).IsOptional();
+      Property(x => x.claimidentifier_Code).IsOptional();
+      Property(x => x.claimidentifier_System).IsOptional();
       Property(x => x.claimreference_VersionId).IsOptional();
       Property(x => x.claimreference_FhirId).IsOptional();
       Property(x => x.claimreference_Type).IsOptional();

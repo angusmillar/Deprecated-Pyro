@@ -13,6 +13,6 @@ namespace Blaze.Common.Interfaces.Services
   /// </summary>
   public interface IDefaultResourceServices : IBaseResourceServices
   {
-    FHIRDefinedType SetCurrentResourceType { set; }   
+    FHIRAllTypes SetCurrentResourceType { set; }   
   }
 }

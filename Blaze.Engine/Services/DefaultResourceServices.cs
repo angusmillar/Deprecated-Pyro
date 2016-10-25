@@ -18,7 +18,7 @@ namespace Blaze.Engine.Services
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork){}
 
-    public new FHIRDefinedType SetCurrentResourceType
+    public new FHIRAllTypes SetCurrentResourceType
     {
       set
       {

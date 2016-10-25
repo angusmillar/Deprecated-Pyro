@@ -162,6 +162,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Practitioner ResourceEntity)
     {
+      ResourceEntity.active_Code = null;      
+      ResourceEntity.active_System = null;      
       ResourceEntity.gender_Code = null;      
       ResourceEntity.gender_System = null;      
       ResourceEntity.XmlBlob = null;      
@@ -200,7 +202,21 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Gender != null)
+          if (ResourceTyped.Active != null)
+      {
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ActiveElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Gender != null)
       {
         if (ResourceTyped.GenderElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>)
         {
@@ -321,7 +337,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         foreach (var item3 in item1.Telecom)
         {
@@ -385,7 +401,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         if (item1.Identifier != null)
         {
@@ -401,7 +417,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         if (item1.Location != null)
         {
@@ -430,7 +446,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         if (item1.Organization != null)
         {
@@ -462,7 +478,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         foreach (var item3 in item1.Telecom)
         {
@@ -491,11 +507,11 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
-        if (item1.Role != null)
+        if (item1.Code != null)
         {
-          foreach (var item4 in item1.Role.Coding)
+          foreach (var item4 in item1.Code.Coding)
           {
             var Index = new Res_Practitioner_Index_role();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Practitioner_Index_role;
@@ -504,7 +520,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         if (item1.Specialty != null)
         {
@@ -533,7 +549,7 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.PractitionerRole)
+      foreach (var item1 in ResourceTyped.Role)
       {
         foreach (var item3 in item1.Telecom)
         {

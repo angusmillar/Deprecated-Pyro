@@ -140,8 +140,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_ExplanationOfBenefit ResourceEntity)
     {
-      ResourceEntity.claimindentifier_Code = null;      
-      ResourceEntity.claimindentifier_System = null;      
+      ResourceEntity.claimidentifier_Code = null;      
+      ResourceEntity.claimidentifier_System = null;      
       ResourceEntity.claimreference_VersionId = null;      
       ResourceEntity.claimreference_FhirId = null;      
       ResourceEntity.claimreference_Type = null;      
@@ -199,8 +199,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Claim, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.claimindentifier_Code = Index.Code;
-            ResourseEntity.claimindentifier_System = Index.System;
+            ResourseEntity.claimidentifier_Code = Index.Code;
+            ResourseEntity.claimidentifier_System = Index.System;
           }
         }
       }

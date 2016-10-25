@@ -3,7 +3,7 @@
 <#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.6-alpha7\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
 <#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
@@ -20,15 +20,11 @@
    
   manager.StartNewFile(string.Format("{0}.cs","FhirCodeDataTypeSupportGenerated"), "Blaze.DataModel", "Support");
 #>
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Blaze.DataModel.DatabaseModel.Base;
-
-//This file was Auto Generated and should not be modified here.
+using Hl7.Fhir.Introspection;
+<#  string DateTimeNow = DateTime.Now.ToString();#>
+//This file was Auto Generated and should not be modified here on: <#=DateTimeNow#>.
 
 namespace Blaze.DataModel.Support
 {
@@ -47,7 +43,7 @@ namespace Blaze.DataModel.Support
       {
         var Code = FhirElement as Code<<#=Item#>>;
         if (Code.Value != null)
-          TokenIndex.Code = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(<#=Item#>)).GetLiteral(Code.Value);
+           TokenIndex.Code = Code.Value.GetLiteral();
         TokenIndex.System = null;
         return true;
       }      

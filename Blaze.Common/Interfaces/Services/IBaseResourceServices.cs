@@ -11,7 +11,7 @@ namespace Blaze.Common.Interfaces.Services
   public interface IBaseResourceServices
   {
 
-    FHIRDefinedType CurrentResourceType { get; }
+    FHIRAllTypes CurrentResourceType { get; }
 
     // Get By id
     // GET URL/FhirApi/Patient/5    

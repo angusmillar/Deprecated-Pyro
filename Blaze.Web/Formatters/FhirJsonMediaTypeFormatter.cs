@@ -41,7 +41,9 @@ namespace Blaze.Web.Formatters
 
           if (typeof(Resource).IsAssignableFrom(type))
           {
-            Resource resource = FhirParser.ParseResourceFromJson(body);
+            //Resource resource = FhirParser.ParseResourceFromJson(body);
+            FhirJsonParser FhirJsonParser = new FhirJsonParser();
+            Resource resource = FhirJsonParser.Parse<Resource>(body);
             return resource;
           }
           else

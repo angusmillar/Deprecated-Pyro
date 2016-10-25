@@ -140,35 +140,37 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Coverage ResourceEntity)
     {
-      ResourceEntity.beneficiaryidentifier_Code = null;      
-      ResourceEntity.beneficiaryidentifier_System = null;      
-      ResourceEntity.beneficiaryreference_VersionId = null;      
-      ResourceEntity.beneficiaryreference_FhirId = null;      
-      ResourceEntity.beneficiaryreference_Type = null;      
-      ResourceEntity.beneficiaryreference_Url = null;      
-      ResourceEntity.beneficiaryreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.dependent_Code = null;      
-      ResourceEntity.dependent_System = null;      
+      ResourceEntity.beneficiary_identifier_Code = null;      
+      ResourceEntity.beneficiary_identifier_System = null;      
+      ResourceEntity.beneficiary_reference_VersionId = null;      
+      ResourceEntity.beneficiary_reference_FhirId = null;      
+      ResourceEntity.beneficiary_reference_Type = null;      
+      ResourceEntity.beneficiary_reference_Url = null;      
+      ResourceEntity.beneficiary_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.dependent_Comparator = null;      
+      ResourceEntity.dependent_Quantity = null;      
       ResourceEntity.group_Code = null;      
       ResourceEntity.group_System = null;      
-      ResourceEntity.issueridentifier_Code = null;      
-      ResourceEntity.issueridentifier_System = null;      
-      ResourceEntity.issuerreference_VersionId = null;      
-      ResourceEntity.issuerreference_FhirId = null;      
-      ResourceEntity.issuerreference_Type = null;      
-      ResourceEntity.issuerreference_Url = null;      
-      ResourceEntity.issuerreference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.issuer_identifier_Code = null;      
+      ResourceEntity.issuer_identifier_System = null;      
+      ResourceEntity.issuer_reference_VersionId = null;      
+      ResourceEntity.issuer_reference_FhirId = null;      
+      ResourceEntity.issuer_reference_Type = null;      
+      ResourceEntity.issuer_reference_Url = null;      
+      ResourceEntity.issuer_reference_ServiceRootURL_StoreID = null;      
       ResourceEntity.plan_Code = null;      
       ResourceEntity.plan_System = null;      
-      ResourceEntity.planholderidentifier_Code = null;      
-      ResourceEntity.planholderidentifier_System = null;      
-      ResourceEntity.planholderreference_VersionId = null;      
-      ResourceEntity.planholderreference_FhirId = null;      
-      ResourceEntity.planholderreference_Type = null;      
-      ResourceEntity.planholderreference_Url = null;      
-      ResourceEntity.planholderreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.sequence_Code = null;      
-      ResourceEntity.sequence_System = null;      
+      ResourceEntity.planholder_identifier_Code = null;      
+      ResourceEntity.planholder_identifier_System = null;      
+      ResourceEntity.planholder_reference_VersionId = null;      
+      ResourceEntity.planholder_reference_FhirId = null;      
+      ResourceEntity.planholder_reference_Type = null;      
+      ResourceEntity.planholder_reference_Url = null;      
+      ResourceEntity.planholder_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.sequence_Comparator = null;      
+      ResourceEntity.sequence_Quantity = null;      
+      ResourceEntity.subgroup_Code = null;      
+      ResourceEntity.subgroup_System = null;      
       ResourceEntity.subplan_Code = null;      
       ResourceEntity.subplan_System = null;      
       ResourceEntity.type_Code = null;      
@@ -195,8 +197,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Beneficiary, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.beneficiaryidentifier_Code = Index.Code;
-            ResourseEntity.beneficiaryidentifier_System = Index.System;
+            ResourseEntity.beneficiary_identifier_Code = Index.Code;
+            ResourseEntity.beneficiary_identifier_System = Index.System;
           }
         }
       }
@@ -209,15 +211,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Beneficiary, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.beneficiaryreference_Type = Index.Type;
-            ResourseEntity.beneficiaryreference_FhirId = Index.FhirId;
+            ResourseEntity.beneficiary_reference_Type = Index.Type;
+            ResourseEntity.beneficiary_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.beneficiaryreference_Url = Index.Url;
+              ResourseEntity.beneficiary_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.beneficiaryreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.beneficiary_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -227,12 +229,12 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.DependentElement is Hl7.Fhir.Model.PositiveInt)
         {
-          var Index = new TokenIndex();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.DependentElement, Index) as TokenIndex;
+          var Index = new NumberIndex();
+          Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(ResourceTyped.DependentElement, Index) as NumberIndex;
           if (Index != null)
           {
-            ResourseEntity.dependent_Code = Index.Code;
-            ResourseEntity.dependent_System = Index.System;
+            ResourseEntity.dependent_Comparator = Index.Comparator;
+            ResourseEntity.dependent_Quantity = Index.Quantity;
           }
         }
       }
@@ -259,8 +261,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Issuer, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.issueridentifier_Code = Index.Code;
-            ResourseEntity.issueridentifier_System = Index.System;
+            ResourseEntity.issuer_identifier_Code = Index.Code;
+            ResourseEntity.issuer_identifier_System = Index.System;
           }
         }
       }
@@ -273,15 +275,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Issuer, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.issuerreference_Type = Index.Type;
-            ResourseEntity.issuerreference_FhirId = Index.FhirId;
+            ResourseEntity.issuer_reference_Type = Index.Type;
+            ResourseEntity.issuer_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.issuerreference_Url = Index.Url;
+              ResourseEntity.issuer_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.issuerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.issuer_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -309,8 +311,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Planholder, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.planholderidentifier_Code = Index.Code;
-            ResourseEntity.planholderidentifier_System = Index.System;
+            ResourseEntity.planholder_identifier_Code = Index.Code;
+            ResourseEntity.planholder_identifier_System = Index.System;
           }
         }
       }
@@ -323,15 +325,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Planholder, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.planholderreference_Type = Index.Type;
-            ResourseEntity.planholderreference_FhirId = Index.FhirId;
+            ResourseEntity.planholder_reference_Type = Index.Type;
+            ResourseEntity.planholder_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.planholderreference_Url = Index.Url;
+              ResourseEntity.planholder_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.planholderreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.planholder_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -341,12 +343,26 @@ namespace Blaze.DataModel.Repository
       {
         if (ResourceTyped.SequenceElement is Hl7.Fhir.Model.PositiveInt)
         {
-          var Index = new TokenIndex();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.SequenceElement, Index) as TokenIndex;
+          var Index = new NumberIndex();
+          Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(ResourceTyped.SequenceElement, Index) as NumberIndex;
           if (Index != null)
           {
-            ResourseEntity.sequence_Code = Index.Code;
-            ResourseEntity.sequence_System = Index.System;
+            ResourseEntity.sequence_Comparator = Index.Comparator;
+            ResourseEntity.sequence_Quantity = Index.Quantity;
+          }
+        }
+      }
+
+      if (ResourceTyped.SubGroup != null)
+      {
+        if (ResourceTyped.SubGroupElement is Hl7.Fhir.Model.FhirString)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.SubGroupElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.subgroup_Code = Index.Code;
+            ResourseEntity.subgroup_System = Index.System;
           }
         }
       }

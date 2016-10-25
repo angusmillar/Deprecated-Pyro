@@ -141,36 +141,36 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_PaymentNotice ResourceEntity)
     {
       ResourceEntity.created_DateTimeOffset = null;      
-      ResourceEntity.organizationidentifier_Code = null;      
-      ResourceEntity.organizationidentifier_System = null;      
-      ResourceEntity.organizationreference_VersionId = null;      
-      ResourceEntity.organizationreference_FhirId = null;      
-      ResourceEntity.organizationreference_Type = null;      
-      ResourceEntity.organizationreference_Url = null;      
-      ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.paymentstatus_Code = null;      
-      ResourceEntity.paymentstatus_System = null;      
-      ResourceEntity.provideridentifier_Code = null;      
-      ResourceEntity.provideridentifier_System = null;      
-      ResourceEntity.providerreference_VersionId = null;      
-      ResourceEntity.providerreference_FhirId = null;      
-      ResourceEntity.providerreference_Type = null;      
-      ResourceEntity.providerreference_Url = null;      
-      ResourceEntity.providerreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.requestidentifier_Code = null;      
-      ResourceEntity.requestidentifier_System = null;      
-      ResourceEntity.requestreference_VersionId = null;      
-      ResourceEntity.requestreference_FhirId = null;      
-      ResourceEntity.requestreference_Type = null;      
-      ResourceEntity.requestreference_Url = null;      
-      ResourceEntity.requestreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.responseidentifier_Code = null;      
-      ResourceEntity.responseidentifier_System = null;      
-      ResourceEntity.responsereference_VersionId = null;      
-      ResourceEntity.responsereference_FhirId = null;      
-      ResourceEntity.responsereference_Type = null;      
-      ResourceEntity.responsereference_Url = null;      
-      ResourceEntity.responsereference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.organization_identifier_Code = null;      
+      ResourceEntity.organization_identifier_System = null;      
+      ResourceEntity.organization_reference_VersionId = null;      
+      ResourceEntity.organization_reference_FhirId = null;      
+      ResourceEntity.organization_reference_Type = null;      
+      ResourceEntity.organization_reference_Url = null;      
+      ResourceEntity.organization_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.payment_status_Code = null;      
+      ResourceEntity.payment_status_System = null;      
+      ResourceEntity.provider_identifier_Code = null;      
+      ResourceEntity.provider_identifier_System = null;      
+      ResourceEntity.provider_reference_VersionId = null;      
+      ResourceEntity.provider_reference_FhirId = null;      
+      ResourceEntity.provider_reference_Type = null;      
+      ResourceEntity.provider_reference_Url = null;      
+      ResourceEntity.provider_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.request_identifier_Code = null;      
+      ResourceEntity.request_identifier_System = null;      
+      ResourceEntity.request_reference_VersionId = null;      
+      ResourceEntity.request_reference_FhirId = null;      
+      ResourceEntity.request_reference_Type = null;      
+      ResourceEntity.request_reference_Url = null;      
+      ResourceEntity.request_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.response_identifier_Code = null;      
+      ResourceEntity.response_identifier_System = null;      
+      ResourceEntity.response_reference_VersionId = null;      
+      ResourceEntity.response_reference_FhirId = null;      
+      ResourceEntity.response_reference_Type = null;      
+      ResourceEntity.response_reference_Url = null;      
+      ResourceEntity.response_reference_ServiceRootURL_StoreID = null;      
       ResourceEntity.statusdate_Date = null;      
       ResourceEntity.XmlBlob = null;      
  
@@ -207,8 +207,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Organization, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.organizationidentifier_Code = Index.Code;
-            ResourseEntity.organizationidentifier_System = Index.System;
+            ResourseEntity.organization_identifier_Code = Index.Code;
+            ResourseEntity.organization_identifier_System = Index.System;
           }
         }
       }
@@ -221,15 +221,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Organization, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.organizationreference_Type = Index.Type;
-            ResourseEntity.organizationreference_FhirId = Index.FhirId;
+            ResourseEntity.organization_reference_Type = Index.Type;
+            ResourseEntity.organization_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.organizationreference_Url = Index.Url;
+              ResourseEntity.organization_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.organizationreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.organization_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -243,8 +243,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.PaymentStatus, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.paymentstatus_Code = Index.Code;
-            ResourseEntity.paymentstatus_System = Index.System;
+            ResourseEntity.payment_status_Code = Index.Code;
+            ResourseEntity.payment_status_System = Index.System;
           }
         }
       }
@@ -257,8 +257,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Provider, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.provideridentifier_Code = Index.Code;
-            ResourseEntity.provideridentifier_System = Index.System;
+            ResourseEntity.provider_identifier_Code = Index.Code;
+            ResourseEntity.provider_identifier_System = Index.System;
           }
         }
       }
@@ -271,15 +271,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Provider, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.providerreference_Type = Index.Type;
-            ResourseEntity.providerreference_FhirId = Index.FhirId;
+            ResourseEntity.provider_reference_Type = Index.Type;
+            ResourseEntity.provider_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.providerreference_Url = Index.Url;
+              ResourseEntity.provider_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.providerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.provider_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -293,8 +293,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Request, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.requestidentifier_Code = Index.Code;
-            ResourseEntity.requestidentifier_System = Index.System;
+            ResourseEntity.request_identifier_Code = Index.Code;
+            ResourseEntity.request_identifier_System = Index.System;
           }
         }
       }
@@ -307,15 +307,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Request, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.requestreference_Type = Index.Type;
-            ResourseEntity.requestreference_FhirId = Index.FhirId;
+            ResourseEntity.request_reference_Type = Index.Type;
+            ResourseEntity.request_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.requestreference_Url = Index.Url;
+              ResourseEntity.request_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.requestreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.request_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -329,8 +329,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Response, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.responseidentifier_Code = Index.Code;
-            ResourseEntity.responseidentifier_System = Index.System;
+            ResourseEntity.response_identifier_Code = Index.Code;
+            ResourseEntity.response_identifier_System = Index.System;
           }
         }
       }
@@ -343,15 +343,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Response, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.responsereference_Type = Index.Type;
-            ResourseEntity.responsereference_FhirId = Index.FhirId;
+            ResourseEntity.response_reference_Type = Index.Type;
+            ResourseEntity.response_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.responsereference_Url = Index.Url;
+              ResourseEntity.response_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.responsereference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.response_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

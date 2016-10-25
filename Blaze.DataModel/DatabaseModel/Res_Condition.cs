@@ -20,20 +20,22 @@ namespace Blaze.DataModel.DatabaseModel
     public int? asserter_ServiceRootURL_StoreID { get; set; }
     public string clinicalstatus_Code {get; set;}
     public string clinicalstatus_System {get; set;}
+    public string context_VersionId {get; set;}
+    public string context_FhirId {get; set;}
+    public string context_Type {get; set;}
+    public virtual ServiceRootURL_Store context_Url { get; set; }
+    public int? context_ServiceRootURL_StoreID { get; set; }
     public int? date_recorded_Date {get; set;}
-    public string encounter_VersionId {get; set;}
-    public string encounter_FhirId {get; set;}
-    public string encounter_Type {get; set;}
-    public virtual ServiceRootURL_Store encounter_Url { get; set; }
-    public int? encounter_ServiceRootURL_StoreID { get; set; }
-    public DateTimeOffset? onset_DateTimeOffsetLow {get; set;}
-    public DateTimeOffset? onset_DateTimeOffsetHigh {get; set;}
-    public string onset_info_String {get; set;}
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual ServiceRootURL_Store patient_Url { get; set; }
     public int? patient_ServiceRootURL_StoreID { get; set; }
+    public string subject_VersionId {get; set;}
+    public string subject_FhirId {get; set;}
+    public string subject_Type {get; set;}
+    public virtual ServiceRootURL_Store subject_Url { get; set; }
+    public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Condition_History> Res_Condition_History_List { get; set; }
     public ICollection<Res_Condition_Index_body_site> body_site_List { get; set; }
     public ICollection<Res_Condition_Index_category> category_List { get; set; }

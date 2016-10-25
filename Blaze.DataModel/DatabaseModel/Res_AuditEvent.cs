@@ -16,6 +16,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string action_Code {get; set;}
     public string action_System {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
+    public string outcome_Code {get; set;}
+    public string outcome_System {get; set;}
     public string site_Code {get; set;}
     public string site_System {get; set;}
     public string source_Code {get; set;}
@@ -33,6 +35,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_AuditEvent_Index_entity_type> entity_type_List { get; set; }
     public ICollection<Res_AuditEvent_Index_patient> patient_List { get; set; }
     public ICollection<Res_AuditEvent_Index_policy> policy_List { get; set; }
+    public ICollection<Res_AuditEvent_Index_role> role_List { get; set; }
     public ICollection<Res_AuditEvent_Index_subtype> subtype_List { get; set; }
     public ICollection<Res_AuditEvent_Index_user> user_List { get; set; }
     public ICollection<Res_AuditEvent_Index__profile> _profile_List { get; set; }
@@ -51,6 +54,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.entity_type_List = new HashSet<Res_AuditEvent_Index_entity_type>();
       this.patient_List = new HashSet<Res_AuditEvent_Index_patient>();
       this.policy_List = new HashSet<Res_AuditEvent_Index_policy>();
+      this.role_List = new HashSet<Res_AuditEvent_Index_role>();
       this.subtype_List = new HashSet<Res_AuditEvent_Index_subtype>();
       this.user_List = new HashSet<Res_AuditEvent_Index_user>();
       this._profile_List = new HashSet<Res_AuditEvent_Index__profile>();

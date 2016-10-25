@@ -13,8 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_ExplanationOfBenefit : ResourceIndexBase
   {
     public int Res_ExplanationOfBenefitID {get; set;}
-    public string claimindentifier_Code {get; set;}
-    public string claimindentifier_System {get; set;}
+    public string claimidentifier_Code {get; set;}
+    public string claimidentifier_System {get; set;}
     public string claimreference_VersionId {get; set;}
     public string claimreference_FhirId {get; set;}
     public string claimreference_Type {get; set;}

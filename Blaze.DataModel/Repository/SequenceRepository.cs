@@ -128,7 +128,8 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_Sequence, object>>>();
       IncludeList.Add(x => x.chromosome_List);
-      IncludeList.Add(x => x.species_List);
+      IncludeList.Add(x => x.end_List);
+      IncludeList.Add(x => x.start_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -141,22 +142,19 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Sequence ResourceEntity)
     {
-      ResourceEntity.end_Comparator = null;      
-      ResourceEntity.end_Quantity = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
-      ResourceEntity.start_Comparator = null;      
-      ResourceEntity.start_Quantity = null;      
       ResourceEntity.type_Code = null;      
       ResourceEntity.type_System = null;      
       ResourceEntity.XmlBlob = null;      
  
       
       _Context.Res_Sequence_Index_chromosome.RemoveRange(ResourceEntity.chromosome_List);            
-      _Context.Res_Sequence_Index_species.RemoveRange(ResourceEntity.species_List);            
+      _Context.Res_Sequence_Index_end.RemoveRange(ResourceEntity.end_List);            
+      _Context.Res_Sequence_Index_start.RemoveRange(ResourceEntity.start_List);            
       _Context.Res_Sequence_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Sequence_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_Sequence_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -167,24 +165,7 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Variation != null)
-      {
-        if (ResourceTyped.Variation.End != null)
-        {
-          if (ResourceTyped.Variation.EndElement is Hl7.Fhir.Model.Integer)
-          {
-            var Index = new NumberIndex();
-            Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(ResourceTyped.Variation.EndElement, Index) as NumberIndex;
-            if (Index != null)
-            {
-              ResourseEntity.end_Comparator = Index.Comparator;
-              ResourseEntity.end_Quantity = Index.Quantity;
-            }
-          }
-        }
-      }
-
-      if (ResourceTyped.Patient != null)
+          if (ResourceTyped.Patient != null)
       {
         if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
         {
@@ -206,23 +187,6 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Variation != null)
-      {
-        if (ResourceTyped.Variation.Start != null)
-        {
-          if (ResourceTyped.Variation.StartElement is Hl7.Fhir.Model.Integer)
-          {
-            var Index = new NumberIndex();
-            Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(ResourceTyped.Variation.StartElement, Index) as NumberIndex;
-            if (Index != null)
-            {
-              ResourseEntity.start_Comparator = Index.Comparator;
-              ResourseEntity.start_Quantity = Index.Quantity;
-            }
-          }
-        }
-      }
-
       if (ResourceTyped.Type != null)
       {
         if (ResourceTyped.TypeElement is Hl7.Fhir.Model.Code)
@@ -237,11 +201,11 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.ReferenceSeq)
+      if (ResourceTyped.ReferenceSeq != null)
       {
-        if (item1.Chromosome != null)
+        if (ResourceTyped.ReferenceSeq.Chromosome != null)
         {
-          foreach (var item4 in item1.Chromosome.Coding)
+          foreach (var item4 in ResourceTyped.ReferenceSeq.Chromosome.Coding)
           {
             var Index = new Res_Sequence_Index_chromosome();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Sequence_Index_chromosome;
@@ -250,13 +214,29 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Species != null)
+      foreach (var item1 in ResourceTyped.Variant)
       {
-        foreach (var item3 in ResourceTyped.Species.Coding)
+        if (item1.End != null)
         {
-          var Index = new Res_Sequence_Index_species();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Sequence_Index_species;
-          ResourseEntity.species_List.Add(Index);
+          if (item1.EndElement is Hl7.Fhir.Model.Integer)
+          {
+            var Index = new Res_Sequence_Index_end();
+            Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(item1.EndElement, Index) as Res_Sequence_Index_end;
+            ResourseEntity.end_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Variant)
+      {
+        if (item1.Start != null)
+        {
+          if (item1.StartElement is Hl7.Fhir.Model.Integer)
+          {
+            var Index = new Res_Sequence_Index_start();
+            Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(item1.StartElement, Index) as Res_Sequence_Index_start;
+            ResourseEntity.start_List.Add(Index);
+          }
         }
       }
 

@@ -26,23 +26,23 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.created_DateTimeOffset).IsOptional();
       Property(x => x.disposition_String).IsOptional();
-      Property(x => x.organizationidentifier_Code).IsOptional();
-      Property(x => x.organizationidentifier_System).IsOptional();
-      Property(x => x.organizationreference_VersionId).IsOptional();
-      Property(x => x.organizationreference_FhirId).IsOptional();
-      Property(x => x.organizationreference_Type).IsOptional();
-      HasOptional(x => x.organizationreference_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_ServiceRootURL_StoreID);
+      Property(x => x.organization_identifier_Code).IsOptional();
+      Property(x => x.organization_identifier_System).IsOptional();
+      Property(x => x.organization_reference_VersionId).IsOptional();
+      Property(x => x.organization_reference_FhirId).IsOptional();
+      Property(x => x.organization_reference_Type).IsOptional();
+      HasOptional(x => x.organization_reference_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.organization_reference_Url).WithMany().HasForeignKey(x => x.organization_reference_ServiceRootURL_StoreID);
       Property(x => x.outcome_Code).IsOptional();
       Property(x => x.outcome_System).IsOptional();
       Property(x => x.paymentdate_Date).IsOptional();
-      Property(x => x.requestidentifier_Code).IsOptional();
-      Property(x => x.requestidentifier_System).IsOptional();
-      Property(x => x.requestreference_VersionId).IsOptional();
-      Property(x => x.requestreference_FhirId).IsOptional();
-      Property(x => x.requestreference_Type).IsOptional();
-      HasOptional(x => x.requestreference_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.requestreference_Url).WithMany().HasForeignKey(x => x.requestreference_ServiceRootURL_StoreID);
+      Property(x => x.request_identifier_Code).IsOptional();
+      Property(x => x.request_identifier_System).IsOptional();
+      Property(x => x.request_reference_VersionId).IsOptional();
+      Property(x => x.request_reference_FhirId).IsOptional();
+      Property(x => x.request_reference_Type).IsOptional();
+      HasOptional(x => x.request_reference_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.request_reference_Url).WithMany().HasForeignKey(x => x.request_reference_ServiceRootURL_StoreID);
     }
   }
 }

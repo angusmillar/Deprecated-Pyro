@@ -13,16 +13,20 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_EnrollmentRequest : ResourceIndexBase
   {
     public int Res_EnrollmentRequestID {get; set;}
-    public string patient_VersionId {get; set;}
-    public string patient_FhirId {get; set;}
-    public string patient_Type {get; set;}
-    public virtual ServiceRootURL_Store patient_Url { get; set; }
-    public int? patient_ServiceRootURL_StoreID { get; set; }
-    public string subject_VersionId {get; set;}
-    public string subject_FhirId {get; set;}
-    public string subject_Type {get; set;}
-    public virtual ServiceRootURL_Store subject_Url { get; set; }
-    public int? subject_ServiceRootURL_StoreID { get; set; }
+    public string patient_identifier_Code {get; set;}
+    public string patient_identifier_System {get; set;}
+    public string patient_reference_VersionId {get; set;}
+    public string patient_reference_FhirId {get; set;}
+    public string patient_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store patient_reference_Url { get; set; }
+    public int? patient_reference_ServiceRootURL_StoreID { get; set; }
+    public string subject_identifier_Code {get; set;}
+    public string subject_identifier_System {get; set;}
+    public string subject_reference_VersionId {get; set;}
+    public string subject_reference_FhirId {get; set;}
+    public string subject_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store subject_reference_Url { get; set; }
+    public int? subject_reference_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_EnrollmentRequest_History> Res_EnrollmentRequest_History_List { get; set; }
     public ICollection<Res_EnrollmentRequest_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_EnrollmentRequest_Index__profile> _profile_List { get; set; }

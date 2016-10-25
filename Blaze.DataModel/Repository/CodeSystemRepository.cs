@@ -142,6 +142,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_CodeSystem ResourceEntity)
     {
+      ResourceEntity.content_Code = null;      
+      ResourceEntity.content_System = null;      
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.description_String = null;      
       ResourceEntity.identifier_Code = null;      
@@ -170,7 +172,21 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Date != null)
+          if (ResourceTyped.Content != null)
+      {
+        if (ResourceTyped.ContentElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.CodeSystem.CodeSystemContentMode>)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ContentElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.content_Code = Index.Code;
+            ResourseEntity.content_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Date != null)
       {
         if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
         {
@@ -185,10 +201,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;

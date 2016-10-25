@@ -132,6 +132,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.diagnosis_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.image_List);
+      IncludeList.Add(x => x.performer_List);
       IncludeList.Add(x => x.request_List);
       IncludeList.Add(x => x.result_List);
       IncludeList.Add(x => x.specimen_List);
@@ -162,11 +163,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
-      ResourceEntity.performer_VersionId = null;      
-      ResourceEntity.performer_FhirId = null;      
-      ResourceEntity.performer_Type = null;      
-      ResourceEntity.performer_Url = null;      
-      ResourceEntity.performer_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
       ResourceEntity.subject_VersionId = null;      
@@ -182,6 +178,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_DiagnosticReport_Index_diagnosis.RemoveRange(ResourceEntity.diagnosis_List);            
       _Context.Res_DiagnosticReport_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_DiagnosticReport_Index_image.RemoveRange(ResourceEntity.image_List);            
+      _Context.Res_DiagnosticReport_Index_performer.RemoveRange(ResourceEntity.performer_List);            
       _Context.Res_DiagnosticReport_Index_request.RemoveRange(ResourceEntity.request_List);            
       _Context.Res_DiagnosticReport_Index_result.RemoveRange(ResourceEntity.result_List);            
       _Context.Res_DiagnosticReport_Index_specimen.RemoveRange(ResourceEntity.specimen_List);            
@@ -275,28 +272,6 @@ namespace Blaze.DataModel.Repository
             else
             {
               ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
-            }
-          }
-        }
-      }
-
-      if (ResourceTyped.Performer != null)
-      {
-        if (ResourceTyped.Performer is Hl7.Fhir.Model.ResourceReference)
-        {
-          var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Performer, Index, FhirRequestUri, this) as ReferenceIndex;
-          if (Index != null)
-          {
-            ResourseEntity.performer_Type = Index.Type;
-            ResourseEntity.performer_FhirId = Index.FhirId;
-            if (Index.Url != null)
-            {
-              ResourseEntity.performer_Url = Index.Url;
-            }
-            else
-            {
-              ResourseEntity.performer_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -398,6 +373,22 @@ namespace Blaze.DataModel.Repository
             if (Index != null)
             {
               ResourseEntity.image_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Performer != null)
+      {
+        foreach (var item in ResourceTyped.Performer)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_DiagnosticReport_Index_performer();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_DiagnosticReport_Index_performer;
+            if (Index != null)
+            {
+              ResourseEntity.performer_List.Add(Index);
             }
           }
         }

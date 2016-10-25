@@ -4,6 +4,7 @@ using Blaze.DataModel.IndexSetter;
 using Blaze.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
+using Hl7.Fhir.Introspection;
 
 namespace Blaze.Test.IndexSetters
 {
@@ -15,7 +16,8 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       Bundle.BundleType TheCode = Bundle.BundleType.Document;
-      string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.BundleType)).GetLiteral(TheCode);
+      string CodeString = TheCode.GetLiteral();
+      //string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.BundleType)).GetLiteral(TheCode);
 
       var Code = new Code<Bundle.BundleType>();
       Code.Value = TheCode;
@@ -56,7 +58,8 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       Bundle.BundleType TheCode = Bundle.BundleType.Document;
-      string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.BundleType)).GetLiteral(TheCode);
+      string CodeString = TheCode.GetLiteral();
+      //string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.BundleType)).GetLiteral(TheCode);
 
       Code<Bundle.BundleType> Code = null;
 
@@ -89,7 +92,8 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange
       var TheCode = Hl7.Fhir.Model.Bundle.SearchEntryMode.Include;
-      string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.SearchEntryMode)).GetLiteral(TheCode);
+      string CodeString = TheCode.GetLiteral();
+      //string CodeString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.Bundle.SearchEntryMode)).GetLiteral(TheCode);
 
       var Code = new Code<Bundle.SearchEntryMode>();
       Code.Value = TheCode;
@@ -269,7 +273,8 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string TheValue = "angusmillar@iinet.net.au";
       ContactPoint.ContactPointSystem TheSystem = Hl7.Fhir.Model.ContactPoint.ContactPointSystem.Email;
-      string TheSystemString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(TheSystem);
+      string TheSystemString = TheSystem.GetLiteral();
+      //string TheSystemString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(TheSystem);
 
       var ContactPoint = new ContactPoint();
       ContactPoint.Value = TheValue;
@@ -307,7 +312,8 @@ namespace Blaze.Test.IndexSetters
     {
       //Arrange      
       ContactPoint.ContactPointSystem TheSystem = Hl7.Fhir.Model.ContactPoint.ContactPointSystem.Email;
-      string TheSystemString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(TheSystem);
+      string TheSystemString = TheSystem.GetLiteral();
+      //string TheSystemString = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(TheSystem);
 
       var ContactPoint = new ContactPoint();
       ContactPoint.System = TheSystem;

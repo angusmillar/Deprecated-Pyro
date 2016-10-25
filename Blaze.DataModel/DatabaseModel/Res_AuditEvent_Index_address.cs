@@ -10,7 +10,7 @@ using Blaze.DataModel.DatabaseModel.Base;
 namespace Blaze.DataModel.DatabaseModel
 {
 
-  public class Res_AuditEvent_Index_address : TokenIndex
+  public class Res_AuditEvent_Index_address : StringIndex
   {
     public int Res_AuditEvent_Index_addressID {get; set;}
     public virtual Res_AuditEvent Res_AuditEvent { get; set; }

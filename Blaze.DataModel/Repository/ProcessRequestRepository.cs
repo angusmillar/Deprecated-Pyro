@@ -142,20 +142,20 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.action_Code = null;      
       ResourceEntity.action_System = null;      
-      ResourceEntity.organizationidentifier_Code = null;      
-      ResourceEntity.organizationidentifier_System = null;      
-      ResourceEntity.organizationreference_VersionId = null;      
-      ResourceEntity.organizationreference_FhirId = null;      
-      ResourceEntity.organizationreference_Type = null;      
-      ResourceEntity.organizationreference_Url = null;      
-      ResourceEntity.organizationreference_ServiceRootURL_StoreID = null;      
-      ResourceEntity.provideridentifier_Code = null;      
-      ResourceEntity.provideridentifier_System = null;      
-      ResourceEntity.providerreference_VersionId = null;      
-      ResourceEntity.providerreference_FhirId = null;      
-      ResourceEntity.providerreference_Type = null;      
-      ResourceEntity.providerreference_Url = null;      
-      ResourceEntity.providerreference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.organization_identifier_Code = null;      
+      ResourceEntity.organization_identifier_System = null;      
+      ResourceEntity.organization_reference_VersionId = null;      
+      ResourceEntity.organization_reference_FhirId = null;      
+      ResourceEntity.organization_reference_Type = null;      
+      ResourceEntity.organization_reference_Url = null;      
+      ResourceEntity.organization_reference_ServiceRootURL_StoreID = null;      
+      ResourceEntity.provider_identifier_Code = null;      
+      ResourceEntity.provider_identifier_System = null;      
+      ResourceEntity.provider_reference_VersionId = null;      
+      ResourceEntity.provider_reference_FhirId = null;      
+      ResourceEntity.provider_reference_Type = null;      
+      ResourceEntity.provider_reference_Url = null;      
+      ResourceEntity.provider_reference_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -192,8 +192,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Organization, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.organizationidentifier_Code = Index.Code;
-            ResourseEntity.organizationidentifier_System = Index.System;
+            ResourseEntity.organization_identifier_Code = Index.Code;
+            ResourseEntity.organization_identifier_System = Index.System;
           }
         }
       }
@@ -206,15 +206,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Organization, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.organizationreference_Type = Index.Type;
-            ResourseEntity.organizationreference_FhirId = Index.FhirId;
+            ResourseEntity.organization_reference_Type = Index.Type;
+            ResourseEntity.organization_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.organizationreference_Url = Index.Url;
+              ResourseEntity.organization_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.organizationreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.organization_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -228,8 +228,8 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Provider, Index) as TokenIndex;
           if (Index != null)
           {
-            ResourseEntity.provideridentifier_Code = Index.Code;
-            ResourseEntity.provideridentifier_System = Index.System;
+            ResourseEntity.provider_identifier_Code = Index.Code;
+            ResourseEntity.provider_identifier_System = Index.System;
           }
         }
       }
@@ -242,15 +242,15 @@ namespace Blaze.DataModel.Repository
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Provider, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.providerreference_Type = Index.Type;
-            ResourseEntity.providerreference_FhirId = Index.FhirId;
+            ResourseEntity.provider_reference_Type = Index.Type;
+            ResourseEntity.provider_reference_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.providerreference_Url = Index.Url;
+              ResourseEntity.provider_reference_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.providerreference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.provider_reference_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

@@ -18,6 +18,8 @@ namespace Blaze.DataModel.DatabaseModel
     public string appointment_Type {get; set;}
     public virtual ServiceRootURL_Store appointment_Url { get; set; }
     public int? appointment_ServiceRootURL_StoreID { get; set; }
+    public string class_Code {get; set;}
+    public string class_System {get; set;}
     public DateTimeOffset? date_DateTimeOffsetLow {get; set;}
     public DateTimeOffset? date_DateTimeOffsetHigh {get; set;}
     public Hl7.Fhir.Model.Quantity.QuantityComparator? length_Comparator {get; set;}

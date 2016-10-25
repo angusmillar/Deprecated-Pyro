@@ -20,7 +20,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Substance_Index_expiry> expiry_List { get; set; }
     public ICollection<Res_Substance_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Substance_Index_quantity> quantity_List { get; set; }
-    public ICollection<Res_Substance_Index_substance> substance_List { get; set; }
+    public ICollection<Res_Substance_Index_substance_reference> substance_reference_List { get; set; }
     public ICollection<Res_Substance_Index__profile> _profile_List { get; set; }
     public ICollection<Res_Substance_Index__security> _security_List { get; set; }
     public ICollection<Res_Substance_Index__tag> _tag_List { get; set; }
@@ -33,7 +33,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.expiry_List = new HashSet<Res_Substance_Index_expiry>();
       this.identifier_List = new HashSet<Res_Substance_Index_identifier>();
       this.quantity_List = new HashSet<Res_Substance_Index_quantity>();
-      this.substance_List = new HashSet<Res_Substance_Index_substance>();
+      this.substance_reference_List = new HashSet<Res_Substance_Index_substance_reference>();
       this._profile_List = new HashSet<Res_Substance_Index__profile>();
       this._security_List = new HashSet<Res_Substance_Index__security>();
       this._tag_List = new HashSet<Res_Substance_Index__tag>();

@@ -26,11 +26,6 @@ namespace Blaze.DataModel.DatabaseModel
     public string patient_Type {get; set;}
     public virtual ServiceRootURL_Store patient_Url { get; set; }
     public int? patient_ServiceRootURL_StoreID { get; set; }
-    public string performer_VersionId {get; set;}
-    public string performer_FhirId {get; set;}
-    public string performer_Type {get; set;}
-    public virtual ServiceRootURL_Store performer_Url { get; set; }
-    public int? performer_ServiceRootURL_StoreID { get; set; }
     public string status_Code {get; set;}
     public string status_System {get; set;}
     public string subject_VersionId {get; set;}
@@ -44,6 +39,7 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_DiagnosticReport_Index_diagnosis> diagnosis_List { get; set; }
     public ICollection<Res_DiagnosticReport_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_DiagnosticReport_Index_image> image_List { get; set; }
+    public ICollection<Res_DiagnosticReport_Index_performer> performer_List { get; set; }
     public ICollection<Res_DiagnosticReport_Index_request> request_List { get; set; }
     public ICollection<Res_DiagnosticReport_Index_result> result_List { get; set; }
     public ICollection<Res_DiagnosticReport_Index_specimen> specimen_List { get; set; }
@@ -58,6 +54,7 @@ namespace Blaze.DataModel.DatabaseModel
       this.diagnosis_List = new HashSet<Res_DiagnosticReport_Index_diagnosis>();
       this.identifier_List = new HashSet<Res_DiagnosticReport_Index_identifier>();
       this.image_List = new HashSet<Res_DiagnosticReport_Index_image>();
+      this.performer_List = new HashSet<Res_DiagnosticReport_Index_performer>();
       this.request_List = new HashSet<Res_DiagnosticReport_Index_request>();
       this.result_List = new HashSet<Res_DiagnosticReport_Index_result>();
       this.specimen_List = new HashSet<Res_DiagnosticReport_Index_specimen>();

@@ -26,20 +26,20 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.action_Code).IsOptional();
       Property(x => x.action_System).IsOptional();
-      Property(x => x.organizationidentifier_Code).IsOptional();
-      Property(x => x.organizationidentifier_System).IsOptional();
-      Property(x => x.organizationreference_VersionId).IsOptional();
-      Property(x => x.organizationreference_FhirId).IsOptional();
-      Property(x => x.organizationreference_Type).IsOptional();
-      HasOptional(x => x.organizationreference_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.organizationreference_Url).WithMany().HasForeignKey(x => x.organizationreference_ServiceRootURL_StoreID);
-      Property(x => x.provideridentifier_Code).IsOptional();
-      Property(x => x.provideridentifier_System).IsOptional();
-      Property(x => x.providerreference_VersionId).IsOptional();
-      Property(x => x.providerreference_FhirId).IsOptional();
-      Property(x => x.providerreference_Type).IsOptional();
-      HasOptional(x => x.providerreference_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.providerreference_Url).WithMany().HasForeignKey(x => x.providerreference_ServiceRootURL_StoreID);
+      Property(x => x.organization_identifier_Code).IsOptional();
+      Property(x => x.organization_identifier_System).IsOptional();
+      Property(x => x.organization_reference_VersionId).IsOptional();
+      Property(x => x.organization_reference_FhirId).IsOptional();
+      Property(x => x.organization_reference_Type).IsOptional();
+      HasOptional(x => x.organization_reference_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.organization_reference_Url).WithMany().HasForeignKey(x => x.organization_reference_ServiceRootURL_StoreID);
+      Property(x => x.provider_identifier_Code).IsOptional();
+      Property(x => x.provider_identifier_System).IsOptional();
+      Property(x => x.provider_reference_VersionId).IsOptional();
+      Property(x => x.provider_reference_FhirId).IsOptional();
+      Property(x => x.provider_reference_Type).IsOptional();
+      HasOptional(x => x.provider_reference_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.provider_reference_Url).WithMany().HasForeignKey(x => x.provider_reference_ServiceRootURL_StoreID);
     }
   }
 }

@@ -145,6 +145,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_HealthcareService ResourceEntity)
     {
+      ResourceEntity.active_Code = null;      
+      ResourceEntity.active_System = null;      
       ResourceEntity.name_String = null;      
       ResourceEntity.organization_VersionId = null;      
       ResourceEntity.organization_FhirId = null;      
@@ -170,7 +172,21 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.ServiceName != null)
+          if (ResourceTyped.Active != null)
+      {
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ActiveElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.ServiceName != null)
       {
         if (ResourceTyped.ServiceNameElement is Hl7.Fhir.Model.FhirString)
         {

@@ -363,14 +363,14 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Note != null)
+      foreach (var item1 in ResourceTyped.Note)
       {
-        foreach (var item3 in ResourceTyped.Note)
+        if (item1.Text != null)
         {
-          if (item3 is Hl7.Fhir.Model.Annotation)
+          if (item1.TextElement is Hl7.Fhir.Model.FhirString)
           {
             var Index = new Res_List_Index_notes();
-            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3, Index) as Res_List_Index_notes;
+            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item1.TextElement, Index) as Res_List_Index_notes;
             ResourseEntity.notes_List.Add(Index);
           }
         }

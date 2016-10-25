@@ -204,12 +204,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Date != null)
+      if (ResourceTyped.Occurrence != null)
       {
-        if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
+        if (ResourceTyped.Occurrence is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.DateElement, Index) as DateTimeIndex;
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.Occurrence, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
@@ -217,12 +217,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Encounter != null)
+      if (ResourceTyped.Context != null)
       {
-        if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Encounter, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.encounter_Type = Index.Type;

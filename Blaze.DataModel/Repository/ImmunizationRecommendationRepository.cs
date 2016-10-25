@@ -227,7 +227,7 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Protocol.DoseSequence != null)
           {
-            if (item1.Protocol.DoseSequenceElement is Hl7.Fhir.Model.Integer)
+            if (item1.Protocol.DoseSequenceElement is Hl7.Fhir.Model.PositiveInt)
             {
               var Index = new Res_ImmunizationRecommendation_Index_dose_sequence();
               Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(item1.Protocol.DoseSequenceElement, Index) as Res_ImmunizationRecommendation_Index_dose_sequence;

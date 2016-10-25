@@ -13,6 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Practitioner : ResourceIndexBase
   {
     public int Res_PractitionerID {get; set;}
+    public string active_Code {get; set;}
+    public string active_System {get; set;}
     public string gender_Code {get; set;}
     public string gender_System {get; set;}
     public ICollection<Res_Practitioner_History> Res_Practitioner_History_List { get; set; }

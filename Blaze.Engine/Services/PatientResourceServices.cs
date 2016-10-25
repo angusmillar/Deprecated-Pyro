@@ -28,7 +28,7 @@ namespace Blaze.Engine.Services
       : base(IUnitOfWork) 
     {
       _ResourceRepository = _UnitOfWork.PatientRepository;
-      _CurrentResourceType = FHIRDefinedType.Patient;
+      _CurrentResourceType = FHIRAllTypes.Patient;
     }
 
   }

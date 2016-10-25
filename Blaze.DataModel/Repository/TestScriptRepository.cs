@@ -128,8 +128,7 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_TestScript, object>>>();
       IncludeList.Add(x => x.testscript_capability_List);
-      IncludeList.Add(x => x.testscript_setup_capability_List);
-      IncludeList.Add(x => x.testscript_test_capability_List);
+      IncludeList.Add(x => x.use_context_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -142,17 +141,18 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_TestScript ResourceEntity)
     {
+      ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.description_String = null;      
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
       ResourceEntity.name_String = null;      
+      ResourceEntity.publisher_String = null;      
       ResourceEntity.url_Uri = null;      
       ResourceEntity.XmlBlob = null;      
  
       
       _Context.Res_TestScript_Index_testscript_capability.RemoveRange(ResourceEntity.testscript_capability_List);            
-      _Context.Res_TestScript_Index_testscript_setup_capability.RemoveRange(ResourceEntity.testscript_setup_capability_List);            
-      _Context.Res_TestScript_Index_testscript_test_capability.RemoveRange(ResourceEntity.testscript_test_capability_List);            
+      _Context.Res_TestScript_Index_use_context.RemoveRange(ResourceEntity.use_context_List);            
       _Context.Res_TestScript_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_TestScript_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_TestScript_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -163,12 +163,25 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Description != null)
+          if (ResourceTyped.Date != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.DateElement is Hl7.Fhir.Model.FhirDateTime)
+        {
+          var Index = new DateTimeIndex();
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.DateElement, Index) as DateTimeIndex;
+          if (Index != null)
+          {
+            ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
+          }
+        }
+      }
+
+      if (ResourceTyped.Description != null)
+      {
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;
@@ -203,6 +216,19 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Publisher != null)
+      {
+        if (ResourceTyped.PublisherElement is Hl7.Fhir.Model.FhirString)
+        {
+          var Index = new StringIndex();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.PublisherElement, Index) as StringIndex;
+          if (Index != null)
+          {
+            ResourseEntity.publisher_String = Index.String;
+          }
+        }
+      }
+
       if (ResourceTyped.Url != null)
       {
         if (ResourceTyped.UrlElement is Hl7.Fhir.Model.FhirUri)
@@ -232,39 +258,17 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Setup != null)
+      if (ResourceTyped.UseContext != null)
       {
-        if (ResourceTyped.Setup.Metadata != null)
+        foreach (var item3 in ResourceTyped.UseContext)
         {
-          foreach (var item3 in ResourceTyped.Setup.Metadata.Capability)
+          if (item3 != null)
           {
-            if (item3.Description != null)
+            foreach (var item4 in item3.Coding)
             {
-              if (item3.DescriptionElement is Hl7.Fhir.Model.FhirString)
-              {
-                var Index = new Res_TestScript_Index_testscript_setup_capability();
-                Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3.DescriptionElement, Index) as Res_TestScript_Index_testscript_setup_capability;
-                ResourseEntity.testscript_setup_capability_List.Add(Index);
-              }
-            }
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Test)
-      {
-        if (item1.Metadata != null)
-        {
-          foreach (var item3 in item1.Metadata.Capability)
-          {
-            if (item3.Description != null)
-            {
-              if (item3.DescriptionElement is Hl7.Fhir.Model.FhirString)
-              {
-                var Index = new Res_TestScript_Index_testscript_test_capability();
-                Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3.DescriptionElement, Index) as Res_TestScript_Index_testscript_test_capability;
-                ResourseEntity.testscript_test_capability_List.Add(Index);
-              }
+              var Index = new Res_TestScript_Index_use_context();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_TestScript_Index_use_context;
+              ResourseEntity.use_context_List.Add(Index);
             }
           }
         }

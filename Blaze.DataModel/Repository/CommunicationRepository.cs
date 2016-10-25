@@ -127,6 +127,7 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_Communication, object>>>();
+      IncludeList.Add(x => x.based_on_List);
       IncludeList.Add(x => x.category_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.medium_List);
@@ -143,22 +144,17 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Communication ResourceEntity)
     {
-      ResourceEntity.encounter_VersionId = null;      
-      ResourceEntity.encounter_FhirId = null;      
-      ResourceEntity.encounter_Type = null;      
-      ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.context_VersionId = null;      
+      ResourceEntity.context_FhirId = null;      
+      ResourceEntity.context_Type = null;      
+      ResourceEntity.context_Url = null;      
+      ResourceEntity.context_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.received_DateTimeOffset = null;      
-      ResourceEntity.request_VersionId = null;      
-      ResourceEntity.request_FhirId = null;      
-      ResourceEntity.request_Type = null;      
-      ResourceEntity.request_Url = null;      
-      ResourceEntity.request_ServiceRootURL_StoreID = null;      
       ResourceEntity.sender_VersionId = null;      
       ResourceEntity.sender_FhirId = null;      
       ResourceEntity.sender_Type = null;      
@@ -175,6 +171,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_Communication_Index_based_on.RemoveRange(ResourceEntity.based_on_List);            
       _Context.Res_Communication_Index_category.RemoveRange(ResourceEntity.category_List);            
       _Context.Res_Communication_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Communication_Index_medium.RemoveRange(ResourceEntity.medium_List);            
@@ -189,23 +186,23 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Encounter != null)
+          if (ResourceTyped.Context != null)
       {
-        if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Encounter, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.encounter_Type = Index.Type;
-            ResourseEntity.encounter_FhirId = Index.FhirId;
+            ResourseEntity.context_Type = Index.Type;
+            ResourseEntity.context_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.encounter_Url = Index.Url;
+              ResourseEntity.context_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.context_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -242,28 +239,6 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.received_DateTimeOffset = Index.DateTimeOffset;
-          }
-        }
-      }
-
-      if (ResourceTyped.RequestDetail != null)
-      {
-        if (ResourceTyped.RequestDetail is Hl7.Fhir.Model.ResourceReference)
-        {
-          var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.RequestDetail, Index, FhirRequestUri, this) as ReferenceIndex;
-          if (Index != null)
-          {
-            ResourseEntity.request_Type = Index.Type;
-            ResourseEntity.request_FhirId = Index.FhirId;
-            if (Index.Url != null)
-            {
-              ResourseEntity.request_Url = Index.Url;
-            }
-            else
-            {
-              ResourseEntity.request_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
-            }
           }
         }
       }
@@ -334,6 +309,22 @@ namespace Blaze.DataModel.Repository
             else
             {
               ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.BasedOn != null)
+      {
+        foreach (var item in ResourceTyped.BasedOn)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_Communication_Index_based_on();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_Communication_Index_based_on;
+            if (Index != null)
+            {
+              ResourseEntity.based_on_List.Add(Index);
             }
           }
         }

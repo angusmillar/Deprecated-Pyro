@@ -281,9 +281,9 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Role != null)
+      if (ResourceTyped.Code != null)
       {
-        foreach (var item3 in ResourceTyped.Role)
+        foreach (var item3 in ResourceTyped.Code)
         {
           if (item3 != null)
           {

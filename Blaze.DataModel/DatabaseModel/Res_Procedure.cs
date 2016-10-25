@@ -36,6 +36,7 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual ServiceRootURL_Store subject_Url { get; set; }
     public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Procedure_History> Res_Procedure_History_List { get; set; }
+    public ICollection<Res_Procedure_Index_category> category_List { get; set; }
     public ICollection<Res_Procedure_Index_code> code_List { get; set; }
     public ICollection<Res_Procedure_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Procedure_Index_performer> performer_List { get; set; }
@@ -45,6 +46,7 @@ namespace Blaze.DataModel.DatabaseModel
    
     public Res_Procedure()
     {
+      this.category_List = new HashSet<Res_Procedure_Index_category>();
       this.code_List = new HashSet<Res_Procedure_Index_code>();
       this.identifier_List = new HashSet<Res_Procedure_Index_identifier>();
       this.performer_List = new HashSet<Res_Procedure_Index_performer>();

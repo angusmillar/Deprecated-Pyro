@@ -11,15 +11,15 @@ namespace Blaze.Engine.Validation
 {
   public static class ResourceValidationFactory
   {
-    public static IResourceValidation GetValidationInstance(FHIRDefinedType FhirResourceType)
+    public static IResourceValidation GetValidationInstance(FHIRAllTypes FhirResourceType)
     {
       switch (FhirResourceType)
       {
-        case FHIRDefinedType.Patient:
+        case FHIRAllTypes.Patient:
           return new PatientResourceValidation();
-        case FHIRDefinedType.ValueSet:
+        case FHIRAllTypes.ValueSet:
           return new ValueSetResourceValidation();
-        case FHIRDefinedType.ConceptMap:
+        case FHIRAllTypes.ConceptMap:
           return new ConceptMapResourceValidation();
         default:
           return new DefaultResourceValidation();

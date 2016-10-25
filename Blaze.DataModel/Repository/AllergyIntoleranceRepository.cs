@@ -127,13 +127,13 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_AllergyIntolerance, object>>>();
+      IncludeList.Add(x => x.code_List);
+      IncludeList.Add(x => x.code_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.manifestation_List);
       IncludeList.Add(x => x.onset_List);
       IncludeList.Add(x => x.route_List);
       IncludeList.Add(x => x.severity_List);
-      IncludeList.Add(x => x.substance_List);
-      IncludeList.Add(x => x.substance_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -174,13 +174,13 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_AllergyIntolerance_Index_code.RemoveRange(ResourceEntity.code_List);            
+      _Context.Res_AllergyIntolerance_Index_code.RemoveRange(ResourceEntity.code_List);            
       _Context.Res_AllergyIntolerance_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_AllergyIntolerance_Index_manifestation.RemoveRange(ResourceEntity.manifestation_List);            
       _Context.Res_AllergyIntolerance_Index_onset.RemoveRange(ResourceEntity.onset_List);            
       _Context.Res_AllergyIntolerance_Index_route.RemoveRange(ResourceEntity.route_List);            
       _Context.Res_AllergyIntolerance_Index_severity.RemoveRange(ResourceEntity.severity_List);            
-      _Context.Res_AllergyIntolerance_Index_substance.RemoveRange(ResourceEntity.substance_List);            
-      _Context.Res_AllergyIntolerance_Index_substance.RemoveRange(ResourceEntity.substance_List);            
       _Context.Res_AllergyIntolerance_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_AllergyIntolerance_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_AllergyIntolerance_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -219,12 +219,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.RecordedDate != null)
+      if (ResourceTyped.AttestedDate != null)
       {
-        if (ResourceTyped.RecordedDateElement is Hl7.Fhir.Model.FhirDateTime)
+        if (ResourceTyped.AttestedDateElement is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.RecordedDateElement, Index) as DateTimeIndex;
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.AttestedDateElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.date_DateTimeOffset = Index.DateTimeOffset;
@@ -232,12 +232,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.LastOccurence != null)
+      if (ResourceTyped.LastOccurrence != null)
       {
-        if (ResourceTyped.LastOccurenceElement is Hl7.Fhir.Model.FhirDateTime)
+        if (ResourceTyped.LastOccurrenceElement is Hl7.Fhir.Model.FhirDateTime)
         {
           var Index = new DateTimeIndex();
-          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.LastOccurenceElement, Index) as DateTimeIndex;
+          Index = IndexSetterFactory.Create(typeof(DateTimeIndex)).Set(ResourceTyped.LastOccurrenceElement, Index) as DateTimeIndex;
           if (Index != null)
           {
             ResourseEntity.last_date_DateTimeOffset = Index.DateTimeOffset;
@@ -339,6 +339,29 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Code != null)
+      {
+        foreach (var item3 in ResourceTyped.Code.Coding)
+        {
+          var Index = new Res_AllergyIntolerance_Index_code();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_AllergyIntolerance_Index_code;
+          ResourseEntity.code_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Reaction)
+      {
+        if (item1.Substance != null)
+        {
+          foreach (var item4 in item1.Substance.Coding)
+          {
+            var Index = new Res_AllergyIntolerance_Index_code();
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_AllergyIntolerance_Index_code;
+            ResourseEntity.code_List.Add(Index);
+          }
+        }
+      }
+
       if (ResourceTyped.Identifier != null)
       {
         foreach (var item3 in ResourceTyped.Identifier)
@@ -406,29 +429,6 @@ namespace Blaze.DataModel.Repository
             var Index = new Res_AllergyIntolerance_Index_severity();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item1.SeverityElement, Index) as Res_AllergyIntolerance_Index_severity;
             ResourseEntity.severity_List.Add(Index);
-          }
-        }
-      }
-
-      if (ResourceTyped.Substance != null)
-      {
-        foreach (var item3 in ResourceTyped.Substance.Coding)
-        {
-          var Index = new Res_AllergyIntolerance_Index_substance();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_AllergyIntolerance_Index_substance;
-          ResourseEntity.substance_List.Add(Index);
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Reaction)
-      {
-        if (item1.Substance != null)
-        {
-          foreach (var item4 in item1.Substance.Coding)
-          {
-            var Index = new Res_AllergyIntolerance_Index_substance();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_AllergyIntolerance_Index_substance;
-            ResourseEntity.substance_List.Add(Index);
           }
         }
       }

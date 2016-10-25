@@ -139,6 +139,16 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_GuidanceResponse ResourceEntity)
     {
+      ResourceEntity.patient_VersionId = null;      
+      ResourceEntity.patient_FhirId = null;      
+      ResourceEntity.patient_Type = null;      
+      ResourceEntity.patient_Url = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.subject_VersionId = null;      
+      ResourceEntity.subject_FhirId = null;      
+      ResourceEntity.subject_Type = null;      
+      ResourceEntity.subject_Url = null;      
+      ResourceEntity.subject_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -152,7 +162,51 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.Meta != null)
+          if (ResourceTyped.Subject != null)
+      {
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.patient_Type = Index.Type;
+            ResourseEntity.patient_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.patient_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Subject != null)
+      {
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.subject_Type = Index.Type;
+            ResourseEntity.subject_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.subject_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Meta != null)
       {
         if (ResourceTyped.Meta.Profile != null)
         {

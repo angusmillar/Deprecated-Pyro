@@ -169,11 +169,11 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.target_Type = null;      
       ResourceEntity.target_Url = null;      
       ResourceEntity.target_ServiceRootURL_StoreID = null;      
-      ResourceEntity.target_VersionId = null;      
-      ResourceEntity.target_FhirId = null;      
-      ResourceEntity.target_Type = null;      
-      ResourceEntity.target_Url = null;      
-      ResourceEntity.target_ServiceRootURL_StoreID = null;      
+      ResourceEntity.target_uri_VersionId = null;      
+      ResourceEntity.target_uri_FhirId = null;      
+      ResourceEntity.target_uri_Type = null;      
+      ResourceEntity.target_uri_Url = null;      
+      ResourceEntity.target_uri_ServiceRootURL_StoreID = null;      
       ResourceEntity.url_Uri = null;      
       ResourceEntity.version_Code = null;      
       ResourceEntity.version_System = null;      
@@ -212,10 +212,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;
@@ -323,7 +323,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Target != null)
       {
-        if (ResourceTyped.Target is Hl7.Fhir.Model.FhirUri)
+        if (ResourceTyped.Target is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Target, Index, FhirRequestUri, this) as ReferenceIndex;
@@ -345,21 +345,21 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Target != null)
       {
-        if (ResourceTyped.Target is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Target is Hl7.Fhir.Model.FhirUri)
         {
           var Index = new ReferenceIndex();
           Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Target, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.target_Type = Index.Type;
-            ResourseEntity.target_FhirId = Index.FhirId;
+            ResourseEntity.target_uri_Type = Index.Type;
+            ResourseEntity.target_uri_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.target_Url = Index.Url;
+              ResourseEntity.target_uri_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.target_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.target_uri_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -408,98 +408,107 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      foreach (var item1 in ResourceTyped.Element)
+      foreach (var item1 in ResourceTyped.Group)
       {
-        foreach (var item2 in item1.Target)
+        foreach (var item2 in item1.Element)
         {
-          foreach (var item3 in item2.DependsOn)
+          foreach (var item3 in item2.Target)
           {
-            if (item3.Element != null)
+            foreach (var item4 in item3.DependsOn)
             {
-              if (item3.ElementElement is Hl7.Fhir.Model.FhirUri)
+              if (item4.Property != null)
               {
-                var Index = new Res_ConceptMap_Index_dependson();
-                Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item3.ElementElement, Index) as Res_ConceptMap_Index_dependson;
-                ResourseEntity.dependson_List.Add(Index);
+                if (item4.PropertyElement is Hl7.Fhir.Model.FhirUri)
+                {
+                  var Index = new Res_ConceptMap_Index_dependson();
+                  Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4.PropertyElement, Index) as Res_ConceptMap_Index_dependson;
+                  ResourseEntity.dependson_List.Add(Index);
+                }
               }
             }
           }
         }
       }
 
-      foreach (var item1 in ResourceTyped.Element)
+      foreach (var item1 in ResourceTyped.Group)
       {
-        foreach (var item2 in item1.Target)
+        foreach (var item2 in item1.Element)
         {
-          foreach (var item3 in item2.Product)
+          foreach (var item3 in item2.Target)
           {
-            if (item3.Element != null)
+            foreach (var item4 in item3.Product)
             {
-              if (item3.ElementElement is Hl7.Fhir.Model.FhirUri)
+              if (item4.Property != null)
               {
-                var Index = new Res_ConceptMap_Index_product();
-                Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item3.ElementElement, Index) as Res_ConceptMap_Index_product;
-                ResourseEntity.product_List.Add(Index);
+                if (item4.PropertyElement is Hl7.Fhir.Model.FhirUri)
+                {
+                  var Index = new Res_ConceptMap_Index_product();
+                  Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item4.PropertyElement, Index) as Res_ConceptMap_Index_product;
+                  ResourseEntity.product_List.Add(Index);
+                }
               }
             }
           }
         }
       }
 
-      foreach (var item1 in ResourceTyped.Element)
+      foreach (var item1 in ResourceTyped.Group)
       {
-        if (item1.Code != null)
-        {
-          if (item1.CodeElement is Hl7.Fhir.Model.Code)
-          {
-            var Index = new Res_ConceptMap_Index_source_code();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item1.CodeElement, Index) as Res_ConceptMap_Index_source_code;
-            ResourseEntity.source_code_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Element)
-      {
-        if (item1.System != null)
-        {
-          if (item1.SystemElement is Hl7.Fhir.Model.FhirUri)
-          {
-            var Index = new Res_ConceptMap_Index_source_system();
-            Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item1.SystemElement, Index) as Res_ConceptMap_Index_source_system;
-            ResourseEntity.source_system_List.Add(Index);
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Element)
-      {
-        foreach (var item2 in item1.Target)
+        foreach (var item2 in item1.Element)
         {
           if (item2.Code != null)
           {
             if (item2.CodeElement is Hl7.Fhir.Model.Code)
             {
-              var Index = new Res_ConceptMap_Index_target_code();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item2.CodeElement, Index) as Res_ConceptMap_Index_target_code;
-              ResourseEntity.target_code_List.Add(Index);
+              var Index = new Res_ConceptMap_Index_source_code();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item2.CodeElement, Index) as Res_ConceptMap_Index_source_code;
+              ResourseEntity.source_code_List.Add(Index);
             }
           }
         }
       }
 
-      foreach (var item1 in ResourceTyped.Element)
+      foreach (var item1 in ResourceTyped.Group)
       {
-        foreach (var item2 in item1.Target)
+        if (item1.Source != null)
         {
-          if (item2.System != null)
+          if (item1.SourceElement is Hl7.Fhir.Model.FhirUri)
           {
-            if (item2.SystemElement is Hl7.Fhir.Model.FhirUri)
+            var Index = new Res_ConceptMap_Index_source_system();
+            Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item1.SourceElement, Index) as Res_ConceptMap_Index_source_system;
+            ResourseEntity.source_system_List.Add(Index);
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Group)
+      {
+        foreach (var item2 in item1.Element)
+        {
+          foreach (var item3 in item2.Target)
+          {
+            if (item3.Code != null)
             {
-              var Index = new Res_ConceptMap_Index_target_system();
-              Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item2.SystemElement, Index) as Res_ConceptMap_Index_target_system;
-              ResourseEntity.target_system_List.Add(Index);
+              if (item3.CodeElement is Hl7.Fhir.Model.Code)
+              {
+                var Index = new Res_ConceptMap_Index_target_code();
+                Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3.CodeElement, Index) as Res_ConceptMap_Index_target_code;
+                ResourseEntity.target_code_List.Add(Index);
+              }
             }
+          }
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Group)
+      {
+        if (item1.Target != null)
+        {
+          if (item1.TargetElement is Hl7.Fhir.Model.FhirUri)
+          {
+            var Index = new Res_ConceptMap_Index_target_system();
+            Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(item1.TargetElement, Index) as Res_ConceptMap_Index_target_system;
+            ResourseEntity.target_system_List.Add(Index);
           }
         }
       }

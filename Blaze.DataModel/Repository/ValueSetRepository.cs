@@ -128,6 +128,7 @@ namespace Blaze.DataModel.Repository
 
       var IncludeList = new List<Expression<Func<Res_ValueSet, object>>>();
       IncludeList.Add(x => x.context_List);
+      IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.reference_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
@@ -144,8 +145,6 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.date_DateTimeOffset = null;      
       ResourceEntity.description_String = null;      
       ResourceEntity.expansion_Uri = null;      
-      ResourceEntity.identifier_Code = null;      
-      ResourceEntity.identifier_System = null;      
       ResourceEntity.name_String = null;      
       ResourceEntity.publisher_String = null;      
       ResourceEntity.status_Code = null;      
@@ -157,6 +156,7 @@ namespace Blaze.DataModel.Repository
  
       
       _Context.Res_ValueSet_Index_context.RemoveRange(ResourceEntity.context_List);            
+      _Context.Res_ValueSet_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_ValueSet_Index_reference.RemoveRange(ResourceEntity.reference_List);            
       _Context.Res_ValueSet_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_ValueSet_Index__security.RemoveRange(ResourceEntity._security_List);            
@@ -183,10 +183,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;
@@ -206,20 +206,6 @@ namespace Blaze.DataModel.Repository
             {
               ResourseEntity.expansion_Uri = Index.Uri;
             }
-          }
-        }
-      }
-
-      if (ResourceTyped.Identifier != null)
-      {
-        if (ResourceTyped.Identifier is Hl7.Fhir.Model.Identifier)
-        {
-          var Index = new TokenIndex();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Identifier, Index) as TokenIndex;
-          if (Index != null)
-          {
-            ResourseEntity.identifier_Code = Index.Code;
-            ResourseEntity.identifier_System = Index.System;
           }
         }
       }
@@ -303,6 +289,19 @@ namespace Blaze.DataModel.Repository
               Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_ValueSet_Index_context;
               ResourseEntity.context_List.Add(Index);
             }
+          }
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        foreach (var item3 in ResourceTyped.Identifier)
+        {
+          if (item3 is Hl7.Fhir.Model.Identifier)
+          {
+            var Index = new Res_ValueSet_Index_identifier();
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_ValueSet_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
           }
         }
       }

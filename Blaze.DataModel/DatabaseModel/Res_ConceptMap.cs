@@ -36,6 +36,11 @@ namespace Blaze.DataModel.DatabaseModel
     public string target_Type {get; set;}
     public virtual ServiceRootURL_Store target_Url { get; set; }
     public int? target_ServiceRootURL_StoreID { get; set; }
+    public string target_uri_VersionId {get; set;}
+    public string target_uri_FhirId {get; set;}
+    public string target_uri_Type {get; set;}
+    public virtual ServiceRootURL_Store target_uri_Url { get; set; }
+    public int? target_uri_ServiceRootURL_StoreID { get; set; }
     public string url_Uri {get; set;}
     public string version_Code {get; set;}
     public string version_System {get; set;}

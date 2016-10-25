@@ -24,10 +24,12 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.description_String).IsOptional();
       Property(x => x.identifier_Code).IsOptional();
       Property(x => x.identifier_System).IsOptional();
       Property(x => x.name_String).IsOptional();
+      Property(x => x.publisher_String).IsOptional();
       Property(x => x.url_Uri).IsOptional();
     }
   }

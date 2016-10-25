@@ -3,7 +3,7 @@
 <#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.5-alpha3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.6-alpha7\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
@@ -148,20 +148,20 @@ namespace Blaze.Engine.RepositorySupport
 {
   static class RepositorySwitcher
   {
-    public static IResourceRepository GetRepository(FHIRDefinedType ResourceType, IUnitOfWork UnitOfWork)
+    public static IResourceRepository GetRepository(FHIRAllTypes ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {
 <#
   foreach(var Resource in _ResourceList)
   {      
-#>        case FHIRDefinedType.<#=Resource#>:
+#>        case FHIRAllTypes.<#=Resource#>:
             return UnitOfWork.<#=Resource#>Repository;        
 <#
   }
 #>
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRDefinedType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRAllTypes));
       }      
     }
   }

@@ -127,11 +127,12 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_ImagingStudy, object>>>();
+      IncludeList.Add(x => x.basedon_List);
       IncludeList.Add(x => x.bodysite_List);
       IncludeList.Add(x => x.dicom_class_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.modality_List);
-      IncludeList.Add(x => x.order_List);
+      IncludeList.Add(x => x.reason_List);
       IncludeList.Add(x => x.series_List);
       IncludeList.Add(x => x.uid_List);
       IncludeList.Add(x => x._profile_List);
@@ -148,6 +149,11 @@ namespace Blaze.DataModel.Repository
     {
       ResourceEntity.accession_Code = null;      
       ResourceEntity.accession_System = null;      
+      ResourceEntity.context_VersionId = null;      
+      ResourceEntity.context_FhirId = null;      
+      ResourceEntity.context_Type = null;      
+      ResourceEntity.context_Url = null;      
+      ResourceEntity.context_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
@@ -158,11 +164,12 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_ImagingStudy_Index_basedon.RemoveRange(ResourceEntity.basedon_List);            
       _Context.Res_ImagingStudy_Index_bodysite.RemoveRange(ResourceEntity.bodysite_List);            
       _Context.Res_ImagingStudy_Index_dicom_class.RemoveRange(ResourceEntity.dicom_class_List);            
       _Context.Res_ImagingStudy_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_ImagingStudy_Index_modality.RemoveRange(ResourceEntity.modality_List);            
-      _Context.Res_ImagingStudy_Index_order.RemoveRange(ResourceEntity.order_List);            
+      _Context.Res_ImagingStudy_Index_reason.RemoveRange(ResourceEntity.reason_List);            
       _Context.Res_ImagingStudy_Index_series.RemoveRange(ResourceEntity.series_List);            
       _Context.Res_ImagingStudy_Index_uid.RemoveRange(ResourceEntity.uid_List);            
       _Context.Res_ImagingStudy_Index__profile.RemoveRange(ResourceEntity._profile_List);            
@@ -185,6 +192,28 @@ namespace Blaze.DataModel.Repository
           {
             ResourseEntity.accession_Code = Index.Code;
             ResourseEntity.accession_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Context != null)
+      {
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.context_Type = Index.Type;
+            ResourseEntity.context_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.context_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.context_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
           }
         }
       }
@@ -233,6 +262,22 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.study_Uri = Index.Uri;
+          }
+        }
+      }
+
+      if (ResourceTyped.BasedOn != null)
+      {
+        foreach (var item in ResourceTyped.BasedOn)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_ImagingStudy_Index_basedon();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_ImagingStudy_Index_basedon;
+            if (Index != null)
+            {
+              ResourseEntity.basedon_List.Add(Index);
+            }
           }
         }
       }
@@ -292,19 +337,13 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Order != null)
+      if (ResourceTyped.Reason != null)
       {
-        foreach (var item in ResourceTyped.Order)
+        foreach (var item3 in ResourceTyped.Reason.Coding)
         {
-          if (item is ResourceReference)
-          {
-            var Index = new Res_ImagingStudy_Index_order();
-            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_ImagingStudy_Index_order;
-            if (Index != null)
-            {
-              ResourseEntity.order_List.Add(Index);
-            }
-          }
+          var Index = new Res_ImagingStudy_Index_reason();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_ImagingStudy_Index_reason;
+          ResourseEntity.reason_List.Add(Index);
         }
       }
 

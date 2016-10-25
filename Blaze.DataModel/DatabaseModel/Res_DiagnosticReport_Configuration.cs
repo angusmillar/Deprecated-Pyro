@@ -37,11 +37,6 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.patient_Type).IsOptional();
       HasOptional(x => x.patient_Url);
       HasOptional<ServiceRootURL_Store>(x => x.patient_Url).WithMany().HasForeignKey(x => x.patient_ServiceRootURL_StoreID);
-      Property(x => x.performer_VersionId).IsOptional();
-      Property(x => x.performer_FhirId).IsOptional();
-      Property(x => x.performer_Type).IsOptional();
-      HasOptional(x => x.performer_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.performer_Url).WithMany().HasForeignKey(x => x.performer_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
       Property(x => x.subject_VersionId).IsOptional();

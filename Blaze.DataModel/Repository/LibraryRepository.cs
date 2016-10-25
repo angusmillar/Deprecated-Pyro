@@ -161,101 +161,83 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.ModuleMetadata != null)
+          if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.ModuleMetadata.Description != null)
+        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
         {
-          if (ResourceTyped.ModuleMetadata.DescriptionElement is Hl7.Fhir.Model.FhirString)
+          var Index = new StringIndex();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          if (Index != null)
           {
-            var Index = new StringIndex();
-            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.ModuleMetadata.DescriptionElement, Index) as StringIndex;
-            if (Index != null)
-            {
-              ResourseEntity.description_String = Index.String;
-            }
+            ResourseEntity.description_String = Index.String;
           }
         }
       }
 
-      if (ResourceTyped.ModuleMetadata != null)
+      if (ResourceTyped.Status != null)
       {
-        if (ResourceTyped.ModuleMetadata.Status != null)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.LibraryStatus>)
         {
-          if (ResourceTyped.ModuleMetadata.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ModuleMetadata.ModuleMetadataStatus>)
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;
+          if (Index != null)
           {
-            var Index = new TokenIndex();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ModuleMetadata.StatusElement, Index) as TokenIndex;
-            if (Index != null)
-            {
-              ResourseEntity.status_Code = Index.Code;
-              ResourseEntity.status_System = Index.System;
-            }
+            ResourseEntity.status_Code = Index.Code;
+            ResourseEntity.status_System = Index.System;
           }
         }
       }
 
-      if (ResourceTyped.ModuleMetadata != null)
+      if (ResourceTyped.Title != null)
       {
-        if (ResourceTyped.ModuleMetadata.Title != null)
+        if (ResourceTyped.TitleElement is Hl7.Fhir.Model.FhirString)
         {
-          if (ResourceTyped.ModuleMetadata.TitleElement is Hl7.Fhir.Model.FhirString)
+          var Index = new StringIndex();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.TitleElement, Index) as StringIndex;
+          if (Index != null)
           {
-            var Index = new StringIndex();
-            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.ModuleMetadata.TitleElement, Index) as StringIndex;
-            if (Index != null)
-            {
-              ResourseEntity.title_String = Index.String;
-            }
+            ResourseEntity.title_String = Index.String;
           }
         }
       }
 
-      if (ResourceTyped.ModuleMetadata != null)
+      if (ResourceTyped.Version != null)
       {
-        if (ResourceTyped.ModuleMetadata.Version != null)
+        if (ResourceTyped.VersionElement is Hl7.Fhir.Model.FhirString)
         {
-          if (ResourceTyped.ModuleMetadata.VersionElement is Hl7.Fhir.Model.FhirString)
+          var Index = new StringIndex();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.VersionElement, Index) as StringIndex;
+          if (Index != null)
           {
-            var Index = new StringIndex();
-            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.ModuleMetadata.VersionElement, Index) as StringIndex;
-            if (Index != null)
-            {
-              ResourseEntity.version_String = Index.String;
-            }
+            ResourseEntity.version_String = Index.String;
           }
         }
       }
 
-      if (ResourceTyped.ModuleMetadata != null)
+      if (ResourceTyped.Identifier != null)
       {
-        if (ResourceTyped.ModuleMetadata.Identifier != null)
+        foreach (var item3 in ResourceTyped.Identifier)
         {
-          foreach (var item4 in ResourceTyped.ModuleMetadata.Identifier)
+          if (item3 is Hl7.Fhir.Model.Identifier)
           {
-            if (item4 is Hl7.Fhir.Model.Identifier)
-            {
-              var Index = new Res_Library_Index_identifier();
-              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Library_Index_identifier;
-              ResourseEntity.identifier_List.Add(Index);
-            }
+            var Index = new Res_Library_Index_identifier();
+            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Library_Index_identifier;
+            ResourseEntity.identifier_List.Add(Index);
           }
         }
       }
 
-      if (ResourceTyped.ModuleMetadata != null)
+      if (ResourceTyped.Topic != null)
       {
-        if (ResourceTyped.ModuleMetadata.Topic != null)
+        foreach (var item3 in ResourceTyped.Topic)
         {
-          foreach (var item4 in ResourceTyped.ModuleMetadata.Topic)
+          if (item3 != null)
           {
-            if (item4 != null)
+            foreach (var item4 in item3.Coding)
             {
-              foreach (var item5 in item4.Coding)
-              {
-                var Index = new Res_Library_Index_topic();
-                Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item5, Index) as Res_Library_Index_topic;
-                ResourseEntity.topic_List.Add(Index);
-              }
+              var Index = new Res_Library_Index_topic();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Library_Index_topic;
+              ResourseEntity.topic_List.Add(Index);
             }
           }
         }

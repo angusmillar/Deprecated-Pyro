@@ -16,8 +16,6 @@ namespace Blaze.DataModel.DatabaseModel
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string description_String {get; set;}
     public string expansion_Uri {get; set;}
-    public string identifier_Code {get; set;}
-    public string identifier_System {get; set;}
     public string name_String {get; set;}
     public string publisher_String {get; set;}
     public string status_Code {get; set;}
@@ -27,6 +25,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string version_System {get; set;}
     public ICollection<Res_ValueSet_History> Res_ValueSet_History_List { get; set; }
     public ICollection<Res_ValueSet_Index_context> context_List { get; set; }
+    public ICollection<Res_ValueSet_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_ValueSet_Index_reference> reference_List { get; set; }
     public ICollection<Res_ValueSet_Index__profile> _profile_List { get; set; }
     public ICollection<Res_ValueSet_Index__security> _security_List { get; set; }
@@ -35,6 +34,7 @@ namespace Blaze.DataModel.DatabaseModel
     public Res_ValueSet()
     {
       this.context_List = new HashSet<Res_ValueSet_Index_context>();
+      this.identifier_List = new HashSet<Res_ValueSet_Index_identifier>();
       this.reference_List = new HashSet<Res_ValueSet_Index_reference>();
       this._profile_List = new HashSet<Res_ValueSet_Index__profile>();
       this._security_List = new HashSet<Res_ValueSet_Index__security>();

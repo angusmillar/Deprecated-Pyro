@@ -13,6 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_CodeSystem : ResourceIndexBase
   {
     public int Res_CodeSystemID {get; set;}
+    public string content_Code {get; set;}
+    public string content_System {get; set;}
     public DateTimeOffset? date_DateTimeOffset {get; set;}
     public string description_String {get; set;}
     public string identifier_Code {get; set;}

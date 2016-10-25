@@ -29,7 +29,7 @@ namespace Blaze.DataModel.Repository
     //  //Todo: Sort not implemented just defaulting to last update order
     //  Query = Query.OrderBy(x => x.lastUpdated);      
     //  int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-
+      
     //  Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
     //  var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
     //  Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
@@ -52,7 +52,7 @@ namespace Blaze.DataModel.Repository
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Patient>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.SingleResourceRead = true;     
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
       DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
       return DatabaseOperationOutcome;
@@ -62,12 +62,12 @@ namespace Blaze.DataModel.Repository
     {
       var ResourceTyped = Resource as Patient;
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
-      var ResourceHistoryEntity = new Res_Patient_History();
+      var ResourceHistoryEntity = new Res_Patient_History();  
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      ResourceEntity.Res_Patient_History_List.Add(ResourceHistoryEntity);
+      ResourceEntity.Res_Patient_History_List.Add(ResourceHistoryEntity); 
       this.ResetResourceEntity(ResourceEntity);
-      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);
-      this.Save();
+      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
+      this.Save();            
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
@@ -85,7 +85,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.IsDeleted = true;
       ResourceEntity.versionId = ResourceVersion;
       ResourceEntity.XmlBlob = string.Empty;
-      this.Save();
+      this.Save();      
     }
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
@@ -101,7 +101,7 @@ namespace Blaze.DataModel.Repository
       {
         var ResourceEntity = DbGet<Res_Patient>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
         if (ResourceEntity != null)
-          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
+          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
       }
       return DatabaseOperationOutcome;
     }
@@ -112,12 +112,12 @@ namespace Blaze.DataModel.Repository
       DatabaseOperationOutcome.SingleResourceRead = true;
       Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
-      {
-        DtoResource = DbGetAll<Res_Patient>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();
+      {        
+        DtoResource = DbGetAll<Res_Patient>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
       }
       else
       {
-        DtoResource = DbGetAll<Res_Patient>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();
+        DtoResource = DbGetAll<Res_Patient>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
       DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
       return DatabaseOperationOutcome;
@@ -135,9 +135,9 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.address_use_List);
       IncludeList.Add(x => x.animal_breed_List);
       IncludeList.Add(x => x.animal_species_List);
-      IncludeList.Add(x => x.careprovider_List);
       IncludeList.Add(x => x.email_List);
       IncludeList.Add(x => x.family_List);
+      IncludeList.Add(x => x.general_practitioner_List);
       IncludeList.Add(x => x.given_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.language_List);
@@ -149,7 +149,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
-
+    
       var ResourceEntity = DbQueryEntityWithInclude<Res_Patient>(x => x.FhirId == FhirId, IncludeList);
 
       return ResourceEntity;
@@ -158,54 +158,54 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_Patient ResourceEntity)
     {
-      ResourceEntity.active_Code = null;
-      ResourceEntity.active_System = null;
-      ResourceEntity.birthdate_Date = null;
-      ResourceEntity.death_date_DateTimeOffset = null;
-      ResourceEntity.deceased_Code = null;
-      ResourceEntity.deceased_System = null;
-      ResourceEntity.deceased_Code = null;
-      ResourceEntity.deceased_System = null;
-      ResourceEntity.gender_Code = null;
-      ResourceEntity.gender_System = null;
-      ResourceEntity.organization_VersionId = null;
-      ResourceEntity.organization_FhirId = null;
-      ResourceEntity.organization_Type = null;
-      ResourceEntity.organization_Url = null;
-      ResourceEntity.organization_ServiceRootURL_StoreID = null;
-      ResourceEntity.XmlBlob = null;
-
-
-      _Context.Res_Patient_Index_address.RemoveRange(ResourceEntity.address_List);
-      _Context.Res_Patient_Index_address_city.RemoveRange(ResourceEntity.address_city_List);
-      _Context.Res_Patient_Index_address_country.RemoveRange(ResourceEntity.address_country_List);
-      _Context.Res_Patient_Index_address_postalcode.RemoveRange(ResourceEntity.address_postalcode_List);
-      _Context.Res_Patient_Index_address_state.RemoveRange(ResourceEntity.address_state_List);
-      _Context.Res_Patient_Index_address_use.RemoveRange(ResourceEntity.address_use_List);
-      _Context.Res_Patient_Index_animal_breed.RemoveRange(ResourceEntity.animal_breed_List);
-      _Context.Res_Patient_Index_animal_species.RemoveRange(ResourceEntity.animal_species_List);
-      _Context.Res_Patient_Index_careprovider.RemoveRange(ResourceEntity.careprovider_List);
-      _Context.Res_Patient_Index_email.RemoveRange(ResourceEntity.email_List);
-      _Context.Res_Patient_Index_family.RemoveRange(ResourceEntity.family_List);
-      _Context.Res_Patient_Index_given.RemoveRange(ResourceEntity.given_List);
-      _Context.Res_Patient_Index_identifier.RemoveRange(ResourceEntity.identifier_List);
-      _Context.Res_Patient_Index_language.RemoveRange(ResourceEntity.language_List);
-      _Context.Res_Patient_Index_link.RemoveRange(ResourceEntity.link_List);
-      _Context.Res_Patient_Index_name.RemoveRange(ResourceEntity.name_List);
-      _Context.Res_Patient_Index_phone.RemoveRange(ResourceEntity.phone_List);
-      _Context.Res_Patient_Index_phonetic.RemoveRange(ResourceEntity.phonetic_List);
-      _Context.Res_Patient_Index_telecom.RemoveRange(ResourceEntity.telecom_List);
-      _Context.Res_Patient_Index__profile.RemoveRange(ResourceEntity._profile_List);
-      _Context.Res_Patient_Index__security.RemoveRange(ResourceEntity._security_List);
-      _Context.Res_Patient_Index__tag.RemoveRange(ResourceEntity._tag_List);
-
+      ResourceEntity.active_Code = null;      
+      ResourceEntity.active_System = null;      
+      ResourceEntity.birthdate_Date = null;      
+      ResourceEntity.death_date_DateTimeOffset = null;      
+      ResourceEntity.deceased_Code = null;      
+      ResourceEntity.deceased_System = null;      
+      ResourceEntity.deceased_Code = null;      
+      ResourceEntity.deceased_System = null;      
+      ResourceEntity.gender_Code = null;      
+      ResourceEntity.gender_System = null;      
+      ResourceEntity.organization_VersionId = null;      
+      ResourceEntity.organization_FhirId = null;      
+      ResourceEntity.organization_Type = null;      
+      ResourceEntity.organization_Url = null;      
+      ResourceEntity.organization_ServiceRootURL_StoreID = null;      
+      ResourceEntity.XmlBlob = null;      
+ 
+      
+      _Context.Res_Patient_Index_address.RemoveRange(ResourceEntity.address_List);            
+      _Context.Res_Patient_Index_address_city.RemoveRange(ResourceEntity.address_city_List);            
+      _Context.Res_Patient_Index_address_country.RemoveRange(ResourceEntity.address_country_List);            
+      _Context.Res_Patient_Index_address_postalcode.RemoveRange(ResourceEntity.address_postalcode_List);            
+      _Context.Res_Patient_Index_address_state.RemoveRange(ResourceEntity.address_state_List);            
+      _Context.Res_Patient_Index_address_use.RemoveRange(ResourceEntity.address_use_List);            
+      _Context.Res_Patient_Index_animal_breed.RemoveRange(ResourceEntity.animal_breed_List);            
+      _Context.Res_Patient_Index_animal_species.RemoveRange(ResourceEntity.animal_species_List);            
+      _Context.Res_Patient_Index_email.RemoveRange(ResourceEntity.email_List);            
+      _Context.Res_Patient_Index_family.RemoveRange(ResourceEntity.family_List);            
+      _Context.Res_Patient_Index_general_practitioner.RemoveRange(ResourceEntity.general_practitioner_List);            
+      _Context.Res_Patient_Index_given.RemoveRange(ResourceEntity.given_List);            
+      _Context.Res_Patient_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
+      _Context.Res_Patient_Index_language.RemoveRange(ResourceEntity.language_List);            
+      _Context.Res_Patient_Index_link.RemoveRange(ResourceEntity.link_List);            
+      _Context.Res_Patient_Index_name.RemoveRange(ResourceEntity.name_List);            
+      _Context.Res_Patient_Index_phone.RemoveRange(ResourceEntity.phone_List);            
+      _Context.Res_Patient_Index_phonetic.RemoveRange(ResourceEntity.phonetic_List);            
+      _Context.Res_Patient_Index_telecom.RemoveRange(ResourceEntity.telecom_List);            
+      _Context.Res_Patient_Index__profile.RemoveRange(ResourceEntity._profile_List);            
+      _Context.Res_Patient_Index__security.RemoveRange(ResourceEntity._security_List);            
+      _Context.Res_Patient_Index__tag.RemoveRange(ResourceEntity._tag_List);            
+ 
     }
 
     private void PopulateResourceEntity(Res_Patient ResourseEntity, string ResourceVersion, Patient ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
     {
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-      if (ResourceTyped.Active != null)
+          if (ResourceTyped.Active != null)
       {
         if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
         {
@@ -410,22 +410,6 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.CareProvider != null)
-      {
-        foreach (var item in ResourceTyped.CareProvider)
-        {
-          if (item is ResourceReference)
-          {
-            var Index = new Res_Patient_Index_careprovider();
-            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_Patient_Index_careprovider;
-            if (Index != null)
-            {
-              ResourseEntity.careprovider_List.Add(Index);
-            }
-          }
-        }
-      }
-
       foreach (var item2 in ResourceTyped.Telecom)
       {
         if (item2.System != null)
@@ -453,6 +437,22 @@ namespace Blaze.DataModel.Repository
               var Index = new Res_Patient_Index_family();
               Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item4, Index) as Res_Patient_Index_family;
               ResourseEntity.family_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.GeneralPractitioner != null)
+      {
+        foreach (var item in ResourceTyped.GeneralPractitioner)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_Patient_Index_general_practitioner();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_Patient_Index_general_practitioner;
+            if (Index != null)
+            {
+              ResourseEntity.general_practitioner_List.Add(Index);
             }
           }
         }
@@ -611,11 +611,11 @@ namespace Blaze.DataModel.Repository
       }
 
 
-
+      
 
     }
 
 
   }
-}
+} 
 

@@ -127,6 +127,7 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_SearchParameter, object>>>();
+      IncludeList.Add(x => x.component_List);
       IncludeList.Add(x => x.context_List);
       IncludeList.Add(x => x.target_List);
       IncludeList.Add(x => x._profile_List);
@@ -153,6 +154,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_SearchParameter_Index_component.RemoveRange(ResourceEntity.component_List);            
       _Context.Res_SearchParameter_Index_context.RemoveRange(ResourceEntity.context_List);            
       _Context.Res_SearchParameter_Index_target.RemoveRange(ResourceEntity.target_List);            
       _Context.Res_SearchParameter_Index__profile.RemoveRange(ResourceEntity._profile_List);            
@@ -195,10 +197,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;
@@ -242,6 +244,22 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.url_Uri = Index.Uri;
+          }
+        }
+      }
+
+      if (ResourceTyped.Component != null)
+      {
+        foreach (var item in ResourceTyped.Component)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_SearchParameter_Index_component();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_SearchParameter_Index_component;
+            if (Index != null)
+            {
+              ResourseEntity.component_List.Add(Index);
+            }
           }
         }
       }

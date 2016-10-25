@@ -151,6 +151,8 @@ namespace Blaze.DataModel.Repository
 
     private void ResetResourceEntity(Res_RelatedPerson ResourceEntity)
     {
+      ResourceEntity.active_Code = null;      
+      ResourceEntity.active_System = null;      
       ResourceEntity.birthdate_Date = null;      
       ResourceEntity.gender_Code = null;      
       ResourceEntity.gender_System = null;      
@@ -184,7 +186,21 @@ namespace Blaze.DataModel.Repository
     {
        IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
-          if (ResourceTyped.BirthDate != null)
+          if (ResourceTyped.Active != null)
+      {
+        if (ResourceTyped.ActiveElement is Hl7.Fhir.Model.FhirBoolean)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ActiveElement, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.active_Code = Index.Code;
+            ResourseEntity.active_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.BirthDate != null)
       {
         if (ResourceTyped.BirthDateElement is Hl7.Fhir.Model.Date)
         {
@@ -339,9 +355,12 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Name != null)
       {
-        var Index = new Res_RelatedPerson_Index_name();
-        Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Name, Index) as Res_RelatedPerson_Index_name;
-        ResourseEntity.name_List.Add(Index);
+        foreach (var item3 in ResourceTyped.Name)
+        {
+          var Index = new Res_RelatedPerson_Index_name();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3, Index) as Res_RelatedPerson_Index_name;
+          ResourseEntity.name_List.Add(Index);
+        }
       }
 
       foreach (var item2 in ResourceTyped.Telecom)
@@ -362,9 +381,12 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Name != null)
       {
-        var Index = new Res_RelatedPerson_Index_phonetic();
-        Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Name, Index) as Res_RelatedPerson_Index_phonetic;
-        ResourseEntity.phonetic_List.Add(Index);
+        foreach (var item3 in ResourceTyped.Name)
+        {
+          var Index = new Res_RelatedPerson_Index_phonetic();
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3, Index) as Res_RelatedPerson_Index_phonetic;
+          ResourseEntity.phonetic_List.Add(Index);
+        }
       }
 
       foreach (var item2 in ResourceTyped.Telecom)

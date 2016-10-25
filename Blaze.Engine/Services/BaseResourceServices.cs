@@ -17,9 +17,9 @@ namespace Blaze.Engine.Services
     public BaseResourceServices(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork) { }
 
-    protected FHIRDefinedType _CurrentResourceType;
+    protected FHIRAllTypes _CurrentResourceType;
 
-    public FHIRDefinedType CurrentResourceType
+    public FHIRAllTypes CurrentResourceType
     {
       get
       {
@@ -27,7 +27,7 @@ namespace Blaze.Engine.Services
       }
     }
 
-    public FHIRDefinedType SetCurrentResourceType
+    public FHIRAllTypes SetCurrentResourceType
     {
       set
       {

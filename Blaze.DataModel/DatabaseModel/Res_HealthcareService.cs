@@ -13,6 +13,8 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_HealthcareService : ResourceIndexBase
   {
     public int Res_HealthcareServiceID {get; set;}
+    public string active_Code {get; set;}
+    public string active_System {get; set;}
     public string name_String {get; set;}
     public string organization_VersionId {get; set;}
     public string organization_FhirId {get; set;}

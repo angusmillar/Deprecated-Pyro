@@ -13,22 +13,17 @@ namespace Blaze.DataModel.DatabaseModel
   public class Res_Communication : ResourceIndexBase
   {
     public int Res_CommunicationID {get; set;}
-    public string encounter_VersionId {get; set;}
-    public string encounter_FhirId {get; set;}
-    public string encounter_Type {get; set;}
-    public virtual ServiceRootURL_Store encounter_Url { get; set; }
-    public int? encounter_ServiceRootURL_StoreID { get; set; }
+    public string context_VersionId {get; set;}
+    public string context_FhirId {get; set;}
+    public string context_Type {get; set;}
+    public virtual ServiceRootURL_Store context_Url { get; set; }
+    public int? context_ServiceRootURL_StoreID { get; set; }
     public string patient_VersionId {get; set;}
     public string patient_FhirId {get; set;}
     public string patient_Type {get; set;}
     public virtual ServiceRootURL_Store patient_Url { get; set; }
     public int? patient_ServiceRootURL_StoreID { get; set; }
     public DateTimeOffset? received_DateTimeOffset {get; set;}
-    public string request_VersionId {get; set;}
-    public string request_FhirId {get; set;}
-    public string request_Type {get; set;}
-    public virtual ServiceRootURL_Store request_Url { get; set; }
-    public int? request_ServiceRootURL_StoreID { get; set; }
     public string sender_VersionId {get; set;}
     public string sender_FhirId {get; set;}
     public string sender_Type {get; set;}
@@ -43,6 +38,7 @@ namespace Blaze.DataModel.DatabaseModel
     public virtual ServiceRootURL_Store subject_Url { get; set; }
     public int? subject_ServiceRootURL_StoreID { get; set; }
     public ICollection<Res_Communication_History> Res_Communication_History_List { get; set; }
+    public ICollection<Res_Communication_Index_based_on> based_on_List { get; set; }
     public ICollection<Res_Communication_Index_category> category_List { get; set; }
     public ICollection<Res_Communication_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Communication_Index_medium> medium_List { get; set; }
@@ -53,6 +49,7 @@ namespace Blaze.DataModel.DatabaseModel
    
     public Res_Communication()
     {
+      this.based_on_List = new HashSet<Res_Communication_Index_based_on>();
       this.category_List = new HashSet<Res_Communication_Index_category>();
       this.identifier_List = new HashSet<Res_Communication_Index_identifier>();
       this.medium_List = new HashSet<Res_Communication_Index_medium>();

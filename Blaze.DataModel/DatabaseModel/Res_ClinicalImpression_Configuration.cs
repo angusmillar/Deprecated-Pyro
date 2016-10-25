@@ -29,6 +29,11 @@ namespace Blaze.DataModel.DatabaseModel
       Property(x => x.assessor_Type).IsOptional();
       HasOptional(x => x.assessor_Url);
       HasOptional<ServiceRootURL_Store>(x => x.assessor_Url).WithMany().HasForeignKey(x => x.assessor_ServiceRootURL_StoreID);
+      Property(x => x.context_VersionId).IsOptional();
+      Property(x => x.context_FhirId).IsOptional();
+      Property(x => x.context_Type).IsOptional();
+      HasOptional(x => x.context_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.context_Url).WithMany().HasForeignKey(x => x.context_ServiceRootURL_StoreID);
       Property(x => x.date_DateTimeOffset).IsOptional();
       Property(x => x.patient_VersionId).IsOptional();
       Property(x => x.patient_FhirId).IsOptional();
@@ -42,11 +47,11 @@ namespace Blaze.DataModel.DatabaseModel
       HasOptional<ServiceRootURL_Store>(x => x.previous_Url).WithMany().HasForeignKey(x => x.previous_ServiceRootURL_StoreID);
       Property(x => x.status_Code).IsOptional();
       Property(x => x.status_System).IsOptional();
-      Property(x => x.trigger_VersionId).IsOptional();
-      Property(x => x.trigger_FhirId).IsOptional();
-      Property(x => x.trigger_Type).IsOptional();
-      HasOptional(x => x.trigger_Url);
-      HasOptional<ServiceRootURL_Store>(x => x.trigger_Url).WithMany().HasForeignKey(x => x.trigger_ServiceRootURL_StoreID);
+      Property(x => x.subject_VersionId).IsOptional();
+      Property(x => x.subject_FhirId).IsOptional();
+      Property(x => x.subject_Type).IsOptional();
+      HasOptional(x => x.subject_Url);
+      HasOptional<ServiceRootURL_Store>(x => x.subject_Url).WithMany().HasForeignKey(x => x.subject_ServiceRootURL_StoreID);
     }
   }
 }

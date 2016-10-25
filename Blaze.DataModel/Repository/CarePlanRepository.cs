@@ -132,9 +132,10 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.activitydate_List);
       IncludeList.Add(x => x.activitydate_List);
       IncludeList.Add(x => x.activityreference_List);
+      IncludeList.Add(x => x.careteam_List);
+      IncludeList.Add(x => x.category_List);
       IncludeList.Add(x => x.condition_List);
       IncludeList.Add(x => x.goal_List);
-      IncludeList.Add(x => x.participant_List);
       IncludeList.Add(x => x.performer_List);
       IncludeList.Add(x => x.relatedcode_List);
       IncludeList.Add(x => x.relatedplan_List);
@@ -170,9 +171,10 @@ namespace Blaze.DataModel.Repository
       _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
       _Context.Res_CarePlan_Index_activitydate.RemoveRange(ResourceEntity.activitydate_List);            
       _Context.Res_CarePlan_Index_activityreference.RemoveRange(ResourceEntity.activityreference_List);            
+      _Context.Res_CarePlan_Index_careteam.RemoveRange(ResourceEntity.careteam_List);            
+      _Context.Res_CarePlan_Index_category.RemoveRange(ResourceEntity.category_List);            
       _Context.Res_CarePlan_Index_condition.RemoveRange(ResourceEntity.condition_List);            
       _Context.Res_CarePlan_Index_goal.RemoveRange(ResourceEntity.goal_List);            
-      _Context.Res_CarePlan_Index_participant.RemoveRange(ResourceEntity.participant_List);            
       _Context.Res_CarePlan_Index_performer.RemoveRange(ResourceEntity.performer_List);            
       _Context.Res_CarePlan_Index_relatedcode.RemoveRange(ResourceEntity.relatedcode_List);            
       _Context.Res_CarePlan_Index_relatedplan.RemoveRange(ResourceEntity.relatedplan_List);            
@@ -324,6 +326,38 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.CareTeam != null)
+      {
+        foreach (var item in ResourceTyped.CareTeam)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_CarePlan_Index_careteam();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_CarePlan_Index_careteam;
+            if (Index != null)
+            {
+              ResourseEntity.careteam_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Category != null)
+      {
+        foreach (var item3 in ResourceTyped.Category)
+        {
+          if (item3 != null)
+          {
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = new Res_CarePlan_Index_category();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_CarePlan_Index_category;
+              ResourseEntity.category_List.Add(Index);
+            }
+          }
+        }
+      }
+
       if (ResourceTyped.Addresses != null)
       {
         foreach (var item in ResourceTyped.Addresses)
@@ -351,22 +385,6 @@ namespace Blaze.DataModel.Repository
             if (Index != null)
             {
               ResourseEntity.goal_List.Add(Index);
-            }
-          }
-        }
-      }
-
-      foreach (var item1 in ResourceTyped.Participant)
-      {
-        if (item1.Member != null)
-        {
-          if (item1.Member is ResourceReference)
-          {
-            var Index = new Res_CarePlan_Index_participant();
-            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Member, Index, FhirRequestUri, this) as Res_CarePlan_Index_participant;
-            if (Index != null)
-            {
-              ResourseEntity.participant_List.Add(Index);
             }
           }
         }

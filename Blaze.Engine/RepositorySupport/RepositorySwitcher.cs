@@ -10,238 +10,232 @@ namespace Blaze.Engine.RepositorySupport
 {
   static class RepositorySwitcher
   {
-    public static IResourceRepository GetRepository(FHIRDefinedType ResourceType, IUnitOfWork UnitOfWork)
+    public static IResourceRepository GetRepository(FHIRAllTypes ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {
-        case FHIRDefinedType.Account:
+        case FHIRAllTypes.Account:
             return UnitOfWork.AccountRepository;        
-        case FHIRDefinedType.AllergyIntolerance:
+        case FHIRAllTypes.ActivityDefinition:
+            return UnitOfWork.ActivityDefinitionRepository;        
+        case FHIRAllTypes.AllergyIntolerance:
             return UnitOfWork.AllergyIntoleranceRepository;        
-        case FHIRDefinedType.Appointment:
+        case FHIRAllTypes.Appointment:
             return UnitOfWork.AppointmentRepository;        
-        case FHIRDefinedType.AppointmentResponse:
+        case FHIRAllTypes.AppointmentResponse:
             return UnitOfWork.AppointmentResponseRepository;        
-        case FHIRDefinedType.AuditEvent:
+        case FHIRAllTypes.AuditEvent:
             return UnitOfWork.AuditEventRepository;        
-        case FHIRDefinedType.Basic:
+        case FHIRAllTypes.Basic:
             return UnitOfWork.BasicRepository;        
-        case FHIRDefinedType.Binary:
+        case FHIRAllTypes.Binary:
             return UnitOfWork.BinaryRepository;        
-        case FHIRDefinedType.BodySite:
+        case FHIRAllTypes.BodySite:
             return UnitOfWork.BodySiteRepository;        
-        case FHIRDefinedType.Bundle:
+        case FHIRAllTypes.Bundle:
             return UnitOfWork.BundleRepository;        
-        case FHIRDefinedType.CarePlan:
+        case FHIRAllTypes.CarePlan:
             return UnitOfWork.CarePlanRepository;        
-        case FHIRDefinedType.CareTeam:
+        case FHIRAllTypes.CareTeam:
             return UnitOfWork.CareTeamRepository;        
-        case FHIRDefinedType.Claim:
+        case FHIRAllTypes.Claim:
             return UnitOfWork.ClaimRepository;        
-        case FHIRDefinedType.ClaimResponse:
+        case FHIRAllTypes.ClaimResponse:
             return UnitOfWork.ClaimResponseRepository;        
-        case FHIRDefinedType.ClinicalImpression:
+        case FHIRAllTypes.ClinicalImpression:
             return UnitOfWork.ClinicalImpressionRepository;        
-        case FHIRDefinedType.CodeSystem:
+        case FHIRAllTypes.CodeSystem:
             return UnitOfWork.CodeSystemRepository;        
-        case FHIRDefinedType.Communication:
+        case FHIRAllTypes.Communication:
             return UnitOfWork.CommunicationRepository;        
-        case FHIRDefinedType.CommunicationRequest:
+        case FHIRAllTypes.CommunicationRequest:
             return UnitOfWork.CommunicationRequestRepository;        
-        case FHIRDefinedType.CompartmentDefinition:
+        case FHIRAllTypes.CompartmentDefinition:
             return UnitOfWork.CompartmentDefinitionRepository;        
-        case FHIRDefinedType.Composition:
+        case FHIRAllTypes.Composition:
             return UnitOfWork.CompositionRepository;        
-        case FHIRDefinedType.ConceptMap:
+        case FHIRAllTypes.ConceptMap:
             return UnitOfWork.ConceptMapRepository;        
-        case FHIRDefinedType.Condition:
+        case FHIRAllTypes.Condition:
             return UnitOfWork.ConditionRepository;        
-        case FHIRDefinedType.Conformance:
+        case FHIRAllTypes.Conformance:
             return UnitOfWork.ConformanceRepository;        
-        case FHIRDefinedType.Contract:
+        case FHIRAllTypes.Consent:
+            return UnitOfWork.ConsentRepository;        
+        case FHIRAllTypes.Contract:
             return UnitOfWork.ContractRepository;        
-        case FHIRDefinedType.Coverage:
+        case FHIRAllTypes.Coverage:
             return UnitOfWork.CoverageRepository;        
-        case FHIRDefinedType.DataElement:
+        case FHIRAllTypes.DataElement:
             return UnitOfWork.DataElementRepository;        
-        case FHIRDefinedType.DecisionSupportRule:
-            return UnitOfWork.DecisionSupportRuleRepository;        
-        case FHIRDefinedType.DecisionSupportServiceModule:
+        case FHIRAllTypes.DecisionSupportServiceModule:
             return UnitOfWork.DecisionSupportServiceModuleRepository;        
-        case FHIRDefinedType.DetectedIssue:
+        case FHIRAllTypes.DetectedIssue:
             return UnitOfWork.DetectedIssueRepository;        
-        case FHIRDefinedType.Device:
+        case FHIRAllTypes.Device:
             return UnitOfWork.DeviceRepository;        
-        case FHIRDefinedType.DeviceComponent:
+        case FHIRAllTypes.DeviceComponent:
             return UnitOfWork.DeviceComponentRepository;        
-        case FHIRDefinedType.DeviceMetric:
+        case FHIRAllTypes.DeviceMetric:
             return UnitOfWork.DeviceMetricRepository;        
-        case FHIRDefinedType.DeviceUseRequest:
+        case FHIRAllTypes.DeviceUseRequest:
             return UnitOfWork.DeviceUseRequestRepository;        
-        case FHIRDefinedType.DeviceUseStatement:
+        case FHIRAllTypes.DeviceUseStatement:
             return UnitOfWork.DeviceUseStatementRepository;        
-        case FHIRDefinedType.DiagnosticOrder:
-            return UnitOfWork.DiagnosticOrderRepository;        
-        case FHIRDefinedType.DiagnosticReport:
+        case FHIRAllTypes.DiagnosticReport:
             return UnitOfWork.DiagnosticReportRepository;        
-        case FHIRDefinedType.DocumentManifest:
+        case FHIRAllTypes.DiagnosticRequest:
+            return UnitOfWork.DiagnosticRequestRepository;        
+        case FHIRAllTypes.DocumentManifest:
             return UnitOfWork.DocumentManifestRepository;        
-        case FHIRDefinedType.DocumentReference:
+        case FHIRAllTypes.DocumentReference:
             return UnitOfWork.DocumentReferenceRepository;        
-        case FHIRDefinedType.EligibilityRequest:
+        case FHIRAllTypes.EligibilityRequest:
             return UnitOfWork.EligibilityRequestRepository;        
-        case FHIRDefinedType.EligibilityResponse:
+        case FHIRAllTypes.EligibilityResponse:
             return UnitOfWork.EligibilityResponseRepository;        
-        case FHIRDefinedType.Encounter:
+        case FHIRAllTypes.Encounter:
             return UnitOfWork.EncounterRepository;        
-        case FHIRDefinedType.EnrollmentRequest:
+        case FHIRAllTypes.Endpoint:
+            return UnitOfWork.EndpointRepository;        
+        case FHIRAllTypes.EnrollmentRequest:
             return UnitOfWork.EnrollmentRequestRepository;        
-        case FHIRDefinedType.EnrollmentResponse:
+        case FHIRAllTypes.EnrollmentResponse:
             return UnitOfWork.EnrollmentResponseRepository;        
-        case FHIRDefinedType.EpisodeOfCare:
+        case FHIRAllTypes.EpisodeOfCare:
             return UnitOfWork.EpisodeOfCareRepository;        
-        case FHIRDefinedType.ExpansionProfile:
+        case FHIRAllTypes.ExpansionProfile:
             return UnitOfWork.ExpansionProfileRepository;        
-        case FHIRDefinedType.ExplanationOfBenefit:
+        case FHIRAllTypes.ExplanationOfBenefit:
             return UnitOfWork.ExplanationOfBenefitRepository;        
-        case FHIRDefinedType.FamilyMemberHistory:
+        case FHIRAllTypes.FamilyMemberHistory:
             return UnitOfWork.FamilyMemberHistoryRepository;        
-        case FHIRDefinedType.Flag:
+        case FHIRAllTypes.Flag:
             return UnitOfWork.FlagRepository;        
-        case FHIRDefinedType.Goal:
+        case FHIRAllTypes.Goal:
             return UnitOfWork.GoalRepository;        
-        case FHIRDefinedType.Group:
+        case FHIRAllTypes.Group:
             return UnitOfWork.GroupRepository;        
-        case FHIRDefinedType.GuidanceResponse:
+        case FHIRAllTypes.GuidanceResponse:
             return UnitOfWork.GuidanceResponseRepository;        
-        case FHIRDefinedType.HealthcareService:
+        case FHIRAllTypes.HealthcareService:
             return UnitOfWork.HealthcareServiceRepository;        
-        case FHIRDefinedType.ImagingExcerpt:
-            return UnitOfWork.ImagingExcerptRepository;        
-        case FHIRDefinedType.ImagingObjectSelection:
-            return UnitOfWork.ImagingObjectSelectionRepository;        
-        case FHIRDefinedType.ImagingStudy:
+        case FHIRAllTypes.ImagingManifest:
+            return UnitOfWork.ImagingManifestRepository;        
+        case FHIRAllTypes.ImagingStudy:
             return UnitOfWork.ImagingStudyRepository;        
-        case FHIRDefinedType.Immunization:
+        case FHIRAllTypes.Immunization:
             return UnitOfWork.ImmunizationRepository;        
-        case FHIRDefinedType.ImmunizationRecommendation:
+        case FHIRAllTypes.ImmunizationRecommendation:
             return UnitOfWork.ImmunizationRecommendationRepository;        
-        case FHIRDefinedType.ImplementationGuide:
+        case FHIRAllTypes.ImplementationGuide:
             return UnitOfWork.ImplementationGuideRepository;        
-        case FHIRDefinedType.Library:
+        case FHIRAllTypes.Library:
             return UnitOfWork.LibraryRepository;        
-        case FHIRDefinedType.Linkage:
+        case FHIRAllTypes.Linkage:
             return UnitOfWork.LinkageRepository;        
-        case FHIRDefinedType.List:
+        case FHIRAllTypes.List:
             return UnitOfWork.ListRepository;        
-        case FHIRDefinedType.Location:
+        case FHIRAllTypes.Location:
             return UnitOfWork.LocationRepository;        
-        case FHIRDefinedType.Measure:
+        case FHIRAllTypes.Measure:
             return UnitOfWork.MeasureRepository;        
-        case FHIRDefinedType.MeasureReport:
+        case FHIRAllTypes.MeasureReport:
             return UnitOfWork.MeasureReportRepository;        
-        case FHIRDefinedType.Media:
+        case FHIRAllTypes.Media:
             return UnitOfWork.MediaRepository;        
-        case FHIRDefinedType.Medication:
+        case FHIRAllTypes.Medication:
             return UnitOfWork.MedicationRepository;        
-        case FHIRDefinedType.MedicationAdministration:
+        case FHIRAllTypes.MedicationAdministration:
             return UnitOfWork.MedicationAdministrationRepository;        
-        case FHIRDefinedType.MedicationDispense:
+        case FHIRAllTypes.MedicationDispense:
             return UnitOfWork.MedicationDispenseRepository;        
-        case FHIRDefinedType.MedicationOrder:
+        case FHIRAllTypes.MedicationOrder:
             return UnitOfWork.MedicationOrderRepository;        
-        case FHIRDefinedType.MedicationStatement:
+        case FHIRAllTypes.MedicationStatement:
             return UnitOfWork.MedicationStatementRepository;        
-        case FHIRDefinedType.MessageHeader:
+        case FHIRAllTypes.MessageHeader:
             return UnitOfWork.MessageHeaderRepository;        
-        case FHIRDefinedType.ModuleDefinition:
-            return UnitOfWork.ModuleDefinitionRepository;        
-        case FHIRDefinedType.NamingSystem:
+        case FHIRAllTypes.NamingSystem:
             return UnitOfWork.NamingSystemRepository;        
-        case FHIRDefinedType.NutritionOrder:
-            return UnitOfWork.NutritionOrderRepository;        
-        case FHIRDefinedType.Observation:
+        case FHIRAllTypes.NutritionRequest:
+            return UnitOfWork.NutritionRequestRepository;        
+        case FHIRAllTypes.Observation:
             return UnitOfWork.ObservationRepository;        
-        case FHIRDefinedType.OperationDefinition:
+        case FHIRAllTypes.OperationDefinition:
             return UnitOfWork.OperationDefinitionRepository;        
-        case FHIRDefinedType.OperationOutcome:
+        case FHIRAllTypes.OperationOutcome:
             return UnitOfWork.OperationOutcomeRepository;        
-        case FHIRDefinedType.Order:
-            return UnitOfWork.OrderRepository;        
-        case FHIRDefinedType.OrderResponse:
-            return UnitOfWork.OrderResponseRepository;        
-        case FHIRDefinedType.OrderSet:
-            return UnitOfWork.OrderSetRepository;        
-        case FHIRDefinedType.Organization:
+        case FHIRAllTypes.Organization:
             return UnitOfWork.OrganizationRepository;        
-        case FHIRDefinedType.Parameters:
+        case FHIRAllTypes.Parameters:
             return UnitOfWork.ParametersRepository;        
-        case FHIRDefinedType.Patient:
+        case FHIRAllTypes.Patient:
             return UnitOfWork.PatientRepository;        
-        case FHIRDefinedType.PaymentNotice:
+        case FHIRAllTypes.PaymentNotice:
             return UnitOfWork.PaymentNoticeRepository;        
-        case FHIRDefinedType.PaymentReconciliation:
+        case FHIRAllTypes.PaymentReconciliation:
             return UnitOfWork.PaymentReconciliationRepository;        
-        case FHIRDefinedType.Person:
+        case FHIRAllTypes.Person:
             return UnitOfWork.PersonRepository;        
-        case FHIRDefinedType.Practitioner:
+        case FHIRAllTypes.PlanDefinition:
+            return UnitOfWork.PlanDefinitionRepository;        
+        case FHIRAllTypes.Practitioner:
             return UnitOfWork.PractitionerRepository;        
-        case FHIRDefinedType.PractitionerRole:
+        case FHIRAllTypes.PractitionerRole:
             return UnitOfWork.PractitionerRoleRepository;        
-        case FHIRDefinedType.Procedure:
+        case FHIRAllTypes.Procedure:
             return UnitOfWork.ProcedureRepository;        
-        case FHIRDefinedType.ProcedureRequest:
+        case FHIRAllTypes.ProcedureRequest:
             return UnitOfWork.ProcedureRequestRepository;        
-        case FHIRDefinedType.ProcessRequest:
+        case FHIRAllTypes.ProcessRequest:
             return UnitOfWork.ProcessRequestRepository;        
-        case FHIRDefinedType.ProcessResponse:
+        case FHIRAllTypes.ProcessResponse:
             return UnitOfWork.ProcessResponseRepository;        
-        case FHIRDefinedType.Protocol:
-            return UnitOfWork.ProtocolRepository;        
-        case FHIRDefinedType.Provenance:
+        case FHIRAllTypes.Provenance:
             return UnitOfWork.ProvenanceRepository;        
-        case FHIRDefinedType.Questionnaire:
+        case FHIRAllTypes.Questionnaire:
             return UnitOfWork.QuestionnaireRepository;        
-        case FHIRDefinedType.QuestionnaireResponse:
+        case FHIRAllTypes.QuestionnaireResponse:
             return UnitOfWork.QuestionnaireResponseRepository;        
-        case FHIRDefinedType.ReferralRequest:
+        case FHIRAllTypes.ReferralRequest:
             return UnitOfWork.ReferralRequestRepository;        
-        case FHIRDefinedType.RelatedPerson:
+        case FHIRAllTypes.RelatedPerson:
             return UnitOfWork.RelatedPersonRepository;        
-        case FHIRDefinedType.RiskAssessment:
+        case FHIRAllTypes.RiskAssessment:
             return UnitOfWork.RiskAssessmentRepository;        
-        case FHIRDefinedType.Schedule:
+        case FHIRAllTypes.Schedule:
             return UnitOfWork.ScheduleRepository;        
-        case FHIRDefinedType.SearchParameter:
+        case FHIRAllTypes.SearchParameter:
             return UnitOfWork.SearchParameterRepository;        
-        case FHIRDefinedType.Sequence:
+        case FHIRAllTypes.Sequence:
             return UnitOfWork.SequenceRepository;        
-        case FHIRDefinedType.Slot:
+        case FHIRAllTypes.Slot:
             return UnitOfWork.SlotRepository;        
-        case FHIRDefinedType.Specimen:
+        case FHIRAllTypes.Specimen:
             return UnitOfWork.SpecimenRepository;        
-        case FHIRDefinedType.StructureDefinition:
+        case FHIRAllTypes.StructureDefinition:
             return UnitOfWork.StructureDefinitionRepository;        
-        case FHIRDefinedType.StructureMap:
+        case FHIRAllTypes.StructureMap:
             return UnitOfWork.StructureMapRepository;        
-        case FHIRDefinedType.Subscription:
+        case FHIRAllTypes.Subscription:
             return UnitOfWork.SubscriptionRepository;        
-        case FHIRDefinedType.Substance:
+        case FHIRAllTypes.Substance:
             return UnitOfWork.SubstanceRepository;        
-        case FHIRDefinedType.SupplyDelivery:
+        case FHIRAllTypes.SupplyDelivery:
             return UnitOfWork.SupplyDeliveryRepository;        
-        case FHIRDefinedType.SupplyRequest:
+        case FHIRAllTypes.SupplyRequest:
             return UnitOfWork.SupplyRequestRepository;        
-        case FHIRDefinedType.Task:
+        case FHIRAllTypes.Task:
             return UnitOfWork.TaskRepository;        
-        case FHIRDefinedType.TestScript:
+        case FHIRAllTypes.TestScript:
             return UnitOfWork.TestScriptRepository;        
-        case FHIRDefinedType.ValueSet:
+        case FHIRAllTypes.ValueSet:
             return UnitOfWork.ValueSetRepository;        
-        case FHIRDefinedType.VisionPrescription:
+        case FHIRAllTypes.VisionPrescription:
             return UnitOfWork.VisionPrescriptionRepository;        
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRDefinedType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRAllTypes));
       }      
     }
   }

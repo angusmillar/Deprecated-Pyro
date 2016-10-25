@@ -127,6 +127,7 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_Procedure, object>>>();
+      IncludeList.Add(x => x.category_List);
       IncludeList.Add(x => x.code_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.performer_List);
@@ -169,6 +170,7 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_Procedure_Index_category.RemoveRange(ResourceEntity.category_List);            
       _Context.Res_Procedure_Index_code.RemoveRange(ResourceEntity.code_List);            
       _Context.Res_Procedure_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Procedure_Index_performer.RemoveRange(ResourceEntity.performer_List);            
@@ -295,6 +297,16 @@ namespace Blaze.DataModel.Repository
               ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
+        }
+      }
+
+      if (ResourceTyped.Category != null)
+      {
+        foreach (var item3 in ResourceTyped.Category.Coding)
+        {
+          var Index = new Res_Procedure_Index_category();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Procedure_Index_category;
+          ResourseEntity.category_List.Add(Index);
         }
       }
 

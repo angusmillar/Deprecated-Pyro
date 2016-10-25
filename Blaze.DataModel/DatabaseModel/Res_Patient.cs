@@ -35,9 +35,9 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Patient_Index_address_use> address_use_List { get; set; }
     public ICollection<Res_Patient_Index_animal_breed> animal_breed_List { get; set; }
     public ICollection<Res_Patient_Index_animal_species> animal_species_List { get; set; }
-    public ICollection<Res_Patient_Index_careprovider> careprovider_List { get; set; }
     public ICollection<Res_Patient_Index_email> email_List { get; set; }
     public ICollection<Res_Patient_Index_family> family_List { get; set; }
+    public ICollection<Res_Patient_Index_general_practitioner> general_practitioner_List { get; set; }
     public ICollection<Res_Patient_Index_given> given_List { get; set; }
     public ICollection<Res_Patient_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_Patient_Index_language> language_List { get; set; }
@@ -60,9 +60,9 @@ namespace Blaze.DataModel.DatabaseModel
       this.address_use_List = new HashSet<Res_Patient_Index_address_use>();
       this.animal_breed_List = new HashSet<Res_Patient_Index_animal_breed>();
       this.animal_species_List = new HashSet<Res_Patient_Index_animal_species>();
-      this.careprovider_List = new HashSet<Res_Patient_Index_careprovider>();
       this.email_List = new HashSet<Res_Patient_Index_email>();
       this.family_List = new HashSet<Res_Patient_Index_family>();
+      this.general_practitioner_List = new HashSet<Res_Patient_Index_general_practitioner>();
       this.given_List = new HashSet<Res_Patient_Index_given>();
       this.identifier_List = new HashSet<Res_Patient_Index_identifier>();
       this.language_List = new HashSet<Res_Patient_Index_language>();

@@ -7,7 +7,7 @@ namespace Blaze.Common.BusinessEntities.Search
   public class DtoSupportedSearchParameters
   {
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
-    public FHIRDefinedType Resource { get; set; }
+    public FHIRAllTypes Resource { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public bool IsDbCollection { get; set; }
     public string DbPropertyName { get; set; }
@@ -19,7 +19,7 @@ namespace Blaze.Common.BusinessEntities.Search
     {
       var Page = new DtoSupportedSearchParameters();
       Page.Name = FhirSearchEnum.SearchParameterNameType.page;
-      Page.Resource = FHIRDefinedType.Resource;
+      Page.Resource = FHIRAllTypes.Resource;
       Page.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
       Page.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       Page.TypeModifierResourceList = new List<string>();
@@ -28,7 +28,7 @@ namespace Blaze.Common.BusinessEntities.Search
 
       var _Id = new DtoSupportedSearchParameters();
       _Id.Name = FhirSearchEnum.SearchParameterNameType._id;
-      _Id.Resource = FHIRDefinedType.Resource;
+      _Id.Resource = FHIRAllTypes.Resource;
       _Id.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
       _Id.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       _Id.TypeModifierResourceList = new List<string>();
@@ -37,7 +37,7 @@ namespace Blaze.Common.BusinessEntities.Search
 
       var _Sort = new DtoSupportedSearchParameters();
       _Sort.Name = FhirSearchEnum.SearchParameterNameType._sort;
-      _Sort.Resource = FHIRDefinedType.Resource;
+      _Sort.Resource = FHIRAllTypes.Resource;
       _Sort.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
       _Sort.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       _Sort.TypeModifierResourceList = new List<string>();

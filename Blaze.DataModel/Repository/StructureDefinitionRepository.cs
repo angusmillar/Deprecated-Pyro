@@ -265,10 +265,10 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Description != null)
       {
-        if (ResourceTyped.DescriptionElement is Hl7.Fhir.Model.FhirString)
+        if (ResourceTyped.Description is Hl7.Fhir.Model.Markdown)
         {
           var Index = new StringIndex();
-          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.DescriptionElement, Index) as StringIndex;
+          Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(ResourceTyped.Description, Index) as StringIndex;
           if (Index != null)
           {
             ResourseEntity.description_String = Index.String;
@@ -357,12 +357,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.BaseType != null)
+      if (ResourceTyped.Type != null)
       {
-        if (ResourceTyped.BaseTypeElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.FHIRDefinedType>)
+        if (ResourceTyped.TypeElement is Hl7.Fhir.Model.Code)
         {
           var Index = new TokenIndex();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.BaseTypeElement, Index) as TokenIndex;
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.TypeElement, Index) as TokenIndex;
           if (Index != null)
           {
             ResourseEntity.type_Code = Index.Code;

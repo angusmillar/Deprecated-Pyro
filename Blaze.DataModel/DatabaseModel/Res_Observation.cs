@@ -53,17 +53,15 @@ namespace Blaze.DataModel.DatabaseModel
     public ICollection<Res_Observation_History> Res_Observation_History_List { get; set; }
     public ICollection<Res_Observation_Index_category> category_List { get; set; }
     public ICollection<Res_Observation_Index_code> code_List { get; set; }
-    public ICollection<Res_Observation_Index_component_code> component_code_List { get; set; }
-    public ICollection<Res_Observation_Index_component_data_absent_reason> component_data_absent_reason_List { get; set; }
-    public ICollection<Res_Observation_Index_component_value_concept> component_value_concept_List { get; set; }
-    public ICollection<Res_Observation_Index_component_value_quantity> component_value_quantity_List { get; set; }
-    public ICollection<Res_Observation_Index_component_value_string> component_value_string_List { get; set; }
     public ICollection<Res_Observation_Index_data_absent_reason> data_absent_reason_List { get; set; }
     public ICollection<Res_Observation_Index_identifier> identifier_List { get; set; }
+    public ICollection<Res_Observation_Index_method> method_List { get; set; }
     public ICollection<Res_Observation_Index_performer> performer_List { get; set; }
     public ICollection<Res_Observation_Index_related_target> related_target_List { get; set; }
     public ICollection<Res_Observation_Index_related_type> related_type_List { get; set; }
     public ICollection<Res_Observation_Index_value_concept> value_concept_List { get; set; }
+    public ICollection<Res_Observation_Index_value_quantity> value_quantity_List { get; set; }
+    public ICollection<Res_Observation_Index_value_string> value_string_List { get; set; }
     public ICollection<Res_Observation_Index__profile> _profile_List { get; set; }
     public ICollection<Res_Observation_Index__security> _security_List { get; set; }
     public ICollection<Res_Observation_Index__tag> _tag_List { get; set; }
@@ -72,17 +70,15 @@ namespace Blaze.DataModel.DatabaseModel
     {
       this.category_List = new HashSet<Res_Observation_Index_category>();
       this.code_List = new HashSet<Res_Observation_Index_code>();
-      this.component_code_List = new HashSet<Res_Observation_Index_component_code>();
-      this.component_data_absent_reason_List = new HashSet<Res_Observation_Index_component_data_absent_reason>();
-      this.component_value_concept_List = new HashSet<Res_Observation_Index_component_value_concept>();
-      this.component_value_quantity_List = new HashSet<Res_Observation_Index_component_value_quantity>();
-      this.component_value_string_List = new HashSet<Res_Observation_Index_component_value_string>();
       this.data_absent_reason_List = new HashSet<Res_Observation_Index_data_absent_reason>();
       this.identifier_List = new HashSet<Res_Observation_Index_identifier>();
+      this.method_List = new HashSet<Res_Observation_Index_method>();
       this.performer_List = new HashSet<Res_Observation_Index_performer>();
       this.related_target_List = new HashSet<Res_Observation_Index_related_target>();
       this.related_type_List = new HashSet<Res_Observation_Index_related_type>();
       this.value_concept_List = new HashSet<Res_Observation_Index_value_concept>();
+      this.value_quantity_List = new HashSet<Res_Observation_Index_value_quantity>();
+      this.value_string_List = new HashSet<Res_Observation_Index_value_string>();
       this._profile_List = new HashSet<Res_Observation_Index__profile>();
       this._security_List = new HashSet<Res_Observation_Index__security>();
       this._tag_List = new HashSet<Res_Observation_Index__tag>();

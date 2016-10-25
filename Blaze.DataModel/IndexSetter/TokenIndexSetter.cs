@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Blaze.Common.Interfaces.UriSupport;
 using Blaze.DataModel.Repository.Interfaces;
 using Blaze.DataModel.Support;
+using Hl7.Fhir.Introspection;
 
 namespace Blaze.DataModel.IndexSetter
 {
@@ -176,8 +177,9 @@ namespace Blaze.DataModel.IndexSetter
         TokenIndex.Code = ContactPoint.Value.Trim();
       }
       if (ContactPoint.System != null)
-      {
-        TokenIndex.System = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(ContactPoint.System);
+      {        
+        TokenIndex.System = ContactPoint.System.GetLiteral();
+        //TokenIndex.System = Hl7.Fhir.Introspection.EnumMapping.Create(typeof(Hl7.Fhir.Model.ContactPoint.ContactPointSystem)).GetLiteral(ContactPoint.System);
       }
       return TokenIndex;
     }

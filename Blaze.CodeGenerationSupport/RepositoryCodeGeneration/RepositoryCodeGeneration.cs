@@ -19,9 +19,14 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
       var RepositoryCodeGenModel = new RepositoryCodeGenModel();
       RepositoryCodeGenModel.RepositoryItemList = new List<RepositoryItem>();
-
+      int DebugCounter = 0;
       foreach (var ResourceName in _ResourceList)
       {
+        DebugCounter++;
+        if (DebugCounter == 10)
+        {
+          DebugCounter = 0;
+        }
         List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
         List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);
         List<FhirApiSearchParameterInfo> NonCollectionParameters = SearchParameterFilter.GetIsColectionParameters(false, SearchParametersForResource);

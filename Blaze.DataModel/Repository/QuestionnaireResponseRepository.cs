@@ -127,6 +127,8 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_QuestionnaireResponse, object>>>();
+      IncludeList.Add(x => x.based_on_List);
+      IncludeList.Add(x => x.parent_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -145,11 +147,13 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.author_Url = null;      
       ResourceEntity.author_ServiceRootURL_StoreID = null;      
       ResourceEntity.authored_DateTimeOffset = null;      
-      ResourceEntity.encounter_VersionId = null;      
-      ResourceEntity.encounter_FhirId = null;      
-      ResourceEntity.encounter_Type = null;      
-      ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
+      ResourceEntity.context_VersionId = null;      
+      ResourceEntity.context_FhirId = null;      
+      ResourceEntity.context_Type = null;      
+      ResourceEntity.context_Url = null;      
+      ResourceEntity.context_ServiceRootURL_StoreID = null;      
+      ResourceEntity.identifier_Code = null;      
+      ResourceEntity.identifier_System = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
@@ -175,6 +179,8 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.XmlBlob = null;      
  
       
+      _Context.Res_QuestionnaireResponse_Index_based_on.RemoveRange(ResourceEntity.based_on_List);            
+      _Context.Res_QuestionnaireResponse_Index_parent.RemoveRange(ResourceEntity.parent_List);            
       _Context.Res_QuestionnaireResponse_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_QuestionnaireResponse_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_QuestionnaireResponse_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -220,24 +226,38 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Encounter != null)
+      if (ResourceTyped.Context != null)
       {
-        if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Encounter, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.encounter_Type = Index.Type;
-            ResourseEntity.encounter_FhirId = Index.FhirId;
+            ResourseEntity.context_Type = Index.Type;
+            ResourseEntity.context_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.encounter_Url = Index.Url;
+              ResourseEntity.context_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.context_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
+          }
+        }
+      }
+
+      if (ResourceTyped.Identifier != null)
+      {
+        if (ResourceTyped.Identifier is Hl7.Fhir.Model.Identifier)
+        {
+          var Index = new TokenIndex();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.Identifier, Index) as TokenIndex;
+          if (Index != null)
+          {
+            ResourseEntity.identifier_Code = Index.Code;
+            ResourseEntity.identifier_System = Index.System;
           }
         }
       }
@@ -339,6 +359,38 @@ namespace Blaze.DataModel.Repository
             else
             {
               ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.BasedOn != null)
+      {
+        foreach (var item in ResourceTyped.BasedOn)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_QuestionnaireResponse_Index_based_on();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_QuestionnaireResponse_Index_based_on;
+            if (Index != null)
+            {
+              ResourseEntity.based_on_List.Add(Index);
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Parent != null)
+      {
+        foreach (var item in ResourceTyped.Parent)
+        {
+          if (item is ResourceReference)
+          {
+            var Index = new Res_QuestionnaireResponse_Index_parent();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_QuestionnaireResponse_Index_parent;
+            if (Index != null)
+            {
+              ResourseEntity.parent_List.Add(Index);
             }
           }
         }

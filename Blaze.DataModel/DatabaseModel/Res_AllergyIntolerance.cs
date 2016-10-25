@@ -39,24 +39,24 @@ namespace Blaze.DataModel.DatabaseModel
     public string type_Code {get; set;}
     public string type_System {get; set;}
     public ICollection<Res_AllergyIntolerance_History> Res_AllergyIntolerance_History_List { get; set; }
+    public ICollection<Res_AllergyIntolerance_Index_code> code_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_identifier> identifier_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_manifestation> manifestation_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_onset> onset_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_route> route_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index_severity> severity_List { get; set; }
-    public ICollection<Res_AllergyIntolerance_Index_substance> substance_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index__profile> _profile_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index__security> _security_List { get; set; }
     public ICollection<Res_AllergyIntolerance_Index__tag> _tag_List { get; set; }
    
     public Res_AllergyIntolerance()
     {
+      this.code_List = new HashSet<Res_AllergyIntolerance_Index_code>();
       this.identifier_List = new HashSet<Res_AllergyIntolerance_Index_identifier>();
       this.manifestation_List = new HashSet<Res_AllergyIntolerance_Index_manifestation>();
       this.onset_List = new HashSet<Res_AllergyIntolerance_Index_onset>();
       this.route_List = new HashSet<Res_AllergyIntolerance_Index_route>();
       this.severity_List = new HashSet<Res_AllergyIntolerance_Index_severity>();
-      this.substance_List = new HashSet<Res_AllergyIntolerance_Index_substance>();
       this._profile_List = new HashSet<Res_AllergyIntolerance_Index__profile>();
       this._security_List = new HashSet<Res_AllergyIntolerance_Index__security>();
       this._tag_List = new HashSet<Res_AllergyIntolerance_Index__tag>();

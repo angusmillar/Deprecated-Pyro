@@ -43,7 +43,7 @@ namespace Blaze.Common.BusinessEntities.Search.Validation
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
-        Validation.SearchParametersValidationOperationOutcome SearchParametersValidationOperationOutcome = Validation.SearchParameterValidator.Validate((Hl7.Fhir.Model.FHIRDefinedType)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
+        Validation.SearchParametersValidationOperationOutcome SearchParametersValidationOperationOutcome = Validation.SearchParameterValidator.Validate((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
         oSearchParameter.ChainedSearchParameter = SearchParametersValidationOperationOutcome;
       }
       else

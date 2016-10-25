@@ -271,7 +271,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.Status != null)
       {
-        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code)
+        if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Account.AccountStatus>)
         {
           var Index = new TokenIndex();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.StatusElement, Index) as TokenIndex;

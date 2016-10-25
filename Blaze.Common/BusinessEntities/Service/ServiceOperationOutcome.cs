@@ -183,7 +183,9 @@ namespace Blaze.Common.BusinessEntities.Service
     {
       try
       {
-        Resource oResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);
+        //Resource oResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);
+        Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
+        Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);        
         return oResource;
       }
       catch (Exception oExec)
@@ -215,8 +217,10 @@ namespace Blaze.Common.BusinessEntities.Service
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
         try
         {
-          var Resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(DtoResource.Xml) as Resource;
-          oResEntry.Resource = Resource;
+          //var Resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(DtoResource.Xml) as Resource;
+          Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
+          Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);          
+          oResEntry.Resource = oResource;
         }
         catch (Exception oExec)
         {

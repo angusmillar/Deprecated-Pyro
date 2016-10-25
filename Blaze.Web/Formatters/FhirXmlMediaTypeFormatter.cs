@@ -47,7 +47,9 @@ namespace Blaze.Web.Formatters
 
           if (typeof(Resource).IsAssignableFrom(type))
           {
-            Resource resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(body);
+            //Resource resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(body);
+            FhirXmlParser FhirXmlParser = new FhirXmlParser();
+            Resource resource = FhirXmlParser.Parse<Resource>(body);
             return resource;
           }
           else

@@ -161,11 +161,11 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
-      ResourceEntity.practitioner_VersionId = null;      
-      ResourceEntity.practitioner_FhirId = null;      
-      ResourceEntity.practitioner_Type = null;      
-      ResourceEntity.practitioner_Url = null;      
-      ResourceEntity.practitioner_ServiceRootURL_StoreID = null;      
+      ResourceEntity.performer_VersionId = null;      
+      ResourceEntity.performer_FhirId = null;      
+      ResourceEntity.performer_Type = null;      
+      ResourceEntity.performer_Url = null;      
+      ResourceEntity.performer_ServiceRootURL_StoreID = null;      
       ResourceEntity.prescription_VersionId = null;      
       ResourceEntity.prescription_FhirId = null;      
       ResourceEntity.prescription_Type = null;      
@@ -285,23 +285,23 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Practitioner != null)
+      if (ResourceTyped.Performer != null)
       {
-        if (ResourceTyped.Practitioner is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Performer is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Practitioner, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Performer, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.practitioner_Type = Index.Type;
-            ResourseEntity.practitioner_FhirId = Index.FhirId;
+            ResourseEntity.performer_Type = Index.Type;
+            ResourseEntity.performer_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.practitioner_Url = Index.Url;
+              ResourseEntity.performer_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.practitioner_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.performer_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

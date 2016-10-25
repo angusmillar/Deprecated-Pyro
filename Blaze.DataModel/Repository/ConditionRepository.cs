@@ -153,17 +153,22 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.asserter_ServiceRootURL_StoreID = null;      
       ResourceEntity.clinicalstatus_Code = null;      
       ResourceEntity.clinicalstatus_System = null;      
+      ResourceEntity.context_VersionId = null;      
+      ResourceEntity.context_FhirId = null;      
+      ResourceEntity.context_Type = null;      
+      ResourceEntity.context_Url = null;      
+      ResourceEntity.context_ServiceRootURL_StoreID = null;      
       ResourceEntity.date_recorded_Date = null;      
-      ResourceEntity.encounter_VersionId = null;      
-      ResourceEntity.encounter_FhirId = null;      
-      ResourceEntity.encounter_Type = null;      
-      ResourceEntity.encounter_Url = null;      
-      ResourceEntity.encounter_ServiceRootURL_StoreID = null;      
       ResourceEntity.patient_VersionId = null;      
       ResourceEntity.patient_FhirId = null;      
       ResourceEntity.patient_Type = null;      
       ResourceEntity.patient_Url = null;      
       ResourceEntity.patient_ServiceRootURL_StoreID = null;      
+      ResourceEntity.subject_VersionId = null;      
+      ResourceEntity.subject_FhirId = null;      
+      ResourceEntity.subject_Type = null;      
+      ResourceEntity.subject_Url = null;      
+      ResourceEntity.subject_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
@@ -208,7 +213,7 @@ namespace Blaze.DataModel.Repository
 
       if (ResourceTyped.ClinicalStatus != null)
       {
-        if (ResourceTyped.ClinicalStatusElement is Hl7.Fhir.Model.Code)
+        if (ResourceTyped.ClinicalStatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Condition.ConditionClinicalStatusCodes>)
         {
           var Index = new TokenIndex();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(ResourceTyped.ClinicalStatusElement, Index) as TokenIndex;
@@ -216,6 +221,28 @@ namespace Blaze.DataModel.Repository
           {
             ResourseEntity.clinicalstatus_Code = Index.Code;
             ResourseEntity.clinicalstatus_System = Index.System;
+          }
+        }
+      }
+
+      if (ResourceTyped.Context != null)
+      {
+        if (ResourceTyped.Context is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Context, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.context_Type = Index.Type;
+            ResourseEntity.context_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.context_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.context_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
           }
         }
       }
@@ -233,34 +260,12 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Encounter != null)
+      if (ResourceTyped.Subject != null)
       {
-        if (ResourceTyped.Encounter is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Encounter, Index, FhirRequestUri, this) as ReferenceIndex;
-          if (Index != null)
-          {
-            ResourseEntity.encounter_Type = Index.Type;
-            ResourseEntity.encounter_FhirId = Index.FhirId;
-            if (Index.Url != null)
-            {
-              ResourseEntity.encounter_Url = Index.Url;
-            }
-            else
-            {
-              ResourseEntity.encounter_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
-            }
-          }
-        }
-      }
-
-      if (ResourceTyped.Patient != null)
-      {
-        if (ResourceTyped.Patient is Hl7.Fhir.Model.ResourceReference)
-        {
-          var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Patient, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
             ResourseEntity.patient_Type = Index.Type;
@@ -272,6 +277,28 @@ namespace Blaze.DataModel.Repository
             else
             {
               ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
+      if (ResourceTyped.Subject != null)
+      {
+        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.subject_Type = Index.Type;
+            ResourseEntity.subject_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.subject_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }

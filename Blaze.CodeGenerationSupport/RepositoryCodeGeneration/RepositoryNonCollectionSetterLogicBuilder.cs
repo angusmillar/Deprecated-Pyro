@@ -60,9 +60,9 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void BuildIndexSetterLogic(FhirApiSearchParameterInfo NonCollectionParameter)
     {
-      if (NonCollectionParameter.Resource == "Observation")
+      if (NonCollectionParameter.Resource == "Condition")
       {
-        if (NonCollectionParameter.SearchName == "value-string")
+        if (NonCollectionParameter.SearchName == "abatement-age")
         {
           //Debug only
         }
@@ -151,6 +151,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
       }
       else if (CurrentTargetDataType == typeof(Money) ||
+               CurrentTargetDataType == typeof(Markdown) ||
                CurrentTargetDataType == typeof(Quantity))
       {
         StandardIndexStetter(NonCollectionParameter);
@@ -189,21 +190,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
             StandardIndexStetter(NonCollectionParameter);
             DynamicIndexStetter(NonCollectionParameter);
           }
-          else if (TargetChoiceDataType == typeof(FhirBoolean))
+          else if (TargetChoiceDataType == typeof(FhirBoolean) ||
+                   TargetChoiceDataType == typeof(Age) ||
+                   TargetChoiceDataType == typeof(Period) ||       //Will return null for Quantity
+                   TargetChoiceDataType == typeof(Range) ||        //Will return null for Quantity
+                   TargetChoiceDataType == typeof(FhirString) ||   
+                   TargetChoiceDataType == typeof(FhirDateTime)) 
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
             DynamicIndexStetter(NonCollectionParameter);
-          }
-          else if (TargetChoiceDataType == typeof(Identifier))
-          {
-            StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter);
-          }
-          else if (TargetChoiceDataType == typeof(FhirDateTime))
-          {
-            StandardIndexStetter(NonCollectionParameter, ElementString);
-            DynamicIndexStetter(NonCollectionParameter);
-          }
+          }                    
           else
           {
             throw new ApplicationException(String.Format("The NonCollection BuildIndexSetterLogic was given a ChoiceDataType of '{0}' with a SearchIndex of {1} for the Resource '{2}' it can not handle", TargetChoiceDataType.ToString(), NonCollectionParameter.SearchParamType.ToString(), NonCollectionParameter.Resource));
@@ -219,6 +215,14 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
           {
             ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
           }
+          else if (TargetChoiceDataType == typeof(Attachment))
+          {
+            ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
+          }
+          else if (TargetChoiceDataType == typeof(Identifier))
+          {
+            ResourceReferenceIndexStetter(NonCollectionParameter, ElementString);
+          }
           else
           {
             throw new ApplicationException(String.Format("The NonCollection BuildIndexSetterLogic was given a ChoiceDataType of '{0}' with a SearchIndex of {1} for the Resource '{2}' it can not handle", TargetChoiceDataType.ToString(), NonCollectionParameter.SearchParamType.ToString(), NonCollectionParameter.Resource));
@@ -226,17 +230,16 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.Date)
         {
-          if (TargetChoiceDataType == typeof(FhirDateTime))
+          if (TargetChoiceDataType == typeof(FhirDateTime) ||
+              TargetChoiceDataType == typeof(Range) ||       
+              TargetChoiceDataType == typeof(FhirString) ||   
+              TargetChoiceDataType == typeof(FhirBoolean))
           {
             StandardIndexStetter(NonCollectionParameter, ElementString);
             DynamicIndexStetter(NonCollectionParameter);
-          }
-          else if (TargetChoiceDataType == typeof(Period))
-          {
-            StandardIndexStetter(NonCollectionParameter);
-            DynamicIndexStetter(NonCollectionParameter);
-          }
+          }         
           else if (TargetChoiceDataType == typeof(Date) ||
+                   TargetChoiceDataType == typeof(Period) ||
                    TargetChoiceDataType == typeof(Age))
           {
             StandardIndexStetter(NonCollectionParameter);
@@ -249,11 +252,22 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
         }
         else if (NonCollectionParameter.SearchParamType == SearchParamType.Quantity)
         {
-          if (TargetChoiceDataType == typeof(Quantity))
+          if (TargetChoiceDataType == typeof(Quantity) ||
+            TargetChoiceDataType == typeof(Range) ||
+            TargetChoiceDataType == typeof(Age))            
           {
             StandardIndexStetter(NonCollectionParameter);
             DynamicIndexStetter(NonCollectionParameter);
           }
+          //else if (TargetChoiceDataType == typeof(Range) ||
+          //  TargetChoiceDataType == typeof(FhirDateTime) ||
+          //  TargetChoiceDataType == typeof(FhirBoolean) ||
+          //  TargetChoiceDataType == typeof(Period) || 
+          //  TargetChoiceDataType == typeof(FhirString))
+          //{
+          //  //For any of these we do nothing so to 
+          //  //not create a setter as we can not set a Quantity as a QuantityRange, Boolean, Period, String...?? 
+          //}
           else
           {
             throw new ApplicationException(String.Format("The NonCollection BuildIndexSetterLogic was given a ChoiceDataType of '{0}' with a SearchIndex of {1} for the Resource '{2}' it can not handle", TargetChoiceDataType.ToString(), NonCollectionParameter.SearchParamType.ToString(), NonCollectionParameter.Resource));

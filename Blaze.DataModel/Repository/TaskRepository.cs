@@ -127,9 +127,11 @@ namespace Blaze.DataModel.Repository
     {
 
       var IncludeList = new List<Expression<Func<Res_Task, object>>>();
-      IncludeList.Add(x => x.failure_List);
+      IncludeList.Add(x => x.code_List);
+      IncludeList.Add(x => x.parent_List);
       IncludeList.Add(x => x.performer_List);
-      IncludeList.Add(x => x.type_List);
+      IncludeList.Add(x => x.stage_List);
+      IncludeList.Add(x => x.statusreason_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -143,12 +145,12 @@ namespace Blaze.DataModel.Repository
     private void ResetResourceEntity(Res_Task ResourceEntity)
     {
       ResourceEntity.created_DateTimeOffset = null;      
-      ResourceEntity.creator_VersionId = null;      
-      ResourceEntity.creator_FhirId = null;      
-      ResourceEntity.creator_Type = null;      
-      ResourceEntity.creator_Url = null;      
-      ResourceEntity.creator_ServiceRootURL_StoreID = null;      
       ResourceEntity.definition_Uri = null;      
+      ResourceEntity.focus_VersionId = null;      
+      ResourceEntity.focus_FhirId = null;      
+      ResourceEntity.focus_Type = null;      
+      ResourceEntity.focus_Url = null;      
+      ResourceEntity.focus_ServiceRootURL_StoreID = null;      
       ResourceEntity.identifier_Code = null;      
       ResourceEntity.identifier_System = null;      
       ResourceEntity.modified_DateTimeOffset = null;      
@@ -157,26 +159,28 @@ namespace Blaze.DataModel.Repository
       ResourceEntity.owner_Type = null;      
       ResourceEntity.owner_Url = null;      
       ResourceEntity.owner_ServiceRootURL_StoreID = null;      
-      ResourceEntity.parent_VersionId = null;      
-      ResourceEntity.parent_FhirId = null;      
-      ResourceEntity.parent_Type = null;      
-      ResourceEntity.parent_Url = null;      
-      ResourceEntity.parent_ServiceRootURL_StoreID = null;      
+      ResourceEntity.patient_VersionId = null;      
+      ResourceEntity.patient_FhirId = null;      
+      ResourceEntity.patient_Type = null;      
+      ResourceEntity.patient_Url = null;      
+      ResourceEntity.patient_ServiceRootURL_StoreID = null;      
       ResourceEntity.priority_Code = null;      
       ResourceEntity.priority_System = null;      
+      ResourceEntity.requester_VersionId = null;      
+      ResourceEntity.requester_FhirId = null;      
+      ResourceEntity.requester_Type = null;      
+      ResourceEntity.requester_Url = null;      
+      ResourceEntity.requester_ServiceRootURL_StoreID = null;      
       ResourceEntity.status_Code = null;      
       ResourceEntity.status_System = null;      
-      ResourceEntity.subject_VersionId = null;      
-      ResourceEntity.subject_FhirId = null;      
-      ResourceEntity.subject_Type = null;      
-      ResourceEntity.subject_Url = null;      
-      ResourceEntity.subject_ServiceRootURL_StoreID = null;      
       ResourceEntity.XmlBlob = null;      
  
       
-      _Context.Res_Task_Index_failure.RemoveRange(ResourceEntity.failure_List);            
+      _Context.Res_Task_Index_code.RemoveRange(ResourceEntity.code_List);            
+      _Context.Res_Task_Index_parent.RemoveRange(ResourceEntity.parent_List);            
       _Context.Res_Task_Index_performer.RemoveRange(ResourceEntity.performer_List);            
-      _Context.Res_Task_Index_type.RemoveRange(ResourceEntity.type_List);            
+      _Context.Res_Task_Index_stage.RemoveRange(ResourceEntity.stage_List);            
+      _Context.Res_Task_Index_statusreason.RemoveRange(ResourceEntity.statusreason_List);            
       _Context.Res_Task_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Task_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_Task_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -200,28 +204,6 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Creator != null)
-      {
-        if (ResourceTyped.Creator is Hl7.Fhir.Model.ResourceReference)
-        {
-          var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Creator, Index, FhirRequestUri, this) as ReferenceIndex;
-          if (Index != null)
-          {
-            ResourseEntity.creator_Type = Index.Type;
-            ResourseEntity.creator_FhirId = Index.FhirId;
-            if (Index.Url != null)
-            {
-              ResourseEntity.creator_Url = Index.Url;
-            }
-            else
-            {
-              ResourseEntity.creator_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
-            }
-          }
-        }
-      }
-
       if (ResourceTyped.Definition != null)
       {
         if (ResourceTyped.DefinitionElement is Hl7.Fhir.Model.FhirUri)
@@ -231,6 +213,28 @@ namespace Blaze.DataModel.Repository
           if (Index != null)
           {
             ResourseEntity.definition_Uri = Index.Uri;
+          }
+        }
+      }
+
+      if (ResourceTyped.Focus != null)
+      {
+        if (ResourceTyped.Focus is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Focus, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.focus_Type = Index.Type;
+            ResourseEntity.focus_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.focus_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.focus_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
           }
         }
       }
@@ -284,23 +288,23 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Parent != null)
+      if (ResourceTyped.For != null)
       {
-        if (ResourceTyped.Parent is Hl7.Fhir.Model.ResourceReference)
+        if (ResourceTyped.For is Hl7.Fhir.Model.ResourceReference)
         {
           var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Parent, Index, FhirRequestUri, this) as ReferenceIndex;
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.For, Index, FhirRequestUri, this) as ReferenceIndex;
           if (Index != null)
           {
-            ResourseEntity.parent_Type = Index.Type;
-            ResourseEntity.parent_FhirId = Index.FhirId;
+            ResourseEntity.patient_Type = Index.Type;
+            ResourseEntity.patient_FhirId = Index.FhirId;
             if (Index.Url != null)
             {
-              ResourseEntity.parent_Url = Index.Url;
+              ResourseEntity.patient_Url = Index.Url;
             }
             else
             {
-              ResourseEntity.parent_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+              ResourseEntity.patient_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
             }
           }
         }
@@ -320,6 +324,28 @@ namespace Blaze.DataModel.Repository
         }
       }
 
+      if (ResourceTyped.Requester != null)
+      {
+        if (ResourceTyped.Requester is Hl7.Fhir.Model.ResourceReference)
+        {
+          var Index = new ReferenceIndex();
+          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Requester, Index, FhirRequestUri, this) as ReferenceIndex;
+          if (Index != null)
+          {
+            ResourseEntity.requester_Type = Index.Type;
+            ResourseEntity.requester_FhirId = Index.FhirId;
+            if (Index.Url != null)
+            {
+              ResourseEntity.requester_Url = Index.Url;
+            }
+            else
+            {
+              ResourseEntity.requester_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
+            }
+          }
+        }
+      }
+
       if (ResourceTyped.Status != null)
       {
         if (ResourceTyped.StatusElement is Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Task.TaskStatus>)
@@ -334,35 +360,29 @@ namespace Blaze.DataModel.Repository
         }
       }
 
-      if (ResourceTyped.Subject != null)
+      if (ResourceTyped.Code != null)
       {
-        if (ResourceTyped.Subject is Hl7.Fhir.Model.ResourceReference)
+        foreach (var item3 in ResourceTyped.Code.Coding)
         {
-          var Index = new ReferenceIndex();
-          Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(ResourceTyped.Subject, Index, FhirRequestUri, this) as ReferenceIndex;
-          if (Index != null)
-          {
-            ResourseEntity.subject_Type = Index.Type;
-            ResourseEntity.subject_FhirId = Index.FhirId;
-            if (Index.Url != null)
-            {
-              ResourseEntity.subject_Url = Index.Url;
-            }
-            else
-            {
-              ResourseEntity.subject_ServiceRootURL_StoreID = Index.ServiceRootURL_StoreID;
-            }
-          }
+          var Index = new Res_Task_Index_code();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_code;
+          ResourseEntity.code_List.Add(Index);
         }
       }
 
-      if (ResourceTyped.FailureReason != null)
+      if (ResourceTyped.Parent != null)
       {
-        foreach (var item3 in ResourceTyped.FailureReason.Coding)
+        foreach (var item in ResourceTyped.Parent)
         {
-          var Index = new Res_Task_Index_failure();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_failure;
-          ResourseEntity.failure_List.Add(Index);
+          if (item is ResourceReference)
+          {
+            var Index = new Res_Task_Index_parent();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item, Index, FhirRequestUri, this) as Res_Task_Index_parent;
+            if (Index != null)
+            {
+              ResourseEntity.parent_List.Add(Index);
+            }
+          }
         }
       }
 
@@ -370,22 +390,35 @@ namespace Blaze.DataModel.Repository
       {
         foreach (var item3 in ResourceTyped.PerformerType)
         {
-          if (item3 is Hl7.Fhir.Model.Coding)
+          if (item3 != null)
           {
-            var Index = new Res_Task_Index_performer();
-            Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_performer;
-            ResourseEntity.performer_List.Add(Index);
+            foreach (var item4 in item3.Coding)
+            {
+              var Index = new Res_Task_Index_performer();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Task_Index_performer;
+              ResourseEntity.performer_List.Add(Index);
+            }
           }
         }
       }
 
-      if (ResourceTyped.Type != null)
+      if (ResourceTyped.Stage != null)
       {
-        foreach (var item3 in ResourceTyped.Type.Coding)
+        foreach (var item3 in ResourceTyped.Stage.Coding)
         {
-          var Index = new Res_Task_Index_type();
-          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_type;
-          ResourseEntity.type_List.Add(Index);
+          var Index = new Res_Task_Index_stage();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_stage;
+          ResourseEntity.stage_List.Add(Index);
+        }
+      }
+
+      if (ResourceTyped.StatusReason != null)
+      {
+        foreach (var item3 in ResourceTyped.StatusReason.Coding)
+        {
+          var Index = new Res_Task_Index_statusreason();
+          Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Task_Index_statusreason;
+          ResourseEntity.statusreason_List.Add(Index);
         }
       }
 

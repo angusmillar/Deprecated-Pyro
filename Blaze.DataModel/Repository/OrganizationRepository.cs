@@ -134,6 +134,7 @@ namespace Blaze.DataModel.Repository
       IncludeList.Add(x => x.address_state_List);
       IncludeList.Add(x => x.address_use_List);
       IncludeList.Add(x => x.identifier_List);
+      IncludeList.Add(x => x.name_List);
       IncludeList.Add(x => x.type_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
@@ -166,6 +167,7 @@ namespace Blaze.DataModel.Repository
       _Context.Res_Organization_Index_address_state.RemoveRange(ResourceEntity.address_state_List);            
       _Context.Res_Organization_Index_address_use.RemoveRange(ResourceEntity.address_use_List);            
       _Context.Res_Organization_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
+      _Context.Res_Organization_Index_name.RemoveRange(ResourceEntity.name_List);            
       _Context.Res_Organization_Index_type.RemoveRange(ResourceEntity.type_List);            
       _Context.Res_Organization_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Organization_Index__security.RemoveRange(ResourceEntity._security_List);            
@@ -323,6 +325,19 @@ namespace Blaze.DataModel.Repository
             var Index = new Res_Organization_Index_identifier();
             Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Organization_Index_identifier;
             ResourseEntity.identifier_List.Add(Index);
+          }
+        }
+      }
+
+      if (ResourceTyped.Alias != null)
+      {
+        foreach (var item3 in ResourceTyped.AliasElement)
+        {
+          if (item3 is Hl7.Fhir.Model.FhirString)
+          {
+            var Index = new Res_Organization_Index_name();
+            Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(item3, Index) as Res_Organization_Index_name;
+            ResourseEntity.name_List.Add(Index);
           }
         }
       }

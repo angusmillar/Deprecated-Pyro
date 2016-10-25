@@ -14,36 +14,36 @@ namespace Blaze.DataModel.DatabaseModel
   {
     public int Res_PaymentNoticeID {get; set;}
     public DateTimeOffset? created_DateTimeOffset {get; set;}
-    public string organizationidentifier_Code {get; set;}
-    public string organizationidentifier_System {get; set;}
-    public string organizationreference_VersionId {get; set;}
-    public string organizationreference_FhirId {get; set;}
-    public string organizationreference_Type {get; set;}
-    public virtual ServiceRootURL_Store organizationreference_Url { get; set; }
-    public int? organizationreference_ServiceRootURL_StoreID { get; set; }
-    public string paymentstatus_Code {get; set;}
-    public string paymentstatus_System {get; set;}
-    public string provideridentifier_Code {get; set;}
-    public string provideridentifier_System {get; set;}
-    public string providerreference_VersionId {get; set;}
-    public string providerreference_FhirId {get; set;}
-    public string providerreference_Type {get; set;}
-    public virtual ServiceRootURL_Store providerreference_Url { get; set; }
-    public int? providerreference_ServiceRootURL_StoreID { get; set; }
-    public string requestidentifier_Code {get; set;}
-    public string requestidentifier_System {get; set;}
-    public string requestreference_VersionId {get; set;}
-    public string requestreference_FhirId {get; set;}
-    public string requestreference_Type {get; set;}
-    public virtual ServiceRootURL_Store requestreference_Url { get; set; }
-    public int? requestreference_ServiceRootURL_StoreID { get; set; }
-    public string responseidentifier_Code {get; set;}
-    public string responseidentifier_System {get; set;}
-    public string responsereference_VersionId {get; set;}
-    public string responsereference_FhirId {get; set;}
-    public string responsereference_Type {get; set;}
-    public virtual ServiceRootURL_Store responsereference_Url { get; set; }
-    public int? responsereference_ServiceRootURL_StoreID { get; set; }
+    public string organization_identifier_Code {get; set;}
+    public string organization_identifier_System {get; set;}
+    public string organization_reference_VersionId {get; set;}
+    public string organization_reference_FhirId {get; set;}
+    public string organization_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store organization_reference_Url { get; set; }
+    public int? organization_reference_ServiceRootURL_StoreID { get; set; }
+    public string payment_status_Code {get; set;}
+    public string payment_status_System {get; set;}
+    public string provider_identifier_Code {get; set;}
+    public string provider_identifier_System {get; set;}
+    public string provider_reference_VersionId {get; set;}
+    public string provider_reference_FhirId {get; set;}
+    public string provider_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store provider_reference_Url { get; set; }
+    public int? provider_reference_ServiceRootURL_StoreID { get; set; }
+    public string request_identifier_Code {get; set;}
+    public string request_identifier_System {get; set;}
+    public string request_reference_VersionId {get; set;}
+    public string request_reference_FhirId {get; set;}
+    public string request_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store request_reference_Url { get; set; }
+    public int? request_reference_ServiceRootURL_StoreID { get; set; }
+    public string response_identifier_Code {get; set;}
+    public string response_identifier_System {get; set;}
+    public string response_reference_VersionId {get; set;}
+    public string response_reference_FhirId {get; set;}
+    public string response_reference_Type {get; set;}
+    public virtual ServiceRootURL_Store response_reference_Url { get; set; }
+    public int? response_reference_ServiceRootURL_StoreID { get; set; }
     public int? statusdate_Date {get; set;}
     public ICollection<Res_PaymentNotice_History> Res_PaymentNotice_History_List { get; set; }
     public ICollection<Res_PaymentNotice_Index_identifier> identifier_List { get; set; }

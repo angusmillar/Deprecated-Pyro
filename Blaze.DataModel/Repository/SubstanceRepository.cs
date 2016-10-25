@@ -129,11 +129,12 @@ namespace Blaze.DataModel.Repository
       var IncludeList = new List<Expression<Func<Res_Substance, object>>>();
       IncludeList.Add(x => x.category_List);
       IncludeList.Add(x => x.code_List);
+      IncludeList.Add(x => x.code_List);
       IncludeList.Add(x => x.container_identifier_List);
       IncludeList.Add(x => x.expiry_List);
       IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x.quantity_List);
-      IncludeList.Add(x => x.substance_List);
+      IncludeList.Add(x => x.substance_reference_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
@@ -151,11 +152,12 @@ namespace Blaze.DataModel.Repository
       
       _Context.Res_Substance_Index_category.RemoveRange(ResourceEntity.category_List);            
       _Context.Res_Substance_Index_code.RemoveRange(ResourceEntity.code_List);            
+      _Context.Res_Substance_Index_code.RemoveRange(ResourceEntity.code_List);            
       _Context.Res_Substance_Index_container_identifier.RemoveRange(ResourceEntity.container_identifier_List);            
       _Context.Res_Substance_Index_expiry.RemoveRange(ResourceEntity.expiry_List);            
       _Context.Res_Substance_Index_identifier.RemoveRange(ResourceEntity.identifier_List);            
       _Context.Res_Substance_Index_quantity.RemoveRange(ResourceEntity.quantity_List);            
-      _Context.Res_Substance_Index_substance.RemoveRange(ResourceEntity.substance_List);            
+      _Context.Res_Substance_Index_substance_reference.RemoveRange(ResourceEntity.substance_reference_List);            
       _Context.Res_Substance_Index__profile.RemoveRange(ResourceEntity._profile_List);            
       _Context.Res_Substance_Index__security.RemoveRange(ResourceEntity._security_List);            
       _Context.Res_Substance_Index__tag.RemoveRange(ResourceEntity._tag_List);            
@@ -189,6 +191,23 @@ namespace Blaze.DataModel.Repository
           var Index = new Res_Substance_Index_code();
           Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item3, Index) as Res_Substance_Index_code;
           ResourseEntity.code_List.Add(Index);
+        }
+      }
+
+      foreach (var item1 in ResourceTyped.Ingredient)
+      {
+        if (item1.Substance != null)
+        {
+          if (item1.Substance is CodeableConcept)
+          {
+            CodeableConcept CodeableConcept = item1.Substance as CodeableConcept;
+            foreach (var item4 in CodeableConcept.Coding)
+            {
+              var Index = new Res_Substance_Index_code();
+              Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(item4, Index) as Res_Substance_Index_code;
+              ResourseEntity.code_List.Add(Index);
+            }
+          }
         }
       }
 
@@ -250,11 +269,11 @@ namespace Blaze.DataModel.Repository
         {
           if (item1.Substance is ResourceReference)
           {
-            var Index = new Res_Substance_Index_substance();
-            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Substance, Index, FhirRequestUri, this) as Res_Substance_Index_substance;
+            var Index = new Res_Substance_Index_substance_reference();
+            Index = IndexSetterFactory.Create(typeof(ReferenceIndex)).Set(item1.Substance, Index, FhirRequestUri, this) as Res_Substance_Index_substance_reference;
             if (Index != null)
             {
-              ResourseEntity.substance_List.Add(Index);
+              ResourseEntity.substance_reference_List.Add(Index);
             }
           }
         }

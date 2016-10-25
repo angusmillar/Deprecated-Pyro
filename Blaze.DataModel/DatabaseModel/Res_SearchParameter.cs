@@ -23,6 +23,7 @@ namespace Blaze.DataModel.DatabaseModel
     public string type_System {get; set;}
     public string url_Uri {get; set;}
     public ICollection<Res_SearchParameter_History> Res_SearchParameter_History_List { get; set; }
+    public ICollection<Res_SearchParameter_Index_component> component_List { get; set; }
     public ICollection<Res_SearchParameter_Index_context> context_List { get; set; }
     public ICollection<Res_SearchParameter_Index_target> target_List { get; set; }
     public ICollection<Res_SearchParameter_Index__profile> _profile_List { get; set; }
@@ -31,6 +32,7 @@ namespace Blaze.DataModel.DatabaseModel
    
     public Res_SearchParameter()
     {
+      this.component_List = new HashSet<Res_SearchParameter_Index_component>();
       this.context_List = new HashSet<Res_SearchParameter_Index_context>();
       this.target_List = new HashSet<Res_SearchParameter_Index_target>();
       this._profile_List = new HashSet<Res_SearchParameter_Index__profile>();

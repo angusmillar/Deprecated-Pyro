@@ -19,8 +19,8 @@ namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
     public static SearchChoiceProperty ResolvePropertyNameMiniusDataType(string SearchTargetName)
     {
       SearchChoiceProperty SearchChoiceProperty = new SearchChoiceProperty();
-      var FhirTypeList = Enum.GetValues(typeof(FHIRDefinedType));
-      foreach (FHIRDefinedType FhirType in FhirTypeList)
+      var FhirTypeList = Enum.GetValues(typeof(FHIRAllTypes));
+      foreach (FHIRAllTypes FhirType in FhirTypeList)
       {
         if (SearchTargetName.ToLower().EndsWith(ModelInfo.FhirTypeToFhirTypeName(FhirType).ToLower()))
         {
