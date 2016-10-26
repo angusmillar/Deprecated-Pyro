@@ -1,4 +1,4 @@
-﻿@model Blaze.Web.Models.HomeView
+﻿@model Blaze.Web.Models.HomeViewModels
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">           
@@ -17,24 +17,24 @@
             <div class="row">
                 <div class="col-sm-4">
                     <h4 class="text-info"><span class="glyphicon glyphicon-wrench"></span> Implementation</h4>
-                    <p>This server implements the May 2016 WGM Connectathon release of FHIR STU3 and is built utilising the official <a href="http://ewoutkramer.github.io/fhir-net-api/">.NET API for FHIR</a>. </p>
-                    <p>The server supports CRUD, VRead and all search parameters and Resources as of the <a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">May 2016 STU3</a> version of FHIR. </p> 
+                    <p>This server implements the @Model.FhirSpecification.Description release of the FHIR specification and is built utilising the official <a href=@Model.FhirDotNetAPI.Url>@Model.FhirDotNetAPI.Name</a>. </p>
+                    <p>The server supports CRUD, vread and all search parameters and Resources as of the <a href=@Model.FhirSpecificationUrl>@Model.FhirSpecificationName</a> of FHIR. </p> 
                     <p>This server is used for testing only and it's resources maybe removed and reset at any time.</p>                    
                 </div>
                 <div class="col-sm-4">
                     <h4 class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> Who am I?</h4>
-                    <p>My name is <a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">Angus Millar</a>. 
-                    I am a keen integration specialist with many years of health informatics experience. 
-                    My passion is in diagnostic systems and data although I have been exposed to all accepts of health 
-                    integration having worked at Clinipath, Kestral Computing, QLD Health, NeHTA and the ADHA.</p>
+                    <p><a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">Angus Millar</a>: I'm a keen Australian integration specialist with a passion for HL7 integration and informatics.</p> 
+                    <p>My passion grew from many years working in pathology laboratories later moving into Laboratory Information Systems support and development at Kestral Computing.</p> 
+                    <p>More recently I have worked on EMR integration at QLD Health and currently work as a Solution Architect at the Australian Digital Health Agency (formally known as NeHTA).</p>
+                    <p>I regularly attend the Australian FHIR Connectathons and run the beginner streams helping educate new comers to the FHIR specification.</p>
                 </div>
                 <div class="col-sm-4">
                     <h4 class="text-info"><span class="glyphicon glyphicon-info-sign"></span> Information</h4>                    
-                    <p>Links to interesting FHIR based resources</p>
-                    <p><a href="http://hl7.org/fhir/2016May/index.html" class="btn btn-default btn-sm">FHIR Standard May 2016 STU3 &raquo;</a></p>
-                    <p><a href="http://fhir-drills.github.io/" class="btn btn-default btn-sm">Fhir Drills, FHIR tutorials &raquo;</a></p>
-                    <p><a href="http://www.healthintersections.com.au/" class="btn btn-default btn-sm">Health Intersections &raquo;</a></p>
-                    
+                    <p>Links to interesting FHIR based resources<p>
+                    @foreach (var link in Model.InformationPageLinkList)
+                    {
+                      <p><a href=@link.Url class="btn btn-default btn-sm">@link.Name &raquo;</a></p>
+                    }                    
                 </div>
             </div>
         </div>

@@ -110,7 +110,6 @@ namespace Blaze.Engine.Services
     {
       IServiceOperationOutcome oBlazeServiceOperationOutcome = Common.CommonFactory.GetBlazeServiceOperationOutcome();
       oBlazeServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
-      //var FhirPatientResource = BlazeServiceRequest.Resource as Patient;
       if (String.IsNullOrWhiteSpace(BlazeServiceRequest.Resource.Id) || BlazeServiceRequest.Resource.Id != BlazeServiceRequest.ResourceId)
       {
         var oIssueComponent = new OperationOutcome.IssueComponent();
