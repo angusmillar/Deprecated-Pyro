@@ -47,7 +47,7 @@ namespace Blaze.Web.Controllers
     /// <summary>
     /// Get a Resource by the Resource name and the id of the required resource instance.
     /// For example:
-    /// http://SomeServer.net/fhirapi/Patient/e2688fc7-1c37-4023-a4ab-7dba0670fa45
+    /// http://SomeServer.net/fhirapi/Patient/123456
     /// </summary>
     /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
     /// <param name="id">The FHIR Resource's id</param>
@@ -85,7 +85,7 @@ namespace Blaze.Web.Controllers
     /// <summary>
     /// Get a Resource's history instance by version number (This is known as a vread in FHIR).
     /// For example: 
-    /// http://SomeServer.net/fhirapi/Patient/e2688fc7-1c37-4023-a4ab-7dba0670fa45/_history/5
+    /// http://SomeServer.net/fhirapi/Patient/123456/_history/5
     /// </summary>
     /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
     /// <param name="id">The FHIR Resource's id</param>
@@ -99,16 +99,21 @@ namespace Blaze.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
     }
 
+
     // Add
     // POST: URL/FhirApi/Patient
     /// <summary>
-    /// Add a new FHIR Resource to the server, the server will assign it a new id if no id is found in the Resource. 
-    /// If a Resource of this type with the same id in already on the server then a 
+    /// Creates a new Resource in the server. The server will assign its own id and that id will be a GUID.
+    /// For example: 
+    /// http://SomeServer.net/fhirapi/Patient
+    /// Where the HTTP body is a FHIR Patient resource instance in JSON or XML format.
+    /// If the client wishes to have control over the id of a newly submitted Resource, it should use the PUT (update) interaction instead.     
     /// </summary>
-    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>    
-    /// <returns></returns>
+    /// <param name="ResourceName">The name of the FHIR resource that is contained in the HTTP body</param>
+    /// <param name="resource">The actual Resource in the HTTP body</param>
+    /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPost, Route("{ResourceName}")]
-    public HttpResponseMessage Post(string ResourceName, FhirModel.Resource resource)
+    public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
@@ -119,8 +124,18 @@ namespace Blaze.Web.Controllers
 
     //Update
     // PUT: URL/FhirApi/Patient/5
+    /// <summary>
+    /// Updates creates a new current version for an existing resource or creates an initial version if no resource already exists for the given id.
+    /// For example: 
+    /// http://SomeServer.net/fhirapi/Patient/123456
+    /// Where the HTTP body is a FHIR Patient resource instance in JSON or XML format and the id in the resource equals the [id] in the URL, 123456 in this case.
+    /// </summary>
+    /// <param name="ResourceName">The name of the FHIR resource that is contained in the HTTP body</param>
+    /// <param name="id">The FHIR Resource's id</param>
+    /// <param name="resource">The actual Resource in the HTTP body</param>
+    /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}/{id}")]
-    public HttpResponseMessage Put(string ResourceName, string id, FhirModel.Resource resource)
+    public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
@@ -131,6 +146,14 @@ namespace Blaze.Web.Controllers
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5
+    /// <summary>
+    /// Deletes removes an existing resource at the given id.
+    /// This server supports version history. 
+    /// The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
+    /// </summary>
+    /// <param name="ResourceName">The name of the FHIR resource that is being removed.</param>
+    /// <param name="id">The FHIR Resource's id to be removed.</param>
+    /// <returns>HTTP Status code 204 (No Content)</returns>
     [HttpDelete, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
