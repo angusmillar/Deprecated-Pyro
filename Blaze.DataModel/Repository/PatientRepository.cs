@@ -20,30 +20,30 @@ namespace Blaze.DataModel.Repository
   {
     public PatientRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    //public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
-    //{
-    //  var Predicate = PredicateGenerator<Res_Patient>(DtoSearchParameters);
-    //  int TotalRecordCount = DbGetALLCount<Res_Patient>(Predicate);
-    //  var Query = DbGetAll<Res_Patient>(Predicate);
+    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    {
+      var Predicate = PredicateGenerator<Res_Patient>(DtoSearchParameters);
+      int TotalRecordCount = DbGetALLCount<Res_Patient>(Predicate);
+      var Query = DbGetAll<Res_Patient>(Predicate);
 
-    //  //Todo: Sort not implemented just defaulting to last update order
-    //  Query = Query.OrderBy(x => x.lastUpdated);      
-    //  int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      //Todo: Sort not implemented just defaulting to last update order
+      Query = Query.OrderBy(x => x.lastUpdated);      
+      int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
       
-    //  Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-    //  var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-    //  Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
+      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+      Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
 
-    //  IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
-    //  DatabaseOperationOutcome.SingleResourceRead = false;
-    //  DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
-    //  DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
-    //  DatabaseOperationOutcome.ResourcesMatchingSearchCount = TotalRecordCount;
-    //  DatabaseOperationOutcome.ResourcesMatchingSearchList = DtoResourceList;
+      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ReturnedResourceCount = TotalRecordCount;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
 
 
-    //  return DatabaseOperationOutcome;  
-    //}
+      return DatabaseOperationOutcome;  
+    }
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
@@ -53,8 +53,8 @@ namespace Blaze.DataModel.Repository
       this.DbAddEntity<Res_Patient>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;     
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ReturnedResourceCount = 1;
       return DatabaseOperationOutcome;
     }
 
@@ -70,8 +70,8 @@ namespace Blaze.DataModel.Repository
       this.Save();            
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ReturnedResourceCount = 1;
       return DatabaseOperationOutcome;
     }
 
@@ -95,13 +95,13 @@ namespace Blaze.DataModel.Repository
       var ResourceHistoryEntity = DbGet<Res_Patient_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
       if (ResourceHistoryEntity != null)
       {
-        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+        DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
       }
       else
       {
         var ResourceEntity = DbGet<Res_Patient>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
         if (ResourceEntity != null)
-          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+          DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);        
       }
       return DatabaseOperationOutcome;
     }
@@ -119,7 +119,7 @@ namespace Blaze.DataModel.Repository
       {
         DtoResource = DbGetAll<Res_Patient>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
-      DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
+      DatabaseOperationOutcome.ReturnedResource = DtoResource;
       return DatabaseOperationOutcome;
     }
 

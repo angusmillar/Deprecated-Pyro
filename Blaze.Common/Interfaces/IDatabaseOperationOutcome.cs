@@ -13,9 +13,9 @@ namespace Blaze.Common.Interfaces
     //int NumberOfRecordsPerPage { get; set; }
     int PageRequested { get; set; } 
     int PagesTotal { get; set; }   
-    int ResourcesMatchingSearchCount { get; set; }
-    List<DtoResource> ResourcesMatchingSearchList { get; set; }    
+    int ReturnedResourceCount { get; set; }
+    List<DtoResource> ReturnedResourceList { get; set; }    
     bool SingleResourceRead { get; set; }
-    DtoResource ResourceMatchingSearch { get; set; }
+    DtoResource ReturnedResource { get; set; }
   }
 }

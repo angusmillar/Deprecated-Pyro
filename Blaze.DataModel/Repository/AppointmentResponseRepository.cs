@@ -38,8 +38,8 @@ namespace Blaze.DataModel.Repository
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = TotalRecordCount;
-      DatabaseOperationOutcome.ResourcesMatchingSearchList = DtoResourceList;
+      DatabaseOperationOutcome.ReturnedResourceCount = TotalRecordCount;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
 
 
       return DatabaseOperationOutcome;  
@@ -53,8 +53,8 @@ namespace Blaze.DataModel.Repository
       this.DbAddEntity<Res_AppointmentResponse>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;     
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ReturnedResourceCount = 1;
       return DatabaseOperationOutcome;
     }
 
@@ -70,8 +70,8 @@ namespace Blaze.DataModel.Repository
       this.Save();            
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ResourcesMatchingSearchCount = 1;
+      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
+      DatabaseOperationOutcome.ReturnedResourceCount = 1;
       return DatabaseOperationOutcome;
     }
 
@@ -95,13 +95,13 @@ namespace Blaze.DataModel.Repository
       var ResourceHistoryEntity = DbGet<Res_AppointmentResponse_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
       if (ResourceHistoryEntity != null)
       {
-        DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
+        DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
       }
       else
       {
         var ResourceEntity = DbGet<Res_AppointmentResponse>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
         if (ResourceEntity != null)
-          DatabaseOperationOutcome.ResourceMatchingSearch = IndexSettingSupport.SetDtoResource(ResourceEntity);        
+          DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);        
       }
       return DatabaseOperationOutcome;
     }
@@ -119,7 +119,7 @@ namespace Blaze.DataModel.Repository
       {
         DtoResource = DbGetAll<Res_AppointmentResponse>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
-      DatabaseOperationOutcome.ResourceMatchingSearch = DtoResource;
+      DatabaseOperationOutcome.ReturnedResource = DtoResource;
       return DatabaseOperationOutcome;
     }
 

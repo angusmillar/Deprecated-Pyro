@@ -66,7 +66,7 @@ namespace Blaze.Engine.Response
       else if (HttpStatusCode == HttpStatusCode.Gone)
       {
         HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
-        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ResourceMatchingSearch.Version.ToString() + "\"");
+        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oBlazeServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Version.ToString() + "\"");
         return Response;
       }
       //No Content: 204

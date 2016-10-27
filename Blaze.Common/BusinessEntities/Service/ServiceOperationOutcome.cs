@@ -66,9 +66,9 @@ namespace Blaze.Common.BusinessEntities.Service
       {
         if (this.DatabaseOperationOutcome.SingleResourceRead)
         {
-          if (this.DatabaseOperationOutcome.ResourceMatchingSearch != null)
+          if (this.DatabaseOperationOutcome.ReturnedResource != null)
           {
-            if (this.DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
+            if (this.DatabaseOperationOutcome.ReturnedResource.IsDeleted)
             {
               return HttpStatusCode.Gone;
             }
@@ -128,9 +128,9 @@ namespace Blaze.Common.BusinessEntities.Service
       {
         if (this.DatabaseOperationOutcome.SingleResourceRead)
         {
-          if (this.DatabaseOperationOutcome.ResourceMatchingSearch != null)
+          if (this.DatabaseOperationOutcome.ReturnedResource != null)
           {
-            if (this.DatabaseOperationOutcome.ResourceMatchingSearch.IsDeleted)
+            if (this.DatabaseOperationOutcome.ReturnedResource.IsDeleted)
             {
               return null;
             }
@@ -145,7 +145,7 @@ namespace Blaze.Common.BusinessEntities.Service
             return null;
           }
         }
-        else if (this.DatabaseOperationOutcome.ResourcesMatchingSearchList != null)
+        else if (this.DatabaseOperationOutcome.ReturnedResourceList != null)
         {
           return SerializeToBundle();
         }
@@ -185,7 +185,7 @@ namespace Blaze.Common.BusinessEntities.Service
       {
         //Resource oResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);
         Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-        Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);        
+        Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ReturnedResource.Xml);        
         return oResource;
       }
       catch (Exception oExec)
@@ -193,7 +193,7 @@ namespace Blaze.Common.BusinessEntities.Service
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ResourceMatchingSearch.FhirId, this.DatabaseOperationOutcome.ResourceMatchingSearch.Version, this.DatabaseOperationOutcome.ResourceMatchingSearch.Received.ToString(), oExec.Message);
+        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ReturnedResource.FhirId, this.DatabaseOperationOutcome.ReturnedResource.Version, this.DatabaseOperationOutcome.ReturnedResource.Received.ToString(), oExec.Message);
         var OpOutcome = new OperationOutcome();
         OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
         throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
@@ -203,7 +203,7 @@ namespace Blaze.Common.BusinessEntities.Service
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
 
-      FhirBundle.Total = this.DatabaseOperationOutcome.ResourcesMatchingSearchCount;
+      FhirBundle.Total = this.DatabaseOperationOutcome.ReturnedResourceCount;
 
       //Paging           
       int LastPageNumber = PagingSupport.GetLastPageNumber(this.DatabaseOperationOutcome.PagesTotal);
@@ -212,7 +212,7 @@ namespace Blaze.Common.BusinessEntities.Service
       FhirBundle.NextLink = PagingSupport.GetPageNavigationUri(this.RequestUri, PagingSupport.GetNextPageNumber(this.DatabaseOperationOutcome.PageRequested, this.DatabaseOperationOutcome.PagesTotal));
       FhirBundle.PreviousLink = PagingSupport.GetPageNavigationUri(this.RequestUri, PagingSupport.GetPreviousPageNumber(this.DatabaseOperationOutcome.PageRequested));
 
-      foreach (DtoResource DtoResource in this.DatabaseOperationOutcome.ResourcesMatchingSearchList)
+      foreach (DtoResource DtoResource in this.DatabaseOperationOutcome.ReturnedResourceList)
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
         try

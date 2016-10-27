@@ -530,8 +530,7 @@
             Add a new FHIR Resource to the server, the server will assign it a new id if no id is found in the Resource. 
             If a Resource of this type with the same id in already on the server then a 
             </summary>
-            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
-            <param name="resource">The FHIR Resource XML or JSON</param>
+            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>    
             <returns></returns>
         </member>
     </members>

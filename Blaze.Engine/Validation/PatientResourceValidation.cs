@@ -8,12 +8,12 @@ using Blaze.Common.Interfaces;
 
 namespace Blaze.Engine.Validation
 {
-  public class PatientResourceValidation : Interfaces.IResourceValidation
+  public class PatientResourceValidation : BaseResourceValidation, Interfaces.IResourceValidation
   {   
     public IResourceValidationOperationOutcome Validate(Resource Resource)
     {
       IResourceValidationOperationOutcome oResourceValidationOperationOutcome = new ResourceValidationOperationOutcome();
-
+      this.ValidateBaseResource(Resource, oResourceValidationOperationOutcome);
       var oPatient = CastToPatientResource(Resource, oResourceValidationOperationOutcome);
       if (oPatient == null)
         return oResourceValidationOperationOutcome;

@@ -82,6 +82,7 @@
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
     <Compile Include="Support\ResourceVersionNumber.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
+    <Compile Include="Validation\BaseResourceValidation.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />
     <Compile Include="Validation\DefaultResourceValidation.cs" />
     <Compile Include="Validation\PatientResourceValidation.cs" />

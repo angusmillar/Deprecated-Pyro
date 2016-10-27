@@ -8,18 +8,13 @@ using Blaze.Common.Interfaces;
 
 namespace Blaze.Engine.Validation
 {
-  public class DefaultResourceValidation : Interfaces.IResourceValidation
+  public class DefaultResourceValidation : BaseResourceValidation, Interfaces.IResourceValidation
   {
 
     public IResourceValidationOperationOutcome Validate(Resource Resource)
     {
       IResourceValidationOperationOutcome oResourceValidationOperationOutcome = new ResourceValidationOperationOutcome();
-
-      //StartChecking the Patient Resource
-
-      
-      //ToDo: What do we need to check as a base resource?
-
+      this.ValidateBaseResource(Resource, oResourceValidationOperationOutcome);
       return oResourceValidationOperationOutcome;
     }
 

@@ -10,14 +10,14 @@ namespace Blaze.DataModel.Repository
 {
   public class DatabaseOperationOutcome : Blaze.Common.Interfaces.IDatabaseOperationOutcome
   {    
-    public List<DtoResource> ResourcesMatchingSearchList { get; set; }    
-    public int ResourcesMatchingSearchCount { get; set; }
+    public List<DtoResource> ReturnedResourceList { get; set; }    
+    public int ReturnedResourceCount { get; set; }
     public int PageRequested { get; set; }
     public int PagesTotal { get; set; }
     //public int NumberOfRecordsPerPage { get; set; }
 
     public bool SingleResourceRead { get; set; }
-    public DtoResource ResourceMatchingSearch { get; set; }
+    public DtoResource ReturnedResource { get; set; }
     public bool RecourceIsDeleted { get; set; }
     public int ResourceVersionNumber { get; set; }
 
