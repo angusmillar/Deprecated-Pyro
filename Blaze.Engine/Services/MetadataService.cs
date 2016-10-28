@@ -14,7 +14,7 @@ namespace Blaze.Engine.Services
     {
       var Conformance = new Conformance();
       Conformance.Url = DtoFhirRequestUri.FhirUri.Uri.ToString();
-
+      //Conformance.
 
 
 

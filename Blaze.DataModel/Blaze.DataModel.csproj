@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="DatabaseModel\Base\DateIndex.cs" />
     <Compile Include="DatabaseModel\Base\DateTimePeriodIndex.cs" />
     <Compile Include="DatabaseModel\Base\QuantityRangeIndex.cs" />

@@ -29,7 +29,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>Version: 0.0.2</p>
+            <p>Version: @System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Blaze.Web.WebApiApplication).Assembly.Location).ProductVersion</p>
         </footer>
     </div>
 

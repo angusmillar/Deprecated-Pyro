@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="IndexSetters\Test_DateTimePeriod_IndexSetters.cs" />
     <Compile Include="IndexSetters\Test_Date_IndexSetters.cs" />
     <Compile Include="IndexSetters\Test_DateTime_IndexSetters.cs" />

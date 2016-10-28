@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="DbEntityCodeGeneration\CodeGenerationDatabaseModelCreate.cs" />
     <Compile Include="DbEntityCodeGeneration\CodeGenerationDbTableModel.cs" />
     <Compile Include="DatabaseModelInfo.cs" />

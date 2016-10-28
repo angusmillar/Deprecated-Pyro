@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="BusinessEntities\Dto\DtoBlazeException.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDataBaseExceptionInfomation.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
