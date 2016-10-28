@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Net.Http;
 
-namespace Blaze.Web.Extensions
+namespace Pyro.Web.Extensions
 {
   public static class HttpRequestFhirExtensions
   {

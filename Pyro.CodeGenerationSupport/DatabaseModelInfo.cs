@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Enum;
-using Blaze.Common.Database;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Enum;
+using Pyro.Common.Database;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport
+namespace Pyro.CodeGenerationSupport
 {
   public static class DatabaseModelInfo
   {
@@ -85,7 +85,7 @@ namespace Blaze.CodeGenerationSupport
       {
         FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
       }
-      foreach (string PropertyConstant in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionItem.DbIndexType])
+      foreach (string PropertyConstant in StaticDatabaseInfo.PyroIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionItem.DbIndexType])
       {
         Propertylist.Add(String.Format("{0}{1}", FormatedPrefix, PropertyConstant));
       }

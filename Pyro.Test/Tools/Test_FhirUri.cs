@@ -1,13 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
-using Blaze.Common.Tools;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
-using Blaze.Common.BusinessEntities.UriSupport;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.UriSupport;
+using Pyro.Common.Interfaces.UriSupport;
 
 
-namespace Blaze.Test.Tools
+namespace Pyro.Test.Tools
 {
   [TestFixture]
   class Test_FhirUri

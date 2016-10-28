@@ -7,8 +7,8 @@
     <ProjectGuid>{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.Engine</RootNamespace>
-    <AssemblyName>Blaze.Engine</AssemblyName>
+    <RootNamespace>Pyro.Engine</RootNamespace>
+    <AssemblyName>Pyro.Engine</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -94,9 +94,9 @@
     <Compile Include="Validation\ValueSetResourceValidation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blaze.Common\Blaze.Common.csproj">
+    <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Blaze.Common</Name>
+      <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

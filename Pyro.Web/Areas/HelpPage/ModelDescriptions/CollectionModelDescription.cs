@@ -1,4 +1,4 @@
-namespace Blaze.Web.Areas.HelpPage.ModelDescriptions
+namespace Pyro.Web.Areas.HelpPage.ModelDescriptions
 {
     public class CollectionModelDescription : ModelDescription
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Services;
 
-namespace Blaze.Engine.Services
+namespace Pyro.Engine.Services
 {
   public abstract class BaseServices: IBaseServices
   {

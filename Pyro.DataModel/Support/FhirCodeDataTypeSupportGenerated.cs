@@ -1,9 +1,9 @@
 ﻿using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Introspection;
-//This file was Auto Generated and should not be modified here on: 24/10/2016 5:10:33 PM.
+//This file was Auto Generated and should not be modified here on: 28/10/2016 6:11:41 PM.
 
-namespace Blaze.DataModel.Support
+namespace Pyro.DataModel.Support
 {
   public static partial class FhirCodeDataTypeSupport
   {

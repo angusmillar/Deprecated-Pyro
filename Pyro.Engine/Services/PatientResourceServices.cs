@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Hl7.Fhir.Model;
-using Blaze.Engine.CustomException;
+using Pyro.Engine.CustomException;
 using System.Web.UI;
 using System.IO;
-using Blaze.Common.Interfaces;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Engine.Response;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Engine.Response;
+using Pyro.Common.BusinessEntities.Dto;
 
 
-namespace Blaze.Engine.Services
+namespace Pyro.Engine.Services
 {
   /// <summary>
   /// This Class is here to handle any unique methods required for Patient resource beyond the basic REST operations.

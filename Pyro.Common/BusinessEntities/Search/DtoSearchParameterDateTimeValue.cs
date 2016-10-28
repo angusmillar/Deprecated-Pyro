@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blaze.Common.Tools;
+using Pyro.Common.Tools;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterDateTimeValue : DtoSearchParameterValueWithPrefix
   {

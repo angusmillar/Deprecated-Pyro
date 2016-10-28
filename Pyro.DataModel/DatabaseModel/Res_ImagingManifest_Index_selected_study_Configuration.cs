@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_ImagingManifest_Index_selected_study_Configuration : EntityTypeConfiguration<Res_ImagingManifest_Index_selected_study>
   {

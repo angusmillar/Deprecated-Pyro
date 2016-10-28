@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Database;
-using Blaze.Common.Tools;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.Common.Database;
+using Pyro.Common.Tools;
+using Pyro.DataModel.DatabaseModel.Base;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Blaze.DataModel.Search
+namespace Pyro.DataModel.Search
 {
   public static class ReferanceExpression
   {

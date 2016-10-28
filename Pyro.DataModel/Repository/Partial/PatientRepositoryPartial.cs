@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blaze.DataModel.DatabaseModel;
-using Blaze.DataModel.Support;
-using Blaze.DataModel.Search;
-using Blaze.Common.BusinessEntities.Search;
-using Blaze.Common.Interfaces;
-using Blaze.Common.Interfaces.Repositories;
+using Pyro.DataModel.DatabaseModel;
+using Pyro.DataModel.Support;
+using Pyro.DataModel.Search;
+using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Repositories;
 
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
   public partial class PatientRepository : CommonRepository, IResourceRepository
   {

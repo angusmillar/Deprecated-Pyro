@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Web", "Blaze.Web\Blaze.Web.csproj", "{25051945-A08F-4E51-A7DC-C6190624A93F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Web", "Pyro.Web\Pyro.Web.csproj", "{25051945-A08F-4E51-A7DC-C6190624A93F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.DataModel", "Blaze.DataModel\Blaze.DataModel.csproj", "{7EA4191F-1D14-4435-A857-1A462844C8DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.DataModel", "Pyro.DataModel\Pyro.DataModel.csproj", "{7EA4191F-1D14-4435-A857-1A462844C8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Engine", "Blaze.Engine\Blaze.Engine.csproj", "{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Engine", "Pyro.Engine\Pyro.Engine.csproj", "{7CDC3E7F-1823-497E-802D-1FEB4D0D0CAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Common", "Blaze.Common\Blaze.Common.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Common", "Pyro.Common\Pyro.Common.csproj", "{7458636F-B6A9-4F11-8921-1F70F717E1A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Test", "Blaze.Test\Blaze.Test.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Test", "Pyro.Test\Pyro.Test.csproj", "{4018873A-129D-41B7-858F-D8ECE9D13CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.CodeGenerationSupport", "Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.CodeGenerationSupport", "Pyro.CodeGenerationSupport\Pyro.CodeGenerationSupport.csproj", "{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaze.Test_CodeGeneration", "Blaze.Test_CodeGeneration\Blaze.Test_CodeGeneration.csproj", "{0001A52A-E155-45CE-A014-BA9BA1E3BB41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Test_CodeGeneration", "Pyro.Test_CodeGeneration\Pyro.Test_CodeGeneration.csproj", "{0001A52A-E155-45CE-A014-BA9BA1E3BB41}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3BA05BC-B1BA-48B4-B77B-FCF4548596FD}"
 	ProjectSection(SolutionItems) = preProject

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Hl7.Fhir.Model;
 
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterDate : DtoSearchParameterBase
   {
@@ -11,7 +11,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterDate()
       : base()
     {
-      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.DateIndex;
+      this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.DateIndex;
     }
     #endregion
 

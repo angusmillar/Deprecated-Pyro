@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.DataModel.DatabaseModel;
+using Pyro.DataModel.DatabaseModel;
 
-namespace Blaze.DataModel.DatabaseModel.Base
+namespace Pyro.DataModel.DatabaseModel.Base
 {
   public abstract class ResourceIndexBase : ModelBase
   {

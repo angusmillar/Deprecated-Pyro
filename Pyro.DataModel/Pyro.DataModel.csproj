@@ -7,8 +7,8 @@
     <ProjectGuid>{7EA4191F-1D14-4435-A857-1A462844C8DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.DataModel</RootNamespace>
-    <AssemblyName>Blaze.DataModel</AssemblyName>
+    <RootNamespace>Pyro.DataModel</RootNamespace>
+    <AssemblyName>Pyro.DataModel</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -6635,14 +6635,14 @@
     <None Include="_UnitOfWorkGenerator.txt4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj">
+    <ProjectReference Include="..\Pyro.CodeGenerationSupport\Pyro.CodeGenerationSupport.csproj">
       <Project>{dfe33b5b-4ebd-4479-87f4-aea690c3829a}</Project>
-      <Name>Blaze.CodeGenerationSupport</Name>
+      <Name>Pyro.CodeGenerationSupport</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Blaze.Common\Blaze.Common.csproj">
+    <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Blaze.Common</Name>
+      <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

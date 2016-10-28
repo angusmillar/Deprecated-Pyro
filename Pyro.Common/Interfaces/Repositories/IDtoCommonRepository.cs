@@ -1,6 +1,6 @@
-﻿using Blaze.Common.Interfaces.Dto;
+﻿using Pyro.Common.Interfaces.Dto;
 
-namespace Blaze.Common.Interfaces.Repositories
+namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IDtoCommonRepository
   {

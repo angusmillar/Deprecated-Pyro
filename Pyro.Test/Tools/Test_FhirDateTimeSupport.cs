@@ -1,10 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
-using Blaze.Common.Tools;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 
-namespace Blaze.Test.IndexSetters
+namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
   class Test_FhirDateTimeSupport

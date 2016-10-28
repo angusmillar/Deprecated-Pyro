@@ -1,13 +1,13 @@
 ﻿using System;
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 using System.Collections.Generic;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.DataModel.Repository.Interfaces;
-using Blaze.DataModel.Support;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataModel.Repository.Interfaces;
+using Pyro.DataModel.Support;
 using Hl7.Fhir.Introspection;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public class TokenIndexSetter : ITokenIndexSetter
   {
@@ -136,7 +136,7 @@ namespace Blaze.DataModel.IndexSetter
       oIssueComponent.Diagnostics = "Attempt set a CodeableConcept directly in the TokenIndexSetter. This should not happen as all CodeableConcept must be iterated and passed in as Coding.";
       var oOperationOutcome = new OperationOutcome();
       oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-      throw new Blaze.Common.BusinessEntities.Dto.DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Diagnostics);
+      throw new Pyro.Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Diagnostics);
     }
 
     public TokenIndex SetCoding(Coding Coding, TokenIndex TokenIndex)

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.Common.Database
+namespace Pyro.Common.Database
 {
   public static class StaticDatabaseInfo
   {
@@ -114,7 +114,7 @@ namespace Blaze.Common.Database
     }
 
 
-    public static Dictionary<DatabaseEnum.DbIndexType, List<string>> BlazeIndexTypeToDbPropertyNameStringList_Dictonary
+    public static Dictionary<DatabaseEnum.DbIndexType, List<string>> PyroIndexTypeToDbPropertyNameStringList_Dictonary
     {
       get
       {

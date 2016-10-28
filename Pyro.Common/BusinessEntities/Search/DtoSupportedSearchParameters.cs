@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSupportedSearchParameters
   {

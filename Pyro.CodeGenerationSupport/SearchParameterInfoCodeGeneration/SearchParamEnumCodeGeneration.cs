@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blaze.CodeGenerationSupport.RepositoryCodeGeneration;
+using Pyro.CodeGenerationSupport.RepositoryCodeGeneration;
 
-namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
+namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class SearchParamEnumCodeGeneration
   {
@@ -10,7 +10,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 
     public void Generate()
     {
-      var RepositoryCodeGeneration = new Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
+      var RepositoryCodeGeneration = new Pyro.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
       var RepositoryCodeGenModel = RepositoryCodeGeneration.Generate();
 
       DistinctSearchParamEnumInfoItemDictornary = new Dictionary<string, SearchParamEnumInfoItem>();

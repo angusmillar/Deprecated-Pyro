@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Blaze.DataModel.DatabaseModel.Base
+namespace Pyro.DataModel.DatabaseModel.Base
 {
   public class ModelBase
   {

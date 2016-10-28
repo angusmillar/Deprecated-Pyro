@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
 
   public abstract class DtoSearchParameterBase

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterToken : DtoSearchParameterBase
   {

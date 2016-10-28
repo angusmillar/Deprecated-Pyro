@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
+namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
 {
   public static class FhirApiSearchParameterInfoFactory
   {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums
+namespace Pyro.CodeGenerationSupport.GenericCodeDataTypeEnums
 {
   public class GenericCodeDataTypeCodeGen
   {

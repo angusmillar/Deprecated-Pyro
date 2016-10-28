@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using Blaze.DataModel.IndexSetter;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.IndexSetter;
+using Pyro.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 
-namespace Blaze.Test.IndexSetters
+namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
   class Test_Quantity_IndexSetter

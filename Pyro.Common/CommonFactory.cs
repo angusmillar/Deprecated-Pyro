@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.Interfaces.Dto;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces;
-using Blaze.Common.BusinessEntities.UriSupport;
-using Blaze.Common.BusinessEntities.Service;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces;
+using Pyro.Common.BusinessEntities.UriSupport;
+using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.BusinessEntities.Dto;
 
-namespace Blaze.Common
+namespace Pyro.Common
 {
   public static class CommonFactory
   {
@@ -35,7 +35,7 @@ namespace Blaze.Common
       return new DtoRootUrlStore();
     }
 
-    public static IServiceOperationOutcome GetBlazeServiceOperationOutcome()
+    public static IServiceOperationOutcome GetPyroServiceOperationOutcome()
     {
       return new ServiceOperationOutcome();
     }

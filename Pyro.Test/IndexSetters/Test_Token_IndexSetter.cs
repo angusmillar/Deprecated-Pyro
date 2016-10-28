@@ -1,12 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
-using Blaze.DataModel.IndexSetter;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.IndexSetter;
+using Pyro.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 using Hl7.Fhir.Introspection;
 
-namespace Blaze.Test.IndexSetters
+namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
   class Test_Token_IndexSetter
@@ -42,10 +42,10 @@ namespace Blaze.Test.IndexSetters
       var Code = new Coding();
       Code.Code = CodeString;
 
-      Blaze.DataModel.DatabaseModel.Res_Account_Index__security Index = new Blaze.DataModel.DatabaseModel.Res_Account_Index__security();
+      Pyro.DataModel.DatabaseModel.Res_Account_Index__security Index = new Pyro.DataModel.DatabaseModel.Res_Account_Index__security();
 
       //Act
-      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as Blaze.DataModel.DatabaseModel.Res_Account_Index__security;
+      Index = IndexSetterFactory.Create(typeof(TokenIndex)).Set(Code, Index) as Pyro.DataModel.DatabaseModel.Res_Account_Index__security;
 
       //Assert      
       Assert.AreEqual(Index.Code, CodeString);
@@ -176,7 +176,7 @@ namespace Blaze.Test.IndexSetters
       ActualValueDelegate<TokenIndex> testDelegate = () => IndexSetterFactory.Create(typeof(TokenIndex)).Set(CodeableConcept, Index) as TokenIndex;
 
       //Assert
-      Assert.That(testDelegate, Throws.TypeOf<Blaze.Common.BusinessEntities.Dto.DtoBlazeException>());
+      Assert.That(testDelegate, Throws.TypeOf<Pyro.Common.BusinessEntities.Dto.DtoPyroException>());
     }
 
 

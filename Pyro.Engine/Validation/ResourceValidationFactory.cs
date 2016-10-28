@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Engine.Interfaces;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Engine.Interfaces;
+using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Validation
+namespace Pyro.Engine.Validation
 {
   public static class ResourceValidationFactory
   {

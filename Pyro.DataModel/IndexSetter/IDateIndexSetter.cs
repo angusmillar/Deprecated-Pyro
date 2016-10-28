@@ -1,7 +1,7 @@
 ﻿using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public interface IDateIndexSetter : IIndexSetter
   {

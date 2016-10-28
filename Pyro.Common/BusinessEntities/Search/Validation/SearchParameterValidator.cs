@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Blaze.Common.Enum;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.Common.Enum;
+using Pyro.Common.BusinessEntities.Search;
 
-namespace Blaze.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Search.Validation
 {
   public class SearchParameterValidator
   {

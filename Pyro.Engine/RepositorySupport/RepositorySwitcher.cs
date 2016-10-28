@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Repositories;
 
-namespace Blaze.Engine.RepositorySupport
+namespace Pyro.Engine.RepositorySupport
 {
   static class RepositorySwitcher
   {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Enum
+namespace Pyro.Common.Enum
 {
   public static class RestEnum
   {

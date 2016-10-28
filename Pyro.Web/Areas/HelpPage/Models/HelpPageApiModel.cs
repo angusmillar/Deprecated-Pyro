@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using Blaze.Web.Areas.HelpPage.ModelDescriptions;
+using Pyro.Web.Areas.HelpPage.ModelDescriptions;
 
-namespace Blaze.Web.Areas.HelpPage.Models
+namespace Pyro.Web.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

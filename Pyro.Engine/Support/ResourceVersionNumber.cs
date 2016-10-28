@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Engine.Support
+namespace Pyro.Engine.Support
 {
   public static class ResourceVersionNumber
   {

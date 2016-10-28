@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using System.Net;
 
-namespace Blaze.Common.Interfaces
+namespace Pyro.Common.Interfaces
 {
   public interface ISearchPlanValidationOperationOutcome
   {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
+namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class ResourceSearchParamInfoItem
   {

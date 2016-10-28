@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces;
 using System.Net;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Enum;
-using Blaze.Common.Tools;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Enum;
+using Pyro.Common.Tools;
 
-namespace Blaze.Common.BusinessEntities.Service
+namespace Pyro.Common.BusinessEntities.Service
 {
   public class ServiceOperationOutcome : IServiceOperationOutcome
   {
@@ -100,10 +100,10 @@ namespace Blaze.Common.BusinessEntities.Service
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = "Internal Server Error: BlazeServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
+        OpOutComeIssueComp.Diagnostics = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
         var OpOutCome = new OperationOutcome();
         OpOutCome.Issue = new List<OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-        throw new DtoBlazeException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
+        throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
       }
     }
     private Resource ResolveResourceToReturn()
@@ -154,10 +154,10 @@ namespace Blaze.Common.BusinessEntities.Service
           var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
           OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
           OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-          OpOutComeIssueComp.Diagnostics = "Internal Server Error: BlazeServiceOperationoutcome was unable to resolve any Resource to return for the operation performed even though no error was detected, this s a bug in the server!.";
+          OpOutComeIssueComp.Diagnostics = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve any Resource to return for the operation performed even though no error was detected, this s a bug in the server!.";
           var OpOutCome = new OperationOutcome();
           OpOutCome.Issue = new List<OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-          throw new DtoBlazeException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
+          throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
         }
       }
       else if (this.OperationType == RestEnum.CrudOperationType.Create)
@@ -173,10 +173,10 @@ namespace Blaze.Common.BusinessEntities.Service
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = "Internal Server Error: BlazeServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
+        OpOutComeIssueComp.Diagnostics = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
         var OpOutCome = new OperationOutcome();
         OpOutCome.Issue = new List<OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-        throw new DtoBlazeException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
+        throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
       }
     }
     private Resource SerializeToResource()
@@ -196,7 +196,7 @@ namespace Blaze.Common.BusinessEntities.Service
         OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ReturnedResource.FhirId, this.DatabaseOperationOutcome.ReturnedResource.Version, this.DatabaseOperationOutcome.ReturnedResource.Received.ToString(), oExec.Message);
         var OpOutcome = new OperationOutcome();
         OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-        throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
+        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
       }
     }
     private Bundle SerializeToBundle()
@@ -230,7 +230,7 @@ namespace Blaze.Common.BusinessEntities.Service
           OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
           var OpOutcome = new OperationOutcome();
           OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-          throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
+          throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
         }
         oResEntry.Search = new Bundle.SearchComponent();
         oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;

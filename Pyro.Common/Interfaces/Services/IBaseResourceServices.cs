@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   public interface IBaseResourceServices
   {
@@ -23,15 +23,15 @@ namespace Blaze.Common.Interfaces.Services
 
     //Search
     // GET: URL//FhirApi/Patient&family=Smith&given=John
-    IServiceOperationOutcome Get(IBlazeServiceRequest BlazeServiceRequest);
+    IServiceOperationOutcome Get(IPyroServiceRequest PyroServiceRequest);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IServiceOperationOutcome Post(IBlazeServiceRequest BlazeServiceRequest);
+    IServiceOperationOutcome Post(IPyroServiceRequest PyroServiceRequest);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IServiceOperationOutcome Put(IBlazeServiceRequest BlazeServiceRequest);
+    IServiceOperationOutcome Put(IPyroServiceRequest PyroServiceRequest);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    

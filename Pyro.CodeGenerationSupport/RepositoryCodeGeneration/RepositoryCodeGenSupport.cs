@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 
-namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
+namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
 {
   public static class RepositoryCodeGenSupport
   {    

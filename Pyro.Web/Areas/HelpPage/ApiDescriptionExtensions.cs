@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace Blaze.Web.Areas.HelpPage
+namespace Pyro.Web.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

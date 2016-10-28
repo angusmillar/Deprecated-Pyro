@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities.Dto;
 using System.Data.SqlClient;
 using Hl7.Fhir.Model;
-//using Blaze.DataModel.Repository;
+//using Pyro.DataModel.Repository;
 
-namespace Blaze.Engine.CustomException
+namespace Pyro.Engine.CustomException
 {
   public static class SqlExceptionSupport
   {
-    public static DtoBlazeException GenerateDtoBlazeException(SqlException SqlException, bool DebuggerAttached = false)
+    public static DtoPyroException GenerateDtoPyroException(SqlException SqlException, bool DebuggerAttached = false)
     {      
       var OpOutCome = new OperationOutcome();
       OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
@@ -24,7 +24,7 @@ namespace Blaze.Engine.CustomException
       else
         OpOutComeIssueComp.Diagnostics = ResolveDiagnosticsText(SqlException.Number);
       OpOutCome.Issue.Add(OpOutComeIssueComp);
-      return new DtoBlazeException(ResolveHttpStatusCode(SqlException.Number), OpOutCome, SqlException.Message, SqlException);
+      return new DtoPyroException(ResolveHttpStatusCode(SqlException.Number), OpOutCome, SqlException.Message, SqlException);
     }
 
     private static string ResolveDiagnosticsText(int SqlErrorNumber)

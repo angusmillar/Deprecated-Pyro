@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Blaze.Common.BusinessEntities.Dto
+namespace Pyro.Common.BusinessEntities.Dto
 {
   public class DtoResource
   {

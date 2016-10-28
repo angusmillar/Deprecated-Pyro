@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 
-namespace Blaze.Engine.Rest
+namespace Pyro.Engine.Rest
 {
 
   //This class provides functionality that was not available in Hl7.Fhir.Rest.ContentType

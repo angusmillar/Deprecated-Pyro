@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Blaze.Web.Areas.HelpPage.ModelDescriptions;
-using Blaze.Web.Areas.HelpPage.Models;
+using Pyro.Web.Areas.HelpPage.ModelDescriptions;
+using Pyro.Web.Areas.HelpPage.Models;
 
-namespace Blaze.Web.Areas.HelpPage.Controllers
+namespace Pyro.Web.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

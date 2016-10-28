@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Blaze.Common.Database;
+using Pyro.Common.Database;
 using Hl7.Fhir.Model;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 
 
-namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
+namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
 {
   public static class RepositoryNonCollectionSetterLogicBuilder
   {
@@ -320,7 +320,7 @@ namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
 
     private static void DynamicIndexStetter(FhirApiSearchParameterInfo NonCollectionParameter)
     {
-      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionParameter.DbIndexType])
+      foreach (string PropertyName in StaticDatabaseInfo.PyroIndexTypeToDbPropertyNameStringList_Dictonary[NonCollectionParameter.DbIndexType])
       {
         _Sb.AppendLine(String.Format("{0}ResourseEntity.{1}_{2} = Index.{2};",
         DepthSpace(_BracketDepthCounter),

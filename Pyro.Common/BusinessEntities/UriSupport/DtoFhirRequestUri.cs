@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.UriSupport;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.Interfaces.Dto;
-using Blaze.Common.Interfaces.Services;
+using Pyro.Common.BusinessEntities.UriSupport;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Services;
 
-namespace Blaze.Common.BusinessEntities.UriSupport
+namespace Pyro.Common.BusinessEntities.UriSupport
 {
   public class DtoFhirRequestUri : IDtoFhirRequestUri
   {

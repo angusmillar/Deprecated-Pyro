@@ -1,8 +1,8 @@
-﻿using Blaze.Common.BusinessEntities.Search;
-using Blaze.Common.Interfaces.UriSupport;
+﻿using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.Interfaces.Repositories
+namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IResourceRepository
   {

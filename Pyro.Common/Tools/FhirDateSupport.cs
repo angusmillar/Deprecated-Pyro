@@ -1,7 +1,7 @@
 ﻿using System;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.Tools
+namespace Pyro.Common.Tools
 {
   public static class FhirTimeSupport
   {

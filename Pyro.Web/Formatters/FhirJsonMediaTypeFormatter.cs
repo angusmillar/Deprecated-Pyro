@@ -10,10 +10,10 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Newtonsoft.Json;
 using Hl7.Fhir.Rest;
-using Blaze.Web.Extensions;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Web.Extensions;
+using Pyro.Common.BusinessEntities.Dto;
 
-namespace Blaze.Web.Formatters
+namespace Pyro.Web.Formatters
 {
   public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter
   {
@@ -28,7 +28,7 @@ namespace Blaze.Web.Formatters
     {
       base.SetDefaultContentHeaders(type, headers, mediaType);
       //MediaTypeHeaderValue
-      headers.ContentType = Blaze.Engine.Rest.ContentType.GetMediaTypeHeaderValue(type, Hl7.Fhir.Rest.ResourceFormat.Json);
+      headers.ContentType = Pyro.Engine.Rest.ContentType.GetMediaTypeHeaderValue(type, Hl7.Fhir.Rest.ResourceFormat.Json);
     }
 
     public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
@@ -56,7 +56,7 @@ namespace Blaze.Web.Formatters
             oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
             var oOperationOutcome = new OperationOutcome();
             oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                    
+            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                    
           }
         }
         catch (FormatException Exec)
@@ -69,7 +69,7 @@ namespace Blaze.Web.Formatters
           oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);                     
+          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);                     
         }
       });
     }

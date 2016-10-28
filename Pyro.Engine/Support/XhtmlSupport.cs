@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.UI;
 using System.IO;
 
-namespace Blaze.Engine.Support
+namespace Pyro.Engine.Support
 {
   public static class XhtmlSupport
   {

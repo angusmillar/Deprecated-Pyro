@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
 //This source file has been auto generated.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
 
   public class Res_RelatedPerson_Index__tag : TokenIndex

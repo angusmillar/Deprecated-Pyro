@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.DataModel.Repository;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.DataModel.Repository;
 
-namespace Blaze.DataModel
+namespace Pyro.DataModel
 {
   public class UnitOfWork : IUnitOfWork, IDisposable
   {
-    private Blaze.DataModel.DatabaseModel.DatabaseContext _context = null;
+    private Pyro.DataModel.DatabaseModel.DatabaseContext _context = null;
 
     private CommonRepository _CommonRepository;    
     private AccountRepository _AccountRepository;
@@ -127,7 +127,7 @@ namespace Blaze.DataModel
 
     public UnitOfWork()
     {
-      _context = new Blaze.DataModel.DatabaseModel.DatabaseContext();
+      _context = new Pyro.DataModel.DatabaseModel.DatabaseContext();
     }
 
     public IDtoCommonRepository CommonRepository

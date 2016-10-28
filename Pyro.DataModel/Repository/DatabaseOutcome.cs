@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities.Dto;
 
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
-  public class DatabaseOperationOutcome : Blaze.Common.Interfaces.IDatabaseOperationOutcome
+  public class DatabaseOperationOutcome : Pyro.Common.Interfaces.IDatabaseOperationOutcome
   {    
     public List<DtoResource> ReturnedResourceList { get; set; }    
     public int ReturnedResourceCount { get; set; }

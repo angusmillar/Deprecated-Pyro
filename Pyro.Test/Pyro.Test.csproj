@@ -7,8 +7,8 @@
     <ProjectGuid>{4018873A-129D-41B7-858F-D8ECE9D13CBC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.Test</RootNamespace>
-    <AssemblyName>Blaze.Test</AssemblyName>
+    <RootNamespace>Pyro.Test</RootNamespace>
+    <AssemblyName>Pyro.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -89,17 +89,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blaze.DataModel\Blaze.DataModel.csproj">
+    <ProjectReference Include="..\Pyro.DataModel\Pyro.DataModel.csproj">
       <Project>{7ea4191f-1d14-4435-a857-1a462844c8df}</Project>
-      <Name>Blaze.DataModel</Name>
+      <Name>Pyro.DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Blaze.Engine\Blaze.Engine.csproj">
+    <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
-      <Name>Blaze.Engine</Name>
+      <Name>Pyro.Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Blaze.Common\Blaze.Common.csproj">
+    <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Blaze.Common</Name>
+      <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

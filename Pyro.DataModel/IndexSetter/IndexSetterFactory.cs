@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public static class IndexSetterFactory
   {

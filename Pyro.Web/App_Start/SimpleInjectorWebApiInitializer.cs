@@ -1,15 +1,15 @@
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Blaze.Web.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Pyro.Web.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
 
-namespace Blaze.Web.App_Start
+namespace Pyro.Web.App_Start
 {
   using System.Web.Http;
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
-  using Blaze.Common.Interfaces.Repositories;
-  using Blaze.Common.Interfaces.Services;
-  using Blaze.Common.Interfaces;
-  using Blaze.DataModel;
-  
+  using Pyro.Common.Interfaces.Repositories;
+  using Pyro.Common.Interfaces.Services;
+  using Pyro.Common.Interfaces;
+  using Pyro.DataModel;
+
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -32,11 +32,11 @@ namespace Blaze.Web.App_Start
     private static void InitializeContainer(Container container)
     {
       //Register interfaces with simple injector
-      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);            
-      container.Register<IFhirServiceNegotiator, Blaze.Web.BlazeService.FhirServiceNegotiator>(Lifestyle.Singleton);      
-      container.Register<IPatientResourceServices, Blaze.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);
-      container.Register<IDefaultResourceServices, Blaze.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
-      container.Register<ICommonServices, Blaze.Engine.Services.CommonServices>(Lifestyle.Scoped);
+      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
+      container.Register<IFhirServiceNegotiator, Services.FhirServiceNegotiator>(Lifestyle.Singleton);
+      container.Register<IPatientResourceServices, Pyro.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);
+      container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
+      container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(Lifestyle.Scoped);
 
     }
   }

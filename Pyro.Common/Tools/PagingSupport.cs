@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blaze.Common.Tools
+namespace Pyro.Common.Tools
 {
   public static class PagingSupport
   {

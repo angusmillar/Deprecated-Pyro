@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Blaze.Common.Database;
+using Pyro.Common.Database;
 using System.ComponentModel;
 using Hl7.Fhir.Model;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 
-namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
+namespace Pyro.CodeGenerationSupport.DbEntityCodeGeneration
 {
   public class CodeGenerationDatabaseModelCreate
   {
@@ -267,7 +267,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
 
       //Common.Enum.DatabaseEnum.DbIndexType DbIndexType = DatabaseModelInfo.GetServerSearchIndexType(FhirApiSearchParameterInfo);
       Common.Enum.DatabaseEnum.DbIndexType DbIndexType = FhirApiSearchParameterInfo.DbIndexType;
-      foreach (string PropertyName in StaticDatabaseInfo.BlazeIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
+      foreach (string PropertyName in StaticDatabaseInfo.PyroIndexTypeToDbPropertyNameStringList_Dictonary[DbIndexType])
       {
         if (DbIndexType == Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex)
         {
@@ -522,7 +522,7 @@ namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
           }
           break;
         default:
-          throw new InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(Blaze.Common.Enum.DatabaseEnum.DbIndexType));
+          throw new InvalidEnumArgumentException(DbIndexType.ToString(), (int)DbIndexType, typeof(Pyro.Common.Enum.DatabaseEnum.DbIndexType));
       }
 
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Interfaces.Dto
+namespace Pyro.Common.Interfaces.Dto
 {
   public interface IDtoRootUrlStore
   {    

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   public interface IBaseServices
   {

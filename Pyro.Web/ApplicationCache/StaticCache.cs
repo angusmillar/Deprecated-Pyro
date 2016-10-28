@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.Dto;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.BusinessEntities;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities;
 
-namespace Blaze.Web.ApplicationCache
+namespace Pyro.Web.ApplicationCache
 {
   public static class StaticCache
   {

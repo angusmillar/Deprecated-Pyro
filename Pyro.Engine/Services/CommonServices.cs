@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.Dto;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.BusinessEntities.Dto;
 
-namespace Blaze.Engine.Services
+namespace Pyro.Engine.Services
 {
   public class CommonServices : BaseServices, ICommonServices 
   {     

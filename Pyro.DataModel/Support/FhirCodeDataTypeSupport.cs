@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
-namespace Blaze.DataModel.Support
+namespace Pyro.DataModel.Support
 {
   public static partial class FhirCodeDataTypeSupport
   {

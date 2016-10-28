@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 using System.Net;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.BusinessEntities.Dto
+namespace Pyro.Common.BusinessEntities.Dto
 {  
-  public class DtoBlazeException : Exception
+  public class DtoPyroException : Exception
   {
     public HttpStatusCode HttpStatusCode;
     public OperationOutcome OperationOutcome;
 
-    public DtoBlazeException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message)
+    public DtoPyroException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message)
       : base(message)
     {
       this.HttpStatusCode = statuscode;
       this.OperationOutcome = OperationOutcome;
     }
 
-    public DtoBlazeException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message, Exception inner)
+    public DtoPyroException(HttpStatusCode statuscode, OperationOutcome OperationOutcome, string message, Exception inner)
       : base(message, inner)
     {
       this.HttpStatusCode = statuscode;

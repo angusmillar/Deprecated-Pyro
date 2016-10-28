@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blaze.Common.Database;
+using Pyro.Common.Database;
 
-namespace Blaze.CodeGenerationSupport.DbEntityCodeGeneration
+namespace Pyro.CodeGenerationSupport.DbEntityCodeGeneration
 {
   public class CodeGenerationDbTableModel
   {

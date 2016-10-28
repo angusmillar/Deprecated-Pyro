@@ -1,7 +1,7 @@
 ﻿using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public interface ITokenIndexSetter : IIndexSetter
   {
@@ -11,7 +11,6 @@ namespace Blaze.DataModel.IndexSetter
     TokenIndex SetCodeableConcept(CodeableConcept CodeableConcept, TokenIndex TokenIndex);
     TokenIndex SetCoding(Coding Coding, TokenIndex TokenIndex);
     TokenIndex SetFhirString(FhirString FhirString, TokenIndex TokenIndex);
-    TokenIndex SetPositiveInt(PositiveInt PositiveInt, TokenIndex TokenIndex);
     TokenIndex SetFhirBoolean(FhirBoolean FhirBoolean, TokenIndex TokenIndex);
     TokenIndex SetQuantity(Quantity Quantity, TokenIndex TokenIndex);
     TokenIndex SetRange(Range Range, TokenIndex TokenIndex);

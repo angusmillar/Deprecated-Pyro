@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
-using Blaze.Common.Enum;
-using Blaze.Common.Database;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.Common.Enum;
+using Pyro.Common.Database;
 
-namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
+namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
 {
   public class RepositoryCodeGeneration
   {

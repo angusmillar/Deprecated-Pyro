@@ -1,11 +1,11 @@
 ﻿using System;
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.DataModel.Repository.Interfaces;
-using Blaze.Common.BusinessEntities.UriSupport;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataModel.Repository.Interfaces;
+using Pyro.Common.BusinessEntities.UriSupport;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public class ReferanceIndexSetter : IReferenceIndexSetter
   {
@@ -137,6 +137,96 @@ namespace Blaze.DataModel.IndexSetter
       }      
       return null;      
     }
+
+    public ReferenceIndex SetAttachment(Attachment Attachment, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
+    {
+      if (Attachment == null)
+        throw new ArgumentNullException("Attachment cannot be null for method.");
+
+      if (ReferenceIndex == null)
+        throw new ArgumentNullException("ReferenceIndex cannot be null for method.");
+
+      if (FhirRequestUri == null)
+        throw new ArgumentNullException("FhirRequestUri cannot be null for method.");
+
+      if (CommonRepository == null)
+        throw new ArgumentNullException("CommonRepository cannot be null for method.");
+
+      //Check the Uri is actual a Fhir resource reference 
+      //if (!Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(Attachment.))
+      //  return null;
+
+      //if (!ResourceReference.IsContainedReference && ResourceReference.Url != null)
+      //{
+      //  IFhirUri ReferanceUri = null;
+      //  if (DtoFhirUri.TryParse(ResourceReference.Url, out ReferanceUri))
+      //  {
+      //    SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
+      //    if (ResourceReference.Url.IsAbsoluteUri)
+      //    {
+      //      if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+      //      {
+      //        ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+      //      }
+      //      else
+      //      {
+      //        ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+      //      }
+      //    }
+      //    else
+      //    {
+      //      ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+      //    }
+      //    return ReferenceIndex;
+      //  }
+      //}
+      return null;
+    }
+    public ReferenceIndex SetIdentifier(Identifier Identifier, ReferenceIndex ReferenceIndex, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)
+    {
+      if (Identifier == null)
+        throw new ArgumentNullException("Identifier cannot be null for method.");
+
+      if (ReferenceIndex == null)
+        throw new ArgumentNullException("ReferenceIndex cannot be null for method.");
+
+      if (FhirRequestUri == null)
+        throw new ArgumentNullException("FhirRequestUri cannot be null for method.");
+
+      if (CommonRepository == null)
+        throw new ArgumentNullException("CommonRepository cannot be null for method.");
+
+      ////Check the Uri is actual a Fhir resource reference 
+      //if (!Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(ResourceReference.Reference))
+      //  return null;
+
+      //if (!ResourceReference.IsContainedReference && ResourceReference.Url != null)
+      //{
+      //  IFhirUri ReferanceUri = null;
+      //  if (DtoFhirUri.TryParse(ResourceReference.Url, out ReferanceUri))
+      //  {
+      //    SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
+      //    if (ResourceReference.Url.IsAbsoluteUri)
+      //    {
+      //      if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+      //      {
+      //        ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+      //      }
+      //      else
+      //      {
+      //        ReferenceIndex.Url = CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+      //      }
+      //    }
+      //    else
+      //    {
+      //      ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+      //    }
+      //    return ReferenceIndex;
+      //  }
+      //}
+      return null;
+    }
+
 
     private static void SetResourceIndentityElements(ReferenceIndex ReferenceIndex, IFhirUri ReferanceUri)
     {

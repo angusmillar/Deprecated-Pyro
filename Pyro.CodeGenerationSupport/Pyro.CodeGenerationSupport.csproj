@@ -7,8 +7,8 @@
     <ProjectGuid>{DFE33B5B-4EBD-4479-87F4-AEA690C3829A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.CodeGenerationSupport</RootNamespace>
-    <AssemblyName>Blaze.CodeGenerationSupport</AssemblyName>
+    <RootNamespace>Pyro.CodeGenerationSupport</RootNamespace>
+    <AssemblyName>Pyro.CodeGenerationSupport</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -164,9 +164,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blaze.Common\Blaze.Common.csproj">
+    <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
-      <Name>Blaze.Common</Name>
+      <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

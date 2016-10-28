@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Blaze.Common.Interfaces.UriSupport
+namespace Pyro.Common.Interfaces.UriSupport
 {
   public interface IDtoFhirRequestUri
   {
-    Blaze.Common.Interfaces.UriSupport.IFhirUri FhirUri { get; set; }
-    Blaze.Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
+    Pyro.Common.Interfaces.UriSupport.IFhirUri FhirUri { get; set; }
+    Pyro.Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
   }
 }

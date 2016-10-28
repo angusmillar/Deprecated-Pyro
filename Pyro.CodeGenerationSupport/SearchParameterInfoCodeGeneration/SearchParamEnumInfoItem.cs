@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Enum;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Enum;
 
-namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
+namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class SearchParamEnumInfoItem
   {

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace Blaze.Web.Areas.HelpPage.ModelDescriptions
+namespace Pyro.Web.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

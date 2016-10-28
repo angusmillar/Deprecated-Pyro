@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities;
+using Pyro.Common.BusinessEntities;
 
-namespace Blaze.Common.Interfaces.Repositories
+namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IBaseRepository
   {    

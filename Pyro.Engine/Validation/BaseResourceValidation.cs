@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Engine.Validation
+namespace Pyro.Engine.Validation
 {
   public class BaseResourceValidation
   {

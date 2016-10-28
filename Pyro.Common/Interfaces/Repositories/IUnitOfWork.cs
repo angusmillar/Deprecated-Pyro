@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Interfaces.Repositories
+namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IUnitOfWork
   {

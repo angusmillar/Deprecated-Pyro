@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Blaze.Web.Results
+namespace Pyro.Web.Results
 {
     public class ChallengeResult : IHttpActionResult
     {

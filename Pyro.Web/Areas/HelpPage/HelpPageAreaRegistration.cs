@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace Blaze.Web.Areas.HelpPage
+namespace Pyro.Web.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

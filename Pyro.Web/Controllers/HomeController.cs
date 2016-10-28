@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Blaze.Web.Models;
+using Pyro.Web.Models;
 
-namespace Blaze.Web.Controllers
+namespace Pyro.Web.Controllers
 {
   public class HomeController : Controller
   {

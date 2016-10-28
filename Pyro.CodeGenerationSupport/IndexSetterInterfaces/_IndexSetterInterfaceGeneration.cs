@@ -4,15 +4,15 @@
  
 
 // Generated helper templates
-// Blaze.DataModel\IndexSetter\_IndexSetterInterfaceGeneration.txt4
+// Pyro.DataModel\IndexSetter\_IndexSetterInterfaceGeneration.txt4
 // Generated items
-// Blaze.DataModel\IndexSetter\IUriIndexSetter.cs
-// Blaze.DataModel\IndexSetter\ITokenIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IStringIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IReferenceIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IQuantityRangeIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IQuantityIndexSetter.cs
-// Blaze.DataModel\IndexSetter\INumberIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IDateTimePeriodIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IDateTimeIndexSetter.cs
-// Blaze.DataModel\IndexSetter\IDateIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IUriIndexSetter.cs
+// Pyro.DataModel\IndexSetter\ITokenIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IStringIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IReferenceIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IQuantityRangeIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IQuantityIndexSetter.cs
+// Pyro.DataModel\IndexSetter\INumberIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IDateTimePeriodIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IDateTimeIndexSetter.cs
+// Pyro.DataModel\IndexSetter\IDateIndexSetter.cs

@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Blaze.DataModel.DatabaseModel;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Support;
-using Blaze.DataModel.IndexSetter;
-using Blaze.DataModel.Search;
+using Pyro.DataModel.DatabaseModel;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Support;
+using Pyro.DataModel.IndexSetter;
+using Pyro.DataModel.Search;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Search;
-using Blaze.Common.Interfaces;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Introspection;
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
   public partial class ClaimRepository : CommonRepository, IResourceRepository
   {
@@ -110,14 +110,14 @@ namespace Blaze.DataModel.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      Blaze.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
+      Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
       {        
-        DtoResource = DbGetAll<Res_Claim>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
+        DtoResource = DbGetAll<Res_Claim>(x => x.FhirId == FhirResourceId).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
       }
       else
       {
-        DtoResource = DbGetAll<Res_Claim>(x => x.FhirId == FhirResourceId).Select(x => new Blaze.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
+        DtoResource = DbGetAll<Res_Claim>(x => x.FhirId == FhirResourceId).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
       }
       DatabaseOperationOutcome.ReturnedResource = DtoResource;
       return DatabaseOperationOutcome;

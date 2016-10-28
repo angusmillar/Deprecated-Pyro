@@ -7,8 +7,8 @@
     <ProjectGuid>{7458636F-B6A9-4F11-8921-1F70F717E1A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.Common</RootNamespace>
-    <AssemblyName>Blaze.Common</AssemblyName>
+    <RootNamespace>Pyro.Common</RootNamespace>
+    <AssemblyName>Pyro.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

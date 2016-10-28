@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterNumber : DtoSearchParameterBase
   {
@@ -12,7 +12,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterNumber()
       : base()
     {
-      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.NumberIndex;
+      this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.NumberIndex;
     }
     #endregion
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Interfaces.Clone
+namespace Pyro.Common.Interfaces.Clone
 {
   public interface IClonableDeep
   {

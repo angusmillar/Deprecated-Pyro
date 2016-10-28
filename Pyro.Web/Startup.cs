@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(Blaze.Web.Startup))]
+[assembly: OwinStartup(typeof(Pyro.Web.Startup))]
 
-namespace Blaze.Web
+namespace Pyro.Web
 {
     public partial class Startup
     {

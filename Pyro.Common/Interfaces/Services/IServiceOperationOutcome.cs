@@ -1,7 +1,7 @@
 ﻿using System;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   public interface IServiceOperationOutcome
   {

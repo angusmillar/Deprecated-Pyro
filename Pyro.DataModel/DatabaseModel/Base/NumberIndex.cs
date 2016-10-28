@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
-namespace Blaze.DataModel.DatabaseModel.Base
+namespace Pyro.DataModel.DatabaseModel.Base
 {
   public class NumberIndex : ModelBase
   {

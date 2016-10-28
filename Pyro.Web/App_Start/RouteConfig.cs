@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Blaze.Web
+namespace Pyro.Web
 {
   public class RouteConfig
   {

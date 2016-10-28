@@ -1,11 +1,11 @@
 ﻿using System;
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 using System.Collections.Generic;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.DataModel.Repository.Interfaces;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataModel.Repository.Interfaces;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public class UriIndexSetter : IUriIndexSetter
   {

@@ -1,8 +1,8 @@
 ﻿using System;
 using LinqKit;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Search;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Search;
+using Pyro.Common.BusinessEntities.Search;
 
 //README:
 //There are zero QuantityRange search parameters in STU3 to date, 
@@ -11,7 +11,7 @@ using Blaze.Common.BusinessEntities.Search;
 //as the logic is similar but different. Key point is that the Mid search value is not required for QuantityPeriod, you will need to write new 
 //expressions tom cater for these QuanitiyPeriod searches.
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
   public static class QuantityRangePredicateBuilder
   {

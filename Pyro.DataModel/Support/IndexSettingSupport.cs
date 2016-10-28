@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.DataModel.DatabaseModel;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Repository;
-using Blaze.DataModel.IndexSetter;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataModel.DatabaseModel;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Repository;
+using Pyro.DataModel.IndexSetter;
 
 
-namespace Blaze.DataModel.Support
+namespace Pyro.DataModel.Support
 {
   public static class IndexSettingSupport
   {

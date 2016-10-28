@@ -1,10 +1,10 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Pyro.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.6-alpha7\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ Assembly Name="$(SolutionDir)Pyro.CodeGenerationSupport\bin\Release\Pyro.CodeGenerationSupport.dll"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Diagnostics" #>
@@ -14,19 +14,19 @@
 
 <#
   var manager = TemplateFileManager.Create(this);
-  // Any output below here will go to the BlazeDbModelCodeGenerator.cs
-  var GenericCodeDataTypeCodeGen = new Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
+  // Any output below here will go to the PyroDbModelCodeGenerator.cs
+  var GenericCodeDataTypeCodeGen = new Pyro.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
   List<string> CodeTypeGernericEnumList = GenericCodeDataTypeCodeGen.Generate();
    
-  manager.StartNewFile(string.Format("{0}.cs","FhirCodeDataTypeSupportGenerated"), "Blaze.DataModel", "Support");
+  manager.StartNewFile(string.Format("{0}.cs","FhirCodeDataTypeSupportGenerated"), "Pyro.DataModel", "Support");
 #>
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Introspection;
 <#  string DateTimeNow = DateTime.Now.ToString();#>
 //This file was Auto Generated and should not be modified here on: <#=DateTimeNow#>.
 
-namespace Blaze.DataModel.Support
+namespace Pyro.DataModel.Support
 {
   public static partial class FhirCodeDataTypeSupport
   {

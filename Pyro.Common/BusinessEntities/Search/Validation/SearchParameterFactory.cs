@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Blaze.Common.Enum;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.Common.Enum;
+using Pyro.Common.BusinessEntities.Search;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Search.Validation
 {
   public static class SearchParameterFactory
   {
@@ -39,7 +39,7 @@ namespace Blaze.Common.BusinessEntities.Search.Validation
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
-        var SearchParameterGeneric = new Blaze.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
+        var SearchParameterGeneric = new Pyro.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);

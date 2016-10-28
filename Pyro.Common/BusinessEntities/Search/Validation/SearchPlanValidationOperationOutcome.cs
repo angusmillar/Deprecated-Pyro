@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces;
 using Hl7.Fhir.Model;
 using System.Net;
 
-namespace Blaze.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Search.Validation
 {
   public class SearchPlanValidationOperationOutcome : ISearchPlanValidationOperationOutcome
   {

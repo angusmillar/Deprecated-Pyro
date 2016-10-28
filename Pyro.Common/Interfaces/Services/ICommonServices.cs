@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   public interface ICommonServices
   {

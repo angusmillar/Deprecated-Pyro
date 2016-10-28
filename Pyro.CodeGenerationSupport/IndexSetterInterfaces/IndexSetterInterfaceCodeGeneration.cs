@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blaze.Common.Database;
-using Blaze.Common.Enum;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.Common.Database;
+using Pyro.Common.Enum;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
+namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
 {
   public class IndexSetterInterfaceCodeGeneration
   {

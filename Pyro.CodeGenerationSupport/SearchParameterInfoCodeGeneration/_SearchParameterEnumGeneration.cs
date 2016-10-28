@@ -2,6 +2,6 @@
 
 
 // Generated helper templates
-// Blaze.Common\Enum\_SearchParameterEnumGeneration.txt4
+// Pyro.Common\Enum\_SearchParameterEnumGeneration.txt4
 // Generated items
-// Blaze.Common\Enum\FhirSearchEnumPartial.cs
+// Pyro.Common\Enum\FhirSearchEnumPartial.cs

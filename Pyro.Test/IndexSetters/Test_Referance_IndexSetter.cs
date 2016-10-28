@@ -1,14 +1,14 @@
 ﻿using System;
 using NUnit.Framework;
-using Blaze.DataModel.IndexSetter;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.IndexSetter;
+using Pyro.DataModel.DatabaseModel.Base;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 using Moq;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.BusinessEntities.UriSupport;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.UriSupport;
 
-namespace Blaze.Test.IndexSetters
+namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
   class Test_Referance_IndexSetter
@@ -19,7 +19,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrl = "http://somewhere.net.au/FhirApi/Patient";
       string ReferanceUrl = "http://somewhere.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrl));
+      IFhirUri ReferanceFhirUri = Pyro.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrl));
       
 
       var FhirUri = new FhirUri();
@@ -29,19 +29,19 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var RootUrl = new Uri(ServiceRootUrl);
-      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(RootUrl);
+      IFhirUri RequestFhirUri = Pyro.Common.CommonFactory.GetFhirUri(RootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var DtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var DtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       DtoRootUrlStore.ServiceRootUrlStoreID = 1;
       DtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       DtoRootUrlStore.RootUrl = ServiceRootUrl;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(DtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var RootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var RootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       RootUrlStore.ServiceRootURL_StoreID = 0;
       RootUrlStore.IsServersPrimaryUrlRoot = false;
       RootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -57,7 +57,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.ServiceRootURL_StoreID, 1);
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
-      //Test GetAndOrAddBlaze_RootUrlStore not called because Reference url root matches server root url
+      //Test GetAndOrAddPyro_RootUrlStore not called because Reference url root matches server root url
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
     }
 
@@ -67,7 +67,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10";
-      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Pyro.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
@@ -76,19 +76,19 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Pyro.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var ReferanceRootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var ReferanceRootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -107,7 +107,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.Url.RootUrl, ReferanceFhirUri.ServiceRootUrlForComparison);
       Assert.IsNull(Index.VersionId);
       Assert.IsNull(Index.ServiceRootURL_StoreID);
-      //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
+      //Test GetAndOrAddPyro_RootUrlStore called once to add or get the Url from / to the db 
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
@@ -117,7 +117,7 @@ namespace Blaze.Test.IndexSetters
       //Arrange
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "http://SomeWhereElse.net.au/FhirApi/Encounter/10/_history/5";
-      IFhirUri ReferanceFhirUri = Blaze.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
+      IFhirUri ReferanceFhirUri = Pyro.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrlString));
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
@@ -126,19 +126,19 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Pyro.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var ReferanceRootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var ReferanceRootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -157,7 +157,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.Url.RootUrl, ReferanceFhirUri.ServiceRootUrlForComparison);
       Assert.AreEqual(Index.VersionId, "5");
       Assert.IsNull(Index.ServiceRootURL_StoreID);
-      //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
+      //Test GetAndOrAddPyro_RootUrlStore called once to add or get the Url from / to the db 
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
@@ -178,17 +178,17 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Pyro.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -209,7 +209,7 @@ namespace Blaze.Test.IndexSetters
       string ServiceRootUrlString = "http://SomeWhere.net.au/FhirApi/Patient";
       string ReferanceUrlString = "Encounter/10";
       IFhirUri ReferanceFhirUri = Common.CommonFactory.GetFhirUri(ReferanceUrlString);
-      //IFhirUri ReferanceFhirUri = new Blaze.Common.BusinessEntities.UriSupport.DtoFhirUri(ReferanceUrlString);
+      //IFhirUri ReferanceFhirUri = new Pyro.Common.BusinessEntities.UriSupport.DtoFhirUri(ReferanceUrlString);
 
       FhirUri FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrlString;
@@ -218,17 +218,17 @@ namespace Blaze.Test.IndexSetters
       Mock<IDtoFhirRequestUri> MockIDtoFhirRequestUri = new Mock<IDtoFhirRequestUri>();
 
       var ServiceRootUrl = new Uri(ServiceRootUrlString);
-      IFhirUri RequestFhirUri = Blaze.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
+      IFhirUri RequestFhirUri = Pyro.Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -264,14 +264,14 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -301,16 +301,16 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(RootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var DtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var DtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       DtoRootUrlStore.ServiceRootUrlStoreID = 1;
       DtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       DtoRootUrlStore.RootUrl = ServiceRootUrl;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(DtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var RootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var RootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       RootUrlStore.ServiceRootURL_StoreID = 0;
       RootUrlStore.IsServersPrimaryUrlRoot = false;
       RootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -326,7 +326,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.ServiceRootURL_StoreID, 1);
       Assert.IsNull(Index.Url);
       Assert.IsNull(Index.VersionId);
-      //Test GetAndOrAddBlaze_RootUrlStore not called because Reference url root matches server root url
+      //Test GetAndOrAddPyro_RootUrlStore not called because Reference url root matches server root url
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Never()));
     }
 
@@ -348,16 +348,16 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var ReferanceRootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var ReferanceRootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -376,7 +376,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.Url.RootUrl, ReferanceFhirUri.ServiceRootUrlForComparison);
       Assert.IsNull(Index.VersionId);
       Assert.IsNull(Index.ServiceRootURL_StoreID);
-      //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
+      //Test GetAndOrAddPyro_RootUrlStore called once to add or get the Url from / to the db 
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
@@ -398,16 +398,16 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
-      var ReferanceRootUrlStore = new Blaze.DataModel.DatabaseModel.ServiceRootURL_Store();
+      var ReferanceRootUrlStore = new Pyro.DataModel.DatabaseModel.ServiceRootURL_Store();
       ReferanceRootUrlStore.ServiceRootURL_StoreID = 0;
       ReferanceRootUrlStore.IsServersPrimaryUrlRoot = false;
       ReferanceRootUrlStore.RootUrl = ReferanceFhirUri.ServiceRootUrlForComparison;
@@ -426,7 +426,7 @@ namespace Blaze.Test.IndexSetters
       Assert.AreEqual(Index.Url.RootUrl, ReferanceFhirUri.ServiceRootUrlForComparison);
       Assert.AreEqual(Index.VersionId, "5");
       Assert.IsNull(Index.ServiceRootURL_StoreID);
-      //Test GetAndOrAddBlaze_RootUrlStore called once to add or get the Url from / to the db 
+      //Test GetAndOrAddPyro_RootUrlStore called once to add or get the Url from / to the db 
       Assert.DoesNotThrow(() => MockICommonRepository.Verify(x => x.GetAndOrAddService_RootUrlStore(ReferanceFhirUri.ServiceRootUrlForComparison), Times.Once));
     }
 
@@ -450,14 +450,14 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -490,14 +490,14 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act
@@ -533,14 +533,14 @@ namespace Blaze.Test.IndexSetters
       IFhirUri RequestFhirUri = Common.CommonFactory.GetFhirUri(ServiceRootUrl);
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
-      var ServiceDtoRootUrlStore = new Blaze.Common.BusinessEntities.Dto.DtoRootUrlStore();
+      var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
       ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
       ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
-      Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Blaze.DataModel.Repository.Interfaces.ICommonRepository>();
+      Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository> MockICommonRepository = new Mock<Pyro.DataModel.Repository.Interfaces.ICommonRepository>();
 
       ReferenceIndex Index = new ReferenceIndex();
       //Act

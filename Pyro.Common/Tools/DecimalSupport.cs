@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Tools
+namespace Pyro.Common.Tools
 {
   public class DecimalSupport
   {

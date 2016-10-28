@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_NamingSystem_Index_id_type_Configuration : EntityTypeConfiguration<Res_NamingSystem_Index_id_type>
   {

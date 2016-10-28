@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_Consent_Index_recipient_Configuration : EntityTypeConfiguration<Res_Consent_Index_recipient>
   {

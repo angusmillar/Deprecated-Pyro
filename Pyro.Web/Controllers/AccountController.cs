@@ -13,11 +13,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using Blaze.Web.Models;
-using Blaze.Web.Providers;
-using Blaze.Web.Results;
+using Pyro.Web.Models;
+using Pyro.Web.Providers;
+using Pyro.Web.Results;
 
-namespace Blaze.Web.Controllers
+namespace Pyro.Web.Controllers
 {
     //[Authorize]
     //[RoutePrefix("api/Account")]

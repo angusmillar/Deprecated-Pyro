@@ -7,11 +7,11 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Interfaces;
-using Blaze.Common.Interfaces.Repositories;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Repositories;
 
-namespace Blaze.DataModel.Repository 
+namespace Pyro.DataModel.Repository 
 {
   public class BaseRepository : IBaseRepository
   {
@@ -50,7 +50,7 @@ namespace Blaze.DataModel.Repository
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Diagnostics = outputLines.ToString();
         OpOutCome.Issue.Add(OpOutComeIssueComp);
-        throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, outputLines.ToString(), e);
+        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, outputLines.ToString(), e);
       }
       catch (DbUpdateException Exec)
       {
@@ -66,7 +66,7 @@ namespace Blaze.DataModel.Repository
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Diagnostics = Exec.InnerException.InnerException.ToString();
         OpOutCome.Issue.Add(OpOutComeIssueComp);
-        throw new DtoBlazeException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
+        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
       }
 
     }

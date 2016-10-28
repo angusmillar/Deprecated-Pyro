@@ -6,7 +6,7 @@ using System.Text;
 using System.IO;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Web.Formatters
+namespace Pyro.Web.Formatters
 {
   public class FhirMediaTypeFormatter : MediaTypeFormatter
   {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Common.Enum;
-using Blaze.Common.Database;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Enum;
+using Pyro.Common.Database;
 using Hl7.Fhir.Model;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 
-namespace Blaze.CodeGenerationSupport.RepositoryCodeGeneration
+namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
 {
   static class RepositoryCollectionSetterLogicBuilder
   {

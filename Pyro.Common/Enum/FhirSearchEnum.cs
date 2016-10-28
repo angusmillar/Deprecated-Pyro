@@ -4,9 +4,9 @@ using Hl7.Fhir.Model;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.Common.BusinessEntities.Search;
 
-namespace Blaze.Common.Enum
+namespace Pyro.Common.Enum
 {
   public static partial class FhirSearchEnum
   {

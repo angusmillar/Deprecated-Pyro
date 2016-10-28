@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Blaze.Web
+namespace Pyro.Web
 {
   public class BundleConfig
   {

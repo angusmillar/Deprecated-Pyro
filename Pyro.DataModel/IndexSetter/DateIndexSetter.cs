@@ -1,11 +1,11 @@
 ﻿using System;
 using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Repository;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.DataModel.Repository.Interfaces;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Repository;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataModel.Repository.Interfaces;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public class DateIndexSetter : IDateIndexSetter
   {
@@ -50,7 +50,7 @@ namespace Blaze.DataModel.IndexSetter
       //E.g: "1974-12-25"            
       if (Date.IsValidValue(Date.Value))
       {
-        int? DateAsInteger = Blaze.Common.Tools.FhirTimeSupport.ConvertDateToInteger(Date);
+        int? DateAsInteger = Pyro.Common.Tools.FhirTimeSupport.ConvertDateToInteger(Date);
         if (DateAsInteger.HasValue)
         {
           DateIndex.Date = DateAsInteger.Value;

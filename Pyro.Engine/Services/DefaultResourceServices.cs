@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Dto;
-using Blaze.Engine.RepositorySupport;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Engine.RepositorySupport;
 
-namespace Blaze.Engine.Services
+namespace Pyro.Engine.Services
 {
   public class DefaultResourceServices : BaseResourceServices, IDefaultResourceServices, IBaseResourceServices
   {

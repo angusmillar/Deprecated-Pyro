@@ -1,12 +1,12 @@
 ﻿using Hl7.Fhir.Model;
-using Blaze.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.DatabaseModel.Base;
 
-namespace Blaze.DataModel.IndexSetter
+namespace Pyro.DataModel.IndexSetter
 {
   public interface INumberIndexSetter : IIndexSetter
   {
-    NumberIndex SetDuration(Duration Duration, NumberIndex NumberIndex);
     NumberIndex SetPositiveInt(PositiveInt PositiveInt, NumberIndex NumberIndex);
+    NumberIndex SetDuration(Duration Duration, NumberIndex NumberIndex);
     NumberIndex SetInteger(Integer Integer, NumberIndex NumberIndex);
       
   }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
 
   /// <summary>
@@ -21,7 +21,7 @@ namespace Blaze.Common.BusinessEntities.Search
     public DtoSearchParameterQuantity()
       : base()
     {
-      this.DbSearchParameterType = Blaze.Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex;
+      this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex;
     }
     #endregion
 

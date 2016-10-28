@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.BusinessEntities.Dto
+namespace Pyro.Common.BusinessEntities.Dto
 {
   public class DtoDataBaseExceptionInfomation
   {

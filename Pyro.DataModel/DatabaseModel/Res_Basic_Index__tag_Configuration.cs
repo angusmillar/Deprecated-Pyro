@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_Basic_Index__tag_Configuration : EntityTypeConfiguration<Res_Basic_Index__tag>
   {

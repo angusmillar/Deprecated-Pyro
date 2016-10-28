@@ -8,10 +8,10 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using Blaze.Web.Providers;
-using Blaze.Web.Models;
+using Pyro.Web.Providers;
+using Pyro.Web.Models;
 
-namespace Blaze.Web
+namespace Pyro.Web
 {
     public partial class Startup
     {

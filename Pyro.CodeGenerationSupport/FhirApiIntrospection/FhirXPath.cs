@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
+namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
 {
   /// <summary>
   /// Static class to parse the FHIR XPath string

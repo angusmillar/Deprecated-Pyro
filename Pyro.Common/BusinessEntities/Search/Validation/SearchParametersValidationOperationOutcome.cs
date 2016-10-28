@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.Common.BusinessEntities.Search;
 using System.Net;
 
-namespace Blaze.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Search.Validation
 {
   public class SearchParametersValidationOperationOutcome : Common.Interfaces.ISearchParametersValidationOperationOutcome
   {    

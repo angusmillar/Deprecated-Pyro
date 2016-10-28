@@ -1,6 +1,6 @@
 using System;
 
-namespace Blaze.Web.Areas.HelpPage.ModelDescriptions
+namespace Pyro.Web.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Dto;
 
-namespace Blaze.Common.BusinessEntities.Dto
+namespace Pyro.Common.BusinessEntities.Dto
 {
   public class DtoRootUrlStore : IDtoRootUrlStore
   {

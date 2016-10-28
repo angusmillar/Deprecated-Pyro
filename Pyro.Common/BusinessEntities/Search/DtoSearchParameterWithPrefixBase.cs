@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 using System.Text.RegularExpressions;
 
-namespace Blaze.Common.BusinessEntities.Search
+namespace Pyro.Common.BusinessEntities.Search
 {
   public abstract class DtoSearchParameterValueWithPrefix : DtoSearchParameterValueBase
   {

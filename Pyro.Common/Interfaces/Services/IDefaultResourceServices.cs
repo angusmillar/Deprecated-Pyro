@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   /// <summary>
   /// This Interface is here to handle any Resource but only supports the basic REST CRUD operations.  

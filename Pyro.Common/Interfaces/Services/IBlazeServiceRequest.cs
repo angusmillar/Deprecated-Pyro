@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.UriSupport;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
-  public interface IBlazeServiceRequest
+  public interface IPyroServiceRequest
   {
     string ResourceId { get; set; }
     Resource Resource { get; set; }

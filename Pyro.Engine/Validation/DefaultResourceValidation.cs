@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces;
 
-namespace Blaze.Engine.Validation
+namespace Pyro.Engine.Validation
 {
   public class DefaultResourceValidation : BaseResourceValidation, Interfaces.IResourceValidation
   {

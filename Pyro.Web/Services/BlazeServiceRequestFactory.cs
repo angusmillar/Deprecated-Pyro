@@ -4,27 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Rest;
 
-namespace Blaze.Web.BlazeService
+namespace Pyro.Web.Services
 {
-  public static class BlazeServiceRequestFactory
+  public static class PyroServiceRequestFactory
   {
-    public static IBlazeServiceRequest Create(string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
+    public static IPyroServiceRequest Create(string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
-      return new BlazeServiceRequest(id, Resource, DtoFhirRequestUri);
+      return new PyroServiceRequest(id, Resource, DtoFhirRequestUri);
     }
 
-    public static IBlazeServiceRequest Create(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
+    public static IPyroServiceRequest Create(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
-      return new BlazeServiceRequest(Resource, DtoFhirRequestUri);
+      return new PyroServiceRequest(Resource, DtoFhirRequestUri);
     }
 
-    public static IBlazeServiceRequest Create(IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IPyroServiceRequest Create(IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
     {
-      return new BlazeServiceRequest(DtoFhirRequestUri, SearchParams);
+      return new PyroServiceRequest(DtoFhirRequestUri, SearchParams);
     }
   }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Fhir = Hl7.Fhir;
 using System.Net;
 using System.Net.Http;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
-namespace Blaze.Web.BlazeService
+namespace Pyro.Web.Services
 {
   /// <summary>
   /// Negotiates the required Resource server based on the Resource name provided 
@@ -31,11 +31,11 @@ namespace Blaze.Web.BlazeService
 
     public IBaseResourceServices GetService(string ResourceName)
     {
-      Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);   
+      Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
       if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-      { 
+      {
         //On adding new services remember to register the service interface with simple injector
-        if(ResourceType == typeof(Patient))
+        if (ResourceType == typeof(Patient))
         {
           return _Container.GetInstance<IPatientResourceServices>();
         }
@@ -45,7 +45,7 @@ namespace Blaze.Web.BlazeService
           FHIRAllTypes FHIRAllTypes = (FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName);
           DefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;
           return DefaultResourceServices;
-        }                
+        }
       }
       else
       {
@@ -57,10 +57,10 @@ namespace Blaze.Web.BlazeService
         oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
         var oOperationOutcome = new OperationOutcome();
         oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new DtoBlazeException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-       
+        throw new DtoPyroException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+
       }
-      
+
     }
 
   }

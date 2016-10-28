@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.UriSupport;
 
-namespace Blaze.Web.BlazeService
+namespace Pyro.Web.Services
 {
-  public class BlazeServiceRequest : IBlazeServiceRequest
+  public class PyroServiceRequest : IPyroServiceRequest
   {
     public string ResourceId { get; set; }
     public Resource Resource { get; set; }
     public IDtoFhirRequestUri FhirRequestUri { get; set; }
     public SearchParams SearchParams { get; set; }
 
-    public BlazeServiceRequest(string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
+    public PyroServiceRequest(string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
       this.ResourceId = ResourceId;
       this.Resource = Resource;
@@ -25,7 +25,7 @@ namespace Blaze.Web.BlazeService
       this.SearchParams = null;
     }
 
-    public BlazeServiceRequest(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
+    public PyroServiceRequest(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
     {
       this.ResourceId = null;
       this.Resource = Resource;
@@ -33,7 +33,7 @@ namespace Blaze.Web.BlazeService
       this.SearchParams = null;
     }
 
-    public BlazeServiceRequest(IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public PyroServiceRequest(IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
     {
       this.ResourceId = null;
       this.Resource = null;

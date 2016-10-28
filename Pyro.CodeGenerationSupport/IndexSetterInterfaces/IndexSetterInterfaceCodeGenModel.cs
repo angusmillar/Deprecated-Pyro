@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.CodeGenerationSupport.IndexSetterInterfaces
+namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
 {
   public class IndexSetterInterfaceCodeGenModel
   {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaze.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Services
 {
   /// <summary>
   /// This Interface is here to handle any unique methods required for Patient resource beyond the basic REST operations implemented by the IResourceService.

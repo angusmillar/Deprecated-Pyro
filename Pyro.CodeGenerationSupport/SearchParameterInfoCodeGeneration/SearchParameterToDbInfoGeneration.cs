@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Blaze.CodeGenerationSupport.RepositoryCodeGeneration;
-using Blaze.Common.BusinessEntities.Search;
-using Blaze.Common.Enum;
+using Pyro.CodeGenerationSupport.RepositoryCodeGeneration;
+using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Enum;
 using Hl7.Fhir.Model;
 
-namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
+namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class SearchParameterToDbInfoGeneration
   {
@@ -14,7 +14,7 @@ namespace Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 
     public void Generate()
     {
-      var RepositoryCodeGeneration = new Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
+      var RepositoryCodeGeneration = new Pyro.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
       var RepositoryCodeGenModel = RepositoryCodeGeneration.Generate();
 
       ResourceSearchParamInfoList = new List<ResourceSearchParamInfo>();

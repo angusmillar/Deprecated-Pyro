@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.Dto;
 
-namespace Blaze.Common.BusinessEntities.UriSupport
+namespace Pyro.Common.BusinessEntities.UriSupport
 {
   public class DtoFhirUri : IFhirUri
   {
@@ -109,7 +109,7 @@ namespace Blaze.Common.BusinessEntities.UriSupport
     //      oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
     //      var oOperationOutcome = new OperationOutcome();
     //      oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-    //      throw new DtoBlazeException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+    //      throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
     //    }
     //  }
     //}

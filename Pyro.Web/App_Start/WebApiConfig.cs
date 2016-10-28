@@ -6,7 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
-namespace Blaze.Web
+namespace Pyro.Web
 {
   public static class WebApiConfig
   {
@@ -29,7 +29,7 @@ namespace Blaze.Web
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
       
       //Add Exception Handler
-      config.Filters.Add(new Blaze.Engine.CustomException.FhirExceptionFilter());      
+      config.Filters.Add(new Pyro.Engine.CustomException.FhirExceptionFilter());      
 
       // Web API routes
       config.MapHttpAttributeRoutes();

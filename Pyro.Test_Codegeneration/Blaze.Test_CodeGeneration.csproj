@@ -7,8 +7,8 @@
     <ProjectGuid>{0001A52A-E155-45CE-A014-BA9BA1E3BB41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaze.Test_CodeGeneration</RootNamespace>
-    <AssemblyName>Blaze.Test_CodeGeneration</AssemblyName>
+    <RootNamespace>Pyro.Test_CodeGeneration</RootNamespace>
+    <AssemblyName>Pyro.Test_CodeGeneration</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -67,9 +67,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blaze.CodeGenerationSupport\Blaze.CodeGenerationSupport.csproj">
+    <ProjectReference Include="..\Pyro.CodeGenerationSupport\Pyro.CodeGenerationSupport.csproj">
       <Project>{dfe33b5b-4ebd-4479-87f4-aea690c3829a}</Project>
-      <Name>Blaze.CodeGenerationSupport</Name>
+      <Name>Pyro.CodeGenerationSupport</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

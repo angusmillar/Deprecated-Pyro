@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Hl7.Fhir.Model;
-using Blaze.CodeGenerationSupport.FhirApiIntrospection;
+using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 
-namespace Blaze.Test.CodeGenerationSupport
+namespace Pyro.Test.CodeGenerationSupport
 {
   [TestFixture]
   class Test_CodeGen
@@ -17,7 +17,7 @@ namespace Blaze.Test.CodeGenerationSupport
     public void Test_GetApiSearchParameterInfo()
     {
 
-      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
       DatabaseModel.Generate();
     }
 
@@ -25,21 +25,21 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_DbEntityCodeGeneration()
     {
-      Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-      List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = DatabaseModel.Generate();
+      Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate DatabaseModel = new Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+      List<Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> ModelList = DatabaseModel.Generate();
     }
 
     [Test]
     public void Test_RepositoryCodeGeneration()
     {
-      var ReposGen = new Blaze.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
+      var ReposGen = new Pyro.CodeGenerationSupport.RepositoryCodeGeneration.RepositoryCodeGeneration();
       ReposGen.Generate();
     }
 
     [Test]
     public void Test_GenericCodeDataTypeEnumsCodeGeneration()
     {
-      Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen oCreate = new Blaze.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
+      Pyro.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen oCreate = new Pyro.CodeGenerationSupport.GenericCodeDataTypeEnums.GenericCodeDataTypeCodeGen();
       List<string> List = oCreate.Generate();
 
       foreach (var item in List)
@@ -52,7 +52,7 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_IndexSetterInterfaceCodeGeneration()
     {
-      var IndexSetterInterfaceGen = new Blaze.CodeGenerationSupport.IndexSetterInterfaces.IndexSetterInterfaceCodeGeneration();
+      var IndexSetterInterfaceGen = new Pyro.CodeGenerationSupport.IndexSetterInterfaces.IndexSetterInterfaceCodeGeneration();
       var List = IndexSetterInterfaceGen.Generate();
     }
 
@@ -60,14 +60,14 @@ namespace Blaze.Test.CodeGenerationSupport
     [Test]
     public void Test_SearchParamEnumInfoCodeGeneration()
     {
-      var SearchParamEnumInfoCodeGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParamEnumCodeGeneration();
+      var SearchParamEnumInfoCodeGeneration = new Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParamEnumCodeGeneration();
       SearchParamEnumInfoCodeGeneration.Generate();
     }
 
     [Test]
     public void Test_SearchParameterToDbInfoGeneration()
     {
-      var SearchParameterToDbInfoGeneration = new Blaze.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParameterToDbInfoGeneration();
+      var SearchParameterToDbInfoGeneration = new Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration.SearchParameterToDbInfoGeneration();
       SearchParameterToDbInfoGeneration.Generate();
       var test = SearchParameterToDbInfoGeneration.ResourceSearchParamInfoList;
     }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using System.Net;
-using Blaze.Common.Interfaces;
+using Pyro.Common.Interfaces;
 
-namespace Blaze.Engine.Validation
+namespace Pyro.Engine.Validation
 {
   public class ResourceValidationOperationOutcome : IResourceValidationOperationOutcome
   {

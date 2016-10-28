@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blaze.Common.Interfaces.UriSupport
+namespace Pyro.Common.Interfaces.UriSupport
 {
   public interface IFhirUri
   {

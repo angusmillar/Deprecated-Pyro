@@ -1,11 +1,11 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
-<#@ include file="$(SolutionDir)Blaze.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="$(SolutionDir)Pyro.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.6-alpha7\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll" #>
-<#@ Assembly Name="$(SolutionDir)Blaze.CodeGenerationSupport\bin\Release\Blaze.CodeGenerationSupport.dll"#>
+<#@ Assembly Name="$(SolutionDir)Pyro.CodeGenerationSupport\bin\Release\Pyro.CodeGenerationSupport.dll"#>
 <#@ Assembly Name="System.Core" #>
 <#@ import namespace="System" #>
 <#@ Assembly Name="System.Linq" #>
@@ -23,12 +23,12 @@
 
 <#  
   var manager = TemplateFileManager.Create(this);
-  // Any output below here will go to the BlazeDbModelCodeGenerator.cs
+  // Any output below here will go to the PyroDbModelCodeGenerator.cs
   
-  Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
-  List<Blaze.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.Generate();
+  Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate oCreate = new Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDatabaseModelCreate();
+  List<Pyro.CodeGenerationSupport.DbEntityCodeGeneration.CodeGenerationDbTableModel> DbModelList = oCreate.Generate();
 
-  manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"), "Blaze.DataModel","DatabaseModel");
+  manager.StartNewFile(string.Format("{0}.cs","DatabaseContext"), "Pyro.DataModel","DatabaseModel");
 #>
 using System;
 using System.Collections.Generic;
@@ -42,13 +42,13 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
 
   public class DatabaseContext: DbContext
   {
     public DatabaseContext()
-      : base("BlazeConnectionString")
+      : base("PyroConnectionString")
     {
       this.Database.CreateIfNotExists();      
     }

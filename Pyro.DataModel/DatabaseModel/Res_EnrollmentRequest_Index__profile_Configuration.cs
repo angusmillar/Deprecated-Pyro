@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_EnrollmentRequest_Index__profile_Configuration : EntityTypeConfiguration<Res_EnrollmentRequest_Index__profile>
   {

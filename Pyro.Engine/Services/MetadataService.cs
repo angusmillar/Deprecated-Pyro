@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.UriSupport;
 
-namespace Blaze.Engine.Services
+namespace Pyro.Engine.Services
 {
   public class MetadataService
   {

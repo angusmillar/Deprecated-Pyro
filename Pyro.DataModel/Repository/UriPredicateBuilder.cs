@@ -1,10 +1,10 @@
 ﻿using System;
 using LinqKit;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Search;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Search;
+using Pyro.Common.BusinessEntities.Search;
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
   public static class UriPredicateBuilder
   {

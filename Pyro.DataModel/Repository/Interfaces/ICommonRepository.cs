@@ -1,6 +1,6 @@
-﻿using Blaze.DataModel.DatabaseModel;
+﻿using Pyro.DataModel.DatabaseModel;
 
-namespace Blaze.DataModel.Repository.Interfaces
+namespace Pyro.DataModel.Repository.Interfaces
 {
   public interface ICommonRepository
   {

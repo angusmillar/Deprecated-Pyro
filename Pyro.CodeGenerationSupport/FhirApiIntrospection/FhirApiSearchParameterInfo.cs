@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Blaze.Common.Enum;
+using Pyro.Common.Enum;
 
-namespace Blaze.CodeGenerationSupport.FhirApiIntrospection
+namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
 {
   public class FhirApiSearchParameterInfo
   {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Blaze.Web.Models
+namespace Pyro.Web.Models
 {
     // Models returned by AccountController actions.
 

@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 
 //This is an Auto generated file do not change it's contents!!.
 
-namespace Blaze.DataModel.DatabaseModel
+namespace Pyro.DataModel.DatabaseModel
 {
   public class Res_ConceptMap_Index_target_code_Configuration : EntityTypeConfiguration<Res_ConceptMap_Index_target_code>
   {

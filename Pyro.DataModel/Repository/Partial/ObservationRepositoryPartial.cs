@@ -7,18 +7,18 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using Blaze.DataModel.DatabaseModel;
-using Blaze.DataModel.DatabaseModel.Base;
-using Blaze.DataModel.Support;
+using Pyro.DataModel.DatabaseModel;
+using Pyro.DataModel.DatabaseModel.Base;
+using Pyro.DataModel.Support;
 using Hl7.Fhir.Model;
-using Blaze.Common.BusinessEntities;
-using Blaze.Common.Interfaces;
-using Blaze.Common.Interfaces.Repositories;
-using Blaze.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Introspection;
 
 
-namespace Blaze.DataModel.Repository
+namespace Pyro.DataModel.Repository
 {
   public partial class ObservationRepository : CommonRepository, IResourceRepository
   {
@@ -70,7 +70,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.device_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.device_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -92,7 +92,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.encounter_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -114,7 +114,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.patient_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -136,7 +136,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.specimen_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.specimen_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -172,7 +172,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.subject_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.subject_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -509,7 +509,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.device_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.device_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -529,7 +529,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.encounter_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.encounter_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -549,7 +549,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.patient_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.patient_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -569,7 +569,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.specimen_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.specimen_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }
@@ -599,7 +599,7 @@ namespace Blaze.DataModel.Repository
     //        }
     //        else
     //        {
-    //          ResourseEntity.subject_Url_Blaze_RootUrlStoreID = Index.Url_Blaze_RootUrlStoreID;
+    //          ResourseEntity.subject_Url_Pyro_RootUrlStoreID = Index.Url_Pyro_RootUrlStoreID;
     //        }
     //      }
     //    }

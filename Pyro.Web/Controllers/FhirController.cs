@@ -5,14 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
-using Blaze.Common.Interfaces.Services;
-using Blaze.Common.Interfaces.UriSupport;
-using Blaze.Common.Interfaces;
-using Blaze.Web.Extensions;
-using Blaze.Engine.Response;
-using Blaze.Web.ApplicationCache;
+using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces;
+using Pyro.Web.Extensions;
+using Pyro.Engine.Response;
+using Pyro.Web.ApplicationCache;
 
-namespace Blaze.Web.Controllers
+namespace Pyro.Web.Controllers
 {
   [RoutePrefix("fhirapi")]
   public class FhirController : ApiController
@@ -35,8 +35,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Metadata()
     {
       ICommonServices oService = _FhirServiceNegotiator.GetService();
-      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService, Request.RequestUri);
-      var Testing = new Blaze.Engine.Services.MetadataService();
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService, Request.RequestUri);
+      var Testing = new Pyro.Engine.Services.MetadataService();
       Hl7.Fhir.Model.Resource ResourceMetaData = Testing.GetServersConformanceResource(DtoFhirRequestUri);
       throw new NotImplementedException();
     }
@@ -56,8 +56,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Get(string ResourceName, string id)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(id);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(id);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
     //Search
@@ -73,11 +73,11 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Search(string ResourceName)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
 
-      IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(DtoFhirRequestUri, Request.GetSearchParams());
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(BlazeServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IPyroServiceRequest PyroServiceRequest = Services.PyroServiceRequestFactory.Create(DtoFhirRequestUri, Request.GetSearchParams());
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
     // Get By id and _history vid
@@ -95,8 +95,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Get(string ResourceName, string id, string vid)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Get(id, vid);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(id, vid);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
 
@@ -116,10 +116,10 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
-      IBlazeServiceRequest BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(resource, DtoFhirRequestUri);
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Post(BlazeServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IPyroServiceRequest PyroServiceRequest = Services.PyroServiceRequestFactory.Create(resource, DtoFhirRequestUri);
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Post(PyroServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
     //Update
@@ -138,10 +138,10 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IDtoFhirRequestUri DtoFhirRequestUri = BlazeService.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
-      var BlazeServiceRequest = BlazeService.BlazeServiceRequestFactory.Create(id, resource, DtoFhirRequestUri);
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Put(BlazeServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      var PyroServiceRequest = Services.PyroServiceRequestFactory.Create(id, resource, DtoFhirRequestUri);
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Put(PyroServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
     //Delete
@@ -158,8 +158,8 @@ namespace Blaze.Web.Controllers
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IServiceOperationOutcome oBlazeServiceOperationOutcome = oService.Delete(id);
-      return FhirRestResponse.GetHttpResponseMessage(oBlazeServiceOperationOutcome, Request);
+      IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Delete(id);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
   }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Blaze.Common.BusinessEntities.Search;
+using Pyro.Common.BusinessEntities.Search;
 
-namespace Blaze.DataModel.Search
+namespace Pyro.DataModel.Search
 {
   public static class ResourceSearchExtensions
   {
