@@ -62,6 +62,7 @@ namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
   {
     public string SearchParameterName { get; set; }
     public DatabaseEnum.DbIndexType DbIndexType { get; set; }
+    public Hl7.Fhir.Model.SearchParamType SearchParamType { get; set; }
     public List<Hl7.Fhir.Model.ResourceType> ReferanceResourceTypeList { get; set; }
     public SearchParameterInfo()
     {

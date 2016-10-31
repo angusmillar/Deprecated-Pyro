@@ -9,9 +9,10 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
 {
   public class ResourceSearchParamInfoItem
   {
-    public string SearchParameterNameType { get; set; }    
+    public string SearchParameterNameType { get; set; }
     public string ResourceType { get; set; }
     public string DbSearchParameterType { get; set; }
+    public string SearchParameterType { get; set; }
     public List<string> ModifierList { get; set; }
     public List<string> TypeModifierResourceList { get; set; }
     public List<string> PrefixList { get; set; }

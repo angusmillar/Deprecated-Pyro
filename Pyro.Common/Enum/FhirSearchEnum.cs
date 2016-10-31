@@ -68,6 +68,22 @@ namespace Pyro.Common.Enum
         {"notin", SearchModifierType.NotIn}
       };
     }
-  
+
+    public static Dictionary<SearchModifierType, Conformance.SearchModifierCode> GetConformanceSearchModifierCodeDictionary()
+    {
+      return new Dictionary<SearchModifierType, Conformance.SearchModifierCode>()
+      {
+        {SearchModifierType.Missing, Conformance.SearchModifierCode.Missing},
+        {SearchModifierType.Exact, Conformance.SearchModifierCode.Exact},
+        {SearchModifierType.Contains, Conformance.SearchModifierCode.Contains},
+        {SearchModifierType.Text, Conformance.SearchModifierCode.Text},
+        {SearchModifierType.Type, Conformance.SearchModifierCode.Type},
+        {SearchModifierType.Below, Conformance.SearchModifierCode.Below},
+        {SearchModifierType.Above, Conformance.SearchModifierCode.Above},
+        {SearchModifierType.In, Conformance.SearchModifierCode.In},
+        {SearchModifierType.NotIn, Conformance.SearchModifierCode.NotIn}
+      };
+    }
+
   }
 }

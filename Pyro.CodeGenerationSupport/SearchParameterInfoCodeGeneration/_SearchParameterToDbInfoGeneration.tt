@@ -53,6 +53,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = <#=ResourceSearchParamInfoItem.IsDbCollection#>;
             SupportedSearchParameter.DbPropertyName = "<#=ResourceSearchParamInfoItem.DbBasePropertyName#>";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.<#=ResourceSearchParamInfoItem.DbSearchParameterType#>;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.<#=ResourceSearchParamInfoItem.SearchParameterType#>;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
          <# 
         foreach (var Modifier in ResourceSearchParamInfoItem.ModifierList)
