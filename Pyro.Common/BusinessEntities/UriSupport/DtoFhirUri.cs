@@ -177,6 +177,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     }
     /// <summary>
     /// The Service Root without the Schema 'Http or Https' or Schema delimiter '://'
+    /// and all lower case.
     /// This can be used to compare to URL's ServiceRoot for equality.  
     /// </summary>
     public string ServiceRootUrlForComparison
@@ -184,9 +185,9 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       get
       {
         if (this.ApiSegments.Length == 0)
-          return String.Format("{0}", Authority);
+          return String.Format("{0}", Authority).ToLower();
         else
-          return String.Format("{0}{1}{2}", Authority, UriDelimieter, ApiSegmentsToPath());
+          return String.Format("{0}{1}{2}", Authority, UriDelimieter, ApiSegmentsToPath()).ToLower();
       }
     }
     /// <summary>
