@@ -40,6 +40,13 @@ namespace Pyro.Common
       return new ServiceOperationOutcome();
     }
 
+    public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
+    {
+      return new DatabaseOperationOutcome();
+    }
+
+
+
 
 
 

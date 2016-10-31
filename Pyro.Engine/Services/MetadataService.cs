@@ -12,14 +12,15 @@ namespace Pyro.Engine.Services
 {
   public class MetadataService
   {
-    public Resource GetServersConformanceResource(Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
+    public Common.Interfaces.Services.IServiceOperationOutcome GetServersConformanceResource(Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
     {
-      string ApplicationReleaseDate = "2016-10-30";
+      string ServerName = "Pyro Server";
+      string ApplicationReleaseDate = "2016-11-01T09:00:00+10:00";
       var Conformance = new Conformance();
-      Conformance.Id = "PyroConformance";
+      Conformance.Id = "PyroServerConformance";
       Conformance.Url = IDtoRootUrlStore.RootUrl.ToString() + @"/metadata";
       Conformance.Version = ApplicationVersion;
-      Conformance.Name = "PyroServer";
+      Conformance.Name = ServerName;
       Conformance.Status = ConformanceResourceStatus.Active;
       Conformance.Experimental = true;
       Conformance.Date = ApplicationReleaseDate;
@@ -30,16 +31,16 @@ namespace Pyro.Engine.Services
       Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
       Conformance.Contact = new List<Conformance.ContactComponent>() { Contact };
 
-      Conformance.Description = new Markdown("Conformance statement for the Pyro Server");
+      Conformance.Description = new Markdown(ServerName + " Conformance statement");
 
       var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
       Conformance.UseContext = new List<CodeableConcept>() { Australia };
 
       Conformance.Requirements = new Markdown("Reference implementation of a FHIR Server");
-      Conformance.Copyright = "PyroHealth.net";
+      Conformance.Copyright = "Copyright (C) PyroHealth.net";
       Conformance.Kind = Conformance.ConformanceStatementKind.Instance;
-      Conformance.Software = new Conformance.SoftwareComponent() { Name = "Pyro Server", Version = ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
-      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = "Pyro Server", Url = IDtoRootUrlStore.RootUrl };
+      Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
+      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = IDtoRootUrlStore.RootUrl };
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
       Conformance.AcceptUnknown = Conformance.UnknownContentCode.Both;
@@ -66,6 +67,7 @@ namespace Pyro.Engine.Services
       {
         FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
         var ResourceComponent = new Conformance.ResourceComponent();
+        RestComponent.Resource.Add(ResourceComponent);
         ResourceComponent.Type = ResourceType;
         ResourceComponent.Interaction = new List<Conformance.ResourceInteractionComponent>()
         {
@@ -114,7 +116,24 @@ namespace Pyro.Engine.Services
         }
       }
 
-      return Conformance;
+
+      var ServiceOperationOutcome = Pyro.Common.CommonFactory.GetPyroServiceOperationOutcome();
+      ServiceOperationOutcome.DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource = new Common.BusinessEntities.Dto.DtoResource();
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.FhirId = Conformance.Id;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsCurrent = true;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsDeleted = false;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Version = "1";
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Conformance);
+
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceCount = 1;
+      ServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
+      ServiceOperationOutcome.FhirResourceId = Conformance.Id; ;
+      ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
+      ServiceOperationOutcome.ResourceVersionNumber = "1";
+
+
+      return ServiceOperationOutcome;
     }
 
 
