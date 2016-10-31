@@ -35,12 +35,11 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Metadata()
     {
       ICommonServices oService = _FhirServiceNegotiator.GetService();
-      Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();                  
+      Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();            
+      var Testing = new Pyro.Engine.Services.MetadataService();
       string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Web.WebApiApplication).Assembly.Location).ProductVersion;
-
-      var MetadataService = new Pyro.Engine.Services.MetadataService();
-      IServiceOperationOutcome oPyroServiceOperationOutcome = MetadataService.GetServersConformanceResource(RootUrl, ApplicationVersion);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      Hl7.Fhir.Model.Resource ResourceMetaData = Testing.GetServersConformanceResource(RootUrl, ApplicationVersion);
+      throw new NotImplementedException();
     }
 
 
