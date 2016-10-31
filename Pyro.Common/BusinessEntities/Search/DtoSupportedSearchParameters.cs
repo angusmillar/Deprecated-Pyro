@@ -9,6 +9,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
     public FHIRAllTypes Resource { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
+    public SearchParamType SearchParameterType { get; set; }
     public bool IsDbCollection { get; set; }
     public string DbPropertyName { get; set; }
     public List<FhirSearchEnum.SearchModifierType> ModifierList { get; set; }
@@ -21,6 +22,7 @@ namespace Pyro.Common.BusinessEntities.Search
       Page.Name = FhirSearchEnum.SearchParameterNameType.page;
       Page.Resource = FHIRAllTypes.Resource;
       Page.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+      Page.SearchParameterType = SearchParamType.Number;
       Page.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       Page.TypeModifierResourceList = new List<string>();
       Page.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
@@ -30,6 +32,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Id.Name = FhirSearchEnum.SearchParameterNameType._id;
       _Id.Resource = FHIRAllTypes.Resource;
       _Id.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+      _Id.SearchParameterType = SearchParamType.String;
       _Id.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       _Id.TypeModifierResourceList = new List<string>();
       _Id.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
@@ -39,6 +42,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Sort.Name = FhirSearchEnum.SearchParameterNameType._sort;
       _Sort.Resource = FHIRAllTypes.Resource;
       _Sort.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+      _Sort.SearchParameterType = SearchParamType.String;
       _Sort.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
       _Sort.TypeModifierResourceList = new List<string>();
       _Sort.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();

@@ -55,6 +55,7 @@ namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
           oIndexEntity.PropertyName = DatabaseModelInfo.ConstructCollectionListName(CollectionParameter);
           oIndexEntity.SearchParameterInfo = new SearchParameterInfo();
           oIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(CollectionParameter)];
+          oIndexEntity.SearchParameterInfo.SearchParamType = CollectionParameter.SearchParamType;
           oIndexEntity.SearchParameterInfo.SearchParameterName = CollectionParameter.SearchName;
           oIndexEntity.SearchParameterInfo.ReferanceResourceTypeList = CollectionParameter.ReferanceTargetResourceType;
 
@@ -69,6 +70,7 @@ namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
           NonColectionIndexEntity.PropertyNameList.AddRange(Propertylist);
           NonColectionIndexEntity.SearchParameterInfo = new SearchParameterInfo();
           NonColectionIndexEntity.SearchParameterInfo.DbIndexType = DatabaseEnum.StringToDbIndexTypeDictonary[DatabaseModelInfo.GetServerSearchIndexTypeString(NonCollectionParameter)];
+          NonColectionIndexEntity.SearchParameterInfo.SearchParamType = NonCollectionParameter.SearchParamType;
           NonColectionIndexEntity.SearchParameterInfo.SearchParameterName = NonCollectionParameter.SearchName;
           NonColectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList = NonCollectionParameter.ReferanceTargetResourceType;
           RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(NonColectionIndexEntity);

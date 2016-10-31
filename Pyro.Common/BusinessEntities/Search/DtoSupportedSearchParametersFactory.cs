@@ -23,6 +23,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -35,6 +36,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -47,6 +49,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -63,6 +66,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -75,6 +79,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -87,6 +92,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "balance";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.QuantityIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Quantity;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -105,6 +111,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -119,6 +126,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "owner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -133,6 +141,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -147,6 +156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -165,6 +175,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -177,6 +188,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -201,6 +213,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -213,6 +226,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -225,6 +239,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -241,6 +256,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -253,6 +269,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -265,6 +282,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -279,6 +297,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -291,6 +310,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -305,6 +325,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -324,6 +345,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -336,6 +358,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -348,6 +371,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "manifestation";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -360,6 +384,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "onset";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -378,6 +403,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "route";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -390,6 +416,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "severity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -402,6 +429,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -418,6 +446,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -430,6 +459,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -442,6 +472,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -454,6 +485,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "criticality";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -466,6 +498,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -484,6 +517,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "last_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -502,6 +536,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -516,6 +551,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "recorder";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -531,6 +567,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "reporter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -547,6 +584,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -559,6 +597,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -576,6 +615,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "actor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -595,6 +635,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "appointment_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -607,6 +648,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -619,6 +661,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -633,6 +676,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "part_status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -645,6 +689,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -659,6 +704,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -673,6 +719,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "service_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -685,6 +732,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -701,6 +749,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -713,6 +762,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -725,6 +775,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -743,6 +794,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -760,6 +812,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -772,6 +825,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -788,6 +842,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -800,6 +855,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -812,6 +868,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "actor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -831,6 +888,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "appointment";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -845,6 +903,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -859,6 +918,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "part_status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -871,6 +931,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -885,6 +946,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -904,6 +966,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -918,6 +981,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "agent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -936,6 +1000,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "agent_name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -950,6 +1015,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "altid";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -962,6 +1028,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1084,6 +1151,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity_id";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1096,6 +1164,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity_name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -1110,6 +1179,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1122,6 +1192,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1136,6 +1207,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "policy";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1152,6 +1224,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "role";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1164,6 +1237,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "subtype";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1176,6 +1250,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "user";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1188,6 +1263,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1204,6 +1280,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1216,6 +1293,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1228,6 +1306,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "action";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1240,6 +1319,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1258,6 +1338,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "outcome";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1270,6 +1351,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "site";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1282,6 +1364,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1294,6 +1377,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1311,6 +1395,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1323,6 +1408,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1335,6 +1421,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1351,6 +1438,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1363,6 +1451,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1375,6 +1464,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1391,6 +1481,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1409,6 +1500,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1423,6 +1515,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1550,6 +1643,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1566,6 +1660,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1578,6 +1673,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1590,6 +1686,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "contenttype";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1607,6 +1704,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1619,6 +1717,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1631,6 +1730,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1647,6 +1747,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1659,6 +1760,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1671,6 +1773,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1690,6 +1793,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1706,6 +1810,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1718,6 +1823,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1730,6 +1836,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "composition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1744,6 +1851,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "message";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1758,6 +1866,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1775,6 +1884,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitycode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1787,6 +1897,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activitydate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1805,6 +1916,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "activityreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1829,6 +1941,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "careteam";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1843,6 +1956,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1855,6 +1969,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "condition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1869,6 +1984,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "goal";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1883,6 +1999,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1900,6 +2017,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relatedcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1912,6 +2030,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relatedplan";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1926,6 +2045,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -1942,6 +2062,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1954,6 +2075,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1966,6 +2088,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -1984,6 +2107,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -1998,6 +2122,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2018,6 +2143,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2030,6 +2156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "participant";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2047,6 +2174,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2059,6 +2187,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2071,6 +2200,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -2087,6 +2217,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2099,6 +2230,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2111,6 +2243,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2129,6 +2262,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2143,6 +2277,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2163,6 +2298,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2175,6 +2311,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -2191,6 +2328,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2203,6 +2341,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2215,6 +2354,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2233,6 +2373,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facility_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2245,6 +2386,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facility_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2259,6 +2401,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "insurer_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2271,6 +2414,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "insurer_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2285,6 +2429,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2297,6 +2442,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2311,6 +2457,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2323,6 +2470,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2337,6 +2485,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "priority";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2349,6 +2498,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2361,6 +2511,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2375,6 +2526,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2392,6 +2544,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2404,6 +2557,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -2420,6 +2574,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2432,6 +2587,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2444,6 +2600,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2462,6 +2619,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "disposition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -2476,6 +2634,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2488,6 +2647,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2502,6 +2662,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "outcome";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2514,6 +2675,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "paymentdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2532,6 +2694,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2544,6 +2707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2563,6 +2727,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "action";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2584,6 +2749,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "finding_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2596,6 +2762,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "finding_ref";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2611,6 +2778,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "investigation";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2630,6 +2798,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "plan";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2655,6 +2824,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "problem";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2670,6 +2840,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -2686,6 +2857,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2698,6 +2870,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2710,6 +2883,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "assessor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2724,6 +2898,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2739,6 +2914,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2757,6 +2933,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2771,6 +2948,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "previous";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2785,6 +2963,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2797,6 +2976,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -2817,6 +2997,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2829,6 +3010,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2841,6 +3023,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "language";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2853,6 +3036,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -2869,6 +3053,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2881,6 +3066,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2893,6 +3079,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "content";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2905,6 +3092,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2923,6 +3111,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -2937,6 +3126,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2949,6 +3139,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -2963,6 +3154,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -2977,6 +3169,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -2989,6 +3182,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "system";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3005,6 +3199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3021,6 +3216,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3038,6 +3234,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "based_on";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3160,6 +3357,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3172,6 +3370,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3184,6 +3383,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "medium";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3196,6 +3396,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "recipient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3215,6 +3416,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3231,6 +3433,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3243,6 +3446,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3255,6 +3459,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3270,6 +3475,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3284,6 +3490,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "received";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3302,6 +3509,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "sender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3320,6 +3528,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "sent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3338,6 +3547,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3350,6 +3560,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3370,6 +3581,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3382,6 +3594,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3394,6 +3607,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "medium";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3406,6 +3620,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "priority";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3418,6 +3633,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "recipient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3438,6 +3654,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3454,6 +3671,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3466,6 +3684,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3478,6 +3697,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3492,6 +3712,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3506,6 +3727,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requested";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3524,6 +3746,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3540,6 +3763,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "sender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3558,6 +3782,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3570,6 +3795,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3584,6 +3810,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "time";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3607,6 +3834,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "resource";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3619,6 +3847,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3635,6 +3864,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3647,6 +3877,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3659,6 +3890,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3671,6 +3903,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3689,6 +3922,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -3703,6 +3937,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3715,6 +3950,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3736,6 +3972,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "attester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3752,6 +3989,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3769,6 +4007,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "class";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3781,6 +4020,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3793,6 +4033,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entry";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -3915,6 +4156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3933,6 +4175,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "section";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3945,6 +4188,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3957,6 +4201,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -3973,6 +4218,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3985,6 +4231,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -3997,6 +4244,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "confidentiality";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4009,6 +4257,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4027,6 +4276,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4041,6 +4291,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4053,6 +4304,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4067,6 +4319,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4079,6 +4332,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4201,6 +4455,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4220,6 +4475,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4232,6 +4488,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dependson";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4248,6 +4505,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "product";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4264,6 +4522,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "source_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4276,6 +4535,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "source_system";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4292,6 +4552,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "target_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4304,6 +4565,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "target_system";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4320,6 +4582,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4336,6 +4599,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4348,6 +4612,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4360,6 +4625,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4378,6 +4644,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4392,6 +4659,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4404,6 +4672,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4418,6 +4687,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4432,6 +4702,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4447,6 +4718,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source_uri";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4462,6 +4734,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4474,6 +4747,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "target";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4489,6 +4763,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "target_uri";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4504,6 +4779,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4520,6 +4796,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4537,6 +4814,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "body_site";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4549,6 +4827,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4561,6 +4840,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4573,6 +4853,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "evidence";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4585,6 +4866,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4597,6 +4879,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "severity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4609,6 +4892,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "stage";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4621,6 +4905,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4637,6 +4922,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4649,6 +4935,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4661,6 +4948,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "asserter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4676,6 +4964,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "clinicalstatus";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4688,6 +4977,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4703,6 +4993,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date_recorded";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4721,6 +5012,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4735,6 +5027,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4755,6 +5048,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4767,6 +5061,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "event";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4779,6 +5074,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "format";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4791,6 +5087,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "mode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4803,6 +5100,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "resource";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4815,6 +5113,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "resourceprofile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4829,6 +5128,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "securityservice";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4841,6 +5141,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "supported_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -4855,6 +5156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -4871,6 +5173,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4883,6 +5186,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4895,6 +5199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4913,6 +5218,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4927,6 +5233,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "fhirversion";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4939,6 +5246,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4953,6 +5261,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4967,6 +5276,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "software";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -4981,6 +5291,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -4993,6 +5304,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -5009,6 +5321,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5026,6 +5339,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "action";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5038,6 +5352,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "actor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5058,6 +5373,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5070,6 +5386,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "consentor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5087,6 +5404,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "data";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5209,6 +5527,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "purpose";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5221,6 +5540,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "recipient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5241,6 +5561,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5253,6 +5574,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -5269,6 +5591,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5281,6 +5604,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5293,6 +5617,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5311,6 +5636,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5323,6 +5649,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5337,6 +5664,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5351,6 +5679,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5369,6 +5698,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5386,6 +5716,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5403,6 +5734,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "agent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5425,6 +5757,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "authority";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5439,6 +5772,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "domain";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5453,6 +5787,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5467,6 +5802,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "signer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5484,6 +5820,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5606,6 +5943,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5728,6 +6066,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "ttopic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -5850,6 +6189,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -5866,6 +6206,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5878,6 +6219,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5890,6 +6232,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5902,6 +6245,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issued";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5925,6 +6269,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5937,6 +6282,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -5953,6 +6299,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5965,6 +6312,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5977,6 +6325,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "beneficiary_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -5989,6 +6338,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "beneficiary_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6003,6 +6353,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "dependent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6021,6 +6372,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "group";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6033,6 +6385,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issuer_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6045,6 +6398,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issuer_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6061,6 +6415,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "plan";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6073,6 +6428,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "planholder_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6085,6 +6441,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "planholder_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6100,6 +6457,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "sequence";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6118,6 +6476,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subgroup";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6130,6 +6489,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subplan";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6142,6 +6502,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6159,6 +6520,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6171,6 +6533,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6183,6 +6546,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6197,6 +6561,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6209,6 +6574,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6225,6 +6591,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6237,6 +6604,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6249,6 +6617,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6267,6 +6636,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6281,6 +6651,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6295,6 +6666,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6307,6 +6679,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "stringency";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6319,6 +6692,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6335,6 +6709,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6354,6 +6729,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6366,6 +6742,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6378,6 +6755,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6394,6 +6772,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6406,6 +6785,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6418,6 +6798,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6432,6 +6813,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6444,6 +6826,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6458,6 +6841,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6477,6 +6861,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6489,6 +6874,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "implicated";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6611,6 +6997,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6627,6 +7014,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6639,6 +7027,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6651,6 +7040,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6666,6 +7056,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6684,6 +7075,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6696,6 +7088,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6715,6 +7108,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6727,6 +7121,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6739,6 +7134,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6755,6 +7151,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6767,6 +7164,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6779,6 +7177,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6793,6 +7192,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "manufacturer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6807,6 +7207,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "model";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -6821,6 +7222,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6835,6 +7237,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6849,6 +7252,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "udicarrier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6861,6 +7265,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6882,6 +7287,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6894,6 +7300,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6910,6 +7317,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6922,6 +7330,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6934,6 +7343,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6948,6 +7358,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -6967,6 +7378,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -6979,6 +7391,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -6995,6 +7408,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7007,6 +7421,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7019,6 +7434,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7031,6 +7447,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7043,6 +7460,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7057,6 +7475,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7076,6 +7495,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "based_on";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7198,6 +7618,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7210,6 +7631,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "definition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7332,6 +7754,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7344,6 +7767,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "replaces";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7466,6 +7890,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "stage";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7478,6 +7903,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -7494,6 +7920,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7506,6 +7933,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7518,6 +7946,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7536,6 +7965,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "device";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7550,6 +7980,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7565,6 +7996,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "event_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7583,6 +8015,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "filler";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7601,6 +8034,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7615,6 +8049,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7631,6 +8066,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requisition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7643,6 +8079,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7655,6 +8092,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7677,6 +8115,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -7693,6 +8132,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7705,6 +8145,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7717,6 +8158,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "device";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7731,6 +8173,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7745,6 +8188,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7764,6 +8208,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7776,6 +8221,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7788,6 +8234,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "diagnosis";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7800,6 +8247,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7812,6 +8260,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "image";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7826,6 +8275,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7841,6 +8291,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "request";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7857,6 +8308,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "result";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7871,6 +8323,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "specimen";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7885,6 +8338,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -7901,6 +8355,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7913,6 +8368,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7925,6 +8381,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7943,6 +8400,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7957,6 +8415,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "issued";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -7975,6 +8434,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -7989,6 +8449,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8001,6 +8462,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8023,6 +8485,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "based_on";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8145,6 +8608,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8157,6 +8621,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "definition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8279,6 +8744,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8291,6 +8757,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "replaces";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8413,6 +8880,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "stage";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8425,6 +8893,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -8441,6 +8910,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8453,6 +8923,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8465,6 +8936,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8483,6 +8955,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8498,6 +8971,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "event_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8516,6 +8990,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "filler";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8534,6 +9009,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8548,6 +9024,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8564,6 +9041,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requisition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8576,6 +9054,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8588,6 +9067,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8610,6 +9090,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8628,6 +9109,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "content_ref";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8750,6 +9232,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8762,6 +9245,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "recipient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8779,6 +9263,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_id";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8791,6 +9276,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_ref";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -8913,6 +9399,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8925,6 +9412,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -8941,6 +9429,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8953,6 +9442,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8965,6 +9455,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -8983,6 +9474,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -8997,6 +9489,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9011,6 +9504,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -9027,6 +9521,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9039,6 +9534,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9061,6 +9557,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9079,6 +9576,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "class";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9091,6 +9589,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "event";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9103,6 +9602,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "facility";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9115,6 +9615,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "format";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9127,6 +9628,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9139,6 +9641,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "language";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9151,6 +9654,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -9167,6 +9671,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_id";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9179,6 +9684,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_ref";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9301,6 +9807,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relatesto";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9315,6 +9822,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relation";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9327,6 +9835,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "securitylabel";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9339,6 +9848,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "setting";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9351,6 +9861,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9363,6 +9874,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -9379,6 +9891,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9391,6 +9904,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9403,6 +9917,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authenticator";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9418,6 +9933,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9436,6 +9952,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "custodian";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9450,6 +9967,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -9464,6 +9982,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9478,6 +9997,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "indexed";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9496,6 +10016,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9510,6 +10031,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9528,6 +10050,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9540,6 +10063,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9562,6 +10086,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9574,6 +10099,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -9590,6 +10116,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9602,6 +10129,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9614,6 +10142,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9632,6 +10161,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facility_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9644,6 +10174,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facility_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9658,6 +10189,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9670,6 +10202,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9684,6 +10217,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9696,6 +10230,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9710,6 +10245,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9722,6 +10258,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9741,6 +10278,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9753,6 +10291,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -9769,6 +10308,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9781,6 +10321,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9793,6 +10334,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9811,6 +10353,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "disposition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -9825,6 +10368,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9837,6 +10381,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9851,6 +10396,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "outcome";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9863,6 +10409,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9875,6 +10422,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9887,6 +10435,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9901,6 +10450,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9913,6 +10463,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9927,6 +10478,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9946,6 +10498,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "condition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9960,6 +10513,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "episodeofcare";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -9974,6 +10528,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -9986,6 +10541,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "incomingreferral";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10000,6 +10556,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "indication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10015,6 +10572,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10029,6 +10587,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location_period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10047,6 +10606,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "participant";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10062,6 +10622,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "participant_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10074,6 +10635,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10088,6 +10650,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "procedure";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10102,6 +10665,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10114,6 +10678,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "special_arrangement";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10126,6 +10691,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10138,6 +10704,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10154,6 +10721,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10166,6 +10734,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10178,6 +10747,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "appointment";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10192,6 +10762,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "class";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10204,6 +10775,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10222,6 +10794,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "length";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10240,6 +10813,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "part_of";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10254,6 +10828,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10268,6 +10843,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10285,6 +10861,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10297,6 +10874,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "payload_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10309,6 +10887,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10325,6 +10904,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10337,6 +10917,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10349,6 +10930,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -10363,6 +10945,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10377,6 +10960,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10394,6 +10978,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10406,6 +10991,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10422,6 +11008,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10434,6 +11021,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10446,6 +11034,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10458,6 +11047,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10472,6 +11062,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10484,6 +11075,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10503,6 +11095,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10515,6 +11108,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10531,6 +11125,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10543,6 +11138,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10560,6 +11156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "condition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10574,6 +11171,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10586,6 +11184,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "incomingreferral";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10600,6 +11199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10612,6 +11212,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10628,6 +11229,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10640,6 +11242,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10652,6 +11255,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "care_manager";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10666,6 +11270,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10684,6 +11289,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10698,6 +11304,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10712,6 +11319,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10729,6 +11337,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10745,6 +11354,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10757,6 +11367,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10769,6 +11380,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10787,6 +11399,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -10801,6 +11414,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10813,6 +11427,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -10827,6 +11442,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -10841,6 +11457,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10853,6 +11470,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10869,6 +11487,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10886,6 +11505,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10898,6 +11518,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -10914,6 +11535,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10926,6 +11548,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10938,6 +11561,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "claimidentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10950,6 +11574,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "claimreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -10964,6 +11589,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -10982,6 +11608,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "disposition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -10996,6 +11623,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facilityidentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11008,6 +11636,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "facilityreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11022,6 +11651,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organizationidentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11034,6 +11664,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organizationreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11048,6 +11679,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patientidentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11060,6 +11692,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patientreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11074,6 +11707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provideridentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11086,6 +11720,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "providerreference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11105,6 +11740,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11117,6 +11753,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11129,6 +11766,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relationship";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11141,6 +11779,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11157,6 +11796,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11169,6 +11809,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11181,6 +11822,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11199,6 +11841,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "gender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11211,6 +11854,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11230,6 +11874,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11246,6 +11891,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11258,6 +11904,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11270,6 +11917,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11287,6 +11935,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11305,6 +11954,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11319,6 +11969,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11333,6 +11984,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11359,6 +12011,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11371,6 +12024,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11383,6 +12037,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11399,6 +12054,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11411,6 +12067,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11423,6 +12080,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11437,6 +12095,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11449,6 +12108,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11465,6 +12125,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "targetdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11488,6 +12149,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "characteristic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11500,6 +12162,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11512,6 +12175,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "exclude";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11524,6 +12188,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11536,6 +12201,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "member";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11554,6 +12220,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11566,6 +12233,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11582,6 +12250,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11594,6 +12263,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11606,6 +12276,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "actual";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11618,6 +12289,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11635,6 +12307,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11651,6 +12324,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11663,6 +12337,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11675,6 +12350,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11689,6 +12365,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11709,6 +12386,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "characteristic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11721,6 +12399,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11733,6 +12412,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11747,6 +12427,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "programname";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -11761,6 +12442,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "servicecategory";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11773,6 +12455,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "servicetype";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11785,6 +12468,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11801,6 +12485,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11813,6 +12498,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11825,6 +12511,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11837,6 +12524,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -11851,6 +12539,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11870,6 +12559,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "selected_study";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11886,6 +12576,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11898,6 +12589,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11914,6 +12606,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11926,6 +12619,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11938,6 +12632,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -11956,6 +12651,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authoring_time";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -11974,6 +12670,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -11990,6 +12687,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12009,6 +12707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "basedon";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12026,6 +12725,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "bodysite";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12038,6 +12738,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dicom_class";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12054,6 +12755,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12066,6 +12768,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "modality";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12078,6 +12781,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12090,6 +12794,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "series";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12106,6 +12811,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "uid";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12122,6 +12828,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12138,6 +12845,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12150,6 +12858,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12162,6 +12871,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "accession";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12174,6 +12884,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12189,6 +12900,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12203,6 +12915,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "started";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12221,6 +12934,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "study";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12242,6 +12956,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dose_sequence";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12260,6 +12975,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12272,6 +12988,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reaction";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12286,6 +13003,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reaction_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12304,6 +13022,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12316,6 +13035,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reason_not_given";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12328,6 +13048,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "vaccine_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12340,6 +13061,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12356,6 +13078,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12368,6 +13091,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12380,6 +13104,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12398,6 +13123,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12412,6 +13138,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "lot_number";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -12426,6 +13153,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "manufacturer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12440,6 +13168,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "notgiven";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12452,6 +13181,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12466,6 +13196,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12480,6 +13211,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12494,6 +13226,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12511,6 +13244,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12529,6 +13263,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dose_number";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12547,6 +13282,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dose_sequence";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12565,6 +13301,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12577,6 +13314,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "information";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12592,6 +13330,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12604,6 +13343,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "support";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12618,6 +13358,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "vaccine_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12630,6 +13371,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12646,6 +13388,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12658,6 +13401,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12670,6 +13414,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12689,6 +13434,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12701,6 +13447,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "dependency";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12717,6 +13464,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "resource";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -12839,6 +13587,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12855,6 +13604,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12867,6 +13617,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12879,6 +13630,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12897,6 +13649,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -12911,6 +13664,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "experimental";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12923,6 +13677,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -12937,6 +13692,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -12951,6 +13707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12963,6 +13720,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -12979,6 +13737,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -12996,6 +13755,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13008,6 +13768,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13020,6 +13781,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13036,6 +13798,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13048,6 +13811,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13060,6 +13824,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13074,6 +13839,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13086,6 +13852,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13100,6 +13867,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13119,6 +13887,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "item";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13132,6 +13901,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13145,6 +13915,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13161,6 +13932,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13173,6 +13945,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13185,6 +13958,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13205,6 +13979,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13217,6 +13992,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "empty_reason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13229,6 +14005,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13241,6 +14018,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "item";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13363,6 +14141,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "notes";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13377,6 +14156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13393,6 +14173,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13405,6 +14186,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13417,6 +14199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13435,6 +14218,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13449,6 +14233,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13463,6 +14248,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13479,6 +14265,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13491,6 +14278,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13508,6 +14296,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13527,6 +14316,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13541,6 +14331,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13553,6 +14344,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13567,6 +14359,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13579,6 +14372,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13595,6 +14389,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13607,6 +14402,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13619,6 +14415,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13633,6 +14430,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13647,6 +14445,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13661,6 +14460,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13675,6 +14475,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13687,6 +14488,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "near";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13699,6 +14501,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "near_distance";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.QuantityIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Quantity;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13717,6 +14520,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13731,6 +14535,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "partof";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13745,6 +14550,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13762,6 +14568,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13774,6 +14581,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13786,6 +14594,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13802,6 +14611,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13814,6 +14624,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13826,6 +14637,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13840,6 +14652,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13852,6 +14665,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13866,6 +14680,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -13885,6 +14700,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13901,6 +14717,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13913,6 +14730,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13925,6 +14743,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -13944,6 +14763,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13956,6 +14776,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "subtype";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13968,6 +14789,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "view";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -13980,6 +14802,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -13996,6 +14819,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14008,6 +14832,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14020,6 +14845,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14038,6 +14864,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "operator";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14052,6 +14879,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14066,6 +14894,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14084,6 +14913,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14101,6 +14931,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14113,6 +14944,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "container";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14125,6 +14957,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "form";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14137,6 +14970,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "ingredient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14152,6 +14986,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "ingredient_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14164,6 +14999,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "package_item";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14178,6 +15014,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "package_item_code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14190,6 +15027,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -14206,6 +15044,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14218,6 +15057,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14230,6 +15070,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "manufacturer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14249,6 +15090,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14261,6 +15103,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "device";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14275,6 +15118,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14287,6 +15131,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -14303,6 +15148,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14315,6 +15161,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14327,6 +15174,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effectivetime";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14345,6 +15193,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14359,6 +15208,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "medication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14373,6 +15223,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14387,6 +15238,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14403,6 +15255,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "prescription";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14417,6 +15270,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14429,6 +15283,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "wasnotgiven";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14446,6 +15301,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14458,6 +15314,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "prescription";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14472,6 +15329,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "receiver";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14487,6 +15345,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "responsibleparty";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14501,6 +15360,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14513,6 +15373,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -14529,6 +15390,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14541,6 +15403,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14553,6 +15416,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "destination";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14567,6 +15431,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "dispenser";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14581,6 +15446,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14593,6 +15459,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "medication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14607,6 +15474,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14621,6 +15489,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14633,6 +15502,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "whenhandedover";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14651,6 +15521,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "whenprepared";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14674,6 +15545,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14686,6 +15558,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14698,6 +15571,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -14714,6 +15588,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14726,6 +15601,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14738,6 +15614,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datewritten";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14756,6 +15633,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14770,6 +15648,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "medication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14784,6 +15663,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14798,6 +15678,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "prescriber";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14812,6 +15693,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14829,6 +15711,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14841,6 +15724,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14853,6 +15737,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -14869,6 +15754,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14881,6 +15767,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14893,6 +15780,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "effective";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14911,6 +15799,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "medication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14925,6 +15814,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14939,6 +15829,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -14955,6 +15846,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -14972,6 +15864,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "data";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15094,6 +15987,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "destination";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15108,6 +16002,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "destination_uri";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15124,6 +16019,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "target";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15138,6 +16034,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15154,6 +16051,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15166,6 +16064,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15178,6 +16077,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15192,6 +16092,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15204,6 +16105,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "enterer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15218,6 +16120,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "event";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15230,6 +16133,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "receiver";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15245,6 +16149,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "response_id";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15257,6 +16162,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "responsible";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15272,6 +16178,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15286,6 +16193,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source_uri";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15302,6 +16210,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "timestamp";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15325,6 +16234,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "contact";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15339,6 +16249,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15351,6 +16262,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "id_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15363,6 +16275,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "period";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15381,6 +16294,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15393,6 +16307,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15405,6 +16320,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15419,6 +16335,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15435,6 +16352,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15447,6 +16365,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15459,6 +16378,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15477,6 +16397,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "kind";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15489,6 +16410,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15503,6 +16425,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15517,6 +16440,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "replaced_by";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15531,6 +16455,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "responsible";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15545,6 +16470,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15562,6 +16488,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "additive";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15574,6 +16501,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "formula";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15586,6 +16514,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15598,6 +16527,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "oraldiet";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15610,6 +16540,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "supplement";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15622,6 +16553,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15638,6 +16570,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15650,6 +16583,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15662,6 +16596,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datetime";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15680,6 +16615,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15694,6 +16630,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15708,6 +16645,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15722,6 +16660,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15739,6 +16678,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15751,6 +16691,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15763,6 +16704,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "data_absent_reason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15775,6 +16717,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15787,6 +16730,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "method";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15799,6 +16743,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15816,6 +16761,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_target";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15832,6 +16778,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "related_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15844,6 +16791,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value_concept";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15856,6 +16804,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value_quantity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.QuantityIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Quantity;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15874,6 +16823,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "value_string";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -15888,6 +16838,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -15904,6 +16855,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15916,6 +16868,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15928,6 +16881,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -15946,6 +16900,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "device";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15961,6 +16916,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15975,6 +16931,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -15989,6 +16946,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "specimen";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16003,6 +16961,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16015,6 +16974,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16032,6 +16992,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "value_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16055,6 +17016,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16067,6 +17029,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "paramprofile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16081,6 +17044,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16093,6 +17057,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16109,6 +17074,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16121,6 +17087,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16133,6 +17100,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "base";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16147,6 +17115,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16159,6 +17128,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16177,6 +17147,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "instance";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16189,6 +17160,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "kind";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16201,6 +17173,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16215,6 +17188,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16229,6 +17203,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16241,6 +17216,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "system";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16253,6 +17229,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16269,6 +17246,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16286,6 +17264,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16302,6 +17281,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16314,6 +17294,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16331,6 +17312,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16345,6 +17327,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16359,6 +17342,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16373,6 +17357,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16387,6 +17372,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16401,6 +17387,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16413,6 +17400,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16425,6 +17413,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16439,6 +17428,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16451,6 +17441,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16467,6 +17458,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16479,6 +17471,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16491,6 +17484,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16503,6 +17497,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "partof";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16517,6 +17512,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "phonetic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16536,6 +17532,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16552,6 +17549,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16564,6 +17562,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16581,6 +17580,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16595,6 +17595,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16609,6 +17610,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16623,6 +17625,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16637,6 +17640,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16651,6 +17655,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16663,6 +17668,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "animal_breed";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16675,6 +17681,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "animal_species";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16687,6 +17694,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "email";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16699,6 +17707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "family";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16713,6 +17722,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "general_practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16728,6 +17738,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "given";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16742,6 +17753,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16754,6 +17766,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "language";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16766,6 +17779,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "link";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16781,6 +17795,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16795,6 +17810,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phone";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16807,6 +17823,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phonetic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -16821,6 +17838,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16833,6 +17851,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16849,6 +17868,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16861,6 +17881,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16873,6 +17894,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16885,6 +17907,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "birthdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16903,6 +17926,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "death_date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16921,6 +17945,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "deceased";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16933,6 +17958,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "gender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16945,6 +17971,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -16964,6 +17991,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -16976,6 +18004,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -16992,6 +18021,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17004,6 +18034,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17016,6 +18047,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17034,6 +18066,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17046,6 +18079,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17060,6 +18094,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "payment_status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17072,6 +18107,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17084,6 +18120,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17098,6 +18135,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17110,6 +18148,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17232,6 +18271,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "response_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17244,6 +18284,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "response_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17366,6 +18407,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "statusdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17389,6 +18431,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17401,6 +18444,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -17417,6 +18461,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17429,6 +18474,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17441,6 +18487,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17459,6 +18506,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "disposition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17473,6 +18521,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17485,6 +18534,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17499,6 +18549,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "outcome";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17511,6 +18562,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17523,6 +18575,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17535,6 +18588,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17549,6 +18603,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17561,6 +18616,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17575,6 +18631,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17594,6 +18651,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17608,6 +18666,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17622,6 +18681,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17636,6 +18696,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17650,6 +18711,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17664,6 +18726,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17676,6 +18739,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "email";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17688,6 +18752,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17700,6 +18765,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "link";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17717,6 +18783,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17731,6 +18798,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17745,6 +18813,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phone";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17757,6 +18826,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phonetic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17771,6 +18841,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17785,6 +18856,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "relatedperson";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17799,6 +18871,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17811,6 +18884,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -17827,6 +18901,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17839,6 +18914,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17851,6 +18927,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "birthdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17869,6 +18946,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "gender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17881,6 +18959,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -17900,6 +18979,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17912,6 +18992,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "topic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17924,6 +19005,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -17940,6 +19022,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17952,6 +19035,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17964,6 +19048,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -17978,6 +19063,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -17990,6 +19076,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18004,6 +19091,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18023,6 +19111,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18037,6 +19126,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18051,6 +19141,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18065,6 +19156,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18079,6 +19171,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18093,6 +19186,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18105,6 +19199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "communication";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18117,6 +19212,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "email";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18129,6 +19225,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "family";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18143,6 +19240,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "given";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18157,6 +19255,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18169,6 +19268,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18183,6 +19283,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18197,6 +19298,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18211,6 +19313,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phone";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18223,6 +19326,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phonetic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -18237,6 +19341,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "role";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18249,6 +19354,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "specialty";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18261,6 +19367,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18273,6 +19380,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18289,6 +19397,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18301,6 +19410,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18313,6 +19423,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18325,6 +19436,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "gender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18342,6 +19454,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "email";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18354,6 +19467,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18366,6 +19480,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18380,6 +19495,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phone";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18392,6 +19508,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "role";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18404,6 +19521,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "specialty";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18416,6 +19534,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18428,6 +19547,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18444,6 +19564,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18456,6 +19577,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18468,6 +19590,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18482,6 +19605,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "practitioner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18501,6 +19625,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18513,6 +19638,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18525,6 +19651,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18537,6 +19664,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18554,6 +19682,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18570,6 +19699,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18582,6 +19712,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18594,6 +19725,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18612,6 +19744,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18626,6 +19759,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18640,6 +19774,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18654,6 +19789,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18674,6 +19810,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18686,6 +19823,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18702,6 +19840,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18714,6 +19853,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18726,6 +19866,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18740,6 +19881,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "orderer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18757,6 +19899,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18771,6 +19914,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18788,6 +19932,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18808,6 +19953,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18820,6 +19966,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18836,6 +19983,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18848,6 +19996,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18860,6 +20009,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "action";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18872,6 +20022,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18884,6 +20035,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18898,6 +20050,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18910,6 +20063,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -18929,6 +20083,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18941,6 +20096,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -18957,6 +20113,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18969,6 +20126,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18981,6 +20139,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -18993,6 +20152,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19007,6 +20167,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19019,6 +20180,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19031,6 +20193,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_organization_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19045,6 +20208,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provide_ridentifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19057,6 +20221,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_provider_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19071,6 +20236,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "request_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19198,6 +20364,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "agent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19216,6 +20383,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -19232,6 +20400,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "entity_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19244,6 +20413,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19258,6 +20428,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "sig";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19270,6 +20441,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "target";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19392,6 +20564,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "userid";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19404,6 +20577,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -19420,6 +20594,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19432,6 +20607,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19444,6 +20620,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "end";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19462,6 +20639,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "location";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19476,6 +20654,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "start";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19499,6 +20678,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19511,6 +20691,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19523,6 +20704,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19535,6 +20717,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -19551,6 +20734,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19563,6 +20747,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19575,6 +20760,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19593,6 +20779,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -19607,6 +20794,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19619,6 +20807,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "title";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -19633,6 +20822,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -19652,6 +20842,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "based_on";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19668,6 +20859,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19683,6 +20875,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -19699,6 +20892,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19711,6 +20905,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19723,6 +20918,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "author";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19740,6 +20936,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "authored";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19758,6 +20955,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19773,6 +20971,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19785,6 +20984,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19799,6 +20999,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "questionnaire";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19813,6 +21014,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19829,6 +21031,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19841,6 +21044,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19968,6 +21172,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "basedon";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -19985,6 +21190,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "priority";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -19997,6 +21203,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "recipient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20012,6 +21219,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "specialty";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20024,6 +21232,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20036,6 +21245,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20052,6 +21262,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20064,6 +21275,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20076,6 +21288,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20088,6 +21301,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20103,6 +21317,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20121,6 +21336,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20133,6 +21349,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20147,6 +21364,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20163,6 +21381,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20180,6 +21399,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20194,6 +21414,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_city";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20208,6 +21429,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_country";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20222,6 +21444,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_postalcode";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20236,6 +21459,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_state";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20250,6 +21474,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "address_use";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20262,6 +21487,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "email";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20274,6 +21500,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20286,6 +21513,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20300,6 +21528,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phone";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20312,6 +21541,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "phonetic";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20326,6 +21556,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "telecom";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20338,6 +21569,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20354,6 +21586,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20366,6 +21599,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20378,6 +21612,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20390,6 +21625,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "birthdate";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20408,6 +21644,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "gender";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20420,6 +21657,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20439,6 +21677,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "method";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20451,6 +21690,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20467,6 +21707,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20479,6 +21720,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20491,6 +21733,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "condition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20505,6 +21748,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20523,6 +21767,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20537,6 +21782,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20549,6 +21795,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20563,6 +21810,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20578,6 +21826,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20598,6 +21847,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20610,6 +21860,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20622,6 +21873,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20638,6 +21890,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20650,6 +21903,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20662,6 +21916,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "active";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20674,6 +21929,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "actor";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20693,6 +21949,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20716,6 +21973,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "component";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20730,6 +21988,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20742,6 +22001,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "target";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20754,6 +22014,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20770,6 +22031,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20782,6 +22044,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20794,6 +22057,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "base";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20806,6 +22070,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20818,6 +22083,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20832,6 +22098,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -20846,6 +22113,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20858,6 +22126,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20879,6 +22148,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "chromosome";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20891,6 +22161,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "end";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20909,6 +22180,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "start";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Number;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20927,6 +22199,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -20943,6 +22216,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20955,6 +22229,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20967,6 +22242,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -20981,6 +22257,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -20998,6 +22275,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21010,6 +22288,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "slot_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21022,6 +22301,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21038,6 +22318,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21050,6 +22331,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21062,6 +22344,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "schedule";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21076,6 +22359,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "start";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21094,6 +22378,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21111,6 +22396,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "bodysite";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21123,6 +22409,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "container";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21135,6 +22422,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "container_id";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21147,6 +22435,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21159,6 +22448,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21173,6 +22463,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21185,6 +22476,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21201,6 +22493,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21213,6 +22506,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21225,6 +22519,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "accession";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21237,6 +22532,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "collected";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimePeriodIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21255,6 +22551,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "collector";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21269,6 +22566,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21283,6 +22581,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "subject";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21305,6 +22604,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "base_path";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21317,6 +22617,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21329,6 +22630,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21341,6 +22643,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "ext_context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21355,6 +22658,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21367,6 +22671,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "path";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21379,6 +22684,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "valueset";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -21393,6 +22699,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21409,6 +22716,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21421,6 +22729,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21433,6 +22742,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "abstract";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21445,6 +22755,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "base";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21461,6 +22772,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "context_type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21473,6 +22785,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21491,6 +22804,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "derivation";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21503,6 +22817,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21517,6 +22832,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "display";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21531,6 +22847,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "experimental";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21543,6 +22860,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "kind";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21555,6 +22873,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21569,6 +22888,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21583,6 +22903,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21595,6 +22916,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21607,6 +22929,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21623,6 +22946,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21640,6 +22964,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21652,6 +22977,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21664,6 +22990,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21680,6 +23007,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21692,6 +23020,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21704,6 +23033,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21722,6 +23052,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21736,6 +23067,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "experimental";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21748,6 +23080,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21762,6 +23095,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21776,6 +23110,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21788,6 +23123,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21804,6 +23140,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21821,6 +23158,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "contact";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21833,6 +23171,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21845,6 +23184,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21861,6 +23201,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21873,6 +23214,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21885,6 +23227,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "criteria";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21899,6 +23242,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "payload";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -21913,6 +23257,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21925,6 +23270,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "type";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21937,6 +23283,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -21958,6 +23305,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "category";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21970,6 +23318,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21982,6 +23331,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "container_identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -21994,6 +23344,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "expiry";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22012,6 +23363,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22024,6 +23376,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "quantity";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.QuantityIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Quantity;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22042,6 +23395,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "substance_reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22056,6 +23410,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22072,6 +23427,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22084,6 +23440,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22101,6 +23458,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "receiver";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22115,6 +23473,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22131,6 +23490,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22143,6 +23503,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22155,6 +23516,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22167,6 +23529,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22181,6 +23544,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22193,6 +23557,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "supplier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22212,6 +23577,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "kind";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22224,6 +23590,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "supplier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22238,6 +23605,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22254,6 +23622,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22266,6 +23635,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22278,6 +23648,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22296,6 +23667,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22308,6 +23680,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22322,6 +23695,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "source";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22338,6 +23712,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22355,6 +23730,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "code";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22367,6 +23743,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "parent";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22381,6 +23758,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "performer";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22393,6 +23771,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "stage";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22405,6 +23784,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "statusreason";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22417,6 +23797,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22433,6 +23814,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22445,6 +23827,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22457,6 +23840,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "created";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22475,6 +23859,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "definition";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22491,6 +23876,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "focus";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22613,6 +23999,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22625,6 +24012,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "modified";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22643,6 +24031,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "owner";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22661,6 +24050,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22675,6 +24065,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "priority";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22687,6 +24078,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "requester";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -22705,6 +24097,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22722,6 +24115,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "testscript_capability";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -22736,6 +24130,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "use_context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22748,6 +24143,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22764,6 +24160,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22776,6 +24173,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22788,6 +24186,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22806,6 +24205,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -22820,6 +24220,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22832,6 +24233,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -22846,6 +24248,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -22860,6 +24263,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22881,6 +24285,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "context";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22893,6 +24298,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22905,6 +24311,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "reference";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22921,6 +24328,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -22937,6 +24345,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22949,6 +24358,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22961,6 +24371,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "date";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -22979,6 +24390,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "description";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -22993,6 +24405,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "expansion";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -23009,6 +24422,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "name";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -23023,6 +24437,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "publisher";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.String;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Contains);
@@ -23037,6 +24452,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "status";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23049,6 +24465,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "url";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -23065,6 +24482,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "version";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23082,6 +24500,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "identifier";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23094,6 +24513,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_profile";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.UriIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Uri;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Below);
@@ -23110,6 +24530,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_security";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23122,6 +24543,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = true;
             SupportedSearchParameter.DbPropertyName = "_tag";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.TokenIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Token;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23134,6 +24556,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "datewritten";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.DateTimeIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Date;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
    SupportedSearchParameter.TypeModifierResourceList = new List<string>();
@@ -23152,6 +24575,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "encounter";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -23166,6 +24590,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "patient";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);
@@ -23180,6 +24605,7 @@ namespace Pyro.Common.BusinessEntities.Search
             SupportedSearchParameter.IsDbCollection = false;
             SupportedSearchParameter.DbPropertyName = "prescriber";
             SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
+            SupportedSearchParameter.SearchParameterType = SearchParamType.Reference;
             SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
             SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Type);
    SupportedSearchParameter.ModifierList.Add(FhirSearchEnum.SearchModifierType.Missing);

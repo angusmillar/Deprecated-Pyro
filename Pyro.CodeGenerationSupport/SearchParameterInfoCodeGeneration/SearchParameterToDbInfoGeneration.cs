@@ -35,6 +35,7 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
             ResourceSearchParamInfoItem.SearchParameterNameType = DatabaseModelInfo.UnderScoreCSharpReservedWords(DatabaseModelInfo.ContructSearchParameterName(CollectionIndexEntity.SearchParameterInfo.SearchParameterName));
             ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
             ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[CollectionIndexEntity.SearchParameterInfo.DbIndexType];
+            ResourceSearchParamInfoItem.SearchParameterType = CollectionIndexEntity.SearchParameterInfo.SearchParamType.ToString();
             ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(CollectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList);
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(CollectionIndexEntity.SearchParameterInfo.DbIndexType);
@@ -47,12 +48,12 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
         foreach (NonCollectionIndexEntity NonCollectionIndexEntity in RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList)
         {
           if (NonCollectionIndexEntity.SearchParameterInfo != null)
-          {
-
+          {            
             var ResourceSearchParamInfoItem = new ResourceSearchParamInfoItem();
             ResourceSearchParamInfoItem.SearchParameterNameType = DatabaseModelInfo.UnderScoreCSharpReservedWords(DatabaseModelInfo.ContructSearchParameterName(NonCollectionIndexEntity.SearchParameterInfo.SearchParameterName));
             ResourceSearchParamInfoItem.ResourceType = RepositoryItem.ResourceName;
             ResourceSearchParamInfoItem.DbSearchParameterType = DatabaseEnum.DbIndexTypeToStringDictonary[NonCollectionIndexEntity.SearchParameterInfo.DbIndexType];
+            ResourceSearchParamInfoItem.SearchParameterType = NonCollectionIndexEntity.SearchParameterInfo.SearchParamType.ToString();
             ResourceSearchParamInfoItem.ModifierList = PopulateSearchParameterModifierList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
             ResourceSearchParamInfoItem.TypeModifierResourceList = PopulateTypeModifierResourceList(NonCollectionIndexEntity.SearchParameterInfo.ReferanceResourceTypeList);
             ResourceSearchParamInfoItem.PrefixList = PopulatePrefixList(NonCollectionIndexEntity.SearchParameterInfo.DbIndexType);
@@ -84,69 +85,69 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
       {
         case DatabaseEnum.DbIndexType.DateIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimeIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.NumberIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
           {
             //None supported as yet as no QuantityRange search types in STU3 to date.
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Type.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Type.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.StringIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Exact.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Contains.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Exact.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.TokenIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
             //The modifiers below are supported in the spec for token but not 
             //implemented by this server as yet
 
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Text.ToString());
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.In.ToString());
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.Above.ToString());
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.In.ToString());
-            //ReturnList.Add(FhirSearchEnum.SearchModifierType.NotIn.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.Text.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.In.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.Below.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.Above.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.In.ToString());
+            //ReturnList.Add(Conformance.SearchModifierCode.NotIn.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.UriIndex:
           {
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Missing.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Below.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Above.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Contains.ToString());
-            ReturnList.Add(FhirSearchEnum.SearchModifierType.Exact.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Below.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Above.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Contains.ToString());
+            ReturnList.Add(Conformance.SearchModifierCode.Exact.ToString());
             return ReturnList;
           }
         default:
