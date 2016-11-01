@@ -6358,7 +6358,6 @@
     <Compile Include="Repository\CoverageRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="Repository\DatabaseOutcome.cs" />
     <Compile Include="Repository\DataElementRepository.cs">
       <DependentUpon>_RepositoryGenerator.txt4</DependentUpon>
     </Compile>

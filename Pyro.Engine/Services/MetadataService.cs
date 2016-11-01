@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.UriSupport;
@@ -12,14 +13,16 @@ namespace Pyro.Engine.Services
 {
   public class MetadataService
   {
-    public Resource GetServersConformanceResource(Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
+    public Common.Interfaces.Services.IServiceOperationOutcome GetServersConformanceResource(Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
     {
-      string ApplicationReleaseDate = "2016-10-30";
+      string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
+      string ServerName = "Pyro Server";
+
       var Conformance = new Conformance();
       Conformance.Id = "PyroConformance";
       Conformance.Url = IDtoRootUrlStore.RootUrl.ToString() + @"/metadata";
       Conformance.Version = ApplicationVersion;
-      Conformance.Name = "PyroServer";
+      Conformance.Name = ServerName;
       Conformance.Status = ConformanceResourceStatus.Active;
       Conformance.Experimental = true;
       Conformance.Date = ApplicationReleaseDate;
@@ -30,7 +33,7 @@ namespace Pyro.Engine.Services
       Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
       Conformance.Contact = new List<Conformance.ContactComponent>() { Contact };
 
-      Conformance.Description = new Markdown("Conformance statement for the Pyro Server");
+      Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
 
       var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
       Conformance.UseContext = new List<CodeableConcept>() { Australia };
@@ -38,8 +41,8 @@ namespace Pyro.Engine.Services
       Conformance.Requirements = new Markdown("Reference implementation of a FHIR Server");
       Conformance.Copyright = "PyroHealth.net";
       Conformance.Kind = Conformance.ConformanceStatementKind.Instance;
-      Conformance.Software = new Conformance.SoftwareComponent() { Name = "Pyro Server", Version = ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
-      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = "Pyro Server", Url = IDtoRootUrlStore.RootUrl };
+      Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
+      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = IDtoRootUrlStore.RootUrl };
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
       Conformance.AcceptUnknown = Conformance.UnknownContentCode.Both;
@@ -66,6 +69,7 @@ namespace Pyro.Engine.Services
       {
         FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
         var ResourceComponent = new Conformance.ResourceComponent();
+        RestComponent.Resource.Add(ResourceComponent);
         ResourceComponent.Type = ResourceType;
         ResourceComponent.Interaction = new List<Conformance.ResourceInteractionComponent>()
         {
@@ -113,10 +117,113 @@ namespace Pyro.Engine.Services
           }
         }
       }
+      ConstructConformanceResourceNarrative(Conformance);
 
-      return Conformance;
+      Common.Interfaces.Services.IServiceOperationOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      ServiceOperationOutcome.DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      ServiceOperationOutcome.FhirResourceId = Conformance.Id;
+      ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
+      ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
+      ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
+      ServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceCount = 1;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource = new Common.BusinessEntities.Dto.DtoResource();
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.FhirId = Conformance.Id;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsCurrent = true;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsDeleted = false;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Version = Conformance.Version;
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Conformance);
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Received = DateTimeOffset.Parse(ApplicationReleaseDate);
+      return ServiceOperationOutcome;
     }
 
+    private void ConstructConformanceResourceNarrative(Conformance Conformance)
+    {
+      var XDoc = new XmlDocument();
+      // NarrativeString.AppendLine("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
+      var Xroot = XDoc.CreateElement("div");
+      var xmlns = XDoc.CreateAttribute("xmlns");
+      xmlns.Value = "http://www.w3.org/1999/xhtml";
+      Xroot.SetAttributeNode(xmlns);
+      XDoc.AppendChild(Xroot);
 
+      var Heading = XDoc.CreateElement("h1");
+      Heading.AppendChild(XDoc.CreateTextNode(Conformance.Name + " FHIR Conformance Statement"));
+      Xroot.AppendChild(Heading);
+
+      var PublishDate = XDoc.CreateElement("p");
+      Xroot.AppendChild(PublishDate);
+      var PublishDateBold = XDoc.CreateElement("b");
+      PublishDateBold.AppendChild(XDoc.CreateTextNode("Date Published: "));
+      PublishDate.AppendChild(PublishDateBold);
+      var normal = PublishDate.AppendChild(XDoc.CreateTextNode(Conformance.Date));
+      PublishDate.AppendChild(normal);
+
+      var ServerVersion = XDoc.CreateElement("p");
+      Xroot.AppendChild(ServerVersion);
+      var ServerVersionBold = XDoc.CreateElement("b");
+      ServerVersionBold.AppendChild(XDoc.CreateTextNode("Server Version: "));
+      ServerVersion.AppendChild(ServerVersionBold);
+      normal = ServerVersion.AppendChild(XDoc.CreateTextNode(Conformance.Version));
+      ServerVersion.AppendChild(normal);
+
+      var FhirVersion = XDoc.CreateElement("p");
+      Xroot.AppendChild(FhirVersion);
+      var FhirVersionBold = XDoc.CreateElement("b");
+      FhirVersionBold.AppendChild(XDoc.CreateTextNode("Fhir Version: "));
+      FhirVersion.AppendChild(FhirVersionBold);
+      normal = FhirVersion.AppendChild(XDoc.CreateTextNode(Conformance.FhirVersion));
+      FhirVersion.AppendChild(normal);
+
+      var ResourceTable = XDoc.CreateElement("table");
+      Xroot.AppendChild(ResourceTable);
+      foreach (Conformance.RestComponent RestComponent in Conformance.Rest)
+      {
+        var HeaderRow = XDoc.CreateElement("tr");
+        ResourceTable.AppendChild(HeaderRow);
+        var Col1Head = XDoc.CreateElement("td");
+        HeaderRow.AppendChild(Col1Head);
+        var Col1HeadBold = XDoc.CreateElement("b");
+        Col1HeadBold.AppendChild(XDoc.CreateTextNode("Resource Name"));
+        Col1Head.AppendChild(Col1HeadBold);
+
+        var Col2Head = XDoc.CreateElement("td");
+        HeaderRow.AppendChild(Col2Head);
+        var Col2HeadBold = XDoc.CreateElement("b");
+        Col2HeadBold.AppendChild(XDoc.CreateTextNode("Interaction"));
+        Col2Head.AppendChild(Col2HeadBold);
+
+        foreach (Conformance.ResourceComponent Resource in RestComponent.Resource)
+        {
+          var ResourceRow = XDoc.CreateElement("tr");
+          ResourceTable.AppendChild(ResourceRow);
+
+          var Col1 = XDoc.CreateElement("td");
+          ResourceRow.AppendChild(Col1);
+          var ResourceTypeNameBold = XDoc.CreateElement("b");
+          ResourceTypeNameBold.AppendChild(XDoc.CreateTextNode(Resource.Type.GetLiteral()));
+          Col1.AppendChild(ResourceTypeNameBold);
+
+          var Col2 = XDoc.CreateElement("td");
+          ResourceRow.AppendChild(Col2);
+          StringBuilder sb = new StringBuilder();
+          foreach (Conformance.ResourceInteractionComponent Interaction in Resource.Interaction)
+          {            
+            sb.Append(Interaction.Code);
+            sb.Append(", ");
+          }          
+          Col2.AppendChild(XDoc.CreateTextNode(sb.ToString().Substring(0, sb.ToString().Count() - 2)));         
+        }
+
+      }
+
+      var XPara = XDoc.CreateElement("p");
+      Xroot.AppendChild(XPara);
+      XPara.AppendChild(XDoc.CreateTextNode("this is the my text"));
+
+      Conformance.Text = new Narrative();
+      Conformance.Text.Div = XDoc.OuterXml;
+      Conformance.Text.Status = Narrative.NarrativeStatus.Generated;
+    }
   }
 }

@@ -34,7 +34,7 @@ namespace Pyro.DataModel.Repository
       var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
       Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
@@ -51,7 +51,7 @@ namespace Pyro.DataModel.Repository
       var ResourceEntity = new Res_Composition();
       this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
       this.DbAddEntity<Res_Composition>(ResourceEntity);
-      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;     
       DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
       DatabaseOperationOutcome.ReturnedResourceCount = 1;
@@ -68,7 +68,7 @@ namespace Pyro.DataModel.Repository
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
       this.Save();            
-      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
       DatabaseOperationOutcome.ReturnedResourceCount = 1;
@@ -90,7 +90,7 @@ namespace Pyro.DataModel.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       var ResourceHistoryEntity = DbGet<Res_Composition_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
       if (ResourceHistoryEntity != null)
@@ -108,7 +108,7 @@ namespace Pyro.DataModel.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = new DatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
