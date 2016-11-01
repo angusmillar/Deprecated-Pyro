@@ -216,11 +216,11 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
         try
-        {
-          //var Resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(DtoResource.Xml) as Resource;
+        {          
           Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
           Resource oResource = FhirXmlParser.Parse<Resource>(DtoResource.Xml);          
           oResEntry.Resource = oResource;
+          //oResEntry.FullUrl = DtoResource.
         }
         catch (Exception oExec)
         {
