@@ -16,6 +16,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
     public string FhirResourceId { get; set; }
     public Uri RequestUri { get; set; }
+    public Uri ServiceRootUri { get; set; }
     public string ResourceVersionNumber { get; set; }
     public RestEnum.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
@@ -30,6 +31,7 @@ namespace Pyro.Common.BusinessEntities.Service
         return ResolveHttpStatusCodeToReturn();
       }
     }
+
     public Resource ResourceToReturn()
     {
       return ResolveResourceToReturn();
@@ -66,9 +68,9 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         if (this.DatabaseOperationOutcome.SingleResourceRead)
         {
-          if (this.DatabaseOperationOutcome.ReturnedResource != null)
+          if (this.DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
           {
-            if (this.DatabaseOperationOutcome.ReturnedResource.IsDeleted)
+            if (this.DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
             {
               return HttpStatusCode.Gone;
             }
@@ -128,9 +130,9 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         if (this.DatabaseOperationOutcome.SingleResourceRead)
         {
-          if (this.DatabaseOperationOutcome.ReturnedResource != null)
+          if (this.DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
           {
-            if (this.DatabaseOperationOutcome.ReturnedResource.IsDeleted)
+            if (this.DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
             {
               return null;
             }
@@ -185,7 +187,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         //Resource oResource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(this.DatabaseOperationOutcome.ResourceMatchingSearch.Xml);
         Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-        Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ReturnedResource.Xml);        
+        Resource oResource = FhirXmlParser.Parse<Resource>(this.DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
         return oResource;
       }
       catch (Exception oExec)
@@ -193,7 +195,7 @@ namespace Pyro.Common.BusinessEntities.Service
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ReturnedResource.FhirId, this.DatabaseOperationOutcome.ReturnedResource.Version, this.DatabaseOperationOutcome.ReturnedResource.Received.ToString(), oExec.Message);
+        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: FhirId: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", this.DatabaseOperationOutcome.ReturnedResourceList[0].FhirId, this.DatabaseOperationOutcome.ReturnedResourceList[0].Version, this.DatabaseOperationOutcome.ReturnedResourceList[0].Received.ToString(), oExec.Message);
         var OpOutcome = new OperationOutcome();
         OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
         throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
@@ -203,7 +205,7 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
 
-      FhirBundle.Total = this.DatabaseOperationOutcome.ReturnedResourceCount;
+      FhirBundle.Total = this.DatabaseOperationOutcome.ReturnedResourceList.Count;
 
       //Paging           
       int LastPageNumber = PagingSupport.GetLastPageNumber(this.DatabaseOperationOutcome.PagesTotal);
@@ -216,11 +218,20 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
         try
-        {          
+        {
           Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-          Resource oResource = FhirXmlParser.Parse<Resource>(DtoResource.Xml);          
+          Resource oResource = FhirXmlParser.Parse<Resource>(DtoResource.Xml);
           oResEntry.Resource = oResource;
-          //oResEntry.FullUrl = DtoResource.
+          var FullUrlUriBuilder = new UriBuilder(this.ServiceRootUri);
+          if (DtoResource.IsCurrent)
+          {
+            FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId);            
+          }
+          else
+          {
+            FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId, "_history", DtoResource.Version);
+          }
+          oResEntry.FullUrl = FullUrlUriBuilder.ToString();
         }
         catch (Exception oExec)
         {

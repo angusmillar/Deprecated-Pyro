@@ -151,6 +151,7 @@
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
+    <Compile Include="Tools\ResourceVersionNumber.cs" />
     <Compile Include="Tools\StringSupport.cs" />
   </ItemGroup>
   <ItemGroup>

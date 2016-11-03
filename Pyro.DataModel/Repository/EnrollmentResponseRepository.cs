@@ -6,139 +6,41 @@ using Pyro.DataModel.DatabaseModel;
 using Pyro.DataModel.DatabaseModel.Base;
 using Pyro.DataModel.Support;
 using Pyro.DataModel.IndexSetter;
-using Pyro.DataModel.Search;
-using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.UriSupport;
+using Hl7.Fhir.Model;
 using Hl7.Fhir.Introspection;
+
+
 
 namespace Pyro.DataModel.Repository
 {
-  public partial class EnrollmentResponseRepository : CommonRepository, IResourceRepository
+  public partial class EnrollmentResponseRepository<ResourceType, ResourceHistoryType> : CommonResourceRepository<ResourceType, ResourceHistoryType>, IResourceRepository 
+    where ResourceType : Res_EnrollmentResponse, new() 
+    where ResourceHistoryType :Res_EnrollmentResponse_History, new()
   {
     public EnrollmentResponseRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    protected override void AddResourceHistoryEntityToResourceEntity(ResourceType ResourceEntity, ResourceHistoryType ResourceHistoryEntity)
     {
-      var Predicate = PredicateGenerator<Res_EnrollmentResponse>(DtoSearchParameters);
-      int TotalRecordCount = DbGetALLCount<Res_EnrollmentResponse>(Predicate);
-      var Query = DbGetAll<Res_EnrollmentResponse>(Predicate);
-
-      //Todo: Sort not implemented just defaulting to last update order
-      Query = Query.OrderBy(x => x.lastUpdated);      
-      int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-      
-      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-      Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x)));
-
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = false;
-      DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
-      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
-      DatabaseOperationOutcome.ReturnedResourceCount = TotalRecordCount;
-      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
-
-
-      return DatabaseOperationOutcome;  
-    }
-
-    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
-    {
-      var ResourceTyped = Resource as EnrollmentResponse;
-      var ResourceEntity = new Res_EnrollmentResponse();
-      this.PopulateResourceEntity(ResourceEntity, "1", ResourceTyped, FhirRequestUri);
-      this.DbAddEntity<Res_EnrollmentResponse>(ResourceEntity);
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;     
-      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ReturnedResourceCount = 1;
-      return DatabaseOperationOutcome;
-    }
-
-    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
-    {
-      var ResourceTyped = Resource as EnrollmentResponse;
-      var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
-      var ResourceHistoryEntity = new Res_EnrollmentResponse_History();  
-      IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      ResourceEntity.Res_EnrollmentResponse_History_List.Add(ResourceHistoryEntity); 
-      this.ResetResourceEntity(ResourceEntity);
-      this.PopulateResourceEntity(ResourceEntity, ResourceVersion, ResourceTyped, FhirRequestUri);            
-      this.Save();            
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);
-      DatabaseOperationOutcome.ReturnedResourceCount = 1;
-      return DatabaseOperationOutcome;
-    }
-
-    public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
-    {
-      var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
-      var ResourceHistoryEntity = new Res_EnrollmentResponse_History();
-      IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
       ResourceEntity.Res_EnrollmentResponse_History_List.Add(ResourceHistoryEntity);
-      this.ResetResourceEntity(ResourceEntity);
-      ResourceEntity.IsDeleted = true;
-      ResourceEntity.versionId = ResourceVersion;
-      ResourceEntity.XmlBlob = string.Empty;
-      this.Save();      
     }
-
-    public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
+    
+    protected override ResourceType LoadCurrentResourceEntity(string FhirId)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      var ResourceHistoryEntity = DbGet<Res_EnrollmentResponse_History>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-      if (ResourceHistoryEntity != null)
-      {
-        DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceHistoryEntity);
-      }
-      else
-      {
-        var ResourceEntity = DbGet<Res_EnrollmentResponse>(x => x.FhirId == FhirResourceId && x.versionId == ResourceVersionNumber);
-        if (ResourceEntity != null)
-          DatabaseOperationOutcome.ReturnedResource = IndexSettingSupport.SetDtoResource(ResourceEntity);        
-      }
-      return DatabaseOperationOutcome;
-    }
-
-    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
-    {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
-      if (WithXml)
-      {        
-        DtoResource = DbGetAll<Res_EnrollmentResponse>(x => x.FhirId == FhirResourceId).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated, Xml = x.XmlBlob }).SingleOrDefault();       
-      }
-      else
-      {
-        DtoResource = DbGetAll<Res_EnrollmentResponse>(x => x.FhirId == FhirResourceId).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource { FhirId = x.FhirId, IsDeleted = x.IsDeleted, IsCurrent = true, Version = x.versionId, Received = x.lastUpdated }).SingleOrDefault();        
-      }
-      DatabaseOperationOutcome.ReturnedResource = DtoResource;
-      return DatabaseOperationOutcome;
-    }
-
-    private Res_EnrollmentResponse LoadCurrentResourceEntity(string FhirId)
-    {
-
-      var IncludeList = new List<Expression<Func<Res_EnrollmentResponse, object>>>();
-      IncludeList.Add(x => x.identifier_List);
+      var IncludeList = new List<Expression<Func<ResourceType, object>>>();
+         IncludeList.Add(x => x.identifier_List);
       IncludeList.Add(x => x._profile_List);
       IncludeList.Add(x => x._security_List);
       IncludeList.Add(x => x._tag_List);
     
-      var ResourceEntity = DbQueryEntityWithInclude<Res_EnrollmentResponse>(x => x.FhirId == FhirId, IncludeList);
-
+      var ResourceEntity = DbQueryEntityWithInclude<ResourceType>(x => x.FhirId == FhirId, IncludeList);
       return ResourceEntity;
     }
-
-
-    private void ResetResourceEntity(Res_EnrollmentResponse ResourceEntity)
+    
+    protected override void ResetResourceEntity(ResourceType ResourceEntity)
     {
       ResourceEntity.XmlBlob = null;      
  
@@ -150,9 +52,11 @@ namespace Pyro.DataModel.Repository
  
     }
 
-    private void PopulateResourceEntity(Res_EnrollmentResponse ResourseEntity, string ResourceVersion, EnrollmentResponse ResourceTyped, IDtoFhirRequestUri FhirRequestUri)
+    protected override void PopulateResourceEntity(ResourceType ResourceEntity, string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
-       IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
+      var ResourceTyped = Resource as EnrollmentResponse;
+      var ResourseEntity = ResourceEntity as ResourceType;
+      IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
           if (ResourceTyped.Identifier != null)
       {
@@ -217,9 +121,7 @@ namespace Pyro.DataModel.Repository
 
 
       
-
     }
-
 
   }
 } 

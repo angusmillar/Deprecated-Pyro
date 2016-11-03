@@ -126,14 +126,15 @@ namespace Pyro.Engine.Services
       ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
       ServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceCount = 1;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource = new Common.BusinessEntities.Dto.DtoResource();
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.FhirId = Conformance.Id;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsCurrent = true;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.IsDeleted = false;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Version = Conformance.Version;
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Conformance);
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Received = DateTimeOffset.Parse(ApplicationReleaseDate);
+            
+      var DtoResource = new Common.BusinessEntities.Dto.DtoResource();
+      DtoResource.FhirId = Conformance.Id;
+      DtoResource.IsCurrent = true;
+      DtoResource.IsDeleted = false;
+      DtoResource.Version = Conformance.Version;
+      DtoResource.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Conformance);
+      DtoResource.Received = DateTimeOffset.Parse(ApplicationReleaseDate);
+      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceList.Add(DtoResource);
       return ServiceOperationOutcome;
     }
 

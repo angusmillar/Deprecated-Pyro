@@ -9,10 +9,14 @@ using System.Data.Entity;
 using Pyro.DataModel.DatabaseModel;
 using Pyro.DataModel.DatabaseModel.Base;
 using Pyro.DataModel.Search;
+using Pyro.DataModel.Support;
+using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Dto;
 //using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.BusinessEntities.Search;
+using Hl7.Fhir.Model;
 
 
 namespace Pyro.DataModel.Repository
@@ -26,10 +30,89 @@ namespace Pyro.DataModel.Repository
     }
     #endregion
 
+    public IDatabaseOperationOutcome SearchEntity<T>(DtoSearchParameters DtoSearchParameters) where T : ResourceIndexBase
+    {
+      var Predicate = PredicateGenerator<T>(DtoSearchParameters);
+      int TotalRecordCount = DbGetALLCount<T>(Predicate);
+      var Query = DbGetAll<T>(Predicate);
+
+      //Todo: Sort not implemented just defaulting to last update order
+      Query = Query.OrderBy(x => x.lastUpdated);
+      int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+
+      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+      Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, true)));
+
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
+
+
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome AddEntity<T>(T ResourceEntity, IDtoFhirRequestUri FhirRequestUri) where T : ResourceIndexBase
+    {
+      this.DbAddEntity<T>(ResourceEntity);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, true));
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome UpdateEntity<T>(T ResourceEntity) where T : ResourceIndexBase
+    {
+      this.Save();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, true));
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome GetEntityByFhirID<T>(string FhirResourceId, bool WithXml = false) where T : ResourceIndexBase
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
+      if (WithXml)
+      {
+        DtoResource = DbGetAll<T>(x => x.FhirId == FhirResourceId)
+          .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
+          {
+            FhirId = x.FhirId,
+            IsDeleted = x.IsDeleted,
+            IsCurrent = true,
+            Version = x.versionId,
+            Received = x.lastUpdated,
+            Xml = x.XmlBlob
+          }
+          ).SingleOrDefault();
+      }
+      else
+      {
+        DtoResource = DbGetAll<T>(x => x.FhirId == FhirResourceId)
+          .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
+          {
+            FhirId = x.FhirId,
+            IsDeleted = x.IsDeleted,
+            IsCurrent = true,
+            Version = x.versionId,
+            Received = x.lastUpdated
+          }
+          ).SingleOrDefault();
+      }
+      if (DtoResource != null)
+        DatabaseOperationOutcome.ReturnedResourceList.Add(DtoResource);
+      return DatabaseOperationOutcome;
+    }
+
     protected ExpressionStarter<T> PredicateGenerator<T>(DtoSearchParameters DtoSearchParameters) where T : ResourceIndexBase
     {
       var Search = new ResourceSearch<T>();
-      var MainPredicate = LinqKit.PredicateBuilder.New<T>();
+      var MainPredicate = LinqKit.PredicateBuilder.New<T>(true);
       ExpressionStarter<T> NewPredicate = null;
 
 
@@ -88,7 +171,6 @@ namespace Pyro.DataModel.Repository
 
       return MainPredicate;
     }
-
 
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
@@ -149,8 +231,8 @@ namespace Pyro.DataModel.Repository
     }
 
     protected ServiceRootURL_Store GetPrimaryPyro_RootUrlStore()
-    {      
-      return _Context.ServiceRootURL_Store.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);      
+    {
+      return _Context.ServiceRootURL_Store.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
     }
 
     /// <summary>

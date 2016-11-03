@@ -101,7 +101,6 @@
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
-    <Compile Include="Support\ResourceVersionNumber.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
     <Compile Include="Validation\BaseResourceValidation.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />

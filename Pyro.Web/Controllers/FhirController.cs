@@ -92,8 +92,8 @@ namespace Pyro.Web.Controllers
     /// <param name="id">The FHIR Resource's id</param>
     /// <param name="vid">The version number being requested</param>
     /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or status code 400 (Not found) </returns>
-    [HttpGet, Route("{ResourceName}/{id}/_history/{vid}")]
-    public HttpResponseMessage Get(string ResourceName, string id, string vid)
+    [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}") ]    
+    public HttpResponseMessage Get(string ResourceName, string id, string vid="")
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(id, vid);

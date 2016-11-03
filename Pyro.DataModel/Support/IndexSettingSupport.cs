@@ -37,11 +37,11 @@ namespace Pyro.DataModel.Support
       }
     }
 
-    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase)
+    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase, bool IsCurrent)
     {
       var DtoResource = new DtoResource();
       DtoResource.FhirId = ResourceIndexBase.FhirId;
-      DtoResource.IsCurrent = true;
+      DtoResource.IsCurrent = IsCurrent;
       DtoResource.IsDeleted = ResourceIndexBase.IsDeleted;
       DtoResource.Received = ResourceIndexBase.lastUpdated;
       DtoResource.Version = ResourceIndexBase.versionId;

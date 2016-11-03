@@ -12,9 +12,9 @@ namespace Pyro.Common.Interfaces
   {
     int PageRequested { get; set; }
     int PagesTotal { get; set; }
-    int ReturnedResourceCount { get; set; }
+    //int ReturnedResourceCount { get; set; }
     List<DtoResource> ReturnedResourceList { get; set; }
     bool SingleResourceRead { get; set; }
-    DtoResource ReturnedResource { get; set; }
+    //DtoResource ReturnedResource { get; set; }
   }
 }

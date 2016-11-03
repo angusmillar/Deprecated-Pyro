@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataModel.Repository;
+using Pyro.DataModel.DatabaseModel;
 
 namespace Pyro.DataModel
 {
@@ -14,116 +15,116 @@ namespace Pyro.DataModel
     private Pyro.DataModel.DatabaseModel.DatabaseContext _context = null;
 
     private CommonRepository _CommonRepository;    
-    private AccountRepository _AccountRepository;
-    private ActivityDefinitionRepository _ActivityDefinitionRepository;
-    private AllergyIntoleranceRepository _AllergyIntoleranceRepository;
-    private AppointmentRepository _AppointmentRepository;
-    private AppointmentResponseRepository _AppointmentResponseRepository;
-    private AuditEventRepository _AuditEventRepository;
-    private BasicRepository _BasicRepository;
-    private BinaryRepository _BinaryRepository;
-    private BodySiteRepository _BodySiteRepository;
-    private BundleRepository _BundleRepository;
-    private CarePlanRepository _CarePlanRepository;
-    private CareTeamRepository _CareTeamRepository;
-    private ClaimRepository _ClaimRepository;
-    private ClaimResponseRepository _ClaimResponseRepository;
-    private ClinicalImpressionRepository _ClinicalImpressionRepository;
-    private CodeSystemRepository _CodeSystemRepository;
-    private CommunicationRepository _CommunicationRepository;
-    private CommunicationRequestRepository _CommunicationRequestRepository;
-    private CompartmentDefinitionRepository _CompartmentDefinitionRepository;
-    private CompositionRepository _CompositionRepository;
-    private ConceptMapRepository _ConceptMapRepository;
-    private ConditionRepository _ConditionRepository;
-    private ConformanceRepository _ConformanceRepository;
-    private ConsentRepository _ConsentRepository;
-    private ContractRepository _ContractRepository;
-    private CoverageRepository _CoverageRepository;
-    private DataElementRepository _DataElementRepository;
-    private DecisionSupportServiceModuleRepository _DecisionSupportServiceModuleRepository;
-    private DetectedIssueRepository _DetectedIssueRepository;
-    private DeviceRepository _DeviceRepository;
-    private DeviceComponentRepository _DeviceComponentRepository;
-    private DeviceMetricRepository _DeviceMetricRepository;
-    private DeviceUseRequestRepository _DeviceUseRequestRepository;
-    private DeviceUseStatementRepository _DeviceUseStatementRepository;
-    private DiagnosticReportRepository _DiagnosticReportRepository;
-    private DiagnosticRequestRepository _DiagnosticRequestRepository;
-    private DocumentManifestRepository _DocumentManifestRepository;
-    private DocumentReferenceRepository _DocumentReferenceRepository;
-    private EligibilityRequestRepository _EligibilityRequestRepository;
-    private EligibilityResponseRepository _EligibilityResponseRepository;
-    private EncounterRepository _EncounterRepository;
-    private EndpointRepository _EndpointRepository;
-    private EnrollmentRequestRepository _EnrollmentRequestRepository;
-    private EnrollmentResponseRepository _EnrollmentResponseRepository;
-    private EpisodeOfCareRepository _EpisodeOfCareRepository;
-    private ExpansionProfileRepository _ExpansionProfileRepository;
-    private ExplanationOfBenefitRepository _ExplanationOfBenefitRepository;
-    private FamilyMemberHistoryRepository _FamilyMemberHistoryRepository;
-    private FlagRepository _FlagRepository;
-    private GoalRepository _GoalRepository;
-    private GroupRepository _GroupRepository;
-    private GuidanceResponseRepository _GuidanceResponseRepository;
-    private HealthcareServiceRepository _HealthcareServiceRepository;
-    private ImagingManifestRepository _ImagingManifestRepository;
-    private ImagingStudyRepository _ImagingStudyRepository;
-    private ImmunizationRepository _ImmunizationRepository;
-    private ImmunizationRecommendationRepository _ImmunizationRecommendationRepository;
-    private ImplementationGuideRepository _ImplementationGuideRepository;
-    private LibraryRepository _LibraryRepository;
-    private LinkageRepository _LinkageRepository;
-    private ListRepository _ListRepository;
-    private LocationRepository _LocationRepository;
-    private MeasureRepository _MeasureRepository;
-    private MeasureReportRepository _MeasureReportRepository;
-    private MediaRepository _MediaRepository;
-    private MedicationRepository _MedicationRepository;
-    private MedicationAdministrationRepository _MedicationAdministrationRepository;
-    private MedicationDispenseRepository _MedicationDispenseRepository;
-    private MedicationOrderRepository _MedicationOrderRepository;
-    private MedicationStatementRepository _MedicationStatementRepository;
-    private MessageHeaderRepository _MessageHeaderRepository;
-    private NamingSystemRepository _NamingSystemRepository;
-    private NutritionRequestRepository _NutritionRequestRepository;
-    private ObservationRepository _ObservationRepository;
-    private OperationDefinitionRepository _OperationDefinitionRepository;
-    private OperationOutcomeRepository _OperationOutcomeRepository;
-    private OrganizationRepository _OrganizationRepository;
-    private ParametersRepository _ParametersRepository;
-    private PatientRepository _PatientRepository;
-    private PaymentNoticeRepository _PaymentNoticeRepository;
-    private PaymentReconciliationRepository _PaymentReconciliationRepository;
-    private PersonRepository _PersonRepository;
-    private PlanDefinitionRepository _PlanDefinitionRepository;
-    private PractitionerRepository _PractitionerRepository;
-    private PractitionerRoleRepository _PractitionerRoleRepository;
-    private ProcedureRepository _ProcedureRepository;
-    private ProcedureRequestRepository _ProcedureRequestRepository;
-    private ProcessRequestRepository _ProcessRequestRepository;
-    private ProcessResponseRepository _ProcessResponseRepository;
-    private ProvenanceRepository _ProvenanceRepository;
-    private QuestionnaireRepository _QuestionnaireRepository;
-    private QuestionnaireResponseRepository _QuestionnaireResponseRepository;
-    private ReferralRequestRepository _ReferralRequestRepository;
-    private RelatedPersonRepository _RelatedPersonRepository;
-    private RiskAssessmentRepository _RiskAssessmentRepository;
-    private ScheduleRepository _ScheduleRepository;
-    private SearchParameterRepository _SearchParameterRepository;
-    private SequenceRepository _SequenceRepository;
-    private SlotRepository _SlotRepository;
-    private SpecimenRepository _SpecimenRepository;
-    private StructureDefinitionRepository _StructureDefinitionRepository;
-    private StructureMapRepository _StructureMapRepository;
-    private SubscriptionRepository _SubscriptionRepository;
-    private SubstanceRepository _SubstanceRepository;
-    private SupplyDeliveryRepository _SupplyDeliveryRepository;
-    private SupplyRequestRepository _SupplyRequestRepository;
-    private TaskRepository _TaskRepository;
-    private TestScriptRepository _TestScriptRepository;
-    private ValueSetRepository _ValueSetRepository;
-    private VisionPrescriptionRepository _VisionPrescriptionRepository;
+    private AccountRepository<Res_Account, Res_Account_History> _AccountRepository;
+    private ActivityDefinitionRepository<Res_ActivityDefinition, Res_ActivityDefinition_History> _ActivityDefinitionRepository;
+    private AllergyIntoleranceRepository<Res_AllergyIntolerance, Res_AllergyIntolerance_History> _AllergyIntoleranceRepository;
+    private AppointmentRepository<Res_Appointment, Res_Appointment_History> _AppointmentRepository;
+    private AppointmentResponseRepository<Res_AppointmentResponse, Res_AppointmentResponse_History> _AppointmentResponseRepository;
+    private AuditEventRepository<Res_AuditEvent, Res_AuditEvent_History> _AuditEventRepository;
+    private BasicRepository<Res_Basic, Res_Basic_History> _BasicRepository;
+    private BinaryRepository<Res_Binary, Res_Binary_History> _BinaryRepository;
+    private BodySiteRepository<Res_BodySite, Res_BodySite_History> _BodySiteRepository;
+    private BundleRepository<Res_Bundle, Res_Bundle_History> _BundleRepository;
+    private CarePlanRepository<Res_CarePlan, Res_CarePlan_History> _CarePlanRepository;
+    private CareTeamRepository<Res_CareTeam, Res_CareTeam_History> _CareTeamRepository;
+    private ClaimRepository<Res_Claim, Res_Claim_History> _ClaimRepository;
+    private ClaimResponseRepository<Res_ClaimResponse, Res_ClaimResponse_History> _ClaimResponseRepository;
+    private ClinicalImpressionRepository<Res_ClinicalImpression, Res_ClinicalImpression_History> _ClinicalImpressionRepository;
+    private CodeSystemRepository<Res_CodeSystem, Res_CodeSystem_History> _CodeSystemRepository;
+    private CommunicationRepository<Res_Communication, Res_Communication_History> _CommunicationRepository;
+    private CommunicationRequestRepository<Res_CommunicationRequest, Res_CommunicationRequest_History> _CommunicationRequestRepository;
+    private CompartmentDefinitionRepository<Res_CompartmentDefinition, Res_CompartmentDefinition_History> _CompartmentDefinitionRepository;
+    private CompositionRepository<Res_Composition, Res_Composition_History> _CompositionRepository;
+    private ConceptMapRepository<Res_ConceptMap, Res_ConceptMap_History> _ConceptMapRepository;
+    private ConditionRepository<Res_Condition, Res_Condition_History> _ConditionRepository;
+    private ConformanceRepository<Res_Conformance, Res_Conformance_History> _ConformanceRepository;
+    private ConsentRepository<Res_Consent, Res_Consent_History> _ConsentRepository;
+    private ContractRepository<Res_Contract, Res_Contract_History> _ContractRepository;
+    private CoverageRepository<Res_Coverage, Res_Coverage_History> _CoverageRepository;
+    private DataElementRepository<Res_DataElement, Res_DataElement_History> _DataElementRepository;
+    private DecisionSupportServiceModuleRepository<Res_DecisionSupportServiceModule, Res_DecisionSupportServiceModule_History> _DecisionSupportServiceModuleRepository;
+    private DetectedIssueRepository<Res_DetectedIssue, Res_DetectedIssue_History> _DetectedIssueRepository;
+    private DeviceRepository<Res_Device, Res_Device_History> _DeviceRepository;
+    private DeviceComponentRepository<Res_DeviceComponent, Res_DeviceComponent_History> _DeviceComponentRepository;
+    private DeviceMetricRepository<Res_DeviceMetric, Res_DeviceMetric_History> _DeviceMetricRepository;
+    private DeviceUseRequestRepository<Res_DeviceUseRequest, Res_DeviceUseRequest_History> _DeviceUseRequestRepository;
+    private DeviceUseStatementRepository<Res_DeviceUseStatement, Res_DeviceUseStatement_History> _DeviceUseStatementRepository;
+    private DiagnosticReportRepository<Res_DiagnosticReport, Res_DiagnosticReport_History> _DiagnosticReportRepository;
+    private DiagnosticRequestRepository<Res_DiagnosticRequest, Res_DiagnosticRequest_History> _DiagnosticRequestRepository;
+    private DocumentManifestRepository<Res_DocumentManifest, Res_DocumentManifest_History> _DocumentManifestRepository;
+    private DocumentReferenceRepository<Res_DocumentReference, Res_DocumentReference_History> _DocumentReferenceRepository;
+    private EligibilityRequestRepository<Res_EligibilityRequest, Res_EligibilityRequest_History> _EligibilityRequestRepository;
+    private EligibilityResponseRepository<Res_EligibilityResponse, Res_EligibilityResponse_History> _EligibilityResponseRepository;
+    private EncounterRepository<Res_Encounter, Res_Encounter_History> _EncounterRepository;
+    private EndpointRepository<Res_Endpoint, Res_Endpoint_History> _EndpointRepository;
+    private EnrollmentRequestRepository<Res_EnrollmentRequest, Res_EnrollmentRequest_History> _EnrollmentRequestRepository;
+    private EnrollmentResponseRepository<Res_EnrollmentResponse, Res_EnrollmentResponse_History> _EnrollmentResponseRepository;
+    private EpisodeOfCareRepository<Res_EpisodeOfCare, Res_EpisodeOfCare_History> _EpisodeOfCareRepository;
+    private ExpansionProfileRepository<Res_ExpansionProfile, Res_ExpansionProfile_History> _ExpansionProfileRepository;
+    private ExplanationOfBenefitRepository<Res_ExplanationOfBenefit, Res_ExplanationOfBenefit_History> _ExplanationOfBenefitRepository;
+    private FamilyMemberHistoryRepository<Res_FamilyMemberHistory, Res_FamilyMemberHistory_History> _FamilyMemberHistoryRepository;
+    private FlagRepository<Res_Flag, Res_Flag_History> _FlagRepository;
+    private GoalRepository<Res_Goal, Res_Goal_History> _GoalRepository;
+    private GroupRepository<Res_Group, Res_Group_History> _GroupRepository;
+    private GuidanceResponseRepository<Res_GuidanceResponse, Res_GuidanceResponse_History> _GuidanceResponseRepository;
+    private HealthcareServiceRepository<Res_HealthcareService, Res_HealthcareService_History> _HealthcareServiceRepository;
+    private ImagingManifestRepository<Res_ImagingManifest, Res_ImagingManifest_History> _ImagingManifestRepository;
+    private ImagingStudyRepository<Res_ImagingStudy, Res_ImagingStudy_History> _ImagingStudyRepository;
+    private ImmunizationRepository<Res_Immunization, Res_Immunization_History> _ImmunizationRepository;
+    private ImmunizationRecommendationRepository<Res_ImmunizationRecommendation, Res_ImmunizationRecommendation_History> _ImmunizationRecommendationRepository;
+    private ImplementationGuideRepository<Res_ImplementationGuide, Res_ImplementationGuide_History> _ImplementationGuideRepository;
+    private LibraryRepository<Res_Library, Res_Library_History> _LibraryRepository;
+    private LinkageRepository<Res_Linkage, Res_Linkage_History> _LinkageRepository;
+    private ListRepository<Res_List, Res_List_History> _ListRepository;
+    private LocationRepository<Res_Location, Res_Location_History> _LocationRepository;
+    private MeasureRepository<Res_Measure, Res_Measure_History> _MeasureRepository;
+    private MeasureReportRepository<Res_MeasureReport, Res_MeasureReport_History> _MeasureReportRepository;
+    private MediaRepository<Res_Media, Res_Media_History> _MediaRepository;
+    private MedicationRepository<Res_Medication, Res_Medication_History> _MedicationRepository;
+    private MedicationAdministrationRepository<Res_MedicationAdministration, Res_MedicationAdministration_History> _MedicationAdministrationRepository;
+    private MedicationDispenseRepository<Res_MedicationDispense, Res_MedicationDispense_History> _MedicationDispenseRepository;
+    private MedicationOrderRepository<Res_MedicationOrder, Res_MedicationOrder_History> _MedicationOrderRepository;
+    private MedicationStatementRepository<Res_MedicationStatement, Res_MedicationStatement_History> _MedicationStatementRepository;
+    private MessageHeaderRepository<Res_MessageHeader, Res_MessageHeader_History> _MessageHeaderRepository;
+    private NamingSystemRepository<Res_NamingSystem, Res_NamingSystem_History> _NamingSystemRepository;
+    private NutritionRequestRepository<Res_NutritionRequest, Res_NutritionRequest_History> _NutritionRequestRepository;
+    private ObservationRepository<Res_Observation, Res_Observation_History> _ObservationRepository;
+    private OperationDefinitionRepository<Res_OperationDefinition, Res_OperationDefinition_History> _OperationDefinitionRepository;
+    private OperationOutcomeRepository<Res_OperationOutcome, Res_OperationOutcome_History> _OperationOutcomeRepository;
+    private OrganizationRepository<Res_Organization, Res_Organization_History> _OrganizationRepository;
+    private ParametersRepository<Res_Parameters, Res_Parameters_History> _ParametersRepository;
+    private PatientRepository<Res_Patient, Res_Patient_History> _PatientRepository;
+    private PaymentNoticeRepository<Res_PaymentNotice, Res_PaymentNotice_History> _PaymentNoticeRepository;
+    private PaymentReconciliationRepository<Res_PaymentReconciliation, Res_PaymentReconciliation_History> _PaymentReconciliationRepository;
+    private PersonRepository<Res_Person, Res_Person_History> _PersonRepository;
+    private PlanDefinitionRepository<Res_PlanDefinition, Res_PlanDefinition_History> _PlanDefinitionRepository;
+    private PractitionerRepository<Res_Practitioner, Res_Practitioner_History> _PractitionerRepository;
+    private PractitionerRoleRepository<Res_PractitionerRole, Res_PractitionerRole_History> _PractitionerRoleRepository;
+    private ProcedureRepository<Res_Procedure, Res_Procedure_History> _ProcedureRepository;
+    private ProcedureRequestRepository<Res_ProcedureRequest, Res_ProcedureRequest_History> _ProcedureRequestRepository;
+    private ProcessRequestRepository<Res_ProcessRequest, Res_ProcessRequest_History> _ProcessRequestRepository;
+    private ProcessResponseRepository<Res_ProcessResponse, Res_ProcessResponse_History> _ProcessResponseRepository;
+    private ProvenanceRepository<Res_Provenance, Res_Provenance_History> _ProvenanceRepository;
+    private QuestionnaireRepository<Res_Questionnaire, Res_Questionnaire_History> _QuestionnaireRepository;
+    private QuestionnaireResponseRepository<Res_QuestionnaireResponse, Res_QuestionnaireResponse_History> _QuestionnaireResponseRepository;
+    private ReferralRequestRepository<Res_ReferralRequest, Res_ReferralRequest_History> _ReferralRequestRepository;
+    private RelatedPersonRepository<Res_RelatedPerson, Res_RelatedPerson_History> _RelatedPersonRepository;
+    private RiskAssessmentRepository<Res_RiskAssessment, Res_RiskAssessment_History> _RiskAssessmentRepository;
+    private ScheduleRepository<Res_Schedule, Res_Schedule_History> _ScheduleRepository;
+    private SearchParameterRepository<Res_SearchParameter, Res_SearchParameter_History> _SearchParameterRepository;
+    private SequenceRepository<Res_Sequence, Res_Sequence_History> _SequenceRepository;
+    private SlotRepository<Res_Slot, Res_Slot_History> _SlotRepository;
+    private SpecimenRepository<Res_Specimen, Res_Specimen_History> _SpecimenRepository;
+    private StructureDefinitionRepository<Res_StructureDefinition, Res_StructureDefinition_History> _StructureDefinitionRepository;
+    private StructureMapRepository<Res_StructureMap, Res_StructureMap_History> _StructureMapRepository;
+    private SubscriptionRepository<Res_Subscription, Res_Subscription_History> _SubscriptionRepository;
+    private SubstanceRepository<Res_Substance, Res_Substance_History> _SubstanceRepository;
+    private SupplyDeliveryRepository<Res_SupplyDelivery, Res_SupplyDelivery_History> _SupplyDeliveryRepository;
+    private SupplyRequestRepository<Res_SupplyRequest, Res_SupplyRequest_History> _SupplyRequestRepository;
+    private TaskRepository<Res_Task, Res_Task_History> _TaskRepository;
+    private TestScriptRepository<Res_TestScript, Res_TestScript_History> _TestScriptRepository;
+    private ValueSetRepository<Res_ValueSet, Res_ValueSet_History> _ValueSetRepository;
+    private VisionPrescriptionRepository<Res_VisionPrescription, Res_VisionPrescription_History> _VisionPrescriptionRepository;
 
     public UnitOfWork()
     {
@@ -145,7 +146,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._AccountRepository == null)
-          this._AccountRepository = new AccountRepository(_context);
+          this._AccountRepository = new AccountRepository<Res_Account, Res_Account_History>(_context);
         return _AccountRepository;
       }
     }
@@ -155,7 +156,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ActivityDefinitionRepository == null)
-          this._ActivityDefinitionRepository = new ActivityDefinitionRepository(_context);
+          this._ActivityDefinitionRepository = new ActivityDefinitionRepository<Res_ActivityDefinition, Res_ActivityDefinition_History>(_context);
         return _ActivityDefinitionRepository;
       }
     }
@@ -165,7 +166,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._AllergyIntoleranceRepository == null)
-          this._AllergyIntoleranceRepository = new AllergyIntoleranceRepository(_context);
+          this._AllergyIntoleranceRepository = new AllergyIntoleranceRepository<Res_AllergyIntolerance, Res_AllergyIntolerance_History>(_context);
         return _AllergyIntoleranceRepository;
       }
     }
@@ -175,7 +176,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._AppointmentRepository == null)
-          this._AppointmentRepository = new AppointmentRepository(_context);
+          this._AppointmentRepository = new AppointmentRepository<Res_Appointment, Res_Appointment_History>(_context);
         return _AppointmentRepository;
       }
     }
@@ -185,7 +186,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._AppointmentResponseRepository == null)
-          this._AppointmentResponseRepository = new AppointmentResponseRepository(_context);
+          this._AppointmentResponseRepository = new AppointmentResponseRepository<Res_AppointmentResponse, Res_AppointmentResponse_History>(_context);
         return _AppointmentResponseRepository;
       }
     }
@@ -195,7 +196,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._AuditEventRepository == null)
-          this._AuditEventRepository = new AuditEventRepository(_context);
+          this._AuditEventRepository = new AuditEventRepository<Res_AuditEvent, Res_AuditEvent_History>(_context);
         return _AuditEventRepository;
       }
     }
@@ -205,7 +206,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._BasicRepository == null)
-          this._BasicRepository = new BasicRepository(_context);
+          this._BasicRepository = new BasicRepository<Res_Basic, Res_Basic_History>(_context);
         return _BasicRepository;
       }
     }
@@ -215,7 +216,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._BinaryRepository == null)
-          this._BinaryRepository = new BinaryRepository(_context);
+          this._BinaryRepository = new BinaryRepository<Res_Binary, Res_Binary_History>(_context);
         return _BinaryRepository;
       }
     }
@@ -225,7 +226,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._BodySiteRepository == null)
-          this._BodySiteRepository = new BodySiteRepository(_context);
+          this._BodySiteRepository = new BodySiteRepository<Res_BodySite, Res_BodySite_History>(_context);
         return _BodySiteRepository;
       }
     }
@@ -235,7 +236,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._BundleRepository == null)
-          this._BundleRepository = new BundleRepository(_context);
+          this._BundleRepository = new BundleRepository<Res_Bundle, Res_Bundle_History>(_context);
         return _BundleRepository;
       }
     }
@@ -245,7 +246,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CarePlanRepository == null)
-          this._CarePlanRepository = new CarePlanRepository(_context);
+          this._CarePlanRepository = new CarePlanRepository<Res_CarePlan, Res_CarePlan_History>(_context);
         return _CarePlanRepository;
       }
     }
@@ -255,7 +256,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CareTeamRepository == null)
-          this._CareTeamRepository = new CareTeamRepository(_context);
+          this._CareTeamRepository = new CareTeamRepository<Res_CareTeam, Res_CareTeam_History>(_context);
         return _CareTeamRepository;
       }
     }
@@ -265,7 +266,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ClaimRepository == null)
-          this._ClaimRepository = new ClaimRepository(_context);
+          this._ClaimRepository = new ClaimRepository<Res_Claim, Res_Claim_History>(_context);
         return _ClaimRepository;
       }
     }
@@ -275,7 +276,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ClaimResponseRepository == null)
-          this._ClaimResponseRepository = new ClaimResponseRepository(_context);
+          this._ClaimResponseRepository = new ClaimResponseRepository<Res_ClaimResponse, Res_ClaimResponse_History>(_context);
         return _ClaimResponseRepository;
       }
     }
@@ -285,7 +286,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ClinicalImpressionRepository == null)
-          this._ClinicalImpressionRepository = new ClinicalImpressionRepository(_context);
+          this._ClinicalImpressionRepository = new ClinicalImpressionRepository<Res_ClinicalImpression, Res_ClinicalImpression_History>(_context);
         return _ClinicalImpressionRepository;
       }
     }
@@ -295,7 +296,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CodeSystemRepository == null)
-          this._CodeSystemRepository = new CodeSystemRepository(_context);
+          this._CodeSystemRepository = new CodeSystemRepository<Res_CodeSystem, Res_CodeSystem_History>(_context);
         return _CodeSystemRepository;
       }
     }
@@ -305,7 +306,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CommunicationRepository == null)
-          this._CommunicationRepository = new CommunicationRepository(_context);
+          this._CommunicationRepository = new CommunicationRepository<Res_Communication, Res_Communication_History>(_context);
         return _CommunicationRepository;
       }
     }
@@ -315,7 +316,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CommunicationRequestRepository == null)
-          this._CommunicationRequestRepository = new CommunicationRequestRepository(_context);
+          this._CommunicationRequestRepository = new CommunicationRequestRepository<Res_CommunicationRequest, Res_CommunicationRequest_History>(_context);
         return _CommunicationRequestRepository;
       }
     }
@@ -325,7 +326,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CompartmentDefinitionRepository == null)
-          this._CompartmentDefinitionRepository = new CompartmentDefinitionRepository(_context);
+          this._CompartmentDefinitionRepository = new CompartmentDefinitionRepository<Res_CompartmentDefinition, Res_CompartmentDefinition_History>(_context);
         return _CompartmentDefinitionRepository;
       }
     }
@@ -335,7 +336,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CompositionRepository == null)
-          this._CompositionRepository = new CompositionRepository(_context);
+          this._CompositionRepository = new CompositionRepository<Res_Composition, Res_Composition_History>(_context);
         return _CompositionRepository;
       }
     }
@@ -345,7 +346,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ConceptMapRepository == null)
-          this._ConceptMapRepository = new ConceptMapRepository(_context);
+          this._ConceptMapRepository = new ConceptMapRepository<Res_ConceptMap, Res_ConceptMap_History>(_context);
         return _ConceptMapRepository;
       }
     }
@@ -355,7 +356,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ConditionRepository == null)
-          this._ConditionRepository = new ConditionRepository(_context);
+          this._ConditionRepository = new ConditionRepository<Res_Condition, Res_Condition_History>(_context);
         return _ConditionRepository;
       }
     }
@@ -365,7 +366,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ConformanceRepository == null)
-          this._ConformanceRepository = new ConformanceRepository(_context);
+          this._ConformanceRepository = new ConformanceRepository<Res_Conformance, Res_Conformance_History>(_context);
         return _ConformanceRepository;
       }
     }
@@ -375,7 +376,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ConsentRepository == null)
-          this._ConsentRepository = new ConsentRepository(_context);
+          this._ConsentRepository = new ConsentRepository<Res_Consent, Res_Consent_History>(_context);
         return _ConsentRepository;
       }
     }
@@ -385,7 +386,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ContractRepository == null)
-          this._ContractRepository = new ContractRepository(_context);
+          this._ContractRepository = new ContractRepository<Res_Contract, Res_Contract_History>(_context);
         return _ContractRepository;
       }
     }
@@ -395,7 +396,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._CoverageRepository == null)
-          this._CoverageRepository = new CoverageRepository(_context);
+          this._CoverageRepository = new CoverageRepository<Res_Coverage, Res_Coverage_History>(_context);
         return _CoverageRepository;
       }
     }
@@ -405,7 +406,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DataElementRepository == null)
-          this._DataElementRepository = new DataElementRepository(_context);
+          this._DataElementRepository = new DataElementRepository<Res_DataElement, Res_DataElement_History>(_context);
         return _DataElementRepository;
       }
     }
@@ -415,7 +416,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DecisionSupportServiceModuleRepository == null)
-          this._DecisionSupportServiceModuleRepository = new DecisionSupportServiceModuleRepository(_context);
+          this._DecisionSupportServiceModuleRepository = new DecisionSupportServiceModuleRepository<Res_DecisionSupportServiceModule, Res_DecisionSupportServiceModule_History>(_context);
         return _DecisionSupportServiceModuleRepository;
       }
     }
@@ -425,7 +426,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DetectedIssueRepository == null)
-          this._DetectedIssueRepository = new DetectedIssueRepository(_context);
+          this._DetectedIssueRepository = new DetectedIssueRepository<Res_DetectedIssue, Res_DetectedIssue_History>(_context);
         return _DetectedIssueRepository;
       }
     }
@@ -435,7 +436,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DeviceRepository == null)
-          this._DeviceRepository = new DeviceRepository(_context);
+          this._DeviceRepository = new DeviceRepository<Res_Device, Res_Device_History>(_context);
         return _DeviceRepository;
       }
     }
@@ -445,7 +446,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DeviceComponentRepository == null)
-          this._DeviceComponentRepository = new DeviceComponentRepository(_context);
+          this._DeviceComponentRepository = new DeviceComponentRepository<Res_DeviceComponent, Res_DeviceComponent_History>(_context);
         return _DeviceComponentRepository;
       }
     }
@@ -455,7 +456,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DeviceMetricRepository == null)
-          this._DeviceMetricRepository = new DeviceMetricRepository(_context);
+          this._DeviceMetricRepository = new DeviceMetricRepository<Res_DeviceMetric, Res_DeviceMetric_History>(_context);
         return _DeviceMetricRepository;
       }
     }
@@ -465,7 +466,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DeviceUseRequestRepository == null)
-          this._DeviceUseRequestRepository = new DeviceUseRequestRepository(_context);
+          this._DeviceUseRequestRepository = new DeviceUseRequestRepository<Res_DeviceUseRequest, Res_DeviceUseRequest_History>(_context);
         return _DeviceUseRequestRepository;
       }
     }
@@ -475,7 +476,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DeviceUseStatementRepository == null)
-          this._DeviceUseStatementRepository = new DeviceUseStatementRepository(_context);
+          this._DeviceUseStatementRepository = new DeviceUseStatementRepository<Res_DeviceUseStatement, Res_DeviceUseStatement_History>(_context);
         return _DeviceUseStatementRepository;
       }
     }
@@ -485,7 +486,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DiagnosticReportRepository == null)
-          this._DiagnosticReportRepository = new DiagnosticReportRepository(_context);
+          this._DiagnosticReportRepository = new DiagnosticReportRepository<Res_DiagnosticReport, Res_DiagnosticReport_History>(_context);
         return _DiagnosticReportRepository;
       }
     }
@@ -495,7 +496,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DiagnosticRequestRepository == null)
-          this._DiagnosticRequestRepository = new DiagnosticRequestRepository(_context);
+          this._DiagnosticRequestRepository = new DiagnosticRequestRepository<Res_DiagnosticRequest, Res_DiagnosticRequest_History>(_context);
         return _DiagnosticRequestRepository;
       }
     }
@@ -505,7 +506,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DocumentManifestRepository == null)
-          this._DocumentManifestRepository = new DocumentManifestRepository(_context);
+          this._DocumentManifestRepository = new DocumentManifestRepository<Res_DocumentManifest, Res_DocumentManifest_History>(_context);
         return _DocumentManifestRepository;
       }
     }
@@ -515,7 +516,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._DocumentReferenceRepository == null)
-          this._DocumentReferenceRepository = new DocumentReferenceRepository(_context);
+          this._DocumentReferenceRepository = new DocumentReferenceRepository<Res_DocumentReference, Res_DocumentReference_History>(_context);
         return _DocumentReferenceRepository;
       }
     }
@@ -525,7 +526,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EligibilityRequestRepository == null)
-          this._EligibilityRequestRepository = new EligibilityRequestRepository(_context);
+          this._EligibilityRequestRepository = new EligibilityRequestRepository<Res_EligibilityRequest, Res_EligibilityRequest_History>(_context);
         return _EligibilityRequestRepository;
       }
     }
@@ -535,7 +536,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EligibilityResponseRepository == null)
-          this._EligibilityResponseRepository = new EligibilityResponseRepository(_context);
+          this._EligibilityResponseRepository = new EligibilityResponseRepository<Res_EligibilityResponse, Res_EligibilityResponse_History>(_context);
         return _EligibilityResponseRepository;
       }
     }
@@ -545,7 +546,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EncounterRepository == null)
-          this._EncounterRepository = new EncounterRepository(_context);
+          this._EncounterRepository = new EncounterRepository<Res_Encounter, Res_Encounter_History>(_context);
         return _EncounterRepository;
       }
     }
@@ -555,7 +556,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EndpointRepository == null)
-          this._EndpointRepository = new EndpointRepository(_context);
+          this._EndpointRepository = new EndpointRepository<Res_Endpoint, Res_Endpoint_History>(_context);
         return _EndpointRepository;
       }
     }
@@ -565,7 +566,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EnrollmentRequestRepository == null)
-          this._EnrollmentRequestRepository = new EnrollmentRequestRepository(_context);
+          this._EnrollmentRequestRepository = new EnrollmentRequestRepository<Res_EnrollmentRequest, Res_EnrollmentRequest_History>(_context);
         return _EnrollmentRequestRepository;
       }
     }
@@ -575,7 +576,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EnrollmentResponseRepository == null)
-          this._EnrollmentResponseRepository = new EnrollmentResponseRepository(_context);
+          this._EnrollmentResponseRepository = new EnrollmentResponseRepository<Res_EnrollmentResponse, Res_EnrollmentResponse_History>(_context);
         return _EnrollmentResponseRepository;
       }
     }
@@ -585,7 +586,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._EpisodeOfCareRepository == null)
-          this._EpisodeOfCareRepository = new EpisodeOfCareRepository(_context);
+          this._EpisodeOfCareRepository = new EpisodeOfCareRepository<Res_EpisodeOfCare, Res_EpisodeOfCare_History>(_context);
         return _EpisodeOfCareRepository;
       }
     }
@@ -595,7 +596,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ExpansionProfileRepository == null)
-          this._ExpansionProfileRepository = new ExpansionProfileRepository(_context);
+          this._ExpansionProfileRepository = new ExpansionProfileRepository<Res_ExpansionProfile, Res_ExpansionProfile_History>(_context);
         return _ExpansionProfileRepository;
       }
     }
@@ -605,7 +606,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ExplanationOfBenefitRepository == null)
-          this._ExplanationOfBenefitRepository = new ExplanationOfBenefitRepository(_context);
+          this._ExplanationOfBenefitRepository = new ExplanationOfBenefitRepository<Res_ExplanationOfBenefit, Res_ExplanationOfBenefit_History>(_context);
         return _ExplanationOfBenefitRepository;
       }
     }
@@ -615,7 +616,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._FamilyMemberHistoryRepository == null)
-          this._FamilyMemberHistoryRepository = new FamilyMemberHistoryRepository(_context);
+          this._FamilyMemberHistoryRepository = new FamilyMemberHistoryRepository<Res_FamilyMemberHistory, Res_FamilyMemberHistory_History>(_context);
         return _FamilyMemberHistoryRepository;
       }
     }
@@ -625,7 +626,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._FlagRepository == null)
-          this._FlagRepository = new FlagRepository(_context);
+          this._FlagRepository = new FlagRepository<Res_Flag, Res_Flag_History>(_context);
         return _FlagRepository;
       }
     }
@@ -635,7 +636,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._GoalRepository == null)
-          this._GoalRepository = new GoalRepository(_context);
+          this._GoalRepository = new GoalRepository<Res_Goal, Res_Goal_History>(_context);
         return _GoalRepository;
       }
     }
@@ -645,7 +646,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._GroupRepository == null)
-          this._GroupRepository = new GroupRepository(_context);
+          this._GroupRepository = new GroupRepository<Res_Group, Res_Group_History>(_context);
         return _GroupRepository;
       }
     }
@@ -655,7 +656,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._GuidanceResponseRepository == null)
-          this._GuidanceResponseRepository = new GuidanceResponseRepository(_context);
+          this._GuidanceResponseRepository = new GuidanceResponseRepository<Res_GuidanceResponse, Res_GuidanceResponse_History>(_context);
         return _GuidanceResponseRepository;
       }
     }
@@ -665,7 +666,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._HealthcareServiceRepository == null)
-          this._HealthcareServiceRepository = new HealthcareServiceRepository(_context);
+          this._HealthcareServiceRepository = new HealthcareServiceRepository<Res_HealthcareService, Res_HealthcareService_History>(_context);
         return _HealthcareServiceRepository;
       }
     }
@@ -675,7 +676,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ImagingManifestRepository == null)
-          this._ImagingManifestRepository = new ImagingManifestRepository(_context);
+          this._ImagingManifestRepository = new ImagingManifestRepository<Res_ImagingManifest, Res_ImagingManifest_History>(_context);
         return _ImagingManifestRepository;
       }
     }
@@ -685,7 +686,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ImagingStudyRepository == null)
-          this._ImagingStudyRepository = new ImagingStudyRepository(_context);
+          this._ImagingStudyRepository = new ImagingStudyRepository<Res_ImagingStudy, Res_ImagingStudy_History>(_context);
         return _ImagingStudyRepository;
       }
     }
@@ -695,7 +696,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ImmunizationRepository == null)
-          this._ImmunizationRepository = new ImmunizationRepository(_context);
+          this._ImmunizationRepository = new ImmunizationRepository<Res_Immunization, Res_Immunization_History>(_context);
         return _ImmunizationRepository;
       }
     }
@@ -705,7 +706,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ImmunizationRecommendationRepository == null)
-          this._ImmunizationRecommendationRepository = new ImmunizationRecommendationRepository(_context);
+          this._ImmunizationRecommendationRepository = new ImmunizationRecommendationRepository<Res_ImmunizationRecommendation, Res_ImmunizationRecommendation_History>(_context);
         return _ImmunizationRecommendationRepository;
       }
     }
@@ -715,7 +716,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ImplementationGuideRepository == null)
-          this._ImplementationGuideRepository = new ImplementationGuideRepository(_context);
+          this._ImplementationGuideRepository = new ImplementationGuideRepository<Res_ImplementationGuide, Res_ImplementationGuide_History>(_context);
         return _ImplementationGuideRepository;
       }
     }
@@ -725,7 +726,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._LibraryRepository == null)
-          this._LibraryRepository = new LibraryRepository(_context);
+          this._LibraryRepository = new LibraryRepository<Res_Library, Res_Library_History>(_context);
         return _LibraryRepository;
       }
     }
@@ -735,7 +736,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._LinkageRepository == null)
-          this._LinkageRepository = new LinkageRepository(_context);
+          this._LinkageRepository = new LinkageRepository<Res_Linkage, Res_Linkage_History>(_context);
         return _LinkageRepository;
       }
     }
@@ -745,7 +746,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ListRepository == null)
-          this._ListRepository = new ListRepository(_context);
+          this._ListRepository = new ListRepository<Res_List, Res_List_History>(_context);
         return _ListRepository;
       }
     }
@@ -755,7 +756,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._LocationRepository == null)
-          this._LocationRepository = new LocationRepository(_context);
+          this._LocationRepository = new LocationRepository<Res_Location, Res_Location_History>(_context);
         return _LocationRepository;
       }
     }
@@ -765,7 +766,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MeasureRepository == null)
-          this._MeasureRepository = new MeasureRepository(_context);
+          this._MeasureRepository = new MeasureRepository<Res_Measure, Res_Measure_History>(_context);
         return _MeasureRepository;
       }
     }
@@ -775,7 +776,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MeasureReportRepository == null)
-          this._MeasureReportRepository = new MeasureReportRepository(_context);
+          this._MeasureReportRepository = new MeasureReportRepository<Res_MeasureReport, Res_MeasureReport_History>(_context);
         return _MeasureReportRepository;
       }
     }
@@ -785,7 +786,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MediaRepository == null)
-          this._MediaRepository = new MediaRepository(_context);
+          this._MediaRepository = new MediaRepository<Res_Media, Res_Media_History>(_context);
         return _MediaRepository;
       }
     }
@@ -795,7 +796,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MedicationRepository == null)
-          this._MedicationRepository = new MedicationRepository(_context);
+          this._MedicationRepository = new MedicationRepository<Res_Medication, Res_Medication_History>(_context);
         return _MedicationRepository;
       }
     }
@@ -805,7 +806,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MedicationAdministrationRepository == null)
-          this._MedicationAdministrationRepository = new MedicationAdministrationRepository(_context);
+          this._MedicationAdministrationRepository = new MedicationAdministrationRepository<Res_MedicationAdministration, Res_MedicationAdministration_History>(_context);
         return _MedicationAdministrationRepository;
       }
     }
@@ -815,7 +816,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MedicationDispenseRepository == null)
-          this._MedicationDispenseRepository = new MedicationDispenseRepository(_context);
+          this._MedicationDispenseRepository = new MedicationDispenseRepository<Res_MedicationDispense, Res_MedicationDispense_History>(_context);
         return _MedicationDispenseRepository;
       }
     }
@@ -825,7 +826,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MedicationOrderRepository == null)
-          this._MedicationOrderRepository = new MedicationOrderRepository(_context);
+          this._MedicationOrderRepository = new MedicationOrderRepository<Res_MedicationOrder, Res_MedicationOrder_History>(_context);
         return _MedicationOrderRepository;
       }
     }
@@ -835,7 +836,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MedicationStatementRepository == null)
-          this._MedicationStatementRepository = new MedicationStatementRepository(_context);
+          this._MedicationStatementRepository = new MedicationStatementRepository<Res_MedicationStatement, Res_MedicationStatement_History>(_context);
         return _MedicationStatementRepository;
       }
     }
@@ -845,7 +846,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._MessageHeaderRepository == null)
-          this._MessageHeaderRepository = new MessageHeaderRepository(_context);
+          this._MessageHeaderRepository = new MessageHeaderRepository<Res_MessageHeader, Res_MessageHeader_History>(_context);
         return _MessageHeaderRepository;
       }
     }
@@ -855,7 +856,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._NamingSystemRepository == null)
-          this._NamingSystemRepository = new NamingSystemRepository(_context);
+          this._NamingSystemRepository = new NamingSystemRepository<Res_NamingSystem, Res_NamingSystem_History>(_context);
         return _NamingSystemRepository;
       }
     }
@@ -865,7 +866,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._NutritionRequestRepository == null)
-          this._NutritionRequestRepository = new NutritionRequestRepository(_context);
+          this._NutritionRequestRepository = new NutritionRequestRepository<Res_NutritionRequest, Res_NutritionRequest_History>(_context);
         return _NutritionRequestRepository;
       }
     }
@@ -875,7 +876,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ObservationRepository == null)
-          this._ObservationRepository = new ObservationRepository(_context);
+          this._ObservationRepository = new ObservationRepository<Res_Observation, Res_Observation_History>(_context);
         return _ObservationRepository;
       }
     }
@@ -885,7 +886,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._OperationDefinitionRepository == null)
-          this._OperationDefinitionRepository = new OperationDefinitionRepository(_context);
+          this._OperationDefinitionRepository = new OperationDefinitionRepository<Res_OperationDefinition, Res_OperationDefinition_History>(_context);
         return _OperationDefinitionRepository;
       }
     }
@@ -895,7 +896,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._OperationOutcomeRepository == null)
-          this._OperationOutcomeRepository = new OperationOutcomeRepository(_context);
+          this._OperationOutcomeRepository = new OperationOutcomeRepository<Res_OperationOutcome, Res_OperationOutcome_History>(_context);
         return _OperationOutcomeRepository;
       }
     }
@@ -905,7 +906,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._OrganizationRepository == null)
-          this._OrganizationRepository = new OrganizationRepository(_context);
+          this._OrganizationRepository = new OrganizationRepository<Res_Organization, Res_Organization_History>(_context);
         return _OrganizationRepository;
       }
     }
@@ -915,7 +916,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ParametersRepository == null)
-          this._ParametersRepository = new ParametersRepository(_context);
+          this._ParametersRepository = new ParametersRepository<Res_Parameters, Res_Parameters_History>(_context);
         return _ParametersRepository;
       }
     }
@@ -925,7 +926,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PatientRepository == null)
-          this._PatientRepository = new PatientRepository(_context);
+          this._PatientRepository = new PatientRepository<Res_Patient, Res_Patient_History>(_context);
         return _PatientRepository;
       }
     }
@@ -935,7 +936,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PaymentNoticeRepository == null)
-          this._PaymentNoticeRepository = new PaymentNoticeRepository(_context);
+          this._PaymentNoticeRepository = new PaymentNoticeRepository<Res_PaymentNotice, Res_PaymentNotice_History>(_context);
         return _PaymentNoticeRepository;
       }
     }
@@ -945,7 +946,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PaymentReconciliationRepository == null)
-          this._PaymentReconciliationRepository = new PaymentReconciliationRepository(_context);
+          this._PaymentReconciliationRepository = new PaymentReconciliationRepository<Res_PaymentReconciliation, Res_PaymentReconciliation_History>(_context);
         return _PaymentReconciliationRepository;
       }
     }
@@ -955,7 +956,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PersonRepository == null)
-          this._PersonRepository = new PersonRepository(_context);
+          this._PersonRepository = new PersonRepository<Res_Person, Res_Person_History>(_context);
         return _PersonRepository;
       }
     }
@@ -965,7 +966,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PlanDefinitionRepository == null)
-          this._PlanDefinitionRepository = new PlanDefinitionRepository(_context);
+          this._PlanDefinitionRepository = new PlanDefinitionRepository<Res_PlanDefinition, Res_PlanDefinition_History>(_context);
         return _PlanDefinitionRepository;
       }
     }
@@ -975,7 +976,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PractitionerRepository == null)
-          this._PractitionerRepository = new PractitionerRepository(_context);
+          this._PractitionerRepository = new PractitionerRepository<Res_Practitioner, Res_Practitioner_History>(_context);
         return _PractitionerRepository;
       }
     }
@@ -985,7 +986,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._PractitionerRoleRepository == null)
-          this._PractitionerRoleRepository = new PractitionerRoleRepository(_context);
+          this._PractitionerRoleRepository = new PractitionerRoleRepository<Res_PractitionerRole, Res_PractitionerRole_History>(_context);
         return _PractitionerRoleRepository;
       }
     }
@@ -995,7 +996,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ProcedureRepository == null)
-          this._ProcedureRepository = new ProcedureRepository(_context);
+          this._ProcedureRepository = new ProcedureRepository<Res_Procedure, Res_Procedure_History>(_context);
         return _ProcedureRepository;
       }
     }
@@ -1005,7 +1006,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ProcedureRequestRepository == null)
-          this._ProcedureRequestRepository = new ProcedureRequestRepository(_context);
+          this._ProcedureRequestRepository = new ProcedureRequestRepository<Res_ProcedureRequest, Res_ProcedureRequest_History>(_context);
         return _ProcedureRequestRepository;
       }
     }
@@ -1015,7 +1016,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ProcessRequestRepository == null)
-          this._ProcessRequestRepository = new ProcessRequestRepository(_context);
+          this._ProcessRequestRepository = new ProcessRequestRepository<Res_ProcessRequest, Res_ProcessRequest_History>(_context);
         return _ProcessRequestRepository;
       }
     }
@@ -1025,7 +1026,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ProcessResponseRepository == null)
-          this._ProcessResponseRepository = new ProcessResponseRepository(_context);
+          this._ProcessResponseRepository = new ProcessResponseRepository<Res_ProcessResponse, Res_ProcessResponse_History>(_context);
         return _ProcessResponseRepository;
       }
     }
@@ -1035,7 +1036,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ProvenanceRepository == null)
-          this._ProvenanceRepository = new ProvenanceRepository(_context);
+          this._ProvenanceRepository = new ProvenanceRepository<Res_Provenance, Res_Provenance_History>(_context);
         return _ProvenanceRepository;
       }
     }
@@ -1045,7 +1046,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._QuestionnaireRepository == null)
-          this._QuestionnaireRepository = new QuestionnaireRepository(_context);
+          this._QuestionnaireRepository = new QuestionnaireRepository<Res_Questionnaire, Res_Questionnaire_History>(_context);
         return _QuestionnaireRepository;
       }
     }
@@ -1055,7 +1056,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._QuestionnaireResponseRepository == null)
-          this._QuestionnaireResponseRepository = new QuestionnaireResponseRepository(_context);
+          this._QuestionnaireResponseRepository = new QuestionnaireResponseRepository<Res_QuestionnaireResponse, Res_QuestionnaireResponse_History>(_context);
         return _QuestionnaireResponseRepository;
       }
     }
@@ -1065,7 +1066,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ReferralRequestRepository == null)
-          this._ReferralRequestRepository = new ReferralRequestRepository(_context);
+          this._ReferralRequestRepository = new ReferralRequestRepository<Res_ReferralRequest, Res_ReferralRequest_History>(_context);
         return _ReferralRequestRepository;
       }
     }
@@ -1075,7 +1076,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._RelatedPersonRepository == null)
-          this._RelatedPersonRepository = new RelatedPersonRepository(_context);
+          this._RelatedPersonRepository = new RelatedPersonRepository<Res_RelatedPerson, Res_RelatedPerson_History>(_context);
         return _RelatedPersonRepository;
       }
     }
@@ -1085,7 +1086,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._RiskAssessmentRepository == null)
-          this._RiskAssessmentRepository = new RiskAssessmentRepository(_context);
+          this._RiskAssessmentRepository = new RiskAssessmentRepository<Res_RiskAssessment, Res_RiskAssessment_History>(_context);
         return _RiskAssessmentRepository;
       }
     }
@@ -1095,7 +1096,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ScheduleRepository == null)
-          this._ScheduleRepository = new ScheduleRepository(_context);
+          this._ScheduleRepository = new ScheduleRepository<Res_Schedule, Res_Schedule_History>(_context);
         return _ScheduleRepository;
       }
     }
@@ -1105,7 +1106,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SearchParameterRepository == null)
-          this._SearchParameterRepository = new SearchParameterRepository(_context);
+          this._SearchParameterRepository = new SearchParameterRepository<Res_SearchParameter, Res_SearchParameter_History>(_context);
         return _SearchParameterRepository;
       }
     }
@@ -1115,7 +1116,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SequenceRepository == null)
-          this._SequenceRepository = new SequenceRepository(_context);
+          this._SequenceRepository = new SequenceRepository<Res_Sequence, Res_Sequence_History>(_context);
         return _SequenceRepository;
       }
     }
@@ -1125,7 +1126,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SlotRepository == null)
-          this._SlotRepository = new SlotRepository(_context);
+          this._SlotRepository = new SlotRepository<Res_Slot, Res_Slot_History>(_context);
         return _SlotRepository;
       }
     }
@@ -1135,7 +1136,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SpecimenRepository == null)
-          this._SpecimenRepository = new SpecimenRepository(_context);
+          this._SpecimenRepository = new SpecimenRepository<Res_Specimen, Res_Specimen_History>(_context);
         return _SpecimenRepository;
       }
     }
@@ -1145,7 +1146,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._StructureDefinitionRepository == null)
-          this._StructureDefinitionRepository = new StructureDefinitionRepository(_context);
+          this._StructureDefinitionRepository = new StructureDefinitionRepository<Res_StructureDefinition, Res_StructureDefinition_History>(_context);
         return _StructureDefinitionRepository;
       }
     }
@@ -1155,7 +1156,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._StructureMapRepository == null)
-          this._StructureMapRepository = new StructureMapRepository(_context);
+          this._StructureMapRepository = new StructureMapRepository<Res_StructureMap, Res_StructureMap_History>(_context);
         return _StructureMapRepository;
       }
     }
@@ -1165,7 +1166,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SubscriptionRepository == null)
-          this._SubscriptionRepository = new SubscriptionRepository(_context);
+          this._SubscriptionRepository = new SubscriptionRepository<Res_Subscription, Res_Subscription_History>(_context);
         return _SubscriptionRepository;
       }
     }
@@ -1175,7 +1176,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SubstanceRepository == null)
-          this._SubstanceRepository = new SubstanceRepository(_context);
+          this._SubstanceRepository = new SubstanceRepository<Res_Substance, Res_Substance_History>(_context);
         return _SubstanceRepository;
       }
     }
@@ -1185,7 +1186,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SupplyDeliveryRepository == null)
-          this._SupplyDeliveryRepository = new SupplyDeliveryRepository(_context);
+          this._SupplyDeliveryRepository = new SupplyDeliveryRepository<Res_SupplyDelivery, Res_SupplyDelivery_History>(_context);
         return _SupplyDeliveryRepository;
       }
     }
@@ -1195,7 +1196,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._SupplyRequestRepository == null)
-          this._SupplyRequestRepository = new SupplyRequestRepository(_context);
+          this._SupplyRequestRepository = new SupplyRequestRepository<Res_SupplyRequest, Res_SupplyRequest_History>(_context);
         return _SupplyRequestRepository;
       }
     }
@@ -1205,7 +1206,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._TaskRepository == null)
-          this._TaskRepository = new TaskRepository(_context);
+          this._TaskRepository = new TaskRepository<Res_Task, Res_Task_History>(_context);
         return _TaskRepository;
       }
     }
@@ -1215,7 +1216,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._TestScriptRepository == null)
-          this._TestScriptRepository = new TestScriptRepository(_context);
+          this._TestScriptRepository = new TestScriptRepository<Res_TestScript, Res_TestScript_History>(_context);
         return _TestScriptRepository;
       }
     }
@@ -1225,7 +1226,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._ValueSetRepository == null)
-          this._ValueSetRepository = new ValueSetRepository(_context);
+          this._ValueSetRepository = new ValueSetRepository<Res_ValueSet, Res_ValueSet_History>(_context);
         return _ValueSetRepository;
       }
     }
@@ -1235,7 +1236,7 @@ namespace Pyro.DataModel
       get
       {
         if (this._VisionPrescriptionRepository == null)
-          this._VisionPrescriptionRepository = new VisionPrescriptionRepository(_context);
+          this._VisionPrescriptionRepository = new VisionPrescriptionRepository<Res_VisionPrescription, Res_VisionPrescription_History>(_context);
         return _VisionPrescriptionRepository;
       }
     }

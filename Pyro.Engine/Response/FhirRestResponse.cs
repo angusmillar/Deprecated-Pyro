@@ -66,7 +66,8 @@ namespace Pyro.Engine.Response
       else if (HttpStatusCode == HttpStatusCode.Gone)
       {
         HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
-        Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oPyroServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResource.Version.ToString() + "\"");
+        if (oPyroServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceList.Count != 0)
+          Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oPyroServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceList[0].Version.ToString() + "\"");
         return Response;
       }
       //No Content: 204

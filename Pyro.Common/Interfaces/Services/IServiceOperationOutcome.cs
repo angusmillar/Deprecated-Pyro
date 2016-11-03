@@ -12,6 +12,7 @@ namespace Pyro.Common.Interfaces.Services
     System.Net.HttpStatusCode HttpStatusCodeToReturn { get; }
     DateTimeOffset? LastModified { get; set; }
     Uri RequestUri { get; set; }
+    Uri ServiceRootUri { get; set; }
     Hl7.Fhir.Model.Resource ResourceToReturn();
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }

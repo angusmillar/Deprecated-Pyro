@@ -1,6 +1,7 @@
 ﻿<#@ template debug="true" language="C#" hostSpecific="true" #>
 <#@ output extension=".cs" #>
 <#@ include file="$(SolutionDir)Pyro.CodeGenerationSupport\CodeGenFileManager\TemplateFileManagerV2.1.ttinclude" #>
+<#@ Assembly Name="$(SolutionDir)Pyro.CodeGenerationSupport\bin\Release\Pyro.CodeGenerationSupport.dll"#>
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.90.6-alpha7\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
@@ -10,6 +11,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="Pyro.CodeGenerationSupport" #>
 
 <#
   var manager = TemplateFileManager.Create(this);
@@ -23,6 +25,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataModel.Repository;
+using Pyro.DataModel.DatabaseModel;
 
 namespace Pyro.DataModel
 {
@@ -33,9 +36,11 @@ namespace Pyro.DataModel
     private CommonRepository _CommonRepository;    
 <#
   foreach(var Resource in _ResourceList)
-  {      
+  {  
+    string ResourceEntity = DatabaseModelInfo.ConstructClassNameForResourceClass(Resource); 
+    string ResourceHistoryEntity = DatabaseModelInfo.ConstructClassNameForResourceHistory(Resource);
 #>
-    private <#=Resource#>Repository _<#=Resource#>Repository;
+    private <#=Resource#>Repository<<#=ResourceEntity#>, <#=ResourceHistoryEntity#>> _<#=Resource#>Repository;
 <#
   }
 #>
@@ -57,14 +62,16 @@ namespace Pyro.DataModel
 
 <#
   foreach(var Resource in _ResourceList)
-  {      
+  {
+    string ResourceEntity = DatabaseModelInfo.ConstructClassNameForResourceClass(Resource); 
+    string ResourceHistoryEntity = DatabaseModelInfo.ConstructClassNameForResourceHistory(Resource);  
 #>
     public IResourceRepository <#=Resource#>Repository
     {
       get
       {
         if (this._<#=Resource#>Repository == null)
-          this._<#=Resource#>Repository = new <#=Resource#>Repository(_context);
+          this._<#=Resource#>Repository = new <#=Resource#>Repository<<#=ResourceEntity#>, <#=ResourceHistoryEntity#>>(_context);
         return _<#=Resource#>Repository;
       }
     }
