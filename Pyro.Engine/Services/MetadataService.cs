@@ -126,7 +126,7 @@ namespace Pyro.Engine.Services
       ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
       ServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
-            
+
       var DtoResource = new Common.BusinessEntities.Dto.DtoResource();
       DtoResource.FhirId = Conformance.Id;
       DtoResource.IsCurrent = true;
@@ -209,18 +209,15 @@ namespace Pyro.Engine.Services
           ResourceRow.AppendChild(Col2);
           StringBuilder sb = new StringBuilder();
           foreach (Conformance.ResourceInteractionComponent Interaction in Resource.Interaction)
-          {            
+          {
             sb.Append(Interaction.Code);
             sb.Append(", ");
-          }          
-          Col2.AppendChild(XDoc.CreateTextNode(sb.ToString().Substring(0, sb.ToString().Count() - 2)));         
+          }
+          Col2.AppendChild(XDoc.CreateTextNode(sb.ToString().Substring(0, sb.ToString().Count() - 2)));
         }
 
       }
 
-      var XPara = XDoc.CreateElement("p");
-      Xroot.AppendChild(XPara);
-      XPara.AppendChild(XDoc.CreateTextNode("this is the my text"));
 
       Conformance.Text = new Narrative();
       Conformance.Text.Div = XDoc.OuterXml;
