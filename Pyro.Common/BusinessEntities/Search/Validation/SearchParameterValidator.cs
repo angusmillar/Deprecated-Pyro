@@ -53,7 +53,10 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
 
               if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter))
               {
-                _SearchParametersValidationOperationOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
+                if (!IsPageingParameter(oSearchParameter))
+                {                
+                  _SearchParametersValidationOperationOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
+                }
               }
             }
             else
@@ -74,7 +77,7 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
         }
       }
 
-
+      
       if (SearchParameterGeneric.Sort != null)
       {
         _SearchParametersValidationOperationOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
@@ -90,6 +93,20 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
           }
         }
       }
+    }
+
+    private static bool IsPageingParameter(DtoSearchParameterBase oSearchParameter)
+    {
+      if (oSearchParameter.Name == FhirSearchEnum.SearchParameterNameType.page)
+      {
+        if (oSearchParameter is DtoSearchParameterNumber)
+        {
+          DtoSearchParameterNumber PageSearchParameter = oSearchParameter as DtoSearchParameterNumber;
+          _SearchParametersValidationOperationOutcome.SearchParameters.RequiredPageNumber = Convert.ToInt32(PageSearchParameter.ValueList[0].Value);
+          return true;
+        }
+      }
+      return false;      
     }
 
     private static bool ValidateSearchParameterSupported(DtoSupportedSearchParameters oSupported, DtoSearchParameterBase oInboundSearchParameter)

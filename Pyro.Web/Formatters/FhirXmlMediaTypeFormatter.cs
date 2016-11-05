@@ -17,16 +17,16 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Web.Formatters
 {
-  public class FhirXmlMediaTypeFormatter: FhirMediaTypeFormatter
+  public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter
   {
 
     public FhirXmlMediaTypeFormatter()
-      :base()
+      : base()
     {
       // Add the supported media type for Fhir XML i.e '"application/xml+fhir"
       foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
         SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
-      
+
     }
 
 
@@ -47,7 +47,6 @@ namespace Pyro.Web.Formatters
 
           if (typeof(Resource).IsAssignableFrom(type))
           {
-            //Resource resource = Hl7.Fhir.Serialization.FhirParser.ParseResourceFromXml(body);
             FhirXmlParser FhirXmlParser = new FhirXmlParser();
             Resource resource = FhirXmlParser.Parse<Resource>(body);
             return resource;
@@ -62,8 +61,8 @@ namespace Pyro.Web.Formatters
             oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
             var oOperationOutcome = new OperationOutcome();
             oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);        
-          }            
+            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+          }
         }
         catch (FormatException Exec)
         {

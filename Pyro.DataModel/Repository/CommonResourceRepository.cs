@@ -39,6 +39,7 @@ namespace Pyro.DataModel.Repository
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
       DatabaseOperationOutcome.PagesTotal = PaginationSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
@@ -152,11 +153,14 @@ namespace Pyro.DataModel.Repository
       var ResourceHistoryEntity = new ResourceHistoryType();
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      //ResourceEntity.Res_Patient_History_List.Add(ResourceHistoryEntity);
+      this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);      
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, Resource, FhirRequestUri);
-      return UpdateEntity(ResourceEntity);
+      this.Save();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = true;
+      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, true));
+      return DatabaseOperationOutcome;      
     }
     
     // --- Abstract Methods -------------------------------------------------------------

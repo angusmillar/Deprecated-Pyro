@@ -205,7 +205,7 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
 
-      FhirBundle.Total = this.DatabaseOperationOutcome.ReturnedResourceList.Count;
+      FhirBundle.Total = this.DatabaseOperationOutcome.SearchTotal;
 
       //Paging           
       int LastPageNumber = PagingSupport.GetLastPageNumber(this.DatabaseOperationOutcome.PagesTotal);
