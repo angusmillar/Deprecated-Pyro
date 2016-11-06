@@ -75,7 +75,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="BusinessEntities\Dto\DtoBlazeException.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoPyroException.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDataBaseExceptionInfomation.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
@@ -122,6 +122,7 @@
       <DependentUpon>_SearchParameterEnumGeneration.txt4</DependentUpon>
     </Compile>
     <Compile Include="Enum\RestEnum.cs" />
+    <Compile Include="Enum\ServiceEnums.cs" />
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
     <Compile Include="Interfaces\Dto\IDtoSearchParameterDbInfo.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
@@ -135,7 +136,7 @@
     <Compile Include="Interfaces\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Services\IBaseServices.cs" />
-    <Compile Include="Interfaces\Services\IBlazeServiceRequest.cs" />
+    <Compile Include="Interfaces\Services\IServiceRequest.cs" />
     <Compile Include="Interfaces\Services\ICommonServices.cs" />
     <Compile Include="Interfaces\Services\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Services\IFhirServiceNegotiator.cs" />

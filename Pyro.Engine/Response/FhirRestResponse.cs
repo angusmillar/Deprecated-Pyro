@@ -24,7 +24,13 @@ namespace Pyro.Engine.Response
       {
         if (Resource != null)
         {
-          return Request.CreateResponse(HttpStatusCode, Resource);
+          HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
+          if (oPyroServiceOperationOutcome.LastModified != null)
+          {
+            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
+            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oPyroServiceOperationOutcome.ResourceVersionNumber + "\"");
+          }
+          return Response;          
         }
         else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
         {

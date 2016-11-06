@@ -35,51 +35,83 @@ namespace Pyro.Engine.Services
       }
     }
 
-    //GET Search
-    // GET: URL//FhirApi/Patient?family=Smith&given=John
-    public virtual IServiceOperationOutcome Get(IPyroServiceRequest PyroServiceRequest)
+    //GET    
+    public virtual IServiceOperationOutcome Get(IServiceRequest PyroServiceRequest)
     {
       IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = SearchParameterValidator.Validate(_CurrentResourceType, new Common.BusinessEntities.Search.DtoSearchParameterGeneric(PyroServiceRequest.SearchParams));
-      if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
+      oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
+
+      switch (PyroServiceRequest.ServiceRequestType)
       {
-        oPyroServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;
-        return oPyroServiceOperationOutcome;
-      }
-      oSearchParametersValidationOperationOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
-      oPyroServiceOperationOutcome.OperationType = Pyro.Common.Enum.RestEnum.CrudOperationType.Read;
-      oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-      oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-      //oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
-      oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
-      return oPyroServiceOperationOutcome;
-
-
+        case ServiceEnums.ServiceRequestType.History:
+          {
+            if (string.IsNullOrWhiteSpace(PyroServiceRequest.VersionId))
+            {
+              // GET All history for Id
+              // GET URL/FhirApi/Patient/5/_history
+              //Read all history
+              oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(PyroServiceRequest.ResourceId, PyroServiceRequest.VersionId);
+              return oPyroServiceOperationOutcome;
+            }
+            else
+            {
+              // GET by FhirId and FhirVId
+              // GET URL/FhirApi/Patient/5/_history/2    
+              oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(PyroServiceRequest.ResourceId, PyroServiceRequest.VersionId);
+              return oPyroServiceOperationOutcome;
+            }
+          }
+        case ServiceEnums.ServiceRequestType.Read:
+          {
+            // GET by FhirId
+            // GET URL/FhirApi/Patient/5    
+            oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId, true);
+            return oPyroServiceOperationOutcome;
+          }
+        case ServiceEnums.ServiceRequestType.Search:
+          {
+            // GET by Search
+            // GET: URL//FhirApi/Patient?family=Smith&given=John
+            SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = SearchParameterValidator.Validate(_CurrentResourceType, new Common.BusinessEntities.Search.DtoSearchParameterGeneric(PyroServiceRequest.SearchParams));
+            if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
+            {
+              oPyroServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;
+              return oPyroServiceOperationOutcome;
+            }
+            oSearchParametersValidationOperationOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
+            oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
+            oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
+            oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(oSearchParametersValidationOperationOutcome.SearchParameters);
+            return oPyroServiceOperationOutcome;
+          }
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(PyroServiceRequest.ServiceRequestType.ToString(), (int)PyroServiceRequest.ServiceRequestType, typeof(ServiceEnums.ServiceRequestType));          
+      }      
     }
 
-    // GET by FhirId and FhirVId
-    // GET URL/FhirApi/Patient/5    
-    public virtual IServiceOperationOutcome Get(string FhirId, string FhirVId)
-    {
-      IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
-      oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(FhirId, FhirVId);
-      return oPyroServiceOperationOutcome;
-    }
+    //// GET by FhirId and FhirVId
+    //// GET URL/FhirApi/Patient/5/_history/2    
+    //public virtual IServiceOperationOutcome Get(string FhirId, string FhirVId)
+    //{
+    //  IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+    //  oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
+    //  oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(FhirId, FhirVId);
+    //  return oPyroServiceOperationOutcome;
+    //}
 
-    // GET by FhirId
-    // GET URL/FhirApi/Patient/5    
-    public virtual IServiceOperationOutcome Get(string FhirId)
-    {
-      IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
-      oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
-      return oPyroServiceOperationOutcome;
-    }
+    //// GET by FhirId
+    //// GET URL/FhirApi/Patient/5    
+    //public virtual IServiceOperationOutcome Get(string FhirId)
+    //{
+    //  IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+    //  oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
+    //  oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(FhirId, true);
+    //  return oPyroServiceOperationOutcome;
+    //}
 
     // Add
     // POST: URL/FhirApi/Patient
-    public virtual IServiceOperationOutcome Post(IPyroServiceRequest PyroServiceRequest)
+    public virtual IServiceOperationOutcome Post(IServiceRequest PyroServiceRequest)
     {
       IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
@@ -125,7 +157,7 @@ namespace Pyro.Engine.Services
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    public virtual IServiceOperationOutcome Put(IPyroServiceRequest PyroServiceRequest)
+    public virtual IServiceOperationOutcome Put(IServiceRequest PyroServiceRequest)
     {
       IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;

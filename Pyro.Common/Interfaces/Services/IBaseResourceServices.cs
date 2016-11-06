@@ -15,23 +15,26 @@ namespace Pyro.Common.Interfaces.Services
 
     // Get By id
     // GET URL/FhirApi/Patient/5    
-    IServiceOperationOutcome Get(string FhirId);
+    //IServiceOperationOutcome Get(string FhirId);
 
     // Get By id and vid
     // GET URL/FhirApi/Patient/5/_history/2    
-    IServiceOperationOutcome Get(string FhirId, string FhirVId);
+    //IServiceOperationOutcome Get(string FhirId, string FhirVId);
 
     //Search
+    // GET: URL/FhirApi/Patient/5    
     // GET: URL//FhirApi/Patient&family=Smith&given=John
-    IServiceOperationOutcome Get(IPyroServiceRequest PyroServiceRequest);
+    // GET: URL/FhirApi/Patient/5/_history    
+    // GET: URL/FhirApi/Patient/5/_history/2    
+    IServiceOperationOutcome Get(IServiceRequest PyroServiceRequest);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IServiceOperationOutcome Post(IPyroServiceRequest PyroServiceRequest);
+    IServiceOperationOutcome Post(IServiceRequest PyroServiceRequest);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IServiceOperationOutcome Put(IPyroServiceRequest PyroServiceRequest);
+    IServiceOperationOutcome Put(IServiceRequest PyroServiceRequest);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    

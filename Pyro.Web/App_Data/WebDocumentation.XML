@@ -511,13 +511,13 @@
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Get(System.String,System.String,System.String)">
             <summary>
-            Get a Resource's history instance by version number (This is known as a vread in FHIR).
+            Get a Resource's entire history or an given history instance for the Resource by its version id (vid)
             For example: 
             http://SomeServer.net/fhirapi/Patient/123456/_history/5
             </summary>
             <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
             <param name="id">The FHIR Resource's id</param>
-            <param name="vid">The version number being requested</param>
+            <param name="vid">The version id if requesting a single version instance</param>
             <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or status code 400 (Not found) </returns>
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Post(System.String,Hl7.Fhir.Model.Resource)">
