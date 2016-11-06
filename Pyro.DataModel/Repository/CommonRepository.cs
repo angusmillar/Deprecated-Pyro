@@ -34,6 +34,8 @@ namespace Pyro.DataModel.Repository
     {
       var Search = new ResourceSearch<T>();
       var MainPredicate = LinqKit.PredicateBuilder.New<T>(true);
+      MainPredicate = MainPredicate.And(x => x.IsDeleted == false);
+
       ExpressionStarter<T> NewPredicate = null;
 
 
