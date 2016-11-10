@@ -30,7 +30,7 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
-  public class DtoSupportedSearchParametersFactory
+  public partial class DtoSupportedSearchParametersFactory
   {
     public static List<DtoSupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRAllTypes ResourceType)
     {

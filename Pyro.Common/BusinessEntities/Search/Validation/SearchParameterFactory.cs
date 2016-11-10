@@ -10,17 +10,15 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
   public static class SearchParameterFactory
   {
     private static readonly char _ParameterNameParameterValueDilimeter = '=';
-    private static readonly char _ParameterNameModifierDilimeter = ':';
-    private static string _CurrentResourceName = string.Empty;
+    private static readonly char _ParameterNameModifierDilimeter = ':';    
     private static string _RawSearchParameterAndValueString = string.Empty;
 
     public static DtoSearchParameterBase CreateSearchParameter(DtoSupportedSearchParameters DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
-    {      
+    {
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.DbSearchParameterType);
 
       string ParameterName = Parameter.Item1;
-      string ParameterValue = Parameter.Item2;
-      _CurrentResourceName = ModelInfo.FhirTypeToFhirTypeName(DtoSupportedSearchParametersResource.Resource);
+      string ParameterValue = Parameter.Item2;      
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
       oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
@@ -55,7 +53,7 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
 
         if (!oSearchParameter.TryParseValue(ParameterValue))
         {
-          oSearchParameter.IsValid = false;          
+          oSearchParameter.IsValid = false;
         }
       }
       return oSearchParameter;
@@ -107,7 +105,7 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
       var SearchModifierTypeDic = FhirSearchEnum.GetSearchModifierTypeDictionary();
       if (SearchModifierTypeDic.ContainsKey(value))
       {
-        SearchParameter.Modifier = SearchModifierTypeDic[value];         
+        SearchParameter.Modifier = SearchModifierTypeDic[value];
         return true;
       }
       else
@@ -118,14 +116,14 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
           char[] delimiters = { '.' };
           TypedResourceName = value.Split(delimiters)[0].Trim();
         }
-        
-        Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);          
+
+        Type ResourceType = ModelInfo.GetTypeForFhirType(TypedResourceName);
         if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-        {            
+        {
           SearchParameter.TypeModifierResource = TypedResourceName;
           SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
           return true;
-        }        
+        }
         return false;
       }
     }

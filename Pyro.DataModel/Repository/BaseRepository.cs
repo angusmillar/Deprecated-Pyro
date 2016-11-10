@@ -18,6 +18,7 @@ namespace Pyro.DataModel.Repository
     internal DataModel.DatabaseModel.DatabaseContext _Context = null;
 
     protected int _NumberOfRecordsPerPage = 10;
+    protected int _MaxNumberOfRecordsPerPage = 10000;
 
     /// <summary>
     /// Save method.

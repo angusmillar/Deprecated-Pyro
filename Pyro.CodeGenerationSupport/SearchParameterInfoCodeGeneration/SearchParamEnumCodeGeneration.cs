@@ -35,16 +35,20 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         }
         //These are search parameters used by all resources, should re-factor this 
+        //Base Resource Parameters
         AddSearchNameToDictornary("_id");
         AddSearchNameToDictornary("page");
         AddSearchNameToDictornary("_sort");
+        //History Search parameters        
+        AddSearchNameToDictornary("_since");
+        AddSearchNameToDictornary("_at");
       }
 
       ResourceTypeStingAndResourceTypeTupleList = new List<Tuple<string, string>>();
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
-      foreach(ResourceType item in ResourceTypeList)
+      foreach (ResourceType item in ResourceTypeList)
       {
-        Tuple<string, string> NewTurple = new Tuple<string, string>(item.GetLiteral(), item.ToString());        
+        Tuple<string, string> NewTurple = new Tuple<string, string>(item.GetLiteral(), item.ToString());
         ResourceTypeStingAndResourceTypeTupleList.Add(NewTurple);
       }
       //{ "Account", ResourceType.Account},

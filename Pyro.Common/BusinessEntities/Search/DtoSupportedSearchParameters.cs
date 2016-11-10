@@ -7,7 +7,7 @@ namespace Pyro.Common.BusinessEntities.Search
   public class DtoSupportedSearchParameters
   {
     public FhirSearchEnum.SearchParameterNameType Name { get; set; }
-    public FHIRAllTypes Resource { get; set; }
+    public FHIRAllTypes? Resource { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public SearchParamType SearchParameterType { get; set; }
     public bool IsDbCollection { get; set; }

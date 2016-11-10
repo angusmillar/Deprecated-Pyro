@@ -50,7 +50,17 @@ namespace Pyro.Engine.Services
               // GET All history for Id
               // GET URL/FhirApi/Patient/5/_history
               //Read all history
-              oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(PyroServiceRequest.ResourceId, PyroServiceRequest.VersionId);
+              SearchParametersValidationOperationOutcome oSearchParametersValidationOperationOutcome = SearchParameterValidator.ValidateHistoryParameters(new Common.BusinessEntities.Search.DtoSearchParameterGeneric(PyroServiceRequest.SearchParams));
+              if (oSearchParametersValidationOperationOutcome.FhirOperationOutcome != null)
+              {
+                oPyroServiceOperationOutcome.SearchValidationOperationOutcome = oSearchParametersValidationOperationOutcome;
+                return oPyroServiceOperationOutcome;
+              }
+              oSearchParametersValidationOperationOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
+              oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
+              oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
+
+              oPyroServiceOperationOutcome.DatabaseOperationOutcome = _ResourceRepository.GetResourceHistoryByFhirID(PyroServiceRequest.ResourceId, oSearchParametersValidationOperationOutcome.SearchParameters);
               return oPyroServiceOperationOutcome;
             }
             else

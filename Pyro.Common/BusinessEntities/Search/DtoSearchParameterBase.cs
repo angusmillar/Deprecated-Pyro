@@ -12,8 +12,8 @@ namespace Pyro.Common.BusinessEntities.Search
   public abstract class DtoSearchParameterBase
   {
     protected const char OrDelimiter = ',';
-    public FhirSearchEnum.SearchParameterNameType Name { get; set; }    
-    public FHIRAllTypes Resource { get; set; }
+    public FhirSearchEnum.SearchParameterNameType Name { get; set; }
+    public FHIRAllTypes? Resource { get; set; }
     public string RawValue { get; set; }
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public FhirSearchEnum.SearchModifierType Modifier { get; set; }

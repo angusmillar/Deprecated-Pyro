@@ -11,28 +11,26 @@ namespace Pyro.Common.Tools
 
     public static int GetLastPageNumber(int PagesTotal)
     {
-      return PagesTotal + 1;
+      return PagesTotal;
     }
 
     public static int GetNextPageNumber(int PageCurrentlyRequired, int PagesTotal)
     {
       if (PageCurrentlyRequired >= PagesTotal)
-        return PagesTotal + 1;
+        return PagesTotal;
       else
-        return PageCurrentlyRequired + 2;
+        return PageCurrentlyRequired + 1;
     }
 
     public static int GetPreviousPageNumber(int PageCurrentlyRequired)
     {
-      if (PageCurrentlyRequired > 1)
+      if (PageCurrentlyRequired == 1)
       {
-        //Remember that PageCurrentlyRequired is in terms of the db, 
-        //when we showq the users we add one, therefore Previous is just the db number without adding 1
         return PageCurrentlyRequired;
       }
       else
       {
-        return 1;
+        return PageCurrentlyRequired - 1;
       }
     }
 
@@ -45,6 +43,7 @@ namespace Pyro.Common.Tools
         int StartIndexOfPageParameter = RequestUri.Query.LastIndexOf(PageParameterText);
         if (StartIndexOfPageParameter > -1)
         {
+
           StartIndexOfPageParameter = StartIndexOfPageParameter + PageParameterText.Length;
           int EndIndexOfPageNumber = RequestUri.Query.IndexOf('&', StartIndexOfPageParameter, RequestUri.Query.Length - StartIndexOfPageParameter);
           if (EndIndexOfPageNumber < 0)
@@ -57,5 +56,36 @@ namespace Pyro.Common.Tools
       return null;
     }
 
+    public static int CalculatePageRequired(int RequiredPageNumber, int NumberOfRecordsPerPage, int TotalRecordCount)
+    {
+      if (TotalRecordCount == 0 || RequiredPageNumber < 1)
+        return 1;
+
+      int TotalPages = CalculateTotalPages(NumberOfRecordsPerPage, TotalRecordCount);
+      if (RequiredPageNumber >= TotalPages)
+      {
+        return TotalPages;
+      }
+      else
+      {
+        return RequiredPageNumber;
+      }
+    }
+
+    public static int CalculateTotalPages(int NumberOfRecordsPerPage, int TotalRecordCount)
+    {
+      if (TotalRecordCount == 0 || NumberOfRecordsPerPage == 0)
+        return 1;
+
+      int TotalPages = (TotalRecordCount / NumberOfRecordsPerPage);
+      if ((TotalRecordCount % NumberOfRecordsPerPage) == 0)
+      {
+        return TotalPages;
+      }
+      else
+      {
+        return TotalPages + 1;
+      }
+    }
   }
 }

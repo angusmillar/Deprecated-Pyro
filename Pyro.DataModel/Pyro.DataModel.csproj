@@ -97,6 +97,7 @@
     <Compile Include="DatabaseModel\Base\DateIndex.cs" />
     <Compile Include="DatabaseModel\Base\DateTimePeriodIndex.cs" />
     <Compile Include="DatabaseModel\Base\QuantityRangeIndex.cs" />
+    <Compile Include="DatabaseModel\Base\ResourceCurrentIndexBase.cs" />
     <Compile Include="DatabaseModel\Base\ResourceIndexBase.cs" />
     <Compile Include="DatabaseModel\Base\NumberIndex.cs" />
     <Compile Include="DatabaseModel\Base\QuantityIndex.cs" />

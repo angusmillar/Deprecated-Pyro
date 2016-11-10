@@ -106,6 +106,7 @@
     <Compile Include="BusinessEntities\Search\DtoSupportedSearchParametersFactory.cs">
       <DependentUpon>_SearchParameterToDbInfoGeneration.txt4</DependentUpon>
     </Compile>
+    <Compile Include="BusinessEntities\Search\DtoSupportedSearchParametersFactory.Main.cs" />
     <Compile Include="BusinessEntities\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="BusinessEntities\Search\Validation\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Search\Validation\SearchParametersValidationOperationOutcome.cs" />
