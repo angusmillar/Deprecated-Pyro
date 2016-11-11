@@ -24,6 +24,7 @@ namespace Pyro.DataModel.DatabaseModel
       Property(x => x.lastUpdated).IsRequired();
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.Method).IsRequired();
       Property(x => x.balance_Comparator).IsOptional();
       Property(x => x.balance_Quantity).IsOptional().HasPrecision(28,14);
       Property(x => x.balance_System).IsOptional();

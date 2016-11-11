@@ -189,6 +189,7 @@ namespace Pyro.CodeGenerationSupport.DbEntityCodeGeneration
       FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.lastUpdated));
       FluentPathList.Add(string.Format("Property(x => x.{0}).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.versionId));
       FluentPathList.Add(string.Format("Property(x => x.XmlBlob).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.XmlBlob));
+      FluentPathList.Add(string.Format("Property(x => x.Method).IsRequired();", StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.BaseResourceIndexConstatnts.XmlBlob));      
       foreach (var NonCollectionItem in NonCollectionParameters)
       {
         string FormatedPrefix = DatabaseModelInfo.ContructSearchParameterName(NonCollectionItem.SearchName) + '_';
@@ -213,6 +214,7 @@ namespace Pyro.CodeGenerationSupport.DbEntityCodeGeneration
       FluentPathList.Add("Property(x => x.lastUpdated).IsRequired();");
       FluentPathList.Add("Property(x => x.versionId).IsRequired();");
       FluentPathList.Add("Property(x => x.XmlBlob).IsRequired();");
+      FluentPathList.Add("Property(x => x.Method).IsRequired();");
       FluentPathList.Add(String.Format("HasRequired(x => x.{0}).WithMany(x => x.{1}_List).WillCascadeOnDelete(false);", ClassNameResource, ClassNameResourceHistory));
     }
 

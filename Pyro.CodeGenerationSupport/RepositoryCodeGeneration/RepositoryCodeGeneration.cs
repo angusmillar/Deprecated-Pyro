@@ -76,9 +76,9 @@ namespace Pyro.CodeGenerationSupport.RepositoryCodeGeneration
           RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(NonColectionIndexEntity);
 
         }
-        var XmlBlobNonColectionIndexEntity = new NonCollectionIndexEntity();
-        XmlBlobNonColectionIndexEntity.PropertyNameList.Add(StaticDatabaseInfo.XmlBlobPropertyText);
-        RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(XmlBlobNonColectionIndexEntity);
+        //var XmlBlobNonColectionIndexEntity = new NonCollectionIndexEntity();
+        //XmlBlobNonColectionIndexEntity.PropertyNameList.Add(StaticDatabaseInfo.XmlBlobPropertyText);
+        //RepositoryItem.ResourceEntityNonCollectionPropertiesInfoList.Add(XmlBlobNonColectionIndexEntity);
 
         //Below 'if' is for debug only
         if (ResourceName != "")

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pyro.DataModel.DatabaseModel;
+using Hl7.Fhir.Model;
 
 namespace Pyro.DataModel.DatabaseModel.Base
 {
@@ -12,7 +8,8 @@ namespace Pyro.DataModel.DatabaseModel.Base
     public string FhirId { get; set; }
     public bool IsDeleted { get; set; }
     public string versionId { get; set; }
-    public DateTimeOffset lastUpdated { get; set; }    
+    public DateTimeOffset lastUpdated { get; set; }
     public string XmlBlob { get; set; }
+    public Bundle.HTTPVerb Method {get; set;}
   }
 }

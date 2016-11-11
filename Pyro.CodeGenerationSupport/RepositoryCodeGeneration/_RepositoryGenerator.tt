@@ -46,7 +46,7 @@ namespace Pyro.DataModel.Repository
     where ResourceType : <#=item.ResourceEntityName#>, new() 
     where ResourceHistoryType :<#=item.ResourceHistoryEntityName#>, new()
   {
-    public <#=item.RepositoryClassName#>(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
+    public <#=item.RepositoryClassName#>(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { this.RepositoryResourceType = FHIRAllTypes.<#=item.ResourceName#>; }
 
     protected override void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
     {
@@ -57,7 +57,7 @@ namespace Pyro.DataModel.Repository
         .ToList();
 
       if (HistoryEntityList != null)
-        HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, false)));      
+        HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType, false)));
     }
 
     protected override int GetResourceHistoryEntityCount(LinqKit.ExpressionStarter<ResourceType> Predicate)
@@ -113,7 +113,6 @@ namespace Pyro.DataModel.Repository
     {
       var ResourceTyped = Resource as <#=item.ResourceName#>;
       var ResourseEntity = ResourceEntity as ResourceType;
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(ResourceTyped, ResourseEntity, ResourceVersion, false);
 
     <#=item.EntitySetterLogic#>
       

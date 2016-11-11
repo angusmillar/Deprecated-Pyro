@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hl7.Fhir.Model;
 
 
 namespace Pyro.Common.BusinessEntities.Dto
@@ -14,6 +11,8 @@ namespace Pyro.Common.BusinessEntities.Dto
     public string Version { get; set; }
     public bool IsCurrent { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }    
+    public DateTimeOffset Received { get; set; }
+    public Bundle.HTTPVerb Method { get; set; }
+    public FHIRAllTypes? ResourceType { get; set; }
   }
 }

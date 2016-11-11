@@ -12,6 +12,10 @@ namespace Pyro.DataModel.Search
   {
     public static IQueryable<T> Paging<T>(this IQueryable<T> query, int PagRequested, int NumberOfRecordsPerPage)
     {
+      if (PagRequested > 0)
+      {
+        PagRequested = PagRequested - 1;
+      }
       return query.Skip(PagRequested * NumberOfRecordsPerPage).Take(NumberOfRecordsPerPage);
     }
 

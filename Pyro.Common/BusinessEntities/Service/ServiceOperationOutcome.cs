@@ -217,31 +217,57 @@ namespace Pyro.Common.BusinessEntities.Service
       foreach (DtoResource DtoResource in this.DatabaseOperationOutcome.ReturnedResourceList)
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
-        try
+        if (DtoResource.IsDeleted == false)
         {
-          Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-          Resource oResource = FhirXmlParser.Parse<Resource>(DtoResource.Xml);
-          oResEntry.Resource = oResource;
-          var FullUrlUriBuilder = new UriBuilder(this.ServiceRootUri);
-          if (DtoResource.IsCurrent)
+          try
           {
-            FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId);            
+            Hl7.Fhir.Serialization.FhirXmlParser FhirXmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
+            Resource oResource = FhirXmlParser.Parse<Resource>(DtoResource.Xml);
+            oResEntry.Resource = oResource;
+            var FullUrlUriBuilder = new UriBuilder(this.ServiceRootUri);
+            if (DtoResource.IsCurrent)
+            {
+              FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId);
+            }
+            else
+            {
+              FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId, "_history", DtoResource.Version);
+            }
+            oResEntry.FullUrl = FullUrlUriBuilder.ToString();
           }
-          else
+          catch (Exception oExec)
           {
-            FullUrlUriBuilder.Path = string.Join("/", oResource.TypeName, DtoResource.FhirId, "_history", DtoResource.Version);
+            var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+            OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+            OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
+            OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
+            var OpOutcome = new OperationOutcome();
+            OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
+            throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
           }
-          oResEntry.FullUrl = FullUrlUriBuilder.ToString();
         }
-        catch (Exception oExec)
+
+        if (DtoResource.ResourceType.HasValue && DtoResource.ResourceType.HasValue)
         {
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-          OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
-          var OpOutcome = new OperationOutcome();
-          OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-          throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
+          oResEntry.Request = new Bundle.RequestComponent();
+          oResEntry.Request.Method = DtoResource.Method;
+          switch (DtoResource.Method)
+          {
+            case Bundle.HTTPVerb.GET:
+              oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+              break;
+            case Bundle.HTTPVerb.POST:
+              oResEntry.Request.Url = ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value);
+              break;
+            case Bundle.HTTPVerb.PUT:
+              oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+              break;
+            case Bundle.HTTPVerb.DELETE:
+              oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+              break;
+            default:
+              throw new System.ComponentModel.InvalidEnumArgumentException(DtoResource.Method.ToString(), (int)DtoResource.Method, typeof(Bundle.HTTPVerb));
+          }
         }
         oResEntry.Search = new Bundle.SearchComponent();
         oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;

@@ -17,27 +17,26 @@ namespace Pyro.DataModel.Support
   public static class IndexSettingSupport
   {
 
-    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, bool IsDeleted)
+    private static void SetResourceBase(Resource Resource, ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
     {
+      ResourceIndexBase.IsDeleted = IsDeleted;
+      ResourceIndexBase.versionId = Version;
+      ResourceIndexBase.Method = Method;
       if (!IsDeleted)
       {
         ResourceIndexBase.FhirId = Resource.Id;
-        ResourceIndexBase.IsDeleted = IsDeleted;
         ResourceIndexBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
-        ResourceIndexBase.lastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
-        ResourceIndexBase.versionId = Version;
+        ResourceIndexBase.lastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;        
       }
       else
       {
         ResourceIndexBase.FhirId = FhirResourceId;
-        ResourceIndexBase.IsDeleted = IsDeleted;
         ResourceIndexBase.XmlBlob = "";
-        ResourceIndexBase.lastUpdated = DateTimeOffset.Now;
-        ResourceIndexBase.versionId = Version;
+        ResourceIndexBase.lastUpdated = DateTimeOffset.Now;        
       }
     }
 
-    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase, bool IsCurrent)
+    public static DtoResource SetDtoResource(DatabaseModel.Base.ResourceIndexBase ResourceIndexBase, FHIRAllTypes ResourceType, bool IsCurrent)
     {
       var DtoResource = new DtoResource();
       DtoResource.FhirId = ResourceIndexBase.FhirId;
@@ -46,17 +45,29 @@ namespace Pyro.DataModel.Support
       DtoResource.Received = ResourceIndexBase.lastUpdated;
       DtoResource.Version = ResourceIndexBase.versionId;
       DtoResource.Xml = ResourceIndexBase.XmlBlob;
+      DtoResource.Method = ResourceIndexBase.Method;
+      DtoResource.ResourceType = ResourceType;
       return DtoResource;
     }
 
-    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version)
+    public static void SetResourceBaseAsDelete(ResourceIndexBase ResourceIndexBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method)
     {
-      SetResourceBase(null, ResourceIndexBase, FhirResourceId, Version, true);
+      SetResourceBase(null, ResourceIndexBase, FhirResourceId, Version, true, Method);
     }
 
-    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, string Version, bool IsDeleted)
+    public static void SetResourceBaseAddOrUpdate(Resource Resource, ResourceIndexBase ResourceIndexBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
     {
-      SetResourceBase(Resource, ResourceIndexBase, null, Version, false);
+      SetResourceBase(Resource, ResourceIndexBase, null, Version, false, Method);
+    }
+
+    public static void ResetResourceEntityBase(ResourceIndexBase ResourceIndexBase)
+    {      
+      ResourceIndexBase.FhirId = null;
+      ResourceIndexBase.IsDeleted = false;
+      ResourceIndexBase.lastUpdated = DateTimeOffset.MinValue;
+      ResourceIndexBase.Method = Bundle.HTTPVerb.GET;
+      ResourceIndexBase.versionId = "Reset";
+      ResourceIndexBase.XmlBlob = null;      
     }
 
     public static void SetHistoryResourceEntity(DatabaseModel.Base.ResourceIndexBase ResourceEntity, DatabaseModel.Base.ResourceIndexBase HistoryResourceEntity)
@@ -66,6 +77,7 @@ namespace Pyro.DataModel.Support
       HistoryResourceEntity.XmlBlob = ResourceEntity.XmlBlob;
       HistoryResourceEntity.lastUpdated = ResourceEntity.lastUpdated;
       HistoryResourceEntity.versionId = ResourceEntity.versionId;
+      HistoryResourceEntity.Method = ResourceEntity.Method;
     }
 
   }
