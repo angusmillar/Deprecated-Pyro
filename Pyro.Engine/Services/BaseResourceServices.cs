@@ -171,6 +171,7 @@ namespace Pyro.Engine.Services
     {
       IServiceOperationOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
+      oPyroServiceOperationOutcome.ServiceRootUri = new Uri(PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore.RootUrl);
       if (string.IsNullOrWhiteSpace(PyroServiceRequest.Resource.Id) || PyroServiceRequest.Resource.Id != PyroServiceRequest.ResourceId)
       {
         var oIssueComponent = new OperationOutcome.IssueComponent();

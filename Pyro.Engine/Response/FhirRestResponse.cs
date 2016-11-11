@@ -22,7 +22,7 @@ namespace Pyro.Engine.Response
       //OK: 200
       if (HttpStatusCode == HttpStatusCode.OK)
       {
-        if (Resource != null)
+        if (Resource != null && oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Read)
         {
           HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
           if (oPyroServiceOperationOutcome.LastModified != null)
@@ -30,11 +30,16 @@ namespace Pyro.Engine.Response
             Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
             Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oPyroServiceOperationOutcome.ResourceVersionNumber + "\"");
           }
-          return Response;          
+          return Response;
         }
         else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
         {
-          return Request.CreateResponse(HttpStatusCode, Resource);
+          HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
+          string BaseURLPath = String.Format("{0}://{1}{2}", Request.RequestUri.Scheme, Request.RequestUri.Authority, Request.RequestUri.LocalPath);
+          BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
+          Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, oPyroServiceOperationOutcome.FhirResourceId));
+          return Response;
+
         }
         else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Delete && oPyroServiceOperationOutcome.ResourceVersionNumber != null)
         {
