@@ -11,6 +11,7 @@ using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.Dto;
 using Pyro.DataModel.Search;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Introspection;
@@ -137,9 +138,7 @@ namespace Pyro.DataModel.Repository
     public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-
       DatabaseOperationOutcome.SingleResourceRead = false;
-
       int TotalRecordCount = 0;
 
       if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
@@ -154,43 +153,33 @@ namespace Pyro.DataModel.Repository
         }
       }
 
-      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+      var DtoResourceList = new List<DtoResource>();
 
-      var Predicate = LinqKit.PredicateBuilder.New<Res_Patient>(true);
+      var Predicate = LinqKit.PredicateBuilder.New<ResourceType>(true);
       Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
-      Res_Patient Res = DbGet<Res_Patient>(Predicate);
-     
-      if (Res != null)
+      ResourceType CurrentResourceEntity = DbGet<ResourceType>(Predicate);
+
+      if (CurrentResourceEntity != null)
       {
         TotalRecordCount++;
         //If page one required then add the current record to the return list as first.
-        if (DtoSearchParameters.RequiredPageNumber == 1)
+        if (DtoSearchParameters.RequiredPageNumber <= 1)
         {
           _NumberOfRecordsPerPage--;
-          DtoResourceList.Add(IndexSettingSupport.SetDtoResource(Res, true));
+          DtoResourceList.Add(IndexSettingSupport.SetDtoResource(CurrentResourceEntity, true));
         }
       }
 
-
-      TotalRecordCount = TotalRecordCount + DbGetAll<Res_Patient>(Predicate).SelectMany(y => y.Res_Patient_History_List).Count();
+      TotalRecordCount = TotalRecordCount + GetResourceHistoryEntityCount(Predicate);
 
       int StartRecord = 0;
-      int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);      
+      int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
       if (DtoSearchParameters.RequiredPageNumber > PagesTotal)
         StartRecord = (_NumberOfRecordsPerPage * (PagesTotal - 1)) - 1;
       else if (DtoSearchParameters.RequiredPageNumber > 1)
         StartRecord = (_NumberOfRecordsPerPage * (DtoSearchParameters.RequiredPageNumber - 1)) - 1;
 
-      List<Res_Patient_History> HistoryResourceList = DbGetAll<Res_Patient>(Predicate).SelectMany(y => y.Res_Patient_History_List)
-        .OrderByDescending(x => x.lastUpdated)
-        .Skip(StartRecord)
-        .Take(_NumberOfRecordsPerPage)
-        .ToList();
-
-      
-
-      HistoryResourceList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, false)));
-
+      GetResourceHistoryEntityList(Predicate, StartRecord, DtoResourceList);
 
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
@@ -199,6 +188,8 @@ namespace Pyro.DataModel.Repository
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
+
+
 
     public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
     {
@@ -219,7 +210,7 @@ namespace Pyro.DataModel.Repository
       var ResourceHistoryEntity = new ResourceHistoryType();
       var ResourceEntity = LoadCurrentResourceEntity(Resource.Id);
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      
+
       this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
       this.ResetResourceEntity(ResourceEntity);
       this.PopulateResourceEntity(ResourceEntity, ResourceVersion, Resource, FhirRequestUri);
@@ -231,6 +222,10 @@ namespace Pyro.DataModel.Repository
     }
 
     // --- Abstract Methods -------------------------------------------------------------
+    protected abstract void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceType> Predicate, int StartRecord, List<DtoResource> DtoResourceList);
+
+    protected abstract int GetResourceHistoryEntityCount(LinqKit.ExpressionStarter<ResourceType> Predicate);
+
     protected abstract void AddResourceHistoryEntityToResourceEntity(ResourceType ResourceEntity, ResourceHistoryType ResourceHistoryEntity);
 
     protected abstract void ResetResourceEntity(ResourceType resourceEntity);
