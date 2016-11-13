@@ -35,15 +35,7 @@ namespace Pyro.Engine.Support
           {
             oResEntry.Resource = FhirResourceSerializationSupport.Serialize(DtoResource.Xml);
             var FullUrlUriBuilder = new UriBuilder(FhirRequestUri.FhirUri.ServiceRootUrl);
-
-            if (DtoResource.IsCurrent)
-            {
-              FullUrlUriBuilder.Path = string.Join("/", oResEntry.Resource.TypeName, DtoResource.FhirId);
-            }
-            else
-            {
-              FullUrlUriBuilder.Path = string.Join("/", oResEntry.Resource.TypeName, DtoResource.FhirId, "_history", DtoResource.Version);
-            }
+            FullUrlUriBuilder.Path = string.Join("/", oResEntry.Resource.TypeName, DtoResource.FhirId);
             oResEntry.FullUrl = FullUrlUriBuilder.ToString();
           }
           catch (Exception oExec)
@@ -82,10 +74,12 @@ namespace Pyro.Engine.Support
             }
           }
         }
-
-        oResEntry.Search = new Bundle.SearchComponent();
-        oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
-        oResEntry.Link = new List<Bundle.LinkComponent>();
+        if (BundleType == Bundle.BundleType.Searchset)
+        {
+          oResEntry.Search = new Bundle.SearchComponent();
+          oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
+          oResEntry.Link = new List<Bundle.LinkComponent>();
+        }
 
         FhirBundle.Entry.Add(oResEntry);
       }
