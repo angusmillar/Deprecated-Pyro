@@ -34,7 +34,7 @@ namespace Pyro.Common.Tools
     }
 
     private bool Parse(string FhirDateTime)
-    {
+    {      
       if (string.IsNullOrWhiteSpace(FhirDateTime))
         throw new NullReferenceException("Fhir DateTime cannot be null of empty string.");
 
@@ -72,6 +72,17 @@ namespace Pyro.Common.Tools
       else if (FhirDateTime.Length == 25)
       {
         var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:sszzz", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Sec;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      else if (FhirDateTime.Length == 24)
+      {
+        //1974-12-25T14:35:45.123Z
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFFK", true);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Sec;
@@ -118,6 +129,18 @@ namespace Pyro.Common.Tools
           this.Value = Result.Value;
           return true;
         }        
+      }
+      else if (FhirDateTime.Length == 20)
+      {
+        
+        //1974-12-25T14:35:45Z
+        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ssK", true);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Sec;
+          this.Value = Result.Value;
+          return true;
+        }
       }
       else if (FhirDateTime.Length == 19)
       {
@@ -176,7 +199,8 @@ namespace Pyro.Common.Tools
     private DateTimeOffset? ConvertToDateTimeOffSet(string Value, string Format, bool HasTimeZone)
     {
       DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
-      if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
+      if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, 
+                                       System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
       {        
         return TempDateTimeOffset;
       }
