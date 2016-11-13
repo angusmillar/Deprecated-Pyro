@@ -111,7 +111,6 @@
     <Compile Include="BusinessEntities\Search\Validation\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Search\Validation\SearchParametersValidationOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Search\Validation\SearchParameterValidator.cs" />
-    <Compile Include="BusinessEntities\Search\Validation\SearchPlanValidationOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Service\ServiceOperationOutcome.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoFhirRequestUri.cs" />
@@ -144,7 +143,6 @@
     <Compile Include="Interfaces\Services\IPatientResourceServices.cs" />
     <Compile Include="Interfaces\Services\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\IResourceValidationOperationOutcome.cs" />
-    <Compile Include="Interfaces\ISearchPlanValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\ISearchParametersValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

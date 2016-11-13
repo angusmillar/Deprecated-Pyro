@@ -19,7 +19,7 @@ namespace Pyro.Engine.Services
       string ServerName = "Pyro Server";
 
       var Conformance = new Conformance();
-      Conformance.Id = "PyroConformance";
+      Conformance.Id = "metadata";
       Conformance.Url = IDtoRootUrlStore.RootUrl.ToString() + @"/metadata";
       Conformance.Version = ApplicationVersion;
       Conformance.Name = ServerName;
@@ -120,21 +120,15 @@ namespace Pyro.Engine.Services
       ConstructConformanceResourceNarrative(Conformance);
 
       Common.Interfaces.Services.IServiceOperationOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      ServiceOperationOutcome.DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      Common.Interfaces.IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
       ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
-      ServiceOperationOutcome.DatabaseOperationOutcome.SingleResourceRead = true;
-
-      var DtoResource = new Common.BusinessEntities.Dto.DtoResource();
-      DtoResource.FhirId = Conformance.Id;
-      DtoResource.IsCurrent = true;
-      DtoResource.IsDeleted = false;
-      DtoResource.Version = Conformance.Version;
-      DtoResource.Xml = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Conformance);
-      DtoResource.Received = DateTimeOffset.Parse(ApplicationReleaseDate);
-      ServiceOperationOutcome.DatabaseOperationOutcome.ReturnedResourceList.Add(DtoResource);
+      ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+      ServiceOperationOutcome.IsDeleted = false;
+      ServiceOperationOutcome.RequestUri = null;            
+      ServiceOperationOutcome.ResourceResult = Conformance;      
       return ServiceOperationOutcome;
     }
 

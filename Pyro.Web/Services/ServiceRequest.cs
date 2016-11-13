@@ -20,13 +20,13 @@ namespace Pyro.Web.Services
     public IDtoFhirRequestUri FhirRequestUri { get; set; }
     public SearchParams SearchParams { get; set; }
 
-    public ServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string ResourceId)
+    public ServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string ResourceId, IDtoFhirRequestUri DtoFhirRequestUri)
     {
       this.ServiceRequestType = ServiceRequestType;
       this.ResourceId = ResourceId;
       this.VersionId = string.Empty;
       this.Resource = null;
-      this.FhirRequestUri = null;
+      this.FhirRequestUri = DtoFhirRequestUri;
       this.SearchParams = null;
     }
 

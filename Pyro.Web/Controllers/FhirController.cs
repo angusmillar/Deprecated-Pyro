@@ -36,11 +36,11 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Metadata()
     {
       ICommonServices oService = _FhirServiceNegotiator.GetService();
-      Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();            
+      Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();
       var MetadataService = new Pyro.Engine.Services.MetadataService();
       string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Web.WebApiApplication).Assembly.Location).ProductVersion;
       IServiceOperationOutcome oPyroServiceOperationOutcome = MetadataService.GetServersConformanceResource(RootUrl, ApplicationVersion);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);      
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
 
@@ -58,9 +58,10 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Get(string ResourceName, string id)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Read, id);
+      IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Read, id, FhirRequestUri);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
     //Search
@@ -79,7 +80,7 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, Request.GetSearchParams());
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
     // Get By id and _history vid
@@ -92,16 +93,16 @@ namespace Pyro.Web.Controllers
     /// </summary>
     /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
     /// <param name="id">The FHIR Resource's id</param>
-    /// <param name="vid">The version id if requesting a single version instance</param>
-    /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or status code 400 (Not found) </returns>
-    [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}") ]    
-    public HttpResponseMessage Get(string ResourceName, string id, string vid="")
+    /// <param name="vid">The version id if requesting a single version instance, leave empty if you require the entire history for the resource instance.</param>
+    /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
+    [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
+    public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.History, id, vid, FhirRequestUri, Request.GetSearchParams());
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
     // Add
@@ -123,7 +124,7 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Create, resource, DtoFhirRequestUri);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Post(PyroServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
     //Update
@@ -145,7 +146,7 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       var PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Update, id, resource, DtoFhirRequestUri);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Put(PyroServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
 
     //Delete
@@ -163,7 +164,7 @@ namespace Pyro.Web.Controllers
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Delete(id);
-      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
+      return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
     }
   }
 }

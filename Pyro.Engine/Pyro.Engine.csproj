@@ -100,7 +100,10 @@
     <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
+    <Compile Include="Support\FhirBundleSupport.cs" />
     <Compile Include="Support\FhirOperationOutComeSupport.cs" />
+    <Compile Include="Support\FhirResourceSerializationSupport.cs" />
+    <Compile Include="Support\HttpHeaderSupport.cs" />
     <Compile Include="Support\XhtmlSupport.cs" />
     <Compile Include="Validation\BaseResourceValidation.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />

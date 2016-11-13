@@ -14,9 +14,9 @@ namespace Pyro.Web.Services
   public static class ServiceRequestFactory
   {
 
-    public static IServiceRequest Create(ServiceEnums.ServiceRequestType ServiceRequestType, string id)
+    public static IServiceRequest Create(ServiceEnums.ServiceRequestType ServiceRequestType, string id, IDtoFhirRequestUri DtoFhirRequestUri)
     {
-      return new ServiceRequest(ServiceRequestType, id);
+      return new ServiceRequest(ServiceRequestType, id, DtoFhirRequestUri);
     }
 
     public static IServiceRequest Create(ServiceEnums.ServiceRequestType ServiceRequestType, string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri)
