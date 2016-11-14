@@ -392,6 +392,19 @@ namespace Pyro.Engine.Services
           oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
         }
       }
+      else
+      {
+        //No resource found at all.
+        oPyroServiceOperationOutcome.ResourceResult = null;
+        oPyroServiceOperationOutcome.FhirResourceId = null;
+        oPyroServiceOperationOutcome.LastModified = null;
+        oPyroServiceOperationOutcome.IsDeleted = null;
+        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
+        oPyroServiceOperationOutcome.ResourceVersionNumber = null;
+        oPyroServiceOperationOutcome.RequestUri = null;
+        oPyroServiceOperationOutcome.ServiceRootUri = null;
+        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+      }
       return oPyroServiceOperationOutcome;
     }
 
