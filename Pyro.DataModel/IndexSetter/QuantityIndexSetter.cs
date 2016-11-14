@@ -1,7 +1,6 @@
 ﻿using System;
 using Hl7.Fhir.Model;
 using Pyro.DataModel.DatabaseModel.Base;
-using Pyro.DataModel.Repository;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.DataModel.Repository.Interfaces;
 
@@ -31,6 +30,10 @@ namespace Pyro.DataModel.IndexSetter
         else if (FhirElement is Quantity)
         {
           return SetQuantity(FhirElement as Quantity, QuantityIndex);
+        }
+        else if (FhirElement is Location.PositionComponent)
+        {
+          return SetPositionComponent(FhirElement as Location.PositionComponent, QuantityIndex);
         }
         else
         {
@@ -95,6 +98,18 @@ namespace Pyro.DataModel.IndexSetter
       {
         return null;
       }
+    }
+
+    public QuantityIndex SetPositionComponent(Location.PositionComponent PositionComponent, QuantityIndex QuantityIndex)
+    {
+      //The only Quantity for Location.PositionComponent is in the Location resource and it's use if a little odd.
+      //You never actual store a 'near-distance' search parameter as an index but rather it is used in conjunction with the 
+      //'near' search parameter. 
+      //for instance the search would be like this:
+      //GET [base]/Location?near=-83.694810:42.256500&near-distance=11.20||km...
+      //Where we need to work out the distance say in km between 'near' [latitude]:[longitude] we have stored in the db index and the [latitude]:[longitude] given in the search url's 'near'.
+      //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.
+      return null;
     }
 
     public QuantityIndex SetQuantity(Quantity Quantity, QuantityIndex QuantityIndex)

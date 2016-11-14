@@ -79,20 +79,20 @@ namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
         FhirApiSearchParameterInfoFactory.FHIRApiCorrectionsForRepository(SearchParametersForResource);
         foreach (FhirApiSearchParameterInfo Parameter in SearchParametersForResource)
         {
-          if (Parameter.Resource == "DiagnosticReport" && Parameter.SearchName == "date")
+          if (Parameter.Resource == "Location" && Parameter.SearchName == "near-distance")
           {
             //debug only
           }
           TypeAnalysisFullList.Add(string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}", Parameter.Resource, Parameter.SearchName, Parameter.SearchParamType, DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), Parameter.IsCollection.ToString(), Parameter.TargetFhirLogicalType, Parameter.SearchPath));
           //string Key = string.Format("{0}, {1}", Parameter.DbIndexType, ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
-          string Key = string.Format("{0}, {1}", DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name));
+          string Key = string.Format("{0}, {1}", DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter), ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType));
           if (TypeUnquieDic.Add(Key))
           {
             IndexSetterInterfaceMethod MethodInfo = new IndexSetterInterfaceMethod();
             MethodInfo.IndexTypeString = DatabaseModelInfo.GetServerSearchIndexTypeString(Parameter);
             MethodInfo.IndexType = DatabaseEnum.StringToDbIndexTypeDictonary[MethodInfo.IndexTypeString];
-            MethodInfo.FhirType = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType.Name);
-
+            MethodInfo.FhirTypeQualified = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType, true);
+            MethodInfo.FhirTypeName = ConstructInterfaceFhirType(Parameter.TargetFhirLogicalType);
 
             switch (MethodInfo.IndexType)
             {
@@ -163,17 +163,24 @@ namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
       return string.Format("I{0}Setter", IndexTypeName);
     }
 
-    private string ConstructInterfaceFhirType(string FhirTypeName)
+    private string ConstructInterfaceFhirType(Type TargetFhirLogicalType, bool FullQualifiedName = false)
     {
-      if (FhirTypeName.Contains("Code`1"))
+      if (TargetFhirLogicalType.Name.Contains("Code`1"))
       {
         //Here we need to capture Fhir types of Code<???> and return as just Code, also needs to be uppercase Code not code.
         //example: Hl7.Fhir.Model.Code`1[Hl7.Fhir.Model.AllergyIntolerance+AllergyIntoleranceCategory]        
         return typeof(Code).Name;
       }
+      else if (TargetFhirLogicalType.Name == typeof(Hl7.Fhir.Model.Location.PositionComponent).Name)
+      {
+        if (FullQualifiedName)
+          return TargetFhirLogicalType.FullName.Replace('+', '.');
+        else
+          return TargetFhirLogicalType.Name;
+      }
       else
       {
-        var SplitOnDot = FhirTypeName.Split('.');
+        var SplitOnDot = TargetFhirLogicalType.Name.Split('.');
         return SplitOnDot[SplitOnDot.Length - 1];
       }
     }

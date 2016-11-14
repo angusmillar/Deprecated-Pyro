@@ -25,7 +25,8 @@ namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
   {
     public DatabaseEnum.DbIndexType IndexType { get; set; }    
     public string IndexTypeString { get; set; }
-    public string FhirType { get; set; }
+    public string FhirTypeQualified { get; set; }
+    public string FhirTypeName { get; set; }
     public string CustomeIndexMethod { get; set; }
 
     public string GetMethodSyntax()
@@ -42,12 +43,12 @@ namespace Pyro.CodeGenerationSupport.IndexSetterInterfaces
         string CommonRepository = "CommonRepository";
         if (IndexType == DatabaseEnum.DbIndexType.ReferenceIndex)
         {          
-          return string.Format("{0} Set{1}({1} {1}, {0} {0}, {2} {3}, {4} {5});",DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType, IDtoFhirRequestUri, FhirRequestUri, ICommonRepository, CommonRepository);
+          return string.Format("{0} Set{1}({2} {1}, {0} {0}, {3} {4}, {5} {6});",DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirTypeName, FhirTypeQualified, IDtoFhirRequestUri, FhirRequestUri, ICommonRepository, CommonRepository);
         }
         else
         {
           // DateTimeIndex SetFhirDateTime(FhirDateTime FhirDateTime, DateTimeIndex DateTimeIndex);
-          return string.Format("{0} Set{1}({1} {1}, {0} {0});", DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirType);
+          return string.Format("{0} Set{1}({2} {1}, {0} {0});", DatabaseEnum.DbIndexTypeToStringDictonary[IndexType], FhirTypeName, FhirTypeQualified);
         }
       }
     }

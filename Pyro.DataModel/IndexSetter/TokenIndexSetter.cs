@@ -74,6 +74,10 @@ namespace Pyro.DataModel.IndexSetter
         {
           return SetRange(FhirElement as Range, StringIndex);
         }
+        else if (FhirElement is Location.PositionComponent)
+        {
+          return SetPositionComponent(FhirElement as Location.PositionComponent, StringIndex);
+        }        
         else
         {
           throw new Exception(string.Format("FhirElement was unexpected type for TokenIndex, type was {0}", FhirElement.ToString()));
@@ -327,6 +331,35 @@ namespace Pyro.DataModel.IndexSetter
       //null and ignore setting the index. The reason this method is here is due to some search parameters
       //being a choice type where one of the choices is valid for token, like Boolean, yet others are 
       //not like Range as seen for the 'value' search parameter on the 'Group' resource .  
+      return null;
+    }
+
+    public TokenIndex SetPositionComponent(Location.PositionComponent PositionComponent, TokenIndex TokenIndex)
+    {
+      if (PositionComponent == null)
+        throw new ArgumentNullException("PositionComponent cannot be null for method.");
+
+      if (TokenIndex == null)
+        throw new ArgumentNullException("TokenIndex cannot be null for method.");
+
+      if (PositionComponent.Latitude != null && PositionComponent.Latitude.HasValue && PositionComponent.Longitude != null && PositionComponent.Longitude.HasValue)
+      {
+        TokenIndex.Code = string.Join(":", PositionComponent.Latitude.Value, PositionComponent.Longitude.Value);
+        TokenIndex.System = null;
+        return TokenIndex;
+      }
+      else if (PositionComponent.Latitude != null && PositionComponent.Latitude.HasValue)
+      {
+        TokenIndex.Code = string.Join(":", PositionComponent.Latitude.Value, string.Empty);
+        TokenIndex.System = null;
+        return TokenIndex;
+      }
+      else if (PositionComponent.Longitude != null && PositionComponent.Longitude.HasValue)
+      {
+        TokenIndex.Code = string.Join(":", string.Empty, PositionComponent.Longitude.Value);
+        TokenIndex.System = null;
+        return TokenIndex;
+      }
       return null;
     }
   }

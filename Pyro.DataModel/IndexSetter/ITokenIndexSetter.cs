@@ -14,7 +14,7 @@ namespace Pyro.DataModel.IndexSetter
     TokenIndex SetFhirBoolean(FhirBoolean FhirBoolean, TokenIndex TokenIndex);
     TokenIndex SetQuantity(Quantity Quantity, TokenIndex TokenIndex);
     TokenIndex SetRange(Range Range, TokenIndex TokenIndex);
-    //TokenIndex SetPositionComponent(PositionComponent PositionComponent, TokenIndex TokenIndex);
+    TokenIndex SetPositionComponent(Hl7.Fhir.Model.Location.PositionComponent PositionComponent, TokenIndex TokenIndex);
     TokenIndex SetId(Id Id, TokenIndex TokenIndex);
     TokenIndex SetContactPoint(ContactPoint ContactPoint, TokenIndex TokenIndex);
     TokenIndex SetFhirDateTime(FhirDateTime FhirDateTime, TokenIndex TokenIndex);
