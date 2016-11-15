@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 
-namespace Pyro.Engine.Support
+namespace Pyro.Common.Tools
 {
   public static class HttpHeaderSupport
   {

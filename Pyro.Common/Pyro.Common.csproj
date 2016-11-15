@@ -65,6 +65,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -150,9 +151,11 @@
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
+    <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ResourceVersionNumber.cs" />
     <Compile Include="Tools\StringSupport.cs" />
+    <Compile Include="Tools\XhtmlSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

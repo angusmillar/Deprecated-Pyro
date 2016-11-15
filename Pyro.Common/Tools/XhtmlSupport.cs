@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.UI;
 using System.IO;
 
-namespace Pyro.Engine.Support
+namespace Pyro.Common.Tools
 {
   public static class XhtmlSupport
   {
@@ -22,9 +22,9 @@ namespace Pyro.Engine.Support
         //##Issues## if I and the <p> tag I get an empty name-space on the tag like this: <p xmlns="">
         //It is the Hl7.Fhir API adding this, not sure why or even if it is wrong.
         //writer.RenderBeginTag(HtmlTextWriterTag.P);
-        writer.WriteEncodedText(text);        
+        writer.WriteEncodedText(text);
         //writer.RenderEndTag();
-        writer.RenderEndTag(); 
+        writer.RenderEndTag();
       }
       // Return the result.
       return stringWriter.ToString();
@@ -32,7 +32,7 @@ namespace Pyro.Engine.Support
 
     public static string EncodeToString(string text)
     {
-      return System.Web.HttpUtility.HtmlEncode(text);      
+      return System.Web.HttpUtility.HtmlEncode(text);
     }
 
   }

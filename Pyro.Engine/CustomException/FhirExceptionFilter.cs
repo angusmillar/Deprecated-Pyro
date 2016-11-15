@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Data.SqlClient;
 using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Engine.CustomException
@@ -23,8 +24,8 @@ namespace Pyro.Engine.CustomException
       {
         var oDtoPyroException = (DtoPyroException)context.Exception;
         if (oDtoPyroException.OperationOutcome != null)
-        {
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
+        {                       
+          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
           response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);                
         }
         else
@@ -36,14 +37,14 @@ namespace Pyro.Engine.CustomException
           oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
           oIssue.Code = OperationOutcome.IssueType.Unknown;
           OpOutCome.Issue.Add(oIssue);
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
+          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);
           response = context.Request.CreateResponse(oDtoPyroException.HttpStatusCode, OpOutCome);
         }          
       }
       else if (context.Exception is SqlException)
       {
           DtoPyroException oDtoPyroException = SqlExceptionSupport.GenerateDtoPyroException((SqlException)context.Exception, System.Diagnostics.Debugger.IsAttached);
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
+          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
           response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);         
       }
       else if (context.Exception is Exception)
@@ -55,7 +56,7 @@ namespace Pyro.Engine.CustomException
         oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
         oIssue.Code = OperationOutcome.IssueType.Unknown;
         OpOutCome.Issue.Add(oIssue);
-        Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);                
+        FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);                
         response = context.Request.CreateResponse<Resource>(HttpStatusCode.InternalServerError, OpOutCome);        
       }
       

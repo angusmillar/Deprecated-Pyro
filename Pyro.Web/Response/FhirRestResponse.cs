@@ -5,9 +5,10 @@ using System.Net.Http;
 using System.Net;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Enum;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 
-namespace Pyro.Engine.Response
+namespace Pyro.Web.Response
 {
   public static class FhirRestResponse
   {
@@ -101,7 +102,7 @@ namespace Pyro.Engine.Response
         if (Resource != null)
         {
           if (Resource is OperationOutcome)
-            Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(Resource as OperationOutcome);
+            FhirOperationOutcomeSupport.EscapeOperationOutComeContent(Resource as OperationOutcome);
           return Request.CreateResponse(HttpStatusCode, Resource);
         }
         else
@@ -112,7 +113,7 @@ namespace Pyro.Engine.Response
           OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
           var OpOutCome = new OperationOutcome();
           OpOutCome.Issue.Add(OpOutComeIssueComp);
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
+          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);
           return Request.CreateResponse(HttpStatusCode, OpOutCome);
         }
       }
@@ -132,26 +133,33 @@ namespace Pyro.Engine.Response
       {
         if (Resource != null && oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Read)
         {
+
+          //This below works fine for switching or overriding the Content-Type for return:
+          //var Response = Request.CreateResponse(HttpStatusCode);
+          //Response.Content = new ObjectContent(typeof(Resource), Resource, new Formatters.FhirJsonMediaTypeFormatter());
+
+
           HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
+
           //LastModified Header & ETagVersion &Location Header          
           if (oPyroServiceOperationOutcome.LastModified.HasValue)
           {
-            Support.HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
-            Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
-            Support.HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
+            HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
+            HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
+            HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
           }
           return Response;
         }
         else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
-        {          
+        {
           HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
           //Location Header
-          Support.HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
+          HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
           //LastModified Header && ETagVersion
           if (oPyroServiceOperationOutcome.LastModified.HasValue)
           {
-            Support.HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
-            Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);            
+            HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
+            HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
           }
           return Response;
         }
@@ -183,14 +191,14 @@ namespace Pyro.Engine.Response
         HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode, Resource);
 
         //Location Header
-        Support.HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
+        HttpHeaderSupport.AddLocation(Response, Request, oPyroServiceOperationOutcome.FhirResourceId);
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          Support.HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
-          Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
+          HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
+          HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
         }
-        
+
         return Response;
       }
       //Gone: 410 - Search for a resource that no longer there, it is deleted or has never existed. 
@@ -200,7 +208,7 @@ namespace Pyro.Engine.Response
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          Support.HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
+          HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
           //Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
         }
         return Response;
@@ -212,8 +220,8 @@ namespace Pyro.Engine.Response
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          Support.HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
-          Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
+          HttpHeaderSupport.AddVersionETag(Response, oPyroServiceOperationOutcome.ResourceVersionNumber);
+          HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
         }
         return Response;
       }
@@ -227,7 +235,7 @@ namespace Pyro.Engine.Response
         if (Resource != null)
         {
           if (Resource is OperationOutcome)
-            Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(Resource as OperationOutcome);
+            FhirOperationOutcomeSupport.EscapeOperationOutComeContent(Resource as OperationOutcome);
           return Request.CreateResponse(HttpStatusCode, Resource);
         }
         else
@@ -238,7 +246,7 @@ namespace Pyro.Engine.Response
           OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
           var OpOutCome = new OperationOutcome();
           OpOutCome.Issue.Add(OpOutComeIssueComp);
-          Support.FhirOperationOutComeSupport.EscapeOperationOutComeContent(OpOutCome);
+          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);
           return Request.CreateResponse(HttpStatusCode, OpOutCome);
         }
       }

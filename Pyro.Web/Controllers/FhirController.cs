@@ -5,12 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
+using Pyro.Web.Response;
 using Pyro.Common.Interfaces.Services;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Enum;
 using Pyro.Web.Extensions;
-using Pyro.Engine.Response;
 using Pyro.Web.ApplicationCache;
 
 namespace Pyro.Web.Controllers
@@ -35,6 +35,7 @@ namespace Pyro.Web.Controllers
     [HttpGet, Route("metadata")]
     public HttpResponseMessage Metadata()
     {
+      var test = Request.GetSearchParams();
       ICommonServices oService = _FhirServiceNegotiator.GetService();
       Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();
       var MetadataService = new Pyro.Engine.Services.MetadataService();
@@ -57,6 +58,7 @@ namespace Pyro.Web.Controllers
     [HttpGet, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Get(string ResourceName, string id)
     {
+      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Read, id, FhirRequestUri);
@@ -98,6 +100,7 @@ namespace Pyro.Web.Controllers
     [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
     public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
+      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.History, id, vid, FhirRequestUri, Request.GetSearchParams());
@@ -120,6 +123,7 @@ namespace Pyro.Web.Controllers
     [HttpPost, Route("{ResourceName}")]
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
+      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IServiceRequest PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Create, resource, DtoFhirRequestUri);
@@ -142,6 +146,7 @@ namespace Pyro.Web.Controllers
     [HttpPut, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
+      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       var PyroServiceRequest = Services.ServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Update, id, resource, DtoFhirRequestUri);
@@ -162,6 +167,7 @@ namespace Pyro.Web.Controllers
     [HttpDelete, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
+      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IServiceOperationOutcome oPyroServiceOperationOutcome = oService.Delete(id);
       return FhirRestResponse.GetHttpResponseMessage2(oPyroServiceOperationOutcome, Request);
