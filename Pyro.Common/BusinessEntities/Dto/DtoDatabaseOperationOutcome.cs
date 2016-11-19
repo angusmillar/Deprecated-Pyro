@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.BusinessEntities.Dto
 {
-  class DtoDatabaseOperationOutcome : Pyro.Common.Interfaces.IDatabaseOperationOutcome
+  class DtoDatabaseOperationOutcome : Pyro.Common.Interfaces.Service.IDatabaseOperationOutcome
   {
     public List<DtoResource> ReturnedResourceList { get; set; }
     public int SearchTotal { get; set; }

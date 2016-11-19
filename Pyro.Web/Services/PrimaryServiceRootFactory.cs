@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Web.ApplicationCache;

@@ -93,7 +93,7 @@
       <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
     </Compile>
     <Compile Include="Rest\ContentType.cs" />
-    <Compile Include="Services\BaseResourceServices.cs" />
+    <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\DefaultResourceServices.cs" />

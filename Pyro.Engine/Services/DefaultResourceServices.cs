@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces;
 using Hl7.Fhir.Model;
@@ -12,7 +12,7 @@ using Pyro.Engine.RepositorySupport;
 
 namespace Pyro.Engine.Services
 {
-  public class DefaultResourceServices : BaseResourceServices, IDefaultResourceServices, IBaseResourceServices
+  public class DefaultResourceServices : ResourceServices, IDefaultResourceServices, IBaseResourceServices
   {
     //Constructor for dependency injection
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)

@@ -7,14 +7,24 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.BusinessEntities.Service;
 using Hl7.Fhir.Introspection;
 
 namespace Pyro.Engine.Services
 {
   public class MetadataService
   {
-    public Common.Interfaces.Services.IServiceOperationOutcome GetServersConformanceResource(Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
+    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequest ResourceServiceRequest, Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
     {
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParams, SearchParameterService.SearchParameterServiceType.Base);
+      if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
+      {
+        ServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
+        return ServiceOperationOutcome;
+      }
+
       string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
       string ServerName = "Pyro Server";
 
@@ -119,16 +129,17 @@ namespace Pyro.Engine.Services
       }
       ConstructConformanceResourceNarrative(Conformance);
 
-      Common.Interfaces.Services.IServiceOperationOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      Common.Interfaces.IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
       ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
-      ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       ServiceOperationOutcome.IsDeleted = false;
-      ServiceOperationOutcome.RequestUri = null;            
-      ServiceOperationOutcome.ResourceResult = Conformance;      
+      ServiceOperationOutcome.RequestUri = null;
+      ServiceOperationOutcome.ResourceResult = Conformance;
+      ServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+      ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       return ServiceOperationOutcome;
     }
 

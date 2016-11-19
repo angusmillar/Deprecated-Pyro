@@ -8,6 +8,6 @@ namespace Pyro.Common.Enum
 {
   public static class ServiceEnums
   {
-    public enum ServiceRequestType { None, Read, Search, Create, Update, History};
+    public enum ServiceRequestType { None, Read, Search, Create, Update, Delete, History, Metadata };
   }
 }

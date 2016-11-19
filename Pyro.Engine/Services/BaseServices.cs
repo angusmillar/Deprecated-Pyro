@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Engine.Services
 {

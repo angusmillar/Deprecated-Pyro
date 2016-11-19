@@ -554,7 +554,7 @@
             <param name="id">The FHIR Resource's id to be removed.</param>
             <returns>HTTP Status code 204 (No Content)</returns>
         </member>
-        <member name="T:Pyro.Web.Services.FhirServiceNegotiator">
+        <member name="T:Pyro.Web.Services.ServiceNegotiator">
             <summary>
             Negotiates the required Resource server based on the Resource name provided 
             </summary>

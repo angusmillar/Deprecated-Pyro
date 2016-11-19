@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
+using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
@@ -18,7 +20,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public FhirSearchEnum.SearchModifierType Modifier { get; set; }
     public string TypeModifierResource { get; set; }
-    public Validation.SearchParametersValidationOperationOutcome ChainedSearchParameter { get; set; }
+    public ISearchParametersServiceOutcome ChainedSearchParameter { get; set; }
     public bool HasLogicalOrProperties { get; set; }
     public string DbPropertyName { get; set; }
     public bool IsDbCollection { get; set; }

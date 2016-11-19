@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyro.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Service
 {
   public interface IBaseServices
   {

@@ -35,13 +35,15 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         }
         //These are search parameters used by all resources, should re-factor this 
+        //Base Parameters
+        AddSearchNameToDictornary("_format");
         //Base Resource Parameters
         AddSearchNameToDictornary("_id");
         AddSearchNameToDictornary("page");
         AddSearchNameToDictornary("_sort");
         //History Search parameters        
-        AddSearchNameToDictornary("_since");
-        AddSearchNameToDictornary("_at");
+        //AddSearchNameToDictornary("_since");
+        //AddSearchNameToDictornary("_at");
       }
 
       ResourceTypeStingAndResourceTypeTupleList = new List<Tuple<string, string>>();

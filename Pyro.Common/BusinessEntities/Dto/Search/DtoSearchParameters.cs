@@ -10,13 +10,14 @@ namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameters
   {
-    public FHIRAllTypes ResourceTarget { get; set; }
+    public FHIRAllTypes? ResourceTarget { get; set; }
     public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
     public List<DtoSearchParameterBase> SearchParametersList { get; set; }
     public List<DtoUnspportedSearchParameter> DtoUnspportedSearchParameterList { get; set; }
     public List<Sort> SortList { get; set; }
     public int RequiredPageNumber { get; set; }
     public int? CountOfRecordsRequested { get; set; }
+    public string Format { get; set; }
 
     public class Sort
     {

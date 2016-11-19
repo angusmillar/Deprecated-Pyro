@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.BusinessEntities;

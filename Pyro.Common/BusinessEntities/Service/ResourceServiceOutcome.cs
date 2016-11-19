@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
-using Pyro.Common.Interfaces.Services;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Service;
 using System.Net;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Enum;
@@ -10,7 +9,7 @@ using Pyro.Common.Tools;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
-  public class ServiceOperationOutcome : IServiceOperationOutcome
+  public class ResourceServiceOutcome : IResourceServiceOutcome
   {
     #region Public Properties
 
@@ -21,7 +20,7 @@ namespace Pyro.Common.BusinessEntities.Service
     public RestEnum.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
     public bool? IsDeleted { get; set; }
-    public ISearchParametersValidationOperationOutcome SearchValidationOperationOutcome { get; set; }
+    public Interfaces.Service.ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
     public IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }    
     private HttpStatusCode _HttpStatusCode { get; set; }
     public HttpStatusCode HttpStatusCode
@@ -47,13 +46,16 @@ namespace Pyro.Common.BusinessEntities.Service
         _ResourceResult = value;
       }
     }
+    public string FormatMimeType { get; set; }
+    
 
     #endregion
 
     #region Constructor
-    internal ServiceOperationOutcome()
+    internal ResourceServiceOutcome()
     {
       this.OperationType = RestEnum.CrudOperationType.None;
+      this.FormatMimeType = null;
     }
     #endregion
 
@@ -61,9 +63,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private HttpStatusCode ResolveHttpStatusCode()
     {
-      if (this.SearchValidationOperationOutcome != null && this.SearchValidationOperationOutcome.FhirOperationOutcome != null)
+      if (this.SearchParametersServiceOutcome != null && this.SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
-        return this.SearchValidationOperationOutcome.HttpStatusCode;
+        return this.SearchParametersServiceOutcome.HttpStatusCode;
       }
       else if (this.ResourceValidationOperationOutcome != null && this.ResourceValidationOperationOutcome.FhirOperationOutcome != null)
       {
@@ -77,9 +79,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private Resource ResolveResource()
     {      
-      if (this.SearchValidationOperationOutcome != null && this.SearchValidationOperationOutcome.FhirOperationOutcome != null)
+      if (this.SearchParametersServiceOutcome != null && this.SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
-        return this.SearchValidationOperationOutcome.FhirOperationOutcome;
+        return this.SearchParametersServiceOutcome.FhirOperationOutcome;
       }
       else if (this.ResourceValidationOperationOutcome != null && this.ResourceValidationOperationOutcome.FhirOperationOutcome != null)
       {

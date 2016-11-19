@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Tools;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Model;

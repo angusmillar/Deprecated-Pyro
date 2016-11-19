@@ -8,7 +8,7 @@ using Pyro.DataModel.DatabaseModel.Base;
 using Pyro.DataModel.Support;
 using Pyro.DataModel.IndexSetter;
 using Pyro.Common.BusinessEntities.Search;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Dto;

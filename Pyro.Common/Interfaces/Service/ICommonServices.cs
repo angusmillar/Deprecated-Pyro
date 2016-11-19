@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 
-namespace Pyro.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Service
 {
   public interface ICommonServices
   {

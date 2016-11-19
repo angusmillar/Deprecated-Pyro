@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.BusinessEntities.Service;
@@ -35,9 +35,9 @@ namespace Pyro.Common
       return new DtoRootUrlStore();
     }
 
-    public static IServiceOperationOutcome GetPyroServiceOperationOutcome()
+    public static IResourceServiceOutcome GetPyroServiceOperationOutcome()
     {
-      return new ServiceOperationOutcome();
+      return new ResourceServiceOutcome();
     }
 
     public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()

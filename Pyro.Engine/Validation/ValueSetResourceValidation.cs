@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Engine.Validation
 {

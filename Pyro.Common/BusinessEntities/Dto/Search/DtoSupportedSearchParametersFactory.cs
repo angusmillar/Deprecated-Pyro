@@ -9,7 +9,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public static List<DtoSupportedSearchParameters> GetSupportedParametersForResourceTypeList(FHIRAllTypes ResourceType)
     {
       var List = new List<DtoSupportedSearchParameters>();
-      Pyro.Common.BusinessEntities.Search.DtoSupportedSearchParameters.AddSupportedParametersForAllResources(List);
+      List.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForBaseResource());
       DtoSupportedSearchParameters SupportedSearchParameter = null; 
       switch (ResourceType)
       {

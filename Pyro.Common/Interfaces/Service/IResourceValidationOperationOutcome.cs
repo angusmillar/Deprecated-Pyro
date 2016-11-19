@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyro.Common.Interfaces
+namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceValidationOperationOutcome
   {
-    bool HasError { get; }     
-    Hl7.Fhir.Model.OperationOutcome FhirOperationOutcome { get; set; }    
+    bool HasError { get; }
+    Hl7.Fhir.Model.OperationOutcome FhirOperationOutcome { get; set; }
     System.Net.HttpStatusCode HttpStatusCode { get; set; }
   }
 }

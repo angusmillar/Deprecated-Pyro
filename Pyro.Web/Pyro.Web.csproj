@@ -251,9 +251,9 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Services\ServiceRequest.cs" />
-    <Compile Include="Services\ServiceRequestFactory.cs" />
-    <Compile Include="Services\FhirServiceNegotiator.cs" />
+    <Compile Include="Services\ResourceServiceRequest.cs" />
+    <Compile Include="Services\ResourceServiceRequestFactory.cs" />
+    <Compile Include="Services\ServiceNegotiator.cs" />
     <Compile Include="Services\PrimaryServiceRootFactory.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

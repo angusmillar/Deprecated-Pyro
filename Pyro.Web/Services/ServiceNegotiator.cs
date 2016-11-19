@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Fhir = Hl7.Fhir;
 using System.Net;
 using System.Net.Http;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
@@ -15,11 +15,11 @@ namespace Pyro.Web.Services
   /// <summary>
   /// Negotiates the required Resource server based on the Resource name provided 
   /// </summary>
-  public class FhirServiceNegotiator : IFhirServiceNegotiator
+  public class ServiceNegotiator : IServiceNegotiator
   {
     private readonly SimpleInjector.Container _Container = null;
 
-    public FhirServiceNegotiator(SimpleInjector.Container Container)
+    public ServiceNegotiator(SimpleInjector.Container Container)
     {
       _Container = Container;
     }

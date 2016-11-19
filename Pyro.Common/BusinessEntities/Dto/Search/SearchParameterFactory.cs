@@ -2,15 +2,16 @@
 using System.Linq;
 using System.Collections.Generic;
 using Pyro.Common.Enum;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Model;
 
-namespace Pyro.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Search
 {
   public static class SearchParameterFactory
   {
     private static readonly char _ParameterNameParameterValueDilimeter = '=';
-    private static readonly char _ParameterNameModifierDilimeter = ':';    
+    private static readonly char _ParameterNameModifierDilimeter = ':';
     private static string _RawSearchParameterAndValueString = string.Empty;
 
     public static DtoSearchParameterBase CreateSearchParameter(DtoSupportedSearchParameters DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
@@ -18,7 +19,7 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.DbSearchParameterType);
 
       string ParameterName = Parameter.Item1;
-      string ParameterValue = Parameter.Item2;      
+      string ParameterValue = Parameter.Item2;
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
       oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
@@ -41,8 +42,7 @@ namespace Pyro.Common.BusinessEntities.Search.Validation
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
-        Validation.SearchParametersValidationOperationOutcome SearchParametersValidationOperationOutcome = Validation.SearchParameterValidator.Validate((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
-        oSearchParameter.ChainedSearchParameter = SearchParametersValidationOperationOutcome;
+        oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessResourceSearchParameters((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
       }
       else
       {

@@ -8,9 +8,9 @@ using Hl7.Fhir.Rest;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.UriSupport;
 
-namespace Pyro.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Service
 {
-  public interface IServiceRequest
+  public interface IResourceServiceRequest
   {
     ServiceEnums.ServiceRequestType ServiceRequestType { get; set;}
     string ResourceId { get; set; }

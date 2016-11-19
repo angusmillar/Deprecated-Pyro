@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Engine.Validation

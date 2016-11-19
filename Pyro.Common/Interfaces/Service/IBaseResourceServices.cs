@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
-namespace Pyro.Common.Interfaces.Services
+namespace Pyro.Common.Interfaces.Service
 {
   public interface IBaseResourceServices
   {
@@ -26,19 +26,19 @@ namespace Pyro.Common.Interfaces.Services
     // GET: URL//FhirApi/Patient&family=Smith&given=John
     // GET: URL/FhirApi/Patient/5/_history    
     // GET: URL/FhirApi/Patient/5/_history/2    
-    IServiceOperationOutcome Get(IServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Get(IResourceServiceRequest PyroServiceRequest);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IServiceOperationOutcome Post(IServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Post(IResourceServiceRequest PyroServiceRequest);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IServiceOperationOutcome Put(IServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Put(IResourceServiceRequest PyroServiceRequest);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    
-    IServiceOperationOutcome Delete(string FhirResourceId);
+    IResourceServiceOutcome Delete(IResourceServiceRequest PyroServiceRequest);
   }
 
 }

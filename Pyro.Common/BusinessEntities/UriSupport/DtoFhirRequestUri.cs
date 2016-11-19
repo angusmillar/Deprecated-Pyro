@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Common.BusinessEntities.UriSupport
 {

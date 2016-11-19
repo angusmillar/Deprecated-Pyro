@@ -7,12 +7,12 @@ using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Search;
 using System.Net;
 
-namespace Pyro.Common.BusinessEntities.Search.Validation
+namespace Pyro.Common.BusinessEntities.Service
 {
-  public class SearchParametersValidationOperationOutcome : Common.Interfaces.ISearchParametersValidationOperationOutcome
-  {    
+  public class SearchParametersServiceOutcome : Pyro.Common.Interfaces.Service.ISearchParametersServiceOutcome
+  {
     public HttpStatusCode HttpStatusCode { get; set; }
     public OperationOutcome FhirOperationOutcome { get; set; }
-    public DtoSearchParameters SearchParameters { get; set; }    
+    public DtoSearchParameters SearchParameters { get; set; }
   }
 }

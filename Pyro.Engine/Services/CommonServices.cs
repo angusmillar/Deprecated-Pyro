@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Services;
+using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Engine.Services

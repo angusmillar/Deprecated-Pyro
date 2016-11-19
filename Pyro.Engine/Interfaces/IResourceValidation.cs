@@ -7,8 +7,8 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Engine.Interfaces
 {
-  public interface IResourceValidation 
+  public interface IResourceValidation
   {
-    Common.Interfaces.IResourceValidationOperationOutcome Validate(Resource Resource);
+    Common.Interfaces.Service.IResourceValidationOperationOutcome Validate(Resource Resource);
   }
 }

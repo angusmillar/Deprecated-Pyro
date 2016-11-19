@@ -21,12 +21,10 @@ namespace Pyro.Common.Enum
       period,
       status,
       subject,
+      _format,
       _id,
       page,
       _sort,
-      _count,
-      _since,
-      _at,
       topic,
       description,
       title,
@@ -381,7 +379,7 @@ namespace Pyro.Common.Enum
   
     }
 
-    public static Dictionary<string, SearchParameterNameType> GetSearchParameterNameType()
+    public static Dictionary<string, SearchParameterNameType> GetSearchParameterNameTypeDictionary()
     {
       return new Dictionary<string, SearchParameterNameType>()
       {
@@ -397,12 +395,10 @@ namespace Pyro.Common.Enum
         {"period", SearchParameterNameType.period},       
         {"status", SearchParameterNameType.status},       
         {"subject", SearchParameterNameType.subject},       
+        {"_format", SearchParameterNameType._format},       
         {"_id", SearchParameterNameType._id},       
         {"page", SearchParameterNameType.page},       
         {"_sort", SearchParameterNameType._sort},       
-        {"_count", SearchParameterNameType._count},       
-        {"_since", SearchParameterNameType._since},       
-        {"_at", SearchParameterNameType._at},       
         {"topic", SearchParameterNameType.topic},       
         {"description", SearchParameterNameType.description},       
         {"title", SearchParameterNameType.title},       
@@ -774,12 +770,10 @@ namespace Pyro.Common.Enum
         {SearchParameterNameType.period, "period"},       
         {SearchParameterNameType.status, "status"},       
         {SearchParameterNameType.subject, "subject"},       
+        {SearchParameterNameType._format, "_format"},       
         {SearchParameterNameType._id, "_id"},       
         {SearchParameterNameType.page, "page"},       
         {SearchParameterNameType._sort, "_sort"},       
-        {SearchParameterNameType._count, "_count"},       
-        {SearchParameterNameType._since, "_since"},       
-        {SearchParameterNameType._at, "_at"},       
         {SearchParameterNameType.topic, "topic"},       
         {SearchParameterNameType.description, "description"},       
         {SearchParameterNameType.title, "title"},       
