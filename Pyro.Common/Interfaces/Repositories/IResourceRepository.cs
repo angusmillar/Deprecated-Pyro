@@ -10,7 +10,7 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters);
     IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri);
     IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri);
-    void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion);
+    IDatabaseOperationOutcome UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion);
     IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters);
     IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber);
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);

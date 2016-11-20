@@ -12,8 +12,8 @@ namespace Pyro.Web.Controllers
     public ActionResult Index()
     {
       ViewBag.Title = "Pyro Fhir Server";
-      var HomeView = new HomeViewModels();      
-      HomeView.FhirApiEndpoint = "Test.STU3.PyroHealth.net/FhirApi/";
+      var HomeView = new HomeViewModels();
+      HomeView.FhirApiEndpoint = "pyrohealth.net/test/stu3/fhir";
       HomeView.FhirSpecification = new Models.Common.ExternalPageLink()
       {
         Description = "FHIR September 2016 V1.6.0 specification release",
@@ -33,7 +33,8 @@ namespace Pyro.Web.Controllers
       HomeView.InformationPageLinkList.Add(HomeView.FhirDotNetAPI);
 
       HomeView.InformationPageLinkList.Add(new Models.Common.ExternalPageLink()
-      { Description = "FHIR tutorials",
+      {
+        Description = "FHIR tutorials",
         Name = "Fhir Drills",
         Url = new Uri("http://fhir-drills.github.io/")
       });
@@ -44,7 +45,7 @@ namespace Pyro.Web.Controllers
         Name = "Health Intersections",
         Url = new Uri("http://www.healthintersections.com.au/")
       });
-      
+
 
       HomeView.InformationPageLinkList.Add(new Models.Common.ExternalPageLink()
       {
@@ -59,7 +60,7 @@ namespace Pyro.Web.Controllers
         Name = "HL7 Australia",
         Url = new Uri("http://www.hl7.org.au/")
       });
-      
+
       HomeView.InformationPageLinkList.Add(new Models.Common.ExternalPageLink()
       {
         Description = "Publicly Available FHIR Servers for testing",
@@ -80,7 +81,7 @@ namespace Pyro.Web.Controllers
         Name = "Crucible FHIR testing service",
         Url = new Uri("https://projectcrucible.org/")
       });
-      
+
 
 
 

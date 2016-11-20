@@ -97,7 +97,8 @@ namespace Pyro.Engine.Services
               IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(PyroServiceRequest.ResourceId, PyroServiceRequest.VersionId);
               if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
               {
-                oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+                if (!DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
+                  oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
                 oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
                 oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
                 oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
@@ -416,19 +417,19 @@ namespace Pyro.Engine.Services
       }
       SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId);
-      if (DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
+      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId);
+      if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
       {
         //Resource exists so..
-        if (!DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
+        if (!DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
         {
-          string NewResourceVersionNumber = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcome.ReturnedResourceList[0].Version);
-          _ResourceRepository.UpdateResouceAsDeleted(PyroServiceRequest.ResourceId, NewResourceVersionNumber);
+          string NewResourceVersionNumber = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
+          IDatabaseOperationOutcome DatabaseOperationOutcomeDelete = _ResourceRepository.UpdateResouceAsDeleted(PyroServiceRequest.ResourceId, NewResourceVersionNumber);
 
           oPyroServiceOperationOutcome.ResourceResult = null;
           oPyroServiceOperationOutcome.FhirResourceId = PyroServiceRequest.ResourceId;
-          oPyroServiceOperationOutcome.LastModified = null;
-          oPyroServiceOperationOutcome.IsDeleted = null;
+          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Received;
+          oPyroServiceOperationOutcome.IsDeleted = true;
           oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
           oPyroServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
           oPyroServiceOperationOutcome.RequestUri = null;
@@ -440,10 +441,10 @@ namespace Pyro.Engine.Services
         {
           oPyroServiceOperationOutcome.ResourceResult = null;
           oPyroServiceOperationOutcome.FhirResourceId = PyroServiceRequest.ResourceId;
-          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
-          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
+          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Received;
+          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted;
           oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
+          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version;
           oPyroServiceOperationOutcome.RequestUri = null;
           oPyroServiceOperationOutcome.ServiceRootUri = null;
           oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;

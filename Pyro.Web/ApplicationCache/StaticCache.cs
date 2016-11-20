@@ -21,7 +21,7 @@ namespace Pyro.Web.ApplicationCache
         PrimaryRootUrlStore = Common.CommonFactory.GetRootUrlStore();
         PrimaryRootUrlStore.IsServersPrimaryUrlRoot = true;
         PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
-        PrimaryRootUrlStore.RootUrl = "localhost:50579/fhirapi";
+        PrimaryRootUrlStore.RootUrl = "localhost:50579/test/stu3/api";
 #else        
           PrimaryRootUrlStore = CommonServices.GetPrimaryServiceRootUrl();
 #endif

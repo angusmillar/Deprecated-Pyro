@@ -15,7 +15,7 @@ using Pyro.Web.ApplicationCache;
 
 namespace Pyro.Web.Controllers
 {
-  [RoutePrefix("fhirapi")]
+  [RoutePrefix("test/stu3/fhir")]
   public class FhirController : ApiController
   {
     private readonly IServiceNegotiator _FhirServiceNegotiator;
@@ -163,8 +163,7 @@ namespace Pyro.Web.Controllers
     /// <returns>HTTP Status code 204 (No Content)</returns>
     [HttpDelete, Route("{ResourceName}/{id}")]
     public HttpResponseMessage Delete(string ResourceName, string id)
-    {
-      var test = Request.GetSearchParams();
+    {      
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       var PyroServiceRequest = Services.ResourceServiceRequestFactory.Create(ServiceEnums.ServiceRequestType.Delete, id, DtoFhirRequestUri, Request.GetSearchParams());

@@ -3,27 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 using System.Net.Http;
 
 namespace Pyro.Common.Tools
 {
   public static class HttpHeaderSupport
   {
-    public static void AddResponseLocation(HttpResponseMessage Response, HttpRequestMessage Request, string FhirId)
+    public static void AddResponseLocation(HttpResponseHeaders HttpResponseHeaders, Uri RequestUri, string FhirId = null)
     {
-      string BaseURLPath = String.Format("{0}://{1}{2}", Request.RequestUri.Scheme, Request.RequestUri.Authority, Request.RequestUri.LocalPath);
-      BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
-      Response.Headers.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
+      string BaseURLPath = String.Format("{0}://{1}{2}", RequestUri.Scheme, RequestUri.Authority, RequestUri.LocalPath);
+      if (string.IsNullOrWhiteSpace(FhirId))
+      {
+        HttpResponseHeaders.Location = new Uri(BaseURLPath);
+      }
+      else
+      {
+        BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
+        HttpResponseHeaders.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
+      }      
     }
 
-    public static void AddVersionETag(HttpResponseMessage Response, string Version)
+    public static void AddVersionETag(HttpResponseHeaders HttpResponseHeaders, string Version)
     {
-      Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + Version + "\"");
+      HttpResponseHeaders.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + Version + "\"");
     }
 
-    public static void AddResponseLastModified(HttpResponseMessage Response, DateTimeOffset LastModified)
+    public static void AddResponseLastModified(HttpContentHeaders HttpContentHeaders, DateTimeOffset LastModified)
     {
-      Response.Content.Headers.LastModified = LastModified;
+      HttpContentHeaders.LastModified = LastModified;
     }
 
 

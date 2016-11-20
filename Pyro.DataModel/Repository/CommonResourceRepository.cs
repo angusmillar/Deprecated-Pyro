@@ -213,7 +213,7 @@ namespace Pyro.DataModel.Repository
       return DatabaseOperationOutcome;
     }
 
-    public void UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
+    public IDatabaseOperationOutcome UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
     {
       var ResourceHistoryEntity = new ResourceHistoryType();
       var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
@@ -226,8 +226,11 @@ namespace Pyro.DataModel.Repository
       ResourceEntity.versionId = ResourceVersion;
       ResourceEntity.XmlBlob = string.Empty;
       ResourceEntity.lastUpdated = DateTimeOffset.Now;
-      ResourceEntity.Method = Bundle.HTTPVerb.DELETE;      
+      ResourceEntity.Method = Bundle.HTTPVerb.DELETE;
       this.Save();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
+      return DatabaseOperationOutcome;
     }
 
     // --- Abstract Methods -------------------------------------------------------------
