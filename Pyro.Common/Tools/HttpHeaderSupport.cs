@@ -21,12 +21,13 @@ namespace Pyro.Common.Tools
       {
         BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
         HttpResponseHeaders.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
-      }      
+      }
     }
 
     public static void AddVersionETag(HttpResponseHeaders HttpResponseHeaders, string Version)
     {
-      HttpResponseHeaders.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + Version + "\"");
+      //example: ETag: W/"3141"
+      HttpResponseHeaders.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("W/\"" + Version + "\"");
     }
 
     public static void AddResponseLastModified(HttpContentHeaders HttpContentHeaders, DateTimeOffset LastModified)
@@ -54,7 +55,7 @@ namespace Pyro.Common.Tools
     public static string GetFhirMediaTypeString(string value)
     {
       foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
-      {                
+      {
         if (value == System.Net.WebUtility.UrlDecode(mediaType))
         {
           return Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
