@@ -38,11 +38,15 @@ namespace Pyro.Common.BusinessEntities.Search
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
-        var SearchParameterGeneric = new Pyro.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
-        SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
-        var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
-        SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
-        oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessResourceSearchParameters((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
+        //var SearchParameterGeneric = new Pyro.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
+        var SearchParam = new Hl7.Fhir.Rest.SearchParams();
+        SearchParam.Add(ParameterName.Split('.')[1], ParameterValue);
+        
+        //SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
+        //var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
+        //SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
+        oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessSearchParameters(SearchParam, SearchParameterService.SearchParameterServiceType.Resource, Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value);
+        //oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessResourceSearchParameters((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
       }
       else
       {

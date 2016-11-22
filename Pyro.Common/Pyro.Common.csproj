@@ -110,6 +110,7 @@
     <Compile Include="BusinessEntities\Dto\Search\DtoSupportedSearchParametersFactory.Main.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
+    <Compile Include="BusinessEntities\Service\ResourceServiceRequest.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParameterService.cs" />

@@ -9,7 +9,7 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Enum;
 
-namespace Pyro.Web.Services
+namespace Pyro.Common.BusinessEntities.Service
 {
   public class ResourceServiceRequest : IResourceServiceRequest
   {

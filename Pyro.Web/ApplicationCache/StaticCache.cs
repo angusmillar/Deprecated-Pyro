@@ -21,12 +21,12 @@ namespace Pyro.Web.ApplicationCache
         PrimaryRootUrlStore = Common.CommonFactory.GetRootUrlStore();
         PrimaryRootUrlStore.IsServersPrimaryUrlRoot = true;
         PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
-        PrimaryRootUrlStore.RootUrl = "localhost:50579/test/stu3/api";
+        PrimaryRootUrlStore.RootUrl = "localhost:50579/test/stu3/fhir";
 #else        
           PrimaryRootUrlStore = CommonServices.GetPrimaryServiceRootUrl();
 #endif
         //PrimaryRootUrlStore = CommonServices.GetPrimaryServiceRootUrl();
-        HttpContext.Current.Application[Key] = PrimaryRootUrlStore;         
+        HttpContext.Current.Application[Key] = PrimaryRootUrlStore;
       }
       return PrimaryRootUrlStore;
     }

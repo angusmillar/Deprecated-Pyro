@@ -554,6 +554,17 @@
             <param name="id">The FHIR Resource's id to be removed.</param>
             <returns>HTTP Status code 204 (No Content)</returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.ConditionalDelete(System.String)">
+            <summary>
+            Conditional Delete removes an existing resource or set of Resources given a set of the Resources defined search parameters.
+            This operation must be given at least one Resources defined search parameter to work and all parameter must be understood by this server.
+            If not a HTTP status code of 412 Precondition Failed will be returned. 
+            This server supports version history. 
+            The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
+            </summary>
+            <param name="ResourceName">The name of the FHIR resource that is being removed.</param>    
+            <returns>HTTP Status codes: 204 (No Content) or 404 Not Found or 412 Precondition Failed</returns>
+        </member>
         <member name="T:Pyro.Web.Services.ServiceNegotiator">
             <summary>
             Negotiates the required Resource server based on the Resource name provided 

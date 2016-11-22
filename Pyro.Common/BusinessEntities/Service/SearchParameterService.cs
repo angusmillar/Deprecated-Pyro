@@ -20,7 +20,7 @@ namespace Pyro.Common.BusinessEntities.Service
       None = 2,
       Base = 4,
       Bundle = 8,
-      Resource = 16,      
+      Resource = 16,
     };
 
     public static ISearchParametersServiceOutcome ProcessSearchParameters(Hl7.Fhir.Rest.SearchParams SearchParams, SearchParameterServiceType SearchParameterServiceType, FHIRAllTypes? ResourceType = null)
@@ -42,10 +42,10 @@ namespace Pyro.Common.BusinessEntities.Service
       _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
       _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = _ResourceType;
       _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<DtoSearchParameterBase>();
-      _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+      _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
 
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameTypeDictionary();
-      List<DtoSupportedSearchParameters> DtoSupportedSearchParametersList = GetSupportedSearchParameters();      
+      List<DtoSupportedSearchParameters> DtoSupportedSearchParametersList = GetSupportedSearchParameters();
 
       foreach (var Parameter in SearchParameterGeneric.ParameterList)
       {
@@ -80,7 +80,7 @@ namespace Pyro.Common.BusinessEntities.Service
               var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
               DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
               DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for the resource type '{_ResourceType.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-              _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+              _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
             }
           }
           else
@@ -88,7 +88,7 @@ namespace Pyro.Common.BusinessEntities.Service
             var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
             DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
             DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for any resource type, the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-            _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+            _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
           }
         }
       }
@@ -117,7 +117,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if ((_SearchParameterServiceType & SearchParameterServiceType.Base) == SearchParameterServiceType.Base)
         DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      if ((_SearchParameterServiceType & SearchParameterServiceType.Bundle)== SearchParameterServiceType.Bundle)
+      if ((_SearchParameterServiceType & SearchParameterServiceType.Bundle) == SearchParameterServiceType.Bundle)
         DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForBundleReturn());
       if ((_SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
         DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType.Value));
@@ -155,169 +155,6 @@ namespace Pyro.Common.BusinessEntities.Service
       //    throw new System.ComponentModel.InvalidEnumArgumentException(_SearchParameterServiceType.ToString(), (int)_SearchParameterServiceType, typeof(SearchParameterServiceType));
       //}      
     }
-
-    public static ISearchParametersServiceOutcome ProcessResourceSearchParameters(FHIRAllTypes ResourceType, DtoSearchParameterGeneric SearchParameterGeneric)
-    {
-      _ResourceType = ResourceType;
-      _SearchParametersServiceOutcome = new SearchParametersServiceOutcome();
-      SearchParameterService.ParseToResourceSupportedSearchParameters(SearchParameterGeneric);
-      return _SearchParametersServiceOutcome;
-    }
-
-    public static ISearchParametersServiceOutcome ProcessHistorySearchParameters(DtoSearchParameterGeneric SearchParameterGeneric)
-    {
-      _SearchParametersServiceOutcome = new SearchParametersServiceOutcome();
-      SearchParameterService.ParseToHistorySupportedSearchParameters(SearchParameterGeneric);
-      return _SearchParametersServiceOutcome;
-    }
-
-    private static void ParseToHistorySupportedSearchParameters(DtoSearchParameterGeneric SearchParameterGeneric)
-    {
-      _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
-      _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<DtoSearchParameterBase>();
-      _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
-      _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
-      var oSupportedSearchParametersForHistoryList = DtoSupportedSearchParametersFactory.GetSupportedParametersForBundleReturn();
-      var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameTypeDictionary();
-
-      foreach (var Parameter in SearchParameterGeneric.ParameterList)
-      {
-        //We will just ignore an empty parameter such as this last '&' URL?family=Smith&given=John&
-        if (Parameter.Item1 + Parameter.Item2 != string.Empty)
-        {
-          FhirSearchEnum.SearchParameterNameType? SearchParameterNameType = null;
-          var SearchParameterNameString = Parameter.Item1.Split(':')[0];
-          if (oSearchParameterNameDictionary.ContainsKey(SearchParameterNameString))
-          {
-            SearchParameterNameType = oSearchParameterNameDictionary[SearchParameterNameString];
-
-            DtoSupportedSearchParameters oSupportedSearchParameter = oSupportedSearchParametersForHistoryList.SingleOrDefault(x => x.Name == SearchParameterNameType);
-            if (oSupportedSearchParameter != null)
-            {
-              DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
-              if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.ReferenceIndex)
-              {
-                oSearchParameter.PrimaryRootUrlStore = _SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore;
-              }
-
-              if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter))
-              {
-                if (!IsSingularSearchParameter(oSearchParameter))
-                {
-                  _SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
-                }
-              }
-            }
-            else
-            {
-              var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
-              DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
-              DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for the resource type '{_ResourceType.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-              _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-            }
-          }
-          else
-          {
-            var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
-            DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
-            DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for any resource type, the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-            _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-          }
-        }
-      }
-
-
-      //if (SearchParameterGeneric.Sort != null)
-      //{
-      //  _SearchParametersValidationOperationOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
-      //  foreach (var SortItem in SearchParameterGeneric.Sort)
-      //  {
-      //    if (oSearchParameterNameDictionary.ContainsKey(SortItem.Item1.Trim()))
-      //    {
-      //      var SearchParameterNameType = oSearchParameterNameDictionary[SortItem.Item1.Trim()];
-
-      //      DtoSupportedSearchParameters oSupportedSearchParameter = oSupportedSearchParametersForResourceList.SingleOrDefault(x => x.Name == SearchParameterNameType);
-
-      //      _SearchParametersValidationOperationOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
-      //    }
-      //  }
-      //}
-    }
-
-    private static void ParseToResourceSupportedSearchParameters(DtoSearchParameterGeneric SearchParameterGeneric)
-    {
-      _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
-      _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = _ResourceType;
-      _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<DtoSearchParameterBase>();
-      _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
-
-      var oSupportedSearchParametersForResourceList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType.Value);
-      var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameTypeDictionary();
-
-      foreach (var Parameter in SearchParameterGeneric.ParameterList)
-      {
-        //We will just ignore an empty parameter such as this last '&' URL?family=Smith&given=John&
-        if (Parameter.Item1 + Parameter.Item2 != string.Empty)
-        {
-          FhirSearchEnum.SearchParameterNameType? SearchParameterNameType = null;
-          var SearchParameterNameString = Parameter.Item1.Split(':')[0];
-          if (oSearchParameterNameDictionary.ContainsKey(SearchParameterNameString))
-          {
-            SearchParameterNameType = oSearchParameterNameDictionary[SearchParameterNameString];
-
-            DtoSupportedSearchParameters oSupportedSearchParameter = oSupportedSearchParametersForResourceList.SingleOrDefault(x => x.Name == SearchParameterNameType);
-            if (oSupportedSearchParameter != null)
-            {
-              DtoSearchParameterBase oSearchParameter = SearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
-              if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.ReferenceIndex)
-              {
-                oSearchParameter.PrimaryRootUrlStore = _SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore;
-              }
-
-              if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter))
-              {
-                if (!IsSingularSearchParameter(oSearchParameter))
-                {
-                  _SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
-                }
-              }
-            }
-            else
-            {
-              var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
-              DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
-              DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for the resource type '{_ResourceType.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-              _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-            }
-          }
-          else
-          {
-            var DtoUnspportedSearchParameter = new DtoUnspportedSearchParameter();
-            DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
-            DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for any resource type, the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-            _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-          }
-        }
-      }
-
-
-      if (SearchParameterGeneric.Sort != null)
-      {
-        _SearchParametersServiceOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
-        foreach (var SortItem in SearchParameterGeneric.Sort)
-        {
-          if (oSearchParameterNameDictionary.ContainsKey(SortItem.Item1.Trim()))
-          {
-            var SearchParameterNameType = oSearchParameterNameDictionary[SortItem.Item1.Trim()];
-
-            DtoSupportedSearchParameters oSupportedSearchParameter = oSupportedSearchParametersForResourceList.SingleOrDefault(x => x.Name == SearchParameterNameType);
-
-            _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
-          }
-        }
-      }
-    }
-
 
     private static bool IsSingularSearchParameter(DtoSearchParameterBase oSearchParameter)
     {
@@ -399,9 +236,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (DtoUnspportedSearchParameter != null)
       {
-        if (_SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList == null)
-          _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
-        _SearchParametersServiceOutcome.SearchParameters.DtoUnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+        if (_SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList == null)
+          _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+        _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
         return false;
       }
       else
@@ -419,5 +256,6 @@ namespace Pyro.Common.BusinessEntities.Service
         DtoUnspportedSearchParameter.RawParameter = $"{oInboundSearchParameter.RawValue}";
       return DtoUnspportedSearchParameter;
     }
+
   }
 }

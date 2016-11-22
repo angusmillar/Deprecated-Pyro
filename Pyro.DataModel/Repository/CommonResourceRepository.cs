@@ -26,7 +26,7 @@ namespace Pyro.DataModel.Repository
 
     public CommonResourceRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
 
-    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters)
+    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       var Predicate = PredicateGenerator<ResourceType>(DtoSearchParameters);
       int TotalRecordCount = DbGetALLCount<ResourceType>(Predicate);
@@ -37,8 +37,34 @@ namespace Pyro.DataModel.Repository
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
 
       Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-      var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-      Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType, true)));
+      var DtoResourceList = new List<DtoResource>();
+      if (WithXml)
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.versionId,
+          Received = x.lastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType,
+          Xml = x.XmlBlob
+        }).ToList();
+      }
+      else
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.versionId,
+          Received = x.lastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType
+        }).ToList();
+      }      
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
@@ -48,7 +74,7 @@ namespace Pyro.DataModel.Repository
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
-    
+
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
@@ -64,9 +90,10 @@ namespace Pyro.DataModel.Repository
             IsCurrent = true,
             Version = x.versionId,
             Received = x.lastUpdated,
+            Method = x.Method,
+            ResourceType = this.RepositoryResourceType,
             Xml = x.XmlBlob
-          }
-          ).SingleOrDefault();
+          }).SingleOrDefault();
       }
       else
       {
@@ -77,9 +104,10 @@ namespace Pyro.DataModel.Repository
             IsDeleted = x.IsDeleted,
             IsCurrent = true,
             Version = x.versionId,
-            Received = x.lastUpdated
-          }
-          ).SingleOrDefault();
+            Received = x.lastUpdated,
+            Method = x.Method,
+            ResourceType = this.RepositoryResourceType
+          }).SingleOrDefault();
       }
       if (DtoResource != null)
         DatabaseOperationOutcome.ReturnedResourceList.Add(DtoResource);
@@ -144,7 +172,7 @@ namespace Pyro.DataModel.Repository
         }
       }
 
-      
+
 
       var DtoResourceList = new List<DtoResource>();
 
@@ -165,7 +193,7 @@ namespace Pyro.DataModel.Repository
 
       TotalRecordCount = TotalRecordCount + GetResourceHistoryEntityCount(Predicate);
 
-      
+
 
       int StartRecord = 0;
       int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
@@ -195,7 +223,7 @@ namespace Pyro.DataModel.Repository
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
       return DatabaseOperationOutcome;
     }
-    
+
     public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceHistoryEntity = new ResourceHistoryType();
@@ -230,6 +258,29 @@ namespace Pyro.DataModel.Repository
       this.Save();
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome UpdateResouceListAsDeleted(ICollection<DtoResource> ResourceCollection)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      foreach (DtoResource Resource in ResourceCollection)
+      {
+        var ResourceHistoryEntity = new ResourceHistoryType();
+        var ResourceEntity = this.LoadCurrentResourceEntity(Resource.FhirId);
+        IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
+        this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
+        IndexSettingSupport.ResetResourceEntityBase(ResourceEntity);
+        this.ResetResourceEntity(ResourceEntity);
+        ResourceEntity.FhirId = Resource.FhirId;
+        ResourceEntity.IsDeleted = true;
+        ResourceEntity.versionId = Common.Tools.ResourceVersionNumber.Increment(Resource.Version);
+        ResourceEntity.XmlBlob = string.Empty;
+        ResourceEntity.lastUpdated = DateTimeOffset.Now;
+        ResourceEntity.Method = Bundle.HTTPVerb.DELETE;
+        DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
+      }
+      this.Save();
       return DatabaseOperationOutcome;
     }
 
