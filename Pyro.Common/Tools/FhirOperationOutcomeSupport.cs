@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
@@ -93,6 +94,104 @@ namespace Pyro.Common.Tools
       }
     }
 
+    public static OperationOutcome Append(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message, OperationOutcome Exsisting = null)
+    {
+      return Append(IssueSeverity, IssueType, Message, null, Exsisting);
+    }
+
+    public static OperationOutcome Append(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message, ICollection<string> Location, OperationOutcome Exsisting = null)
+    {
+      //Todo: if I need to escape the messages then use this function below!!
+      //XhtmlSupport.EncodeToString(Issue.Details.Text);
+      if (Exsisting == null)
+      {
+        return Create(IssueSeverity, IssueType, Message);
+      }
+      else
+      {
+        var oIssueComponent = new OperationOutcome.IssueComponent();
+        oIssueComponent.Severity = IssueSeverity;
+        if (IssueType.HasValue)
+          oIssueComponent.Code = IssueType.Value;
+        oIssueComponent.Location = Location;
+        oIssueComponent.Details = new CodeableConcept();
+        oIssueComponent.Details.Text = Message;
+        if (Exsisting.Issue == null)
+          Exsisting.Issue = new List<OperationOutcome.IssueComponent>();
+        Exsisting.Issue.Add(oIssueComponent);
+        Exsisting.Text = new Narrative();
+        List<string> MessageList = new List<string>();
+        Exsisting.Issue.ForEach(x => MessageList.Add(x.Details.Text));
+        Exsisting.Text.Div = AppendNarrative(MessageList);
+        return Exsisting;
+      }
+    }
+
+    public static OperationOutcome Create(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message)
+    {
+      return Create(IssueSeverity, IssueType, Message, null);
+    }
+
+    public static OperationOutcome Create(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message, ICollection<string> Location)
+    {
+      //Todo: if I need to escape the messages then use this function below!!
+      //XhtmlSupport.EncodeToString(Issue.Details.Text);
+
+      var oIssueComponent = new OperationOutcome.IssueComponent();
+      oIssueComponent.Severity = IssueSeverity;
+      if (IssueType.HasValue)
+        oIssueComponent.Code = IssueType.Value;
+      oIssueComponent.Details = new CodeableConcept();
+      oIssueComponent.Details.Text = Message;
+      oIssueComponent.Location = Location;
+      var oOperationOutcome = new OperationOutcome();
+      oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+      oOperationOutcome.Text = new Narrative();
+      oOperationOutcome.Text.Div = ConstructNarrative(Message);
+      return oOperationOutcome;
+    }
+
+
+
+
+    private static string ConstructNarrative(string Message)
+    {
+      var XDoc = new XmlDocument();
+      var Xroot = XDoc.CreateElement("div");
+      var xmlns = XDoc.CreateAttribute("xmlns");
+      xmlns.Value = "http://www.w3.org/1999/xhtml";
+      Xroot.SetAttributeNode(xmlns);
+      XDoc.AppendChild(Xroot);
+      var MessageHtml = XDoc.CreateElement("p");
+      Xroot.AppendChild(MessageHtml);
+      var ReasonTitle = XDoc.CreateElement("b");
+      ReasonTitle.AppendChild(XDoc.CreateTextNode("Reason: "));
+      MessageHtml.AppendChild(ReasonTitle);
+      var normal = MessageHtml.AppendChild(XDoc.CreateTextNode(Message));
+      MessageHtml.AppendChild(normal);
+      return XDoc.OuterXml;
+    }
+
+    private static string AppendNarrative(ICollection<string> MessageList)
+    {
+      var XDoc = new XmlDocument();
+      var Xroot = XDoc.CreateElement("div");
+      var xmlns = XDoc.CreateAttribute("xmlns");
+      xmlns.Value = "http://www.w3.org/1999/xhtml";
+      Xroot.SetAttributeNode(xmlns);
+      XDoc.AppendChild(Xroot);
+      foreach (string Message in MessageList)
+      {
+        var MessageHtml = XDoc.CreateElement("p");
+        Xroot.AppendChild(MessageHtml);
+        var ReasonTitle = XDoc.CreateElement("b");
+        ReasonTitle.AppendChild(XDoc.CreateTextNode("Reason: "));
+        MessageHtml.AppendChild(ReasonTitle);
+        var normal = MessageHtml.AppendChild(XDoc.CreateTextNode(Message));
+        MessageHtml.AppendChild(normal);
+      }
+      return XDoc.OuterXml;
+    }
 
   }
 }

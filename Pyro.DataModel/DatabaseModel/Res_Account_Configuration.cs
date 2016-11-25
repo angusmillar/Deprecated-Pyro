@@ -21,7 +21,7 @@ namespace Pyro.DataModel.DatabaseModel
       HasKey(x => x.Res_AccountID).Property(x => x.Res_AccountID).IsRequired();
       Property(x => x.IsDeleted).IsRequired();
       Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.lastUpdated).IsRequired();
+      Property(x => x.lastUpdated).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
       Property(x => x.versionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.Method).IsRequired();

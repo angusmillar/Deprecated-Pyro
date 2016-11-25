@@ -40,13 +40,9 @@ namespace Pyro.Engine.Support
           }
           catch (Exception oExec)
           {
-            var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-            OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-            OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-            OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
-            var OpOutcome = new OperationOutcome();
-            OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-            throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
+            string Message = string.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
+            OperationOutcome OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
+            throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
           }
         }
         if (BundleType == Bundle.BundleType.History)

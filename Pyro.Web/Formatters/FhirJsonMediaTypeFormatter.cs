@@ -56,7 +56,7 @@ namespace Pyro.Web.Formatters
             oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
             var oOperationOutcome = new OperationOutcome();
             oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);                    
+            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
           }
         }
         catch (FormatException Exec)
@@ -69,7 +69,7 @@ namespace Pyro.Web.Formatters
           oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);                     
+          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);
         }
       });
     }

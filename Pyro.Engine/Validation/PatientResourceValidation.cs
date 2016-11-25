@@ -9,7 +9,7 @@ using Pyro.Common.Interfaces.Service;
 namespace Pyro.Engine.Validation
 {
   public class PatientResourceValidation : BaseResourceValidation, Interfaces.IResourceValidation
-  {   
+  {
     public IResourceValidationOperationOutcome Validate(Resource Resource)
     {
       IResourceValidationOperationOutcome oResourceValidationOperationOutcome = new ResourceValidationOperationOutcome();
@@ -20,26 +20,19 @@ namespace Pyro.Engine.Validation
 
       //StartChecking the Patient Resource
       if (oPatient.BirthDate != null)
-      {        
+      {
         if (!Date.IsValidValue(oPatient.BirthDateElement.Value))
         {
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;          
-          OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_DATE_FORMAT", String.Format("The Date value '{0}' is not in the correct format (Xml Date Format required)", oPatient.BirthDate));
-          OpOutComeIssueComp.Details.Text = String.Format("Patient BirthDate was not able to be parsed to a FhirDate.");
-          OpOutComeIssueComp.Diagnostics = String.Format("Patient BirthDate was not able to be parsed to a FhirDate. The value found was {0}. An example of a correctly formatted date would be: '<birthDate value=\"1973-09-30\">' for the 30th of September 1973.", oPatient.BirthDate);
-          OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:Patient/f:birthDate") };
-          if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-            oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-          oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-          oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;          
+          var Location = new List<string>() { String.Format("/f:Patient/f:birthDate") };
+          string Message = string.Format("Patient BirthDate was not able to be parsed to a FhirDate. The value found was {0}. An example of a correctly formatted date would be: '<birthDate value=\"1973-09-30\">' for the 30th of September 1973.", oPatient.BirthDate);
+          oResourceValidationOperationOutcome.FhirOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Value, Message, Location, oResourceValidationOperationOutcome.FhirOperationOutcome);
+          oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         }
       }
 
       if (oPatient.Name != null)
       {
-        for (int i = 0; i < oPatient.Name.Count; i++)        
+        for (int i = 0; i < oPatient.Name.Count; i++)
         {
           if (oPatient.Name[i].Period != null)
           {
@@ -57,7 +50,7 @@ namespace Pyro.Engine.Validation
                 if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
                   oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
                 oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-                oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;          
+                oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
 
               }
             }
@@ -75,7 +68,7 @@ namespace Pyro.Engine.Validation
                 if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
                   oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
                 oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-                oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;          
+                oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
               }
             }
             if (!String.IsNullOrWhiteSpace(oPatient.Name[i].Period.Start) && !String.IsNullOrWhiteSpace(oPatient.Name[i].Period.End))
@@ -96,7 +89,7 @@ namespace Pyro.Engine.Validation
                   if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
                     oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
                   oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-                  oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;          
+                  oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                 }
               }
             }
@@ -107,7 +100,7 @@ namespace Pyro.Engine.Validation
     }
 
     private static Patient CastToPatientResource(Resource Resource, IResourceValidationOperationOutcome oResourceValidationOperationOutcome)
-    {      
+    {
       if (Resource is Patient)
       {
         return Resource as Patient;
@@ -116,7 +109,7 @@ namespace Pyro.Engine.Validation
       {
         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;        
+        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", Resource.GetType().ToString()));
         OpOutComeIssueComp.Details.Text = String.Format("Internal server error: Unable to cast Resource to Patient Resource in validation method.");
         if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)

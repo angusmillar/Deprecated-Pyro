@@ -53,28 +53,16 @@ namespace Pyro.Web.Formatters
           }
           else
           {
-            var oIssueComponent = new OperationOutcome.IssueComponent();
-            oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-            oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
-            oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", type.Name));
-            oIssueComponent.Details.Text = String.Format("FHIR resource type error, the resource does not appear to be a FHIR resource, type found was: " + type.Name);
-            oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-            var oOperationOutcome = new OperationOutcome();
-            oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
+            string Message = string.Format("FHIR resource type error, the resource does not appear to be a FHIR resource, type found was: " + type.Name);
+            var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
+            throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
           }
         }
         catch (FormatException Exec)
         {
-          var oIssueComponent = new OperationOutcome.IssueComponent();
-          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssueComponent.Code = OperationOutcome.IssueType.Structure;
-          oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_CANT_PARSE_ROOT", String.Format("Unable to parse feed (root element name = '{0}')", "[Unknown]"));
-          oIssueComponent.Details.Text = String.Format("FHIR parser failed with the following error message: " + Exec.Message);
-          oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-          var oOperationOutcome = new OperationOutcome();
-          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text, Exec);
+          string Message = string.Format("FHIR parser failed with the following error message: " + Exec.Message);
+          var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Structure, Message);
+          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message, Exec);
         }
       });
     }

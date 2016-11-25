@@ -1046,7 +1046,7 @@ namespace Pyro.DataModel.DatabaseModel
     protected override void OnModelCreating(DbModelBuilder Mb)
     {
       base.OnModelCreating(Mb);
-      Mb.Conventions.Remove<PluralizingTableNameConvention>();
+      Mb.Conventions.Remove<PluralizingTableNameConvention>();      
       
       Mb.Configurations.Add(new ServiceRootURL_Store_Configuration());
       Mb.Configurations.Add(new Res_Account_Configuration());

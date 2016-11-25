@@ -5,6 +5,6 @@
  
 
 // Generated helper templates
-// Pyro.DataModel\DatabaseModel\_DbContextGenerator.txt4
+// Pyro\Pyro.DataModel\DatabaseModel\_DbContextGenerator.txt4
 // Generated items
-// Pyro.DataModel\DatabaseModel\DatabaseContext.cs
+// Pyro\Pyro.DataModel\DatabaseModel\DatabaseContext.cs

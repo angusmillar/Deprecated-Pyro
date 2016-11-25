@@ -27,7 +27,7 @@ namespace Pyro.Common.Tools
     public static void AddVersionETag(HttpResponseHeaders HttpResponseHeaders, string Version)
     {
       //example: ETag: W/"3141"      
-      HttpResponseHeaders.ETag = new EntityTagHeaderValue('\"' + Version + '\"', true);      
+      HttpResponseHeaders.ETag = new EntityTagHeaderValue('\"' + Version + '\"', true);
     }
 
     public static void AddResponseLastModified(HttpContentHeaders HttpContentHeaders, DateTimeOffset LastModified)

@@ -84,6 +84,7 @@ namespace Pyro.Web.Response
         }
         else
         {
+
           var oIssueComponent = new OperationOutcome.IssueComponent();
           oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
           oIssueComponent.Code = OperationOutcome.IssueType.Exception;
@@ -135,6 +136,10 @@ namespace Pyro.Web.Response
       else if (HttpStatusCode == System.Net.HttpStatusCode.NotFound)
       {
         //No need to process _format as not returning a body of type resource
+        return Response;
+      }
+      else if (HttpStatusCode == System.Net.HttpStatusCode.PreconditionFailed)
+      {
         return Response;
       }
       //Forbidden: 403..and others

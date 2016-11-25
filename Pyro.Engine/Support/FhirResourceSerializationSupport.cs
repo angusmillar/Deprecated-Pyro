@@ -11,19 +11,15 @@ namespace Pyro.Engine.Support
     public static Resource Serialize(string Xml)
     {
       try
-      {        
-        FhirXmlParser FhirXmlParser = new FhirXmlParser();         
+      {
+        FhirXmlParser FhirXmlParser = new FhirXmlParser();
         return FhirXmlParser.Parse<Resource>(Xml);
       }
       catch (Exception oExec)
       {
-        var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-        OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = String.Format("Internal Server Error: Serialisation of a Resource failed with the following message: {0}", oExec.Message);
-        var OpOutcome = new OperationOutcome();
-        OpOutcome.Issue = new List<Hl7.Fhir.Model.OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, OpOutComeIssueComp.Diagnostics);
+        string Message = string.Format("Internal Server Error: Serialisation of a Resource failed with the following message: {0}", oExec.Message);
+        OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
+        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
       }
 
     }

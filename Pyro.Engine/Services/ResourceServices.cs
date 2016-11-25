@@ -6,6 +6,7 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Enum;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Engine.Services
@@ -233,16 +234,8 @@ namespace Pyro.Engine.Services
 
       if (!string.IsNullOrWhiteSpace(PyroServiceRequest.Resource.Id))
       {
-        var oIssueComponent = new OperationOutcome.IssueComponent();
-        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
-        oIssueComponent.Code = OperationOutcome.IssueType.Required;
-        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
-        oIssueComponent.Details.Text = String.Format("The create (POST) interaction creates a new resource in a server-assigned location. If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead. The Resource provide was found to contain the id: {0}", PyroServiceRequest.Resource.Id);
-        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-        var oOperationOutcome = new OperationOutcome();
-        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
+        string Message = string.Format("The create (POST) interaction creates a new resource in a server-assigned location. If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead. The Resource provide was found to contain the id: {0}", PyroServiceRequest.Resource.Id);
+        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Required, Message);
         oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         return oPyroServiceOperationOutcome;
       }
@@ -309,16 +302,8 @@ namespace Pyro.Engine.Services
 
       if (string.IsNullOrWhiteSpace(PyroServiceRequest.Resource.Id) || PyroServiceRequest.Resource.Id != PyroServiceRequest.ResourceId)
       {
-        var oIssueComponent = new OperationOutcome.IssueComponent();
-        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
-        oIssueComponent.Code = OperationOutcome.IssueType.Required;
-        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_INVALID_ID", String.Format("Id not accepted, type"));
-        oIssueComponent.Details.Text = String.Format("The Resource SHALL contain an id element that has an identical value to the [id] in the URL. The id in the resource was: '{0}' and the [id] in the URL was: '{1}'", PyroServiceRequest.Resource.Id, PyroServiceRequest.ResourceId);
-        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-        var oOperationOutcome = new OperationOutcome();
-        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome = new Validation.ResourceValidationOperationOutcome();
-        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = oOperationOutcome;
+        string Message = String.Format("The Resource SHALL contain an id element that has an identical value to the [id] in the URL. The id in the resource was: '{0}' and the [id] in the URL was: '{1}'", PyroServiceRequest.Resource.Id, PyroServiceRequest.ResourceId);
+        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Required, Message);
         oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         return oPyroServiceOperationOutcome;
       }
@@ -469,6 +454,69 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
+
+    public IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest)
+    {
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      // GET: URL//FhirApi/Patient?family=Smith&given=John                  
+
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequest.SearchParams, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
+
+      if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
+      {
+        ServiceOperationOutcomeConditionalPut.SearchParametersServiceOutcome = SearchParametersServiceOutcomeAll;
+        return ServiceOperationOutcomeConditionalPut;
+      }
+
+      SearchParametersServiceOutcomeAll.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
+
+      IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
+      if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 0)
+      {
+        //Found no resource so do a normal Create, first clear any Resource Id that may 
+        //be in the resource
+        PyroServiceRequest.Resource.Id = string.Empty;
+        IResourceServiceRequest ServiceRequestSingleCreate = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, PyroServiceRequest.SearchParams);
+        ServiceOperationOutcomeConditionalPut = this.Post(ServiceRequestSingleCreate);
+      }
+      else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 1)
+      {
+        if (!string.IsNullOrWhiteSpace(PyroServiceRequest.Resource.Id))
+        {
+          if (DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId != PyroServiceRequest.Resource.Id)
+          {
+            string Message = "The single Resource located by the search has a different Resource Id to that which was found in the Resource given. Either, remove the Id from the Resource given or re-evaluate the search parameters.";
+            SearchParametersServiceOutcomeAll.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.BusinessRule, Message);
+            ServiceOperationOutcomeConditionalPut.SearchParametersServiceOutcome = SearchParametersServiceOutcomeAll;
+            return ServiceOperationOutcomeConditionalPut;
+          }
+        }
+        else
+        {
+          PyroServiceRequest.Resource.Id = DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId;
+        }
+        IResourceServiceRequest ServiceRequestSingleUpdate = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Update, DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, PyroServiceRequest.SearchParams);
+        ServiceOperationOutcomeConditionalPut = this.Put(ServiceRequestSingleUpdate);
+      }
+      else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count > 1)
+      {
+        //should I return an operationOutcome
+        ServiceOperationOutcomeConditionalPut.ResourceResult = null;
+        ServiceOperationOutcomeConditionalPut.FhirResourceId = null;
+        ServiceOperationOutcomeConditionalPut.LastModified = null;
+        ServiceOperationOutcomeConditionalPut.IsDeleted = true;
+        ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
+        ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = null;
+        ServiceOperationOutcomeConditionalPut.RequestUri = null;
+        ServiceOperationOutcomeConditionalPut.ServiceRootUri = null;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+        ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
+      }
+      return ServiceOperationOutcomeConditionalPut;
+
+    }
+
+
     //Conditional Delete
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest)
@@ -487,13 +535,10 @@ namespace Pyro.Engine.Services
       if ((SearchParametersServiceOutcomeAll.SearchParameters.SearchParametersList.Count - SearchParametersServiceOutcomeBaseOnly.SearchParameters.SearchParametersList.Count) <= 0 ||
         SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count != 0)
       {
-        var oIssueComponent = new OperationOutcome.IssueComponent();
-        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Error;
-        oIssueComponent.Code = OperationOutcome.IssueType.BusinessRule;
-        oIssueComponent.Details = new CodeableConcept();
+        string Message = string.Empty;
         if ((SearchParametersServiceOutcomeAll.SearchParameters.SearchParametersList.Count - SearchParametersServiceOutcomeBaseOnly.SearchParameters.SearchParametersList.Count) <= 0)
         {
-          oIssueComponent.Details.Text = String.Format($"The Conditional Delete operation requires at least one valid Resource search parameter in order to be performed.");
+          Message = String.Format($"The Conditional Delete operation requires at least one valid Resource search parameter in order to be performed.");
         }
         else if (SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count != 0)
         {
@@ -502,12 +547,9 @@ namespace Pyro.Engine.Services
           {
             UnspportedSearchParameterMessage = UnspportedSearchParameterMessage + $"Parameter: {item.RawParameter}, Reason: {item.ReasonMessage};";
           }
-          oIssueComponent.Details.Text = String.Format($"The Conditional Delete operation requires that all Search parameters are understood. The following supplied  parameters were not understood: {UnspportedSearchParameterMessage}");
+          Message = String.Format($"The Conditional Delete operation requires that all Search parameters are understood. The following supplied  parameters were not understood: {UnspportedSearchParameterMessage}");
         }
-        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-        var oOperationOutcome = new OperationOutcome();
-        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        SearchParametersServiceOutcomeAll.FhirOperationOutcome = oOperationOutcome;
+        SearchParametersServiceOutcomeAll.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.BusinessRule, Message);
         SearchParametersServiceOutcomeAll.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
         ServiceOperationOutcomeConditionalDelete.SearchParametersServiceOutcome = SearchParametersServiceOutcomeAll;
         return ServiceOperationOutcomeConditionalDelete;

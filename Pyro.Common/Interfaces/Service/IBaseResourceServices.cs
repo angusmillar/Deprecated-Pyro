@@ -43,7 +43,12 @@ namespace Pyro.Common.Interfaces.Service
     //Conditional Delete
     // DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest);
-    
+
+    //Conditional Update
+    /// PUT: URL/FhirApi/Patient?given=angus
+    IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest);
+
+
   }
 
 }

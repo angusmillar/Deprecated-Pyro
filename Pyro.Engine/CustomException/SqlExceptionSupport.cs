@@ -13,17 +13,12 @@ namespace Pyro.Engine.CustomException
   public static class SqlExceptionSupport
   {
     public static DtoPyroException GenerateDtoPyroException(SqlException SqlException, bool DebuggerAttached = false)
-    {      
-      var OpOutCome = new OperationOutcome();
-      OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
-      var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-      OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-      OpOutComeIssueComp.Code = ResolveIssueType(SqlException.Number);
+    {
+      OperationOutcome OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, ResolveIssueType(SqlException.Number), "SQL Exception has occurred, see diagnostics for exception message.");
       if (DebuggerAttached)
-        OpOutComeIssueComp.Diagnostics = SqlException.Message;
+        OpOutCome.Issue[0].Diagnostics = SqlException.Message;
       else
-        OpOutComeIssueComp.Diagnostics = ResolveDiagnosticsText(SqlException.Number);
-      OpOutCome.Issue.Add(OpOutComeIssueComp);
+        OpOutCome.Issue[0].Diagnostics = ResolveDiagnosticsText(SqlException.Number);
       return new DtoPyroException(ResolveHttpStatusCode(SqlException.Number), OpOutCome, SqlException.Message, SqlException);
     }
 
@@ -45,7 +40,7 @@ namespace Pyro.Engine.CustomException
         case -2:
           return OperationOutcome.IssueType.Timeout;
         default:
-             return OperationOutcome.IssueType.Exception;
+          return OperationOutcome.IssueType.Exception;
       }
     }
 

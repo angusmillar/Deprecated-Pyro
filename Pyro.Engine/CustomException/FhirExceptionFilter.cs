@@ -18,48 +18,33 @@ namespace Pyro.Engine.CustomException
   {
     public override void OnException(HttpActionExecutedContext context)
     {
-      HttpResponseMessage response = null; 
-      
+      HttpResponseMessage response = null;
+
       if (context.Exception is DtoPyroException)
       {
         var oDtoPyroException = (DtoPyroException)context.Exception;
         if (oDtoPyroException.OperationOutcome != null)
-        {                       
-          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
-          response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);                
+        {
+          response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);
         }
         else
         {
-          OperationOutcome OpOutCome = new OperationOutcome();
-          OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
-          var oIssue = new OperationOutcome.IssueComponent();
-          oIssue.Diagnostics = oDtoPyroException.Message;
-          oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssue.Code = OperationOutcome.IssueType.Unknown;
-          OpOutCome.Issue.Add(oIssue);
-          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);
+          OperationOutcome OpOutCome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Unknown, oDtoPyroException.Message);
           response = context.Request.CreateResponse(oDtoPyroException.HttpStatusCode, OpOutCome);
-        }          
+        }
       }
       else if (context.Exception is SqlException)
       {
-          DtoPyroException oDtoPyroException = SqlExceptionSupport.GenerateDtoPyroException((SqlException)context.Exception, System.Diagnostics.Debugger.IsAttached);
-          FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
-          response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);         
+        DtoPyroException oDtoPyroException = SqlExceptionSupport.GenerateDtoPyroException((SqlException)context.Exception, System.Diagnostics.Debugger.IsAttached);
+        FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
+        response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);
       }
       else if (context.Exception is Exception)
       {
-        OperationOutcome OpOutCome = new OperationOutcome();
-        OpOutCome.Issue = new List<OperationOutcome.IssueComponent>();
-        var oIssue = new OperationOutcome.IssueComponent();
-        oIssue.Diagnostics = context.Exception.ToString();
-        oIssue.Severity = OperationOutcome.IssueSeverity.Fatal;
-        oIssue.Code = OperationOutcome.IssueType.Unknown;
-        OpOutCome.Issue.Add(oIssue);
-        FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);                
-        response = context.Request.CreateResponse<Resource>(HttpStatusCode.InternalServerError, OpOutCome);        
+        OperationOutcome OpOutCome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Unknown, context.Exception.ToString());
+        response = context.Request.CreateResponse<Resource>(HttpStatusCode.InternalServerError, OpOutCome);
       }
-      
+
       throw new HttpResponseException(response);
     }
   }
