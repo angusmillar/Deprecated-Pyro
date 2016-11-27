@@ -99,7 +99,6 @@ namespace Pyro.Web.Controllers
     [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
     public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
-      var test = Request.GetSearchParams();
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.History, id, vid, FhirRequestUri, Request.GetSearchParams());
