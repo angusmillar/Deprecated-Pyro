@@ -473,7 +473,7 @@ namespace Pyro.Engine.Services
       IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
       if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 0)
       {
-        //Found no resource so do a normal Create, first clear any Resource Id that may 
+        //No resource found so do a normal Create, first clear any Resource Id that may 
         //be in the resource
         PyroServiceRequest.Resource.Id = string.Empty;
         IResourceServiceRequest ServiceRequestSingleCreate = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, PyroServiceRequest.SearchParams);

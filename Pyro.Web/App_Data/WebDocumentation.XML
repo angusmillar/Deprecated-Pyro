@@ -544,6 +544,16 @@
             <param name="resource">The actual Resource in the HTTP body</param>
             <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.Delete(System.String,System.String)">
+            <summary>
+            Deletes removes an existing resource at the given id.
+            This server supports version history. 
+            The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
+            </summary>
+            <param name="ResourceName">The name of the FHIR resource that is being removed.</param>
+            <param name="id">The FHIR Resource's id to be removed.</param>
+            <returns>HTTP Status code 204 (No Content)</returns>
+        </member>
         <member name="M:Pyro.Web.Controllers.FhirController.ConditionalPut(System.String,Hl7.Fhir.Model.Resource)">
             <summary>
             Updates creates a new current version for an existing resource or creates an initial version if no resource already exists for the given id.
@@ -554,16 +564,6 @@
             <param name="ResourceName">The name of the FHIR resource that is contained in the HTTP body</param>    
             <param name="resource">The actual Resource in the HTTP body</param>
             <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
-        </member>
-        <member name="M:Pyro.Web.Controllers.FhirController.Delete(System.String,System.String)">
-            <summary>
-            Deletes removes an existing resource at the given id.
-            This server supports version history. 
-            The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
-            </summary>
-            <param name="ResourceName">The name of the FHIR resource that is being removed.</param>
-            <param name="id">The FHIR Resource's id to be removed.</param>
-            <returns>HTTP Status code 204 (No Content)</returns>
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.ConditionalDelete(System.String)">
             <summary>

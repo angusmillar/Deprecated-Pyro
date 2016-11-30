@@ -152,6 +152,27 @@ namespace Pyro.Web.Controllers
       IResourceServiceOutcome ResourceServiceOutcome = oService.Put(ResourceServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
+    
+    //Delete
+    // DELETE: URL/FhirApi/Patient/5
+    /// <summary>
+    /// Deletes removes an existing resource at the given id.
+    /// This server supports version history. 
+    /// The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
+    /// </summary>
+    /// <param name="ResourceName">The name of the FHIR resource that is being removed.</param>
+    /// <param name="id">The FHIR Resource's id to be removed.</param>
+    /// <returns>HTTP Status code 204 (No Content)</returns>
+    [HttpDelete, Route("{ResourceName}/{id}")]
+    public HttpResponseMessage Delete(string ResourceName, string id)
+    {
+      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Delete, id, DtoFhirRequestUri, Request.GetSearchParams());
+      IResourceServiceOutcome ResourceServiceOutcome = oService.Delete(ResourceServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
+    }
+
 
 
     //Conditional Update
@@ -175,27 +196,6 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
-
-
-    //Delete
-    // DELETE: URL/FhirApi/Patient/5
-    /// <summary>
-    /// Deletes removes an existing resource at the given id.
-    /// This server supports version history. 
-    /// The delete interaction does not remove a resource's version history. From a version history respect, deleting a resource is the equivalent of creating a special kind of history entry that has no content and is marked as deleted. 
-    /// </summary>
-    /// <param name="ResourceName">The name of the FHIR resource that is being removed.</param>
-    /// <param name="id">The FHIR Resource's id to be removed.</param>
-    /// <returns>HTTP Status code 204 (No Content)</returns>
-    [HttpDelete, Route("{ResourceName}/{id}")]
-    public HttpResponseMessage Delete(string ResourceName, string id)
-    {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
-      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Delete, id, DtoFhirRequestUri, Request.GetSearchParams());
-      IResourceServiceOutcome ResourceServiceOutcome = oService.Delete(ResourceServiceRequest);
-      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
-    }
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5

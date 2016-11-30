@@ -40,15 +40,23 @@ namespace Pyro.Common.Tools
       {
         CacheKey = methodcall.Method.Name;
       }
+      else
+      {
+        throw new NullReferenceException("Internal Server error: methodcall for call back is null.");
+      }
+
       T item = MemoryCache.Default.Get(CacheKey) as T;
       if (item == null)
       {
-        Func<T> x = getItemCallback.Compile();
-        item = x();
-        MemoryCache.Default.Add(CacheKey, item, DateTime.Now.AddMinutes(10));
+        Func<T> CompiledCall = getItemCallback.Compile();
+        item = CompiledCall();
+        if (item != null)
+        {
+          MemoryCache.Default.Add(CacheKey, item, DateTime.Now.AddMinutes(20));
+        }
       }
       return item;
     }
   }
-  
+
 }

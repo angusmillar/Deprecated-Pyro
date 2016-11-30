@@ -43,6 +43,7 @@ namespace Pyro.Test.IntergrationTest
       //Add a Patient resource by Update
       Patient PatientOne = new Patient();      
       PatientOne.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
+      PatientOne.BirthDateElement = new Date("1979-09-30");
       PatientOne.Identifier.Add(new Identifier("http://example.org/abn", "1"));
       PatientOne.Gender = AdministrativeGender.Unknown;
 
