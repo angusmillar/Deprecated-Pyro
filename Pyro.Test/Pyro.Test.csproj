@@ -121,7 +121,7 @@
     <Compile Include="IndexSetters\Test_String_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_Token_IndexSetter.cs" />
     <Compile Include="IndexSetters\Test_Uri_IndexSetter.cs" />
-    <Compile Include="IntergrationTest\TestBasicCrud.cs" />
+    <Compile Include="IntergrationTest\Test_BasicIntergration.cs" />
     <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
