@@ -1,5 +1,4 @@
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Pyro.Web.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
-
+//[assembly: WebActivator.PostApplicationStartMethod(typeof(Pyro.Web.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
 namespace Pyro.Web.App_Start
 {
   using System.Web.Http;
@@ -7,26 +6,25 @@ namespace Pyro.Web.App_Start
   using SimpleInjector.Integration.WebApi;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
-  using Pyro.Common.Interfaces;
   using Pyro.DataModel;
 
 
   public static class SimpleInjectorWebApiInitializer
   {
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
-    public static void Initialize()
+    public static void Initialize(HttpConfiguration configuration)
     {
       var container = new Container();
       container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
 
       InitializeContainer(container);
 
-      container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
+      container.RegisterWebApiControllers(configuration);
 
       container.Verify();
 
-      GlobalConfiguration.Configuration.DependencyResolver =
-          new SimpleInjectorWebApiDependencyResolver(container);
+      configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
+
     }
 
     private static void InitializeContainer(Container container)
@@ -37,7 +35,6 @@ namespace Pyro.Web.App_Start
       container.Register<IPatientResourceServices, Pyro.Engine.Services.PatientResourceServices>(Lifestyle.Scoped);
       container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
       container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(Lifestyle.Scoped);
-
     }
   }
 }

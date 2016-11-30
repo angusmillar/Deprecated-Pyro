@@ -26,7 +26,6 @@ namespace Pyro.Web.Formatters
       // Add the supported media type for Fhir XML i.e '"application/xml+fhir"
       foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
         SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
-
     }
 
 
@@ -73,24 +72,20 @@ namespace Pyro.Web.Formatters
       return type == typeof(Hl7.Fhir.Model.Resource);
     }
 
-
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
       return System.Threading.Tasks.Task.Factory.StartNew(() =>
       {
-        //Todo:
-        //bool summary = requestMessage.RequestSummary();
-
-        using (XmlWriter writer = new XmlTextWriter(writeStream, System.Text.Encoding.UTF8))
+        XmlWriter writer = new XmlTextWriter(writeStream, new System.Text.UTF8Encoding(false));
+        if (type.IsAssignableFrom(typeof(Resource)))
         {
-          if (type.IsAssignableFrom(typeof(Resource)))
-          {
-            Resource resource = (Resource)value;
-            FhirSerializer.SerializeResource(resource, writer, Hl7.Fhir.Rest.SummaryType.False);
-          }
-          writer.Flush();
+          Resource resource = (Resource)value;
+          FhirSerializer.SerializeResource(resource, writer, Hl7.Fhir.Rest.SummaryType.False);
         }
+        writer.Flush();
+        return System.Threading.Tasks.Task.CompletedTask;
       });
     }
+
   }
 }

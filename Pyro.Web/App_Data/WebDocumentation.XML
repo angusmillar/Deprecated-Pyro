@@ -4,7 +4,7 @@
         <name>Pyro.Web</name>
     </assembly>
     <members>
-        <member name="M:Pyro.Web.App_Start.SimpleInjectorWebApiInitializer.Initialize">
+        <member name="M:Pyro.Web.App_Start.SimpleInjectorWebApiInitializer.Initialize(System.Web.Http.HttpConfiguration)">
             <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
         </member>
         <member name="M:Pyro.Web.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">

@@ -7,6 +7,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Interfaces.Tools;
 using Pyro.Common.Interfaces;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.BusinessEntities.Service;
@@ -78,6 +79,10 @@ namespace Pyro.Common
       return new ResourceServiceRequest(ServiceRequestType, FhirId, Vid, DtoFhirRequestUri, SearchParams);
     }
 
-
+    public static IApplicationCacheSupport GetApplicationCacheService()
+    {
+      return new Tools.ApplicationCacheSupport();
+    }
+    
   }
 }

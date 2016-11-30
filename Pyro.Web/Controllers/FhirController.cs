@@ -15,7 +15,7 @@ using Pyro.Web.ApplicationCache;
 
 namespace Pyro.Web.Controllers
 {
-  [RoutePrefix("test/stu3/fhir")]
+  [RoutePrefix(Pyro.Common.Web.StaticWebInfo.ServiceRoute)]  
   public class FhirController : ApiController
   {
     private readonly IServiceNegotiator _FhirServiceNegotiator;
@@ -24,7 +24,10 @@ namespace Pyro.Web.Controllers
     {
       _FhirServiceNegotiator = FhirServiceNegotiator;
     }
-
+    //public FhirController()
+    //{
+      
+    //}
 
     //Metadata 
     // GET: URL//FhirApi/metadata

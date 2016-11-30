@@ -76,23 +76,18 @@ namespace Pyro.Web.Formatters
 
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
-      return System.Threading.Tasks.Task.Factory.StartNew(() =>
+      StreamWriter writer = new StreamWriter(writeStream);
+      JsonWriter jsonwriter = new JsonTextWriter(writer);
+      if (typeof(Resource).IsAssignableFrom(type))
       {
-        using (StreamWriter streamwriter = new StreamWriter(writeStream))
+        if (value != null)
         {
-          using (JsonWriter writer = new JsonTextWriter(streamwriter))
-          {
-            //Todo:
-            //bool summary = requestMessage.RequestSummary();
-
-            if (typeof(Resource).IsAssignableFrom(type))
-            {
-              Resource resource = (Resource)value;
-              FhirSerializer.SerializeResource(resource, writer);
-            }
-          }
+          Resource Resource = value as Resource;
+          FhirSerializer.SerializeResource(Resource, jsonwriter, SummaryType.False);
         }
-      });
+      }
+      writer.Flush();      
+      return System.Threading.Tasks.Task.CompletedTask;
     }
 
 
