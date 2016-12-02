@@ -4,8 +4,9 @@ using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Enum;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.BusinessEntities.Search;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -23,12 +24,11 @@ namespace Pyro.Common.BusinessEntities.Service
       Resource = 16,
     };
 
-    public static ISearchParametersServiceOutcome ProcessSearchParameters(Hl7.Fhir.Rest.SearchParams SearchParams, SearchParameterServiceType SearchParameterServiceType, FHIRAllTypes? ResourceType = null)
+    public static ISearchParametersServiceOutcome ProcessSearchParameters(IDtoSearchParameterGeneric SearchParameterGeneric, SearchParameterServiceType SearchParameterServiceType, FHIRAllTypes? ResourceType = null)
     {
       if (((SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource) && !ResourceType.HasValue)
         throw new NullReferenceException("Server error: _ResourceType can not be null when enum SearchParameterServiceType is set to Resource.");
-
-      var SearchParameterGeneric = new Pyro.Common.BusinessEntities.Search.DtoSearchParameterGeneric(SearchParams);
+      
       if (ResourceType.HasValue)
         _ResourceType = ResourceType.Value;
       _SearchParameterServiceType = SearchParameterServiceType;
@@ -37,7 +37,7 @@ namespace Pyro.Common.BusinessEntities.Service
       return _SearchParametersServiceOutcome;
     }
 
-    private static void ParseSupportedSearchParameters(DtoSearchParameterGeneric SearchParameterGeneric)
+    private static void ParseSupportedSearchParameters(IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
       _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = _ResourceType;

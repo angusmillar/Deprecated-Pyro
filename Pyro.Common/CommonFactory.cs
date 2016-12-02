@@ -49,40 +49,50 @@ namespace Pyro.Common
       return new DtoDatabaseOperationOutcome();
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, id, DtoFhirRequestUri, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, id, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, id, Resource, DtoFhirRequestUri, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, id, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, DtoFhirRequestUri, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string FhirId, string Vid, IDtoFhirRequestUri DtoFhirRequestUri, SearchParams SearchParams)
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string FhirId, string Vid, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, FhirId, Vid, DtoFhirRequestUri, SearchParams);
+      return new ResourceServiceRequest(ServiceRequestType, FhirId, Vid, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
     public static IApplicationCacheSupport GetApplicationCacheService()
     {
       return new Tools.ApplicationCacheSupport();
     }
-    
+
+    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric()
+    {
+      return new BusinessEntities.Search.DtoSearchParameterGeneric();
+    }
+
+    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric(SearchParams SearchParams)
+    {
+      return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParams);
+    }
+
   }
 }

@@ -17,8 +17,8 @@ namespace Pyro.Engine.Services
   {
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequest ResourceServiceRequest, Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
     {
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParams, SearchParameterService.SearchParameterServiceType.Base);
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();      
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;

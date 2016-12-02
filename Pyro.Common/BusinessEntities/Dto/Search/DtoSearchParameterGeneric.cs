@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
-  public class DtoSearchParameterGeneric
+  public class DtoSearchParameterGeneric : IDtoSearchParameterGeneric
   {
     public IList<Tuple<string, string>> ParameterList { get; set; }
     public IList<Tuple<string, Hl7.Fhir.Rest.SortOrder>> Sort { get; }
