@@ -38,6 +38,7 @@ namespace Pyro.Engine.Services
     }
 
     //GET    
+    // Get: URL/Fhir/Patient/1
     public virtual IResourceServiceOutcome Get(IResourceServiceRequest PyroServiceRequest)
     {
       IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
@@ -218,7 +219,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    // Add
+    // Add (POST)
     // POST: URL/FhirApi/Patient
     public virtual IResourceServiceOutcome Post(IResourceServiceRequest PyroServiceRequest)
     {
@@ -287,7 +288,7 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    //Update
+    //Update (PUT)
     // PUT: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Put(IResourceServiceRequest PyroServiceRequest)
     {
@@ -454,7 +455,8 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-
+    //ConditionalUpdate (PUT)
+    //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest)
     {
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetPyroServiceOperationOutcome();
@@ -495,8 +497,43 @@ namespace Pyro.Engine.Services
         {
           PyroServiceRequest.Resource.Id = DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId;
         }
-        IResourceServiceRequest ServiceRequestSingleUpdate = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Update, DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, PyroServiceRequest.SearchParams);
-        ServiceOperationOutcomeConditionalPut = this.Put(ServiceRequestSingleUpdate);
+
+        //Create Resource's Meta element if not found and update its last updated property to now
+        if (PyroServiceRequest.Resource.Meta == null)
+          PyroServiceRequest.Resource.Meta = new Meta();
+        PyroServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
+
+        //A database resource has been found so update the new resource's version number based on the older resource              
+        PyroServiceRequest.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeSearch.ReturnedResourceList[0].Version);
+
+        IDatabaseOperationOutcome DatabaseOperationOutcomeUpdate = _ResourceRepository.UpdateResource(PyroServiceRequest.Resource.Meta.VersionId, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri);
+        if (DatabaseOperationOutcomeUpdate.ReturnedResourceList != null && DatabaseOperationOutcomeUpdate.ReturnedResourceList.Count == 1)
+        {
+          ServiceOperationOutcomeConditionalPut.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Xml);
+          ServiceOperationOutcomeConditionalPut.FhirResourceId = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].FhirId;
+          ServiceOperationOutcomeConditionalPut.LastModified = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Received;
+          ServiceOperationOutcomeConditionalPut.IsDeleted = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].IsDeleted;
+          ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
+          ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Version;
+          ServiceOperationOutcomeConditionalPut.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
+          ServiceOperationOutcomeConditionalPut.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
+          ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+          ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.OK;
+        }
+        else
+        {
+          ServiceOperationOutcomeConditionalPut.ResourceResult = null;
+          ServiceOperationOutcomeConditionalPut.FhirResourceId = string.Empty;
+          ServiceOperationOutcomeConditionalPut.LastModified = null;
+          ServiceOperationOutcomeConditionalPut.IsDeleted = null;
+          ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
+          ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = string.Empty;
+          ServiceOperationOutcomeConditionalPut.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
+          ServiceOperationOutcomeConditionalPut.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
+          ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+          ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        }
+
       }
       else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count > 1)
       {
@@ -516,8 +553,7 @@ namespace Pyro.Engine.Services
 
     }
 
-
-    //Conditional Delete
+    //ConditionalDelete (Delete)
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest)
     {

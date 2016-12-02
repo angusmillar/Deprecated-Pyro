@@ -11,7 +11,7 @@ using Hl7.Fhir.Model;
 namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
-  class Test_BasicIntergration
+  class Test_BasicRequestes
   {
     private string ServerEndPoint = string.Empty;
     private string FhirEndpoint = string.Empty;
@@ -20,20 +20,21 @@ namespace Pyro.Test.IntergrationTest
     [SetUp]
     public void Setup()
     {
+      System.Threading.Thread.Sleep(1000 * 3);
       string LocalHost = "http://localhost";
       ServerEndPoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}";
       FhirEndpoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}";
-      Server = WebApp.Start<Pyro.Web.Startup>(ServerEndPoint);
+      Server = WebApp.Start<TestStartup>(ServerEndPoint);
     }
 
     [TearDown]
     public void TearDown()
     {
-      Server.Dispose();
+      Server.Dispose();      
     }
 
     [Test]
-    public void TestCreate()
+    public void Test_CRUD()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
       clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
@@ -44,7 +45,7 @@ namespace Pyro.Test.IntergrationTest
       Patient PatientOne = new Patient();      
       PatientOne.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
       PatientOne.BirthDateElement = new Date("1979-09-30");
-      PatientOne.Identifier.Add(new Identifier("http://example.org/abn", "1"));
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
       PatientOne.Gender = AdministrativeGender.Unknown;
 
       Patient PatientResult = null;

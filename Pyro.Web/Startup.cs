@@ -8,13 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using SimpleInjector;
-using SimpleInjector.Integration.WebApi;
 
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces;
-using Pyro.DataModel;
 
 
 [assembly: OwinStartup(typeof(Pyro.Web.Startup))]
@@ -24,6 +18,7 @@ namespace Pyro.Web
   public partial class Startup
   {
     public static HttpConfiguration HttpConfiguration { get; private set; }
+    protected RouteCollection _RouteCollection = RouteTable.Routes;
     public void Configuration(IAppBuilder app)
     {
       app.Use(async (environment, next) =>
@@ -48,13 +43,18 @@ namespace Pyro.Web
 
       WebApiConfig.Register(HttpConfiguration);
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-      RouteConfig.RegisterRoutes(RouteTable.Routes);
+      RegisterRoutes();      
       BundleConfig.RegisterBundles(BundleTable.Bundles);
 
       ConfigureAuth(app);
 
       app.UseWebApi(HttpConfiguration);
 
+    }
+
+    public virtual void RegisterRoutes()
+    {
+      RouteConfig.RegisterRoutes(_RouteCollection);
     }
   }
 }

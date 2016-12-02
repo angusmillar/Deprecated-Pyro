@@ -124,6 +124,10 @@ namespace Pyro.Web.Controllers
     [HttpPost, Route("{ResourceName}")]
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
+      IEnumerable<string> IfNoneExist;
+      var test = Request.Headers.TryGetValues("If-None-Exist", out IfNoneExist);
+      var test2 = IfNoneExist.FirstOrDefault();
+
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, resource, DtoFhirRequestUri, Request.GetSearchParams());
