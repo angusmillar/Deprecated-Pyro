@@ -233,7 +233,7 @@ namespace Pyro.Engine.Services
       }
       SearchParametersServiceOutcomeBase.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
 
-      if (!string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfNoneExist))
+      if ((PyroServiceRequest.RequestHeaders != null) && (!string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfNoneExist)))
       {
         IDtoSearchParameterGeneric SearchParameterGenericIfNoneExist = Common.CommonFactory.GetDtoSearchParameterGeneric(PyroServiceRequest.RequestHeaders.IfNoneExist);
         ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchParameterService.ProcessSearchParameters(SearchParameterGenericIfNoneExist, SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
@@ -249,11 +249,11 @@ namespace Pyro.Engine.Services
         {
           //From FHIR Specification: One Match: The server ignore the post and returns 200 OK
           oPyroServiceOperationOutcome.ResourceResult = null;
-          oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
-          oPyroServiceOperationOutcome.LastModified = null;
-          oPyroServiceOperationOutcome.IsDeleted = null;
+          oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].FhirId;
+          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].Received;
+          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].IsDeleted;
           oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
+          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].Version;
           oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
           oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
           oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;

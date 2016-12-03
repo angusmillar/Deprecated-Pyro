@@ -25,6 +25,11 @@ namespace Pyro.Common.BusinessEntities.Search
 
     public DtoSearchParameterGeneric(string SearchParameterString)
     {
+      if (SearchParameterString.Contains("?"))
+      {
+        SearchParameterString = SearchParameterString.Split('?')[1];
+      }
+            
       var ValuePairList = System.Web.HttpUtility.ParseQueryString(SearchParameterString);
       this.ParameterList = new List<Tuple<string, string>>();
       

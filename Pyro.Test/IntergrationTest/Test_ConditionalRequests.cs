@@ -38,7 +38,7 @@ namespace Pyro.Test.IntergrationTest
     public void Test_ConditionalUpdate()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
-      clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
 
       // Prepare 3 test patients
       Patient p1 = new Patient();
@@ -119,6 +119,102 @@ namespace Pyro.Test.IntergrationTest
 
       //Clean up by deleting all resources created while also testing Conditional Delete many
       sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      }
+
+    }
+
+    [Test]
+    public void Test_ConditionalCreate()
+    {
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
+      clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
+      string TempResourceVersion = string.Empty;
+      string TempResourceId = string.Empty;
+      
+      // Prepare test patient
+      Patient PatientOne = new Patient();      
+      PatientOne.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
+      PatientOne.BirthDateElement = new Date("1970-01");
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "5"));
+
+      SearchParams SearchParams = new SearchParams().Where("identifier=5");
+      try
+      {        
+        var ResultOne = clientFhir.Create(PatientOne, SearchParams);
+        TempResourceId = ResultOne.Id;
+        TempResourceVersion = ResultOne.VersionId;
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.Fail("Exception was thrown on Condition Create, message was: " + execOper.Message);
+      }
+
+      try
+      {
+        //This will return status OK but does not commit the resource and therefore
+        //does not increment the resource version number
+        clientFhir.Create(PatientOne, SearchParams);        
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.Fail("Exception was thrown on Condition Create, message was: " + execOper.Message);
+      }
+
+      try
+      {
+        //This will return status OK but does not commit the resource and therefore
+        //does not increment the resource version number
+        var PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{TempResourceId}");
+        Assert.AreEqual(TempResourceVersion, PatientResult.VersionId, "The Version Id was not correct post Conditional Create when Resource was found.");
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.Fail("Exception was thrown on Condition Create get operation, message was: " + execOper.Message);
+      }
+
+
+      // Create another Patient with the same name 
+      Patient PatientTwo = new Patient();
+      PatientTwo.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
+      PatientTwo.BirthDateElement = new Date("1970-01");
+      PatientTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "6"));      
+      try
+      {
+        var ResultTwo = clientFhir.Create(PatientTwo);                
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.Fail("Exception was thrown on Condition Create, message was: " + execOper.Message);
+      }
+
+      //Now try an Create another again with a search on the Name
+      //This should fail as it will resolve to many resource
+      Patient PatientThree = new Patient();
+      PatientThree.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
+      PatientThree.BirthDateElement = new Date("1970-01");
+      PatientThree.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "7"));
+      SearchParams = new SearchParams().Where("family=FhirMan").Where("given=Sam");
+      try
+      {
+        var ResultThree = clientFhir.Create(PatientTwo, SearchParams);
+        Assert.IsNull(ResultThree, "ResultThree should be null as the ConditionaCreate search parameters should find many resource");
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.AreEqual(System.Net.HttpStatusCode.PreconditionFailed, execOper.Status, "Did not get Http status 412 when resolving against many resources on ConditionalCreate");
+      }
+
+
+
+      //Clean up by deleting all resources created while also testing Conditional Delete many
+      var sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
       try
       {
         clientFhir.Delete("Patient", sp);

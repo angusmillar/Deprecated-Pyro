@@ -77,8 +77,19 @@ namespace Pyro.Web.Response
           //LastModified Header && ETag Version
           if (oPyroServiceOperationOutcome.LastModified != null)
           {
-            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
-            Response.Headers.ETag = new System.Net.Http.Headers.EntityTagHeaderValue("\"" + oPyroServiceOperationOutcome.ResourceVersionNumber + "\"");
+            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
+            HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+          }
+          return Response;
+        }
+        else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Create)
+        {
+          //LastModified Header && ETag Version
+          if (oPyroServiceOperationOutcome.LastModified != null)
+          {
+            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
+            if (Response.Content != null)
+              HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
           }
           return Response;
         }
