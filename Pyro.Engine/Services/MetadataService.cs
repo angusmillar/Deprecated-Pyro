@@ -17,7 +17,7 @@ namespace Pyro.Engine.Services
   {
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequest ResourceServiceRequest, Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
     {
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();      
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
@@ -88,8 +88,8 @@ namespace Pyro.Engine.Services
           new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Read},
           new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Update},
           new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Vread},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.SearchType }
-            //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryInstance,
+          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.SearchType },
+          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryInstance }
             //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
         };
         ResourceComponent.Versioning = Conformance.ResourceVersionPolicy.Versioned;
@@ -97,8 +97,8 @@ namespace Pyro.Engine.Services
         ResourceComponent.UpdateCreate = true;
         ResourceComponent.ConditionalCreate = true;
         ResourceComponent.ConditionalRead = Conformance.ConditionalReadStatus.NotSupported;
-        ResourceComponent.ConditionalUpdate = false;
-        ResourceComponent.ConditionalDelete = Conformance.ConditionalDeleteStatus.NotSupported;
+        ResourceComponent.ConditionalUpdate = true;
+        ResourceComponent.ConditionalDelete = Conformance.ConditionalDeleteStatus.Multiple;
         //ResourceComponent.SearchInclude = new List<string>() {"???", "??????" };
         //ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
 
