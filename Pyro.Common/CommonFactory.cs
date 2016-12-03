@@ -8,7 +8,7 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Tools;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.BusinessEntities.Dto;
@@ -64,6 +64,11 @@ namespace Pyro.Common
       return new ResourceServiceRequest(ServiceRequestType, id, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
+    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    {
+      return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
+    }
+
     public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
       return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
@@ -92,6 +97,16 @@ namespace Pyro.Common
     public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric(SearchParams SearchParams)
     {
       return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParams);
+    }
+
+    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric(string SearchParamsString)
+    {
+      return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParamsString);
+    }
+
+    public static Pyro.Common.Interfaces.Dto.Headers.IDtoRequestHeaders GetDtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
+    {
+      return new BusinessEntities.Dto.Headers.DtoRequestHeaders(HttpRequestHeaders);
     }
 
   }

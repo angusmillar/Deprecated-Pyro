@@ -83,6 +83,8 @@
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
+    <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
+    <Compile Include="Interfaces\Dto\Headers\IDtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDateTime.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDate.cs" />
