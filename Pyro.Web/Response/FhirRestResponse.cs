@@ -153,6 +153,10 @@ namespace Pyro.Web.Response
       {
         return Response;
       }
+      else if (HttpStatusCode == System.Net.HttpStatusCode.NotModified)
+      {
+        return Response;
+      }
       //Forbidden: 403..and others
       else
       {

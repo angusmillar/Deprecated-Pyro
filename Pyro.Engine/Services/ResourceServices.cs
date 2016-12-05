@@ -143,6 +143,27 @@ namespace Pyro.Engine.Services
             IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId, true);
             if (DatabaseOperationOutcome.ReturnedResourceList.Count == 1 && !DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
             {
+              if (PyroServiceRequest.RequestHeaders != null && (!string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfNoneMatch) || !string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfModifiedSince)))
+              {
+                if (!HttpHeaderSupport.IsModifiedOrNoneMatch(PyroServiceRequest.RequestHeaders.IfNoneMatch, 
+                  PyroServiceRequest.RequestHeaders.IfModifiedSince, 
+                  DatabaseOperationOutcome.ReturnedResourceList[0].Version, 
+                  DatabaseOperationOutcome.ReturnedResourceList[0].Received))
+                {
+                  oPyroServiceOperationOutcome.ResourceResult = null;
+                  oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
+                  oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
+                  oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
+                  oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
+                  oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
+                  oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
+                  oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
+                  oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+                  oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotModified;
+                  return oPyroServiceOperationOutcome;
+                }
+              }
+
               oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
               oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
               oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
@@ -674,5 +695,7 @@ namespace Pyro.Engine.Services
       }
       return ServiceOperationOutcomeConditionalDelete;
     }
+
+    
   }
 }

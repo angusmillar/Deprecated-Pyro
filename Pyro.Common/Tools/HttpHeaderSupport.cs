@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Tools
 {
@@ -34,8 +35,6 @@ namespace Pyro.Common.Tools
     {
       HttpContentHeaders.LastModified = LastModified;
     }
-
-
 
     public static bool IsAcceptMediaTypeSetInRequest(HttpRequestMessage Request)
     {
@@ -71,5 +70,47 @@ namespace Pyro.Common.Tools
       return string.Empty;
     }
 
+    public static bool IsModifiedOrNoneMatch(string ifNoneMatch, string ifModifiedSince, string resourceVersionNumber, DateTimeOffset? lastModified)
+    {
+      if (!string.IsNullOrWhiteSpace(ifNoneMatch))
+      {
+        if (resourceVersionNumber != ifNoneMatch.Trim())
+        {
+          return true;
+        }
+      }
+
+      if (!string.IsNullOrWhiteSpace(ifModifiedSince))
+      {
+        DateTimeOffset? ifModifiedSinceDateTimeOffset = HttpHeaderSupport.ParseHttpDate(ifModifiedSince);
+        if (!ifModifiedSinceDateTimeOffset.HasValue)
+        {
+          string ErrorMessage = "if-Modified-Since value could not be converted to a DateTime. The value found was: " + ifModifiedSince;
+          var Operationoutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMessage);
+          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Operationoutcome, ErrorMessage);
+        }
+        //Remove the milliseconds        
+        lastModified = new DateTimeOffset(lastModified.Value.Year, lastModified.Value.Month, lastModified.Value.Day, lastModified.Value.Hour, lastModified.Value.Minute, lastModified.Value.Second, 0, lastModified.Value.Offset);
+        ifModifiedSinceDateTimeOffset = new DateTimeOffset(ifModifiedSinceDateTimeOffset.Value.Year, ifModifiedSinceDateTimeOffset.Value.Month, ifModifiedSinceDateTimeOffset.Value.Day, ifModifiedSinceDateTimeOffset.Value.Hour, ifModifiedSinceDateTimeOffset.Value.Minute, ifModifiedSinceDateTimeOffset.Value.Second, 0, ifModifiedSinceDateTimeOffset.Value.Offset);
+        if (lastModified > ifModifiedSinceDateTimeOffset)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public static DateTimeOffset? ParseHttpDate(string value)
+    {
+      DateTimeOffset ValueDateTimeOffset = DateTimeOffset.MinValue;
+      if (DateTimeOffset.TryParseExact(value.Trim(), "ddd, dd MMM yyyy HH:mm:ss 'GMT'", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal, out ValueDateTimeOffset))
+      {
+        return ValueDateTimeOffset;
+      }
+      else
+      {
+        return null;
+      }
+    }
   }
 }

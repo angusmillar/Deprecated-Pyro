@@ -47,7 +47,7 @@ namespace Pyro.Test.IntergrationTest
       p1.BirthDateElement = new Date("1970-01");
       p1.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
       var r1 = clientFhir.Update(p1);
-
+      
       Patient p2 = new Patient();
       p2.Id = "TestPat2";
       p2.Name.Add(HumanName.ForFamily("Portlethwhite").WithGiven("Brian"));
@@ -223,6 +223,97 @@ namespace Pyro.Test.IntergrationTest
       {
         Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
       }
+
+    }
+
+    [Test]
+    public void Test_ConditionalRead()
+    {
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      string PatientOneId = string.Empty;
+      string PatientOneVersion = string.Empty;
+      DateTimeOffset? PatientOneModified = null;
+
+      // Prepare 3 test patients
+      Patient PatientOne = new Patient();
+      PatientOne.Id = "TestPat1";
+      PatientOne.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
+      PatientOne.BirthDateElement = new Date("1970-01");
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "6"));
+
+      Patient ResultOne = null;
+      try
+      {
+        ResultOne = clientFhir.Update(PatientOne);
+        PatientOneId = ResultOne.Id;
+        PatientOneVersion = ResultOne.VersionId;
+        PatientOneModified = ResultOne.Meta.LastUpdated;
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Get: " + Exec.Message);
+      }
+
+
+      Patient PatientTwo = null;
+      try
+      {
+        //Resource has not changed so should return a 304 Not Modified
+        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        Assert.Fail("Conditional Read is expected to throw an exception due to bug in FHIR .NET API");
+      }
+      catch (FhirOperationException ExecOp)
+      {
+        Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
+      }
+      catch (Exception Exec)
+      {
+        //The FHIR API client can not handle the return HTTP status of 304 NotModified.
+        string FHIRApiReports = "Server returned a status code 'NotModified', which is not supported by the FhirClient";
+        Assert.AreEqual(FHIRApiReports, Exec.Message, "This was a bug in the FHIR API Client that may now be fixed if you are seeing this message.");
+      }
+
+      PatientTwo = null;
+      PatientOneModified = PatientOneModified.Value.AddMinutes(-1);
+      try
+      {
+        //Resource has not changed so should return a 304 Not Modified
+        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        Assert.NotNull(PatientTwo, "Not Resource returned when 1 min subtracted from last-modified on Conditional Read.");
+        //reset the PatientOneModified
+        PatientOneModified = PatientTwo.Meta.LastUpdated;
+      }
+      catch (FhirOperationException ExecOp)
+      {
+        Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
+      }
+
+      PatientTwo = null;
+      PatientOneVersion = "xxxxx";
+      try
+      {
+        //Resource has not changed so should return a 304 Not Modified
+        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        Assert.NotNull(PatientTwo, "Not Resource returned when Resource Version did not match active resource Version on Conditional Read.");
+      }
+      catch (FhirOperationException ExecOp)
+      {
+        Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
+      }
+
+      //Clean up by deleting all Test Patients
+      var sp = new SearchParams().Where("identifier="+ StaticTestData.TestIdentiferSystem  + "|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      }
+
 
     }
   }
