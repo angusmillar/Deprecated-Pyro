@@ -14,6 +14,8 @@ using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Enum;
 using Pyro.Web.Extensions;
 using Pyro.Web.ApplicationCache;
+using Pyro.Web.Attributes;
+
 
 namespace Pyro.Web.Controllers
 {
@@ -25,11 +27,8 @@ namespace Pyro.Web.Controllers
     public FhirController(IServiceNegotiator FhirServiceNegotiator)
     {
       _FhirServiceNegotiator = FhirServiceNegotiator;
+      //Configuration.DependencyResolver.GetService
     }
-    //public FhirController()
-    //{
-
-    //}
 
     //Metadata 
     // GET: URL//FhirApi/metadata
@@ -38,6 +37,7 @@ namespace Pyro.Web.Controllers
     /// </summary>
     /// <returns>Conformance Resource</returns>
     [HttpGet, Route("metadata")]
+    [ActionLogAttribute]
     public HttpResponseMessage Metadata()
     {
       ICommonServices oService = _FhirServiceNegotiator.GetService();
@@ -62,6 +62,7 @@ namespace Pyro.Web.Controllers
     /// <param name="id">The FHIR Resource's id</param>
     /// <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Get(string ResourceName, string id)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -84,6 +85,7 @@ namespace Pyro.Web.Controllers
     /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
     /// <returns>Returns a bundle containing all resource that match the search criteria.</returns>
     [HttpGet, Route("{ResourceName}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Search(string ResourceName)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -107,6 +109,7 @@ namespace Pyro.Web.Controllers
     /// <param name="vid">The version id if requesting a single version instance, leave empty if you require the entire history for the resource instance.</param>
     /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -130,6 +133,7 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPost, Route("{ResourceName}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -154,6 +158,7 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}/{id}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -175,6 +180,7 @@ namespace Pyro.Web.Controllers
     /// <param name="id">The FHIR Resource's id to be removed.</param>
     /// <returns>HTTP Status code 204 (No Content)</returns>
     [HttpDelete, Route("{ResourceName}/{id}")]
+    [ActionLogAttribute]
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -199,6 +205,7 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}")]
+    [ActionLogAttribute]
     public HttpResponseMessage ConditionalPut(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
@@ -222,6 +229,7 @@ namespace Pyro.Web.Controllers
     /// <param name="ResourceName">The name of the FHIR resource that is being removed.</param>    
     /// <returns>HTTP Status codes: 204 (No Content) or 404 Not Found or 412 Precondition Failed</returns>
     [HttpDelete, Route("{ResourceName}")]
+    [ActionLogAttribute]
     public HttpResponseMessage ConditionalDelete(string ResourceName)
     {
       IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);

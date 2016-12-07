@@ -96,7 +96,7 @@ namespace Pyro.Engine.Services
         ResourceComponent.ReadHistory = true;
         ResourceComponent.UpdateCreate = true;
         ResourceComponent.ConditionalCreate = true;
-        ResourceComponent.ConditionalRead = Conformance.ConditionalReadStatus.NotSupported;
+        ResourceComponent.ConditionalRead = Conformance.ConditionalReadStatus.FullSupport;
         ResourceComponent.ConditionalUpdate = true;
         ResourceComponent.ConditionalDelete = Conformance.ConditionalDeleteStatus.Multiple;
         //ResourceComponent.SearchInclude = new List<string>() {"???", "??????" };

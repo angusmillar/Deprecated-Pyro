@@ -78,7 +78,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="BusinessEntities\Dto\DtoPyroException.cs" />
-    <Compile Include="BusinessEntities\Dto\DtoDataBaseExceptionInfomation.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />

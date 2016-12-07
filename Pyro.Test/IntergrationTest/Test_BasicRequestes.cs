@@ -30,7 +30,7 @@ namespace Pyro.Test.IntergrationTest
     [TearDown]
     public void TearDown()
     {
-      Server.Dispose();      
+      Server.Dispose();
     }
 
     [Test]
@@ -42,7 +42,7 @@ namespace Pyro.Test.IntergrationTest
       string PatientResourceId = string.Empty;
 
       //Add a Patient resource by Update
-      Patient PatientOne = new Patient();      
+      Patient PatientOne = new Patient();
       PatientOne.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
       PatientOne.BirthDateElement = new Date("1979-09-30");
       PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
@@ -65,7 +65,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         //PatientOneResourceId
-        PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");        
+        PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");
       }
       catch (Exception Exec)
       {
@@ -78,7 +78,7 @@ namespace Pyro.Test.IntergrationTest
       //Update
       PatientResult.Gender = AdministrativeGender.Male;
       try
-      {        
+      {
         clientFhir.Update(PatientResult);
       }
       catch (Exception Exec)
@@ -89,7 +89,7 @@ namespace Pyro.Test.IntergrationTest
 
       //Get the Added resource by Id
       try
-      {        
+      {
         PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");
       }
       catch (Exception Exec)
@@ -116,11 +116,10 @@ namespace Pyro.Test.IntergrationTest
       }
       catch (Hl7.Fhir.Rest.FhirOperationException OpExec)
       {
-        Assert.AreEqual(OpExec.Status, System.Net.HttpStatusCode.Gone, "Final Get did not return Http Status of Gone.");        
+        Assert.AreEqual(OpExec.Status, System.Net.HttpStatusCode.Gone, "Final Get did not return Http Status of Gone.");
       }
-      
 
     }
   }
-  
+
 }

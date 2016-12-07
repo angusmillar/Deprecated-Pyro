@@ -47,7 +47,7 @@ namespace Pyro.Test.IntergrationTest
       p1.BirthDateElement = new Date("1970-01");
       p1.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
       var r1 = clientFhir.Update(p1);
-      
+
       Patient p2 = new Patient();
       p2.Id = "TestPat2";
       p2.Name.Add(HumanName.ForFamily("Portlethwhite").WithGiven("Brian"));
@@ -137,16 +137,16 @@ namespace Pyro.Test.IntergrationTest
       clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
       string TempResourceVersion = string.Empty;
       string TempResourceId = string.Empty;
-      
+
       // Prepare test patient
-      Patient PatientOne = new Patient();      
+      Patient PatientOne = new Patient();
       PatientOne.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
       PatientOne.BirthDateElement = new Date("1970-01");
       PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "5"));
 
       SearchParams SearchParams = new SearchParams().Where("identifier=5");
       try
-      {        
+      {
         var ResultOne = clientFhir.Create(PatientOne, SearchParams);
         TempResourceId = ResultOne.Id;
         TempResourceVersion = ResultOne.VersionId;
@@ -160,7 +160,7 @@ namespace Pyro.Test.IntergrationTest
       {
         //This will return status OK but does not commit the resource and therefore
         //does not increment the resource version number
-        clientFhir.Create(PatientOne, SearchParams);        
+        clientFhir.Create(PatientOne, SearchParams);
       }
       catch (FhirOperationException execOper)
       {
@@ -184,10 +184,10 @@ namespace Pyro.Test.IntergrationTest
       Patient PatientTwo = new Patient();
       PatientTwo.Name.Add(HumanName.ForFamily("FhirMan").WithGiven("Sam"));
       PatientTwo.BirthDateElement = new Date("1970-01");
-      PatientTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "6"));      
+      PatientTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "6"));
       try
       {
-        var ResultTwo = clientFhir.Create(PatientTwo);                
+        var ResultTwo = clientFhir.Create(PatientTwo);
       }
       catch (FhirOperationException execOper)
       {
@@ -295,6 +295,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         //Resource has not changed so should return a 304 Not Modified
+        //PatientTwo = clientFhir.Refresh<Patient>(PatientTwo, PatientTwo.Meta.VersionId, PatientTwo.VersionId)
         PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.NotNull(PatientTwo, "Not Resource returned when Resource Version did not match active resource Version on Conditional Read.");
       }
@@ -304,7 +305,7 @@ namespace Pyro.Test.IntergrationTest
       }
 
       //Clean up by deleting all Test Patients
-      var sp = new SearchParams().Where("identifier="+ StaticTestData.TestIdentiferSystem  + "|");
+      var sp = new SearchParams().Where("identifier=" + StaticTestData.TestIdentiferSystem + "|");
       try
       {
         clientFhir.Delete("Patient", sp);
