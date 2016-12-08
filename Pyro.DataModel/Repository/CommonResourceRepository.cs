@@ -240,18 +240,19 @@ namespace Pyro.DataModel.Repository
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
       return DatabaseOperationOutcome;
     }
-
-    public IDatabaseOperationOutcome UpdateResouceAsDeleted(string FhirResourceId, string ResourceVersion)
+    
+    public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId)
     {
       var ResourceHistoryEntity = new ResourceHistoryType();
       var ResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
+      string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(ResourceEntity.versionId);
       IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
       this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
       IndexSettingSupport.ResetResourceEntityBase(ResourceEntity);
       this.ResetResourceEntity(ResourceEntity);
       ResourceEntity.FhirId = FhirResourceId;
       ResourceEntity.IsDeleted = true;
-      ResourceEntity.versionId = ResourceVersion;
+      ResourceEntity.versionId = NewDeletedResourceVersion;
       ResourceEntity.XmlBlob = string.Empty;
       ResourceEntity.lastUpdated = DateTimeOffset.Now;
       ResourceEntity.Method = Bundle.HTTPVerb.DELETE;
@@ -261,20 +262,21 @@ namespace Pyro.DataModel.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome UpdateResouceListAsDeleted(ICollection<DtoResource> ResourceCollection)
+    public IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      foreach (DtoResource Resource in ResourceCollection)
+      foreach (string ResourceId in ResourceIdCollection)
       {
         var ResourceHistoryEntity = new ResourceHistoryType();
-        var ResourceEntity = this.LoadCurrentResourceEntity(Resource.FhirId);
+        var ResourceEntity = this.LoadCurrentResourceEntity(ResourceId);
+        string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(ResourceEntity.versionId);
         IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
         this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
         IndexSettingSupport.ResetResourceEntityBase(ResourceEntity);
         this.ResetResourceEntity(ResourceEntity);
-        ResourceEntity.FhirId = Resource.FhirId;
+        ResourceEntity.FhirId = ResourceId;
         ResourceEntity.IsDeleted = true;
-        ResourceEntity.versionId = Common.Tools.ResourceVersionNumber.Increment(Resource.Version);
+        ResourceEntity.versionId = NewDeletedResourceVersion;
         ResourceEntity.XmlBlob = string.Empty;
         ResourceEntity.lastUpdated = DateTimeOffset.Now;
         ResourceEntity.Method = Bundle.HTTPVerb.DELETE;
@@ -283,7 +285,7 @@ namespace Pyro.DataModel.Repository
       this.Save();
       return DatabaseOperationOutcome;
     }
-
+    
     // --- Abstract Methods -------------------------------------------------------------
     protected abstract void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceType> Predicate, int StartRecord, List<DtoResource> DtoResourceList);
 

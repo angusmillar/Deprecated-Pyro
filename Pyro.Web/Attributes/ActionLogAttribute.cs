@@ -28,7 +28,7 @@ namespace Pyro.Web.Attributes
     private string DateTimeKey = "ActionStartDateTime";
     private string StopwatchKey = "ActionStopwatch";
     static public string ResourceIdentityKey = "ResourceIdentity";
-    
+
     public override void OnActionExecuting(HttpActionContext actionContext)
     {
       _FhirServiceNegotiator = actionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
@@ -292,30 +292,8 @@ namespace Pyro.Web.Attributes
         //Check the search parameters here don't conflict with what we are doing as there are the actually request parameters not specific to this post
         IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(actionExecutedContext.Request.GetSearchParams());
         IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, se, DtoFhirRequestUri, SearchParameterGeneric);
-
         IResourceServiceOutcome ResourceServiceOutcome = oService.Post(ResourceServiceRequest);
 
-
-
-
-
-        //var model = ModelFactory.GetModel(ResourceType.AuditEvent.ToString(),
-        //    Controllers.StandardResourceController.GetInputs(actionExecutedContext.Request,
-        //    actionExecutedContext.ActionContext.ControllerContext.RequestContext.Principal,
-        //    !string.IsNullOrWhiteSpace(baseUri) ? new Uri(baseUri) : null)
-        //) as AuditEventModel;
-
-        //if (actionExecutedContext.Exception != null)
-        //{
-        //  var error = new HealthConnex.Fhir.Store.ErrorLog()
-        //  {
-        //    ErrorMessage = actionExecutedContext.Exception.Message,
-        //    SerialisedException = Newtonsoft.Json.JsonConvert.SerializeObject(actionExecutedContext.Exception, Newtonsoft.Json.Formatting.Indented)
-        //  };
-        //  se.UserData["ErrorLog"] = error;
-        //}
-
-        //model.Create(se, null, null, null);
       }
       catch (Exception ex)
       {

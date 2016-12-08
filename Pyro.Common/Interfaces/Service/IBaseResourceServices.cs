@@ -13,14 +13,6 @@ namespace Pyro.Common.Interfaces.Service
 
     FHIRAllTypes CurrentResourceType { get; }
 
-    // Get By id
-    // GET URL/FhirApi/Patient/5    
-    //IServiceOperationOutcome Get(string FhirId);
-
-    // Get By id and vid
-    // GET URL/FhirApi/Patient/5/_history/2    
-    //IServiceOperationOutcome Get(string FhirId, string FhirVId);
-
     //Search
     // GET: URL/FhirApi/Patient/5    
     // GET: URL//FhirApi/Patient&family=Smith&given=John

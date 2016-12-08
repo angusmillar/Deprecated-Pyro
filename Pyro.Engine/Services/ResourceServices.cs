@@ -145,9 +145,9 @@ namespace Pyro.Engine.Services
             {
               if (PyroServiceRequest.RequestHeaders != null && (!string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfNoneMatch) || !string.IsNullOrWhiteSpace(PyroServiceRequest.RequestHeaders.IfModifiedSince)))
               {
-                if (!HttpHeaderSupport.IsModifiedOrNoneMatch(PyroServiceRequest.RequestHeaders.IfNoneMatch, 
-                  PyroServiceRequest.RequestHeaders.IfModifiedSince, 
-                  DatabaseOperationOutcome.ReturnedResourceList[0].Version, 
+                if (!HttpHeaderSupport.IsModifiedOrNoneMatch(PyroServiceRequest.RequestHeaders.IfNoneMatch,
+                  PyroServiceRequest.RequestHeaders.IfModifiedSince,
+                  DatabaseOperationOutcome.ReturnedResourceList[0].Version,
                   DatabaseOperationOutcome.ReturnedResourceList[0].Received))
                 {
                   oPyroServiceOperationOutcome.ResourceResult = null;
@@ -269,7 +269,7 @@ namespace Pyro.Engine.Services
         if (DatabaseOperationOutcomeIfNoneExist.SearchTotal == 1)
         {
           //From FHIR Specification: One Match: The server ignore the post and returns 200 OK
-          oPyroServiceOperationOutcome.ResourceResult = null;
+          oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].Xml);
           oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].FhirId;
           oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].Received;
           oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].IsDeleted;
@@ -306,51 +306,9 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         return oPyroServiceOperationOutcome;
       }
-      //Assign GUID as FHIR id;
-      PyroServiceRequest.Resource.Id = Guid.NewGuid().ToString();
-
-      //Validation of resource        
-      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
-      IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(PyroServiceRequest.Resource);
-      if (oResourceValidationOperationOutcome.HasError)
-      {
-        oPyroServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
-        return oPyroServiceOperationOutcome;
-      }
-
-      if (PyroServiceRequest.Resource.Meta == null)
-        PyroServiceRequest.Resource.Meta = new Meta();
-      string ResourceVersionNumber = Common.Tools.ResourceVersionNumber.FirstVersion();
-      PyroServiceRequest.Resource.Meta.VersionId = ResourceVersionNumber;
-      PyroServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
-
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.AddResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri);
-      if (DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
-      {
-        oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
-        oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
-        oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
-        oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
-        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
-        oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
-        oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-        oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-        oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
-        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
-      }
-      else
-      {
-        oPyroServiceOperationOutcome.ResourceResult = null;
-        oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
-        oPyroServiceOperationOutcome.LastModified = null;
-        oPyroServiceOperationOutcome.IsDeleted = null;
-        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
-        oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
-        oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-        oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-        oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
-        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-      }
+      //All good commit the resource.
+      oPyroServiceOperationOutcome = CommitResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, RestEnum.CrudOperationType.Create);
+      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
       return oPyroServiceOperationOutcome;
     }
 
@@ -383,77 +341,28 @@ namespace Pyro.Engine.Services
         return oPyroServiceOperationOutcome;
       }
 
-      //Create Resource's Meta element if not found and update its last updated property to now
+      ////Create Resource's Meta element if not found and update its last updated property to now
       if (PyroServiceRequest.Resource.Meta == null)
         PyroServiceRequest.Resource.Meta = new Meta();
-      PyroServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
       //Check db for existence of this Resource 
       IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId);
-      if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count != 0)
+      if (DatabaseOperationOutcomeGet.ReturnedResourceList != null &&
+        DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
       {
         //The resource has been found so update its version number based on the older resource              
         PyroServiceRequest.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
-        IDatabaseOperationOutcome DatabaseOperationOutcomeUpdate = _ResourceRepository.UpdateResource(PyroServiceRequest.Resource.Meta.VersionId, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri);
-        if (DatabaseOperationOutcomeUpdate.ReturnedResourceList != null && DatabaseOperationOutcomeUpdate.ReturnedResourceList.Count == 1)
-        {
-          oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Xml);
-          oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].FhirId;
-          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Received;
-          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].IsDeleted;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Version;
-          oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-        }
-        else
-        {
-          oPyroServiceOperationOutcome.ResourceResult = null;
-          oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
-          oPyroServiceOperationOutcome.LastModified = null;
-          oPyroServiceOperationOutcome.IsDeleted = null;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
-          oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-        }
+        oPyroServiceOperationOutcome = CommitResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, RestEnum.CrudOperationType.Update);
       }
-      else
+      else if (DatabaseOperationOutcomeGet.ReturnedResourceList != null &&
+        DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 0)
       {
-        //This is a new resource so update its version number as 1
+        //This is a new resource so update its version number as 1 and create
         PyroServiceRequest.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.FirstVersion();
-        IDatabaseOperationOutcome DatabaseOperationOutcomeAdd = _ResourceRepository.AddResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri);
-        if (DatabaseOperationOutcomeAdd.ReturnedResourceList != null && DatabaseOperationOutcomeAdd.ReturnedResourceList.Count == 1)
-        {
-          oPyroServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcomeAdd.ReturnedResourceList[0].Xml);
-          oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeAdd.ReturnedResourceList[0].FhirId;
-          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeAdd.ReturnedResourceList[0].Received;
-          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeAdd.ReturnedResourceList[0].IsDeleted;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeAdd.ReturnedResourceList[0].Version;
-          oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
-        }
-        else
-        {
-          oPyroServiceOperationOutcome.ResourceResult = null;
-          oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
-          oPyroServiceOperationOutcome.LastModified = null;
-          oPyroServiceOperationOutcome.IsDeleted = null;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
-          oPyroServiceOperationOutcome.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          oPyroServiceOperationOutcome.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-        }
+        oPyroServiceOperationOutcome = CommitResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, RestEnum.CrudOperationType.Create);
       }
+
+      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       return oPyroServiceOperationOutcome;
     }
 
@@ -470,60 +379,37 @@ namespace Pyro.Engine.Services
       }
       SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
 
-      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId);
-      if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
+      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(PyroServiceRequest.ResourceId, false);
+      if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1 &&
+        DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
       {
-        //Resource exists so..
-        if (!DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
-        {
-          string NewResourceVersionNumber = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
-          IDatabaseOperationOutcome DatabaseOperationOutcomeDelete = _ResourceRepository.UpdateResouceAsDeleted(PyroServiceRequest.ResourceId, NewResourceVersionNumber);
-
-          oPyroServiceOperationOutcome.ResourceResult = null;
-          oPyroServiceOperationOutcome.FhirResourceId = PyroServiceRequest.ResourceId;
-          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Received;
-          oPyroServiceOperationOutcome.IsDeleted = true;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = NewResourceVersionNumber;
-          oPyroServiceOperationOutcome.RequestUri = null;
-          oPyroServiceOperationOutcome.ServiceRootUri = null;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
-        }
-        else
-        {
-          oPyroServiceOperationOutcome.ResourceResult = null;
-          oPyroServiceOperationOutcome.FhirResourceId = PyroServiceRequest.ResourceId;
-          oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Received;
-          oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted;
-          oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
-          oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version;
-          oPyroServiceOperationOutcome.RequestUri = null;
-          oPyroServiceOperationOutcome.ServiceRootUri = null;
-          oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
-        }
+        // The resource exists yet is already deleted, 
+        //need to return the details about it but not the xml content 
+        oPyroServiceOperationOutcome.ResourceResult = null;
+        oPyroServiceOperationOutcome.FhirResourceId = PyroServiceRequest.ResourceId;
+        oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Received;
+        oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted;
+        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
+        oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version;
+        oPyroServiceOperationOutcome.RequestUri = null;
+        oPyroServiceOperationOutcome.ServiceRootUri = null;
+        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
       }
       else
       {
-        //No resource found at all.
-        oPyroServiceOperationOutcome.ResourceResult = null;
-        oPyroServiceOperationOutcome.FhirResourceId = null;
-        oPyroServiceOperationOutcome.LastModified = null;
-        oPyroServiceOperationOutcome.IsDeleted = null;
-        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
-        oPyroServiceOperationOutcome.ResourceVersionNumber = null;
-        oPyroServiceOperationOutcome.RequestUri = null;
-        oPyroServiceOperationOutcome.ServiceRootUri = null;
-        oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+        //There is one that is not already deleted or there is none
+        //Either case calling the CommitResourceCollectionAsDeleted will return the correct result. 
+        ICollection<string> ResourceIdsToBeDeleted = DatabaseOperationOutcomeGet.ReturnedResourceList.Where(x => x.IsDeleted == false).Select(x => x.FhirId).ToArray();
+        oPyroServiceOperationOutcome = CommitResourceCollectionAsDeleted(ResourceIdsToBeDeleted);
       }
+
+      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       return oPyroServiceOperationOutcome;
     }
 
     //ConditionalUpdate (PUT)
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
-    public IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest)
+    public virtual IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest)
     {
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetPyroServiceOperationOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
@@ -567,39 +453,10 @@ namespace Pyro.Engine.Services
         //Create Resource's Meta element if not found and update its last updated property to now
         if (PyroServiceRequest.Resource.Meta == null)
           PyroServiceRequest.Resource.Meta = new Meta();
-        PyroServiceRequest.Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
         //A database resource has been found so update the new resource's version number based on the older resource              
         PyroServiceRequest.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeSearch.ReturnedResourceList[0].Version);
-
-        IDatabaseOperationOutcome DatabaseOperationOutcomeUpdate = _ResourceRepository.UpdateResource(PyroServiceRequest.Resource.Meta.VersionId, PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri);
-        if (DatabaseOperationOutcomeUpdate.ReturnedResourceList != null && DatabaseOperationOutcomeUpdate.ReturnedResourceList.Count == 1)
-        {
-          ServiceOperationOutcomeConditionalPut.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Xml);
-          ServiceOperationOutcomeConditionalPut.FhirResourceId = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].FhirId;
-          ServiceOperationOutcomeConditionalPut.LastModified = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Received;
-          ServiceOperationOutcomeConditionalPut.IsDeleted = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].IsDeleted;
-          ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
-          ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = DatabaseOperationOutcomeUpdate.ReturnedResourceList[0].Version;
-          ServiceOperationOutcomeConditionalPut.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          ServiceOperationOutcomeConditionalPut.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-          ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.OK;
-        }
-        else
-        {
-          ServiceOperationOutcomeConditionalPut.ResourceResult = null;
-          ServiceOperationOutcomeConditionalPut.FhirResourceId = string.Empty;
-          ServiceOperationOutcomeConditionalPut.LastModified = null;
-          ServiceOperationOutcomeConditionalPut.IsDeleted = null;
-          ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
-          ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = string.Empty;
-          ServiceOperationOutcomeConditionalPut.RequestUri = PyroServiceRequest.FhirRequestUri.FhirUri.Uri;
-          ServiceOperationOutcomeConditionalPut.ServiceRootUri = PyroServiceRequest.FhirRequestUri.FhirUri.ServiceRootUrl;
-          ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-          ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-        }
-
+        ServiceOperationOutcomeConditionalPut = CommitResource(PyroServiceRequest.Resource, PyroServiceRequest.FhirRequestUri, RestEnum.CrudOperationType.Update);
       }
       else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count > 1)
       {
@@ -615,13 +472,14 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
       }
-      return ServiceOperationOutcomeConditionalPut;
 
+      ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+      return ServiceOperationOutcomeConditionalPut;
     }
 
     //ConditionalDelete (Delete)
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
-    public IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest)
+    public virtual IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest)
     {
       IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetPyroServiceOperationOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
@@ -660,42 +518,135 @@ namespace Pyro.Engine.Services
       SearchParametersServiceOutcomeAll.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
 
       IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
-      if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 0)
-      {
-        //No resource found at all.        
-        ServiceOperationOutcomeConditionalDelete.ResourceResult = null;
-        ServiceOperationOutcomeConditionalDelete.FhirResourceId = null;
-        ServiceOperationOutcomeConditionalDelete.LastModified = null;
-        ServiceOperationOutcomeConditionalDelete.IsDeleted = null;
-        ServiceOperationOutcomeConditionalDelete.OperationType = RestEnum.CrudOperationType.Delete;
-        ServiceOperationOutcomeConditionalDelete.ResourceVersionNumber = null;
-        ServiceOperationOutcomeConditionalDelete.RequestUri = null;
-        ServiceOperationOutcomeConditionalDelete.ServiceRootUri = null;
-        ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-        ServiceOperationOutcomeConditionalDelete.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
-      }
-      else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 1)
-      {
-        IResourceServiceRequest ServiceRequestSingleDelete = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Delete, DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId, PyroServiceRequest.FhirRequestUri, PyroServiceRequest.SearchParameterGeneric);
-        ServiceOperationOutcomeConditionalDelete = this.Delete(ServiceRequestSingleDelete);
-      }
-      else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count > 1)
-      {
-        IDatabaseOperationOutcome DatabaseOperationOutcomeDeleteMany = _ResourceRepository.UpdateResouceListAsDeleted(DatabaseOperationOutcomeSearch.ReturnedResourceList.Where(x => x.IsDeleted == false).ToArray());
-        ServiceOperationOutcomeConditionalDelete.ResourceResult = null;
-        ServiceOperationOutcomeConditionalDelete.FhirResourceId = null;
-        ServiceOperationOutcomeConditionalDelete.LastModified = null;
-        ServiceOperationOutcomeConditionalDelete.IsDeleted = true;
-        ServiceOperationOutcomeConditionalDelete.OperationType = RestEnum.CrudOperationType.Delete;
-        ServiceOperationOutcomeConditionalDelete.ResourceVersionNumber = null;
-        ServiceOperationOutcomeConditionalDelete.RequestUri = null;
-        ServiceOperationOutcomeConditionalDelete.ServiceRootUri = null;
-        ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-        ServiceOperationOutcomeConditionalDelete.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
-      }
+
+      //There are zero or many or one to be deleted, note that GetResourceBySearch never returns deleted resource.
+      ICollection<string> ResourceIdsToBeDeleted = DatabaseOperationOutcomeSearch.ReturnedResourceList.Select(x => x.FhirId).ToArray();
+      ServiceOperationOutcomeConditionalDelete = CommitResourceCollectionAsDeleted(ResourceIdsToBeDeleted);
+      ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
       return ServiceOperationOutcomeConditionalDelete;
     }
 
-    
+    //To be moved to sub class
+    private IResourceServiceOutcome CommitResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
+    {
+      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      if (ResourceIdCollection.Count == 1)
+      {
+        //Delete one resource that is not already deleted 
+        IDatabaseOperationOutcome DatabaseOperationOutcomeDelete = _ResourceRepository.UpdateResouceIdAsDeleted(ResourceIdCollection.First());
+        oPyroServiceOperationOutcome.ResourceResult = null;
+        oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].FhirId;
+        oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Received;
+        oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].IsDeleted;
+        oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
+        oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Version;
+        oPyroServiceOperationOutcome.RequestUri = null;
+        oPyroServiceOperationOutcome.ServiceRootUri = null;
+        oPyroServiceOperationOutcome.FormatMimeType = null;
+        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
+        return oPyroServiceOperationOutcome;
+      }
+      else if (ResourceIdCollection.Count > 1)
+      {
+        //Delete many resources that are not already deleted 
+        IDatabaseOperationOutcome DatabaseOperationOutcomeDeleteMany = _ResourceRepository.UpdateResouceIdColectionAsDeleted(ResourceIdCollection);
+      }
+      //Nothing to delete at all or many were deleted.
+      oPyroServiceOperationOutcome.ResourceResult = null;
+      oPyroServiceOperationOutcome.FhirResourceId = null;
+      oPyroServiceOperationOutcome.LastModified = null;
+      oPyroServiceOperationOutcome.IsDeleted = null;
+      oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
+      oPyroServiceOperationOutcome.ResourceVersionNumber = null;
+      oPyroServiceOperationOutcome.RequestUri = null;
+      oPyroServiceOperationOutcome.ServiceRootUri = null;
+      oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
+
+      return oPyroServiceOperationOutcome;
+    }
+
+    private IResourceServiceOutcome CommitResource(Resource Resource, Common.Interfaces.UriSupport.IDtoFhirRequestUri FhirRequestUri, RestEnum.CrudOperationType CrudOperationType)
+    {
+      if (CrudOperationType == RestEnum.CrudOperationType.Update && (Resource.Meta == null || string.IsNullOrWhiteSpace(Resource.Meta.VersionId)))
+        throw new ArgumentNullException("Internal Server Error:Resource's Version can not be null when CrudOperationType = Update");
+      if ((CrudOperationType != RestEnum.CrudOperationType.Create) && (CrudOperationType != RestEnum.CrudOperationType.Update))
+        throw new FormatException("Internal Server Error: CrudOperationType must be Update or Create");
+      if (CrudOperationType == RestEnum.CrudOperationType.Update && string.IsNullOrWhiteSpace(Resource.Id))
+        throw new ArgumentNullException("Internal Server Error: Resource Id must be populated for CrudOperationType = Update");
+
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+
+      //Assign GUID as FHIR id;
+      if (string.IsNullOrWhiteSpace(Resource.Id))
+        Resource.Id = Guid.NewGuid().ToString();
+
+      //Validation of resource        
+      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
+      IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(Resource);
+      if (oResourceValidationOperationOutcome.HasError)
+      {
+        ServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
+        return ServiceOperationOutcome;
+      }
+
+      string ResourceVersionNumber = string.Empty;
+      if (Resource.Meta == null)
+      {
+        Resource.Meta = new Meta();
+      }
+      if (CrudOperationType == RestEnum.CrudOperationType.Create)
+      {
+        ResourceVersionNumber = Common.Tools.ResourceVersionNumber.FirstVersion();
+        Resource.Meta.VersionId = ResourceVersionNumber;
+      }
+      else if (CrudOperationType == RestEnum.CrudOperationType.Update)
+      {
+        ResourceVersionNumber = Resource.Meta.VersionId;
+      }
+      Resource.Meta.LastUpdated = DateTimeOffset.Now;
+
+      IDatabaseOperationOutcome DatabaseOperationOutcome = null;
+      if (CrudOperationType == RestEnum.CrudOperationType.Update)
+      {
+        DatabaseOperationOutcome = _ResourceRepository.UpdateResource(ResourceVersionNumber, Resource, FhirRequestUri);
+      }
+      else if (CrudOperationType == RestEnum.CrudOperationType.Create)
+      {
+        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, FhirRequestUri);
+      }
+
+      if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
+      {
+        ServiceOperationOutcome.ResourceResult = Support.FhirResourceSerializationSupport.Serialize(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+        ServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
+        ServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
+        ServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
+        ServiceOperationOutcome.OperationType = CrudOperationType;
+        ServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
+        ServiceOperationOutcome.RequestUri = FhirRequestUri.FhirUri.Uri;
+        ServiceOperationOutcome.ServiceRootUri = FhirRequestUri.FhirUri.ServiceRootUrl;
+        ServiceOperationOutcome.FormatMimeType = null;
+        if (CrudOperationType == RestEnum.CrudOperationType.Create)
+          ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
+        if (CrudOperationType == RestEnum.CrudOperationType.Update)
+          ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+
+      }
+      else
+      {
+        ServiceOperationOutcome.ResourceResult = null;
+        ServiceOperationOutcome.FhirResourceId = string.Empty;
+        ServiceOperationOutcome.LastModified = null;
+        ServiceOperationOutcome.IsDeleted = null;
+        ServiceOperationOutcome.OperationType = CrudOperationType;
+        ServiceOperationOutcome.ResourceVersionNumber = string.Empty;
+        ServiceOperationOutcome.RequestUri = FhirRequestUri.FhirUri.Uri;
+        ServiceOperationOutcome.ServiceRootUri = FhirRequestUri.FhirUri.ServiceRootUrl;
+        ServiceOperationOutcome.FormatMimeType = null;
+        ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+      }
+      return ServiceOperationOutcome;
+    }
+
   }
 }
