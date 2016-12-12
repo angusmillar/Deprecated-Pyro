@@ -12,6 +12,7 @@ using Hl7.Fhir.Rest;
 namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
+  [Category("IntergrationTest")]
   class Test_ConditionalRequests
   {
     private string ServerEndPoint = string.Empty;
@@ -134,9 +135,23 @@ namespace Pyro.Test.IntergrationTest
     public void Test_ConditionalCreate()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
-      clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
+      clientFhir.Timeout = 1000 * 600; // give the call a while to execute (particularly while debugging).
       string TempResourceVersion = string.Empty;
       string TempResourceId = string.Empty;
+
+      //Best to have this clean up here as things can get out of 
+      //synch with the database when debugging.
+      //We always need a clean db to start run.
+      var sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      }
+
 
       // Prepare test patient
       Patient PatientOne = new Patient();
@@ -214,7 +229,7 @@ namespace Pyro.Test.IntergrationTest
 
 
       //Clean up by deleting all resources created while also testing Conditional Delete many
-      var sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
       try
       {
         clientFhir.Delete("Patient", sp);

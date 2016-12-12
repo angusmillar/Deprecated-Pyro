@@ -9,6 +9,7 @@ using Hl7.Fhir.Introspection;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Token_IndexSetter
   {
     [Test]

@@ -10,6 +10,7 @@ using Pyro.Common.Interfaces.UriSupport;
 namespace Pyro.Test.Tools
 {
   [TestFixture]
+  [Category("Tools")]
   class Test_FhirUri
   {
     private char UriDelimieter = '/';
@@ -26,15 +27,15 @@ namespace Pyro.Test.Tools
       //Arrange
       // URl : Http://localhost:50579/fhirapi/Organization/1
       string Schema = "http";
-      string SchemaDelimiter = "://";      
+      string SchemaDelimiter = "://";
       string Authority = "localhost:50579";
       string[] ApiSegments = new string[] { "fhirapi" };
       string ResourseType = "Organization";
       string Id = "1";
-      
+
       string ServiceRootUrlForComparison = $"{Authority}/{ApiSegmentsToPath(ApiSegments)}";
       Uri ServiceRootUrl = new Uri($"{Schema}{SchemaDelimiter}{ServiceRootUrlForComparison}");
-      
+
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{Id}";
 
       //Act
@@ -104,7 +105,7 @@ namespace Pyro.Test.Tools
 
       string ServiceRootUrlForComparison = $"{Authority}/{ApiSegmentsToPath(ApiSegments)}";
       Uri ServiceRootUrl = new Uri($"{Schema}{SchemaDelimiter}{ServiceRootUrlForComparison}");
-      
+
       string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{Id}/_history/{VersionId}";
 
       //Act
@@ -119,7 +120,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(ApiSegments, FhirUri.ApiSegments);
       Assert.AreEqual(Id, FhirUri.Id);
       Assert.AreEqual(VersionId, FhirUri.VersionId);
-      
+
       Assert.AreEqual(ServiceRootUrl.ToString(), FhirUri.ServiceRootUrl.ToString());
       Assert.AreEqual(ServiceRootUrlForComparison, FhirUri.ServiceRootUrlForComparison);
     }
@@ -133,7 +134,7 @@ namespace Pyro.Test.Tools
       string SchemaDelimiter = "://";
       string Authority = "localhost:50579";
       string[] ApiSegments = new string[] { "fhirapi" };
-      string ResourseType = "Organization";           
+      string ResourseType = "Organization";
       string Query = "?gender=male";
 
 
@@ -151,7 +152,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(SchemaDelimiter, FhirUri.SchemaDelimiter);
       Assert.AreEqual(Authority, FhirUri.Authority);
       Assert.AreEqual(ResourseType, FhirUri.ResourseType);
-      Assert.AreEqual(ApiSegments, FhirUri.ApiSegments);      
+      Assert.AreEqual(ApiSegments, FhirUri.ApiSegments);
       Assert.AreEqual(Query, FhirUri.Query);
 
       Assert.AreEqual(ServiceRootUrl.ToString(), FhirUri.ServiceRootUrl.ToString());
@@ -164,10 +165,10 @@ namespace Pyro.Test.Tools
     {
       //Arrange
       // URl : Organization/1
-      
+
       string ResourseType = "Organization";
       string FhirId = "1";
-      
+
       string Url = $"{ResourseType}/{FhirId}";
       Uri test = new Uri(Url, UriKind.Relative);
       //Act
@@ -177,8 +178,8 @@ namespace Pyro.Test.Tools
       //Assert
       Assert.AreEqual(ResourseType, FhirUri.ResourseType);
       Assert.AreEqual(FhirId, FhirUri.Id);
-      
-      
+
+
     }
 
 

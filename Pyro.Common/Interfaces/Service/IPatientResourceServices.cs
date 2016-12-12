@@ -10,7 +10,7 @@ namespace Pyro.Common.Interfaces.Service
   /// This Interface is here to handle any unique methods required for Patient resource beyond the basic REST operations implemented by the IResourceService.
   /// These might be FHIR operations on the resource such as '$expand' in the ValueSet Resource.
   /// </summary>
-  public interface IPatientResourceServices : IBaseResourceServices
+  public interface IPatientResourceServices : IResourceServices
   {
 
 

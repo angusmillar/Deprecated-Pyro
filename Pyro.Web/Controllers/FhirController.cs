@@ -37,10 +37,10 @@ namespace Pyro.Web.Controllers
     /// </summary>
     /// <returns>Conformance Resource</returns>
     [HttpGet, Route("metadata")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Metadata()
     {
-      ICommonServices oService = _FhirServiceNegotiator.GetService();
+      ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
       Common.Interfaces.Dto.IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();
       var MetadataService = new Pyro.Engine.Services.MetadataService();
       string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Web.WebApiApplication).Assembly.Location).ProductVersion;
@@ -62,14 +62,13 @@ namespace Pyro.Web.Controllers
     /// <param name="id">The FHIR Resource's id</param>
     /// <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Get(string ResourceName, string id)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-
       IResourceServiceRequest PyroServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Read, id, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
       IResourceServiceOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
@@ -85,10 +84,10 @@ namespace Pyro.Web.Controllers
     /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
     /// <returns>Returns a bundle containing all resource that match the search criteria.</returns>
     [HttpGet, Route("{ResourceName}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Search(string ResourceName)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);
@@ -109,10 +108,10 @@ namespace Pyro.Web.Controllers
     /// <param name="vid">The version id if requesting a single version instance, leave empty if you require the entire history for the resource instance.</param>
     /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.History, id, vid, FhirRequestUri, SearchParameterGeneric);
@@ -133,10 +132,10 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPost, Route("{ResourceName}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
@@ -158,10 +157,10 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}/{id}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Update, id, resource, DtoFhirRequestUri, SearchParameterGeneric);
@@ -180,10 +179,10 @@ namespace Pyro.Web.Controllers
     /// <param name="id">The FHIR Resource's id to be removed.</param>
     /// <returns>HTTP Status code 204 (No Content)</returns>
     [HttpDelete, Route("{ResourceName}/{id}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Delete, id, DtoFhirRequestUri, SearchParameterGeneric);
@@ -205,10 +204,10 @@ namespace Pyro.Web.Controllers
     /// <param name="resource">The actual Resource in the HTTP body</param>
     /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage ConditionalPut(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, resource, DtoFhirRequestUri, SearchParameterGeneric);
@@ -229,10 +228,10 @@ namespace Pyro.Web.Controllers
     /// <param name="ResourceName">The name of the FHIR resource that is being removed.</param>    
     /// <returns>HTTP Status codes: 204 (No Content) or 404 Not Found or 412 Precondition Failed</returns>
     [HttpDelete, Route("{ResourceName}")]
-    [ActionLogAttribute]
+    [ActionLog]
     public HttpResponseMessage ConditionalDelete(string ResourceName)
     {
-      IBaseResourceServices oService = _FhirServiceNegotiator.GetService(ResourceName);
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);

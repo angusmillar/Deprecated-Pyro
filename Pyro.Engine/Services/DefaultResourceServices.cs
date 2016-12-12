@@ -12,7 +12,7 @@ using Pyro.Engine.RepositorySupport;
 
 namespace Pyro.Engine.Services
 {
-  public class DefaultResourceServices : ResourceServices, IDefaultResourceServices, IBaseResourceServices
+  public class DefaultResourceServices : ResourceServices, IDefaultResourceServices, IResourceServices
   {
     //Constructor for dependency injection
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)

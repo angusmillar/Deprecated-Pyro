@@ -110,10 +110,14 @@ namespace Pyro.Common
       return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParamsString);
     }
 
-    public static Pyro.Common.Interfaces.Dto.Headers.IDtoRequestHeaders GetDtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
+    public static IDtoRequestHeaders GetDtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
     {
       return new BusinessEntities.Dto.Headers.DtoRequestHeaders(HttpRequestHeaders);
     }
 
+    public static IFhirNarativeSupport GetFhirNarativeSupport()
+    {
+      return new Tools.FhirNarativeSupport();
+    }
   }
 }

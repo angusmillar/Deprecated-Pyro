@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Quantity_IndexSetter
   {
     [Test]
@@ -40,7 +41,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       decimal Value = 10.5M;
-      var Comparator = Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual;      
+      var Comparator = Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual;
       var System = "www.SomeCodeSystem.com";
       var Quantity = new Quantity();
       Quantity.Value = Value;
@@ -64,7 +65,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       decimal Value = 10.5M;
-      var Comparator = Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual;       
+      var Comparator = Hl7.Fhir.Model.Quantity.QuantityComparator.GreaterOrEqual;
       var Quantity = new Quantity();
       Quantity.Value = Value;
       Quantity.Comparator = Comparator;
@@ -86,7 +87,7 @@ namespace Pyro.Test.IndexSetters
     public void Test_Quantity_NumberIndexSetter_Comparator_IsNull()
     {
       //Arrange
-      decimal Value = 10.5M;      
+      decimal Value = 10.5M;
       var Code = "ABC";
       var System = "www.SomeCodeSystem.com";
       var Quantity = new Quantity();
@@ -146,11 +147,11 @@ namespace Pyro.Test.IndexSetters
     public void Test_SimpleQuantity_NumberIndexSetter_GoodFormat()
     {
       //Arrange
-      decimal Value = 145.523M;      
+      decimal Value = 145.523M;
       var Code = "ABC";
       var System = "www.SomeCodeSystem.com";
       var Quantity = new SimpleQuantity();
-      Quantity.Value = Value;      
+      Quantity.Value = Value;
       Quantity.Code = Code;
       Quantity.System = System;
       QuantityIndex Index = new QuantityIndex();
@@ -194,13 +195,13 @@ namespace Pyro.Test.IndexSetters
     public void Test_SimpleQuantity_NumberIndexSetter_Comparator_Code_IsNull()
     {
       //Arrange
-      decimal Value = 145.523M;           
+      decimal Value = 145.523M;
       var System = "www.SomeCodeSystem.com";
       var Quantity = new SimpleQuantity();
       Quantity.Value = Value;
       Quantity.Code = null;
       Quantity.System = System;
-     
+
       QuantityIndex Index = new QuantityIndex();
 
       //Act
@@ -218,7 +219,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       decimal Value = 145.523M;
-      var Code = "ABC";      
+      var Code = "ABC";
       var Quantity = new SimpleQuantity();
       Quantity.Value = Value;
       Quantity.Code = Code;

@@ -7,6 +7,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.Tools
 {
   [TestFixture]
+  [Category("Tools")]
   class Test_PagingSupport
   {
     [Test]
@@ -146,7 +147,7 @@ namespace Pyro.Test.Tools
     public void Test_GetPreviousPageNumber_MidNumber()
     {
       //Arrange      
-      int PageCurrentlyRequired = 10;      
+      int PageCurrentlyRequired = 10;
       int Expected = 9;
       //Act
       int Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired);

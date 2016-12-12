@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Uri_IndexSetter
   {
     [Test]
@@ -25,7 +26,7 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(UriIndex)).Set(FhirUri, Index) as UriIndex;
 
       //Assert      
-      Assert.AreEqual(Index.Uri, TheUri.OriginalString);      
+      Assert.AreEqual(Index.Uri, TheUri.OriginalString);
     }
 
     [Test]
@@ -64,7 +65,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string OidString = "urn:oid:1.2.3.4.5";
-      Oid Oid = new Oid(OidString);      
+      Oid Oid = new Oid(OidString);
       UriIndex Index = new UriIndex();
 
       //Act

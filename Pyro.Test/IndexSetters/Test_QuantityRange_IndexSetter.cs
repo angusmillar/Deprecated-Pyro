@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_QuantityRange_IndexSetter
   {
     [Test]
@@ -15,17 +16,17 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       decimal ValueLow = 10.5M;
-      decimal ValueHigh = 20.5M;      
+      decimal ValueHigh = 20.5M;
       var Code = "ABC";
       var System = "www.SomeCodeSystem.com";
-      
+
       var QuantityLow = new SimpleQuantity();
-      QuantityLow.Value = ValueLow;      
+      QuantityLow.Value = ValueLow;
       QuantityLow.Code = Code;
       QuantityLow.System = System;
 
       var QuantityHigh = new SimpleQuantity();
-      QuantityHigh.Value = ValueHigh;      
+      QuantityHigh.Value = ValueHigh;
       QuantityHigh.Code = Code;
       QuantityHigh.System = System;
 

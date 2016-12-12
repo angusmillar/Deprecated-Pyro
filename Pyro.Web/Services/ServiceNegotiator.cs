@@ -23,13 +23,23 @@ namespace Pyro.Web.Services
     {
       _Container = Container;
     }
-
-    public ICommonServices GetService()
+    
+    public ICommonServices GetCommonService()
     {
       return _Container.GetInstance<ICommonServices>();
     }
 
-    public IBaseResourceServices GetService(string ResourceName)
+    public IResourceServices GetResourceService(string ResourceName)
+    {
+      return ResourceService(ResourceName);
+    }
+
+    public IResourceServicesBase GetResourceServiceBase(string ResourceName)
+    {
+      return ResourceService(ResourceName) as IResourceServicesBase;
+    }
+
+    private IResourceServices ResourceService(string ResourceName)
     {
       Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
       if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
@@ -60,8 +70,6 @@ namespace Pyro.Web.Services
         throw new DtoPyroException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
 
       }
-
     }
-
   }
 }

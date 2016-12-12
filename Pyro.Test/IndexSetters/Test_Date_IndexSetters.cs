@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Date_IndexSetters
   {
     [Test]
@@ -65,7 +66,7 @@ namespace Pyro.Test.IndexSetters
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<FormatException>());
 
-    }    
+    }
 
     [Test]
     public void Test_Date_DateIndexSetter_BadFormat_SemanticError()

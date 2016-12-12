@@ -127,10 +127,10 @@
     <Compile Include="IntergrationTest\TestStartup.cs" />
     <Compile Include="IntergrationTest\Test_BasicRequestes.cs" />
     <Compile Include="IntergrationTest\Test_ConditionalRequests.cs" />
-    <Compile Include="ResourceSupport\PatientResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirDateSupport.cs" />
+    <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
     <Compile Include="Tools\Test_FhirUri.cs" />
     <Compile Include="Tools\Test_PagingSupport.cs" />
   </ItemGroup>

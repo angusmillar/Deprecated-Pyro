@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_String_IndexSetter
   {
     [Test]
@@ -72,10 +73,10 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string Text = "This is the Annotation Text";
-      
+
       var Annotation = new Annotation();
-      Annotation.Text = Text; 
-      
+      Annotation.Text = Text;
+
       StringIndex Index = new StringIndex();
 
       //Act
@@ -169,7 +170,7 @@ namespace Pyro.Test.IndexSetters
       string Given2 = "John";
       string Family1 = "Smith";
       string Family2 = "Johnston";
-      
+
       var HumanName = new HumanName();
       HumanName.Given = new string[] { Given1, Given2 };
       HumanName.Family = new string[] { Family1, Family2 };
@@ -180,7 +181,7 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(HumanName, Index) as StringIndex;
 
       //Assert 
-      string HumanNameString = string.Format("{0} {1} {2} {3}", Given1, Given2, Family1, Family2);     
+      string HumanNameString = string.Format("{0} {1} {2} {3}", Given1, Given2, Family1, Family2);
       Assert.AreEqual(Index.String, Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(HumanNameString));
     }
 
@@ -258,7 +259,7 @@ namespace Pyro.Test.IndexSetters
       //Assert
       Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
     }
-    
+
 
   }
 }

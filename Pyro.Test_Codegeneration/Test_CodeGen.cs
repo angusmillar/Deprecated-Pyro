@@ -10,6 +10,7 @@ using Pyro.CodeGenerationSupport.FhirApiIntrospection;
 namespace Pyro.Test.CodeGenerationSupport
 {
   [TestFixture]
+  [Category("CodeGeneration")]
   class Test_CodeGen
   {
 

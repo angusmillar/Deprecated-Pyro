@@ -99,6 +99,7 @@
     <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PatientResourceServices.cs" />
+    <Compile Include="Services\ResourceServicesBase.cs" />
     <Compile Include="Support\FhirBundleSupport.cs" />
     <Compile Include="Support\FhirResourceSerializationSupport.cs" />
     <Compile Include="Validation\BaseResourceValidation.cs" />

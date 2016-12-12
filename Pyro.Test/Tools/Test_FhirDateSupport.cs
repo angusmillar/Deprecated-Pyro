@@ -7,6 +7,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("Tools")]
   class Test_FhirDateSupport
   {
     [Test]

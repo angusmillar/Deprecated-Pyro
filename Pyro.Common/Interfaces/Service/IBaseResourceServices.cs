@@ -8,7 +8,7 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Interfaces.Service
 {
-  public interface IBaseResourceServices
+  public interface IResourceServices
   {
 
     FHIRAllTypes CurrentResourceType { get; }

@@ -11,6 +11,7 @@ using Pyro.Common.BusinessEntities.UriSupport;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Referance_IndexSetter
   {
     [Test]
@@ -20,7 +21,7 @@ namespace Pyro.Test.IndexSetters
       string ServiceRootUrl = "http://somewhere.net.au/FhirApi/Patient";
       string ReferanceUrl = "http://somewhere.net.au/FhirApi/Encounter/10";
       IFhirUri ReferanceFhirUri = Pyro.Common.CommonFactory.GetFhirUri(new Uri(ReferanceUrl));
-      
+
 
       var FhirUri = new FhirUri();
       FhirUri.Value = ReferanceUrl;

@@ -7,6 +7,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("Tools")]
   class Test_FhirDateTimeSupport
   {
     [Test]
@@ -14,7 +15,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-12-25T12:35:15.123-03:00";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, 123, new TimeSpan(-3,0,0));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, 123, new TimeSpan(-3, 0, 0));
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
@@ -62,7 +63,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-12-25T12:35:15+02:00";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, new TimeSpan(2,0,0));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 15, new TimeSpan(2, 0, 0));
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
@@ -94,7 +95,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-12-25T12:35-04:00";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4,0,0));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4, 0, 0));
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);

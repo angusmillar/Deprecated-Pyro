@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_Number_IndexSetter
   {
     [Test]
@@ -36,7 +37,7 @@ namespace Pyro.Test.IndexSetters
       decimal Value = 123.500M;
       var Duration = new Duration();
       Duration.Value = Value;
-      
+
       NumberIndex Index = new NumberIndex();
 
       //Act
@@ -52,7 +53,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange      
       var Comparator = Quantity.QuantityComparator.GreaterOrEqual;
-      var Duration = new Duration();      
+      var Duration = new Duration();
       Duration.Comparator = Comparator;
       NumberIndex Index = new NumberIndex();
 
@@ -67,24 +68,24 @@ namespace Pyro.Test.IndexSetters
     public void Test_Duration_NumberIndexSetter_DurationIsNull()
     {
       //Arrange            
-      Duration Duration = null;      
-      NumberIndex Index = new NumberIndex();      
+      Duration Duration = null;
+      NumberIndex Index = new NumberIndex();
 
       //Act
       ActualValueDelegate<NumberIndex> testDelegate = () => IndexSetterFactory.Create(typeof(NumberIndex)).Set(Duration, Index) as NumberIndex;
 
       //Assert
-      Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());      
+      Assert.That(testDelegate, Throws.TypeOf<ArgumentNullException>());
     }
 
     [Test]
     public void Test_Integer_NumberIndexSetter_GoodFormat()
     {
       //Arrange
-      int Value = 13;      
+      int Value = 13;
       var Integer = new Integer();
       Integer.Value = Value;
-      
+
       NumberIndex Index = new NumberIndex();
 
       //Act
@@ -108,16 +109,16 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(NumberIndex)).Set(Integer, Index) as NumberIndex;
 
       //Assert
-      Assert.IsNull(Index);      
+      Assert.IsNull(Index);
     }
 
     [Test]
     public void Test_Integer_NumberIndexSetter_Integer_IsNull()
     {
       //Arrange      
-      Integer Integer = null;          
+      Integer Integer = null;
       NumberIndex Index = new NumberIndex();
-      
+
       //Act
       ActualValueDelegate<NumberIndex> testDelegate = () => IndexSetterFactory.Create(typeof(NumberIndex)).Set(Integer, Index) as NumberIndex;
 
@@ -164,7 +165,7 @@ namespace Pyro.Test.IndexSetters
     public void Test_PositiveInt_NumberIndexSetter_PositiveInt_IsNull()
     {
       //Arrange      
-      PositiveInt PositiveInt = null;      
+      PositiveInt PositiveInt = null;
 
       NumberIndex Index = new NumberIndex();
 

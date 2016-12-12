@@ -216,6 +216,7 @@ namespace Pyro.DataModel.Repository
     {
       var ResourceEntity = new ResourceType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);
+      var test = this.RepositoryResourceType;
       this.PopulateResourceEntity(ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), Resource, FhirRequestUri);
       this.DbAddEntity<ResourceType>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();

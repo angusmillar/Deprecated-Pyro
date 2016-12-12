@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
+  [Category("IndexSetters")]
   class Test_DateTimePeriod_IndexSetters
   {
     [Test]
@@ -252,9 +253,9 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var FhirString = new FhirString();
       var DateTimeOffSet = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
-      
+
       FhirString.Value = "1974-12-25T10:35:45-05:00";
-      
+
       DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act
@@ -281,7 +282,7 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
 
       //Assert
-      Assert.IsNull(Index);      
+      Assert.IsNull(Index);
     }
 
 
@@ -343,7 +344,7 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(DateTimePeriodIndex)).Set(FhirString, Index) as DateTimePeriodIndex;
 
       //Assert
-      Assert.IsNull(Index);      
+      Assert.IsNull(Index);
 
     }
 
@@ -351,10 +352,10 @@ namespace Pyro.Test.IndexSetters
     public void Test_FhirDateTime_DateTimePeriodIndexSetter_GoodFormat_NoRange()
     {
       //Arrange
-      
+
       var DateTimeOffSet = new DateTimeOffset(1974, 12, 25, 10, 35, 45, new TimeSpan(-5, 00, 00));
       var FhirDateTime = new FhirDateTime(DateTimeOffSet);
-      
+
       DateTimePeriodIndex Index = new DateTimePeriodIndex();
 
       //Act

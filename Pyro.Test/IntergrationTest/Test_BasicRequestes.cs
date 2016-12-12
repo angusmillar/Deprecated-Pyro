@@ -11,6 +11,7 @@ using Hl7.Fhir.Model;
 namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
+  [Category("IntergrationTest")]
   class Test_BasicRequestes
   {
     private string ServerEndPoint = string.Empty;
@@ -36,8 +37,9 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_CRUD()
     {
+
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
-      clientFhir.Timeout = 1000 * 480; // give the call a while to execute (particularly while debugging).
+      clientFhir.Timeout = 1000 * 1000; // give the call a while to execute (particularly while debugging).
 
       string PatientResourceId = string.Empty;
 

@@ -9,7 +9,8 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IServiceNegotiator
   {
-    IBaseResourceServices GetService(string type);
-    ICommonServices GetService();
+    IResourceServices GetResourceService(string type);
+    IResourceServicesBase GetResourceServiceBase(string type);
+    ICommonServices GetCommonService();
   }
 }

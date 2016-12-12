@@ -21,62 +21,62 @@ namespace Pyro.DataModel.IndexSetter
 
       if (ModelBase is TokenIndex)
       {
-        var StringIndex = ModelBase as TokenIndex;
+        var TokenIndex = ModelBase as TokenIndex;
         if (FhirCodeDataTypeSupport.IsGenericCodeDataType(FhirElement))
         {
-          return SetCodeT(FhirElement, StringIndex);
+          return SetCodeT(FhirElement, TokenIndex);
         }
         else if (FhirElement is Code)
         {
-          return SetCode(FhirElement as Code, StringIndex);
+          return SetCode(FhirElement as Code, TokenIndex);
         }
         else if (FhirElement is CodeableConcept)
         {
-          return SetCodeableConcept(FhirElement as CodeableConcept, StringIndex);
+          return SetCodeableConcept(FhirElement as CodeableConcept, TokenIndex);
         }
         else if (FhirElement is Coding)
         {
-          return SetCoding(FhirElement as Coding, StringIndex);
+          return SetCoding(FhirElement as Coding, TokenIndex);
         }
         else if (FhirElement is ContactPoint)
         {
-          return SetContactPoint(FhirElement as ContactPoint, StringIndex);
+          return SetContactPoint(FhirElement as ContactPoint, TokenIndex);
         }
         else if (FhirElement is FhirBoolean)
         {
-          return SetFhirBoolean(FhirElement as FhirBoolean, StringIndex);
+          return SetFhirBoolean(FhirElement as FhirBoolean, TokenIndex);
         }
         else if (FhirElement is FhirDateTime)
         {
-          return SetFhirDateTime(FhirElement as FhirDateTime, StringIndex);
+          return SetFhirDateTime(FhirElement as FhirDateTime, TokenIndex);
         }
         else if (FhirElement is FhirString)
         {
-          return SetFhirString(FhirElement as FhirString, StringIndex);
+          return SetFhirString(FhirElement as FhirString, TokenIndex);
         }
         else if (FhirElement is Id)
         {
-          return SetId(FhirElement as Id, StringIndex);
+          return SetId(FhirElement as Id, TokenIndex);
         }
         else if (FhirElement is Identifier)
         {
-          return SetIdentifier(FhirElement as Identifier, StringIndex);
+          return SetIdentifier(FhirElement as Identifier, TokenIndex);
         }
         else if (FhirElement is PositiveInt)
         {
-          return SetPositiveInt(FhirElement as PositiveInt, StringIndex);
+          return SetPositiveInt(FhirElement as PositiveInt, TokenIndex);
         }
         else if (FhirElement is Quantity)
         {
-          return SetQuantity(FhirElement as Quantity, StringIndex);
+          return SetQuantity(FhirElement as Quantity, TokenIndex);
         }
         else if (FhirElement is Range)
         {
-          return SetRange(FhirElement as Range, StringIndex);
+          return SetRange(FhirElement as Range, TokenIndex);
         }
         else if (FhirElement is Location.PositionComponent)
         {
-          return SetPositionComponent(FhirElement as Location.PositionComponent, StringIndex);
+          return SetPositionComponent(FhirElement as Location.PositionComponent, TokenIndex);
         }        
         else
         {

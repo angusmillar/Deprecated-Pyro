@@ -114,6 +114,7 @@
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IResourceServicesBase.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParameterService.cs" />
@@ -155,9 +156,11 @@
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
     <Compile Include="Tools\FhirDateSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
+    <Compile Include="Tools\FhirNarativeSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
+    <Compile Include="Interfaces\Tools\IFhirNarativeSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ResourceVersionNumber.cs" />
     <Compile Include="Tools\StringSupport.cs" />
