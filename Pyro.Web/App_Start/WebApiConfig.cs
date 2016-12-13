@@ -27,7 +27,13 @@ namespace Pyro.Web
       config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
       config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
+      config.Formatters.Add(new System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter());
+
       
+
+
+
+
       //Add Exception Handler
       config.Filters.Add(new Pyro.Engine.CustomException.FhirExceptionFilter());      
 

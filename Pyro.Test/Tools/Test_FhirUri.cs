@@ -159,7 +159,6 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(ServiceRootUrlForComparison, FhirUri.ServiceRootUrlForComparison);
     }
 
-
     [Test]
     public void Test_Relative_ReferanceToResourcey()
     {
@@ -180,6 +179,41 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(FhirId, FhirUri.Id);
 
 
+    }
+
+    [Test]
+    public void Test_ReferanceToResource_With_FormData_Search()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhirapi/Organization/_search
+      string Schema = "http";
+      string SchemaDelimiter = "://";
+      string Authority = "localhost:50579";
+      string[] ApiSegments = new string[] { "fhirapi" };
+      string ResourseType = "Organization";
+      string _search = "_search";
+
+
+      string ServiceRootUrlForComparison = $"{Authority}/{ApiSegmentsToPath(ApiSegments)}";
+      Uri ServiceRootUrl = new Uri($"{Schema}{SchemaDelimiter}{ServiceRootUrlForComparison}");
+
+      string Url = $"{Schema}{SchemaDelimiter}{Authority}/{ApiSegmentsToPath(ApiSegments)}/{ResourseType}/{_search}";
+
+      //Act
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(Url);
+
+
+      //Assert
+      Assert.AreEqual(Schema, FhirUri.Schema);
+      Assert.AreEqual(SchemaDelimiter, FhirUri.SchemaDelimiter);
+      Assert.AreEqual(Authority, FhirUri.Authority);
+      Assert.AreEqual(ResourseType, FhirUri.ResourseType);
+      Assert.AreEqual(ApiSegments, FhirUri.ApiSegments);
+      Assert.AreEqual(true, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+
+      Assert.AreEqual(ServiceRootUrl.ToString(), FhirUri.ServiceRootUrl.ToString());
+      Assert.AreEqual(ServiceRootUrlForComparison, FhirUri.ServiceRootUrlForComparison);
     }
 
 

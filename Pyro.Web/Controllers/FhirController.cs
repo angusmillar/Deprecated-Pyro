@@ -11,11 +11,12 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.Extentions;
 using Pyro.Common.Enum;
 using Pyro.Web.Extensions;
 using Pyro.Web.ApplicationCache;
 using Pyro.Web.Attributes;
-
+using System.Net.Http.Formatting;
 
 namespace Pyro.Web.Controllers
 {
@@ -119,7 +120,7 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
-    // Add
+    // Create
     // POST: URL/FhirApi/Patient
     /// <summary>
     /// Creates a new Resource in the server. The server will assign its own id and that id will be a GUID.
@@ -142,6 +143,18 @@ namespace Pyro.Web.Controllers
       IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
       IResourceServiceOutcome ResourceServiceOutcome = oService.Post(ResourceServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
+    }
+
+    [HttpPost, Route("{ResourceName}/_search")]
+    [ActionLog]    
+    public HttpResponseMessage PostFormSearch(string ResourceName, [FromBody] FormDataCollection FormDataCollection)
+    {                 
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
+      IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Hl7.Fhir.Rest.SearchParams.FromUriParamList(FormDataCollection.GetAsTupleCollection()));
+      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.Get(ResourceServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
     //Update
@@ -190,19 +203,21 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
-
-
     //Conditional Update
     // PUT: URL/FhirApi/Patient/5
     /// <summary>
-    /// Updates creates a new current version for an existing resource or creates an initial version if no resource already exists for the given id.
+    /// Conditional Update takes a set of search parameters and if a single resource is located then it will update this resource as a new version.
+    /// If many resources are located then a HTTP Status '412: Precondition Failed' will be returned. 
+    /// If no resource is located then a create is performed creating an initial version.
     /// For example: 
-    /// http://SomeServer.net/fhirapi/Patient/123456
-    /// Where the HTTP body is a FHIR Patient resource instance in JSON or XML format and the id in the resource equals the [id] in the URL, 123456 in this case.
+    /// http://SomeServer.net/fhirapi/Patient?identifer=www.acmehealth.com.au/identifier/mrn|123456
+    /// Where the HTTP body is a FHIR Patient resource instance in JSON or XML format search for resources with an 'identifier' with the system of 'www.acmehealth.com.au/identifier/mrn' and value of '123456' 
+    /// and update if a single resource is found or create if not resource is found (Server will assign it's own id). If many resource are found by the search
+    /// then a http status code of '412: Precondition Failed' will be returned.
     /// </summary>
     /// <param name="ResourceName">The name of the FHIR resource that is contained in the HTTP body</param>    
     /// <param name="resource">The actual Resource in the HTTP body</param>
-    /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or an OperationOutcome resource if an error has been encountered.</returns>
+    /// <returns>Status Code 200 (OK) and an echo of the created FHIR resource in the HTTP body or, 412: Precondition Failed or an OperationOutcome resource if an error has been encountered.</returns>
     [HttpPut, Route("{ResourceName}")]
     [ActionLog]
     public HttpResponseMessage ConditionalPut(string ResourceName, [FromBody] FhirModel.Resource resource)
@@ -215,11 +230,10 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
-
     //Delete
     // DELETE: URL/FhirApi/Patient/5
     /// <summary>
-    /// Conditional Delete removes an existing resource or set of Resources given a set of the Resources defined search parameters.
+    /// Conditional Delete removes an existing resource or set of Resources given a set of search parameters for the given Resource.
     /// This operation must be given at least one Resources defined search parameter to work and all parameter must be understood by this server.
     /// If not a HTTP status code of 412 Precondition Failed will be returned. 
     /// This server supports version history. 

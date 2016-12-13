@@ -159,6 +159,7 @@
     <Compile Include="Tools\FhirNarativeSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
+    <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Interfaces\Tools\IFhirNarativeSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />

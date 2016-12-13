@@ -28,12 +28,17 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     private readonly char UriDelimieter = '/';
     private readonly string HistorySegmentName = "_history";
+    private readonly string FormDataSearchSegmentName = "_search";
     private readonly string RegexResourceDilimeter = "|";
     protected bool IsValidFhirUri = false;
 
-    internal DtoFhirUri(){}
+    internal DtoFhirUri()
+    {
+      SetDefaults();
+    }
     internal DtoFhirUri(Uri Uri)
     {
+      SetDefaults();
       if (ParseUri(Uri))
       {
         this.IsValidFhirUri = true;
@@ -43,14 +48,9 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         this.IsValidFhirUri = false;
       }
     }
-
-    //public DtoFhirUri(Uri Uri)
-    //{
-    //  ParseUri(Uri);
-    //}
-
     internal DtoFhirUri(string UriString)
     {
+      SetDefaults();
       if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
       {
         var Uri = new Uri(UriString);
@@ -83,37 +83,11 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         }
       }
     }
-
-
-    //public DtoFhirUri(string UriString)
-    //{
-    //  if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
-    //  {        
-    //    var Uri = new Uri(UriString);
-    //    this.ParseUri(Uri);
-    //  }
-    //  else
-    //  {
-    //    if (HttpUtil.IsRestResourceIdentity(UriString))
-    //    {
-    //      this.IsAbsoluteUri = false;
-    //      ParseOutResourceIdentity(UriString);
-    //    }
-    //    else
-    //    {
-    //      var oIssueComponent = new OperationOutcome.IssueComponent();
-    //      oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-    //      oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
-    //      oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_RESOURCE_TYPE_MISMATCH", String.Format("Resource Type Mismatch"));
-    //      oIssueComponent.Details.Text = String.Format("A URL was not formed correctly, server expected a known FHIR Resource type and Id in the URL, URL was : {0}", Uri.AbsoluteUri);
-    //      oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-    //      var oOperationOutcome = new OperationOutcome();
-    //      oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-    //      throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-    //    }
-    //  }
-    //}
-
+    
+    private void SetDefaults()
+    {
+      this.IsFormDataSearch = false;
+    }
     public bool IsAbsoluteUri { get; private set; }
     public bool IsRelativeUri { get { return !this.IsAbsoluteUri; } }
 
@@ -145,6 +119,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     /// example: '123456789'
     /// </summary>
     public string Id { get; private set; }
+    /// <summary>
+    /// example: '_search'
+    /// </summary>
+    public bool IsFormDataSearch { get; private set; }
     /// <summary>
     /// example: True if the identity points to a history resource
     /// </summary>
@@ -306,9 +284,12 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         }
         else
         {
-          if (this.Id == null)
+          if (this.Id == null && !this.IsFormDataSearch && AbsolutePathArray[i] == FormDataSearchSegmentName)
           {
-            //for now I am amusing Id could contain the _historyversion as well, e.g Patient/123?_history=2
+            this.IsFormDataSearch = true;
+          }
+          else if (this.Id == null)
+          {            
             this.Id = AbsolutePathArray[i];
           }
           else
