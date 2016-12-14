@@ -145,6 +145,14 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
+    // Post Form Data Search
+    // POST: URL/FhirApi/Patient/_search
+    /// <summary>
+    /// Search for a set of resources by providing the search parameters as form data (Content-Type: application/x-www-form-urlencoded).
+    /// </summary>
+    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+    /// <param name="FormDataCollection">The HTTP body is to be search parameters in a form data format.</param>
+    /// <returns>Returns a bundle containing all resource that match the search criteria.</returns>
     [HttpPost, Route("{ResourceName}/_search")]
     [ActionLog]    
     public HttpResponseMessage PostFormSearch(string ResourceName, [FromBody] FormDataCollection FormDataCollection)

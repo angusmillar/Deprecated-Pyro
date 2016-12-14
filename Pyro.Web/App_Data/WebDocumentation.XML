@@ -532,6 +532,14 @@
             <param name="resource">The actual Resource in the HTTP body</param>
             <returns>Status Code 200 (OK) and an echo of the created FHIR resource or an OperationOutcome resource if an error has been encountered.</returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.PostFormSearch(System.String,System.Net.Http.Formatting.FormDataCollection)">
+            <summary>
+            Search for a set of resources by providing the search parameters as form data (Content-Type: application/x-www-form-urlencoded).
+            </summary>
+            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+            <param name="FormDataCollection">The HTTP body is to be search parameters in a form data format.</param>
+            <returns>Returns a bundle containing all resource that match the search criteria.</returns>
+        </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Put(System.String,System.String,Hl7.Fhir.Model.Resource)">
             <summary>
             Updates creates a new current version for an existing resource or creates an initial version if no resource already exists for the given id.
