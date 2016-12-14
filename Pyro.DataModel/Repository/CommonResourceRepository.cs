@@ -28,6 +28,8 @@ namespace Pyro.DataModel.Repository
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
     {
+      SetNumberOfRecordsPerPage(DtoSearchParameters);
+
       var Predicate = PredicateGenerator<ResourceType>(DtoSearchParameters);
       int TotalRecordCount = DbGetALLCount<ResourceType>(Predicate);
       var Query = DbGetAll<ResourceType>(Predicate);
@@ -64,7 +66,7 @@ namespace Pyro.DataModel.Repository
           Method = x.Method,
           ResourceType = this.RepositoryResourceType
         }).ToList();
-      }      
+      }
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
@@ -74,7 +76,7 @@ namespace Pyro.DataModel.Repository
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
-
+    
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
@@ -159,21 +161,8 @@ namespace Pyro.DataModel.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       int TotalRecordCount = 0;
-
-      if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
-      {
-        if (DtoSearchParameters.CountOfRecordsRequested.Value < _MaxNumberOfRecordsPerPage)
-        {
-          _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
-        }
-        else
-        {
-          _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
-        }
-      }
-
-
-
+      SetNumberOfRecordsPerPage(DtoSearchParameters);
+      
       var DtoResourceList = new List<DtoResource>();
 
       var Predicate = LinqKit.PredicateBuilder.New<ResourceType>(true);
@@ -286,7 +275,22 @@ namespace Pyro.DataModel.Repository
       this.Save();
       return DatabaseOperationOutcome;
     }
-    
+
+    private void SetNumberOfRecordsPerPage(DtoSearchParameters DtoSearchParameters)
+    {
+      if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
+      {
+        if (DtoSearchParameters.CountOfRecordsRequested.Value < _MaxNumberOfRecordsPerPage)
+        {
+          _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
+        }
+        else
+        {
+          _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
+        }
+      }
+    }
+
     // --- Abstract Methods -------------------------------------------------------------
     protected abstract void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceType> Predicate, int StartRecord, List<DtoResource> DtoResourceList);
 

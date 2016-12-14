@@ -43,6 +43,7 @@ namespace Pyro.Common.BusinessEntities.Service
       _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = _ResourceType;
       _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<DtoSearchParameterBase>();
       _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+      _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
 
       var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameTypeDictionary();
       List<DtoSupportedSearchParameters> DtoSupportedSearchParametersList = GetSupportedSearchParameters();
@@ -122,38 +123,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if ((_SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
         DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType.Value));
 
-      return DtoSupportedSearchParametersList;
-
-      //switch (_SearchParameterServiceType)
-      //{
-
-      //  case SearchParameterServiceType.None:
-      //    DtoSupportedSearchParametersList.Clear();
-      //    break;
-      //  case SearchParameterServiceType.Resource:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForBundleReturn());
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList(_ResourceType));
-      //    break;
-      //  case SearchParameterServiceType.History:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersForBundleReturn());
-      //    break;
-      //  case SearchParameterServiceType.Base:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    break;
-      //  case SearchParameterServiceType.Update:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    break;
-      //  case SearchParameterServiceType.Create:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    break;
-      //  case SearchParameterServiceType.Delete:
-      //    DtoSupportedSearchParametersList.AddRange(DtoSupportedSearchParametersFactory.GetSupportedParametersBase());
-      //    break;
-      //  default:
-      //    throw new System.ComponentModel.InvalidEnumArgumentException(_SearchParameterServiceType.ToString(), (int)_SearchParameterServiceType, typeof(SearchParameterServiceType));
-      //}      
+      return DtoSupportedSearchParametersList;      
     }
 
     private static bool IsSingularSearchParameter(DtoSearchParameterBase oSearchParameter)
