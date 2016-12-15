@@ -6643,6 +6643,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Pyro.Web\App_Data\Connectons.config">
+      <Link>App_Data\Connectons.config</Link>
+    </None>
     <None Include="App.config" />
     <None Include="DatabaseModel\_DbContextConfigGenerator.txt4" />
     <None Include="DatabaseModel\_DbContextGenerator.txt4" />
