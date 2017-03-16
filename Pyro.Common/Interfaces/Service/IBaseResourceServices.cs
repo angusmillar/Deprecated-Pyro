@@ -10,8 +10,9 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServices
   {
-
-    FHIRAllTypes CurrentResourceType { get; }
+    void BeginTransaction();
+    void CommitTransaction();
+    bool IsTransactional { get; }
 
     //Search
     // GET: URL/FhirApi/Patient/5    

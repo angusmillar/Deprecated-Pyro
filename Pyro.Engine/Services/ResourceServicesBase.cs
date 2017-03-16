@@ -14,6 +14,7 @@ namespace Pyro.Engine.Services
 {
   public class ResourceServicesBase : CommonServices, IResourceServicesBase, ICommonServices, IBaseServices 
   {
+    protected bool _TransactionStarted;
     protected IResourceRepository _ResourceRepository = null;
 
     //Constructor for dependency injection
@@ -40,7 +41,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
@@ -77,7 +78,7 @@ namespace Pyro.Engine.Services
     }
 
     public IResourceServiceOutcome SetResource(Resource Resource, Common.Interfaces.UriSupport.IDtoFhirRequestUri FhirRequestUri, RestEnum.CrudOperationType CrudOperationType)
-    {
+    {      
       if (CrudOperationType == RestEnum.CrudOperationType.Update && (Resource.Meta == null || string.IsNullOrWhiteSpace(Resource.Meta.VersionId)))
         throw new ArgumentNullException("Internal Server Error:Resource's Version can not be null when CrudOperationType = Update");
       if ((CrudOperationType != RestEnum.CrudOperationType.Create) && (CrudOperationType != RestEnum.CrudOperationType.Update))
@@ -85,7 +86,7 @@ namespace Pyro.Engine.Services
       if (CrudOperationType == RestEnum.CrudOperationType.Update && string.IsNullOrWhiteSpace(Resource.Id))
         throw new ArgumentNullException("Internal Server Error: Resource Id must be populated for CrudOperationType = Update");
 
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetPyroServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
 
       //Assign GUID as FHIR id;
       if (string.IsNullOrWhiteSpace(Resource.Id))
@@ -122,8 +123,8 @@ namespace Pyro.Engine.Services
         DatabaseOperationOutcome = _ResourceRepository.UpdateResource(ResourceVersionNumber, Resource, FhirRequestUri);
       }
       else if (CrudOperationType == RestEnum.CrudOperationType.Create)
-      {
-        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, FhirRequestUri);
+      {        
+        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, FhirRequestUri);        
       }
 
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)

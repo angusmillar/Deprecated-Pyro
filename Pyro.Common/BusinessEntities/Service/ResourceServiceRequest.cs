@@ -57,7 +57,7 @@ namespace Pyro.Common.BusinessEntities.Service
       this.RequestHeaders = RequestHeaders;
     }
 
-    public ResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       this.ServiceRequestType = ServiceRequestType;
       this.ResourceId = ResourceId;
@@ -65,7 +65,7 @@ namespace Pyro.Common.BusinessEntities.Service
       this.Resource = Resource;
       this.FhirRequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
-      this.RequestHeaders = null;
+      this.RequestHeaders = RequestHeaders;
     }
 
     public ResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)

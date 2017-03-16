@@ -4,6 +4,7 @@
   {
     string IfNoneExist { get; set; }
     string IfModifiedSince { get; set; }
+    string IfMatch { get; set; }
     string IfNoneMatch { get; set; }
   }
 }

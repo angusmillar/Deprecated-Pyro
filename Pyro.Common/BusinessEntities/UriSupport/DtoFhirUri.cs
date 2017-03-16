@@ -30,6 +30,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     private readonly string HistorySegmentName = "_history";
     private readonly string FormDataSearchSegmentName = "_search";
     private readonly string RegexResourceDilimeter = "|";
+    private readonly char OperationPrefix = '$';
     protected bool IsValidFhirUri = false;
 
     internal DtoFhirUri()
@@ -83,7 +84,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         }
       }
     }
-    
+
     private void SetDefaults()
     {
       this.IsFormDataSearch = false;
@@ -119,6 +120,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     /// example: '123456789'
     /// </summary>
     public string Id { get; private set; }
+    /// <summary>
+    /// Resource Operation: '$lookup'
+    /// </summary>
+    public string ResourceOperation { get; private set; }
     /// <summary>
     /// example: '_search'
     /// </summary>
@@ -288,8 +293,12 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           {
             this.IsFormDataSearch = true;
           }
+          else if (this.Id == null && string.IsNullOrWhiteSpace(this.ResourceOperation) && AbsolutePathArray[i].StartsWith(OperationPrefix.ToString()))
+          {
+            this.ResourceOperation = AbsolutePathArray[i].TrimStart(OperationPrefix);
+          }
           else if (this.Id == null)
-          {            
+          {
             this.Id = AbsolutePathArray[i];
           }
           else

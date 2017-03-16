@@ -13,19 +13,14 @@ namespace Pyro.Test.IntergrationTest
   [TestFixture]
   [Category("IntergrationTest")]
   class Test_BasicRequestes
-  {
-    private string ServerEndPoint = string.Empty;
-    private string FhirEndpoint = string.Empty;
+  {    
     private System.IDisposable Server;
 
     [SetUp]
     public void Setup()
     {
-      System.Threading.Thread.Sleep(1000 * 3);
-      string LocalHost = "http://localhost";
-      ServerEndPoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}";
-      FhirEndpoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}";
-      Server = WebApp.Start<TestStartup>(ServerEndPoint);
+     
+      Server = StaticTestData.StartupServer();
     }
 
     [TearDown]
@@ -38,8 +33,8 @@ namespace Pyro.Test.IntergrationTest
     public void Test_CRUD()
     {
 
-      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
-      clientFhir.Timeout = 1000 * 1000; // give the call a while to execute (particularly while debugging).
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
 
       string PatientResourceId = string.Empty;
 
@@ -67,7 +62,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         //PatientOneResourceId
-        PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");
+        PatientResult = (Patient)clientFhir.Get($"{StaticTestData.FhirEndpoint()}/Patient/{PatientResourceId}");
       }
       catch (Exception Exec)
       {
@@ -92,7 +87,7 @@ namespace Pyro.Test.IntergrationTest
       //Get the Added resource by Id
       try
       {
-        PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");
+        PatientResult = (Patient)clientFhir.Get($"{StaticTestData.FhirEndpoint()}/Patient/{PatientResourceId}");
       }
       catch (Exception Exec)
       {
@@ -114,7 +109,7 @@ namespace Pyro.Test.IntergrationTest
       //Get the Added resource by Id
       try
       {
-        var Result = clientFhir.Get($"{FhirEndpoint}/Patient/{PatientResourceId}");
+        var Result = clientFhir.Get($"{StaticTestData.FhirEndpoint()}/Patient/{PatientResourceId}");
       }
       catch (Hl7.Fhir.Rest.FhirOperationException OpExec)
       {

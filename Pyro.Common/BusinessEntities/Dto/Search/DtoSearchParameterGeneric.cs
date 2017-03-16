@@ -25,22 +25,25 @@ namespace Pyro.Common.BusinessEntities.Search
 
     public DtoSearchParameterGeneric(string SearchParameterString)
     {
-      if (SearchParameterString.Contains("?"))
-      {
-        SearchParameterString = SearchParameterString.Split('?')[1];
-      }
-            
-      var ValuePairList = System.Web.HttpUtility.ParseQueryString(SearchParameterString);
       this.ParameterList = new List<Tuple<string, string>>();
-      
-      foreach (string Key in ValuePairList.AllKeys)
+      if (!string.IsNullOrWhiteSpace(SearchParameterString))
       {
-        this.ParameterList.Add(new Tuple<string, string>(Key, ValuePairList[Key]));
-      }
-      
-      this.Sort = null;
-      this.Count = ValuePairList.Count;
+        if (SearchParameterString.Contains("?"))
+        {
+          SearchParameterString = SearchParameterString.Split('?')[1];
+        }
 
+        var ValuePairList = System.Web.HttpUtility.ParseQueryString(SearchParameterString);
+        
+
+        foreach (string Key in ValuePairList.AllKeys)
+        {
+          this.ParameterList.Add(new Tuple<string, string>(Key, ValuePairList[Key]));
+        }
+
+        this.Sort = null;
+        this.Count = ValuePairList.Count;
+      }
     }
   }
 }

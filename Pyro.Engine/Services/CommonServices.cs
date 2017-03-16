@@ -16,8 +16,8 @@ namespace Pyro.Engine.Services
       : base(IUnitOfWork){}
 
     public IDtoRootUrlStore GetPrimaryServiceRootUrl()
-    {
-      return _UnitOfWork.CommonRepository.GetPrimaryRootUrlStore();      
+    { 
+      return _UnitOfWork.CommonRepository.GetPrimaryRootUrlStore();            
     }
 
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)

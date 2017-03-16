@@ -8,6 +8,10 @@ namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IUnitOfWork
   {
+    void BeginTransaction();
+    void CommitTransaction();
+    bool IsTransactional { get;}
+
     IDtoCommonRepository CommonRepository { get; }
     IResourceRepository AccountRepository { get; }    
     IResourceRepository ActivityDefinitionRepository { get; }    

@@ -125,6 +125,7 @@
     <Compile Include="IndexSetters\Test_Uri_IndexSetter.cs" />
     <Compile Include="IntergrationTest\StaticTestData.cs" />
     <Compile Include="IntergrationTest\TestStartup.cs" />
+    <Compile Include="IntergrationTest\Test_BundleTransactions.cs" />
     <Compile Include="IntergrationTest\Test_BasicRequestes.cs" />
     <Compile Include="IntergrationTest\Test_ConditionalRequests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

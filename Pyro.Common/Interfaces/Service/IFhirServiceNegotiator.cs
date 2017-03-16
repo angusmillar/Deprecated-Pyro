@@ -9,6 +9,10 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IServiceNegotiator
   {
+    void BeginTransaction();
+    void CommitTransaction();
+    bool IsTransactional { get; }
+    IResourceServices GetTransactionalResourceService(string ResourceName);
     IResourceServices GetResourceService(string type);
     IResourceServicesBase GetResourceServiceBase(string type);
     ICommonServices GetCommonService();

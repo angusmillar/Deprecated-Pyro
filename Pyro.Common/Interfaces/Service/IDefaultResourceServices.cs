@@ -12,7 +12,7 @@ namespace Pyro.Common.Interfaces.Service
   /// This Interface is here to handle any Resource but only supports the basic REST CRUD operations.  
   /// </summary>
   public interface IDefaultResourceServices : IResourceServices
-  {
+  {    
     FHIRAllTypes SetCurrentResourceType { set; }   
   }
 }

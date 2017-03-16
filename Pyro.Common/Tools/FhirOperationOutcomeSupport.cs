@@ -5,6 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Introspection;
+
+
 
 namespace Pyro.Common.Tools
 {
@@ -26,46 +29,6 @@ namespace Pyro.Common.Tools
       OpOutCome.Meta = new Meta();
       OpOutCome.Meta.LastUpdated = DateTimeOffset.Now;
       return OpOutCome;
-    }
-
-    private static string ObtainNarrativeText(OperationOutcome.IssueComponent Issue)
-    {
-      if (Issue.Details != null && !string.IsNullOrWhiteSpace(Issue.Details.Text))
-      {
-        return Issue.Details.Text;
-      }
-      else if (!string.IsNullOrWhiteSpace(Issue.Diagnostics))
-      {
-        return Issue.Diagnostics;
-      }
-      else if (Issue.Details != null && Issue.Details.Coding != null && Issue.Details.Coding.Count > 0)
-      {
-        var Text = new StringBuilder();
-        foreach (var item in Issue.Details.Coding)
-        {
-          if (string.IsNullOrWhiteSpace(item.Display))
-            Text.AppendLine(item.Display);
-        }
-        return Text.ToString();
-      }
-      else
-      {
-        throw new Exception("Server Error: No narrative text could be formed for an Operation Outcome.");
-      }
-    }
-
-    private static string GenerateNarrative(List<string> NarrativeList)
-    {
-      StringBuilder NarrativeString = new StringBuilder();
-      NarrativeString.AppendLine("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
-      foreach (var Text in NarrativeList)
-      {
-        NarrativeString.Append("<p>");
-        NarrativeString.Append(System.Security.SecurityElement.Escape(Text.Replace(System.Environment.NewLine, "</br>")));
-        NarrativeString.Append("</p>");
-      }
-      NarrativeString.Append("</div>");
-      return NarrativeString.ToString();
     }
 
     public static void EscapeOperationOutComeContent(OperationOutcome OpOutCome)
@@ -147,29 +110,61 @@ namespace Pyro.Common.Tools
       var oOperationOutcome = new OperationOutcome();
       oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
       oOperationOutcome.Text = new Narrative();
-      oOperationOutcome.Text.Div = ConstructNarrative(Message);
+      oOperationOutcome.Text.Div = ConstructNarrative(Message, oIssueComponent.Severity, IssueType.Value);
       return oOperationOutcome;
     }
 
-
-
-
-    private static string ConstructNarrative(string Message)
+    private static string ObtainNarrativeText(OperationOutcome.IssueComponent Issue)
     {
-      var XDoc = new XmlDocument();
-      var Xroot = XDoc.CreateElement("div");
-      var xmlns = XDoc.CreateAttribute("xmlns");
-      xmlns.Value = "http://www.w3.org/1999/xhtml";
-      Xroot.SetAttributeNode(xmlns);
-      XDoc.AppendChild(Xroot);
-      var MessageHtml = XDoc.CreateElement("p");
-      Xroot.AppendChild(MessageHtml);
-      var ReasonTitle = XDoc.CreateElement("b");
-      ReasonTitle.AppendChild(XDoc.CreateTextNode("Reason: "));
-      MessageHtml.AppendChild(ReasonTitle);
-      var normal = MessageHtml.AppendChild(XDoc.CreateTextNode(Message));
-      MessageHtml.AppendChild(normal);
-      return XDoc.OuterXml;
+      if (Issue.Details != null && !string.IsNullOrWhiteSpace(Issue.Details.Text))
+      {
+        return Issue.Details.Text;
+      }
+      else if (!string.IsNullOrWhiteSpace(Issue.Diagnostics))
+      {
+        return Issue.Diagnostics;
+      }
+      else if (Issue.Details != null && Issue.Details.Coding != null && Issue.Details.Coding.Count > 0)
+      {
+        var Text = new StringBuilder();
+        foreach (var item in Issue.Details.Coding)
+        {
+          if (string.IsNullOrWhiteSpace(item.Display))
+            Text.AppendLine(item.Display);
+        }
+        return Text.ToString();
+      }
+      else
+      {
+        throw new Exception("Server Error: No narrative text could be formed for an Operation Outcome.");
+      }
+    }
+
+    private static string GenerateNarrative(List<string> NarrativeList)
+    {
+      StringBuilder NarrativeString = new StringBuilder();
+      NarrativeString.AppendLine("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
+      foreach (var Text in NarrativeList)
+      {
+        NarrativeString.Append("<p>");
+        NarrativeString.Append(System.Security.SecurityElement.Escape(Text.Replace(System.Environment.NewLine, "</br>")));
+        NarrativeString.Append("</p>");
+      }
+      NarrativeString.Append("</div>");
+      return NarrativeString.ToString();
+    }
+
+    private static string ConstructNarrative(string Message, OperationOutcome.IssueSeverity? IssueSeverity, OperationOutcome.IssueType? IssueType)
+    {
+      var NarativeSupport = Common.CommonFactory.GetFhirNarativeSupport();
+
+      if (IssueSeverity.HasValue)
+        NarativeSupport.NewValuePairList("IssueSeverity", IssueSeverity.Value.GetLiteral(), "Status", 4);
+      if (IssueType.HasValue)
+        NarativeSupport.AppendValuePairList("IssueType", IssueType.Value.GetLiteral());
+
+      NarativeSupport.NewParagraph(Message, "Message", 4);
+      return NarativeSupport.Generate();
     }
 
     private static string AppendNarrative(ICollection<string> MessageList)

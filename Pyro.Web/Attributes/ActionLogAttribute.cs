@@ -66,9 +66,9 @@ namespace Pyro.Web.Attributes
 
         // Get the resource base
         string baseUri = DtoFhirRequestUri.FhirUri.ServiceRootUrl.ToString();
-        
+
         // Create the Security Event Object
-        AuditEvent Audit = new AuditEvent();        
+        AuditEvent Audit = new AuditEvent();
         if (actionExecutedContext.Request.Method == HttpMethod.Put)
           Audit.Action = AuditEvent.AuditEventAction.U;
         else if (actionExecutedContext.Request.Method == HttpMethod.Post)
@@ -190,7 +190,7 @@ namespace Pyro.Web.Attributes
             Description = baseUri == null ?
                               owinContext.Request.Uri.OriginalString
                               : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""),
-            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }            
+            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
           });
 
           if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
@@ -202,17 +202,12 @@ namespace Pyro.Web.Attributes
         }
 
         Pyro.Common.Interfaces.Tools.IFhirNarativeSupport Narative = Pyro.Common.CommonFactory.GetFhirNarativeSupport();
-
         Narative.NewValuePairList("Time", string.Format("{0} ({1:f3} sec)", dtStart, duration.TotalSeconds));
-
         Narative.AppendValuePairList(actionExecutedContext.Request.Method.ToString(), string.Format("{0}", HttpUtility.HtmlEncode(baseUri == null ?
                                 owinContext.Request.Uri.OriginalString
                                 : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""))));
-        
         Narative.AppendValuePairList("BaseUri", baseUri);
-
         Narative.AppendValuePairList("From", ipAddress);
-
         if (owinContext.Authentication.User != null && owinContext.Authentication.User.Identity.IsAuthenticated)
           Narative.AppendValuePairList("User", owinContext.Authentication.User.ToString());
         else
@@ -225,7 +220,7 @@ namespace Pyro.Web.Attributes
         }
         Audit.Text = new Narrative();
         Audit.Text.Div = Narative.Generate();
-        
+
         // Add custom SQL-on-FHIR event data
         Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
 
@@ -274,7 +269,7 @@ namespace Pyro.Web.Attributes
       catch (Exception Exec)
       {
         // TODO: This exception should be stored somewhere, registry?
-        System.Diagnostics.Trace.WriteLine(Exec.Message);
+        System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
       }
 
       base.OnActionExecuted(actionExecutedContext);

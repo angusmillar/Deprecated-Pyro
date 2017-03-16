@@ -12,5 +12,12 @@ namespace Pyro.Common.BusinessEntities.Dto
     public int ServiceRootUrlStoreID { get; set; }
     public string RootUrl { get; set; }
     public bool IsServersPrimaryUrlRoot { get; set; }
+    public Uri RootUri
+    {
+      get
+      {
+        return new Uri(this.RootUrl);
+      }
+    }
   }
 }

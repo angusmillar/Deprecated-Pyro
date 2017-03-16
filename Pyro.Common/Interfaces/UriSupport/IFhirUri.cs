@@ -7,6 +7,7 @@ namespace Pyro.Common.Interfaces.UriSupport
     string[] ApiSegments { get; }
     string Authority { get; }
     string Id { get; }
+    string ResourceOperation { get; }
     string VersionId { get; }
     bool IsFormDataSearch { get; }
     string ResourseType { get; }

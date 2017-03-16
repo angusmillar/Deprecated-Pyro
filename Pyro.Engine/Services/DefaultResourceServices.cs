@@ -17,13 +17,14 @@ namespace Pyro.Engine.Services
     //Constructor for dependency injection
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork){}
+    
 
     public new FHIRAllTypes SetCurrentResourceType
     {
       set
-      {
+      {        
         _CurrentResourceType = value;
-        _ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);
+        _ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);        
       }
     }
   }

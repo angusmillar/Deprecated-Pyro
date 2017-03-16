@@ -15,7 +15,7 @@ namespace Pyro.Engine.Services
      //Constructor for dependency injection
     public BaseServices(IUnitOfWork IUnitOfWork)
     {
-      _UnitOfWork = IUnitOfWork;
+      _UnitOfWork = IUnitOfWork;      
     }
 
   }

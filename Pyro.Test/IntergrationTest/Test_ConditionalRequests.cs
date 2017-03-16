@@ -15,18 +15,12 @@ namespace Pyro.Test.IntergrationTest
   [Category("IntergrationTest")]
   class Test_ConditionalRequests
   {
-    private string ServerEndPoint = string.Empty;
-    private string FhirEndpoint = string.Empty;
     private System.IDisposable Server;
 
     [SetUp]
     public void Setup()
     {
-      System.Threading.Thread.Sleep(1000 * 3);
-      string LocalHost = "http://localhost";
-      ServerEndPoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}";
-      FhirEndpoint = $"{LocalHost}:{Pyro.Common.Web.StaticWebInfo.TestingPort}/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}";
-      Server = WebApp.Start<TestStartup>(ServerEndPoint);
+      Server = StaticTestData.StartupServer();
     }
 
     [TearDown]
@@ -38,7 +32,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_ConditionalUpdate()
     {
-      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
       clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
 
       // Prepare 3 test patients
@@ -134,7 +128,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_ConditionalCreate()
     {
-      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
       clientFhir.Timeout = 1000 * 600; // give the call a while to execute (particularly while debugging).
       string TempResourceVersion = string.Empty;
       string TempResourceId = string.Empty;
@@ -186,7 +180,7 @@ namespace Pyro.Test.IntergrationTest
       {
         //This will return status OK but does not commit the resource and therefore
         //does not increment the resource version number
-        var PatientResult = (Patient)clientFhir.Get($"{FhirEndpoint}/Patient/{TempResourceId}");
+        var PatientResult = (Patient)clientFhir.Get($"{StaticTestData.FhirEndpoint()}/Patient/{TempResourceId}");
         Assert.AreEqual(TempResourceVersion, PatientResult.VersionId, "The Version Id was not correct post Conditional Create when Resource was found.");
       }
       catch (FhirOperationException execOper)
@@ -244,7 +238,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_ConditionalRead()
     {
-      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirEndpoint, false);
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
       clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
 
       string PatientOneId = string.Empty;
@@ -276,7 +270,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         //Resource has not changed so should return a 304 Not Modified
-        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        PatientTwo = clientFhir.Read<Patient>($"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.Fail("Conditional Read is expected to throw an exception due to bug in FHIR .NET API");
       }
       catch (FhirOperationException ExecOp)
@@ -295,7 +289,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         //Resource has not changed so should return a 304 Not Modified
-        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        PatientTwo = clientFhir.Read<Patient>($"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.NotNull(PatientTwo, "Not Resource returned when 1 min subtracted from last-modified on Conditional Read.");
         //reset the PatientOneModified
         PatientOneModified = PatientTwo.Meta.LastUpdated;
@@ -311,7 +305,7 @@ namespace Pyro.Test.IntergrationTest
       {
         //Resource has not changed so should return a 304 Not Modified
         //PatientTwo = clientFhir.Refresh<Patient>(PatientTwo, PatientTwo.Meta.VersionId, PatientTwo.VersionId)
-        PatientTwo = clientFhir.Read<Patient>($"{FhirEndpoint}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
+        PatientTwo = clientFhir.Read<Patient>($"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.NotNull(PatientTwo, "Not Resource returned when Resource Version did not match active resource Version on Conditional Read.");
       }
       catch (FhirOperationException ExecOp)
@@ -332,6 +326,94 @@ namespace Pyro.Test.IntergrationTest
 
 
     }
+
+    [Test]
+    public void Test_PUT_IfMatch()
+    {
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Best to have this clean up here as things can get out of 
+      //synch with the database when debugging.
+      //We always need a clean db to start run.
+      var sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      }
+
+      string PatientOneId = string.Empty;
+      string PatientOneVersion = string.Empty;
+      DateTimeOffset? PatientOneModified = null;
+
+      // Prepare Patient
+      Patient PatientOne = new Patient();
+      PatientOne.Id = "TestPatIfMatch";
+      PatientOne.Name.Add(HumanName.ForFamily("IfMatch0").WithGiven("Test0"));
+      PatientOne.BirthDateElement = new Date("1970-01");
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "AF28B8ED-B81A-41D4-96DE-9012ED1868BD"));
+
+      Patient ResultOne = null;
+      try
+      {
+        ResultOne = clientFhir.Update(PatientOne);
+        PatientOneId = ResultOne.Id;
+        PatientOneVersion = ResultOne.VersionId;
+        PatientOneModified = ResultOne.Meta.LastUpdated;
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Get: " + Exec.Message);
+      }
+
+      ResultOne.Name.Clear();
+      ResultOne.Name.Add(HumanName.ForFamily("IfMatch1").WithGiven("Test1"));
+
+      Patient ResultTwo = null;
+      try
+      {
+        //Perform a Version aware update that should be successfully. This uses "if-match" HTTP Header.
+        ResultTwo = clientFhir.Update(ResultOne, true);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Get: " + Exec.Message);
+      }
+
+      //Increment the last returned resource's version by one and then attempt a version aware update.
+      //This should fail with a HTTP Error '409 Conflict'
+      ResultTwo.VersionId = (Convert.ToInt32(ResultTwo.VersionId) + 1).ToString();
+      Patient ResultThree = null;
+      try
+      {
+        ResultThree = clientFhir.Update(ResultTwo, true);
+      }
+      catch (FhirOperationException execOper)
+      {
+        Assert.AreEqual(System.Net.HttpStatusCode.Conflict, execOper.Status, "Did not get Http status 409 Conflict on incorrect Version aware update.");
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on Version aware update: " + Exec.Message);
+      }
+
+      //Clean up by deleting all Test Patients
+      sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      }
+
+    }
+
   }
 
 }

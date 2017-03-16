@@ -11,12 +11,12 @@ using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.Repositories;
 
-namespace Pyro.DataModel.Repository 
+namespace Pyro.DataModel.Repository
 {
   public class BaseRepository : IBaseRepository
   {
     internal DataModel.DatabaseModel.DatabaseContext _Context = null;
-
+    
     protected int _NumberOfRecordsPerPage = 10;
     protected int _MaxNumberOfRecordsPerPage = 10000;
 
@@ -69,8 +69,6 @@ namespace Pyro.DataModel.Repository
         OpOutCome.Issue.Add(OpOutComeIssueComp);
         throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
       }
-
     }
-
   }
 }

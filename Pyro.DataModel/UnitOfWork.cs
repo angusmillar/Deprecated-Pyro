@@ -12,6 +12,49 @@ namespace Pyro.DataModel
 {
   public class UnitOfWork : IUnitOfWork, IDisposable
   {
+    private bool _Transactional = false;
+    private System.Data.Entity.DbContextTransaction _Trans;
+
+    public void BeginTransaction()
+    {
+      try
+      {
+        _Trans = _context.Database.BeginTransaction();
+      }
+      catch(Exception Exec)
+      {
+        var Test = Exec.Message;
+      }
+      _Transactional = true;
+    }
+
+    public void CommitTransaction()
+    {
+      try
+      {
+        _Trans.Commit();
+      }
+      catch
+      {
+        _Trans.Rollback();
+        throw new NotImplementedException();
+
+      }
+      finally
+      {
+        _Trans.Dispose();
+        _Transactional = false;
+      }
+    }
+
+    public bool IsTransactional
+    {
+      get
+      {
+        return _Transactional;
+      }      
+    }
+
     private Pyro.DataModel.DatabaseModel.DatabaseContext _context = null;
 
     private CommonRepository _CommonRepository;    
@@ -128,7 +171,7 @@ namespace Pyro.DataModel
 
     public UnitOfWork()
     {
-      _context = new Pyro.DataModel.DatabaseModel.DatabaseContext();
+      _context = new Pyro.DataModel.DatabaseModel.DatabaseContext();            
     }
 
     public IDtoCommonRepository CommonRepository

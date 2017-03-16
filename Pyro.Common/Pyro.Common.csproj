@@ -83,6 +83,7 @@
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
+    <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="Interfaces\Dto\Headers\IDtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDateTime.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IBundleTransactionService.cs" />
     <Compile Include="Interfaces\Service\IResourceServicesBase.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
@@ -148,7 +150,6 @@
     <Compile Include="Interfaces\Service\ICommonServices.cs" />
     <Compile Include="Interfaces\Service\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
-    <Compile Include="Interfaces\Service\IPatientResourceServices.cs" />
     <Compile Include="Interfaces\Service\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />

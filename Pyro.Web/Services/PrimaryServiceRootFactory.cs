@@ -53,7 +53,7 @@ namespace Pyro.Web.Services
             throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, ErrorMsg);
           }
         }
-        return DtoFhirRequestUri.Create(PrimaryRootUrlStore, RequestFhirUri);
+        return Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore, RequestFhirUri);
       }
       else
       {

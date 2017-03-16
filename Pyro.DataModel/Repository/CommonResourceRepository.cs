@@ -24,7 +24,8 @@ namespace Pyro.DataModel.Repository
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
 
-    public CommonResourceRepository(DataModel.DatabaseModel.DatabaseContext Context) : base(Context) { }
+    public CommonResourceRepository(DataModel.DatabaseModel.DatabaseContext Context) 
+      : base(Context){ }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
     {
@@ -202,7 +203,7 @@ namespace Pyro.DataModel.Repository
     }
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
-    {
+    {                        
       var ResourceEntity = new ResourceType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);
       var test = this.RepositoryResourceType;
