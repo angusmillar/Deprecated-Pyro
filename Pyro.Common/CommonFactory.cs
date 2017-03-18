@@ -59,46 +59,61 @@ namespace Pyro.Common
       return new DtoDatabaseOperationOutcome();
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    public static IResourceServiceRequestGetRead GetResourceServiceRequestGetRead(string ResourceId, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new ResourceServiceRequest(ServiceRequestType, DtoSearchParameterGeneric);
+      return new ResourceServiceRequestGetRead(ResourceId, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    public static IResourceServiceRequestGetSearch GetResourceServiceRequestGetSearch(IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, id, DtoFhirRequestUri, DtoSearchParameterGeneric);
+      return new ResourceServiceRequestGetSearch(DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IResourceServiceRequestGetHistory GetResourceServiceRequestGetHistory(string FhirId, string Vid, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, id, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
+      return new ResourceServiceRequestGetHistory(FhirId, Vid, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new ResourceServiceRequest(ServiceRequestType, id, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
+      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
+      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    public static IResourceServiceRequestPut GetResourceServiceRequestPut(string id, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new ResourceServiceRequest(ServiceRequestType, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
+      return new ResourceServiceRequestPut(id, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    public static IResourceServiceRequestConditionalPut GetResourceServiceRequestConditionalPut(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, DtoFhirRequestUri, DtoSearchParameterGeneric);
+      return new ResourceServiceRequestConditionalPut(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequest GetResourceServiceRequest(ServiceEnums.ServiceRequestType ServiceRequestType, string FhirId, string Vid, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    public static IResourceServiceRequestDelete GetResourceServiceRequestDelete(string id, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
-      return new ResourceServiceRequest(ServiceRequestType, FhirId, Vid, DtoFhirRequestUri, DtoSearchParameterGeneric);
+      return new ResourceServiceRequestDelete(id, DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
+    public static IResourceServiceRequestConditionalDelete GetResourceServiceRequestConditionalDelete(IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    {
+      return new ResourceServiceRequestConditionalDelete(DtoFhirRequestUri, DtoSearchParameterGeneric);
+    }
+
+    public static IResourceServiceRequestMetadata GetResourceServiceRequestMetadata(string ApplicationVersion, IDtoRootUrlStore RootUrl, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
+    {
+      return new ResourceServiceRequestMetadata(ApplicationVersion, RootUrl, DtoSearchParameterGeneric);
+    }
+
+    public static IResourceServiceRequestTransactionBundle GetResourceServiceRequestTransactionBundle(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders, IServiceNegotiator ServiceNegotiator)
+    {
+      return new ResourceServiceRequestTransactionBundle(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders, ServiceNegotiator);
+    }
+    
     public static IApplicationCacheSupport GetApplicationCacheService()
     {
       return new Tools.ApplicationCacheSupport();
@@ -134,9 +149,9 @@ namespace Pyro.Common
       return new Tools.FhirNarativeSupport();
     }
 
-    public static IBundleTransactionService GetBundleTransactionService(IServiceNegotiator ServiceNegotiator, IResourceServiceRequest ResourceServiceRequest)
+    public static IBundleTransactionService GetBundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)
     {
-      return new BundleTransactionService(ServiceNegotiator, ResourceServiceRequest);
+      return new BundleTransactionService(ResourceServiceRequestTransactionBundle);
     }
   }
 }

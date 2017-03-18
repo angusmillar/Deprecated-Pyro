@@ -21,8 +21,12 @@ namespace Pyro.Web.ApplicationCache
       PrimaryRootUrlStore = Common.CommonFactory.GetRootUrlStore();
       PrimaryRootUrlStore.IsServersPrimaryUrlRoot = true;
       PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
+      
+      string Port = Pyro.Common.Web.StaticWebInfo.TestingPort;
+      string uri = "http://localhost:" + Port;
+      string FhirEndpoint = "http://localhost:" + Port + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
+      PrimaryRootUrlStore.RootUrl = FhirEndpoint;
       //PrimaryRootUrlStore.RootUrl = "localhost:50579/test/stu3/fhir";
-      PrimaryRootUrlStore.RootUrl = "localhost:8888/test/stu3/fhir";
 #else
         //Runtime use cache
         IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();        

@@ -14,32 +14,39 @@ namespace Pyro.Common.Interfaces.Service
     void CommitTransaction();
     bool IsTransactional { get; }
 
+
+    //Read
+    // GET: URL/FhirApi/Patient/5    
+    IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead);
+
     //Search
     // GET: URL/FhirApi/Patient/5    
-    // GET: URL//FhirApi/Patient&family=Smith&given=John
+    IResourceServiceOutcome GetSearch(IResourceServiceRequestGetSearch PyroServiceRequestGetSearch);
+
+    //History
     // GET: URL/FhirApi/Patient/5/_history    
     // GET: URL/FhirApi/Patient/5/_history/2    
-    IResourceServiceOutcome Get(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome GetHistory(IResourceServiceRequestGetHistory PyroServiceRequestGetHistory);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IResourceServiceOutcome Post(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IResourceServiceOutcome Put(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Put(IResourceServiceRequestPut PyroServiceRequestPut);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome Delete(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome Delete(IResourceServiceRequestDelete PyroServiceRequestDelete);
 
     //Conditional Delete
     // DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
-    IResourceServiceOutcome ConditionalDelete(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome ConditionalDelete(IResourceServiceRequestConditionalDelete PyroServiceRequestConditionalDelete);
 
     //Conditional Update
     /// PUT: URL/FhirApi/Patient?given=angus
-    IResourceServiceOutcome ConditionalPut(IResourceServiceRequest PyroServiceRequest);
+    IResourceServiceOutcome ConditionalPut(IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut);
 
 
   }

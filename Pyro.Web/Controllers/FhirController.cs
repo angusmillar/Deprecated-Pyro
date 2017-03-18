@@ -40,8 +40,8 @@ namespace Pyro.Web.Controllers
       var MetadataService = new Pyro.Engine.Services.MetadataService();
       string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Web.WebApiApplication).Assembly.Location).ProductVersion;
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Metadata, SearchParameterGeneric);
-      IResourceServiceOutcome oPyroServiceOperationOutcome = MetadataService.GetServersConformanceResource(ResourceServiceRequest, RootUrl, ApplicationVersion);
+      IResourceServiceRequestMetadata ResourceServiceRequestMetadata = Common.CommonFactory.GetResourceServiceRequestMetadata(ApplicationVersion, RootUrl, SearchParameterGeneric);
+      IResourceServiceOutcome oPyroServiceOperationOutcome = MetadataService.GetServersConformanceResource(ResourceServiceRequestMetadata);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
@@ -64,8 +64,8 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-      IResourceServiceRequest PyroServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Read, id, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
-      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.Get(PyroServiceRequest);
+      IResourceServiceRequestGetRead PyroServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(id, FhirRequestUri, SearchParameterGeneric, RequestHeaders);      
+      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.GetRead(PyroServiceRequestGetRead);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
@@ -83,10 +83,10 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Search(string ResourceName)
     {
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
-      IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);      
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.Get(ResourceServiceRequest);
+      IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(FhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.GetSearch(ResourceServiceRequestGetSearch);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
@@ -109,8 +109,8 @@ namespace Pyro.Web.Controllers
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.History, id, vid, FhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.Get(ResourceServiceRequest);
+      IResourceServiceRequestGetHistory ResourceServiceRequestGetHistory = Common.CommonFactory.GetResourceServiceRequestGetHistory(id, vid, FhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.GetHistory(ResourceServiceRequestGetHistory);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
@@ -119,17 +119,14 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
     {
       ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
-
       IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Web.ApplicationCache.StaticCache.LoadStaticCache(oService);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Transaction, resource, null, SearchParameterGeneric, RequestHeaders);
-      ResourceServiceRequest.FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore);
-
-      IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(_FhirServiceNegotiator, ResourceServiceRequest);
+      IDtoFhirRequestUri DtoFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore);
+      IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle = Common.CommonFactory.GetResourceServiceRequestTransactionBundle(resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, _FhirServiceNegotiator);      
+      IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(ResourceServiceRequestTransactionBundle);
       IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact();
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
-
     }
 
 
@@ -154,8 +151,8 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Create, resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.Post(ResourceServiceRequest);
+      IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.Post(ResourceServiceRequestPost);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
@@ -174,8 +171,8 @@ namespace Pyro.Web.Controllers
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Hl7.Fhir.Rest.SearchParams.FromUriParamList(FormDataCollection.GetAsTupleCollection()));
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.Get(ResourceServiceRequest);
+      IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(FhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome oPyroServiceOperationOutcome = oService.GetSearch(ResourceServiceRequestGetSearch);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
 
@@ -199,8 +196,8 @@ namespace Pyro.Web.Controllers
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Update, id, resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.Put(ResourceServiceRequest);
+      IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(id, resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.Put(ResourceServiceRequestPut);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
@@ -221,8 +218,8 @@ namespace Pyro.Web.Controllers
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Delete, id, DtoFhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.Delete(ResourceServiceRequest);
+      IResourceServiceRequestDelete ResourceServiceRequestDelete = Common.CommonFactory.GetResourceServiceRequestDelete(id, DtoFhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.Delete(ResourceServiceRequestDelete);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
@@ -248,8 +245,8 @@ namespace Pyro.Web.Controllers
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, resource, DtoFhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.ConditionalPut(ResourceServiceRequest);
+      IResourceServiceRequestConditionalPut ResourceServiceRequestConditionalPut = Common.CommonFactory.GetResourceServiceRequestConditionalPut(resource, DtoFhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.ConditionalPut(ResourceServiceRequestConditionalPut);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
 
@@ -271,8 +268,8 @@ namespace Pyro.Web.Controllers
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
       IDtoFhirRequestUri FhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IResourceServiceRequest ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequest(ServiceEnums.ServiceRequestType.Search, FhirRequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome ResourceServiceOutcome = oService.ConditionalDelete(ResourceServiceRequest);
+      IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(FhirRequestUri, SearchParameterGeneric);
+      IResourceServiceOutcome ResourceServiceOutcome = oService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
   }

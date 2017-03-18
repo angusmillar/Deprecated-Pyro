@@ -15,7 +15,7 @@ namespace Pyro.Engine.Services
 {
   public class MetadataService
   {
-    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequest ResourceServiceRequest, Common.Interfaces.Dto.IDtoRootUrlStore IDtoRootUrlStore, string ApplicationVersion)
+    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
     {
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
@@ -30,8 +30,8 @@ namespace Pyro.Engine.Services
 
       var Conformance = new Conformance();
       Conformance.Id = "metadata";
-      Conformance.Url = IDtoRootUrlStore.RootUrl.ToString() + @"/metadata";
-      Conformance.Version = ApplicationVersion;
+      Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
+      Conformance.Version = ResourceServiceRequest.ApplicationVersion;
       Conformance.Name = ServerName;
       Conformance.Status = ConformanceResourceStatus.Active;
       Conformance.Experimental = true;
@@ -51,8 +51,8 @@ namespace Pyro.Engine.Services
       Conformance.Requirements = new Markdown("Reference implementation of a FHIR Server");
       Conformance.Copyright = "PyroHealth.net";
       Conformance.Kind = Conformance.ConformanceStatementKind.Instance;
-      Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
-      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = IDtoRootUrlStore.RootUrl };
+      Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ResourceServiceRequest.ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
+      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = ResourceServiceRequest.RootUrl.RootUrl };
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
       Conformance.AcceptUnknown = Conformance.UnknownContentCode.Both;
