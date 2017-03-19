@@ -79,6 +79,11 @@ namespace Pyro.Common
       return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
     }
 
+    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders, string ForceId)
+    {
+      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders, ForceId);
+    }
+
     public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
     {
       return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);

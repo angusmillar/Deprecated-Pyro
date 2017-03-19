@@ -9,15 +9,17 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
+using Pyro.Common.Extentions;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class BundleTransactionService : IBundleTransactionService
-  {   
+  {
+    private Dictionary<string, string> OldNewResourceReferanceMap;
     private IResourceServiceRequestTransactionBundle _ResourceServiceRequest;
     private IResourceServiceOutcome _ServiceOperationOutcome;
     internal BundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)
-    {      
+    {
       _ResourceServiceRequest = ResourceServiceRequestTransactionBundle;
     }
 
@@ -36,7 +38,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
 
       Bundle bundle = _ResourceServiceRequest.Resource as Bundle;
-      
+
       if (bundle == null)
       {
         var Message = $"The FHIR server's service root endpoint can only accept 'Bundle' resources. Resource received was: {_ResourceServiceRequest.Resource.ResourceType.ToString()}";
@@ -63,15 +65,15 @@ namespace Pyro.Common.BusinessEntities.Service
         //DELETE Processing 
         foreach (var DeleteEntry in bundle.Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.DELETE))
         {
-          Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, DeleteEntry.Request.Url);
+          Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri.OriginalString + "/" + DeleteEntry.Request.Url);
           _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
           var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
           IResourceServiceOutcome ResourceServiceOutcome = null;
           if (SearchParameterGeneric.ParameterList.Count > 0)
           {
-            //IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(_ResourceServiceRequest.FhirRequestUri.FhirUri.Id, _ResourceServiceRequest.FhirRequestUri, SearchParameterGeneric);
-            //ResourceServiceOutcome = ResourceService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
+            IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(_ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric);
+            ResourceServiceOutcome = ResourceService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
           }
           else
           {
@@ -79,6 +81,10 @@ namespace Pyro.Common.BusinessEntities.Service
             ResourceServiceOutcome = ResourceService.Delete(ResourceServiceRequest);
           }
         }
+
+        //Assign new id's for POSTs and then update all POST and PUT entrie referances
+        OldNewResourceReferanceMap = new Dictionary<string, string>();
+        AssignResourceIdsAndUpdateReferances(bundle.Entry);
 
         //POST Processing
         foreach (var PostEntry in bundle.Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.POST))
@@ -95,18 +101,13 @@ namespace Pyro.Common.BusinessEntities.Service
             _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
             return _ServiceOperationOutcome;
           }
+
+          //Prepare and perform POST (Add)
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
           IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
-          var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
+          IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
           IResourceServiceOutcome ResourceServiceOutcome = ResourceService.Post(ResourceServiceRequestPost);
-
-          
-          var FullUrl = Common.CommonFactory.GetFhirUri(PostEntry.FullUrl);
-          if (ResourceServiceOutcome.ResourceResult.Id != FullUrl.Id)
-          {
-
-          }
 
         }
 
@@ -117,7 +118,7 @@ namespace Pyro.Common.BusinessEntities.Service
           _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
-          IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, PutEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);          
+          IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, PutEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
           var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
           IResourceServiceOutcome ResourceServiceOutcome = null;
           if (SearchParameterGeneric.ParameterList.Count > 0)
@@ -130,7 +131,7 @@ namespace Pyro.Common.BusinessEntities.Service
           }
         }
 
-        
+
         //GET Processing
         foreach (var GetEntry in bundle.Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.GET))
         {
@@ -147,7 +148,7 @@ namespace Pyro.Common.BusinessEntities.Service
           }
           else
           {
-            IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, GetEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);            
+            IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, GetEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
             ResourceServiceOutcome = ResourceService.Put(ResourceServiceRequestPut);
           }
         }
@@ -159,6 +160,7 @@ namespace Pyro.Common.BusinessEntities.Service
         {
           if (Entry.Request != null)
           {
+
             //var ResourceService = _ServiceNegotiator.GetTransactionalResourceService(DeleteEntry.Resource.TypeName);
 
           }
@@ -170,6 +172,46 @@ namespace Pyro.Common.BusinessEntities.Service
 
 
       throw new NotImplementedException();
+    }
+
+    private void AssignResourceIdsAndUpdateReferances(List<Bundle.EntryComponent> Entry)
+    {
+      //First assign a new GUID id for all FullUrls
+      foreach (var PostEntry in Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.POST))
+      {
+        string NewId = Guid.NewGuid().ToString();
+        OldNewResourceReferanceMap.Add(PostEntry.FullUrl, NewId);
+      }
+
+      //Then roll through all POST entries updating referances
+      foreach (var PostEntry in Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.POST))
+      {
+        SwapReferances(PostEntry);
+      }
+
+      //Then roll through all PUT entries updating referances
+      foreach (var PutEntry in Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.PUT))
+      {
+        SwapReferances(PutEntry);
+      }
+    }
+
+    private void SwapReferances(Bundle.EntryComponent Entry)
+    {
+      List<ResourceReference> RefList = Entry.Resource.AllReferences();
+      foreach (var resRef in RefList.Where(rr => !String.IsNullOrEmpty(rr.Reference)))
+      {
+        // TODO: If this is an identifier reference, then we must resolve the reference
+        // Otherwise these are just normal references
+        if (!string.IsNullOrEmpty(resRef.Reference))
+        {
+          //ResourceIdentity riEntity = new ResourceIdentity(resRef.Reference);
+          if (OldNewResourceReferanceMap.ContainsKey(resRef.Reference))
+          {
+            resRef.Reference = OldNewResourceReferanceMap[resRef.Reference];
+          }
+        }
+      }
     }
   }
 }

@@ -14,7 +14,11 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServiceRequestPost
   {
-    Resource Resource { get; set; }
+    Resource Resource { get; set; }    
+    /// <summary>
+    /// The id must be a valid GUID and is later validated as one.
+    /// </summary>
+    string ForceId { get; set; }
     IDtoFhirRequestUri FhirRequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRequestHeaders RequestHeaders { get; set; }

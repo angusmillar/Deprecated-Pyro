@@ -16,41 +16,51 @@ namespace Pyro.Common.BusinessEntities.Service
   public class ResourceServiceRequestPost : IResourceServiceRequestPost
   {    
     public Resource Resource { get; set; }
+    public string ForceId { get; set; }
     public IDtoFhirRequestUri FhirRequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }
 
-    public ResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public ResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders, string ForceId = null)
     {
+      ConstructorSetter(Resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, ForceId);
+    }
+
+    public ResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    {
+      ConstructorSetter(Resource, DtoFhirRequestUri, SearchParameterGeneric, null, null);
+    }
+
+    private void ConstructorSetter(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders, string ForceId = null)
+    {
+      //RequestHeaders can be null as seen on ConditonalPut (Update) which does not have RequestHeaders when it perfomes a Post (add) due to the
+      //Resource search parameters not resolving to a Resource instance.
+
+      //ForceId is used to force that the Post (add) uses the resource Id given, this is used by Batch Transaction operation
+      
       if (Resource == null)
         throw new NullReferenceException("Resource can not be null.");
       if (DtoFhirRequestUri == null)
         throw new NullReferenceException("DtoFhirRequestUri can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
-      //RequestHeaders can be null
+
+      if (!string.IsNullOrWhiteSpace(ForceId))
+      {
+        Guid TempGuid;
+        if (!Guid.TryParseExact(ForceId, "D", out TempGuid))
+        {
+          throw new FormatException($"The 'ForceId' used by the server in a POST (add) request must be a valid GUID. Value given was: {ForceId}");
+        }        
+      }
 
       this.Resource = Resource;
+      this.ForceId = ForceId;
       this.FhirRequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
     }
 
-    public ResourceServiceRequestPost(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
-    {
-      if (Resource == null)
-        throw new NullReferenceException("Resource can not be null.");
-      if (DtoFhirRequestUri == null)
-        throw new NullReferenceException("DtoFhirRequestUri can not be null.");
-      if (SearchParameterGeneric == null)
-        throw new NullReferenceException("SearchParameterGeneric can not be null.");
-      //RequestHeaders can be null
-
-      this.Resource = Resource;
-      this.FhirRequestUri = DtoFhirRequestUri;
-      this.SearchParameterGeneric = SearchParameterGeneric;
-      this.RequestHeaders = null;
-    }
 
   }
 }

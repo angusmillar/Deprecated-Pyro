@@ -94,6 +94,7 @@
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetHistory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetSearch.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
+    <Compile Include="Extentions\ResourceExtentions.cs" />
     <Compile Include="Interfaces\Dto\Headers\IDtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDateTime.cs" />

@@ -257,5 +257,125 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(ServiceRootUrlForComparison, FhirUri.ServiceRootUrlForComparison);
     }
 
+    
+    [Test]
+    public void Test_ReferanceToResourceValidUuid()
+    {
+      //Arrange
+      // URl : "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a"
+      string uuid = "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a";
+      Uri ServiceRootUrl = new Uri(uuid);
+      
+      //Act
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(uuid);
+
+      //Assert
+      Assert.AreEqual("urn", FhirUri.Schema);
+      Assert.AreEqual("", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(null, FhirUri.ApiSegments);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(true, FhirUri.IsUuid);
+      Assert.AreEqual(true, FhirUri.IsUuidValid);
+      Assert.AreEqual(false, FhirUri.IsOid);
+      Assert.AreEqual(uuid, FhirUri.Id);
+      Assert.AreEqual(null, FhirUri.ServiceRootUrl);
+      Assert.AreEqual("", FhirUri.ServiceRootUrlForComparison);
+
+    }
+
+    [Test]
+    public void Test_ReferanceToResourceInValidUuid()
+    {
+      //Arrange
+      // URl : "urn:uuid:61ebe359-CAPSError-4613-8bf2-c5e300945f0a"
+      string uuid = "urn:uuid:61ebe359-BFBC-4613-8bf2-c5e300945f0a";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(uuid);
+
+      //Assert
+      Assert.AreEqual("urn", FhirUri.Schema);
+      Assert.AreEqual("", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(null, FhirUri.ApiSegments);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(true, FhirUri.IsUuid);
+      Assert.AreEqual(false, FhirUri.IsUuidValid);
+      Assert.AreEqual(false, FhirUri.IsOid);
+      Assert.AreEqual(uuid, FhirUri.Id);
+      Assert.AreEqual(null, FhirUri.ServiceRootUrl);
+      Assert.AreEqual("", FhirUri.ServiceRootUrlForComparison);
+
+    }
+
+    [Test]
+    public void Test_ReferanceToResourceValidOid()
+    {
+      //Arrange
+      // URl : "urn:oid:1.2.36.1.2001.1001.101"
+      string uuid = "urn:oid:1.2.36.1.2001.1001.101";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(uuid);
+
+      //Assert
+      Assert.AreEqual("urn", FhirUri.Schema);
+      Assert.AreEqual("", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(null, FhirUri.ApiSegments);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(false, FhirUri.IsUuid);
+      Assert.AreEqual(false, FhirUri.IsUuidValid);
+      Assert.AreEqual(true, FhirUri.IsOid);
+      Assert.AreEqual(true, FhirUri.IsOidValid);
+      Assert.AreEqual(uuid, FhirUri.Id);
+      Assert.AreEqual(null, FhirUri.ServiceRootUrl);
+      Assert.AreEqual("", FhirUri.ServiceRootUrlForComparison);
+
+    }
+
+    [Test]
+    public void Test_ReferanceToResourceInValidOid()
+    {
+      //Arrange
+      // URl : "urn:oid:1.2.36.1.2001.1001.101"
+      string uuid = "urn:oid:1.2.36.1.ABCD.1001.101";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri = Common.CommonFactory.GetFhirUri(uuid);
+
+      //Assert
+      Assert.AreEqual("urn", FhirUri.Schema);
+      Assert.AreEqual("", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(null, FhirUri.ApiSegments);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(false, FhirUri.IsUuid);
+      Assert.AreEqual(false, FhirUri.IsUuidValid);
+      Assert.AreEqual(true, FhirUri.IsOid);
+      Assert.AreEqual(false, FhirUri.IsOidValid);
+      Assert.AreEqual(uuid, FhirUri.Id);
+      Assert.AreEqual(null, FhirUri.ServiceRootUrl);
+      Assert.AreEqual("", FhirUri.ServiceRootUrlForComparison);
+
+    }
+
+
   }
 }

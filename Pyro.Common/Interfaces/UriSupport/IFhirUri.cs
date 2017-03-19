@@ -17,5 +17,9 @@ namespace Pyro.Common.Interfaces.UriSupport
     System.Uri Uri { get; }
     string ServiceRootUrlForComparison { get; }
     string Query { get; }
+    bool IsUuid { get; }
+    bool IsUuidValid { get; }
+    bool IsOid { get; }
+    bool IsOidValid { get; }
   }
 }

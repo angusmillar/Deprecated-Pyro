@@ -142,110 +142,7 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }       
     }
-
-    //GET    
-    // Get: URL/Fhir/Patient/1
-    //public virtual IResourceServiceOutcome Get(IResourceServiceRequest PyroServiceRequest)
-    //{
-    //  IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-    //  oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
-
-    //  switch (PyroServiceRequest.ServiceRequestType)
-    //  {
-    //    case ServiceEnums.ServiceRequestType.History:
-    //      {
-    //        if (string.IsNullOrWhiteSpace(PyroServiceRequest.VersionId))
-    //        {
-    //          // GET All history for Id
-    //          // GET URL/FhirApi/Patient/5/_history
-    //          //Read all history
-    //          ISearchParametersServiceOutcome SearchParametersServiceOutcome
-    //             = SearchParameterService.ProcessSearchParameters(PyroServiceRequest.SearchParameterGeneric,
-    //                                                              SearchParameterService.SearchParameterServiceType.Base |
-    //                                                              SearchParameterService.SearchParameterServiceType.Bundle);
-
-    //          oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-    //          SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
-
-    //          if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-    //          {
-    //            oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
-    //            return oServiceOperationOutcome;
-    //          }
-
-    //          GetResourceHistoryInFull(PyroServiceRequest.ResourceId,
-    //            PyroServiceRequest.FhirRequestUri,
-    //            SearchParametersServiceOutcome,
-    //            oServiceOperationOutcome);
-
-
-    //          return oServiceOperationOutcome;
-    //        }
-    //        else
-    //        {
-    //          // GET by FhirId and FhirVId
-    //          // GET URL/FhirApi/Patient/5/_history/2    
-    //          ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
-    //          if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-    //          {
-    //            oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
-    //            return oServiceOperationOutcome;
-    //          }
-
-    //          GetResourceHistoryInstance(
-    //            PyroServiceRequest.ResourceId,
-    //            PyroServiceRequest.VersionId,
-    //            PyroServiceRequest.FhirRequestUri,
-    //            oServiceOperationOutcome);
-
-    //          return oServiceOperationOutcome;
-    //        }
-    //      }
-    //    case ServiceEnums.ServiceRequestType.Read:
-    //      {
-    //        // GET by FhirId
-    //        // GET URL/FhirApi/Patient/5    
-    //        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
-    //        if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-    //        {
-    //          oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
-    //          return oServiceOperationOutcome;
-    //        }
-    //        SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
-    //        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-
-    //        GetResourceInstance(
-    //          PyroServiceRequest.ResourceId,
-    //          PyroServiceRequest.FhirRequestUri,
-    //          oServiceOperationOutcome,
-    //          PyroServiceRequest.RequestHeaders);
-
-    //        return oServiceOperationOutcome;
-    //      }
-    //    case ServiceEnums.ServiceRequestType.Search:
-    //      {
-    //        // GET by Search
-    //        // GET: URL//FhirApi/Patient?family=Smith&given=John            
-    //        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
-    //        if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-    //        {
-    //          oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
-    //          return oServiceOperationOutcome;
-    //        }
-    //        SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
-
-    //        GetResourcesBySearch(
-    //          PyroServiceRequest.FhirRequestUri,
-    //          SearchParametersServiceOutcome,
-    //          oServiceOperationOutcome);
-
-    //        return oServiceOperationOutcome;
-    //      }
-    //    default:
-    //      throw new System.ComponentModel.InvalidEnumArgumentException(PyroServiceRequest.ServiceRequestType.ToString(), (int)PyroServiceRequest.ServiceRequestType, typeof(ServiceEnums.ServiceRequestType));
-    //  }
-    //}
-
+    
     // Add (POST)
     // POST: URL/FhirApi/Patient
     public virtual IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost)
@@ -311,6 +208,12 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Required, Message);
         oServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         return oServiceOperationOutcome;
+      }
+      //BatchTransaction Operation need to pre assign the id GUID inorder to update referances in the batch
+      //That id is then passed into 'ForceId' and is then used for the POST (add), must always be a GUID
+      if (!string.IsNullOrWhiteSpace(PyroServiceRequestPost.ForceId))
+      {        
+        PyroServiceRequestPost.Resource.Id = PyroServiceRequestPost.ForceId;
       }
       //All good commit the resource.
       oServiceOperationOutcome = SetResource(PyroServiceRequestPost.Resource, PyroServiceRequestPost.FhirRequestUri, RestEnum.CrudOperationType.Create);

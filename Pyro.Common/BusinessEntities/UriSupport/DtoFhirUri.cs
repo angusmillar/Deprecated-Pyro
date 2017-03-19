@@ -31,6 +31,9 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     private readonly string FormDataSearchSegmentName = "_search";
     private readonly string RegexResourceDilimeter = "|";
     private readonly char OperationPrefix = '$';
+    private readonly string UrnSchemaCode = "urn";
+    private readonly string UuidNameCode = "uuid";
+    private readonly string OidNameCode = "oid";
     protected bool IsValidFhirUri = false;
 
     internal DtoFhirUri()
@@ -145,6 +148,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       {
         if (this.IsAbsoluteUri)
         {
+          if (this.Schema == UrnSchemaCode)
+          {
+            return null;
+          }
           string NewUriString = string.Empty;
           if (this.ApiSegments.Length == 0)
             NewUriString = String.Format("{0}{1}{2}", Schema, SchemaDelimiter, Authority);
@@ -167,6 +174,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     {
       get
       {
+        if (this.Schema == UrnSchemaCode)
+        {
+          return string.Empty;
+        }
         if (this.ApiSegments.Length == 0)
           return String.Format("{0}", Authority).ToLower();
         else
@@ -190,6 +201,63 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     /// The Query part of the request uri (e.g ?family=millar&given=angus)
     /// </summary>
     public string Query { get; private set; }
+    public bool IsUuid
+    {
+      get
+      {
+        if (this.Schema == UrnSchemaCode)
+        {
+          if (this.Id.Contains(":" + UuidNameCode + ":"))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    public bool IsUuidValid
+    {
+      get
+      {
+        if (this.Schema == UrnSchemaCode)
+        {
+          if (this.Id.Contains(":" + UuidNameCode + ":"))
+          {
+            return Uuid.IsValidValue(this.Id);            
+          }
+        }
+        return false;
+      }
+     }
+    public bool IsOid
+    {
+      get
+      {
+        if (this.Schema == UrnSchemaCode)
+        {
+          if (this.Id.Contains(":" + OidNameCode + ":"))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+    public bool IsOidValid
+    {
+      get
+      {
+        if (this.Schema == UrnSchemaCode)
+        {
+          if (this.Id.Contains(":" + OidNameCode + ":"))
+          {
+            return Oid.IsValidValue(this.Id);
+          }
+        }
+        return false;
+      }
+    }
+
 
     public static bool TryParse(Uri Uri, out IFhirUri FhirUri)
     {
@@ -223,35 +291,51 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     private bool ParseUri(Uri Uri)
     {
-      this.SchemaDelimiter = Uri.SchemeDelimiter;
+      
       this.Uri = Uri;
       string UriPartToParse = string.Empty;
       if (Uri.IsAbsoluteUri)
       {
         this.IsAbsoluteUri = true;
         this.Schema = Uri.Scheme;
+        if (this.Schema != UrnSchemaCode)
+        {
+          this.SchemaDelimiter = Uri.SchemeDelimiter;
+        }
+        else
+        {
+          this.SchemaDelimiter = string.Empty;
+        }
         this.Authority = Uri.Authority;
         UriPartToParse = Uri.AbsolutePath;
         if (!string.IsNullOrWhiteSpace(Uri.Query))
         {
-          this.Query = Uri.Query;
-          //UriPartToParse = Uri.AbsolutePath.Substring(0, (Uri.AbsolutePath.Count() - this.Query.Count()));
+          this.Query = Uri.Query;          
         }
       }
       else
       {
+        this.SchemaDelimiter = string.Empty;
         this.IsAbsoluteUri = false;
         UriPartToParse = Uri.OriginalString;
       }
 
       if (!ParseOutResourceIdentity(UriPartToParse))
+      {
         return false;
-
+      }
+      if (this.IsUuid)
+      {
+        return IsUuidValid;
+      }
+      if (this.IsOid)
+      {
+        return IsOidValid;
+      }
       if (this.ResourseType == null)
       {
         return false;
       }
-
       if (this.Id != null)
       {
         if (!HttpUtil.IsRestResourceIdentity(Uri))
@@ -264,6 +348,11 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     private bool ParseOutResourceIdentity(string UrlPart)
     {
+      if (this.Schema == UrnSchemaCode || this.Schema == OidNameCode)
+      {
+        this.Id = this.Uri.OriginalString;        
+        return true;
+      }
       var ApiSegmentList = new List<string>();
       string FhirResourceRegexPattern = string.Empty;
       FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
