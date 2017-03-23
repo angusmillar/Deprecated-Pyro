@@ -23,8 +23,8 @@ namespace Pyro.Web.ApplicationCache
       PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
       
       string Port = Pyro.Common.Web.StaticWebInfo.TestingPort;
-      string uri = "http://localhost:" + Port;
-      string FhirEndpoint = "http://localhost:" + Port + "/" + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
+      string uri = "localhost";
+      string FhirEndpoint = uri + ":" + Port + "/" + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
       PrimaryRootUrlStore.RootUrl = FhirEndpoint;      
       //PrimaryRootUrlStore.RootUrl = "localhost:50579/test/stu3/fhir";
 #else

@@ -6,11 +6,11 @@ using Pyro.Common.Interfaces.Tools;
 
 namespace Pyro.Common.Tools
 {
-  public class FhirNarativeSupport : IFhirNarativeSupport
+  public class FhirNarativeGenerationSupport : IFhirNarativeGenerationSupport
   {
     private ICollection<SectionBase> _SectionList;
 
-    public FhirNarativeSupport()
+    public FhirNarativeGenerationSupport()
     {
       _SectionList = new List<SectionBase>();
     }
@@ -399,3 +399,28 @@ namespace Pyro.Common.Tools
     }
   }
 }
+
+
+
+// FHIR Specified XHTML CSS Styles classes
+//bold Bold { font-weight: bold }
+//italics Italics Text	{ font-style: italic }
+//underline Underlined Text	{ text-decoration: underline }
+//strikethrough Strikethrough Text	{ text-decoration: line-through }
+//left Left Aligned	{ text-align : left }
+//right Right Aligned	{ text-align : right }
+//center Center Aligned	{ text-align : center }
+//justify Justified { text-align : justify }
+//border-left Border on the left	{ border-left: 1px solid grey }
+//border-right Border on the right	{ border-right: 1px solid grey }
+//border-top Border on the top	{ border-top: 1px solid grey }
+//border-bottom Border on the bottom	{ border-bottom: 1px solid grey }
+//arabic List is ordered using Arabic numerals: 1, 2, 3	{ list-style-type: decimal }
+//little-roman List is ordered using little Roman numerals: i, ii, iii	{ list-style-type: lower-roman }
+//big-roman List is ordered using big Roman numerals: I, II, III	{ list-style-type: upper-roman }
+//little-alpha List is ordered using little alpha characters: a, b, c	{ list-style-type: lower-alpha }
+//big-alpha List is ordered using big alpha characters: A, B, C	{ list-style-type: upper-alpha }
+//disc List bullets are simple solid discs	{ list-style-type: disc }
+//circle List bullets are hollow discs { list-style-type : circle }
+//square List bullets are solid squares { list-style-type: square }
+//unlist List with no bullets	{ list-style-type: none }

@@ -160,7 +160,7 @@ namespace Pyro.Test.Tools
     }
 
     [Test]
-    public void Test_Relative_ReferanceToResourcey()
+    public void Test_Relative_ReferanceToResource()
     {
       //Arrange
       // URl : Organization/1
@@ -374,6 +374,55 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(null, FhirUri.ServiceRootUrl);
       Assert.AreEqual("", FhirUri.ServiceRootUrlForComparison);
 
+    }
+
+    [Test]
+    public void Test_ReferanceToNotValidServiceRootOnly()
+    {
+      //Arrange
+      // URl : "http://localhost:8888"
+      string uuid = "http://localhost:8888";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri;
+      bool IsParsed = DtoFhirUri.TryParse(uuid, out FhirUri);
+
+      //Assert
+      Assert.AreEqual(false, IsParsed);
+
+    }
+
+    [Test]
+    public void Test_ReferanceToServiceRootOnly()
+    {
+      //Arrange
+      // URl : "http://localhost:8888/test/stu3/fhir"
+      string uuid = "http://localhost:8888/test/stu3/fhir";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri;
+      bool IsParsed = DtoFhirUri.TryParse(uuid, out FhirUri);
+
+
+      //Assert
+      Assert.AreEqual(true, IsParsed);
+      Assert.AreEqual("http", FhirUri.Schema);
+      Assert.AreEqual("://", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("localhost:8888", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(3, FhirUri.ApiSegments.Length);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(false, FhirUri.IsUuid);
+      Assert.AreEqual(false, FhirUri.IsUuidValid);
+      Assert.AreEqual(false, FhirUri.IsOid);
+      Assert.AreEqual(false, FhirUri.IsOidValid);
+      Assert.AreEqual(null, FhirUri.Id);
+      Assert.AreEqual(uuid, FhirUri.ServiceRootUrl.OriginalString);
+      Assert.AreEqual("localhost:8888/test/stu3/fhir", FhirUri.ServiceRootUrlForComparison);
     }
 
 

@@ -332,18 +332,51 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       {
         return IsOidValid;
       }
-      if (this.ResourseType == null)
+      if (this.Schema != null && (this.Schema.ToLower() == "http" || this.Schema.ToLower() == "https"))
       {
-        return false;
-      }
-      if (this.Id != null)
-      {
-        if (!HttpUtil.IsRestResourceIdentity(Uri))
+        if (!string.IsNullOrWhiteSpace(this.Authority))
         {
-          return false;
+          if (this.ApiSegments != null && this.ApiSegments.Length > 0)
+          {
+            if (this.ResourseType != null)
+            {
+              if (this.Id != null)
+              {
+                if (!HttpUtil.IsRestResourceIdentity(Uri))
+                {
+                  return false;
+                }
+                if (this.ServiceRootUrl == null)
+                {
+                  return false;
+                }
+              }
+              return true;
+            }
+            return true;
+          }
         }
       }
-      return true;
+      else
+      {
+        if (string.IsNullOrWhiteSpace(this.Authority))
+        {
+          if (this.ApiSegments.Length == 0)
+          {
+            if (this.ResourseType != null)
+            {
+              if (this.Id != null)
+              {
+                if (HttpUtil.IsRestResourceIdentity(Uri))
+                {
+                  return true;
+                }                
+              }
+            }
+          }
+        }
+      }
+      return false;
     }
 
     private bool ParseOutResourceIdentity(string UrlPart)
@@ -353,63 +386,68 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         this.Id = this.Uri.OriginalString;        
         return true;
       }
+      
       var ApiSegmentList = new List<string>();
-      string FhirResourceRegexPattern = string.Empty;
-      FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
-
-      string[] AbsolutePathArray = null;
-      UrlPart = System.Net.WebUtility.UrlDecode(UrlPart);
-      AbsolutePathArray = UrlPart.Split(UriDelimieter);
-      for (int i = 0; i < AbsolutePathArray.Length; i++)
+      if (UrlPart != "/")
       {
-        if (this.ResourseType == null)
+        string FhirResourceRegexPattern = string.Empty;
+        FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+
+        string[] AbsolutePathArray = null;
+        UrlPart = System.Net.WebUtility.UrlDecode(UrlPart);
+        AbsolutePathArray = UrlPart.Split(UriDelimieter);
+        for (int i = 0; i < AbsolutePathArray.Length; i++)
         {
-          if (Regex.IsMatch(AbsolutePathArray[i], FhirResourceRegexPattern))
+          if (this.ResourseType == null)
           {
-            this.ResourseType = AbsolutePathArray[i];
-          }
-          else
-          {
-            if (i > 0)
+            if (Regex.IsMatch(AbsolutePathArray[i], FhirResourceRegexPattern))
             {
-              ApiSegmentList.Add(AbsolutePathArray[i]);
-            }
-          }
-        }
-        else
-        {
-          if (this.Id == null && !this.IsFormDataSearch && AbsolutePathArray[i] == FormDataSearchSegmentName)
-          {
-            this.IsFormDataSearch = true;
-          }
-          else if (this.Id == null && string.IsNullOrWhiteSpace(this.ResourceOperation) && AbsolutePathArray[i].StartsWith(OperationPrefix.ToString()))
-          {
-            this.ResourceOperation = AbsolutePathArray[i].TrimStart(OperationPrefix);
-          }
-          else if (this.Id == null)
-          {
-            this.Id = AbsolutePathArray[i];
-          }
-          else
-          {
-            if (this.IsHistory)
-            {
-              this.VersionId = AbsolutePathArray[i];
+              this.ResourseType = AbsolutePathArray[i];
             }
             else
             {
-              if (Regex.IsMatch(AbsolutePathArray[i], HistorySegmentName, RegexOptions.IgnoreCase))
+              if (i > 0)
               {
-                this.IsHistory = true;
+                ApiSegmentList.Add(AbsolutePathArray[i]);
+              }
+            }
+          }
+          else
+          {
+            if (this.Id == null && !this.IsFormDataSearch && AbsolutePathArray[i] == FormDataSearchSegmentName)
+            {
+              this.IsFormDataSearch = true;
+            }
+            else if (this.Id == null && string.IsNullOrWhiteSpace(this.ResourceOperation) && AbsolutePathArray[i].StartsWith(OperationPrefix.ToString()))
+            {
+              this.ResourceOperation = AbsolutePathArray[i].TrimStart(OperationPrefix);
+            }
+            else if (this.Id == null)
+            {
+              this.Id = AbsolutePathArray[i];
+            }
+            else
+            {
+              if (this.IsHistory)
+              {
+                this.VersionId = AbsolutePathArray[i];
               }
               else
               {
-                return false;
+                if (Regex.IsMatch(AbsolutePathArray[i], HistorySegmentName, RegexOptions.IgnoreCase))
+                {
+                  this.IsHistory = true;
+                }
+                else
+                {
+                  return false;
+                }
               }
             }
           }
         }
       }
+
       this.ApiSegments = ApiSegmentList.ToArray();
       return true;
     }

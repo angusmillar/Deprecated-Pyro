@@ -8,40 +8,112 @@ using Hl7.Fhir.Model;
 namespace Pyro.Common.Extentions
 {
   static class ResourceExtentions
-  {
-    public static List<ResourceReference> AllReferences(this Base resource)
+  {    
+    private static Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
+    public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
     {
-      List<ResourceReference> results = new List<ResourceReference>();
-      if (resource == null)
-        return results;
-      var mapping = Hl7.Fhir.Introspection.ClassMapping.Create(resource.GetType());
-      foreach (var item in mapping.PropertyMappings.Where(t => t.ElementType.Name == "ResourceReference" || t.ElementType.BaseType.Name == "BackboneElement"))
+      //Cache
+      if (ClassPropertyMappingListCache == null)
       {
-        if (item.ElementType.BaseType.Name == "BackboneElement")
+        ClassPropertyMappingListCache = new Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
+      }
+
+      var ReferenceResultList = new List<ResourceReference>();
+      foreach (var Entry in EntryComponentList)
+      {
+        if (Entry.Resource != null)
         {
-          if (item.IsCollection)
+          ReferenceResultList.AddRange(Entry.Resource.AllReferences());          
+        }
+      }
+      return ReferenceResultList;
+    }
+
+    public static List<ResourceReference> AllReferences(this Base FhirBase)
+    {
+      //Cache
+      if (ClassPropertyMappingListCache == null)
+      {
+        ClassPropertyMappingListCache = new Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();        
+      }
+
+      var ReferenceResultList = new List<ResourceReference>();
+      if (FhirBase == null)
+        return ReferenceResultList;
+
+      //If DomainResource of Extention then drill through all extentions and collect all referances
+      if (FhirBase is DomainResource DomainResource)
+      {        
+        ReferenceResultList.AddRange(DomainResource.Extension.AllExtensionListReferences());
+      }
+      else if (FhirBase is Extension Extension)
+      {
+        ReferenceResultList.AddRange(Extension.AllExtensionReferences());
+      }
+
+      //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entries
+      IEnumerable<Hl7.Fhir.Introspection.PropertyMapping> PropertyMappingList = ClassPropertyMappingListCache.SingleOrDefault(x => x.Key == FhirBase.TypeName).Value;      
+      if (PropertyMappingList == null)
+      {
+        var ClassMapping = Hl7.Fhir.Introspection.ClassMapping.Create(FhirBase.GetType());
+        PropertyMappingList = ClassMapping.PropertyMappings.Where(t => t.ElementType == typeof(ResourceReference) || t.ElementType.BaseType == typeof(BackboneElement));
+        ClassPropertyMappingListCache.Add(FhirBase.TypeName, PropertyMappingList);
+      }
+ 
+      foreach (var PropertyItem in PropertyMappingList)
+      {
+        if (PropertyItem.ElementType.BaseType == typeof(BackboneElement))
+        {
+          if (PropertyItem.IsCollection)
           {
-            System.Collections.IEnumerable col = item.GetValue(resource) as System.Collections.IEnumerable;
-            foreach (var e in col)
+            var PropertyCollection = PropertyItem.GetValue(FhirBase) as System.Collections.IEnumerable;
+            foreach (var CollectionItem in PropertyCollection)
             {
-              BackboneElement be = e as BackboneElement;
-              results.AddRange(be.AllReferences());
+              var BackboneElement = CollectionItem as BackboneElement;
+              ReferenceResultList.AddRange(BackboneElement.AllReferences());
             }
           }
           else
           {
-            BackboneElement be = item.GetValue(resource) as BackboneElement;
-            results.AddRange(be.AllReferences());
+            var BackboneElement = PropertyItem.GetValue(FhirBase) as BackboneElement;
+            ReferenceResultList.AddRange(BackboneElement.AllReferences());
           }
         }
         else
         {
-          ResourceReference rr = item.GetValue(resource) as ResourceReference;
-          if (rr != null)
-            results.Add(rr);
+          if (PropertyItem.GetValue(FhirBase) is ResourceReference rr)
+            ReferenceResultList.Add(rr);
         }
       }
-      return results;
+      return ReferenceResultList;
+    }
+
+    private static IEnumerable<ResourceReference> AllExtensionReferences(this Extension Extension)
+    {
+      var ReferenceResultList = new List<ResourceReference>();
+      if (Extension.Value != null)
+      {
+        if (Extension.Value.TypeName == ModelInfo.FhirTypeToFhirTypeName(FHIRAllTypes.Reference))
+        {
+          if (Extension.Value is ResourceReference Ref)
+            ReferenceResultList.Add(Ref);
+        }
+      }
+      foreach (Extension Ext in Extension.Extension)
+      {
+        ReferenceResultList.AddRange(AllExtensionReferences(Ext));
+      }
+      return ReferenceResultList;
+    }
+
+    private static IEnumerable<ResourceReference> AllExtensionListReferences(this IList<Extension> ExtensionList)
+    {      
+      var ReferenceResultList = new List<ResourceReference>();
+      foreach(Extension Ext in ExtensionList)
+      {        
+        ReferenceResultList.AddRange(Ext.AllExtensionReferences());
+      }      
+      return ReferenceResultList;
     }
 
   }

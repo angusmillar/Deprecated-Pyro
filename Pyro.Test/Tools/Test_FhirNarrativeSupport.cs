@@ -12,7 +12,7 @@ namespace Pyro.Test.Tools
     [Test]
     public void Test_NarativeGeneration()
     {
-      var Narative = new FhirNarativeSupport();
+      var Narative = new FhirNarativeGenerationSupport();
 
       Narative.NewValuePairList("Dog", "Peppa", "Things", 3);
       Narative.AppendValuePairList("Cat", "meow");

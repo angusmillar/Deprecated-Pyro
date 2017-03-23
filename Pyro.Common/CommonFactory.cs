@@ -149,9 +149,9 @@ namespace Pyro.Common
       return new BusinessEntities.Dto.Headers.DtoRequestHeaders(HttpRequestHeaders);
     }
 
-    public static IFhirNarativeSupport GetFhirNarativeSupport()
+    public static IFhirNarativeGenerationSupport GetFhirNarativeSupport()
     {
-      return new Tools.FhirNarativeSupport();
+      return new Tools.FhirNarativeGenerationSupport();
     }
 
     public static IBundleTransactionService GetBundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)

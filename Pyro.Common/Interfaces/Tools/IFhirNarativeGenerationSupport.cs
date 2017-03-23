@@ -1,6 +1,6 @@
 ﻿namespace Pyro.Common.Interfaces.Tools
 {
-  public interface IFhirNarativeSupport
+  public interface IFhirNarativeGenerationSupport
   {
     void AppendParagraph(string Value);
     void AppendValuePairList(string Desciption, string Value);

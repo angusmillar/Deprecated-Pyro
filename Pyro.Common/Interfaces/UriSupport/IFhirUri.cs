@@ -20,6 +20,6 @@ namespace Pyro.Common.Interfaces.UriSupport
     bool IsUuid { get; }
     bool IsUuidValid { get; }
     bool IsOid { get; }
-    bool IsOidValid { get; }
+    bool IsOidValid { get; }    
   }
 }

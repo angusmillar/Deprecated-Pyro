@@ -88,12 +88,12 @@
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestMetadata.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalDelete.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestDelete.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestPut.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestPost.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetHistory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetSearch.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
+    <Compile Include="Extentions\FhirNarrativeExtentions.cs" />
     <Compile Include="Extentions\ResourceExtentions.cs" />
     <Compile Include="Interfaces\Dto\Headers\IDtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterBase.cs" />
@@ -167,7 +167,6 @@
     <Compile Include="Interfaces\Service\IDatabaseOperationOutcome.cs" />
     <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Service\IBaseServices.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequest.cs" />
     <Compile Include="Interfaces\Service\ICommonServices.cs" />
     <Compile Include="Interfaces\Service\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
@@ -178,12 +177,12 @@
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
     <Compile Include="Tools\FhirDateSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
-    <Compile Include="Tools\FhirNarativeSupport.cs" />
+    <Compile Include="Tools\FhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
-    <Compile Include="Interfaces\Tools\IFhirNarativeSupport.cs" />
+    <Compile Include="Interfaces\Tools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ResourceVersionNumber.cs" />
     <Compile Include="Tools\StringSupport.cs" />
