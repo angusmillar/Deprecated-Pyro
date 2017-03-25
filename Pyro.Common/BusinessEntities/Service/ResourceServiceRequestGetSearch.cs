@@ -18,7 +18,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      this.FhirRequestUri = null;
+      this.FhirRequestUri = FhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
     }
 

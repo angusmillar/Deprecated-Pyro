@@ -11,31 +11,27 @@ namespace Pyro.Common.Tools
 {
   public static class HttpHeaderSupport
   {
-    public static void AddResponseLocation(HttpResponseHeaders HttpResponseHeaders, Uri RequestUri, string FhirId = null)
+
+    public static Uri AddResponseLocation(Uri RequestUri, string FhirId = null)
     {
       string BaseURLPath = String.Format("{0}://{1}{2}", RequestUri.Scheme, RequestUri.Authority, RequestUri.LocalPath);
       if (string.IsNullOrWhiteSpace(FhirId))
       {
-        HttpResponseHeaders.Location = new Uri(BaseURLPath);
+        return new Uri(BaseURLPath);
       }
       else
       {
         BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
-        HttpResponseHeaders.Location = new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
+        return new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
       }
     }
 
-    public static void AddVersionETag(HttpResponseHeaders HttpResponseHeaders, string Version)
+    public static EntityTagHeaderValue AddVersionETag(string Version)
     {
       //example: ETag: W/"3141"      
-      HttpResponseHeaders.ETag = new EntityTagHeaderValue('\"' + Version + '\"', true);
+      return new EntityTagHeaderValue('\"' + Version + '\"', true);
     }
-
-    public static void AddResponseLastModified(HttpContentHeaders HttpContentHeaders, DateTimeOffset LastModified)
-    {
-      HttpContentHeaders.LastModified = LastModified;
-    }
-
+    
     public static bool IsAcceptMediaTypeSetInRequest(HttpRequestMessage Request)
     {
       if (Request.Headers.Accept.Count == 1)

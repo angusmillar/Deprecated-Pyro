@@ -52,10 +52,10 @@ namespace Pyro.Web.Response
           //LastModified Header & ETagVersion &Location Header                    
           if (oPyroServiceOperationOutcome.LastModified.HasValue)
           {
-            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
+            Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
             if (Response.Content != null && oPyroServiceOperationOutcome.IsDeleted.HasValue && !oPyroServiceOperationOutcome.IsDeleted.Value)
-              HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
-            HttpHeaderSupport.AddResponseLocation(Response.Headers, Request.RequestUri);
+              Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;              
+            Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri);
           }
           return Response;
         }
@@ -63,12 +63,12 @@ namespace Pyro.Web.Response
         {
           //Location Header
           if (Response.Content != null)
-            HttpHeaderSupport.AddResponseLocation(Response.Headers, Request.RequestUri);
+            Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri);
           //LastModified Header && ETagVersion
           if (oPyroServiceOperationOutcome.LastModified.HasValue)
           {
-            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
-            HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+            Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
+            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;            
           }
           return Response;
         }
@@ -77,8 +77,8 @@ namespace Pyro.Web.Response
           //LastModified Header && ETag Version
           if (oPyroServiceOperationOutcome.LastModified != null)
           {
-            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
-            HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+            Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
+            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
           }
           return Response;
         }
@@ -87,9 +87,9 @@ namespace Pyro.Web.Response
           //LastModified Header && ETag Version
           if (oPyroServiceOperationOutcome.LastModified != null)
           {
-            HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
-            if (Response.Content != null)
-              HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+            Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
+            //if (Response.Content != null)
+            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
           }
           return Response;
         }
@@ -110,13 +110,13 @@ namespace Pyro.Web.Response
       {
         //Location Header
         if (Response.Content != null)
-          HttpHeaderSupport.AddResponseLocation(Response.Headers, Request.RequestUri, oPyroServiceOperationOutcome.FhirResourceId);
+          Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri, oPyroServiceOperationOutcome.FhirResourceId);
 
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
-          HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+          Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
+          Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
         }
 
         return Response;
@@ -127,7 +127,7 @@ namespace Pyro.Web.Response
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
+          Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
           //Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
         }
         return Response;
@@ -138,9 +138,9 @@ namespace Pyro.Web.Response
         //LastModified Header && ETagVersion
         if (oPyroServiceOperationOutcome.LastModified.HasValue)
         {
-          HttpHeaderSupport.AddVersionETag(Response.Headers, oPyroServiceOperationOutcome.ResourceVersionNumber);
+          Response.Headers.ETag = HttpHeaderSupport.AddVersionETag(oPyroServiceOperationOutcome.ResourceVersionNumber);
           if (Response.Content != null)
-            HttpHeaderSupport.AddResponseLastModified(Response.Content.Headers, oPyroServiceOperationOutcome.LastModified.Value);
+            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
         }
         return Response;
       }
