@@ -31,7 +31,7 @@ namespace Pyro.Web.App_Start
     {
       //Register interfaces with simple injector
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
-      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(Lifestyle.Singleton);      
+      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(Lifestyle.Scoped);      
       container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
       container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(Lifestyle.Scoped);
     }

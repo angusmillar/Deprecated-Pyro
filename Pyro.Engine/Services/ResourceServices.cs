@@ -256,8 +256,8 @@ namespace Pyro.Engine.Services
 
       //Check db for existence of this Resource 
       IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(PyroServiceRequestPut.ResourceId);
-      if (DatabaseOperationOutcomeGet.ReturnedResourceList != null &&
-        DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
+      
+      if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
       {
         if (!string.IsNullOrWhiteSpace(PyroServiceRequestPut.RequestHeaders.IfMatch) &&
           (PyroServiceRequestPut.RequestHeaders.IfMatch != DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version))
@@ -274,12 +274,21 @@ namespace Pyro.Engine.Services
           oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Update);
         }
       }
-      else if (DatabaseOperationOutcomeGet.ReturnedResourceList != null &&
-        DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 0)
+      else if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 0)
       {
-        //This is a new resource so update its version number as 1 and create
-        PyroServiceRequestPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.FirstVersion();
-        oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Create);
+        if (!string.IsNullOrWhiteSpace(PyroServiceRequestPut.RequestHeaders.IfMatch))          
+        {
+          string Message = $"Version aware update conflict. HTTP Header 'If-Match: {PyroServiceRequestPut.RequestHeaders.IfMatch}' used, and no previous resource can be found in the server.";
+          oServiceOperationOutcome.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Conflict, Message);
+          oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Conflict;
+          return oServiceOperationOutcome;
+        }
+        else
+        {
+          //This is a new resource so update its version number as 1 and create
+          PyroServiceRequestPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.FirstVersion();
+          oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Create);
+        }
       }
 
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;

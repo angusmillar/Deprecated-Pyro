@@ -50,9 +50,9 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
         return _ServiceOperationOutcome;
       }
-      else if (bundle.Type != Bundle.BundleType.Transaction)
+      else if (bundle.Type != Bundle.BundleType.Transaction || (bundle.Type != Bundle.BundleType.Transaction && bundle.Type != Bundle.BundleType.Batch))
       {
-        var Message = $"The FHIR server's service root endpoint can only accept Bundle resources of Bundle.type = 'Transaction'. Type found was {bundle.Type.ToString()}";
+        var Message = $"The FHIR server's service root endpoint can only accept Bundle resources of Bundle.type = 'Transaction' or Bundle.type = 'Batch'. Type found was {bundle.Type.ToString()}";
         var OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Invalid, Message);
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
@@ -64,6 +64,10 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         Bundle BundleOutcome = new Bundle();
         BundleOutcome.Type = Bundle.BundleType.TransactionResponse;
+        BundleOutcome.Id = bundle.Id;
+        if (BundleOutcome.Meta == null)
+          BundleOutcome.Meta = new Meta();
+        BundleOutcome.Meta.LastUpdated = DateTimeOffset.Now;
         BundleOutcome.Entry = new List<Bundle.EntryComponent>();
         BundleOutcome.ResourceBase = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
 
@@ -89,12 +93,23 @@ namespace Pyro.Common.BusinessEntities.Service
           
           var EntryComponent = new Bundle.EntryComponent();
           BundleOutcome.Entry.Add(EntryComponent);
+          EntryComponent.Request = DeleteEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+          if (ResourceServiceOutcome.ResourceResult != null)
+          {
+            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+            {
+              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            }
+            else
+            {
+              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            }
+          }          
           if (ResourceServiceOutcome.LastModified != null && ResourceServiceOutcome.ResourceVersionNumber != null)
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.FhirResourceId).Tag;
+            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
             EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
             EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
           }                    
@@ -129,12 +144,23 @@ namespace Pyro.Common.BusinessEntities.Service
 
           var EntryComponent = new Bundle.EntryComponent();
           BundleOutcome.Entry.Add(EntryComponent);
+          EntryComponent.Request = PostEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+          if (ResourceServiceOutcome.ResourceResult != null)
+          {
+            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+            {
+              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            }
+            else
+            {
+              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            }
+          }
           if (ResourceServiceOutcome.LastModified != null)
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.FhirResourceId).Tag;
+            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
             EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
           }
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
@@ -165,12 +191,23 @@ namespace Pyro.Common.BusinessEntities.Service
 
           var EntryComponent = new Bundle.EntryComponent();
           BundleOutcome.Entry.Add(EntryComponent);
+          EntryComponent.Request = PutEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+          if (ResourceServiceOutcome.ResourceResult != null)
+          {
+            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+            {
+              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            }
+            else
+            {
+              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            }
+          }
           if (ResourceServiceOutcome.LastModified != null)
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.FhirResourceId).Tag;
+            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
             EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
             EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
           }          
@@ -199,9 +236,20 @@ namespace Pyro.Common.BusinessEntities.Service
 
           var EntryComponent = new Bundle.EntryComponent();
           BundleOutcome.Entry.Add(EntryComponent);
+          EntryComponent.Request = GetEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+          if (ResourceServiceOutcome.ResourceResult != null)
+          {
+            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+            {
+              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            }
+            else
+            {
+              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            }
+          }
           if (ResourceServiceOutcome.LastModified.HasValue)
           {
             EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
@@ -209,11 +257,11 @@ namespace Pyro.Common.BusinessEntities.Service
               EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
             EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
           }
-
-
         }
+
         _ResourceServiceRequest.ServiceNegotiator.CommitTransaction();
         _ServiceOperationOutcome.ResourceResult = BundleOutcome;
+        _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       }
 
