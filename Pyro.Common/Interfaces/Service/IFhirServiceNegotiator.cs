@@ -11,6 +11,7 @@ namespace Pyro.Common.Interfaces.Service
   {
     void BeginTransaction();
     void CommitTransaction();
+    void RollbackTransaction();
     bool IsTransactional { get; }
     IResourceServices GetTransactionalResourceService(string ResourceName);
     IResourceServices GetResourceService(string type);

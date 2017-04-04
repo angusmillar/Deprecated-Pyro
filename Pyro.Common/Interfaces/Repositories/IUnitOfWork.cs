@@ -10,6 +10,7 @@ namespace Pyro.Common.Interfaces.Repositories
   {
     void BeginTransaction();
     void CommitTransaction();
+    void RollbackTransaction();
     bool IsTransactional { get;}
 
     IDtoCommonRepository CommonRepository { get; }

@@ -27,7 +27,6 @@ namespace Pyro.DataModel
       }
       _Transactional = true;
     }
-
     public void CommitTransaction()
     {
       try
@@ -39,6 +38,18 @@ namespace Pyro.DataModel
         _Trans.Rollback();
         throw new NotImplementedException();
 
+      }
+      finally
+      {
+        _Trans.Dispose();
+        _Transactional = false;
+      }
+    }  
+    public void RollbackTransaction()
+    {
+      try
+      {
+        _Trans.Rollback();
       }
       finally
       {

@@ -19,6 +19,7 @@ namespace Pyro.Common.BusinessEntities.Service
     private IResourceServiceRequestTransactionBundle _ResourceServiceRequest;
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
+    private IList<Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>> OperationHttpStatusCodeDic;
     internal BundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)
     {
       _ResourceServiceRequest = ResourceServiceRequestTransactionBundle;
@@ -37,7 +38,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
       _ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
 
-
+      _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+      OperationHttpStatusCodeDic = new List<Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>>();
       Bundle bundle = _ResourceServiceRequest.Resource as Bundle;
 
       if (bundle == null)
@@ -96,6 +98,8 @@ namespace Pyro.Common.BusinessEntities.Service
           EntryComponent.Request = DeleteEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+          
+          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
           if (ResourceServiceOutcome.ResourceResult != null)
           {
             if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
@@ -112,8 +116,7 @@ namespace Pyro.Common.BusinessEntities.Service
             EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
             EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
             EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
-          }                    
-          
+          }                              
         }
 
         //Assign new id's for POSTs and then update all POST and PUT entrie referances       
@@ -147,6 +150,7 @@ namespace Pyro.Common.BusinessEntities.Service
           EntryComponent.Request = PostEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
           if (ResourceServiceOutcome.ResourceResult != null)
           {
             if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
@@ -194,6 +198,7 @@ namespace Pyro.Common.BusinessEntities.Service
           EntryComponent.Request = PutEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
           if (ResourceServiceOutcome.ResourceResult != null)
           {
             if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
@@ -239,6 +244,7 @@ namespace Pyro.Common.BusinessEntities.Service
           EntryComponent.Request = GetEntry.Request;
           EntryComponent.Response = new Bundle.ResponseComponent();
           EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
           if (ResourceServiceOutcome.ResourceResult != null)
           {
             if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
@@ -259,16 +265,28 @@ namespace Pyro.Common.BusinessEntities.Service
           }
         }
 
-        _ResourceServiceRequest.ServiceNegotiator.CommitTransaction();
+        System.Net.HttpStatusCode? Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Delete && x.Item2 != System.Net.HttpStatusCode.NoContent).Item2;
+        if (!Http.HasValue)
+          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Create && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
+        if (!Http.HasValue)
+          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Update && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
+        if (!Http.HasValue)
+          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Read && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
+        if (Http.HasValue)
+        {
+          _ServiceOperationOutcome.HttpStatusCode = Http.Value;
+          _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+        }
+        else
+        {
+          _ResourceServiceRequest.ServiceNegotiator.CommitTransaction();
+          _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+        }
+        
         _ServiceOperationOutcome.ResourceResult = BundleOutcome;
-        _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-        _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+        _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;        
       }
-
-
-
-
-
+      
       return _ServiceOperationOutcome;
     }
 

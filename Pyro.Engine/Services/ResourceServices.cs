@@ -25,7 +25,12 @@ namespace Pyro.Engine.Services
 
     public void CommitTransaction()
     {
-      _UnitOfWork.CommitTransaction();
+      _UnitOfWork.CommitTransaction();      
+    }
+
+    public void RolbackTransaction()
+    {
+      _UnitOfWork.RollbackTransaction();
     }
 
     public bool IsTransactional
@@ -152,7 +157,7 @@ namespace Pyro.Engine.Services
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchParameterService.ProcessSearchParameters(PyroServiceRequestPost.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
       if (SearchParametersServiceOutcomeBase.FhirOperationOutcome != null)
       {
-        oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcomeBase;
+        oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcomeBase;        
         return oServiceOperationOutcome;
       }
       SearchParametersServiceOutcomeBase.SearchParameters.PrimaryRootUrlStore = PyroServiceRequestPost.FhirRequestUri.PrimaryRootUrlStore;
@@ -358,7 +363,6 @@ namespace Pyro.Engine.Services
         //No resource found so do a normal Create, first clear any Resource Id that may 
         //be in the resource
         PyroServiceRequestConditionalPut.Resource.Id = string.Empty;
-
         IResourceServiceRequestPost ServiceRequestSingleCreate = Common.CommonFactory.GetResourceServiceRequestPost(PyroServiceRequestConditionalPut.Resource, PyroServiceRequestConditionalPut.FhirRequestUri, PyroServiceRequestConditionalPut.SearchParameterGeneric);
         ServiceOperationOutcomeConditionalPut = this.Post(ServiceRequestSingleCreate);
       }

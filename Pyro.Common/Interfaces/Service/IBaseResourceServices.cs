@@ -12,7 +12,9 @@ namespace Pyro.Common.Interfaces.Service
   {
     void BeginTransaction();
     void CommitTransaction();
+    void RolbackTransaction();
     bool IsTransactional { get; }
+     
 
 
     //Read

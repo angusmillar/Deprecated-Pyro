@@ -10,6 +10,7 @@ namespace Pyro.Common.Extentions
   static class ResourceExtentions
   {    
     private static Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
+
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
     {
       //Cache
@@ -29,7 +30,12 @@ namespace Pyro.Common.Extentions
       return ReferenceResultList;
     }
 
-    public static List<ResourceReference> AllReferences(this Base FhirBase)
+    public static List<ResourceReference> AllReferences(this Resource Resource)
+    {
+      return Resource.AllBaseReferences();
+    }
+
+    private static List<ResourceReference> AllBaseReferences(this Base FhirBase)
     {
       //Cache
       if (ClassPropertyMappingListCache == null)
@@ -70,13 +76,13 @@ namespace Pyro.Common.Extentions
             foreach (var CollectionItem in PropertyCollection)
             {
               var BackboneElement = CollectionItem as BackboneElement;
-              ReferenceResultList.AddRange(BackboneElement.AllReferences());
+              ReferenceResultList.AddRange(BackboneElement.AllBaseReferences());
             }
           }
           else
           {
             var BackboneElement = PropertyItem.GetValue(FhirBase) as BackboneElement;
-            ReferenceResultList.AddRange(BackboneElement.AllReferences());
+            ReferenceResultList.AddRange(BackboneElement.AllBaseReferences());
           }
         }
         else

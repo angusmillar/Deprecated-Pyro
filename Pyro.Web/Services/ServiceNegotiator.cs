@@ -52,6 +52,18 @@ namespace Pyro.Web.Services
       }
     }
 
+    public void RollbackTransaction()
+    {
+      if (_TransactionalDefaultResourceServices.IsTransactional)
+      {
+        _TransactionalDefaultResourceServices.RolbackTransaction();
+      }
+      else
+      {
+        throw new ArgumentException("Attempt to Rollback Transaction when context was not transactional.");
+      }
+    }
+
     public bool IsTransactional
     {
       get
