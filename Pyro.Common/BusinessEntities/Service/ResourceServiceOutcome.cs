@@ -47,7 +47,7 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
     public string FormatMimeType { get; set; }
-    
+    public bool SuccessfulTransaction { get; set; }
 
     #endregion
 
@@ -56,7 +56,8 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
-    }
+      this.SuccessfulTransaction = false;
+  }
     #endregion
 
     #region Private Methods

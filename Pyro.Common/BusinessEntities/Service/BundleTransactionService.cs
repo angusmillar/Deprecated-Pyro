@@ -38,9 +38,11 @@ namespace Pyro.Common.BusinessEntities.Service
 
       _ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
 
-      _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+      _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;      
+      bool IsTransactionSucsessfull = true;
       OperationHttpStatusCodeDic = new List<Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>>();
       Bundle bundle = _ResourceServiceRequest.Resource as Bundle;
+      Resource OperationOutcomeIfFailed = null;
 
       if (bundle == null)
       {
@@ -93,30 +95,36 @@ namespace Pyro.Common.BusinessEntities.Service
             ResourceServiceOutcome = ResourceService.Delete(ResourceServiceRequest);
           }
           
-          var EntryComponent = new Bundle.EntryComponent();
-          BundleOutcome.Entry.Add(EntryComponent);
-          EntryComponent.Request = DeleteEntry.Request;
-          EntryComponent.Response = new Bundle.ResponseComponent();
-          EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          
-          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
-          if (ResourceServiceOutcome.ResourceResult != null)
+          if (!ResourceServiceOutcome.SuccessfulTransaction)
           {
-            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
-            {
-              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
-            }
-            else
-            {
-              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
-            }
-          }          
-          if (ResourceServiceOutcome.LastModified != null && ResourceServiceOutcome.ResourceVersionNumber != null)
+            _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+            return ResourceServiceOutcome;
+          }
+          else
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-            EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-            EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
-          }                              
+            var EntryComponent = new Bundle.EntryComponent();
+            BundleOutcome.Entry.Add(EntryComponent);
+            EntryComponent.Request = DeleteEntry.Request;
+            EntryComponent.Response = new Bundle.ResponseComponent();
+            EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+            if (ResourceServiceOutcome.ResourceResult != null)
+            {
+              if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+              {
+                EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+              }
+              else
+              {
+                EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+              }
+            }
+            if (ResourceServiceOutcome.LastModified != null && ResourceServiceOutcome.ResourceVersionNumber != null)
+            {
+              EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+              EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+              EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
+            }
+          }
         }
 
         //Assign new id's for POSTs and then update all POST and PUT entrie referances       
@@ -137,7 +145,7 @@ namespace Pyro.Common.BusinessEntities.Service
             _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
             return _ServiceOperationOutcome;
           }
-          IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[PostEntry.FullUrl]);
+          IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
           //Prepare and perform POST (Add)
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
@@ -145,32 +153,38 @@ namespace Pyro.Common.BusinessEntities.Service
           IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
           IResourceServiceOutcome ResourceServiceOutcome = ResourceService.Post(ResourceServiceRequestPost);
 
-          var EntryComponent = new Bundle.EntryComponent();
-          BundleOutcome.Entry.Add(EntryComponent);
-          EntryComponent.Request = PostEntry.Request;
-          EntryComponent.Response = new Bundle.ResponseComponent();
-          EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
-          if (ResourceServiceOutcome.ResourceResult != null)
+          if (!ResourceServiceOutcome.SuccessfulTransaction)
           {
-            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
-            {
-              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
-            }
-            else
-            {
-              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
-            }
+            _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+            return ResourceServiceOutcome;
           }
-          if (ResourceServiceOutcome.LastModified != null)
+          else
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-            EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+            var EntryComponent = new Bundle.EntryComponent();
+            BundleOutcome.Entry.Add(EntryComponent);
+            EntryComponent.Request = PostEntry.Request;
+            EntryComponent.Response = new Bundle.ResponseComponent();
+            EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+
+            if (ResourceServiceOutcome.ResourceResult != null)
+            {
+              if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+              {
+                EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+              }
+              else
+              {
+                EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+              }
+            }
+            if (ResourceServiceOutcome.LastModified != null)
+            {
+              EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+              EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+            }
+            EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+            EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
           }
-          EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
-
-
         }
 
         //PUT Processing
@@ -193,30 +207,37 @@ namespace Pyro.Common.BusinessEntities.Service
             ResourceServiceOutcome = ResourceService.Put(ResourceServiceRequestPut);
           }
 
-          var EntryComponent = new Bundle.EntryComponent();
-          BundleOutcome.Entry.Add(EntryComponent);
-          EntryComponent.Request = PutEntry.Request;
-          EntryComponent.Response = new Bundle.ResponseComponent();
-          EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
-          if (ResourceServiceOutcome.ResourceResult != null)
+          if (!ResourceServiceOutcome.SuccessfulTransaction)
           {
-            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+            _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+            return ResourceServiceOutcome;
+          }
+          else
+          {
+            var EntryComponent = new Bundle.EntryComponent();
+            BundleOutcome.Entry.Add(EntryComponent);
+            EntryComponent.Request = PutEntry.Request;
+            EntryComponent.Response = new Bundle.ResponseComponent();
+            EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+
+            if (ResourceServiceOutcome.ResourceResult != null)
             {
-              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+              if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+              {
+                EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+              }
+              else
+              {
+                EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+              }
             }
-            else
+            if (ResourceServiceOutcome.LastModified != null)
             {
-              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+              EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+              EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+              EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
             }
           }
-          if (ResourceServiceOutcome.LastModified != null)
-          {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-            EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-            EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
-          }          
-          
         }
         
         //GET Processing
@@ -239,50 +260,42 @@ namespace Pyro.Common.BusinessEntities.Service
             ResourceServiceOutcome = ResourceService.GetRead(ResourceServiceRequestGetRead);
           }
 
-          var EntryComponent = new Bundle.EntryComponent();
-          BundleOutcome.Entry.Add(EntryComponent);
-          EntryComponent.Request = GetEntry.Request;
-          EntryComponent.Response = new Bundle.ResponseComponent();
-          EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
-          OperationHttpStatusCodeDic.Add(new Tuple<Enum.RestEnum.CrudOperationType, System.Net.HttpStatusCode>(ResourceServiceOutcome.OperationType, ResourceServiceOutcome.HttpStatusCode));
-          if (ResourceServiceOutcome.ResourceResult != null)
+          if (!ResourceServiceOutcome.SuccessfulTransaction)
           {
-            if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
-            {
-              EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
-            }
-            else
-            {
-              EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
-            }
+            _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+            return ResourceServiceOutcome;
           }
-          if (ResourceServiceOutcome.LastModified.HasValue)
+          else
           {
-            EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-            if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
-              EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-            EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
-          }
-        }
+            var EntryComponent = new Bundle.EntryComponent();
+            BundleOutcome.Entry.Add(EntryComponent);
+            EntryComponent.Request = GetEntry.Request;
+            EntryComponent.Response = new Bundle.ResponseComponent();
+            EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
 
-        System.Net.HttpStatusCode? Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Delete && x.Item2 != System.Net.HttpStatusCode.NoContent).Item2;
-        if (!Http.HasValue)
-          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Create && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
-        if (!Http.HasValue)
-          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Update && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
-        if (!Http.HasValue)
-          Http = OperationHttpStatusCodeDic.FirstOrDefault(x => x.Item1 == Enum.RestEnum.CrudOperationType.Read && x.Item2 != System.Net.HttpStatusCode.OK).Item2;
-        if (Http.HasValue)
-        {
-          _ServiceOperationOutcome.HttpStatusCode = Http.Value;
-          _ResourceServiceRequest.ServiceNegotiator.RollbackTransaction();
+            if (ResourceServiceOutcome.ResourceResult != null)
+            {
+              if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
+              {
+                EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+              }
+              else
+              {
+                EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+              }
+            }
+            if (ResourceServiceOutcome.LastModified.HasValue)
+            {
+              EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+              if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
+                EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+              EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
+            }
+          }
         }
-        else
-        {
-          _ResourceServiceRequest.ServiceNegotiator.CommitTransaction();
-          _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-        }
-        
+                
+        _ResourceServiceRequest.ServiceNegotiator.CommitTransaction();
+        _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
         _ServiceOperationOutcome.ResourceResult = BundleOutcome;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;        
       }
@@ -300,12 +313,13 @@ namespace Pyro.Common.BusinessEntities.Service
         {
           string NewId = Guid.NewGuid().ToString();
           string ResourceName = PostEntry.Resource.ResourceType.ToString();
-          string BaseUrl = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUrl;
-          OldNewResourceReferanceMap.Add(PostEntry.FullUrl, $"{BaseUrl}/{ResourceName}/{NewId}");
+          //string BaseUrl = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUrl;
+          string FullUrlUUID = GetUUIDfromFullURL(PostEntry.FullUrl);
+          OldNewResourceReferanceMap.Add(FullUrlUUID, $"{ResourceName}/{NewId}");
         }
       }
 
-      //Then roll through all POST entries updating referances
+      //Then roll through all POST and PUT entries updating referances
       var PostAndPutEntryList = Entry.Where(x => x.Request.Method == Bundle.HTTPVerb.POST || x.Request.Method == Bundle.HTTPVerb.PUT);
       foreach(var PostPutItem in PostAndPutEntryList)
       {
@@ -316,23 +330,36 @@ namespace Pyro.Common.BusinessEntities.Service
         }
       }
       List<ResourceReference> RefList = PostAndPutEntryList.AllReferences();
-      foreach (var resRef in RefList.Where(rr => !String.IsNullOrEmpty(rr.Reference)))
+      foreach (var resRef in RefList.Where(rr => !string.IsNullOrEmpty(rr.Reference)))
       {
         // TODO: If this is an identifier reference, then we must resolve the reference
         // Otherwise these are just normal references
-        if (!string.IsNullOrEmpty(resRef.Reference))
+        string UUID = resRef.Reference.Split(':')[resRef.Reference.Split(':').Length - 1];
+        if (OldNewResourceReferanceMap.ContainsKey(UUID))
         {
-          //ResourceIdentity riEntity = new ResourceIdentity(resRef.Reference);
-          if (OldNewResourceReferanceMap.ContainsKey(resRef.Reference))
-          {
-            resRef.Reference = OldNewResourceReferanceMap[resRef.Reference];
-          }
+          resRef.Reference = OldNewResourceReferanceMap[UUID];
         }
       }
 
     }
     
-
+    private string GetUUIDfromFullURL(string FullURL)
+    {
+      string Result = FullURL;
+      if (FullURL.Contains(":"))
+      {
+        var FullURLUUIDSplit = FullURL.Split(':');
+        if (FullURLUUIDSplit.Length == 3)
+        {
+          Result = FullURLUUIDSplit[2];
+        }
+        else if (FullURLUUIDSplit.Length == 2)
+        {
+          Result = FullURLUUIDSplit[1];
+        }
+      }
+      return Result;
+    }
  
   }
 }

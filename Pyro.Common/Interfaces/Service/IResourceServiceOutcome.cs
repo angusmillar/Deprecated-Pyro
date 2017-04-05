@@ -6,7 +6,7 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServiceOutcome
   {
-    string FhirResourceId { get; set; }
+    string FhirResourceId { get; set; }    
     RestEnum.CrudOperationType OperationType { get; set; }
     string ResourceVersionNumber { get; set; }
     System.Net.HttpStatusCode HttpStatusCode { get; set; }
@@ -18,5 +18,6 @@ namespace Pyro.Common.Interfaces.Service
     string FormatMimeType { get; set; }
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     Service.ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
+    bool SuccessfulTransaction { get; set; }
   }
 }

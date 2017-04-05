@@ -51,7 +51,8 @@ namespace Pyro.Common.Extentions
           }
         }
       }
-
+      
+      Narrative.Div = xDoc.ToString();
       return HasUpdated;
     }
 

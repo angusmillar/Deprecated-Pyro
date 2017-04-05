@@ -65,6 +65,7 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome,
         PyroServiceRequestGetRead.RequestHeaders);
 
+      oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
     
@@ -90,6 +91,7 @@ namespace Pyro.Engine.Services
         SearchParametersServiceOutcome,
         oServiceOperationOutcome);
 
+      oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -125,6 +127,7 @@ namespace Pyro.Engine.Services
           SearchParametersServiceOutcome,
           oServiceOperationOutcome);
 
+        oServiceOperationOutcome.SuccessfulTransaction = true;
         return oServiceOperationOutcome;
       }
       else
@@ -144,6 +147,7 @@ namespace Pyro.Engine.Services
           PyroServiceRequestGetHistory.FhirRequestUri,
           oServiceOperationOutcome);
 
+        oServiceOperationOutcome.SuccessfulTransaction = true;
         return oServiceOperationOutcome;
       }       
     }
@@ -187,6 +191,7 @@ namespace Pyro.Engine.Services
           oServiceOperationOutcome.ServiceRootUri = PyroServiceRequestPost.FhirRequestUri.FhirUri.ServiceRootUrl;
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+          oServiceOperationOutcome.SuccessfulTransaction = true;
           return oServiceOperationOutcome;
         }
         else if (DatabaseOperationOutcomeIfNoneExist.SearchTotal > 1)
@@ -223,6 +228,7 @@ namespace Pyro.Engine.Services
       //All good commit the resource.
       oServiceOperationOutcome = SetResource(PyroServiceRequestPost.Resource, PyroServiceRequestPost.FhirRequestUri, RestEnum.CrudOperationType.Create);
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
+      oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -269,6 +275,7 @@ namespace Pyro.Engine.Services
         {
           string Message = $"Version aware update conflict. HTTP Header 'If-Match' used. The version intended to be updated was: '{PyroServiceRequestPut.RequestHeaders.IfMatch}' the current version found on the server did not match. Current server version is : {DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version}";
           oServiceOperationOutcome.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Conflict, Message);
+          oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Conflict;
           return oServiceOperationOutcome;
         }
@@ -277,6 +284,7 @@ namespace Pyro.Engine.Services
           //The resource has been found so update its version number based on the older resource              
           PyroServiceRequestPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
           oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Update);
+          oServiceOperationOutcome.SuccessfulTransaction = true;
         }
       }
       else if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 0)
@@ -293,6 +301,7 @@ namespace Pyro.Engine.Services
           //This is a new resource so update its version number as 1 and create
           PyroServiceRequestPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.FirstVersion();
           oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Create);
+          oServiceOperationOutcome.SuccessfulTransaction = true;
         }
       }
 
@@ -338,6 +347,7 @@ namespace Pyro.Engine.Services
       }
 
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+      oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -347,13 +357,13 @@ namespace Pyro.Engine.Services
     {
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetServiceOperationOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalPut.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
-
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalPut.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);      
       if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
       {
         ServiceOperationOutcomeConditionalPut.SearchParametersServiceOutcome = SearchParametersServiceOutcomeAll;
         return ServiceOperationOutcomeConditionalPut;
       }
+      ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
 
       SearchParametersServiceOutcomeAll.SearchParameters.PrimaryRootUrlStore = PyroServiceRequestConditionalPut.FhirRequestUri.PrimaryRootUrlStore;
 
@@ -365,6 +375,10 @@ namespace Pyro.Engine.Services
         PyroServiceRequestConditionalPut.Resource.Id = string.Empty;
         IResourceServiceRequestPost ServiceRequestSingleCreate = Common.CommonFactory.GetResourceServiceRequestPost(PyroServiceRequestConditionalPut.Resource, PyroServiceRequestConditionalPut.FhirRequestUri, PyroServiceRequestConditionalPut.SearchParameterGeneric);
         ServiceOperationOutcomeConditionalPut = this.Post(ServiceRequestSingleCreate);
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+        //Don't set to true below as the POST above will set the bool based on it's own result
+        //oServiceOperationOutcome.SuccessfulTransaction = true;
+        return ServiceOperationOutcomeConditionalPut;
       }
       else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 1)
       {
@@ -390,10 +404,13 @@ namespace Pyro.Engine.Services
         //A database resource has been found so update the new resource's version number based on the older resource              
         PyroServiceRequestConditionalPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeSearch.ReturnedResourceList[0].Version);
         ServiceOperationOutcomeConditionalPut = SetResource(PyroServiceRequestConditionalPut.Resource, PyroServiceRequestConditionalPut.FhirRequestUri, RestEnum.CrudOperationType.Update);
+        ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = true;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+        return ServiceOperationOutcomeConditionalPut;
       }
-      else if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count > 1)
+      else 
       {
-        //should I return an operationOutcome
+        //more than one returned so PreconditionFailed.        
         ServiceOperationOutcomeConditionalPut.ResourceResult = null;
         ServiceOperationOutcomeConditionalPut.FhirResourceId = null;
         ServiceOperationOutcomeConditionalPut.LastModified = null;
@@ -403,18 +420,16 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcomeConditionalPut.RequestUri = null;
         ServiceOperationOutcomeConditionalPut.ServiceRootUri = null;
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-        ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
-      }
-
-      ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-      return ServiceOperationOutcomeConditionalPut;
+        ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;        
+        return ServiceOperationOutcomeConditionalPut;
+      }      
     }
 
     //ConditionalDelete (Delete)
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalDelete(IResourceServiceRequestConditionalDelete PyroServiceRequestConditionalDelete)
     {
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetServiceOperationOutcome();      
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBaseOnly = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalDelete.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base, _CurrentResourceType);
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalDelete.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
@@ -456,8 +471,8 @@ namespace Pyro.Engine.Services
       ICollection<string> ResourceIdsToBeDeleted = DatabaseOperationOutcomeSearch.ReturnedResourceList.Select(x => x.FhirId).ToArray();
       ServiceOperationOutcomeConditionalDelete = SetResourceCollectionAsDeleted(ResourceIdsToBeDeleted);
       ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+      ServiceOperationOutcomeConditionalDelete.SuccessfulTransaction = true;
       return ServiceOperationOutcomeConditionalDelete;
     }
-
   }
 }
