@@ -520,6 +520,18 @@
             <param name="vid">The version id if requesting a single version instance, leave empty if you require the entire history for the resource instance.</param>
             <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.Base(Hl7.Fhir.Model.Resource)">
+            <summary>
+            The service root can accept a Batch Transaction bundle.
+            The batch and transaction interactions submit a set of actions to perform on a server in a single 
+            HTTP request/response. The actions may be performed independently as a "batch", or as a single 
+            atomic "transaction" where the entire set of changes succeed or fail as a single entity. 
+            Multiple actions on multiple resources of the same or different types may be submitted, and they 
+            may be a mix of other interactions defined on this page (e.g. read, search, create, update, delete, etc.).
+            </summary>
+            <param name="resource">Batch Transaction bundle</param>
+            <returns>Status Code 200 (OK) and a Batch Transaction response bundle or an OperationOutcome resource if an error has been encountered. The Transaction response bundle will inform how each resource was actioned within the entry.response element.</returns>
+        </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Post(System.String,Hl7.Fhir.Model.Resource)">
             <summary>
             Creates a new Resource in the server. The server will assign its own id and that id will be a GUID.

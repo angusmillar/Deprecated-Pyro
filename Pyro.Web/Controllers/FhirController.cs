@@ -25,6 +25,33 @@ namespace Pyro.Web.Controllers
       //Configuration.DependencyResolver.GetService
     }
 
+    //Service Root Base
+    //// POST: URL//FhirApi
+    /// <summary>
+    /// The service root can accept a Batch Transaction bundle.
+    /// The batch and transaction interactions submit a set of actions to perform on a server in a single 
+    /// HTTP request/response. The actions may be performed independently as a "batch", or as a single 
+    /// atomic "transaction" where the entire set of changes succeed or fail as a single entity. 
+    /// Multiple actions on multiple resources of the same or different types may be submitted, and they 
+    /// may be a mix of other interactions defined on this page (e.g. read, search, create, update, delete, etc.).
+    /// </summary>
+    /// <param name="resource">Batch Transaction bundle</param>
+    /// <returns>Status Code 200 (OK) and a Batch Transaction response bundle or an OperationOutcome resource if an error has been encountered. The Transaction response bundle will inform how each resource was actioned within the entry.response elements.</returns>
+    [HttpPost, Route("")]
+    [ActionLog]
+    public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
+    {
+      ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
+      IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Web.ApplicationCache.StaticCache.LoadStaticCache(oService);
+      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+      IDtoFhirRequestUri DtoFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore);
+      IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle = Common.CommonFactory.GetResourceServiceRequestTransactionBundle(resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, _FhirServiceNegotiator);
+      IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(ResourceServiceRequestTransactionBundle);
+      IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact();
+      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
+    }
+
     //Metadata 
     // GET: URL//FhirApi/metadata
     /// <summary>
@@ -44,7 +71,6 @@ namespace Pyro.Web.Controllers
       IResourceServiceOutcome oPyroServiceOperationOutcome = MetadataService.GetServersConformanceResource(ResourceServiceRequestMetadata);
       return FhirRestResponse.GetHttpResponseMessage(oPyroServiceOperationOutcome, Request);
     }
-
 
     // Get By id
     // GET URL/FhirApi/Patient/5
@@ -113,23 +139,6 @@ namespace Pyro.Web.Controllers
       IResourceServiceOutcome ResourceServiceOutcome = oService.GetHistory(ResourceServiceRequestGetHistory);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
-
-    [HttpPost, Route("")]
-    [ActionLog]
-    public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
-    {
-      ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
-      IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Web.ApplicationCache.StaticCache.LoadStaticCache(oService);
-      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      IDtoFhirRequestUri DtoFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore);
-      IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle = Common.CommonFactory.GetResourceServiceRequestTransactionBundle(resource, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, _FhirServiceNegotiator);      
-      IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(ResourceServiceRequestTransactionBundle);
-      IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact();
-      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
-    }
-
-
 
     // Create
     // POST: URL/FhirApi/Patient
