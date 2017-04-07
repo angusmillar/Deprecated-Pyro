@@ -9,14 +9,14 @@ namespace Pyro.Common.Extentions
 {
   static class ResourceExtentions
   {    
-    private static Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
+    private static Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
 
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
     {
       //Cache
       if (ClassPropertyMappingListCache == null)
       {
-        ClassPropertyMappingListCache = new Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
+        ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
       }
 
       var ReferenceResultList = new List<ResourceReference>();
@@ -40,7 +40,7 @@ namespace Pyro.Common.Extentions
       //Cache
       if (ClassPropertyMappingListCache == null)
       {
-        ClassPropertyMappingListCache = new Dictionary<string, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();        
+        ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();        
       }
 
       var ReferenceResultList = new List<ResourceReference>();
@@ -58,12 +58,12 @@ namespace Pyro.Common.Extentions
       }
 
       //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entries
-      IEnumerable<Hl7.Fhir.Introspection.PropertyMapping> PropertyMappingList = ClassPropertyMappingListCache.SingleOrDefault(x => x.Key == FhirBase.TypeName).Value;      
+      IEnumerable<Hl7.Fhir.Introspection.PropertyMapping> PropertyMappingList = ClassPropertyMappingListCache.SingleOrDefault(x => x.Key == FhirBase.TypeName.GetHashCode()).Value;      
       if (PropertyMappingList == null)
       {
         var ClassMapping = Hl7.Fhir.Introspection.ClassMapping.Create(FhirBase.GetType());
         PropertyMappingList = ClassMapping.PropertyMappings.Where(t => t.ElementType == typeof(ResourceReference) || t.ElementType.BaseType == typeof(BackboneElement));
-        ClassPropertyMappingListCache.Add(FhirBase.TypeName, PropertyMappingList);
+        ClassPropertyMappingListCache.Add(FhirBase.TypeName.GetHashCode(), PropertyMappingList);
       }
  
       foreach (var PropertyItem in PropertyMappingList)
