@@ -73,9 +73,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
 
         //FHIR Spec: http://build.fhir.org/bundle.html#transaction
-        //If there is no request element, then there SHALL be a resource and the server must infer 
-        //whether this is a create or an update from the resource identity supplied.
-        //NO Request Processing        
+        //  If there is no request element, then there SHALL be a resource and the server must infer 
+        //  whether this is a create or an update from the resource identity supplied.
+        //  NO Request Processing        
         foreach (var NoRequestEntry in bundle.Entry.Where(x => x.Request == null || !x.Request.Method.HasValue))
         {
           NoRequestEntry.Request = GenerateRequestComponentForEntry(NoRequestEntry);
@@ -150,9 +150,8 @@ namespace Pyro.Common.BusinessEntities.Service
     }    
 
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, Bundle BundleOutcome)
-    {
-      Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri.OriginalString + "/" + DeleteEntry.Request.Url);
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
+    {      
+      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(DeleteEntry));      
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
       var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
       IResourceServiceOutcome ResourceServiceOutcome = null;
@@ -173,7 +172,7 @@ namespace Pyro.Common.BusinessEntities.Service
         BundleOutcome.Entry.Add(EntryComponent);
         EntryComponent.Request = DeleteEntry.Request;
         EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
         if (ResourceServiceOutcome.ResourceResult != null)
         {
           if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
@@ -204,10 +203,16 @@ namespace Pyro.Common.BusinessEntities.Service
         return false;
       }
     }
+
+    private Uri ConstructRequestUrl(Bundle.EntryComponent Entry)
+    {
+      return new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, Entry.Request.Url);
+    }
+
     private bool PostProcessing(Bundle.EntryComponent PostEntry, Bundle BundleOutcome)
     {
-      Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, PostEntry.Request.Url);
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
+      
+      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PostEntry));
       if (!string.IsNullOrWhiteSpace(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourceOperation))
       {
         var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourceOperation}'.";
@@ -218,8 +223,7 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
         return false;
       }
-      IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
-      //Prepare and perform POST (Add)
+      IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);      
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
       IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.Id);
@@ -232,7 +236,7 @@ namespace Pyro.Common.BusinessEntities.Service
         BundleOutcome.Entry.Add(EntryComponent);
         EntryComponent.Request = PostEntry.Request;
         EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
@@ -250,7 +254,7 @@ namespace Pyro.Common.BusinessEntities.Service
           EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
           EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
         }
-        EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+        EntryComponent.Response.Status = $"{((int)ResourceServiceOutcome.HttpStatusCode).ToString()} {ResourceServiceOutcome.HttpStatusCode.ToString()}";
         EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
         return true;
       }
@@ -266,9 +270,8 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
     private bool PutProcessing(Bundle.EntryComponent PutEntry, Bundle BundleOutcome)
-    {
-      Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, PutEntry.Request.Url);
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
+    {   
+      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PutEntry));
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
       var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
@@ -290,7 +293,7 @@ namespace Pyro.Common.BusinessEntities.Service
         BundleOutcome.Entry.Add(EntryComponent);
         EntryComponent.Request = PutEntry.Request;
         EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
@@ -323,9 +326,8 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
     private bool GetProcessing(Bundle.EntryComponent GetEntry, Bundle BundleOutcome)
-    {
-      Uri UriBuild = new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, GetEntry.Request.Url);
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(UriBuild);
+    {    
+      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(GetEntry));
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
@@ -347,7 +349,7 @@ namespace Pyro.Common.BusinessEntities.Service
         BundleOutcome.Entry.Add(EntryComponent);
         EntryComponent.Request = GetEntry.Request;
         EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = ResourceServiceOutcome.HttpStatusCode.ToString();
+        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
@@ -438,6 +440,10 @@ namespace Pyro.Common.BusinessEntities.Service
         }
       }
       return Result;
+    }
+    private string FormatHTTPStatusCodeAsString(System.Net.HttpStatusCode HttpStatusCode)
+    {
+     return  $"{((int)HttpStatusCode).ToString()} {HttpStatusCode.ToString()}";
     }
     private Bundle.RequestComponent GenerateRequestComponentForEntry(Bundle.EntryComponent Entry)
     {
