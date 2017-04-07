@@ -273,7 +273,7 @@ namespace Pyro.Engine.Services
         if (!string.IsNullOrWhiteSpace(PyroServiceRequestPut.RequestHeaders.IfMatch) &&
           (PyroServiceRequestPut.RequestHeaders.IfMatch != DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version))
         {
-          string Message = $"Version aware update conflict. HTTP Header 'If-Match' used. The version intended to be updated was: '{PyroServiceRequestPut.RequestHeaders.IfMatch}' the current version found on the server did not match. Current server version is : {DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version}";
+          string Message = $"Version aware update conflict error. HTTP Header 'If-Match' used. The version intended to be updated was: '{PyroServiceRequestPut.RequestHeaders.IfMatch}' the current version found on the server was: '{DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version}'.";
           oServiceOperationOutcome.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Conflict, Message);
           oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Conflict;
