@@ -227,40 +227,30 @@ namespace Pyro.Web.Attributes
         if (true)
         //if (FhirAppSettings.LogRequestData)
         {
-          var requestDataObj = new AuditEvent.EntityComponent()
-          {
-            Identifier = new Identifier(null, "RequestData"),
-            Name = actionExecutedContext.Request.RequestUri.ToString(),
-            Description = "Orginial Request Data",
-            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" },
-            Detail = new List<AuditEvent.DetailComponent>()
-                        {
-                            new AuditEvent.DetailComponent
-                            {
-                                Value = Encoding.UTF8.GetBytes(GetRequestData(actionExecutedContext))
-                            }
-                        }
-          };
+          var requestDataObj = new AuditEvent.EntityComponent();
+          requestDataObj.Identifier = new Identifier(null, "RequestData");
+          requestDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
+          requestDataObj.Description = "Orginial Request Data";
+          requestDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" };
+          requestDataObj.Detail = new List<AuditEvent.DetailComponent>();
+          var DetailComponent = new AuditEvent.DetailComponent();
+          requestDataObj.Detail.Add(DetailComponent);
+          DetailComponent.Value = Encoding.UTF8.GetBytes(GetRequestData(actionExecutedContext));                                   
           Audit.Entity.Add(requestDataObj);
         }
 
         if (true)
         //if (FhirAppSettings.LogResponseData)
         {
-          var responseDataObj = new AuditEvent.EntityComponent()
-          {
-            Identifier = new Identifier(null, "ResponseData"),
-            Name = actionExecutedContext.Request.RequestUri.ToString(),
-            Description = "Orginial Response Data",
-            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" },
-            Detail = new List<AuditEvent.DetailComponent>()
-                        {
-                            new AuditEvent.DetailComponent
-                            {
-                                Value = Encoding.UTF8.GetBytes(GetResponseData(actionExecutedContext))
-                            }
-                        }
-          };
+          var responseDataObj = new AuditEvent.EntityComponent();
+          responseDataObj.Identifier = new Identifier(null, "ResponseData");
+          responseDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
+          responseDataObj.Description = "Orginial Response Data";
+          responseDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" };
+          responseDataObj.Detail = new List<AuditEvent.DetailComponent>();
+          var DetailComponent = new AuditEvent.DetailComponent();
+          responseDataObj.Detail.Add(DetailComponent);
+          DetailComponent.Value = Encoding.UTF8.GetBytes(GetResponseData(actionExecutedContext));                        
           Audit.Entity.Add(responseDataObj);
         }
         //Commit to Database
