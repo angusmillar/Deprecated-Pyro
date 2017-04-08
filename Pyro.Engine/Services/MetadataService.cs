@@ -28,6 +28,7 @@ namespace Pyro.Engine.Services
       string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
       string ServerName = "Pyro Server";
 
+
       var Conformance = new Conformance();
       Conformance.Id = "metadata";
       Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
@@ -51,6 +52,7 @@ namespace Pyro.Engine.Services
       Conformance.Requirements = new Markdown("Reference implementation of a FHIR Server");
       Conformance.Copyright = "PyroHealth.net";
       Conformance.Kind = Conformance.ConformanceStatementKind.Instance;
+
       Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ResourceServiceRequest.ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
       Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = ResourceServiceRequest.RootUrl.RootUrl };
 
@@ -71,6 +73,11 @@ namespace Pyro.Engine.Services
       RestComponent.Security = new Conformance.SecurityComponent();
       RestComponent.Security.Description = "No Security has been implemented, server if open";
 
+      RestComponent.Interaction = new List<Conformance.SystemInteractionComponent>();
+      var SystemInteractionComponent = new Conformance.SystemInteractionComponent();
+      RestComponent.Interaction.Add(SystemInteractionComponent);
+      SystemInteractionComponent.Code = Conformance.SystemRestfulInteraction.Transaction;
+      SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
 
       RestComponent.Resource = new List<Conformance.ResourceComponent>();
 
@@ -129,6 +136,7 @@ namespace Pyro.Engine.Services
       }
       ConstructConformanceResourceNarrative(Conformance);
 
+      
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
@@ -181,6 +189,16 @@ namespace Pyro.Engine.Services
       normal = FhirVersion.AppendChild(XDoc.CreateTextNode(Conformance.FhirVersion));
       FhirVersion.AppendChild(normal);
 
+      var Interactions = XDoc.CreateElement("p");
+      Xroot.AppendChild(Interactions);
+      var InteractionsBold = XDoc.CreateElement("b");
+      InteractionsBold.AppendChild(XDoc.CreateTextNode("Interactions: "));
+      Interactions.AppendChild(InteractionsBold);
+      Conformance.SystemInteractionComponent SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == Conformance.SystemRestfulInteraction.Transaction);
+      normal = Interactions.AppendChild(XDoc.CreateTextNode(SystemInteractionComponent.Code.ToString()));
+      Interactions.AppendChild(normal);
+
+
       var ResourceTable = XDoc.CreateElement("table");
       Xroot.AppendChild(ResourceTable);
       foreach (Conformance.RestComponent RestComponent in Conformance.Rest)
@@ -222,7 +240,6 @@ namespace Pyro.Engine.Services
         }
 
       }
-
 
       Conformance.Text = new Narrative();
       Conformance.Text.Div = XDoc.OuterXml;

@@ -42,7 +42,7 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
     {
       ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
-      IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Web.ApplicationCache.StaticCache.LoadStaticCache(oService);
+      IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Web.ApplicationCache.StaticCache.GetPrimaryRootUrlStore(oService);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IDtoFhirRequestUri DtoFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore);

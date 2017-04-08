@@ -13,15 +13,20 @@ namespace Pyro.ConsoleServer
   {
     static void Main(string[] args)
     {
-      string Port = Pyro.Common.Web.StaticWebInfo.TestingPort;
-      string uri = "http://localhost:" + Port;
-      string FhirEndpoint = "http://localhost:" + Port + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
+      string FhirEndpoint = "http://" + Pyro.Web.ApplicationCache.StaticCache.WebConfigServiceBaseURL;
+      Uri FhirEndpointUri = new Uri(FhirEndpoint);
+      //string Port = FhirEndpointUri.Port.ToString();
+      //string Port = Pyro.Common.Web.StaticWebInfo.TestingPort;
+      string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";
+      //string FhirEndpoint = "http://localhost:" + Port + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
+      
+
       using (WebApp.Start<Pyro.Web.Startup>(uri))
       {
         Console.WriteLine("Server Started");
         Console.WriteLine("===================================================================");
         Console.WriteLine();
-        Console.WriteLine("On: " + uri);
+        Console.WriteLine("On: " + FhirEndpoint);
         Console.WriteLine("(Hit any key to stop the server)");
         Console.WriteLine();
         Console.WriteLine("===================================================================");
