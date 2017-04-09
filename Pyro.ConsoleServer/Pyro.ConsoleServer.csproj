@@ -96,6 +96,9 @@
       <Link>App_Data\Connectons.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\PyroApp.config">
+      <Link>App_Data\PyroApp.config</Link>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
