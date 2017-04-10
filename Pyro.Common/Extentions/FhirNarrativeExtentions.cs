@@ -19,43 +19,45 @@ namespace Pyro.Common.Extentions
     public static bool UpdateAllReferances(this Narrative Narrative, IDictionary<string, string> ReferanceMap)
     {
       bool HasUpdated = false;
-      XNamespace ns = "http://www.w3.org/1999/xhtml";
-      var xDoc = XElement.Parse(Narrative.Div);
+      if (Narrative != null)
+      {       
+        XNamespace ns = "http://www.w3.org/1999/xhtml";
+        var xDoc = XElement.Parse(Narrative.Div);
 
-      //Find and update all <a href=""/> referances
-      List<XElement> LinkList = xDoc.Descendants().Where(x => x.Name.LocalName == "a").ToList();
-      foreach (var Link in LinkList)
-      {
-        var href = Link.Attributes().FirstOrDefault(x => x.Name.LocalName == "href");
-        if (href != null)
+        //Find and update all <a href=""/> referances
+        List<XElement> LinkList = xDoc.Descendants().Where(x => x.Name.LocalName == "a").ToList();
+        foreach (var Link in LinkList)
         {
-          if (ReferanceMap.ContainsKey(href.Value))
+          var href = Link.Attributes().FirstOrDefault(x => x.Name.LocalName == "href");
+          if (href != null)
           {
-            href.Value = ReferanceMap[href.Value];
-            HasUpdated = true;
+            if (ReferanceMap.ContainsKey(href.Value))
+            {
+              href.Value = ReferanceMap[href.Value];
+              HasUpdated = true;
+            }
           }
         }
-      }
 
-      //Find and update all <img src=""/> referances
-      List<XElement> LinkListImg = xDoc.Descendants().Where(x => x.Name.LocalName == "img").ToList();
-      foreach (var Link in LinkListImg)
-      {
-        var src = Link.Attributes().FirstOrDefault(x => x.Name.LocalName == "src");
-        if (src != null)
+        //Find and update all <img src=""/> referances
+        List<XElement> LinkListImg = xDoc.Descendants().Where(x => x.Name.LocalName == "img").ToList();
+        foreach (var Link in LinkListImg)
         {
-          if (ReferanceMap.ContainsKey(src.Value))
+          var src = Link.Attributes().FirstOrDefault(x => x.Name.LocalName == "src");
+          if (src != null)
           {
-            src.Value = ReferanceMap[src.Value];
-            HasUpdated = true;
+            if (ReferanceMap.ContainsKey(src.Value))
+            {
+              src.Value = ReferanceMap[src.Value];
+              HasUpdated = true;
+            }
           }
         }
+
+        Narrative.Div = xDoc.ToString();
       }
-      
-      Narrative.Div = xDoc.ToString();
       return HasUpdated;
     }
-
   }
 }
 
