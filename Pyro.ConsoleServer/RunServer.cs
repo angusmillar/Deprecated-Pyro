@@ -14,12 +14,8 @@ namespace Pyro.ConsoleServer
     static void Main(string[] args)
     {
       string FhirEndpoint = "http://" + Pyro.Web.ApplicationCache.StaticCache.WebConfigServiceBaseURL;
-      Uri FhirEndpointUri = new Uri(FhirEndpoint);
-      //string Port = FhirEndpointUri.Port.ToString();
-      //string Port = Pyro.Common.Web.StaticWebInfo.TestingPort;
-      string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";
-      //string FhirEndpoint = "http://localhost:" + Port + Pyro.Common.Web.StaticWebInfo.ServiceRoute;
-      
+      Uri FhirEndpointUri = new Uri(FhirEndpoint);      
+      string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";           
 
       using (WebApp.Start<Pyro.Web.Startup>(uri))
       {
