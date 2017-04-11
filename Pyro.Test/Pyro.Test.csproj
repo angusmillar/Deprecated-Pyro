@@ -135,6 +135,10 @@
     <Compile Include="Tools\Test_PagingSupport.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Pyro.Web\App_Data\Connectons.config">
+      <Link>App_Data\Connectons.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

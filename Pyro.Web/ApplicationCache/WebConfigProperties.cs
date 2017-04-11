@@ -9,10 +9,8 @@ namespace Pyro.Web.ApplicationCache
     {
       try
       {
-        Uri ServiceBaseURL = new Uri(ConfigurationManager.AppSettings["ServiceBaseURL"].ToString().TrimEnd('/'));
-        return ServiceBaseURL.Authority + ServiceBaseURL.LocalPath;
+        return new Uri(ConfigurationManager.AppSettings["ServiceBaseURL"].ToString().TrimEnd('/')).ToString();        
       }
-
       catch
       {
         string Msg = "The Web.Config file of the server has an invalid 'ServiceBaseURL' property value.";

@@ -23,7 +23,7 @@ namespace Pyro.Web.ApplicationCache
       PrimaryRootUrlStore = Common.CommonFactory.GetRootUrlStore();
       PrimaryRootUrlStore.IsServersPrimaryUrlRoot = true;
       PrimaryRootUrlStore.ServiceRootUrlStoreID = 1;
-      PrimaryRootUrlStore.RootUrl = StaticCache.WebConfigServiceBaseURL;
+      PrimaryRootUrlStore.RootUrl = WebConfigServiceBaseURLForComparison;
       //PrimaryRootUrlStore.RootUrl = "localhost:8887/test/stu3/fhir";      
 #else
         //At Runtime get the URL from the database and then Cache it
@@ -43,7 +43,16 @@ namespace Pyro.Web.ApplicationCache
       }
     }
 
-   
+    public static string WebConfigServiceBaseURLForComparison
+    {
+      get
+      {
+        var ServiceRootUri = new Uri(WebConfigServiceBaseURL);
+        return ServiceRootUri.Authority + ServiceRootUri.AbsolutePath;
+      }
+    }
+
+
   }
 
 
