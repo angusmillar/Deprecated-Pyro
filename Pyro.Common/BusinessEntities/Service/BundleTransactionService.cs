@@ -62,15 +62,13 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       else
       {
-        Bundle BundleOutcome = new Bundle();
-        BundleOutcome.Type = Bundle.BundleType.TransactionResponse;
-        BundleOutcome.Id = bundle.Id;
-        if (BundleOutcome.Meta == null)
-          BundleOutcome.Meta = new Meta();
-        BundleOutcome.Meta.LastUpdated = DateTimeOffset.Now;        
-        BundleOutcome.Entry = new List<Bundle.EntryComponent>();
-        BundleOutcome.ResourceBase = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
 
+        bundle.Type = Bundle.BundleType.TransactionResponse;
+        bundle.Id = Guid.NewGuid().ToString();
+        if (bundle.Meta == null)
+          bundle.Meta = new Meta();
+        bundle.Meta.LastUpdated = DateTimeOffset.Now;
+        
 
         //FHIR Spec: http://build.fhir.org/bundle.html#transaction
         //  If there is no request element, then there SHALL be a resource and the server must infer 
@@ -97,7 +95,7 @@ namespace Pyro.Common.BusinessEntities.Service
           //DELETE Processing
           foreach (var DeleteEntry in DeleteEntries)
           {
-            if (!DeleteProcessing(DeleteEntry, BundleOutcome))
+            if (!DeleteProcessing(DeleteEntry))
             {
               return _ServiceOperationOutcome;
             }
@@ -109,7 +107,7 @@ namespace Pyro.Common.BusinessEntities.Service
           //POST Processing        
           foreach (var PostEntry in POSTEntries)
           {
-            if (!PostProcessing(PostEntry, BundleOutcome))
+            if (!PostProcessing(PostEntry))
             {
               return _ServiceOperationOutcome;
             }
@@ -118,7 +116,7 @@ namespace Pyro.Common.BusinessEntities.Service
           //PUT Processing        
           foreach (var PutEntry in PUTEntries)
           {
-            if (!PutProcessing(PutEntry, BundleOutcome))
+            if (!PutProcessing(PutEntry))
             {
               return _ServiceOperationOutcome;
             }
@@ -127,13 +125,13 @@ namespace Pyro.Common.BusinessEntities.Service
           //GET Processing        
           foreach (var GetEntry in GETEntries)
           {
-            if (!GetProcessing(GetEntry, BundleOutcome))
+            if (!GetProcessing(GetEntry))
             {
               return _ServiceOperationOutcome;
             }
           }
 
-          _ServiceOperationOutcome.ResourceResult = BundleOutcome;
+          _ServiceOperationOutcome.ResourceResult = bundle;
           _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;          
           _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
 
@@ -148,10 +146,10 @@ namespace Pyro.Common.BusinessEntities.Service
 
       return _ServiceOperationOutcome;
     }    
-
-    private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, Bundle BundleOutcome)
-    {      
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(DeleteEntry));      
+    
+    private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry)
+    {
+      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(DeleteEntry));
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
       var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
       IResourceServiceOutcome ResourceServiceOutcome = null;
@@ -168,27 +166,25 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
-        var EntryComponent = new Bundle.EntryComponent();
-        BundleOutcome.Entry.Add(EntryComponent);
-        EntryComponent.Request = DeleteEntry.Request;
-        EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
+        DeleteEntry.Response = new Bundle.ResponseComponent();
+        DeleteEntry.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
+        DeleteEntry.FullUrl = null;
         if (ResourceServiceOutcome.ResourceResult != null)
         {
           if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
           {
-            EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            DeleteEntry.Response.Outcome = ResourceServiceOutcome.ResourceResult;
           }
           else
           {
-            EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            DeleteEntry.Resource = ResourceServiceOutcome.ResourceResult;
           }
         }
         if (ResourceServiceOutcome.LastModified != null && ResourceServiceOutcome.ResourceVersionNumber != null)
         {
-          EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-          EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-          EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
+          DeleteEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          DeleteEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
+          DeleteEntry.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
         }
         return true;
       }
@@ -203,13 +199,7 @@ namespace Pyro.Common.BusinessEntities.Service
         return false;
       }
     }
-
-    private Uri ConstructRequestUrl(Bundle.EntryComponent Entry)
-    {
-      return new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, Entry.Request.Url);
-    }
-
-    private bool PostProcessing(Bundle.EntryComponent PostEntry, Bundle BundleOutcome)
+    private bool PostProcessing(Bundle.EntryComponent PostEntry)
     {
       
       _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PostEntry));
@@ -232,30 +222,28 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
-        var EntryComponent = new Bundle.EntryComponent();
-        BundleOutcome.Entry.Add(EntryComponent);
-        EntryComponent.Request = PostEntry.Request;
-        EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
+        PostEntry.FullUrl = CreateFullUrl(ResourceServiceOutcome);
+        PostEntry.Response = new Bundle.ResponseComponent();
+        PostEntry.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
           if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
           {
-            EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            PostEntry.Response.Outcome = ResourceServiceOutcome.ResourceResult;
           }
           else
           {
-            EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            PostEntry.Resource = ResourceServiceOutcome.ResourceResult;
           }
         }
         if (ResourceServiceOutcome.LastModified != null)
         {
-          EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-          EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
+          PostEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          PostEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
         }
-        EntryComponent.Response.Status = $"{((int)ResourceServiceOutcome.HttpStatusCode).ToString()} {ResourceServiceOutcome.HttpStatusCode.ToString()}";
-        EntryComponent.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
+        PostEntry.Response.Status = $"{((int)ResourceServiceOutcome.HttpStatusCode).ToString()} {ResourceServiceOutcome.HttpStatusCode.ToString()}";
+        PostEntry.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
         return true;
       }
       else
@@ -268,8 +256,8 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
       }
-    }
-    private bool PutProcessing(Bundle.EntryComponent PutEntry, Bundle BundleOutcome)
+    }    
+    private bool PutProcessing(Bundle.EntryComponent PutEntry)
     {   
       _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PutEntry));
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
@@ -289,28 +277,26 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
-        var EntryComponent = new Bundle.EntryComponent();
-        BundleOutcome.Entry.Add(EntryComponent);
-        EntryComponent.Request = PutEntry.Request;
-        EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
+        PutEntry.FullUrl = CreateFullUrl(ResourceServiceOutcome);
+        PutEntry.Response = new Bundle.ResponseComponent();
+        PutEntry.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
           if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
           {
-            EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            PutEntry.Response.Outcome = ResourceServiceOutcome.ResourceResult;
           }
           else
           {
-            EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            PutEntry.Resource = ResourceServiceOutcome.ResourceResult;
           }
         }
         if (ResourceServiceOutcome.LastModified != null)
         {
-          EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-          EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-          EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
+          PutEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          PutEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
+          PutEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
         }
         return true;
       }
@@ -325,7 +311,7 @@ namespace Pyro.Common.BusinessEntities.Service
         return false;
       }
     }
-    private bool GetProcessing(Bundle.EntryComponent GetEntry, Bundle BundleOutcome)
+    private bool GetProcessing(Bundle.EntryComponent GetEntry)
     {    
       _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(GetEntry));
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
@@ -345,29 +331,27 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
-        var EntryComponent = new Bundle.EntryComponent();
-        BundleOutcome.Entry.Add(EntryComponent);
-        EntryComponent.Request = GetEntry.Request;
-        EntryComponent.Response = new Bundle.ResponseComponent();
-        EntryComponent.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
+        GetEntry.FullUrl = CreateFullUrl(ResourceServiceOutcome);
+        GetEntry.Response = new Bundle.ResponseComponent();
+        GetEntry.Response.Status = FormatHTTPStatusCodeAsString(ResourceServiceOutcome.HttpStatusCode);
 
         if (ResourceServiceOutcome.ResourceResult != null)
         {
           if (ResourceServiceOutcome.ResourceResult.ResourceType == ResourceType.OperationOutcome)
           {
-            EntryComponent.Response.Outcome = ResourceServiceOutcome.ResourceResult;
+            GetEntry.Response.Outcome = ResourceServiceOutcome.ResourceResult;
           }
           else
           {
-            EntryComponent.Resource = ResourceServiceOutcome.ResourceResult;
+            GetEntry.Resource = ResourceServiceOutcome.ResourceResult;
           }
         }
         if (ResourceServiceOutcome.LastModified.HasValue)
         {
-          EntryComponent.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          GetEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
           if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
-            EntryComponent.Response.LastModified = ResourceServiceOutcome.LastModified;
-          EntryComponent.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
+            GetEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
+          GetEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
         }
         return true;
       }
@@ -383,6 +367,26 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
 
+    private Uri ConstructRequestUrl(Bundle.EntryComponent Entry)
+    {
+      return new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, Entry.Request.Url);
+    }
+    private string CreateFullUrl(IResourceServiceOutcome ResourceServiceOutcome)
+    {
+      //Get Search results will have either a bundle or no resource and do not require FullURLs
+      if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult.ResourceType != ResourceType.Bundle)
+      {
+        if (!string.IsNullOrWhiteSpace(ResourceServiceOutcome.ResourceVersionNumber))
+        {
+          return $"{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}/_history/{ResourceServiceOutcome.ResourceVersionNumber}";
+        }
+        else
+        {
+          return $"{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
+        }
+      }
+      return null;
+    }
     private void IdentifieBatchEntityToClient(OperationOutcome op, string FullURL)
     {
       string Message = $"Issue found with the bundel entry identified by the FullURL: {FullURL}";
