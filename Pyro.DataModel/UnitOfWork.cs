@@ -1311,8 +1311,7 @@ namespace Pyro.DataModel
       if (!this.disposed)
       {
         if (disposing)
-        {
-          Debug.WriteLine("UnitOfWork is being disposed");
+        {          
           _context.Dispose();
         }
       }

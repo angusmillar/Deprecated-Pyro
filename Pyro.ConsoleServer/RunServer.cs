@@ -19,16 +19,12 @@ namespace Pyro.ConsoleServer
 
       using (WebApp.Start<Pyro.Web.Startup>(uri))
       {
-        Console.WriteLine("Server Started");
         Console.WriteLine("===================================================================");
-        Console.WriteLine();
-        Console.WriteLine("On: " + FhirEndpoint);
-        Console.WriteLine("(Hit any key to stop the server)");
-        Console.WriteLine();
-        Console.WriteLine("===================================================================");
-
+        Console.WriteLine("================| Pyro FHIR Server Running |=======================");
+        Console.WriteLine("===================================================================");        
+        Console.WriteLine("Endpoint: " + FhirEndpoint);
+        Console.WriteLine("(Hit any key to stop the server)");                
         Console.ReadKey();
-
         Console.WriteLine("===================================================================");
         Console.WriteLine("Server Stopping");
       }

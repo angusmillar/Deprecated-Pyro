@@ -9,8 +9,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-
-
 [assembly: OwinStartup(typeof(Pyro.Web.Startup))]
 
 namespace Pyro.Web
@@ -24,10 +22,29 @@ namespace Pyro.Web
       app.Use(async (environment, next) =>
       {
         var QueryString = environment.Environment["owin.RequestQueryString"] as string;
+        var HttpMethod = environment.Environment["owin.RequestMethod"] as string;
+        string RequestRoot = $"{environment.Request.Uri.Scheme}://{environment.Request.Uri.Authority}{environment.Request.Uri.AbsolutePath}";
+        IHeaderDictionary HeaderDic = environment.Request.Headers;
+
+        Console.WriteLine("-------------------------- Request -------------------------------");
+        Console.WriteLine("");
+        Console.WriteLine($"Method   : {HttpMethod}");
+        Console.WriteLine($"Request  : {RequestRoot}");
+        if (!string.IsNullOrWhiteSpace(QueryString))
+          Console.WriteLine($"Query    : {QueryString}");
+        Console.WriteLine("");
+        Console.WriteLine($"------------------------- Headers -------------------------------");
+        Console.WriteLine("");
+        foreach (var Head in HeaderDic)
+        {          
+          Console.WriteLine($"{Head.Key.PadRight(16, ' ')}: {string.Join(",", Head.Value)}");
+        }
+        Console.WriteLine("");
         Console.WriteLine("-------------------------------------------------------------------");
-        Console.WriteLine(string.Format("Request : {0}?{1}", environment.Request.Path, QueryString));
+        Console.WriteLine("");
         await next();
-        Console.WriteLine(string.Format("Response : {0}", environment.Response.StatusCode));
+        Console.WriteLine("-------------------------- Response -------------------------------");
+        Console.WriteLine($"Response : {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
         Console.WriteLine("-------------------------------------------------------------------");
       });
 
