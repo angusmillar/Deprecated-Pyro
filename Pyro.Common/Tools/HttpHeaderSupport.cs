@@ -26,12 +26,55 @@ namespace Pyro.Common.Tools
       }
     }
 
-    public static EntityTagHeaderValue AddVersionETag(string Version)
+    /// <summary>
+    /// Expects a value e.g ("5") and returns an Etag string e.g(W/"3141") 
+    /// </summary>
+    /// <param name="Version"></param>
+    /// <returns></returns>
+    public static string GetETagString(string Version)
+    {
+      //example: ETag: W/"3141"      
+      return new EntityTagHeaderValue('\"' + Version + '\"', true).ToString();
+    }
+
+    /// <summary>
+    /// Expects a value e.g ("5") and returns an EntityTagHeaderValue instance
+    /// </summary>
+    /// <param name="Version"></param>
+    /// <returns></returns>
+    public static EntityTagHeaderValue GetEntityTagHeaderValueFromVersion(string Version)
     {
       //example: ETag: W/"3141"      
       return new EntityTagHeaderValue('\"' + Version + '\"', true);
     }
-    
+
+    /// <summary>
+    /// Expects a Etag string e.g(W/"3141") and returns an EntityTagHeaderValue instance
+    /// </summary>
+    /// <param name="ETag"></param>
+    /// <returns>EntityTagHeaderValue</returns>
+    public static EntityTagHeaderValue GetETagEntityTagHeaderValueFromETagString(string ETag)
+    {
+      EntityTagHeaderValue TempEtag;
+      if (EntityTagHeaderValue.TryParse(ETag, out TempEtag))
+      {
+        return TempEtag;        
+      }
+      throw new FormatException("ETag is not formated correctly, string was: " + ETag);  
+    }
+
+    /// <summary>
+    /// Expects a EntityTagHeaderValue instance and returns the Value e.g(5)
+    /// </summary>
+    /// <param name="ETag"></param>
+    /// <returns>Value</returns>
+    public static string GetVersionString(EntityTagHeaderValue ETag)
+    {
+      var Split = ETag.Tag.Split('\"');
+      return Split[1];
+    }
+
+
     public static bool IsAcceptMediaTypeSetInRequest(HttpRequestMessage Request)
     {
       if (Request.Headers.Accept.Count == 1)
