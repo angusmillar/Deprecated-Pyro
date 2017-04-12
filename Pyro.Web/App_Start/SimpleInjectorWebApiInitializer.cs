@@ -15,8 +15,9 @@ namespace Pyro.Web.App_Start
     public static void Initialize(HttpConfiguration configuration)
     {
       var container = new Container();
-      container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
-
+      //container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
+      container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
+      
       InitializeContainer(container);
 
       container.RegisterWebApiControllers(configuration);
@@ -29,11 +30,20 @@ namespace Pyro.Web.App_Start
 
     private static void InitializeContainer(Container container)
     {
+      
+
       //Register interfaces with simple injector
-      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
-      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(Lifestyle.Scoped);      
-      container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
-      container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(Lifestyle.Scoped);
+      //container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
+      //container.Register<IServiceNegotiator, Services.ServiceNegotiator>(Lifestyle.Scoped);      
+      //container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(Lifestyle.Scoped);
+      //container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(Lifestyle.Scoped);
+
+      container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+
+
     }
   }
 }
