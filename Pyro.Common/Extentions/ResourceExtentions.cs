@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Extentions
 {
   static class ResourceExtentions
-  {    
+  {
     private static Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
 
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
@@ -33,7 +30,7 @@ namespace Pyro.Common.Extentions
     public static List<ResourceReference> AllReferences(this Resource Resource)
     {
       return Resource.AllBaseReferences();
-    }
+    }    
 
     private static List<ResourceReference> AllBaseReferences(this Base FhirBase)
     {

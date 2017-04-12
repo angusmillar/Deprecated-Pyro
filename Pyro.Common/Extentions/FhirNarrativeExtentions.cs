@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Hl7.Fhir.Model;
 
@@ -20,8 +17,7 @@ namespace Pyro.Common.Extentions
     {
       bool HasUpdated = false;
       if (Narrative != null)
-      {       
-        XNamespace ns = "http://www.w3.org/1999/xhtml";
+      {               
         var xDoc = XElement.Parse(Narrative.Div);
 
         //Find and update all <a href=""/> referances
