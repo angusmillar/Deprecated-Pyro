@@ -182,9 +182,8 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         if (ResourceServiceOutcome.LastModified != null && ResourceServiceOutcome.ResourceVersionNumber != null)
         {
-          DeleteEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
-          DeleteEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          DeleteEntry.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
+          DeleteEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
+          DeleteEntry.Response.LastModified = ResourceServiceOutcome.LastModified;          
         }
         return true;
       }
@@ -239,7 +238,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         if (ResourceServiceOutcome.LastModified != null)
         {
-          PostEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          PostEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           PostEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
         }
         PostEntry.Response.Status = $"{((int)ResourceServiceOutcome.HttpStatusCode).ToString()} {ResourceServiceOutcome.HttpStatusCode.ToString()}";
@@ -294,7 +293,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         if (ResourceServiceOutcome.LastModified != null)
         {
-          PutEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          PutEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           PutEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
           PutEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
         }
@@ -348,7 +347,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         if (ResourceServiceOutcome.LastModified.HasValue)
         {
-          GetEntry.Response.Etag = HttpHeaderSupport.AddVersionETag(ResourceServiceOutcome.ResourceVersionNumber).Tag;
+          GetEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
             GetEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
           GetEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
