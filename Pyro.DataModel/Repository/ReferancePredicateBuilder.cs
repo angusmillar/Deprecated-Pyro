@@ -28,7 +28,7 @@ namespace Pyro.DataModel.Repository
                 {
                   if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                   {
-                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.ServiceRootUrlStoreID, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                   }
                   else
                   {
@@ -39,7 +39,7 @@ namespace Pyro.DataModel.Repository
                 {
                   if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                   {
-                    NewPredicate = NewPredicate.Or(Search.ReferancePropertyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.ServiceRootUrlStoreID, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferancePropertyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                   }
                   else
                   {
@@ -83,7 +83,7 @@ namespace Pyro.DataModel.Repository
                   {
                     if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                     {
-                      NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.ServiceRootUrlStoreID, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                      NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                     }
                     else
                     {
@@ -94,7 +94,7 @@ namespace Pyro.DataModel.Repository
                   {
                     if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                     {
-                      NewPredicate = NewPredicate.Or(Search.ReferancePropertyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.ServiceRootUrlStoreID, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                      NewPredicate = NewPredicate.Or(Search.ReferancePropertyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                     }
                     else
                     {
@@ -124,7 +124,7 @@ namespace Pyro.DataModel.Repository
     {
       if (!string.IsNullOrWhiteSpace(SearchValue.FhirUri.ServiceRootUrlForComparison))
       {
-        Common.Interfaces.UriSupport.IFhirUri PrimaryFhirUri = Common.CommonFactory.GetFhirUri(PrimaryRootUrlStore.RootUrl);        
+        Common.Interfaces.UriSupport.IFhirUri PrimaryFhirUri = Common.CommonFactory.GetFhirUri(PrimaryRootUrlStore.Url);        
         if (SearchValue.FhirUri.ServiceRootUrlForComparison != PrimaryFhirUri.ServiceRootUrlForComparison)
         {
           return false;

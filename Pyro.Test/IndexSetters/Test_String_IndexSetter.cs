@@ -169,11 +169,11 @@ namespace Pyro.Test.IndexSetters
       string Given1 = "Bob";
       string Given2 = "John";
       string Family1 = "Smith";
-      string Family2 = "Johnston";
+      //string Family2 = "Johnston";
 
       var HumanName = new HumanName();
       HumanName.Given = new string[] { Given1, Given2 };
-      HumanName.Family = new string[] { Family1, Family2 };
+      HumanName.Family = Family1;
 
       StringIndex Index = new StringIndex();
 
@@ -181,7 +181,7 @@ namespace Pyro.Test.IndexSetters
       Index = IndexSetterFactory.Create(typeof(StringIndex)).Set(HumanName, Index) as StringIndex;
 
       //Assert 
-      string HumanNameString = string.Format("{0} {1} {2} {3}", Given1, Given2, Family1, Family2);
+      string HumanNameString = string.Format("{0} {1} {2} {3}", Given1, Given2, Family1);
       Assert.AreEqual(Index.String, Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(HumanNameString));
     }
 

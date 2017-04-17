@@ -34,9 +34,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var DtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      DtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      DtoRootUrlStore.Id = 1;
       DtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      DtoRootUrlStore.RootUrl = ServiceRootUrl;
+      DtoRootUrlStore.Url = ServiceRootUrl;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(DtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -81,9 +81,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -131,9 +131,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -183,9 +183,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -223,9 +223,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -266,9 +266,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -303,9 +303,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var DtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      DtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      DtoRootUrlStore.Id = 1;
       DtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      DtoRootUrlStore.RootUrl = ServiceRootUrl;
+      DtoRootUrlStore.Url = ServiceRootUrl;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(DtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -350,9 +350,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -400,9 +400,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -452,9 +452,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -492,9 +492,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       
@@ -535,9 +535,9 @@ namespace Pyro.Test.IndexSetters
       MockIDtoFhirRequestUri.Setup(x => x.FhirUri).Returns(RequestFhirUri);
 
       var ServiceDtoRootUrlStore = new Pyro.Common.BusinessEntities.Dto.DtoRootUrlStore();
-      ServiceDtoRootUrlStore.ServiceRootUrlStoreID = 1;
+      ServiceDtoRootUrlStore.Id = 1;
       ServiceDtoRootUrlStore.IsServersPrimaryUrlRoot = true;
-      ServiceDtoRootUrlStore.RootUrl = ServiceRootUrlString;
+      ServiceDtoRootUrlStore.Url = ServiceRootUrlString;
       MockIDtoFhirRequestUri.Setup(x => x.PrimaryRootUrlStore).Returns(ServiceDtoRootUrlStore);
 
       //Mok the response from the db from the Common repository, this if request Url does not match service root url       

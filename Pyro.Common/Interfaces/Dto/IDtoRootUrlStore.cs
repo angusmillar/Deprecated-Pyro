@@ -8,8 +8,8 @@ namespace Pyro.Common.Interfaces.Dto
 {
   public interface IDtoRootUrlStore
   {    
-    int ServiceRootUrlStoreID { get; set; }
-    string RootUrl { get; set; }    
+    int Id { get; set; }
+    string Url { get; set; }    
     Uri RootUri { get; }
     bool IsServersPrimaryUrlRoot { get; set; }
   }

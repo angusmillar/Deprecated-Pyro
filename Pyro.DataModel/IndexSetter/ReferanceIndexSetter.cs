@@ -70,7 +70,7 @@ namespace Pyro.DataModel.IndexSetter
         if (DtoFhirUri.TryParse(FhirUri.Value.Trim(), out ReferanceUri))
         {
           SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
-          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+          ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.Id;
           return ReferenceIndex;
         }        
       }
@@ -81,7 +81,7 @@ namespace Pyro.DataModel.IndexSetter
           SetResourceIndentityElements(ReferenceIndex, ReferanceUri);
           if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
           {
-            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.Id;
           }
           else
           {
@@ -121,7 +121,7 @@ namespace Pyro.DataModel.IndexSetter
           {
             if (FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
             {
-              ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+              ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.Id;
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Pyro.DataModel.IndexSetter
           }
           else
           {
-            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.ServiceRootUrlStoreID;
+            ReferenceIndex.ServiceRootURL_StoreID = FhirRequestUri.PrimaryRootUrlStore.Id;
           }
           return ReferenceIndex;
         }        

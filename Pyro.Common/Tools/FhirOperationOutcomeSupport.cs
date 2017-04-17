@@ -6,7 +6,7 @@ using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Introspection;
-
+using Hl7.Fhir.Utility;
 
 
 namespace Pyro.Common.Tools
@@ -143,7 +143,7 @@ namespace Pyro.Common.Tools
     private static string GenerateNarrative(List<string> NarrativeList)
     {
       StringBuilder NarrativeString = new StringBuilder();
-      NarrativeString.AppendLine("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
+      NarrativeString.AppendLine($"<div xmlns=\"{XmlNs.XHTML}\">");
       foreach (var Text in NarrativeList)
       {
         NarrativeString.Append("<p>");
@@ -157,7 +157,7 @@ namespace Pyro.Common.Tools
     private static string ConstructNarrative(string Message, OperationOutcome.IssueSeverity? IssueSeverity, OperationOutcome.IssueType? IssueType)
     {
       var NarativeSupport = Common.CommonFactory.GetFhirNarativeSupport();
-
+      
       if (IssueSeverity.HasValue)
         NarativeSupport.NewValuePairList("IssueSeverity", IssueSeverity.Value.GetLiteral(), "Status", 4);
       if (IssueType.HasValue)
@@ -172,7 +172,7 @@ namespace Pyro.Common.Tools
       var XDoc = new XmlDocument();
       var Xroot = XDoc.CreateElement("div");
       var xmlns = XDoc.CreateAttribute("xmlns");
-      xmlns.Value = "http://www.w3.org/1999/xhtml";
+      xmlns.Value = XmlNs.XHTML;
       Xroot.SetAttributeNode(xmlns);
       XDoc.AppendChild(Xroot);
       foreach (string Message in MessageList)

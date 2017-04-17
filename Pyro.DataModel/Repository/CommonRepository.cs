@@ -125,8 +125,8 @@ namespace Pyro.DataModel.Repository
       if (Pyro_RootUrlStore != null)
       {
         DtoRootUrlStore = Common.CommonFactory.GetRootUrlStore();
-        DtoRootUrlStore.ServiceRootUrlStoreID = Pyro_RootUrlStore.ServiceRootURL_StoreID;
-        DtoRootUrlStore.RootUrl = Pyro_RootUrlStore.RootUrl;
+        DtoRootUrlStore.Id = Pyro_RootUrlStore.ServiceRootURL_StoreID;
+        DtoRootUrlStore.Url = Pyro_RootUrlStore.RootUrl;
         DtoRootUrlStore.IsServersPrimaryUrlRoot = Pyro_RootUrlStore.IsServersPrimaryUrlRoot;
       }
       return DtoRootUrlStore;

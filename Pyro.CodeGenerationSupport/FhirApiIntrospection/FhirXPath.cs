@@ -54,6 +54,9 @@ namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
       //XPath = "f:Patient/f:telecom[system/@value='email']"
       //XPath = "f:Patient/f:extension[@url='http://h l7.org/fhir/StructureDefinition/us-core-race'] | f:Patient/f:extension[@url='http://hl7.org/fhir/StructureDefinition/us-core-race']"
       //XPath = "f:Bundle/f:entry/f:resource[0]"
+      //XPath = f: ActivityDefinition/f:relatedArtifact[f:type/@value='composed-of']/f:resource
+
+      
       var NewComponent = new FhirXPathComponent();
       var ElementsList = ComponentString.Split(_NamespaceDilimeter);
       if (ElementsList.Count() != 2)

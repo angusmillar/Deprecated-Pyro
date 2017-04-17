@@ -13,6 +13,11 @@ namespace Pyro.Test.CodeGenerationSupport
   [Category("CodeGeneration")]
   class Test_CodeGen
   {
+    [Test]
+    public void Test_PyroModleInspector()
+    {
+      Pyro.CodeGenerationSupport.v2_ModelInspector.PryoModleInspector.Inspector();      
+    }
 
     [Test]
     public void Test_GetApiSearchParameterInfo()

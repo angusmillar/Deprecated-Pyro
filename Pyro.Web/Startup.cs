@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Data.Entity;
 
 [assembly: OwinStartup(typeof(Pyro.Web.Startup))]
 
@@ -50,13 +51,17 @@ namespace Pyro.Web
 
 
       HttpConfiguration = new HttpConfiguration();
-
+      //Database.SetInitializer<Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext>(new Pyro.DataLayer.DbModel.DatabaseInitializer.ServiceSearchParameterInitializer());
       App_Start.SimpleInjectorWebApiInitializer.Initialize(HttpConfiguration);
+
+
 
       //Would like to call these two from here but they fail, they are left in Global.asax??
       //AreaRegistration.RegisterAllAreas();
       //GlobalConfiguration.Configure(WebApiConfig.Register);
       //--------------------------------------------------------
+      
+      
 
       WebApiConfig.Register(HttpConfiguration);
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

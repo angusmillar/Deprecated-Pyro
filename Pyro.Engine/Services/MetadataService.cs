@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces.Service;
@@ -24,124 +25,135 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
         return ServiceOperationOutcome;
       }
+      var Conformance = new CapabilityStatement();
 
-      string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
-      string ServerName = "Pyro Server";
+      //string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
+      //string ServerName = "Pyro Server";
 
 
-      var Conformance = new Conformance();
-      Conformance.Id = "metadata";
-      Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
-      Conformance.Version = ResourceServiceRequest.ApplicationVersion;
-      Conformance.Name = ServerName;
-      Conformance.Status = ConformanceResourceStatus.Active;
-      Conformance.Experimental = true;
-      Conformance.Date = ApplicationReleaseDate;
-      Conformance.Publisher = "PyroHealth.net";
+      
+      //Conformance.Id = "metadata";
+      //Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
+      //Conformance.Version = ResourceServiceRequest.ApplicationVersion;
+      //Conformance.Name = ServerName;
+      //Conformance.Status = PublicationStatus.Active;
+      //Conformance.Experimental = true;
+      //Conformance.Date = ApplicationReleaseDate;
+      //Conformance.Publisher = "PyroHealth.net";
 
-      var Contact = new Conformance.ContactComponent();
-      Contact.Name = "Angus Millar";
-      Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
-      Conformance.Contact = new List<Conformance.ContactComponent>() { Contact };
+      //var Contact = new ContactDetail();
+      //Contact.Name = "Angus Millar";
+      //Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
+      //Conformance.Contact = new List<ContactDetail>() { Contact };
 
-      Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
+      //Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
 
-      var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
-      Conformance.UseContext = new List<CodeableConcept>() { Australia };
+      //var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
+      //Conformance.Jurisdiction = new List<CodeableConcept>() { Australia };
 
-      Conformance.Requirements = new Markdown("Reference implementation of a FHIR Server");
-      Conformance.Copyright = "PyroHealth.net";
-      Conformance.Kind = Conformance.ConformanceStatementKind.Instance;
+      //Conformance.Purpose = new Markdown("Reference implementation of a FHIR Server");
 
-      Conformance.Software = new Conformance.SoftwareComponent() { Name = ServerName, Version = ResourceServiceRequest.ApplicationVersion, ReleaseDate = ApplicationReleaseDate };
-      Conformance.Implementation = new Conformance.ImplementationComponent() { Description = ServerName, Url = ResourceServiceRequest.RootUrl.RootUrl };
+      //Conformance.Copyright = new Markdown("PyroHealth.net");
+      //Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Capability;
 
-      Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
-      Conformance.AcceptUnknown = Conformance.UnknownContentCode.Both;
-      var ContentFormatList = new List<string>();
-      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
-        ContentFormatList.Add(mediaType);
-      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS)
-        ContentFormatList.Add(mediaType);
-      Conformance.Format = ContentFormatList;
+      //Conformance.Software = new CapabilityStatement.SoftwareComponent();
+      //Conformance.Software.Name = ServerName;
+      //Conformance.Software.Version = ResourceServiceRequest.ApplicationVersion;
+      //Conformance.Software.ReleaseDate = ApplicationReleaseDate;
 
-      Conformance.Rest = new List<Conformance.RestComponent>();
-      var RestComponent = new Conformance.RestComponent();
-      Conformance.Rest.Add(RestComponent);
-      RestComponent.Mode = Conformance.RestfulConformanceMode.Server;
-      RestComponent.Documentation = "STU3 V1.6 FHIR Server";
-      RestComponent.Security = new Conformance.SecurityComponent();
-      RestComponent.Security.Description = "No Security has been implemented, server if open";
+      //Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
+      //Conformance.Implementation.Description = ServerName;
+      //Conformance.Implementation.Url = ResourceServiceRequest.RootUrl.RootUrl;
+      
+      //Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
+      //Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
 
-      RestComponent.Interaction = new List<Conformance.SystemInteractionComponent>();
-      var SystemInteractionComponent = new Conformance.SystemInteractionComponent();
-      RestComponent.Interaction.Add(SystemInteractionComponent);
-      SystemInteractionComponent.Code = Conformance.SystemRestfulInteraction.Transaction;
-      SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
+      //var ContentFormatList = new List<string>();
+      //foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
+      //  ContentFormatList.Add(mediaType);
+      //foreach (var mediaType in Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS)
+      //  ContentFormatList.Add(mediaType);
+      //Conformance.Format = ContentFormatList;
 
-      RestComponent.Resource = new List<Conformance.ResourceComponent>();
+      //Conformance.Rest = new List<CapabilityStatement.RestComponent>();
+      //var RestComponent = new CapabilityStatement.RestComponent();
+      //Conformance.Rest.Add(RestComponent);
+      //RestComponent.Mode = CapabilityStatement.RestfulCapabilityMode.Server;
+      //RestComponent.Documentation = "STU3 V3.0.0 FHIR Server";
+      //RestComponent.Security = new CapabilityStatement.SecurityComponent();
+      //RestComponent.Security.Description = "No Security has been implemented, server if publicly open";
 
-      var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
-      foreach (ResourceType ResourceType in ResourceTypeList)
-      {
-        FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
-        var ResourceComponent = new Conformance.ResourceComponent();
-        RestComponent.Resource.Add(ResourceComponent);
-        ResourceComponent.Type = ResourceType;
-        ResourceComponent.Interaction = new List<Conformance.ResourceInteractionComponent>()
-        {
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Create},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Delete},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Read},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Update},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.Vread},
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.SearchType },
-          new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryInstance }
-            //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
-        };
-        ResourceComponent.Versioning = Conformance.ResourceVersionPolicy.Versioned;
-        ResourceComponent.ReadHistory = true;
-        ResourceComponent.UpdateCreate = true;
-        ResourceComponent.ConditionalCreate = true;
-        ResourceComponent.ConditionalRead = Conformance.ConditionalReadStatus.FullSupport;
-        ResourceComponent.ConditionalUpdate = true;
-        ResourceComponent.ConditionalDelete = Conformance.ConditionalDeleteStatus.Multiple;
-        //ResourceComponent.SearchInclude = new List<string>() {"???", "??????" };
-        //ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
+      //RestComponent.Interaction = new List<CapabilityStatement.SystemInteractionComponent>();
+      //var SystemInteractionComponent = new CapabilityStatement.SystemInteractionComponent();
+      //RestComponent.Interaction.Add(SystemInteractionComponent);
+      //SystemInteractionComponent.Code = CapabilityStatement.SystemRestfulInteraction.Transaction;
+      //SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
 
-        List<DtoSupportedSearchParameters> SupportedSearchParametersList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList((FHIRAllTypes)FhirType);
-        ResourceComponent.SearchParam = new List<Conformance.SearchParamComponent>();
-        foreach (var SupportedSearchParam in SupportedSearchParametersList)
-        {
-          Conformance.SearchParamComponent SearchParamComponent = new Conformance.SearchParamComponent();
-          ResourceComponent.SearchParam.Add(SearchParamComponent);
+      //RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
-          SearchParamComponent.Name = Common.Enum.FhirSearchEnum.GetSearchParameterNameString()[SupportedSearchParam.Name];
-          SearchParamComponent.Type = SupportedSearchParam.SearchParameterType;
-          if (SupportedSearchParam.TypeModifierResourceList != null && SupportedSearchParam.TypeModifierResourceList.Count > 0)
-          {
-            var TargetResourceTypeList = new List<ResourceType?>();
-            foreach (var x in SupportedSearchParam.TypeModifierResourceList)
-              TargetResourceTypeList.Add(Common.Enum.FhirSearchEnum.GetResourceTypeByString()[x]);
-            SearchParamComponent.Target = TargetResourceTypeList;
-          }
-          if (SupportedSearchParam.ModifierList != null && SupportedSearchParam.ModifierList.Count > 0)
-          {
-            var ModifierList = new List<Conformance.SearchModifierCode?>();
-            foreach (Common.Enum.FhirSearchEnum.SearchModifierType SearchModifierType in SupportedSearchParam.ModifierList)
-              ModifierList.Add(Common.Enum.FhirSearchEnum.GetConformanceSearchModifierCodeDictionary()[SearchModifierType]);
-            SearchParamComponent.Modifier = ModifierList;
-          }
-        }
-      }
-      ConstructConformanceResourceNarrative(Conformance);
+      //var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
+      //foreach (ResourceType ResourceType in ResourceTypeList)
+      //{
+      //  FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
+      //  var ResourceComponent = new CapabilityStatement.ResourceComponent();
+      //  RestComponent.Resource.Add(ResourceComponent);
+      //  ResourceComponent.Type = ResourceType;
+      //  ResourceComponent.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
+      //  {
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete},
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Read},
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update},
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread},
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
+      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance }
+      //      //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
+      //  };
+      //  ResourceComponent.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
+      //  ResourceComponent.ReadHistory = true;
+      //  ResourceComponent.UpdateCreate = true;
+      //  ResourceComponent.ConditionalCreate = true;
+      //  ResourceComponent.ConditionalRead = CapabilityStatement.ConditionalReadStatus.FullSupport;
+      //  ResourceComponent.ConditionalUpdate = true;
+      //  ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
+      //  //ResourceComponent.SearchInclude = new List<string>() {"???", "??????" };
+      //  //ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
+
+      //  List<DtoSupportedSearchParameters> SupportedSearchParametersList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList((FHIRAllTypes)FhirType.Value);
+      //  ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
+      //  foreach (var SupportedSearchParam in SupportedSearchParametersList)
+      //  {
+      //    CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
+      //    ResourceComponent.SearchParam.Add(SearchParamComponent);
+
+      //    SearchParamComponent.Name = Common.Enum.FhirSearchEnum.GetSearchParameterNameString()[SupportedSearchParam.Name];
+      //    SearchParamComponent.Type = SupportedSearchParam.SearchParameterType;
+      //    //Todo: What is this below
+      //    //SearchParamComponent.Definition = "";
+      //    //if (SupportedSearchParam.TypeModifierResourceList != null && SupportedSearchParam.TypeModifierResourceList.Count > 0)
+      //    //{
+      //    //  var TargetResourceTypeList = new List<ResourceType?>();
+      //    //  foreach (var x in SupportedSearchParam.TypeModifierResourceList)
+      //    //    TargetResourceTypeList.Add(Common.Enum.FhirSearchEnum.GetResourceTypeByString()[x]);
+      //    //  SearchParamComponent.Target = TargetResourceTypeList;
+      //    //}
+      //    //if (SupportedSearchParam.ModifierList != null && SupportedSearchParam.ModifierList.Count > 0)
+      //    //{
+      //    //  var ModifierList = new List<Conformance.SearchModifierCode?>();
+      //    //  foreach (Common.Enum.FhirSearchEnum.SearchModifierType SearchModifierType in SupportedSearchParam.ModifierList)
+      //    //    ModifierList.Add(Common.Enum.FhirSearchEnum.GetConformanceSearchModifierCodeDictionary()[SearchModifierType]);
+      //    //  SearchParamComponent.Modifier = ModifierList;
+      //    //}
+      //  }
+      //}
+      //ConstructConformanceResourceNarrative(Conformance);
 
       
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
-      ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
+      //ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
       ServiceOperationOutcome.IsDeleted = false;
       ServiceOperationOutcome.RequestUri = null;
@@ -151,13 +163,12 @@ namespace Pyro.Engine.Services
       return ServiceOperationOutcome;
     }
 
-    private void ConstructConformanceResourceNarrative(Conformance Conformance)
+    private void ConstructConformanceResourceNarrative(CapabilityStatement Conformance)
     {
-      var XDoc = new XmlDocument();
-      // NarrativeString.AppendLine("<div xmlns=\"http://www.w3.org/1999/xhtml\">");
+      var XDoc = new XmlDocument();      
       var Xroot = XDoc.CreateElement("div");
       var xmlns = XDoc.CreateAttribute("xmlns");
-      xmlns.Value = "http://www.w3.org/1999/xhtml";
+      xmlns.Value = XmlNs.XHTML;      
       Xroot.SetAttributeNode(xmlns);
       XDoc.AppendChild(Xroot);
 
@@ -194,14 +205,13 @@ namespace Pyro.Engine.Services
       var InteractionsBold = XDoc.CreateElement("b");
       InteractionsBold.AppendChild(XDoc.CreateTextNode("Interactions: "));
       Interactions.AppendChild(InteractionsBold);
-      Conformance.SystemInteractionComponent SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == Conformance.SystemRestfulInteraction.Transaction);
+      CapabilityStatement.SystemInteractionComponent SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == CapabilityStatement.SystemRestfulInteraction.Transaction);
       normal = Interactions.AppendChild(XDoc.CreateTextNode(SystemInteractionComponent.Code.ToString()));
       Interactions.AppendChild(normal);
 
-
       var ResourceTable = XDoc.CreateElement("table");
       Xroot.AppendChild(ResourceTable);
-      foreach (Conformance.RestComponent RestComponent in Conformance.Rest)
+      foreach (CapabilityStatement.RestComponent RestComponent in Conformance.Rest)
       {
         var HeaderRow = XDoc.CreateElement("tr");
         ResourceTable.AppendChild(HeaderRow);
@@ -217,7 +227,7 @@ namespace Pyro.Engine.Services
         Col2HeadBold.AppendChild(XDoc.CreateTextNode("Interaction"));
         Col2Head.AppendChild(Col2HeadBold);
 
-        foreach (Conformance.ResourceComponent Resource in RestComponent.Resource)
+        foreach (CapabilityStatement.ResourceComponent Resource in RestComponent.Resource)
         {
           var ResourceRow = XDoc.CreateElement("tr");
           ResourceTable.AppendChild(ResourceRow);
@@ -231,7 +241,7 @@ namespace Pyro.Engine.Services
           var Col2 = XDoc.CreateElement("td");
           ResourceRow.AppendChild(Col2);
           StringBuilder sb = new StringBuilder();
-          foreach (Conformance.ResourceInteractionComponent Interaction in Resource.Interaction)
+          foreach (CapabilityStatement.ResourceInteractionComponent Interaction in Resource.Interaction)
           {
             sb.Append(Interaction.Code);
             sb.Append(", ");

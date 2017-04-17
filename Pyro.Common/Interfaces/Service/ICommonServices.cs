@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Common.Interfaces.Service
 {
@@ -12,5 +13,6 @@ namespace Pyro.Common.Interfaces.Service
   {
     IDtoRootUrlStore GetPrimaryServiceRootUrl();
     IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
+    IList<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType);
   }
 }

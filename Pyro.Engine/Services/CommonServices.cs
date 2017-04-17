@@ -25,6 +25,10 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.SetPrimaryRootUrlStore(RootUrl);
     }
 
+    public IList<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
+    {
+      return _UnitOfWork.CommonRepository.GetServiceSearchParametersForResource(ResourceType);
+    }
 
 
   }

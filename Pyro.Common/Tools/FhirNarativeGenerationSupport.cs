@@ -351,7 +351,7 @@ namespace Pyro.Common.Tools
 
     protected abstract class SectionBase
     {
-      protected static XNamespace ns = "http://www.w3.org/1999/xhtml";
+      protected static XNamespace ns = Hl7.Fhir.Utility.XmlNs.XHTML;
       public static XName div = ns + "div";
       protected static XName span = ns + "span";
       protected static XName br = ns + "br";

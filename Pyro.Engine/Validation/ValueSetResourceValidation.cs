@@ -56,26 +56,26 @@ namespace Pyro.Engine.Validation
       }
 
      
-      //FHIR Spec DSTU 2.1 : vsd-1: On ValueSet.compose: A value set composition SHALL have an include or an import 
-      //(xpath on f:ValueSet/f:compose: exists(f:include) or exists(f:import))
-      if (oValueSet.Compose != null)        
-      {
-       if (oValueSet.Compose.Include == null && oValueSet.Compose.Import == null)
-       {
-         string PropertyName = "Compose";
-         var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-         OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
-         OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
-         OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} SHALL have an include or an import. Not both or neither.", oValueSet.TypeName, PropertyName);
-         OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
-         OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oValueSet.TypeName, PropertyName) };
-         if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
-           oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
-         oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
-         oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;   
-       }
-      }
+      ////FHIR Spec DSTU 2.1 : vsd-1: On ValueSet.compose: A value set composition SHALL have an include or an import 
+      ////(xpath on f:ValueSet/f:compose: exists(f:include) or exists(f:import))
+      //if (oValueSet.Compose != null)        
+      //{
+      // if (oValueSet.Compose.Include == null && oValueSet.Compose.Import == null)
+      // {
+      //   string PropertyName = "Compose";
+      //   var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
+      //   OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
+      //   OpOutComeIssueComp.Code = OperationOutcome.IssueType.Value;
+      //   OpOutComeIssueComp.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_ERROR_PARSING", String.Format("Error parsing resource Xml ({0})", oValueSet.TypeName));
+      //   OpOutComeIssueComp.Details.Text = String.Format("{0}'s {1} SHALL have an include or an import. Not both or neither.", oValueSet.TypeName, PropertyName);
+      //   OpOutComeIssueComp.Diagnostics = OpOutComeIssueComp.Details.Text;
+      //   OpOutComeIssueComp.Location = new List<string>() { String.Format("/f:{0}/f:{1}", oValueSet.TypeName, PropertyName) };
+      //   if (oResourceValidationOperationOutcome.FhirOperationOutcome == null)
+      //     oResourceValidationOperationOutcome.FhirOperationOutcome = new OperationOutcome();
+      //   oResourceValidationOperationOutcome.FhirOperationOutcome.Issue.Add(OpOutComeIssueComp);
+      //   oResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;   
+      // }
+      //}
 
       //FHIR Spec DSTU 2.1 : vsd-10: On ValueSet.expansion.contains: Must have a system if a code is present 
       //(xpath on f:ValueSet/f:expansion/f:contains: exists(f:system) or not(exists(f:code)))

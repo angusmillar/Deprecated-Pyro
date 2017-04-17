@@ -81,31 +81,32 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
     private List<string> PopulateSearchParameterModifierList(DatabaseEnum.DbIndexType DbIndexType)
     {
       var ReturnList = new List<string>();
+
       switch (DbIndexType)
       {
         case DatabaseEnum.DbIndexType.DateIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimeIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.NumberIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.QuantityRangeIndex:
@@ -116,20 +117,20 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.ReferenceIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Type.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Type.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.StringIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Contains.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Exact.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Contains.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Exact.ToString());
             return ReturnList;
           }
         case DatabaseEnum.DbIndexType.TokenIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
             //The modifiers below are supported in the spec for token but not 
             //implemented by this server as yet
 
@@ -143,11 +144,11 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
           }
         case DatabaseEnum.DbIndexType.UriIndex:
           {
-            ReturnList.Add(Conformance.SearchModifierCode.Missing.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Below.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Above.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Contains.ToString());
-            ReturnList.Add(Conformance.SearchModifierCode.Exact.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Below.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Above.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Contains.ToString());
+            ReturnList.Add(SearchParameter.SearchModifierCode.Exact.ToString());
             return ReturnList;
           }
         default:

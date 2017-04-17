@@ -9,14 +9,14 @@ namespace Pyro.Common.BusinessEntities.Dto
 {
   public class DtoRootUrlStore : IDtoRootUrlStore
   {
-    public int ServiceRootUrlStoreID { get; set; }
-    public string RootUrl { get; set; }
+    public int Id { get; set; }
+    public string Url { get; set; }
     public bool IsServersPrimaryUrlRoot { get; set; }
     public Uri RootUri
     {
       get
       {
-        return new Uri(this.RootUrl);
+        return new Uri(this.Url);
       }
     }
   }

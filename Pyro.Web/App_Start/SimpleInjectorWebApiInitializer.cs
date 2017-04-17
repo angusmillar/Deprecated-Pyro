@@ -6,7 +6,7 @@ namespace Pyro.Web.App_Start
   using SimpleInjector.Integration.WebApi;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
-  using Pyro.DataModel;
+  using Pyro.DataLayer.DbModel.UnitOfWork;
 
 
   public static class SimpleInjectorWebApiInitializer

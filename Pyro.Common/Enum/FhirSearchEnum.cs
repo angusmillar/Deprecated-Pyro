@@ -10,6 +10,7 @@ namespace Pyro.Common.Enum
 {
   public static partial class FhirSearchEnum
   {
+
     public enum SearchPrefixType
     {
       None,
@@ -69,19 +70,36 @@ namespace Pyro.Common.Enum
       };
     }
 
-    public static Dictionary<SearchModifierType, Conformance.SearchModifierCode> GetConformanceSearchModifierCodeDictionary()
+    //public static Dictionary<SearchModifierType, Conformance.SearchModifierCode> GetConformanceSearchModifierCodeDictionary()
+    //{
+    //  return new Dictionary<SearchModifierType, Conformance.SearchModifierCode>()
+    //  {
+    //    {SearchModifierType.Missing, Conformance.SearchModifierCode.Missing},
+    //    {SearchModifierType.Exact, Conformance.SearchModifierCode.Exact},
+    //    {SearchModifierType.Contains, Conformance.SearchModifierCode.Contains},
+    //    {SearchModifierType.Text, Conformance.SearchModifierCode.Text},
+    //    {SearchModifierType.Type, Conformance.SearchModifierCode.Type},
+    //    {SearchModifierType.Below, Conformance.SearchModifierCode.Below},
+    //    {SearchModifierType.Above, Conformance.SearchModifierCode.Above},
+    //    {SearchModifierType.In, Conformance.SearchModifierCode.In},
+    //    {SearchModifierType.NotIn, Conformance.SearchModifierCode.NotIn}
+    //  };
+    //}
+
+
+    public static Dictionary<SearchModifierType, SearchParameter.SearchModifierCode> GetConformanceSearchModifierCodeDictionary()
     {
-      return new Dictionary<SearchModifierType, Conformance.SearchModifierCode>()
+      return new Dictionary<SearchModifierType, SearchParameter.SearchModifierCode>()
       {
-        {SearchModifierType.Missing, Conformance.SearchModifierCode.Missing},
-        {SearchModifierType.Exact, Conformance.SearchModifierCode.Exact},
-        {SearchModifierType.Contains, Conformance.SearchModifierCode.Contains},
-        {SearchModifierType.Text, Conformance.SearchModifierCode.Text},
-        {SearchModifierType.Type, Conformance.SearchModifierCode.Type},
-        {SearchModifierType.Below, Conformance.SearchModifierCode.Below},
-        {SearchModifierType.Above, Conformance.SearchModifierCode.Above},
-        {SearchModifierType.In, Conformance.SearchModifierCode.In},
-        {SearchModifierType.NotIn, Conformance.SearchModifierCode.NotIn}
+        {SearchModifierType.Missing, SearchParameter.SearchModifierCode.Missing},
+        {SearchModifierType.Exact, SearchParameter.SearchModifierCode.Exact},
+        {SearchModifierType.Contains, SearchParameter.SearchModifierCode.Contains},
+        {SearchModifierType.Text, SearchParameter.SearchModifierCode.Text},
+        {SearchModifierType.Type, SearchParameter.SearchModifierCode.Type},
+        {SearchModifierType.Below, SearchParameter.SearchModifierCode.Below},
+        {SearchModifierType.Above, SearchParameter.SearchModifierCode.Above},
+        {SearchModifierType.In, SearchParameter.SearchModifierCode.In},
+        {SearchModifierType.NotIn, SearchParameter.SearchModifierCode.NotIn}
       };
     }
 

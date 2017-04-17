@@ -25,11 +25,12 @@ namespace Pyro.Web.Services
         throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);        
       }
 
-      IDtoRootUrlStore PrimaryRootUrlStore = StaticCache.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
-      string WebConfigServiceBase = StaticCache.WebConfigServiceBaseURLForComparison;
+      IDtoRootUrlStore PrimaryRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
+      //IDtoRootUrlStore PrimaryRootUrlStore = StaticCacheWeb.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
+      string WebConfigServiceBase = StaticCacheWeb.WebConfigServiceBaseURLForComparison;
 
       if (PrimaryRootUrlStore != null && 
-        RequestFhirUri.ServiceRootUrlForComparison == PrimaryRootUrlStore.RootUrl &&
+        RequestFhirUri.ServiceRootUrlForComparison == PrimaryRootUrlStore.Url &&
         RequestFhirUri.ServiceRootUrlForComparison == WebConfigServiceBase)
       {
         //All checks a good return 
@@ -49,7 +50,7 @@ namespace Pyro.Web.Services
 
       if (PrimaryRootUrlStore != null &&
         RequestFhirUri.ServiceRootUrlForComparison == WebConfigServiceBase &&
-        RequestFhirUri.ServiceRootUrlForComparison != PrimaryRootUrlStore.RootUrl)
+        RequestFhirUri.ServiceRootUrlForComparison != PrimaryRootUrlStore.Url)
       {
         //Web.Config Chnaged
         //The incomming request Service Base URL equals the Web.Config entry yet does not equal the Service Base URL
@@ -73,14 +74,14 @@ namespace Pyro.Web.Services
 
       if (PrimaryRootUrlStore != null &&
         (RequestFhirUri.ServiceRootUrlForComparison != WebConfigServiceBase ||
-        RequestFhirUri.ServiceRootUrlForComparison != PrimaryRootUrlStore.RootUrl))
+        RequestFhirUri.ServiceRootUrlForComparison != PrimaryRootUrlStore.Url))
       {
         //Exsisting server moved and Web.Config file not updated to match the move.
         //The incomming request Service Base URL does not equal the Web.Config entry or the Database
         //Warn the user about the ramifications of this change if they should seek to make the change to the Web.Config file 
         ErrorMsg = 
           $"The incoming Http request had a service root URL of: '{RequestFhirUri.ServiceRootUrlForComparison}'. " +
-          $"The server's database service root URL was '{PrimaryRootUrlStore.RootUrl}'. " + 
+          $"The server's database service root URL was '{PrimaryRootUrlStore.Url}'. " + 
           $"The servers Web.Config file service root URL was '{WebConfigServiceBase}'. " +
           "All three URLs must match for the server to contiue! "+
           "This is most likely due to the server being move from it's original URL location, or the Web.Config value being incorrect. " + 

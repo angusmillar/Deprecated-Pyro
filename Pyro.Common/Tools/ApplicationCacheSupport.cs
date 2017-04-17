@@ -17,14 +17,14 @@ namespace Pyro.Common.Tools
       if (item == null)
       {
         item = getItemCallback();
-        MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(10));
+        MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(20));
       }
       return item;
     }
 
     public void Set(string cacheKey, object value)
     {
-      MemoryCache.Default.Add(cacheKey, value, DateTime.Now.AddMinutes(10));
+      MemoryCache.Default.Add(cacheKey, value, DateTime.Now.AddMinutes(20));
     }
 
     public object Get(string cacheKey)

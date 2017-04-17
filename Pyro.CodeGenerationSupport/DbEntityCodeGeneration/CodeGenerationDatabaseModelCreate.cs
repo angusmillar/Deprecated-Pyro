@@ -36,11 +36,11 @@ namespace Pyro.CodeGenerationSupport.DbEntityCodeGeneration
 
       foreach (var ResourceName in _ResourceList)
       {
-        //bool tempDebug = true;
-        //if (ResourceName == "Condition")
-        //{
-        //  tempDebug = false;
-        //}
+        bool tempDebug = true;
+        if (ResourceName == "ActivityDefinition")
+        {
+          tempDebug = false;
+        }
 
         List<FhirApiSearchParameterInfo> SearchParametersForResource = SearchParameterFilter.GetParametersForResource(ResourceName, _SearchParametersList);
         List<FhirApiSearchParameterInfo> CollectionParameters = SearchParameterFilter.GetIsColectionParameters(true, SearchParametersForResource);

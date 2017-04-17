@@ -44,12 +44,11 @@ namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
 
 
           //For debugging a specific resource
-          //bool testbool = false;
-          //if (SearchParameterDef.Resource == "ClinicalImpression" && SearchParameterDef.Name == "finding-code")
-          ////if (SearchParameterDef.Resource == "Observation" && SearchParameterDef.Name == "value-concept")
-          //{
-          //  testbool = true;
-          //}
+          bool testbool = false;
+          if (SearchParameterDef.Resource == "ActivityDefinition")          
+          {
+            testbool = true;
+          }
 
           //##Issue## We are skipping search parameters that have no paths at all, what good are they if they have no path?
           if (_CurrentSearchParameterDef.XPath != null && _CurrentSearchParameterDef.Path.Count() > 0)
@@ -349,6 +348,7 @@ namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
 
     private static void ResolveSearchParameter(string ResourceName)
     {
+      
       string[] FhirXPathChoiceList = _CurrentSearchParameterDef.XPath.Split('|');
       foreach (string SearchXPath in FhirXPathChoiceList)
       {
@@ -634,16 +634,16 @@ namespace Pyro.CodeGenerationSupport.FhirApiIntrospection
       RemoveSearchParameterFromList(SearchParameterList, "DataElement", "objectClassProperty");
 
       //The 'race' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
-      RemoveSearchParameterFromList(SearchParameterList, "Patient", "race");
+      //RemoveSearchParameterFromList(SearchParameterList, "Patient", "race");
 
       //The 'ethnicity' parameter on the Patient Resource is a US-Realm extension and should not really be listed in the FHIR API 
-      RemoveSearchParameterFromList(SearchParameterList, "Patient", "ethnicity");
+      //RemoveSearchParameterFromList(SearchParameterList, "Patient", "ethnicity");
 
       //This set of Condition search parameters are very confused in the standard, not supporting them for now.
       RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-age");
       RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-boolean");
       RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-date");
-      RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-info");
+      //RemoveSearchParameterFromList(SearchParameterList, "Condition", "abatement-info");
 
       RemoveSearchParameterFromList(SearchParameterList, "Condition", "onset-age");
       RemoveSearchParameterFromList(SearchParameterList, "Condition", "onset-date");

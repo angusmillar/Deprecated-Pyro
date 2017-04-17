@@ -157,7 +157,7 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost)
     {
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-
+      var Test = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as ICommonServices, PyroServiceRequestPost.Resource.ResourceType.ToString());
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchParameterService.ProcessSearchParameters(PyroServiceRequestPost.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
       if (SearchParametersServiceOutcomeBase.FhirOperationOutcome != null)
       {

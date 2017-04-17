@@ -50,7 +50,7 @@ namespace Pyro.CodeGenerationSupport.SearchParameterInfoCodeGeneration
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType item in ResourceTypeList)
       {
-        Tuple<string, string> NewTurple = new Tuple<string, string>(item.GetLiteral(), item.ToString());
+        Tuple<string, string> NewTurple = new Tuple<string, string>(item.ToString(), item.ToString());
         ResourceTypeStingAndResourceTypeTupleList.Add(NewTurple);
       }
       //{ "Account", ResourceType.Account},
