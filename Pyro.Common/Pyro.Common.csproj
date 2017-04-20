@@ -89,8 +89,10 @@
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameter.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterLight.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestTransactionBundle.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestMetadata.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetHistory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetSearch.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
+    <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
     <Compile Include="Cache\StaticCacheCommon.cs" />
     <Compile Include="Extentions\FhirNarrativeExtentions.cs" />
     <Compile Include="Extentions\ResourceExtentions.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Interfaces\Service\IResourceServiceRequestGetSearch.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestGetRead.cs" />
     <Compile Include="Interfaces\Service\IResourceServicesBase.cs" />
+    <Compile Include="Interfaces\Service\ISearchParametersServiceRequest.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParameterService.cs" />
@@ -194,6 +198,7 @@
     <Compile Include="Interfaces\Tools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ResourceVersionNumber.cs" />
+    <Compile Include="Tools\SearchParameterTools.cs" />
     <Compile Include="Tools\StringSupport.cs" />
     <Compile Include="Tools\XhtmlSupport.cs" />
     <Compile Include="Web\StaticWebInfo.cs" />

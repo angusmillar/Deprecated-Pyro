@@ -12,6 +12,7 @@ namespace Pyro.Common.BusinessEntities.Dto
   [Serializable]
   public class DtoServiceSearchParameterLight
   {
+    public int Id { get; set; }
     public string Resource { get; set; }
     public string Name { get; set; }
     public SearchParamType Type { get; set; }
@@ -21,6 +22,7 @@ namespace Pyro.Common.BusinessEntities.Dto
 
     public DtoServiceSearchParameterLight(SerializationInfo info, StreamingContext context)
     {
+      Id = info.GetInt32("Id");
       Resource = info.GetString("Resource");
       Name = info.GetString("Name");
       Type = (SearchParamType)info.GetInt32("Type");
@@ -30,6 +32,7 @@ namespace Pyro.Common.BusinessEntities.Dto
     //Implemented Serializable as this object goes into Cache
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
+      info.AddValue("Id", Id);
       info.AddValue("Resource", Resource);
       info.AddValue("Name", Name);
       info.AddValue("Type", (int)Type);

@@ -139,6 +139,16 @@ namespace Pyro.Common
       return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParamsString);
     }
 
+    public static ISearchParametersServiceRequest GetSearchParametersServiceRequest()
+    {
+      return new SearchParametersServiceRequest();
+    }
+
+    public static ISearchParametersServiceOutcome GetSearchParametersServiceOutcome()
+    {
+      return new SearchParametersServiceOutcome();
+    }
+
     public static IDtoRequestHeaders GetDtoRequestHeaders(Bundle.RequestComponent RequestComponent)
     {
       return new BusinessEntities.Dto.Headers.DtoRequestHeaders(RequestComponent);

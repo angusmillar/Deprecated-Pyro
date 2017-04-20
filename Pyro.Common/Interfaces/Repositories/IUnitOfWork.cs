@@ -14,7 +14,8 @@ namespace Pyro.Common.Interfaces.Repositories
     bool IsTransactional { get;}
 
     IDtoCommonRepository CommonRepository { get; }
-    IResourceRepository PatientRepository { get; }    
+    IResourceRepository PatientRepository { get; }
+    IResourceRepository ObservationRepository { get; }
   }
 }
 

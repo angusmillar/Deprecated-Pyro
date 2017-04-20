@@ -70,7 +70,9 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
 
     private CommonRepository _CommonRepository;    
     private CommonResourceRepository<PatientRes, PatientResHistory, PatientResIndex> _PatientRepository;
+    private CommonResourceRepository<ObservationRes, ObservationResHistory, ObservationResIndex> _ObservationRepository;
 
+    
     public UnitOfWork()
     {
       _context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
@@ -85,7 +87,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
         return _CommonRepository;
       }
     }
-
+    
     public IResourceRepository PatientRepository
     {
       get
@@ -95,8 +97,15 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
         return _PatientRepository;
       }
     }
-
-
+    public IResourceRepository ObservationRepository
+    {
+      get
+      {
+        if (this._ObservationRepository == null)
+          this._ObservationRepository = new CommonResourceRepository<ObservationRes, ObservationResHistory, ObservationResIndex>(_context, FHIRAllTypes.Observation);
+        return _ObservationRepository;
+      }
+    }
 
     #region Implementing IDiosposable...
 

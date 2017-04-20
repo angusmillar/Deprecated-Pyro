@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Enum;
 using System.Text.RegularExpressions;
+using Pyro.Common.BusinessEntities.Dto;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
   public abstract class DtoSearchParameterValueWithPrefix : DtoSearchParameterValueBase
   {
     public FhirSearchEnum.SearchPrefixType Prefix { get; set; }
-    public bool ValidatePreFix(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    public bool ValidatePreFix(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
-      if (DtoSupportedSearchParameters.PrefixList.Contains(this.Prefix) || this.Prefix == FhirSearchEnum.SearchPrefixType.None)
+      if (this.Prefix == FhirSearchEnum.SearchPrefixType.None)
+      {
+        return true;
+      }
+      else if (Pyro.Common.Tools.SearchParameterTools.GetPrefixListForSearchType(DtoSupportedSearchParameters.Type).Contains(this.Prefix.GetLiteral()))        
       {
         return true;
       }
@@ -21,17 +27,10 @@ namespace Pyro.Common.BusinessEntities.Search
       {
         return false;
       }
-
     }
 
     public string ParsePrefix(string Value)
     {
-      //if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DateIndex ||
-      //  oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.DatePeriodIndex ||
-      //                oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.NumberIndex ||
-      //  oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityRangeIndex ||
-      //  oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.QuantityIndex)
-      //{
       if (Value.Length > 2)
       {
         //Are the first two char Alpha characters 
@@ -49,7 +48,6 @@ namespace Pyro.Common.BusinessEntities.Search
           this.Prefix = FhirSearchEnum.SearchPrefixType.None;
         }
       }
-      //}
       return Value;
     }
   }

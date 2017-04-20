@@ -10,6 +10,8 @@ using System.Data.Entity.Infrastructure.Annotations;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.DbModel.DatabaseContextConfig;
 using Pyro.DataLayer.DbModel.Entity;
+using Pyro.Common.BusinessEntities.Dto.Search;
+using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 
 
@@ -18,32 +20,21 @@ namespace Pyro.DataLayer.DbModel.DatabaseInitializer
   public class ServiceSearchParameterInitializer : CreateDatabaseIfNotExists<PyroDbContext>
   {
     protected override void Seed(PyroDbContext context)
-    {
-      IList<ServiceSearchParameter> ServiceSearchParameterList = new List<ServiceSearchParameter>();
-
-      foreach (var SearchParameter in ModelInfo.SearchParameters)
+    {      
+      IList<DtoServiceSearchParameter> DtoServiceSearchParameterList = Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.FhirAPISearchParameters();
+      foreach (var SearchParameter in DtoServiceSearchParameterList)
       {
-        //A searchParameter with no expression or name or Resource is useless
-        if (!string.IsNullOrWhiteSpace(SearchParameter.Expression) && 
-          !string.IsNullOrWhiteSpace(SearchParameter.Name) &&
-          !string.IsNullOrWhiteSpace(SearchParameter.Resource))
+        context.ServiceSearchParameter.Add(new ServiceSearchParameter()
         {
-          ServiceSearchParameterList.Add(new ServiceSearchParameter()
-          {
-            Name = SearchParameter.Name,
-            Description = SearchParameter.Description,
-            Expression = SearchParameter.Expression,
-            Resource = SearchParameter.Resource,
-            Type = SearchParameter.Type,
-            Url = SearchParameter.Url,
-            XPath = SearchParameter.XPath
-          });
-        }        
+          Name = SearchParameter.Name,
+          Description = SearchParameter.Description,
+          Expression = SearchParameter.Expression,
+          Resource = SearchParameter.Resource,
+          Type = SearchParameter.Type,
+          Url = SearchParameter.Url,
+          XPath = SearchParameter.XPath
+        });
       }
-
-      foreach (ServiceSearchParameter Parameter in ServiceSearchParameterList)
-        context.ServiceSearchParameter.Add(Parameter);
-
       base.Seed(context);
       context.SaveChanges();
     }

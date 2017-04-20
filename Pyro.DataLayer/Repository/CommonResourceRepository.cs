@@ -6,6 +6,7 @@ using System.Data.Entity;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.Support;
+using Pyro.DataLayer.IndexSetter;
 //using Pyro.DataModel.Support;
 //using Pyro.DataModel.IndexSetter;
 using Pyro.Common.BusinessEntities.Search;
@@ -15,7 +16,7 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Dto;
 //using Pyro.DataModel.Search;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Introspection;
+using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Hl7.Fhir.ElementModel;
 
@@ -341,20 +342,16 @@ namespace Pyro.DataLayer.Repository
 
     public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
-      //var ResourceTyped = Resource as Patient;
-      //var ResourseEntity = ResourceEntity as ResourceType;
-      
-      var searchparameters = ModelInfo.SearchParameters.Where(r => r.Resource == Resource.ResourceType.ToString() && !String.IsNullOrEmpty(r.Expression));
-      foreach (ModelInfo.SearchParamDefinition SearchParameter in searchparameters)
-      {
-        Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
-        IEnumerable<Hl7.Fhir.ElementModel.IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
-        foreach (Hl7.Fhir.ElementModel.IElementNavigator oElement in ResultList)
+      IList<DtoServiceSearchParameterLight> searchparameters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
+      Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
+      foreach (DtoServiceSearchParameterLight SearchParameter in searchparameters)
+      {        
+        IEnumerable<IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
+        foreach (IElementNavigator oElement in ResultList)
         {          
           if (oElement != null)
           {
-            ResourceIndexType ResourceIndex = new ResourceIndexType();
-            SetResourceIndex(oElement, SearchParameter, ResourceIndex);
+            ResourceIndexType ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter);            
             if (ResourceIndex != null)
             {
               ResourceEntity.IndexList.Add(ResourceIndex);
@@ -363,83 +360,6 @@ namespace Pyro.DataLayer.Repository
         }
       }
     }
-
-    private void SetResourceIndex(IElementNavigator oElement, ModelInfo.SearchParamDefinition SearchParameter, ResourceIndexBase ResourceIndex)
-    {
-      switch (SearchParameter.Type)
-      {
-        case SearchParamType.Number:          
-          break;
-        case SearchParamType.Date:
-          break;
-        case SearchParamType.String:
-          SetResourceIndexAsString(oElement, SearchParameter, ResourceIndex);
-          break;
-        case SearchParamType.Token:
-          break;
-        case SearchParamType.Reference:
-          break;
-        case SearchParamType.Composite:
-          break;
-        case SearchParamType.Quantity:
-          break;
-        case SearchParamType.Uri:
-          break;
-        default:
-          break;
-      }      
-    }
-
-    private void SetResourceIndexAsString(IElementNavigator oElement, ModelInfo.SearchParamDefinition searchParameter, ResourceIndexBase ResourceIndex)
-    {
-      if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)        
-      {
-        string ItemDelimeter = " ";
-        if (Poco.FhirValue is Address address)
-        {
-          string FullAdddress = string.Empty;
-          foreach (var Line in address.Line)
-          {
-            FullAdddress += Line + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.City))
-          {
-            FullAdddress += address.City + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.PostalCode))
-          {
-            FullAdddress += address.PostalCode + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.State))
-          {
-            FullAdddress += address.State + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.Country))
-          {
-            FullAdddress += address.Country + ItemDelimeter;
-          }
-          if (FullAdddress != string.Empty)
-          {
-            ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim());            
-          }
-          else
-          {
-            ResourceIndex = null;
-          }
-        }
-      }
-      else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
-      {
-        ResourceIndex.String = ConstantValue.Type.ToString();
-      }
-      else if (oElement.Value is bool Bool)
-      {
-        ResourceIndex.String = Bool.ToString();
-      }
-      else
-      {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{searchParameter.Type}'");
-      }
-    }
+    
   }
 }

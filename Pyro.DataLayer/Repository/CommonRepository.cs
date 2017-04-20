@@ -188,6 +188,7 @@ namespace Pyro.DataLayer.Repository
       return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
         .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterLight
         {
+          Id = x.Id,
           Name = x.Name,
           Expression = x.Expression,
           Resource = x.Resource,
@@ -233,9 +234,6 @@ namespace Pyro.DataLayer.Repository
       where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
       where ResourceIndexType : ResourceIndexBase
     {
-      //var Cache = Common.CommonFactory.GetApplicationCacheService();
-      //var test = Cache.Get("AngusTest") as string;
-
       _Context.Set<ResourceCurrentType>().Add(Entity);
       this.Save();
     }

@@ -14,5 +14,8 @@ namespace Pyro.Common.BusinessEntities.Service
     public HttpStatusCode HttpStatusCode { get; set; }
     public OperationOutcome FhirOperationOutcome { get; set; }
     public DtoSearchParameters SearchParameters { get; set; }
+
+    internal SearchParametersServiceOutcome() { }
+
   }
 }

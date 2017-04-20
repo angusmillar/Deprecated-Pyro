@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Enum;
-
+using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
@@ -12,7 +12,8 @@ namespace Pyro.Common.BusinessEntities.Search
     public DtoSearchParameterString()
       : base()
     {
-      this.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
+      this.Type = Hl7.Fhir.Model.SearchParamType.String;
+      //this.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
     }
     #endregion
     public List<DtoSearchParameterStringValue> ValueList { get; set; }
@@ -53,7 +54,7 @@ namespace Pyro.Common.BusinessEntities.Search
         return false;
       }
     }
-    public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       //String Search parameter types never have prefixes so always return true.
       return true;

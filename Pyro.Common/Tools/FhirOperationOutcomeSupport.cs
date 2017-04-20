@@ -106,7 +106,8 @@ namespace Pyro.Common.Tools
         oIssueComponent.Code = IssueType.Value;
       oIssueComponent.Details = new CodeableConcept();
       oIssueComponent.Details.Text = Message;
-      oIssueComponent.Location = Location;
+      if (Location != null)
+        oIssueComponent.Location = Location;
       var oOperationOutcome = new OperationOutcome();
       oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
       oOperationOutcome.Text = new Narrative();

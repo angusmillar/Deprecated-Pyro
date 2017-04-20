@@ -25,8 +25,7 @@ namespace Pyro.Web.Services
         throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);        
       }
 
-      IDtoRootUrlStore PrimaryRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
-      //IDtoRootUrlStore PrimaryRootUrlStore = StaticCacheWeb.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
+      IDtoRootUrlStore PrimaryRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(CommonServices as ICommonServices);      
       string WebConfigServiceBase = StaticCacheWeb.WebConfigServiceBaseURLForComparison;
 
       if (PrimaryRootUrlStore != null && 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Model;
 
@@ -14,19 +15,19 @@ namespace Pyro.Common.BusinessEntities.Search
     private static readonly char _ParameterNameModifierDilimeter = ':';
     private static string _RawSearchParameterAndValueString = string.Empty;
 
-    public static DtoSearchParameterBase CreateSearchParameter(DtoSupportedSearchParameters DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
+    public static DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices)
     {
-      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.DbSearchParameterType);
+      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
 
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
-      oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
-      oSearchParameter.DbPropertyName = DtoSupportedSearchParametersResource.DbPropertyName;
+      //oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
+      //oSearchParameter.DbPropertyName = DtoSupportedSearchParametersResource.DbPropertyName;
       oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;
       _RawSearchParameterAndValueString = oSearchParameter.RawValue;
-      oSearchParameter.DbSearchParameterType = DtoSupportedSearchParametersResource.DbSearchParameterType;
+      //oSearchParameter.DbSearchParameterType = DtoSupportedSearchParametersResource.DbSearchParameterType;
       if (!ParseModifier(ParameterName, oSearchParameter))
       {
         oSearchParameter.IsValid = false;
@@ -42,14 +43,20 @@ namespace Pyro.Common.BusinessEntities.Search
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
-        oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value);
-        //oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessResourceSearchParameters((Hl7.Fhir.Model.FHIRAllTypes)Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource), SearchParameterGeneric);
+
+
+        ISearchParametersServiceRequest SearchParametersServiceRequestChainedSearch = Pyro.Common.CommonFactory.GetSearchParametersServiceRequest();
+        SearchParametersServiceRequestChainedSearch.SearchParameterGeneric = SearchParameterGeneric;
+        SearchParametersServiceRequestChainedSearch.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Resource;
+        SearchParametersServiceRequestChainedSearch.ResourceType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value;
+        SearchParametersServiceRequestChainedSearch.CommonServices = CommonServices;
+        oSearchParameter.ChainedSearchParameter = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestChainedSearch);        
       }
       else
       {
-        if (oSearchParameter.DbSearchParameterType == DatabaseEnum.DbIndexType.ReferenceIndex)
+        if (oSearchParameter.Type == SearchParamType.Reference)
         {
-          (oSearchParameter as DtoSearchParameterReferance).AllowedReferanceResourceList = DtoSupportedSearchParametersResource.TypeModifierResourceList;
+          (oSearchParameter as DtoSearchParameterReferance).AllowedReferanceResourceList = Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oSearchParameter.Resource, oSearchParameter.Name);          
         }
 
         if (!oSearchParameter.TryParseValue(ParameterValue))
@@ -60,34 +67,59 @@ namespace Pyro.Common.BusinessEntities.Search
       return oSearchParameter;
     }
 
-    private static DtoSearchParameterBase InitalizeSearchParameter(DatabaseEnum.DbIndexType DbSearchParameterType)
+    private static DtoSearchParameterBase InitalizeSearchParameter(SearchParamType DbSearchParameterType)
     {
       switch (DbSearchParameterType)
       {
-        case DatabaseEnum.DbIndexType.DateIndex:
-          return new DtoSearchParameterDate();
-        case DatabaseEnum.DbIndexType.DateTimeIndex:
+        case SearchParamType.Number:
+          return new DtoSearchParameterNumber();         
+        case SearchParamType.Date:          
+          //I think I need to make one of these handel both Date and DateTime, the value given will be one or the other
           return new DtoSearchParameterDateTime();
-        case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-          return new DtoSearchParameterDateTime();
-        case DatabaseEnum.DbIndexType.NumberIndex:
-          return new DtoSearchParameterNumber();
-        case DatabaseEnum.DbIndexType.QuantityIndex:
-          return new DtoSearchParameterQuantity();
-        case DatabaseEnum.DbIndexType.ReferenceIndex:
-          return new DtoSearchParameterReferance();
-        case DatabaseEnum.DbIndexType.StringIndex:
-          return new DtoSearchParameterString();
-        case DatabaseEnum.DbIndexType.TokenIndex:
-          return new DtoSearchParameterToken();
-        case DatabaseEnum.DbIndexType.UriIndex:
-          return new DtoSearchParameterUri();
-        case DatabaseEnum.DbIndexType.QuantityRangeIndex:
-          return new DtoSearchParameterQuantity();
+          //return new DtoSearchParameterDate();          
+        case SearchParamType.String:
+          return new DtoSearchParameterString();          
+        case SearchParamType.Token:
+          return new DtoSearchParameterToken();          
+        case SearchParamType.Reference:
+          return new DtoSearchParameterReferance();          
+        case SearchParamType.Composite:
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));          
+        case SearchParamType.Quantity:
+          return new DtoSearchParameterQuantity();                    
+        case SearchParamType.Uri:
+          return new DtoSearchParameterUri();          
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(DatabaseEnum.DbIndexType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));
       }
+
+      //switch (DbSearchParameterType)
+      //{
+      //  case DatabaseEnum.DbIndexType.DateIndex:
+      //    return new DtoSearchParameterDate();
+      //  case DatabaseEnum.DbIndexType.DateTimeIndex:
+      //    return new DtoSearchParameterDateTime();
+      //  case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
+      //    return new DtoSearchParameterDateTime();
+      //  case DatabaseEnum.DbIndexType.NumberIndex:
+      //    return new DtoSearchParameterNumber();
+      //  case DatabaseEnum.DbIndexType.QuantityIndex:
+      //    return new DtoSearchParameterQuantity();
+      //  case DatabaseEnum.DbIndexType.ReferenceIndex:
+      //    return new DtoSearchParameterReferance();
+      //  case DatabaseEnum.DbIndexType.StringIndex:
+      //    return new DtoSearchParameterString();
+      //  case DatabaseEnum.DbIndexType.TokenIndex:
+      //    return new DtoSearchParameterToken();
+      //  case DatabaseEnum.DbIndexType.UriIndex:
+      //    return new DtoSearchParameterUri();
+      //  case DatabaseEnum.DbIndexType.QuantityRangeIndex:
+      //    return new DtoSearchParameterQuantity();
+      //  default:
+      //    throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(DatabaseEnum.DbIndexType));
+    
     }
+
     private static bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
     {
       if (Name.Contains(_ParameterNameModifierDilimeter))

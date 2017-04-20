@@ -15,11 +15,17 @@ using Hl7.Fhir.Introspection;
 namespace Pyro.Engine.Services
 {
   public class MetadataService
-  {
+  { 
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
     {
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(ResourceServiceRequest.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+
+      SearchParametersServiceRequest.CommonServices = null;
+      SearchParametersServiceRequest.SearchParameterGeneric = ResourceServiceRequest.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequest.ResourceType = null;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;

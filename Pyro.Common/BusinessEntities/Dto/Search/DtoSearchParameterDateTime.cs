@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
-
+using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
@@ -12,7 +12,8 @@ namespace Pyro.Common.BusinessEntities.Search
     public DtoSearchParameterDateTime()
       : base()
     {
-      this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex;
+      this.Type = Hl7.Fhir.Model.SearchParamType.Date;
+      //this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex;
     }
     #endregion
 
@@ -53,7 +54,6 @@ namespace Pyro.Common.BusinessEntities.Search
             {
               return false;
             }
-
           }
           else
           {
@@ -75,7 +75,7 @@ namespace Pyro.Common.BusinessEntities.Search
       }
     }
 
-    public override bool ValidatePrefixes(DtoSupportedSearchParameters DtoSupportedSearchParameters)
+    public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       foreach (var Value in ValueList)
       {

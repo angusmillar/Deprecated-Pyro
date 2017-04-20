@@ -35,6 +35,16 @@ namespace Pyro.Common.Cache
       return DtoServiceSearchParameterLightList;
     }
 
+    public static IList<DtoServiceSearchParameterLight> GetSearchParameterForResource(Common.Interfaces.Repositories.IDtoCommonRepository ICommonRepository, string ResourceType)
+    {
+      IList<DtoServiceSearchParameterLight> DtoServiceSearchParameterLightList = null;
+
+      //At Runtime get the URL from the database and then Cache it
+      IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
+      DtoServiceSearchParameterLightList = Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersForResource(ResourceType));
+
+      return DtoServiceSearchParameterLightList;
+    }
 
   }
 

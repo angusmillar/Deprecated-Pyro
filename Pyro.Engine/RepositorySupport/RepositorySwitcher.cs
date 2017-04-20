@@ -15,7 +15,9 @@ namespace Pyro.Engine.RepositorySupport
       switch (ResourceType)
       {
         case FHIRAllTypes.Patient:
-            return UnitOfWork.PatientRepository;        
+            return UnitOfWork.PatientRepository;
+        case FHIRAllTypes.Observation:
+          return UnitOfWork.ObservationRepository;
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(ResourceType.ToString(), (int)ResourceType, typeof(FHIRAllTypes));
       }      

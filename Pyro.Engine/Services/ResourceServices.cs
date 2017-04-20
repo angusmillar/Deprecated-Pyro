@@ -9,6 +9,7 @@ using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Engine.Services
 {
@@ -47,10 +48,14 @@ namespace Pyro.Engine.Services
     {
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
-      
+
       // GET by FhirId
       // GET URL/FhirApi/Patient/5    
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequestGetRead.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestGetRead.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequest.ResourceType = null;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
@@ -77,8 +82,14 @@ namespace Pyro.Engine.Services
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by Search
-      // GET: URL//FhirApi/Patient?family=Smith&given=John            
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequestGetSearch.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
+      // GET: URL//FhirApi/Patient?family=Smith&given=John           
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();      
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestGetSearch.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource;
+      SearchParametersServiceRequest.ResourceType = _CurrentResourceType;      
+      SearchParametersServiceRequest.CommonServices = this as ICommonServices;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
@@ -108,10 +119,11 @@ namespace Pyro.Engine.Services
         // GET All history for Id
         // GET URL/FhirApi/Patient/5/_history
         //Read all history
-        ISearchParametersServiceOutcome SearchParametersServiceOutcome
-            = SearchParameterService.ProcessSearchParameters(PyroServiceRequestGetHistory.SearchParameterGeneric,
-                                                            SearchParameterService.SearchParameterServiceType.Base |
-                                                            SearchParameterService.SearchParameterServiceType.Bundle);
+        ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+        SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestGetHistory.SearchParameterGeneric;
+        SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle;
+        SearchParametersServiceRequest.ResourceType = null;
+        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
 
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = PyroServiceRequestGetHistory.FhirRequestUri.PrimaryRootUrlStore;
@@ -133,8 +145,12 @@ namespace Pyro.Engine.Services
       else
       {
         // GET by FhirId and FhirVId
-        // GET URL/FhirApi/Patient/5/_history/2    
-        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequestGetHistory.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+        // GET URL/FhirApi/Patient/5/_history/2   
+        ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+        SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestGetHistory.SearchParameterGeneric;
+        SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+        SearchParametersServiceRequest.ResourceType = null;
+        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
         if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
         {
           oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
@@ -157,8 +173,13 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost)
     {
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-      var Test = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as ICommonServices, PyroServiceRequestPost.Resource.ResourceType.ToString());
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchParameterService.ProcessSearchParameters(PyroServiceRequestPost.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();      
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestPost.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequest.ResourceType = null;
+      //var Test = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as ICommonServices, PyroServiceRequestPost.Resource.ResourceType.ToString());
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcomeBase.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcomeBase;        
@@ -169,7 +190,12 @@ namespace Pyro.Engine.Services
       if ((PyroServiceRequestPost.RequestHeaders != null) && (!string.IsNullOrWhiteSpace(PyroServiceRequestPost.RequestHeaders.IfNoneExist)))
       {
         IDtoSearchParameterGeneric SearchParameterGenericIfNoneExist = Common.CommonFactory.GetDtoSearchParameterGeneric(PyroServiceRequestPost.RequestHeaders.IfNoneExist);
-        ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchParameterService.ProcessSearchParameters(SearchParameterGenericIfNoneExist, SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
+        ISearchParametersServiceRequest SearchParametersServiceRequestIfNoneExist = Common.CommonFactory.GetSearchParametersServiceRequest();
+        SearchParametersServiceRequestIfNoneExist.SearchParameterGeneric = SearchParameterGenericIfNoneExist;
+        SearchParametersServiceRequestIfNoneExist.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource;
+        SearchParametersServiceRequestIfNoneExist.ResourceType = _CurrentResourceType;
+        SearchParametersServiceRequest.CommonServices = this as ICommonServices;
+        ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestIfNoneExist);
         if (SearchParametersServiceOutcomeIfNoneExist.FhirOperationOutcome != null)
         {
           oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcomeIfNoneExist;
@@ -215,7 +241,8 @@ namespace Pyro.Engine.Services
       if (!string.IsNullOrWhiteSpace(PyroServiceRequestPost.Resource.Id))
       {
         string Message = string.Format("The create (POST) interaction creates a new resource in a server-assigned location. If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead. The Resource provide was found to contain the id: {0}", PyroServiceRequestPost.Resource.Id);
-        oServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Required, Message);
+        oServiceOperationOutcome.ResourceValidationOperationOutcome = new Pyro.Engine.Validation.ResourceValidationOperationOutcome();
+        oServiceOperationOutcome.ResourceValidationOperationOutcome.FhirOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Required, Message, new List<string>() {"Resource.Id"});
         oServiceOperationOutcome.ResourceValidationOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         return oServiceOperationOutcome;
       }
@@ -237,7 +264,12 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome Put(IResourceServiceRequestPut PyroServiceRequestPut)
     {
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequestPut.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestPut.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequest.ResourceType = null;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
@@ -314,7 +346,12 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome Delete(IResourceServiceRequestDelete PyroServiceRequestDelete)
     {
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(PyroServiceRequestDelete.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base);
+
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestDelete.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequest.ResourceType = null;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
@@ -357,7 +394,13 @@ namespace Pyro.Engine.Services
     {
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetServiceOperationOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalPut.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);      
+
+      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestConditionalPut.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource;
+      SearchParametersServiceRequest.ResourceType = _CurrentResourceType;
+      SearchParametersServiceRequest.CommonServices = this as ICommonServices;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);      
       if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
       {
         ServiceOperationOutcomeConditionalPut.SearchParametersServiceOutcome = SearchParametersServiceOutcomeAll;
@@ -429,10 +472,20 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalDelete(IResourceServiceRequestConditionalDelete PyroServiceRequestConditionalDelete)
     {
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetServiceOperationOutcome();      
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetServiceOperationOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeBaseOnly = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalDelete.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base, _CurrentResourceType);
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(PyroServiceRequestConditionalDelete.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
+      ISearchParametersServiceRequest SearchParametersServiceRequestBaseOnly = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequestBaseOnly.SearchParameterGeneric = PyroServiceRequestConditionalDelete.SearchParameterGeneric;
+      SearchParametersServiceRequestBaseOnly.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
+      SearchParametersServiceRequestBaseOnly.ResourceType = _CurrentResourceType;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeBaseOnly = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestBaseOnly);
+
+      ISearchParametersServiceRequest SearchParametersServiceRequestAll = Common.CommonFactory.GetSearchParametersServiceRequest();
+      SearchParametersServiceRequestAll.SearchParameterGeneric = PyroServiceRequestConditionalDelete.SearchParameterGeneric;
+      SearchParametersServiceRequestAll.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource;
+      SearchParametersServiceRequestAll.ResourceType = _CurrentResourceType;
+      SearchParametersServiceRequestAll.CommonServices = this as ICommonServices;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestAll);
 
       if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
       {

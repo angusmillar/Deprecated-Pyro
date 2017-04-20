@@ -21,7 +21,7 @@ namespace Pyro.Common.BusinessEntities.Search
 
     public class Sort
     {
-      public DtoSupportedSearchParameters Value { get; set; }
+      public DtoServiceSearchParameterLight Value { get; set; }
       public Hl7.Fhir.Rest.SortOrder SortOrderType { get; set; }
     }
   }

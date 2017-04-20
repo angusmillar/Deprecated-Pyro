@@ -15,7 +15,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
 
     public string String { get; set; }
 
-    public int Date { get; set; }
+    public int? Date { get; set; }
 
     public DateTimeOffset? DateTimeOffsetLow { get; set; }
     public DateTimeOffset? DateTimeOffsetHigh { get; set; }

@@ -20,6 +20,8 @@ namespace Pyro.Common.Tools
 
     public enum DateTimePrecision { Year, Month, Day, HourMin, Sec, MilliSec };
     public DateTimeOffset? Value { get; set; }
+    public int ValueDate { get; set; }
+
     public DateTimePrecision Precision { get; set; }
     private bool _IsValid;
 
@@ -37,6 +39,7 @@ namespace Pyro.Common.Tools
     {      
       if (string.IsNullOrWhiteSpace(FhirDateTime))
         throw new NullReferenceException("Fhir DateTime cannot be null of empty string.");
+
 
       DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
       if (FhirDateTime.Length == 29)

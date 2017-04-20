@@ -26,10 +26,15 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 
     public DbSet<ServiceBaseUrl> ServiceBaseUrl { get; set; }
     public DbSet<ServiceSearchParameter> ServiceSearchParameter { get; set; }
+
     public DbSet<PatientRes> Patient { get; set; }
     public DbSet<PatientResHistory> PatientHistory { get; set; }
     public DbSet<PatientResIndex> PatientIndex { get; set; }
-    
+
+    public DbSet<ObservationRes> Observation { get; set; }
+    public DbSet<ObservationResHistory> ObservationHistory { get; set; }
+    public DbSet<ObservationResIndex> ObservationIndex { get; set; }
+
 
     protected override void OnModelCreating(DbModelBuilder Mb)
     {
@@ -43,6 +48,11 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       Mb.Configurations.Add(new ResourceContextConfig<PatientRes, PatientResHistory, PatientResIndex>());      
       Mb.Configurations.Add(new HistoryContextConfig<PatientRes, PatientResHistory, PatientResIndex>());
       Mb.Configurations.Add(new IndexContextConfig<PatientRes, PatientResHistory, PatientResIndex>());
+
+      Mb.Configurations.Add(new ResourceContextConfig<ObservationRes, ObservationResHistory, ObservationResIndex>());
+      Mb.Configurations.Add(new HistoryContextConfig<ObservationRes, ObservationResHistory, ObservationResIndex>());
+      Mb.Configurations.Add(new IndexContextConfig<ObservationRes, ObservationResHistory, ObservationResIndex>());
+
     }
   }
 }
