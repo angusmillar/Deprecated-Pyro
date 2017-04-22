@@ -1,115 +1,147 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
+using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class StringSetter
+  public static class StringSetter<ResourceIndexType> where ResourceIndexType : ResourceIndexBase, new()
   {
-    public static ResourceIndexType Set<ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight searchParameter)
-      where ResourceIndexType : ResourceIndexBase, new()
+    private static List<ResourceIndexType> ResourceIndexList;
+    private static int ServiceSearchParameterId;  
+    private const string ItemDelimeter = " ";
+
+    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)      
     {
-      var ResourceIndex = new ResourceIndexType();
-      ResourceIndex.ServiceSearchParameterId = searchParameter.Id;
+      ResourceIndexList = new List<ResourceIndexType>();
+      ServiceSearchParameterId = SearchParameter.Id;
+
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {
-        string ItemDelimeter = " ";
+      {        
         if (Poco.FhirValue is FhirString FhirString)
         {
-          ResourceIndex.String = FhirString.Value;
-          return ResourceIndex;
+          SetFhirString(FhirString);
         }
         else if (Poco.FhirValue is Address address)
         {
-          string FullAdddress = string.Empty;
-          foreach (var Line in address.Line)
-          {
-            FullAdddress += Line + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.City))
-          {
-            FullAdddress += address.City + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.PostalCode))
-          {
-            FullAdddress += address.PostalCode + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.State))
-          {
-            FullAdddress += address.State + ItemDelimeter;
-          }
-          if (!string.IsNullOrWhiteSpace(address.Country))
-          {
-            FullAdddress += address.Country + ItemDelimeter;
-          }
-          if (FullAdddress != string.Empty)
-          {
-            ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim());
-            return ResourceIndex;
-          }
+          SetAddress(address);          
         }
         else if (Poco.FhirValue is HumanName HumanName)
         {
-          string FullName = string.Empty;
-          foreach (var Given in HumanName.Given)
-          {
-            FullName += Given + ItemDelimeter;
-          }
-
-          if (!string.IsNullOrWhiteSpace(HumanName.Family))
-          {
-            FullName += HumanName.Family + ItemDelimeter;
-          }
-
-          if (FullName != string.Empty)
-          {
-            ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim());
-            return ResourceIndex;
-          }
+          SetHumanName(HumanName);         
         }
         else if (Poco.FhirValue is Markdown Markdown)
         {
-          if (!string.IsNullOrWhiteSpace(Markdown.Value))
-          {
-            ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim());
-            return ResourceIndex;
-          }
+          SetMarkdown(Markdown);          
         }
         else if (Poco.FhirValue is Annotation Annotation)
         {
-          if (!string.IsNullOrWhiteSpace(Annotation.Text))
-          {
-            ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim());
-            return ResourceIndex;
-          }
+          SetAnnotation(Annotation);          
         }
         else
         {
-          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{searchParameter.Type}'");
+          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
       }
       else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
       {
+        var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = ConstantValue.Type.ToString();
-        return ResourceIndex;
+        ResourceIndexList.Add(ResourceIndex);
       }
       else if (oElement.Value is bool Bool)
       {
+        var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = Bool.ToString();
-        return ResourceIndex;
+        ResourceIndexList.Add(ResourceIndex);
       }
       else
       {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{searchParameter.Type}'");
+        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-      return null;
+      ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
+      return ResourceIndexList;
     }
 
+    private static void SetFhirString(FhirString FhirString)      
+    {
+      if (!string.IsNullOrWhiteSpace(FhirString.Value))
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.String = FhirString.Value;
+        ResourceIndexList.Add(ResourceIndex);
+      }      
+    }
+    private static void SetAnnotation(Annotation Annotation)
+    {
+      if (!string.IsNullOrWhiteSpace(Annotation.Text))
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim());
+        ResourceIndexList.Add(ResourceIndex);
+      }      
+    }
+    private static void SetMarkdown(Markdown Markdown)
+    {
+      if (!string.IsNullOrWhiteSpace(Markdown.Value))
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim());
+        ResourceIndexList.Add(ResourceIndex);
+      }      
+    }
+    private static void SetHumanName(HumanName HumanName)       
+    {
+      string FullName = string.Empty;
+      foreach (var Given in HumanName.Given)
+      {
+        FullName += Given + ItemDelimeter;
+      }
+
+      if (!string.IsNullOrWhiteSpace(HumanName.Family))
+      {
+        FullName += HumanName.Family + ItemDelimeter;
+      }
+
+      if (FullName != string.Empty)
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim());
+        ResourceIndexList.Add(ResourceIndex);
+      }      
+    }
+
+    private static void SetAddress(Address Address)
+    {
+      string FullAdddress = string.Empty;
+      foreach (var Line in Address.Line)
+      {
+        FullAdddress += Line + ItemDelimeter;
+      }
+      if (!string.IsNullOrWhiteSpace(Address.City))
+      {
+        FullAdddress += Address.City + ItemDelimeter;
+      }
+      if (!string.IsNullOrWhiteSpace(Address.PostalCode))
+      {
+        FullAdddress += Address.PostalCode + ItemDelimeter;
+      }
+      if (!string.IsNullOrWhiteSpace(Address.State))
+      {
+        FullAdddress += Address.State + ItemDelimeter;
+      }
+      if (!string.IsNullOrWhiteSpace(Address.Country))
+      {
+        FullAdddress += Address.Country + ItemDelimeter;
+      }
+      if (FullAdddress != string.Empty)
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim());
+        ResourceIndexList.Add(ResourceIndex);
+      }      
+    }
   }
 }

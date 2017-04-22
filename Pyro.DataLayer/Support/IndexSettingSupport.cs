@@ -21,7 +21,7 @@ namespace Pyro.DataLayer.Support
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
       where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
       where ResourceIndexType : ResourceIndexBase
-    {
+    {      
       ResourceCurrentBase.IsDeleted = IsDeleted;
       ResourceCurrentBase.VersionId = Version;
       ResourceCurrentBase.Method = Method;
@@ -43,8 +43,9 @@ namespace Pyro.DataLayer.Support
       where ResourceBaseType : ResourceBase
     {
       var DtoResource = new DtoResource();
+      
       DtoResource.FhirId = ResourceBase.FhirId;
-      DtoResource.IsCurrent = IsCurrent;
+      DtoResource.IsCurrent = ResourceBase.IsCurrent;
       DtoResource.IsDeleted = ResourceBase.IsDeleted;
       DtoResource.Received = ResourceBase.LastUpdated;
       DtoResource.Version = ResourceBase.VersionId;
@@ -75,6 +76,7 @@ namespace Pyro.DataLayer.Support
       where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
       where ResourceIndexType : ResourceIndexBase
     {
+      ResourceCurrentBase.EntityId = null;
       ResourceCurrentBase.FhirId = null;
       ResourceCurrentBase.IsDeleted = false;
       ResourceCurrentBase.LastUpdated = DateTimeOffset.MinValue;
@@ -88,6 +90,7 @@ namespace Pyro.DataLayer.Support
       where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
       where ResourceIndexType : ResourceIndexBase
     {
+      ResourceHistoryBase.EntityId = ResourceCurrentBase.Id;
       ResourceHistoryBase.FhirId = ResourceCurrentBase.FhirId;
       ResourceHistoryBase.IsDeleted = ResourceCurrentBase.IsDeleted;
       ResourceHistoryBase.XmlBlob = ResourceCurrentBase.XmlBlob;

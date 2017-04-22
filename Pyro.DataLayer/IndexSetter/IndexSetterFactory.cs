@@ -12,27 +12,27 @@ namespace Pyro.DataLayer.IndexSetter
 {
   public static class IndexSetterFactory
   {
-    public static ResourceIndexType Set<ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public static IList<ResourceIndexType> Set<ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
       where ResourceIndexType : ResourceIndexBase, new()
     {
       switch (SearchParameter.Type)
       {
         case SearchParamType.Number:
-          return null;
+          return NumberSetter<ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Date:
-          return DateTimeSetter.Set<ResourceIndexType>(oElement, SearchParameter);          
+          return DateTimeSetter<ResourceIndexType>.Set(oElement, SearchParameter);          
         case SearchParamType.String:
-          return StringSetter.Set<ResourceIndexType>(oElement, SearchParameter);
+          return StringSetter<ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Token:
-          return null;
+          return TokenSetter<ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Reference:
-          return null;
+          return ReferenceSetter<ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Composite:
           return null;
         case SearchParamType.Quantity:
-          return null;
+          return QuantitySetter<ResourceIndexType>.Set(oElement, SearchParameter);          
         case SearchParamType.Uri:
-          return null;
+          return UriSetter<ResourceIndexType>.Set(oElement, SearchParameter);          
         default:
           return null;
       }

@@ -10,6 +10,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure.Annotations;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
+using Pyro.DataLayer.DbModel.Extentions;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
@@ -20,11 +21,26 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ResourceContextConfig()
     {
+      Property(x => x.EntityId).IsOptional();
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.IsDeleted).IsRequired();
-      Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
+
+      Property(t => t.FhirId)
+          .HasColumnName("FhirId")
+          .HasMaxLength(450)
+          .IsRequired()
+          .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 0);
+
+      Property(t => t.VersionId)
+         .HasColumnName("VersionId")
+         .HasMaxLength(50)
+         .IsRequired()
+         .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 1);
+
+
+      //Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.LastUpdated).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
-      Property(x => x.VersionId).IsRequired();
+      //Property(x => x.VersionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.Method).IsRequired();
     }

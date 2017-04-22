@@ -346,16 +346,18 @@ namespace Pyro.DataLayer.Repository
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
       foreach (DtoServiceSearchParameterLight SearchParameter in searchparameters)
       {        
+        if (SearchParameter.Name == "code" && SearchParameter.Resource == "Observation")
+        {
+
+        }
         IEnumerable<IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
         foreach (IElementNavigator oElement in ResultList)
         {          
           if (oElement != null)
           {
-            ResourceIndexType ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter);            
+            IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter);
             if (ResourceIndex != null)
-            {
-              ResourceEntity.IndexList.Add(ResourceIndex);
-            }
+            ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
           }
         }
       }

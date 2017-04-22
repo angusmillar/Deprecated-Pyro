@@ -8,9 +8,12 @@ using Hl7.Fhir.Model;
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
   public abstract class ResourceBase : ModelBase
-  {    
+  {
+
+    public int? EntityId { get; set; }
     public string FhirId { get; set; }
     public bool IsDeleted { get; set; }
+    public bool IsCurrent { get; set; }
     public string VersionId { get; set; }
     public DateTimeOffset LastUpdated { get; set; }
     public string XmlBlob { get; set; }

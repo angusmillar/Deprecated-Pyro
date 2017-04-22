@@ -84,9 +84,15 @@
     <Compile Include="DbModel\EntityGenerated\PatientRes.cs" />
     <Compile Include="DbModel\EntityGenerated\PatientResHistory.cs" />
     <Compile Include="DbModel\EntityGenerated\PatientResIndex.cs" />
+    <Compile Include="DbModel\Extentions\TypeConfigurationExtensions.cs" />
     <Compile Include="DbModel\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="IndexSetter\IndexSetterFactory.cs" />
     <Compile Include="IndexSetter\DateTimeSetter.cs" />
+    <Compile Include="IndexSetter\ReferenceSetter .cs" />
+    <Compile Include="IndexSetter\UriSetter.cs" />
+    <Compile Include="IndexSetter\TokenSetter.cs" />
+    <Compile Include="IndexSetter\QuantitySetter.cs" />
+    <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
