@@ -19,6 +19,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Hl7.Fhir.ElementModel;
+using Pyro.DataLayer.Repository.Interfaces;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -346,22 +347,23 @@ namespace Pyro.DataLayer.Repository
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
       foreach (DtoServiceSearchParameterLight SearchParameter in searchparameters)
       {        
-        if (SearchParameter.Name == "code" && SearchParameter.Resource == "Observation")
+        //Todo: Composite searchParameters are not supported as yet, need to do work to read 
+        // the sub search parameters of the composite directly fro the SearchParameter resources.
+        if (SearchParameter.Type != SearchParamType.Composite)
         {
-
-        }
-        IEnumerable<IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
-        foreach (IElementNavigator oElement in ResultList)
-        {          
-          if (oElement != null)
+          IEnumerable<IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
+          foreach (IElementNavigator oElement in ResultList)
           {
-            IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter);
-            if (ResourceIndex != null)
-            ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
+            if (oElement != null)
+            {
+              IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter, FhirRequestUri, this as ICommonRepository);
+              if (ResourceIndex != null)
+                ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
+            }
           }
         }
       }
     }
-    
+
   }
 }
