@@ -86,12 +86,25 @@ namespace Pyro.DataLayer.IndexSetter
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
-      }     
+      }
+      else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
+      {
+        var FhirString = new FhirString(ConstantValue.ToString());
+      }
+      else if (oElement.Value is bool Bool)
+      {
+        var FhirBool = new FhirBoolean(Bool);
+        SetFhirBoolean(FhirBool);
+      }
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
+      ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
+      return ResourceIndexList;
+
     }
+
 
     private static void SetCodeTypeT(string CodeValue)
     {

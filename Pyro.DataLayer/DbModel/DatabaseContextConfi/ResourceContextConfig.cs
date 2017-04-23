@@ -14,14 +14,13 @@ using Pyro.DataLayer.DbModel.Extentions;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class ResourceContextConfig<ResourceCurrentType, ResourceHistoryType, ResourceIndexType> : EntityTypeConfiguration<ResourceCurrentType> 
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-    where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+  public class ResourceContextConfig<ResourceCurrentType, ResourceIndexType> : EntityTypeConfiguration<ResourceCurrentType> 
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>    
     where ResourceIndexType : ResourceIndexBase
   {
     public ResourceContextConfig()
     {
-      Property(x => x.EntityId).IsOptional();
+      Property(x => x.IsCurrent).IsRequired();
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.IsDeleted).IsRequired();
 
@@ -36,8 +35,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
          .HasMaxLength(50)
          .IsRequired()
          .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 1);
-
-
+      
       //Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
       Property(x => x.LastUpdated).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
       //Property(x => x.VersionId).IsRequired();

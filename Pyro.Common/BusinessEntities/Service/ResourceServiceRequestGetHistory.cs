@@ -25,8 +25,8 @@ namespace Pyro.Common.BusinessEntities.Service
       if (string.IsNullOrEmpty(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
       //VersionId can be null
-      if (FhirRequestUri == null)
-        throw new NullReferenceException("FhirRequestUri can not be null.");
+      if (DtoFhirRequestUri == null)
+        throw new NullReferenceException("DtoFhirRequestUri can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 

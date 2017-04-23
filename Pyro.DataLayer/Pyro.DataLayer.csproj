@@ -66,7 +66,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbModel\DatabaseContextConfi\HistoryContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ResourceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterConfig.cs" />
@@ -74,16 +73,12 @@
     <Compile Include="DbModel\DatabaseContext\PyroDbContext.cs" />
     <Compile Include="DbModel\DatabaseInitializer\ServiceSearchParameterInitializer.cs" />
     <Compile Include="DbModel\EntityBase\ResourceCurrentBase.cs" />
-    <Compile Include="DbModel\EntityBase\ResourceHistoryBase.cs" />
     <Compile Include="DbModel\EntityBase\ModelBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexBase.cs" />
     <Compile Include="DbModel\EntityGenerated\GeneratedResourceEntities.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameter.cs" />
     <Compile Include="DbModel\Entity\ServiceBaseUrl.cs" />
-    <Compile Include="DbModel\EntityGenerated\PatientRes.cs" />
-    <Compile Include="DbModel\EntityGenerated\PatientResHistory.cs" />
-    <Compile Include="DbModel\EntityGenerated\PatientResIndex.cs" />
     <Compile Include="DbModel\Extentions\TypeConfigurationExtensions.cs" />
     <Compile Include="DbModel\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="IndexSetter\IndexSetterFactory.cs" />

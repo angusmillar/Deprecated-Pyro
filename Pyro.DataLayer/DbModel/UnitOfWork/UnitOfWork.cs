@@ -69,8 +69,8 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;
 
     private CommonRepository _CommonRepository;    
-    private CommonResourceRepository<PatientRes, PatientResHistory, PatientResIndex> _PatientRepository;
-    private CommonResourceRepository<ObservationRes, ObservationResHistory, ObservationResIndex> _ObservationRepository;
+    private CommonResourceRepository<PatientRes, PatientResIndex> _PatientRepository;
+    private CommonResourceRepository<ObservationRes, ObservationResIndex> _ObservationRepository;
 
     
     public UnitOfWork()
@@ -93,7 +93,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       get
       {
         if (this._PatientRepository == null)
-          this._PatientRepository = new CommonResourceRepository<PatientRes, PatientResHistory, PatientResIndex>(_context, FHIRAllTypes.Patient);
+          this._PatientRepository = new CommonResourceRepository<PatientRes, PatientResIndex>(_context, FHIRAllTypes.Patient);
         return _PatientRepository;
       }
     }
@@ -102,7 +102,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       get
       {
         if (this._ObservationRepository == null)
-          this._ObservationRepository = new CommonResourceRepository<ObservationRes, ObservationResHistory, ObservationResIndex>(_context, FHIRAllTypes.Observation);
+          this._ObservationRepository = new CommonResourceRepository<ObservationRes, ObservationResIndex>(_context, FHIRAllTypes.Observation);
         return _ObservationRepository;
       }
     }

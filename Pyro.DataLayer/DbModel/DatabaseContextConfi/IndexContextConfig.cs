@@ -14,9 +14,8 @@ using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class IndexContextConfig<ResourceCurrentType, ResourceHistoryType, ResourceIndexType> : EntityTypeConfiguration<ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-    where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+  public class IndexContextConfig<ResourceCurrentType, ResourceIndexType> : EntityTypeConfiguration<ResourceIndexType>
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>    
     where ResourceIndexType : ResourceIndexBase
   {
     public IndexContextConfig()

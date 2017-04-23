@@ -33,9 +33,8 @@ namespace Pyro.DataLayer.Repository
     #endregion
 
     //---- PredicateGenerator ---------------------------------------------------------------
-    protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters) 
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-      where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+    protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters) 
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
       where ResourceIndexType : ResourceIndexBase
     {
       //var Search = new ResourceSearch<ResourceCurrentType>();
@@ -203,9 +202,8 @@ namespace Pyro.DataLayer.Repository
 
     //---- Resource ---------------------------------------------------------------
 
-    protected ResourceCurrentType DbGet<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-      where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+    protected ResourceCurrentType DbGet<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
       where ResourceIndexType : ResourceIndexBase
     {
       ResourceCurrentType ResourceEntity = null;
@@ -213,11 +211,44 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity;
     }
 
-    protected IQueryable<ResourceBaseType> DbGetAll<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate) 
-      where ResourceBaseType : ResourceBase
+    protected DtoResource DbGetNoXML<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase
     {
-      IQueryable<ResourceBaseType> ResourceEntity = null;
-      ResourceEntity = _Context.Set<ResourceBaseType>().AsExpandable().Where(predicate);
+     return _Context.Set<ResourceCurrentType>().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
+      {
+        IsCurrent = x.IsCurrent,
+        FhirId = x.FhirId,
+        IsDeleted = x.IsDeleted,
+        Version = x.VersionId,
+        Received = x.LastUpdated,
+        Method = x.Method,             
+      }).FirstOrDefault();      
+    }
+
+    protected DtoResource DbGetWithXML<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase
+    {
+      return _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
+      {
+        IsCurrent = x.IsCurrent,
+        FhirId = x.FhirId,
+        IsDeleted = x.IsDeleted,
+        Version = x.VersionId,
+        Received = x.LastUpdated,
+        Method = x.Method,
+        Xml = x.XmlBlob,
+      }).FirstOrDefault();
+    }
+
+
+    protected IQueryable<ResourceCurrentType> DbGetAll<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase
+    {
+      IQueryable<ResourceCurrentType> ResourceEntity = null;
+      ResourceEntity = _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate);
       return ResourceEntity;
     }
 
@@ -229,18 +260,16 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity.Count();
     }
 
-    protected void DbAddEntity<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(ResourceCurrentType Entity)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-      where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+    protected void DbAddEntity<ResourceCurrentType, ResourceIndexType>(ResourceCurrentType Entity)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
       where ResourceIndexType : ResourceIndexBase
     {
       _Context.Set<ResourceCurrentType>().Add(Entity);
       this.Save();
     }
 
-    protected ResourceCurrentType DbQueryEntityWithInclude<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate, List<Expression<Func<ResourceCurrentType, object>>> IncludeList)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>
-      where ResourceHistoryType : ResourceHistoryBase<ResourceCurrentType>
+    protected ResourceCurrentType DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate, List<Expression<Func<ResourceCurrentType, object>>> IncludeList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
       where ResourceIndexType : ResourceIndexBase
     {
       ResourceCurrentType ResourceEntity = null;
