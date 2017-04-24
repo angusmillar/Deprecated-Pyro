@@ -8,6 +8,7 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Engine.Support
 {
@@ -29,14 +30,12 @@ namespace Pyro.Engine.Support
       foreach (DtoResource DtoResource in ResourceList)
       {
         Bundle.EntryComponent oResEntry = new Bundle.EntryComponent();
+
         if (DtoResource.IsDeleted == false)
         {
           try
           {
             oResEntry.Resource = FhirResourceSerializationSupport.Serialize(DtoResource.Xml);
-            var FullUrlUriBuilder = new UriBuilder(FhirRequestUri.FhirUri.ServiceRootUrl);
-            FullUrlUriBuilder.Path = string.Join("/", oResEntry.Resource.TypeName, DtoResource.FhirId);
-            oResEntry.FullUrl = FullUrlUriBuilder.ToString();
           }
           catch (Exception oExec)
           {
@@ -45,6 +44,11 @@ namespace Pyro.Engine.Support
             throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
           }
         }
+        
+        var FullUrlUriBuilder = new UriBuilder(FhirRequestUri.FhirUri.ServiceRootUrl);
+        FullUrlUriBuilder.Path = string.Join("/", DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
+        oResEntry.FullUrl = FullUrlUriBuilder.ToString();
+
         if (BundleType == Bundle.BundleType.History)
         {
           if (DtoResource.ResourceType.HasValue && DtoResource.ResourceType.HasValue)
@@ -54,16 +58,16 @@ namespace Pyro.Engine.Support
             switch (DtoResource.Method)
             {
               case Bundle.HTTPVerb.GET:
-                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId, "_history", DtoResource.Version);
                 break;
               case Bundle.HTTPVerb.POST:
-                oResEntry.Request.Url = ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value);
+                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId, "_history", DtoResource.Version);
                 break;
               case Bundle.HTTPVerb.PUT:
-                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId, "_history", DtoResource.Version);
                 break;
               case Bundle.HTTPVerb.DELETE:
-                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId);
+                oResEntry.Request.Url = string.Join("/", ModelInfo.FhirTypeToFhirTypeName(DtoResource.ResourceType.Value), DtoResource.FhirId, "_history", DtoResource.Version);
                 break;
               default:
                 throw new System.ComponentModel.InvalidEnumArgumentException(DtoResource.Method.ToString(), (int)DtoResource.Method, typeof(Bundle.HTTPVerb));
