@@ -1,4 +1,4 @@
-﻿namespace Pyro.Common.Interfaces.Tools
+﻿namespace Pyro.Common.Interfaces.ITools
 {
   public interface IFhirNarativeGenerationSupport
   {

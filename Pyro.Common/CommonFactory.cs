@@ -7,7 +7,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.Tools;
+using Pyro.Common.Interfaces.ITools;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.BusinessEntities.Service;

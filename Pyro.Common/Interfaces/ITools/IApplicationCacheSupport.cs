@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Pyro.Common.Interfaces.Tools
+namespace Pyro.Common.Interfaces.ITools
 {
   public interface IApplicationCacheSupport
   {

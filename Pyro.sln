@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.ConsoleServer", "Pyro.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.DataLayer", "Pyro.DataLayer\Pyro.DataLayer.csproj", "{ED443624-3BCA-44A2-AD32-CEA9CD47E9A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.CodeGeneration", "Pyro.CodeGeneration\Pyro.CodeGeneration.csproj", "{55EAF68B-2788-45A0-BECF-38DA3D7944C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{ED443624-3BCA-44A2-AD32-CEA9CD47E9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED443624-3BCA-44A2-AD32-CEA9CD47E9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED443624-3BCA-44A2-AD32-CEA9CD47E9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

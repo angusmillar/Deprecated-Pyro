@@ -16,7 +16,7 @@ using Pyro.DataLayer.Support;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContext
 {
-  public class PyroDbContext : DbContext
+  public partial class PyroDbContext : DbContext
   {
     public PyroDbContext()
       : base("PyroConnectionString")
@@ -26,29 +26,6 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 
     public DbSet<ServiceBaseUrl> ServiceBaseUrl { get; set; }
     public DbSet<ServiceSearchParameter> ServiceSearchParameter { get; set; }
-
-    public DbSet<PatientRes> Patient { get; set; }    
-    public DbSet<PatientResIndex> PatientIndex { get; set; }
-
-    public DbSet<ObservationRes> Observation { get; set; }    
-    public DbSet<ObservationResIndex> ObservationIndex { get; set; }
-
-
-    protected override void OnModelCreating(DbModelBuilder Mb)
-    {
-      base.OnModelCreating(Mb);
-
-      Mb.Conventions.Remove<PluralizingTableNameConvention>();
-      
-      Mb.Configurations.Add(new ServiceBaseUrlContextConfig());
-      Mb.Configurations.Add(new ServiceSearchParameterConfig());
-
-      Mb.Configurations.Add(new ResourceContextConfig<PatientRes, PatientResIndex>());            
-      Mb.Configurations.Add(new IndexContextConfig<PatientRes, PatientResIndex>());
-
-      Mb.Configurations.Add(new ResourceContextConfig<ObservationRes, ObservationResIndex>());      
-      Mb.Configurations.Add(new IndexContextConfig<ObservationRes, ObservationResIndex>());
-
-    }
+    
   }
 }

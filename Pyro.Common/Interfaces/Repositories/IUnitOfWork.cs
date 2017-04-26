@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.Interfaces.Repositories
 {
-  public interface IUnitOfWork
+  public partial interface IUnitOfWork
   {
     void BeginTransaction();
     void CommitTransaction();
     void RollbackTransaction();
-    bool IsTransactional { get;}
+    bool IsTransactional { get; }
 
     IDtoCommonRepository CommonRepository { get; }
-    IResourceRepository PatientRepository { get; }
-    IResourceRepository ObservationRepository { get; }
   }
 }
 

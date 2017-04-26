@@ -24,7 +24,8 @@ namespace Pyro.Engine.Services
       set
       {        
         _CurrentResourceType = value;
-        _ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);        
+        _ResourceRepository = Pyro.Common.Tools.RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);
+        //_ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);        
       }
     }
   }

@@ -138,6 +138,10 @@
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalPut.cs" />
+    <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\Repositories\IUnitOfWorkCodeGeneration.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\Service\IBundleTransactionService.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestTransactionBundle.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestMetadata.cs" />
@@ -169,10 +173,7 @@
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
     <Compile Include="Interfaces\Dto\IDtoSearchParameterDbInfo.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IUnitOfWork.cs">
-      <DependentUpon>_UnitOfWorkGenerator.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\Tools\IApplicationCacheSupport.cs" />
+    <Compile Include="Interfaces\ITools\IApplicationCacheSupport.cs" />
     <Compile Include="Interfaces\UriSupport\IDtoFhirRequestUri.cs" />
     <Compile Include="Interfaces\Dto\IDtoRootUrlStore.cs" />
     <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
@@ -195,8 +196,11 @@
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
-    <Compile Include="Interfaces\Tools\IFhirNarativeGenerationSupport.cs" />
+    <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
+    <Compile Include="Tools\RepositorySwitcher.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ResourceVersionNumber.cs" />
     <Compile Include="Tools\SearchParameterTools.cs" />
     <Compile Include="Tools\StringSupport.cs" />
@@ -207,8 +211,9 @@
     <None Include="app.config" />
     <None Include="BusinessEntities\Dto\Search\_SearchParameterToDbInfoGeneration.txt4" />
     <None Include="Enum\_SearchParameterEnumGeneration.txt4" />
-    <None Include="Interfaces\Repositories\_UnitOfWorkGenerator.txt4" />
+    <None Include="Interfaces\Repositories\MainTemplate.txt4" />
     <None Include="packages.config" />
+    <None Include="Tools\MainTemplate.txt4" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

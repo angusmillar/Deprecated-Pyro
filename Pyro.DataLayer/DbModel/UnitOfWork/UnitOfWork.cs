@@ -11,7 +11,7 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.DbModel.UnitOfWork
 {  
-  public class UnitOfWork : IUnitOfWork, IDisposable
+  public partial class UnitOfWork : IUnitOfWork, IDisposable
   {
     private bool _Transactional = false;
     private System.Data.Entity.DbContextTransaction _Trans;
@@ -68,10 +68,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
 
     private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;
 
-    private CommonRepository _CommonRepository;    
-    private CommonResourceRepository<PatientRes, PatientResIndex> _PatientRepository;
-    private CommonResourceRepository<ObservationRes, ObservationResIndex> _ObservationRepository;
-
+    private CommonRepository _CommonRepository;  
     
     public UnitOfWork()
     {
@@ -88,25 +85,6 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       }
     }
     
-    public IResourceRepository PatientRepository
-    {
-      get
-      {
-        if (this._PatientRepository == null)
-          this._PatientRepository = new CommonResourceRepository<PatientRes, PatientResIndex>(_context, FHIRAllTypes.Patient);
-        return _PatientRepository;
-      }
-    }
-    public IResourceRepository ObservationRepository
-    {
-      get
-      {
-        if (this._ObservationRepository == null)
-          this._ObservationRepository = new CommonResourceRepository<ObservationRes, ObservationResIndex>(_context, FHIRAllTypes.Observation);
-        return _ObservationRepository;
-      }
-    }
-
     #region Implementing IDiosposable...
 
     #region private dispose variable declaration...

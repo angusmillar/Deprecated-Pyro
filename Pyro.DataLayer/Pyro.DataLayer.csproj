@@ -71,16 +71,24 @@
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceBaseUrlContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContext\PyroDbContext.cs" />
+    <Compile Include="DbModel\DatabaseContext\PyroDbContextCodeGenerated.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DbModel\DatabaseInitializer\ServiceSearchParameterInitializer.cs" />
     <Compile Include="DbModel\EntityBase\ResourceCurrentBase.cs" />
     <Compile Include="DbModel\EntityBase\ModelBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexBase.cs" />
-    <Compile Include="DbModel\EntityGenerated\GeneratedResourceEntities.cs" />
+    <Compile Include="DbModel\EntityGenerated\GeneratedResourceEntities.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DbModel\Entity\ServiceSearchParameter.cs" />
     <Compile Include="DbModel\Entity\ServiceBaseUrl.cs" />
     <Compile Include="DbModel\Extentions\TypeConfigurationExtensions.cs" />
     <Compile Include="DbModel\UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="DbModel\UnitOfWork\UnitOfWorkCodeGenerated.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="IndexSetter\IndexSetterFactory.cs" />
     <Compile Include="IndexSetter\DateTimeSetter.cs" />
     <Compile Include="IndexSetter\ReferenceSetter .cs" />
@@ -111,6 +119,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
+    <None Include="DbModel\DatabaseContext\MainTemplate.txt4" />
+    <None Include="DbModel\EntityGenerated\MainTemplate.txt4" />
+    <None Include="DbModel\UnitOfWork\MainTemplate.txt4" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

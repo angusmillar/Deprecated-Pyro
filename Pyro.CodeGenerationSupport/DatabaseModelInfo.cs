@@ -20,7 +20,7 @@ namespace Pyro.CodeGenerationSupport
     /// <param name="ResourceName"></param>
     /// <returns></returns>
     public static string ConstructClassNameForResourceClass(string ResourceName)
-    {
+    {      
       return String.Format("{0}_{1}", StaticDatabaseInfo.ResourcePrefixText, ResourceName);
     }
 
