@@ -19,7 +19,7 @@ namespace Pyro.Common.BusinessEntities.Search
       SupportedSearchParameter.DbPropertyName = string.Empty;
       SupportedSearchParameter.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
       SupportedSearchParameter.SearchParameterType = SearchParamType.String;
-      SupportedSearchParameter.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+      SupportedSearchParameter.ModifierList = new List<SearchParameter.SearchModifierCode>();
       SupportedSearchParameter.TypeModifierResourceList = new List<string>();
       SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(SupportedSearchParameter);
@@ -38,7 +38,7 @@ namespace Pyro.Common.BusinessEntities.Search
       Page.DbPropertyName = string.Empty;
       Page.DbSearchParameterType = DatabaseEnum.DbIndexType.NumberIndex;
       Page.SearchParameterType = SearchParamType.Number;
-      Page.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+      Page.ModifierList = new List<SearchParameter.SearchModifierCode>();
       Page.TypeModifierResourceList = new List<string>();
       Page.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(Page);
@@ -48,7 +48,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Sort.Resource = FHIRAllTypes.Resource;
       _Sort.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
       _Sort.SearchParameterType = SearchParamType.String;
-      _Sort.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+      _Sort.ModifierList = new List<SearchParameter.SearchModifierCode>();
       _Sort.TypeModifierResourceList = new List<string>();
       _Sort.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(_Sort);
@@ -65,7 +65,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Id.Resource = FHIRAllTypes.Resource;
       _Id.DbSearchParameterType = DatabaseEnum.DbIndexType.StringIndex;
       _Id.SearchParameterType = SearchParamType.String;
-      _Id.ModifierList = new List<FhirSearchEnum.SearchModifierType>();
+      _Id.ModifierList = new List<SearchParameter.SearchModifierCode>();
       _Id.TypeModifierResourceList = new List<string>();
       _Id.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
       List.Add(_Id);

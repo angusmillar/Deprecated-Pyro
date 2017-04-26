@@ -19,7 +19,7 @@ namespace Pyro.Common.BusinessEntities.Search
     //public FHIRAllTypes? Resource { get; set; }
     public string RawValue { get; set; }
     //public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
-    public FhirSearchEnum.SearchModifierType Modifier { get; set; }
+    public SearchParameter.SearchModifierCode? Modifier { get; set; }
     public string TypeModifierResource { get; set; }
     public ISearchParametersServiceOutcome ChainedSearchParameter { get; set; }
     public bool HasLogicalOrProperties { get; set; }

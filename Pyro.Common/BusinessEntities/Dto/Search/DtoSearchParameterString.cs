@@ -24,7 +24,7 @@ namespace Pyro.Common.BusinessEntities.Search
       foreach (string Value in Values.Split(OrDelimiter))
       {
         var DtoSearchParameterStringValue = new DtoSearchParameterStringValue();
-        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
+        if (this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing)
         {
           bool? IsMissing = DtoSearchParameterStringValue.ParseModifierEqualToMissing(Value);
           if (IsMissing.HasValue)

@@ -7,6 +7,7 @@ using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.Support;
 using Pyro.DataLayer.IndexSetter;
+using Pyro.DataLayer.Search.Extentions;
 //using Pyro.DataModel.Support;
 //using Pyro.DataModel.IndexSetter;
 using Pyro.Common.BusinessEntities.Search;
@@ -14,7 +15,6 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Dto;
-//using Pyro.DataModel.Search;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
@@ -37,52 +37,52 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
     {
-      //SetNumberOfRecordsPerPage(DtoSearchParameters);
+      SetNumberOfRecordsPerPage(DtoSearchParameters);
 
-      //var Predicate = PredicateGenerator<ResourceIndexType>(DtoSearchParameters);
-      //int TotalRecordCount = DbGetALLCount<ResourceIndexType>(Predicate);
-      //var Query = DbGetAll<ResourceCurrentType>(Predicate);
+      var Predicate = PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters);
+      int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
+      var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
 
-      ////Todo: Sort not implemented just defaulting to last update order
-      //Query = Query.OrderBy(x => x.LastUpdated);
-      //int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-
-      //Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-      //var DtoResourceList = new List<DtoResource>();
-      //if (WithXml)
-      //{
-      //  DtoResourceList = Query.Select(x => new DtoResource
-      //  {
-      //    FhirId = x.FhirId,
-      //    IsDeleted = x.IsDeleted,
-      //    IsCurrent = true,
-      //    Version = x.VersionId,
-      //    Received = x.LastUpdated,
-      //    Method = x.Method,
-      //    ResourceType = this.RepositoryResourceType,
-      //    Xml = x.XmlBlob
-      //  }).ToList();
-      //}
-      //else
-      //{
-      //  DtoResourceList = Query.Select(x => new DtoResource
-      //  {
-      //    FhirId = x.FhirId,
-      //    IsDeleted = x.IsDeleted,
-      //    IsCurrent = true,
-      //    Version = x.VersionId,
-      //    Received = x.LastUpdated,
-      //    Method = x.Method,
-      //    ResourceType = this.RepositoryResourceType
-      //  }).ToList();
-      //}
+      //Todo: Sort not implemented just defaulting to last update order
+      Query = Query.OrderBy(x => x.LastUpdated);
+      int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      
+      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      var DtoResourceList = new List<DtoResource>();
+      if (WithXml)
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType,
+          Xml = x.XmlBlob
+        }).ToList();
+      }
+      else
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType
+        }).ToList();
+      }
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-      //DatabaseOperationOutcome.SingleResourceRead = false;
-      //DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      //DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
-      //DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
-      //DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
+      DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
 

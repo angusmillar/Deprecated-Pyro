@@ -12,7 +12,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public SearchParamType SearchParameterType { get; set; }
     public bool IsDbCollection { get; set; }
     public string DbPropertyName { get; set; }
-    public List<FhirSearchEnum.SearchModifierType> ModifierList { get; set; }
+    public List<SearchParameter.SearchModifierCode> ModifierList { get; set; }
     public List<string> TypeModifierResourceList { get; set; }
     public List<FhirSearchEnum.SearchPrefixType> PrefixList { get; set; }
     

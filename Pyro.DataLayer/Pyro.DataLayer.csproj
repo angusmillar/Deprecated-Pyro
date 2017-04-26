@@ -94,6 +94,11 @@
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CommonResourceRepository.cs" />
     <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
+    <Compile Include="Search\ExpressionSupport\ReferanceExpression.cs" />
+    <Compile Include="Search\Extentions\ResourceSearchExtensions.cs" />
+    <Compile Include="Search\Predicate\ReferancePredicateBuilder.cs" />
+    <Compile Include="Search\Predicate\StringPredicateBuilder.cs" />
+    <Compile Include="Search\ResourceSearch.cs" />
     <Compile Include="Support\IndexSettingSupport.cs" />
     <Compile Include="Support\DbContextUtils.cs" />
   </ItemGroup>

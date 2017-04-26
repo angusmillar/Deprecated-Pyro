@@ -171,15 +171,15 @@ namespace Pyro.Common.BusinessEntities.Service
         DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + oInboundSearchParameter.InvalidMessage + ", ";
       }
 
-      if (oInboundSearchParameter.Modifier != FhirSearchEnum.SearchModifierType.None)
-      {
-        IList<string> oSupportedModifierList = Common.Tools.SearchParameterTools.GetModifiersForSearchType(oInboundSearchParameter.Type);
-        if (!oSupportedModifierList.Contains(oInboundSearchParameter.Modifier.GetLiteral()))          
+      if (oInboundSearchParameter.Modifier.HasValue)
+      {        
+        IList<SearchParameter.SearchModifierCode> oSupportedModifierList = Common.Tools.SearchParameterTools.GetModifiersForSearchType(oInboundSearchParameter.Type);
+        if (!oSupportedModifierList.Contains(oInboundSearchParameter.Modifier.Value))          
         {
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
           DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The parameter's modifier: '{oInboundSearchParameter.Modifier.ToString()}' is not supported by this server for the resource type '{oInboundSearchParameter.Resource.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}', ";
         }
-        if (oInboundSearchParameter.Modifier == FhirSearchEnum.SearchModifierType.Type)
+        if (oInboundSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
         {
            
           if (!Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter.TypeModifierResource, oInboundSearchParameter.Name).Contains(oInboundSearchParameter.TypeModifierResource))

@@ -6242,48 +6242,48 @@
     <Compile Include="DatabaseModel\ServiceRootURL_Store_Configuration.cs">
       <DependentUpon>_DbContextConfigGenerator.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\DateIndexSetter.cs" />
-    <Compile Include="IndexSetter\DateTimeIndexSetter.cs" />
-    <Compile Include="IndexSetter\DateTimePeriodIndexSetter.cs" />
-    <Compile Include="IndexSetter\IDateIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\DateIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\DateTimeIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\DateTimePeriodIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\IDateIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IDateTimeIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IDateTimeIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IDateTimePeriodIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IDateTimePeriodIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IIndexSetter.cs" />
-    <Compile Include="IndexSetter\IndexSetterFactory.cs" />
-    <Compile Include="IndexSetter\INumberIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\IndexSetterFactory.cs" />
+    <Compile Include="Repository\IndexSetter\INumberIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IQuantityIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IQuantityIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IQuantityRangeIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IQuantityRangeIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IReferenceIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IReferenceIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IStringIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IStringIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\ITokenIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\ITokenIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IUriIndexSetter.cs">
+    <Compile Include="Repository\IndexSetter\IUriIndexSetter.cs">
       <DependentUpon>_IndexSetterInterfaceGeneration.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\NumberIndexSetter.cs" />
-    <Compile Include="IndexSetter\QuantityIndexSetter.cs" />
-    <Compile Include="IndexSetter\QuantityRangeIndexSetter.cs" />
-    <Compile Include="IndexSetter\ReferanceIndexSetter.cs" />
-    <Compile Include="IndexSetter\StringIndexSetter.cs" />
-    <Compile Include="IndexSetter\TokenIndexSetter.cs" />
-    <Compile Include="IndexSetter\UriIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\NumberIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\QuantityIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\QuantityRangeIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\ReferanceIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\StringIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\TokenIndexSetter.cs" />
+    <Compile Include="Repository\IndexSetter\UriIndexSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
@@ -6330,7 +6330,7 @@
     <None Include="DatabaseModel\_DbContextConfigGenerator.txt4" />
     <None Include="DatabaseModel\_DbContextGenerator.txt4" />
     <None Include="DatabaseModel\_DbEntityModelGenerator.txt4" />
-    <None Include="IndexSetter\_IndexSetterInterfaceGeneration.txt4" />
+    <None Include="Repository\IndexSetter\_IndexSetterInterfaceGeneration.txt4" />
     <None Include="packages.config" />
     <None Include="Support\_GenericCodeDataTypeEnumsGenerator.txt4" />
     <None Include="_UnitOfWorkGenerator.txt4" />

@@ -9,9 +9,9 @@ using System.Data.Entity;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.DbModel.Entity;
-//using Pyro.DataModel.Search;
+using Pyro.DataLayer.Search;
+using Pyro.DataLayer.Search.Predicate;
 //using Pyro.DataModel.Support;
-
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Repositories;
@@ -37,65 +37,59 @@ namespace Pyro.DataLayer.Repository
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
       where ResourceIndexType : ResourceIndexBase
     {
-      //var Search = new ResourceSearch<ResourceCurrentType>();
+      var Search = new ResourceSearch<ResourceCurrentType>();
       var MainPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>(true);
-      //MainPredicate = MainPredicate.And(x => x.IsDeleted == false);
+      MainPredicate = MainPredicate.And(x => x.IsDeleted == false & x.IsCurrent == true);
 
-      //ExpressionStarter<ResourceCurrentType> NewPredicate = null;
+      ExpressionStarter<ResourceCurrentType> NewPredicate = null;
 
 
-      //foreach (DtoSearchParameterBase SearchItem in DtoSearchParameters.SearchParametersList)
-      //{
-      //  NewPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
-      //  switch (SearchItem.DbSearchParameterType)
-      //  {
-      //    case Common.Enum.DatabaseEnum.DbIndexType.DateTimeIndex:
-      //      NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.DateIndex:
-      //      NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-      //      NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.NumberIndex:
-      //      {
-      //        if (SearchItem is DtoSearchParameterNumber)
-      //        {
-      //          var SearchTypeNumber = SearchItem as DtoSearchParameterNumber;
-      //          foreach (var SearchValue in SearchTypeNumber.ValueList)
-      //          {
-      //            if (SearchTypeNumber.Name != Common.Enum.FhirSearchEnum.SearchParameterNameType.page)
-      //            {
-      //              //ToDo: more needed here
-      //            }
-      //          }
-      //        }
-      //        NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      }
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.QuantityIndex:
-      //      NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.QuantityRangeIndex:
-      //      throw new NotImplementedException("QuantityRangeIndex searches are not supported in this version.");
-      //    case Common.Enum.DatabaseEnum.DbIndexType.ReferenceIndex:
-      //      NewPredicate = ReferancePredicateBuilder.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.StringIndex:
-      //      NewPredicate = StringPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.TokenIndex:
-      //      NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    case Common.Enum.DatabaseEnum.DbIndexType.UriIndex:
-      //      NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-      //      break;
-      //    default:
-      //      throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.DbSearchParameterType.ToString(), (int)SearchItem.DbSearchParameterType, typeof(Common.Enum.DatabaseEnum.DbIndexType));
-      //  }
-      //  MainPredicate.Extend<ResourceCurrentType>(NewPredicate, PredicateOperator.And);
-      //}
+      foreach (DtoSearchParameterBase SearchItem in DtoSearchParameters.SearchParametersList)
+      {
+        NewPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
+        switch (SearchItem.Type)
+        {
+          case SearchParamType.Date:
+           //NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
+           // NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
+           // NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
+          case SearchParamType.Number:
+            {
+              if (SearchItem is DtoSearchParameterNumber)
+              {
+                var SearchTypeNumber = SearchItem as DtoSearchParameterNumber;
+                foreach (var SearchValue in SearchTypeNumber.ValueList)
+                {
+                  if (SearchTypeNumber.Name != "page")
+                  {
+                    //ToDo: more needed here
+                  }
+                }
+              }
+              //NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            }
+            break;
+          case SearchParamType.Quantity:
+            //NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);           
+            throw new NotImplementedException("QuantityRangeIndex searches are not supported in this version.");
+          case SearchParamType.Reference:
+            NewPredicate = ReferancePredicateBuilder.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
+            break;
+          case SearchParamType.String:
+            NewPredicate = StringPredicateBuilder.Build<ResourceCurrentType>(Search, NewPredicate, SearchItem);
+            break;
+          case SearchParamType.Token:
+            //NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
+          case SearchParamType.Uri:
+            //NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
+          default:
+            throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.Type.ToString(), (int)SearchItem.Type, typeof(SearchParamType));
+        }
+        MainPredicate.Extend<ResourceCurrentType>(NewPredicate, PredicateOperator.And);
+      }
 
       return MainPredicate;
     }

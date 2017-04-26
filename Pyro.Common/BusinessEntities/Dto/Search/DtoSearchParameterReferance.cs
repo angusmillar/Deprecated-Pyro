@@ -25,7 +25,7 @@ namespace Pyro.Common.BusinessEntities.Search
       foreach (string Value in Values.Split(OrDelimiter))
       {
         var DtoSearchParameterReferanceValue = new DtoSearchParameterReferanceValue();
-        if (this.Modifier == Enum.FhirSearchEnum.SearchModifierType.Missing)
+        if (this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing)
         {
           bool? IsMissing = DtoSearchParameterReferanceValue.ParseModifierEqualToMissing(Value);
           if (IsMissing.HasValue)
@@ -45,7 +45,7 @@ namespace Pyro.Common.BusinessEntities.Search
           {
             DtoSearchParameterReferanceValue.FhirUri = TempFhirUri;
           }
-          else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier == FhirSearchEnum.SearchModifierType.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
+          else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
           {
             if (UriSupport.DtoFhirUri.TryParse($"{this.TypeModifierResource}/{Value.Trim()}", out TempFhirUri))
             {

@@ -5,6 +5,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Common.BusinessEntities.Search
@@ -21,6 +22,7 @@ namespace Pyro.Common.BusinessEntities.Search
 
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
+      oSearchParameter.Id = DtoSupportedSearchParametersResource.Id;
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
       //oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
@@ -34,7 +36,8 @@ namespace Pyro.Common.BusinessEntities.Search
         oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
       }
 
-      if (oSearchParameter.Modifier == FhirSearchEnum.SearchModifierType.Type &&
+      if (oSearchParameter.Modifier.HasValue && 
+        oSearchParameter.Modifier.Value == SearchParameter.SearchModifierCode.Type &&
         !string.IsNullOrWhiteSpace(oSearchParameter.TypeModifierResource) &&
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
@@ -92,32 +95,6 @@ namespace Pyro.Common.BusinessEntities.Search
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));
       }
-
-      //switch (DbSearchParameterType)
-      //{
-      //  case DatabaseEnum.DbIndexType.DateIndex:
-      //    return new DtoSearchParameterDate();
-      //  case DatabaseEnum.DbIndexType.DateTimeIndex:
-      //    return new DtoSearchParameterDateTime();
-      //  case DatabaseEnum.DbIndexType.DateTimePeriodIndex:
-      //    return new DtoSearchParameterDateTime();
-      //  case DatabaseEnum.DbIndexType.NumberIndex:
-      //    return new DtoSearchParameterNumber();
-      //  case DatabaseEnum.DbIndexType.QuantityIndex:
-      //    return new DtoSearchParameterQuantity();
-      //  case DatabaseEnum.DbIndexType.ReferenceIndex:
-      //    return new DtoSearchParameterReferance();
-      //  case DatabaseEnum.DbIndexType.StringIndex:
-      //    return new DtoSearchParameterString();
-      //  case DatabaseEnum.DbIndexType.TokenIndex:
-      //    return new DtoSearchParameterToken();
-      //  case DatabaseEnum.DbIndexType.UriIndex:
-      //    return new DtoSearchParameterUri();
-      //  case DatabaseEnum.DbIndexType.QuantityRangeIndex:
-      //    return new DtoSearchParameterQuantity();
-      //  default:
-      //    throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(DatabaseEnum.DbIndexType));
-    
     }
 
     private static bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
@@ -128,7 +105,7 @@ namespace Pyro.Common.BusinessEntities.Search
       }
       else
       {
-        oSearchParameter.Modifier = FhirSearchEnum.SearchModifierType.None;
+        oSearchParameter.Modifier = null;
         oSearchParameter.TypeModifierResource = null;
         return true;
       }
@@ -136,9 +113,10 @@ namespace Pyro.Common.BusinessEntities.Search
     private static bool ParseModifierType(DtoSearchParameterBase SearchParameter, string value)
     {
       var SearchModifierTypeDic = FhirSearchEnum.GetSearchModifierTypeDictionary();
-      if (SearchModifierTypeDic.ContainsKey(value))
+      string ValueCaseCorrectly = StringSupport.ToLowerFast(value);
+      if (SearchModifierTypeDic.ContainsKey(ValueCaseCorrectly))
       {
-        SearchParameter.Modifier = SearchModifierTypeDic[value];
+        SearchParameter.Modifier = SearchModifierTypeDic[ValueCaseCorrectly];
         return true;
       }
       else
@@ -154,7 +132,7 @@ namespace Pyro.Common.BusinessEntities.Search
         if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
         {
           SearchParameter.TypeModifierResource = TypedResourceName;
-          SearchParameter.Modifier = FhirSearchEnum.SearchModifierType.Type;
+          SearchParameter.Modifier = Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type;
           return true;
         }
         return false;

@@ -46,9 +46,12 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.ReferenceFhirId).IsOptional();
       Property(x => x.ReferenceResourceType).IsOptional();
       Property(x => x.ReferenceVersionId).IsOptional();
-      
-      HasOptional<ServiceBaseUrl>(x => x.Url).WithMany().HasForeignKey(x => x.ServiceBaseUrlId);
-      Property(x => x.ServiceBaseUrlId).IsOptional();
+
+      //HasRequired(x => x.Url);
+      //HasRequired<ServiceRootURL_Store>(x => x.Url).WithMany().HasForeignKey(x => x.ServiceRootURL_StoreID);
+
+      HasOptional(x => x.ReferenceUrl);
+      HasOptional<ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);      
 
       HasOptional<ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
       Property(x => x.ServiceSearchParameterId).IsRequired();

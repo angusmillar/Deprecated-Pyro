@@ -61,22 +61,24 @@ namespace Pyro.Common.Tools
 
 
 
-    public static IList<string> GetModifiersForSearchType(SearchParamType SearchParamType)
+    public static IList<SearchParameter.SearchModifierCode> GetModifiersForSearchType(SearchParamType SearchParamType)
     {
-      IList<string> ReturnList = new List<string>();
+      IList<SearchParameter.SearchModifierCode> ReturnList = new List<SearchParameter.SearchModifierCode>();
       switch (SearchParamType)
       {
         case SearchParamType.Number:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
           return ReturnList;          
         case SearchParamType.Date:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
           return ReturnList;          
         case SearchParamType.String:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Contains);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Exact);
           return ReturnList;
         case SearchParamType.Token:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
           //The modifiers below are supported in the spec for token but not 
           //implemented by this server as yet
 
@@ -88,20 +90,20 @@ namespace Pyro.Common.Tools
           //ReturnList.Add(Conformance.SearchModifierCode.NotIn.ToString());
           return ReturnList;
         case SearchParamType.Reference:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Type.ToString());
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Type);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
           return ReturnList;
         case SearchParamType.Composite:
           return ReturnList;
         case SearchParamType.Quantity:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
           return ReturnList;
         case SearchParamType.Uri:
-          ReturnList.Add(SearchParameter.SearchModifierCode.Missing.ToString());
-          ReturnList.Add(SearchParameter.SearchModifierCode.Below.ToString());
-          ReturnList.Add(SearchParameter.SearchModifierCode.Above.ToString());
-          ReturnList.Add(SearchParameter.SearchModifierCode.Contains.ToString());
-          ReturnList.Add(SearchParameter.SearchModifierCode.Exact.ToString());
+          ReturnList.Add(SearchParameter.SearchModifierCode.Missing);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Below);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Above);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Contains);
+          ReturnList.Add(SearchParameter.SearchModifierCode.Exact);
           return ReturnList;
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(SearchParamType.ToString(), (int)SearchParamType, typeof(SearchParamType));

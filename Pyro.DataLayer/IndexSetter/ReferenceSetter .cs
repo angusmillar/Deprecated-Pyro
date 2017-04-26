@@ -65,16 +65,16 @@ namespace Pyro.DataLayer.IndexSetter
             {
               if (_FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
               {
-                ResourceIndex.ServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
+                ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
               }
               else
               {
-                ResourceIndex.Url = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
               }
             }
             else
             {
-              ResourceIndex.ServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
+              ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
             }
             ResourceIndexList.Add(ResourceIndex);            
           }
@@ -95,7 +95,7 @@ namespace Pyro.DataLayer.IndexSetter
             {
               var ResourceIndex = new ResourceIndexType();
               SetResourceIndentityElements(ResourceIndex, ReferanceUri);
-              ResourceIndex.ServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
+              ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
               ResourceIndexList.Add(ResourceIndex);
             }
           }
@@ -107,11 +107,11 @@ namespace Pyro.DataLayer.IndexSetter
               SetResourceIndentityElements(ResourceIndex, ReferanceUri);
               if (_FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
               {
-                ResourceIndex.ServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
+                ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
               }
               else
               {
-                ResourceIndex.Url = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
               }
               ResourceIndexList.Add(ResourceIndex);
             }
