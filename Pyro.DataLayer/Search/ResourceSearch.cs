@@ -91,17 +91,7 @@ namespace Pyro.DataLayer.Search
     //  return Expression.Lambda<Func<T, bool>>(MethodContainsCall, ParameterReferance);
     //}
 
-    public Expression<Func<T, bool>> StringCollectionIsNotNull(int Id)
-    {
-      //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count > 0);      
-      return SearchParameterIdNull(Id, false);
-    }
-
-    public Expression<Func<T, bool>> StringCollectionIsNull(int Id)
-    {
-      //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count == 0);      
-      return SearchParameterIdNull(Id, true);
-    }
+   
 
     public Expression<Func<T, bool>> StringCollectionAnyEqualTo(int Id, string Value)
     {      
@@ -970,54 +960,98 @@ namespace Pyro.DataLayer.Search
     //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, ResourceParameter);
     //}
 
-    //public Expression<Func<T, bool>> TokenCollectionAnyEqualTo(string Property, string Code, string System, Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType TokenSearchType)
-    //{
-    //  string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+    public Expression<Func<T, bool>> TokenCollectionAnyEqualTo(int Id, string Code, string System, Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType TokenSearchType)
+    {
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBase), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(T), "x");
 
-    //  //Outer Any Method
-    //  MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(TokenIndex));
+      BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-    //  //Expression For Any Method
-    //  ParameterExpression PE_Inner = Expression.Parameter(typeof(TokenIndex), "c");
-    //  MemberExpression propertyReferenceCode = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code);
-    //  MemberExpression propertyReferenceSystem = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System);
-    //  ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
-    //  ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
+      ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
+      ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
 
-    //  //Build Inner Expression
-    //  Expression E_InnerExpression = null;
-    //  switch (TokenSearchType)
-    //  {
-    //    case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.None:
-    //      throw new Exception("Server error: DtoSearchParameterTokenValue.TokenSearchType was set to None.");
-    //    case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeOnly:
-    //      E_InnerExpression = TokenExpression.MatchCodeOnlyExpression(propertyReferenceCode, SearchValueReferenceCode);
-    //      break;
-    //    case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchSystemOnly:
-    //      E_InnerExpression = TokenExpression.MatchSystemOnlyExpression(propertyReferenceSystem, SearchValueReferenceSystem);
-    //      break;
-    //    case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem:
-    //      E_InnerExpression = TokenExpression.MatchCodeAndSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem, SearchValueReferenceSystem);
-    //      break;
-    //    case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem:
-    //      E_InnerExpression = TokenExpression.MatchCodeWithNullSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem);
-    //      break;
-    //    default:
-    //      throw new System.ComponentModel.InvalidEnumArgumentException(TokenSearchType.ToString(), (int)TokenSearchType, typeof(Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType));
-    //  }
+      //Build Inner Expression
+      Expression E_InnerExpression = null;
+      switch (TokenSearchType)
+      {
+        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.None:
+          throw new Exception("Server error: DtoSearchParameterTokenValue.TokenSearchType was set to None.");
+        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeOnly:
+          E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeOnlyExpression(propertyReferenceCode, SearchValueReferenceCode);
+          break;
+        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchSystemOnly:
+          E_InnerExpression = ExpressionSupport.TokenExpression.MatchSystemOnlyExpression(propertyReferenceSystem, SearchValueReferenceSystem);
+          break;
+        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem:
+          E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeAndSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem, SearchValueReferenceSystem);
+          break;
+        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem:
+          E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeWithNullSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem);
+          break;
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(TokenSearchType.ToString(), (int)TokenSearchType, typeof(Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType));
+      }
 
-    //  //Wrap Any Method Expression into Function
-    //  Expression<Func<TokenIndex, bool>> InnerFunction = Expression.Lambda<Func<TokenIndex, bool>>(E_InnerExpression, PE_Inner);
 
-    //  ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
-    //  MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+      
 
-    //  //Call Any Method with Function
-    //  MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+      var IdAndExpression = Expression.And(BinaryExpressionIdEquals, E_InnerExpression);
 
-    //  //Wrap final expression into function
-    //  return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
-    //}
+      Expression<Func<ResourceIndexBase, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBase, bool>>(IdAndExpression, InnerParameter);
+
+      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, IndexListParameter);
+
+
+
+      //string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+
+      ////Outer Any Method
+      //MethodInfo ME_Any = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(TokenIndex));
+
+      ////Expression For Any Method
+      //ParameterExpression PE_Inner = Expression.Parameter(typeof(TokenIndex), "c");
+      //MemberExpression propertyReferenceCode = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.Code);
+      //MemberExpression propertyReferenceSystem = Expression.Property(PE_Inner, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.TokenIndexConstatnts.System);
+      //ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
+      //ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
+
+      ////Build Inner Expression
+      //Expression E_InnerExpression = null;
+      //switch (TokenSearchType)
+      //{
+      //  case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.None:
+      //    throw new Exception("Server error: DtoSearchParameterTokenValue.TokenSearchType was set to None.");
+      //  case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeOnly:
+      //    E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeOnlyExpression(propertyReferenceCode, SearchValueReferenceCode);
+      //    break;
+      //  case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchSystemOnly:
+      //    E_InnerExpression = ExpressionSupport.TokenExpression.MatchSystemOnlyExpression(propertyReferenceSystem, SearchValueReferenceSystem);
+      //    break;
+      //  case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem:
+      //    E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeAndSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem, SearchValueReferenceSystem);
+      //    break;
+      //  case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem:
+      //    E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeWithNullSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem);
+      //    break;
+      //  default:
+      //    throw new System.ComponentModel.InvalidEnumArgumentException(TokenSearchType.ToString(), (int)TokenSearchType, typeof(Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType));
+      //}
+
+      ////Wrap Any Method Expression into Function
+      //Expression<Func<TokenIndex, bool>> InnerFunction = Expression.Lambda<Func<TokenIndex, bool>>(E_InnerExpression, PE_Inner);
+
+      //ParameterExpression PE_Outer = Expression.Parameter(typeof(T), "x");
+      //MemberExpression ME_CollectionProperty = Expression.Property(PE_Outer, typeof(T).GetProperty(DbPropertyName));
+
+      ////Call Any Method with Function
+      //MethodCallExpression MethodAnyCall = Expression.Call(ME_Any, ME_CollectionProperty, InnerFunction);
+
+      ////Wrap final expression into function
+      //return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PE_Outer);
+    }
 
     ////---- Number Index Expressions ------------------------------------------------------
 
@@ -1938,28 +1972,51 @@ namespace Pyro.DataLayer.Search
     //}
 
 
-    //public Expression<Func<T, bool>> UriCollectionAnyEqualTo(string Property, string Value)
-    //{
-    //  var type = typeof(T);
-    //  string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
-    //  //Inner
-    //  MethodInfo MethodEquals = typeof(string).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string)).Single();
+    public Expression<Func<T, bool>> UriCollectionAnyEqualTo(int Id, string Value)
+    {
+      //(x => x.IndexList.Any(c => c.String.StartsWith("Mill") & c.ServiceSearchParameterId == Id);
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBase), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(T), "x");
 
-    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
-    //  MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
-    //  ConstantExpression InnerValue = Expression.Constant(Value);
+      BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-    //  MethodCallExpression MethodEqualsCall = Expression.Call(InnerProperty, MethodEquals, InnerValue);
-    //  Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodEqualsCall, InnerParameter);
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Uri);
+      ConstantExpression InnerValue = Expression.Constant(Value);
 
-    //  //Outer Any
-    //  MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+      MethodInfo MethodEquals = typeof(string).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string)).Single();
+      MethodCallExpression MethodEqualsCall = Expression.Call(InnerProperty, MethodEquals, InnerValue);
+      
+      var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-    //  ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
-    //  MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
-    //  MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
-    //  return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
-    //}
+      Expression<Func<ResourceIndexBase, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBase, bool>>(IdAndExpression, InnerParameter);
+
+      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<T, bool>>(MethodAnyCall, IndexListParameter);
+
+
+
+
+
+      //var type = typeof(T);
+      //string DbPropertyName = Property + StaticDatabaseInfo.ListPostfixText;
+      //Inner
+      //MethodInfo MethodEquals = typeof(string).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string)).Single();
+
+      //ParameterExpression InnerParameter = Expression.Parameter(typeof(UriIndex), "c");
+      //MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.UriIndexConstatnts.Uri);
+      //ConstantExpression InnerValue = Expression.Constant(Value);
+
+      //MethodCallExpression MethodEqualsCall = Expression.Call(InnerProperty, MethodEquals, InnerValue);
+      //Expression<Func<UriIndex, bool>> InnerFunction = Expression.Lambda<Func<UriIndex, bool>>(MethodEqualsCall, InnerParameter);
+
+      //Outer Any
+      //MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(UriIndex));
+
+      //ParameterExpression PatientParameter = Expression.Parameter(typeof(T), "x");
+      //MemberExpression CollectionProperty = Expression.Property(PatientParameter, typeof(T).GetProperty(DbPropertyName));
+      //MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, CollectionProperty, InnerFunction);
+      //return Expression.Lambda<Func<T, bool>>(MethodAnyCall, PatientParameter);
+    }
 
     //public Expression<Func<T, bool>> UriCollectionAnyContains(string Property, string Value)
     //{
@@ -2244,7 +2301,7 @@ namespace Pyro.DataLayer.Search
     ////Not implemented as there are no QuantityRange search parameters as yet in FHIR spec, as of this early STU3 release
 
 
-    //---- General Index Expressions ------------------------------------------------------
+    ///---- General Index Expressions ------------------------------------------------------
 
     private BinaryExpression SearchParameterIdBinaryExpression(int Id, ParameterExpression InnerParameter)
     {
@@ -2263,7 +2320,19 @@ namespace Pyro.DataLayer.Search
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);
       return MethodAnyCall;
     }
-    
+
+    public Expression<Func<T, bool>> SearchParameterIdIsNotNull(int Id)
+    {
+      //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count > 0);      
+      return SearchParameterIdNull(Id, false);
+    }
+
+    public Expression<Func<T, bool>> SearchParameterIsNull(int Id)
+    {
+      //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count == 0);      
+      return SearchParameterIdNull(Id, true);
+    }
+
     private Expression<Func<T, bool>> SearchParameterIdNull(int Id, bool IsNull)
     {
       //IsNull = true

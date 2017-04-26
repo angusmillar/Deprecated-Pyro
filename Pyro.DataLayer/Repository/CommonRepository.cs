@@ -80,7 +80,7 @@ namespace Pyro.DataLayer.Repository
             NewPredicate = StringPredicateBuilder.Build<ResourceCurrentType>(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Token:
-            //NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Uri:
             //NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);

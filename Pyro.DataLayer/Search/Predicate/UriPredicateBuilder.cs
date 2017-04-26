@@ -6,59 +6,60 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class StringPredicateBuilder
+  public static class UriPredicateBuilder
   {
     public static ExpressionStarter<T> Build<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterBase SearchItem) 
       where T : ResourceBase
     {
-      if (SearchItem is DtoSearchParameterString)
+      if (SearchItem is DtoSearchParameterUri)
       {
-        var SearchTypeString = SearchItem as DtoSearchParameterString;
+        var SearchTypeString = SearchItem as DtoSearchParameterUri;
         foreach (var SearchValue in SearchTypeString.ValueList)
         {
           if (!SearchTypeString.Modifier.HasValue)
           {
-            NewPredicate = NewPredicate.Or(Search.StringCollectionAnyStartsOrEndsWith(SearchTypeString.Id, SearchValue.Value));
+            NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEqualTo(SearchTypeString.Id, SearchValue.Value.ToString()));           
           }
           else
           {
             switch (SearchTypeString.Modifier)
-            {            
-              case SearchParameter.SearchModifierCode.Missing:
+            {              
+              case SearchParameter.SearchModifierCode.Missing:                
                 if (SearchValue.IsMissing)
                 {
-                  NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull(SearchTypeString.Id));
+                  //NewPredicate = NewPredicate.Or(Search.UriCollectionIsNull(SearchTypeString.DbPropertyName));
                 }
                 else
                 {
-                  NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull(SearchTypeString.Id));
-                }
+                 // NewPredicate = NewPredicate.Or(Search.UriCollectionIsNotNull(SearchTypeString.DbPropertyName));
+                }                                
                 break;
               case SearchParameter.SearchModifierCode.Exact:
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.Id, SearchValue.Value));
-                break;                  
+               // NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));               
+                break;
               case SearchParameter.SearchModifierCode.Contains:
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.Id, SearchValue.Value));                
+                //NewPredicate = NewPredicate.Or(Search.UriCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));               
                 break;
               case SearchParameter.SearchModifierCode.Text:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
               case SearchParameter.SearchModifierCode.Type:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-              case SearchParameter.SearchModifierCode.Below:
-                throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
-              case SearchParameter.SearchModifierCode.Above:
-                throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
+              case SearchParameter.SearchModifierCode.Below:                
+                //NewPredicate = NewPredicate.Or(Search.UriCollectionAnyStartsWith(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));                
+                break;
+              case SearchParameter.SearchModifierCode.Above:                
+               // NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEndsWith(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));              
+                break;
               case SearchParameter.SearchModifierCode.In:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
               case SearchParameter.SearchModifierCode.NotIn:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
               default:
-                throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeString.Modifier.Value.ToString(), (int)SearchTypeString.Modifier.Value, typeof(Hl7.Fhir.Model.SearchParameter.SearchModifierCode));
+                throw new System.ComponentModel.InvalidEnumArgumentException(SearchTypeString.Modifier.ToString(), (int)SearchTypeString.Modifier, typeof(SearchParameter.SearchModifierCode));
             }
           }
         }
       }
-
       return NewPredicate;
     }
   }

@@ -56,11 +56,11 @@ namespace Pyro.DataLayer.Search.Predicate
                 case SearchParameter.SearchModifierCode.Type:                  
                   if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                   {
-                    //NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.DbPropertyName, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                   }
                   else
                   {
-                    //NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.DbPropertyName, SearchValue.FhirUri.ServiceRootUrlForComparison, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirUri.ServiceRootUrlForComparison, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
                   }                  
                   break;
                 case SearchParameter.SearchModifierCode.Below:

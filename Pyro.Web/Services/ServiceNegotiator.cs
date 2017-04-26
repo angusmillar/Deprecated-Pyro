@@ -132,16 +132,9 @@ namespace Pyro.Web.Services
       }
       else
       {
-        var oIssueComponent = new OperationOutcome.IssueComponent();
-        oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-        oIssueComponent.Code = OperationOutcome.IssueType.Invalid;
-        oIssueComponent.Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
-        oIssueComponent.Details.Text = String.Format("The Resource name given '{0}' is not a Resource supported by the .net FHIR API Version: {1}.", ResourceName, ModelInfo.Version);
-        oIssueComponent.Diagnostics = oIssueComponent.Details.Text;
-        var oOperationOutcome = new OperationOutcome();
-        oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-        throw new DtoPyroException(HttpStatusCode.BadRequest, oOperationOutcome, oIssueComponent.Details.Text);
-
+        string Message = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
+        throw new DtoPyroException(HttpStatusCode.BadRequest, OpOutCome, Message);
       }
     }
 
