@@ -21,7 +21,7 @@ namespace Pyro.Common.BusinessEntities.Search
       SupportedSearchParameter.SearchParameterType = SearchParamType.String;
       SupportedSearchParameter.ModifierList = new List<SearchParameter.SearchModifierCode>();
       SupportedSearchParameter.TypeModifierResourceList = new List<string>();
-      SupportedSearchParameter.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
+      SupportedSearchParameter.PrefixList = new List<SearchParameter.SearchComparator>();
       List.Add(SupportedSearchParameter);
 
       return List;
@@ -40,7 +40,7 @@ namespace Pyro.Common.BusinessEntities.Search
       Page.SearchParameterType = SearchParamType.Number;
       Page.ModifierList = new List<SearchParameter.SearchModifierCode>();
       Page.TypeModifierResourceList = new List<string>();
-      Page.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
+      Page.PrefixList = new List<SearchParameter.SearchComparator>();
       List.Add(Page);
 
       var _Sort = new DtoSupportedSearchParameters();
@@ -50,7 +50,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Sort.SearchParameterType = SearchParamType.String;
       _Sort.ModifierList = new List<SearchParameter.SearchModifierCode>();
       _Sort.TypeModifierResourceList = new List<string>();
-      _Sort.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
+      _Sort.PrefixList = new List<SearchParameter.SearchComparator>();
       List.Add(_Sort);
 
       return List;
@@ -67,7 +67,7 @@ namespace Pyro.Common.BusinessEntities.Search
       _Id.SearchParameterType = SearchParamType.String;
       _Id.ModifierList = new List<SearchParameter.SearchModifierCode>();
       _Id.TypeModifierResourceList = new List<string>();
-      _Id.PrefixList = new List<FhirSearchEnum.SearchPrefixType>();
+      _Id.PrefixList = new List<SearchParameter.SearchComparator>();
       List.Add(_Id);
 
       return List;

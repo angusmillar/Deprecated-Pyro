@@ -14,7 +14,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public string DbPropertyName { get; set; }
     public List<SearchParameter.SearchModifierCode> ModifierList { get; set; }
     public List<string> TypeModifierResourceList { get; set; }
-    public List<FhirSearchEnum.SearchPrefixType> PrefixList { get; set; }
+    public List<SearchParameter.SearchComparator> PrefixList { get; set; }
     
   }
 }

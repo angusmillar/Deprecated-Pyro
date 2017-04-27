@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 
 namespace Pyro.Common.Tools
@@ -16,20 +17,20 @@ namespace Pyro.Common.Tools
       switch (SearchParamType)
       {
         case SearchParamType.Number:
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.NotEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Equal.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Greater.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Less.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual.ToString());
+          ReturnList.Add(SearchParameter.SearchComparator.Ne.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Eq.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Gt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Ge.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Lt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Le.GetLiteral());
           return ReturnList;
         case SearchParamType.Date:
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.NotEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Equal.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Greater.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Less.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual.ToString());
+          ReturnList.Add(SearchParameter.SearchComparator.Ne.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Eq.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Gt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Ge.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Lt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Le.GetLiteral());
           return ReturnList;
         case SearchParamType.String:
           //Any search parameter that's value is a string will not have prefixes
@@ -44,18 +45,18 @@ namespace Pyro.Common.Tools
           //Any search parameter that's value is a string will not have prefixes
           return ReturnList;
         case SearchParamType.Quantity:
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.NotEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Equal.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Greater.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.GreaterOrEqual.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.Less.ToString());
-          ReturnList.Add(FhirSearchEnum.SearchPrefixType.LessOrEqual.ToString());
+          ReturnList.Add(SearchParameter.SearchComparator.Ne.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Eq.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Gt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Ge.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Lt.GetLiteral());
+          ReturnList.Add(SearchParameter.SearchComparator.Le.GetLiteral());
           return ReturnList;
         case SearchParamType.Uri:
           //Any search parameter that's value is a string will not have prefixes
           return ReturnList;
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(SearchParamType.ToString(), (int)SearchParamType, typeof(SearchParamType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(SearchParamType.GetLiteral(), (int)SearchParamType, typeof(SearchParamType));
       }      
     }
 

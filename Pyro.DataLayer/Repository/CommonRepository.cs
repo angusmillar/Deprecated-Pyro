@@ -67,7 +67,7 @@ namespace Pyro.DataLayer.Repository
                   }
                 }
               }
-              //NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+              NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             }
             break;
           case SearchParamType.Quantity:
@@ -83,7 +83,7 @@ namespace Pyro.DataLayer.Repository
             NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Uri:
-            //NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
             break;
           default:
             throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.Type.ToString(), (int)SearchItem.Type, typeof(SearchParamType));

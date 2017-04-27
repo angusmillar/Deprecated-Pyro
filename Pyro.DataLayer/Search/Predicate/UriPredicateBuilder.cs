@@ -27,28 +27,28 @@ namespace Pyro.DataLayer.Search.Predicate
               case SearchParameter.SearchModifierCode.Missing:                
                 if (SearchValue.IsMissing)
                 {
-                  //NewPredicate = NewPredicate.Or(Search.UriCollectionIsNull(SearchTypeString.DbPropertyName));
+                  NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull(SearchTypeString.Id));
                 }
                 else
                 {
-                 // NewPredicate = NewPredicate.Or(Search.UriCollectionIsNotNull(SearchTypeString.DbPropertyName));
+                  NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull(SearchTypeString.Id));
                 }                                
                 break;
               case SearchParameter.SearchModifierCode.Exact:
-               // NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEqualTo(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));               
+                NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEqualTo(SearchTypeString.Id, SearchValue.Value.ToString()));                
                 break;
               case SearchParameter.SearchModifierCode.Contains:
-                //NewPredicate = NewPredicate.Or(Search.UriCollectionAnyContains(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));               
+                NewPredicate = NewPredicate.Or(Search.UriCollectionAnyContains(SearchTypeString.Id, SearchValue.Value.ToString()));               
                 break;
               case SearchParameter.SearchModifierCode.Text:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
               case SearchParameter.SearchModifierCode.Type:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
               case SearchParameter.SearchModifierCode.Below:                
-                //NewPredicate = NewPredicate.Or(Search.UriCollectionAnyStartsWith(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));                
+                NewPredicate = NewPredicate.Or(Search.UriCollectionAnyStartsWith(SearchTypeString.Id, SearchValue.Value.ToString()));                
                 break;
               case SearchParameter.SearchModifierCode.Above:                
-               // NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEndsWith(SearchTypeString.DbPropertyName, SearchValue.Value.ToString()));              
+                NewPredicate = NewPredicate.Or(Search.UriCollectionAnyEndsWith(SearchTypeString.Id, SearchValue.Value.ToString()));              
                 break;
               case SearchParameter.SearchModifierCode.In:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");

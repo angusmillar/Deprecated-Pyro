@@ -32,6 +32,10 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetDuration(Duration);
         }
+        else if (Poco.FhirValue is FhirDecimal FhirDecimal)
+        {
+          SetFhirDecimal(FhirDecimal);
+        }
         else
         {
           throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
@@ -42,6 +46,16 @@ namespace Pyro.DataLayer.IndexSetter
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+      }
+    }
+
+    private static void SetFhirDecimal(FhirDecimal FhirDecimal)
+    {
+      if (FhirDecimal.Value.HasValue)
+      {
+        var ResourceIndex = new ResourceIndexType();
+        ResourceIndex.Quantity = FhirDecimal.Value;        
+        ResourceIndexList.Add(ResourceIndex);
       }
     }
 

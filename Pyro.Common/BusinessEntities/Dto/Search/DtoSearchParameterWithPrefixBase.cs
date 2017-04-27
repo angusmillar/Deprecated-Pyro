@@ -7,15 +7,16 @@ using Pyro.Common.Enum;
 using System.Text.RegularExpressions;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Utility;
+using Hl7.Fhir.Model;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
   public abstract class DtoSearchParameterValueWithPrefix : DtoSearchParameterValueBase
   {
-    public FhirSearchEnum.SearchPrefixType Prefix { get; set; }
+    public SearchParameter.SearchComparator? Prefix { get; set; }
     public bool ValidatePreFix(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
-      if (this.Prefix == FhirSearchEnum.SearchPrefixType.None)
+      if (this.Prefix.HasValue == false)
       {
         return true;
       }
@@ -45,7 +46,7 @@ namespace Pyro.Common.BusinessEntities.Search
         }
         else
         {
-          this.Prefix = FhirSearchEnum.SearchPrefixType.None;
+          this.Prefix = null;
         }
       }
       return Value;

@@ -12,32 +12,32 @@ namespace Pyro.Common.Enum
   public static partial class FhirSearchEnum
   {
 
-    public enum SearchPrefixType
+    //public enum SearchPrefixType
+    //{
+    //  None,
+    //  Equal,
+    //  NotEqual,
+    //  Greater,
+    //  Less,
+    //  GreaterOrEqual,
+    //  LessOrEqual,
+    //  StartsAfter,
+    //  EndsBefore,
+    //  Approximately
+    //}
+    public static Dictionary<string, SearchParameter.SearchComparator> GetSearchPrefixTypeDictionary()
     {
-      None,
-      Equal,
-      NotEqual,
-      Greater,
-      Less,
-      GreaterOrEqual,
-      LessOrEqual,
-      StartsAfter,
-      EndsBefore,
-      Approximately
-    }
-    public static Dictionary<string, SearchPrefixType> GetSearchPrefixTypeDictionary()
-    {
-      return new Dictionary<string, SearchPrefixType>()
+      return new Dictionary<string, SearchParameter.SearchComparator>()
       {
-        {"ap", SearchPrefixType.Approximately},
-        {"eb", SearchPrefixType.EndsBefore},
-        {"eq", SearchPrefixType.Equal},
-        {"gt", SearchPrefixType.Greater},
-        {"ge", SearchPrefixType.GreaterOrEqual},
-        {"lt", SearchPrefixType.Less},
-        {"le", SearchPrefixType.LessOrEqual},
-        {"ne", SearchPrefixType.NotEqual},
-        {"sa", SearchPrefixType.StartsAfter}
+        {SearchParameter.SearchComparator.Ap.GetLiteral(), SearchParameter.SearchComparator.Ap},
+        {SearchParameter.SearchComparator.Eb.GetLiteral(), SearchParameter.SearchComparator.Eb},
+        {SearchParameter.SearchComparator.Eq.GetLiteral(), SearchParameter.SearchComparator.Eq},
+        {SearchParameter.SearchComparator.Gt.GetLiteral(), SearchParameter.SearchComparator.Gt},
+        {SearchParameter.SearchComparator.Ge.GetLiteral(), SearchParameter.SearchComparator.Ge},
+        {SearchParameter.SearchComparator.Lt.GetLiteral(), SearchParameter.SearchComparator.Lt},
+        {SearchParameter.SearchComparator.Le.GetLiteral(), SearchParameter.SearchComparator.Le},
+        {SearchParameter.SearchComparator.Ne.GetLiteral(), SearchParameter.SearchComparator.Ne},
+        {SearchParameter.SearchComparator.Sa.GetLiteral(), SearchParameter.SearchComparator.Sa}
       };
     }
 
