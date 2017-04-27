@@ -50,10 +50,11 @@ namespace Pyro.DataLayer.Repository
         switch (SearchItem.Type)
         {
           case SearchParamType.Date:
-           //NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
-           // NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
-           // NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-            break;
+            //NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
+            // NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
+            // NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            throw new NotImplementedException();
+           // break;
           case SearchParamType.Number:
             {
               if (SearchItem is DtoSearchParameterNumber)
@@ -71,8 +72,8 @@ namespace Pyro.DataLayer.Repository
             }
             break;
           case SearchParamType.Quantity:
-            //NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);           
-            throw new NotImplementedException("QuantityRangeIndex searches are not supported in this version.");
+            NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            break;
           case SearchParamType.Reference:
             NewPredicate = ReferancePredicateBuilder.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
             break;

@@ -103,10 +103,12 @@
     <Compile Include="Repository\CommonResourceRepository.cs" />
     <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
     <Compile Include="Search\ExpressionSupport\DecimalExpression.cs" />
+    <Compile Include="Search\ExpressionSupport\QuantityExpression.cs" />
     <Compile Include="Search\ExpressionSupport\ReferanceExpression.cs" />
     <Compile Include="Search\ExpressionSupport\TokenExpression.cs" />
     <Compile Include="Search\Extentions\ResourceSearchExtensions.cs" />
     <Compile Include="Search\Predicate\NumberPredicateBuilder.cs" />
+    <Compile Include="Search\Predicate\QuantityPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\ReferancePredicateBuilder.cs" />
     <Compile Include="Search\Predicate\StringPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\TokenPredicateBuilder.cs" />

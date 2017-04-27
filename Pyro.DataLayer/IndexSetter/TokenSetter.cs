@@ -265,9 +265,20 @@ namespace Pyro.DataLayer.IndexSetter
 
     private static void SetCodeableConcept(CodeableConcept CodeableConcept)
     {
-      foreach(Coding Code in CodeableConcept.Coding)
+      if (CodeableConcept.Coding.Count == 0)
       {
-        SetCoding(Code);
+        if (!string.IsNullOrWhiteSpace(CodeableConcept.Text))
+        {
+          var ResourceIndex = new ResourceIndexType();
+          ResourceIndex.Code = CodeableConcept.Text;
+        }
+      }
+      else
+      {
+        foreach (Coding Code in CodeableConcept.Coding)
+        {
+          SetCoding(Code);
+        }
       }
     }
 
