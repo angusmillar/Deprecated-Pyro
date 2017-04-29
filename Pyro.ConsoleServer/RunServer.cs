@@ -12,7 +12,7 @@ namespace Pyro.ConsoleServer
   class RunServer
   {
     static void Main(string[] args)
-    {      
+    {    
       string FhirEndpoint = Pyro.Web.ApplicationCache.StaticCacheWeb.WebConfigServiceBaseURL;
       Uri FhirEndpointUri = new Uri(FhirEndpoint);      
       string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";           

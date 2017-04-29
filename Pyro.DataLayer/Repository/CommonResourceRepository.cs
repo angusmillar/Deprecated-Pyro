@@ -8,8 +8,6 @@ using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.Support;
 using Pyro.DataLayer.IndexSetter;
 using Pyro.DataLayer.Search.Extentions;
-//using Pyro.DataModel.Support;
-//using Pyro.DataModel.IndexSetter;
 using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;

@@ -18,7 +18,7 @@ namespace Pyro.DataLayer.Repository
     internal Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _Context = null;
     
     protected int _NumberOfRecordsPerPage = 10;
-    protected int _MaxNumberOfRecordsPerPage = 10000;
+    protected int _MaxNumberOfRecordsPerPage = 100;
 
     /// <summary>
     /// Save method.

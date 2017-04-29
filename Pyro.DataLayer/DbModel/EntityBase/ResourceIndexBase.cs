@@ -14,9 +14,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public int ServiceSearchParameterId { get; set; }
 
     public string String { get; set; }
-
-    public int? Date { get; set; }
-
+    
     public DateTimeOffset? DateTimeOffsetLow { get; set; }
     public DateTimeOffset? DateTimeOffsetHigh { get; set; }
 

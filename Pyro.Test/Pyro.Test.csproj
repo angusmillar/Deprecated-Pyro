@@ -115,22 +115,13 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="IndexSetters\Test_DateTimePeriod_IndexSetters.cs" />
-    <Compile Include="IndexSetters\Test_Date_IndexSetters.cs" />
-    <Compile Include="IndexSetters\Test_DateTime_IndexSetters.cs" />
-    <Compile Include="IndexSetters\Test_Number_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_QuantityRange_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_Quantity_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_Referance_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_String_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_Token_IndexSetter.cs" />
-    <Compile Include="IndexSetters\Test_Uri_IndexSetter.cs" />
     <Compile Include="IntergrationTest\StaticTestData.cs" />
     <Compile Include="IntergrationTest\TestStartup.cs" />
     <Compile Include="IntergrationTest\Test_BundleTransactions.cs" />
     <Compile Include="IntergrationTest\Test_BasicRequestes.cs" />
     <Compile Include="IntergrationTest\Test_ConditionalRequests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\Test_DateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirDateSupport.cs" />
     <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
@@ -146,17 +137,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pyro.DataModel\Pyro.DataModel.csproj">
-      <Project>{7ea4191f-1d14-4435-a857-1a462844c8df}</Project>
-      <Name>Pyro.DataModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
-      <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
-      <Name>Pyro.Engine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
       <Name>Pyro.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.DataLayer\Pyro.DataLayer.csproj">
+      <Project>{ed443624-3bca-44a2-ad32-cea9cd47e9a7}</Project>
+      <Name>Pyro.DataLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyro.Web\Pyro.Web.csproj">
       <Project>{25051945-a08f-4e51-a7dc-c6190624a93f}</Project>

@@ -50,11 +50,8 @@ namespace Pyro.DataLayer.Repository
         switch (SearchItem.Type)
         {
           case SearchParamType.Date:
-            //NewPredicate = DateTimePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
-            // NewPredicate = DatePredicateBuilder.Build(Search, NewPredicate, SearchItem);           
-            // NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);
-            throw new NotImplementedException();
-           // break;
+            NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);            
+            break;
           case SearchParamType.Number:
             {
               if (SearchItem is DtoSearchParameterNumber)

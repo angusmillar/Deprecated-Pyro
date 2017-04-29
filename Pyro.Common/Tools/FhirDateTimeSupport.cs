@@ -12,13 +12,13 @@ namespace Pyro.Common.Tools
   public class FhirDateTimeSupport
   {
 
-    //private readonly static string DateAndTimeZoneDelimiter = "-";
-    //private readonly static string PlusTimeZoneDelimiter = "+";
+    private readonly static char MinusTimeZoneDelimiter = '-';
+    private readonly static char PlusTimeZoneDelimiter = '+';
     //private readonly static string TimeDelimiter = "T";
     private readonly static string MilliSecDelimiter = ".";
     private readonly static string HourMinSecDelimiter = ":";
 
-    public enum DateTimePrecision { Year, Month, Day, HourMin, Sec, MilliSec };
+    public enum DateTimePrecision { Year, Month, Day, HourMin, Sec, MilliSec, Tick };
     public DateTimeOffset? Value { get; set; }
     public int ValueDate { get; set; }
 
@@ -42,9 +42,21 @@ namespace Pyro.Common.Tools
 
 
       DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
-      if (FhirDateTime.Length == 29)
+      if (FhirDateTime.Length > 29 && FhirDateTime.Length < 34)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFFzzz", true);
+        //"yyyy-MM-ddTHH:mm:ss.ffffzzz"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
+        if (Result.HasValue)
+        {
+          this.Precision = DateTimePrecision.Tick;
+          this.Value = Result.Value;
+          return true;
+        }
+      }
+      else if (FhirDateTime.Length == 29)
+      {
+        //"yyyy-MM-ddTHH:mm:ss.FFFzzz"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -54,7 +66,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 28)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFzzz", true);
+        //"yyyy-MM-ddTHH:mm:ss.FFzzz"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -64,7 +77,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 27)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.Fzzz", true);
+        //"yyyy-MM-ddTHH:mm:ss.Fzzz"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -74,7 +88,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 25)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:sszzz", true);
+        //"yyyy-MM-ddTHH:mm:sszzz"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Sec;
@@ -85,7 +100,8 @@ namespace Pyro.Common.Tools
       else if (FhirDateTime.Length == 24)
       {
         //1974-12-25T14:35:45.123Z
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFFK", true);
+        //"yyyy-MM-ddTHH:mm:ss.FFFK"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Sec;
@@ -95,7 +111,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 23)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FFF", false);
+        //"yyyy-MM-ddTHH:mm:ss.FFF"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -105,7 +122,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == MilliSecDelimiter)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.FF", false);
+        //"yyyy-MM-ddTHH:mm:ss.FF"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -115,7 +133,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == HourMinSecDelimiter)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mmzzz", true);
+        //"yyyy-MM-ddTHH:mmzzz"
+        var Result = ConvertToDateTimeOffSet(AddSecondsToHourMinDateTime(FhirDateTime));
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.HourMin;
@@ -125,7 +144,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 21)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss.F", false);
+        //"yyyy-MM-ddTHH:mm:ss.F"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.MilliSec;
@@ -135,9 +155,10 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 20)
       {
-        
+
         //1974-12-25T14:35:45Z
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ssK", true);
+        //"yyyy-MM-ddTHH:mm:ssK"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Sec;
@@ -147,7 +168,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 19)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm:ss", false);
+        //"yyyy-MM-ddTHH:mm:ss"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Sec;
@@ -157,7 +179,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 16)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-ddTHH:mm", false);
+        //"yyyy-MM-ddTHH:mm"
+        var Result = ConvertToDateTimeOffSet(AddSecondsToHourMinDateTime(FhirDateTime));
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.HourMin;
@@ -167,7 +190,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 10)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM-dd", false);
+        //"yyyy-MM-dd"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Day;
@@ -177,7 +201,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 7)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy-MM", false);
+        //"yyyy-MM"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Month;
@@ -187,7 +212,8 @@ namespace Pyro.Common.Tools
       }
       else if (FhirDateTime.Length == 4)
       {
-        var Result = ConvertToDateTimeOffSet(FhirDateTime, "yyyy", false);
+        //"yyyy"
+        var Result = ConvertToDateTimeOffSet(FhirDateTime);
         if (Result.HasValue)
         {
           this.Precision = DateTimePrecision.Year;
@@ -199,18 +225,56 @@ namespace Pyro.Common.Tools
       return false;
     }
 
-    private DateTimeOffset? ConvertToDateTimeOffSet(string Value, string Format, bool HasTimeZone)
+    private string AddSecondsToHourMinDateTime(string FhirDateTime)
     {
-      DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
-      if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, 
-                                       System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
-      {        
-        return TempDateTimeOffset;
+      //2017-04-28T18:29+10:00      
+      //2017-04-28T18:29
+      string SecondsToAdd = "00";
+      var Split = FhirDateTime.Split(HourMinSecDelimiter.ToCharArray());
+      string New = string.Empty;
+      string Temp = string.Empty;
+      if (FhirDateTime.Length > 16)
+      {
+        //Value has a timezone
+        if (Split[1].Contains(MinusTimeZoneDelimiter))
+        {
+          Temp = $"{Split[1].Split(MinusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{MinusTimeZoneDelimiter}{Split[1].Split(MinusTimeZoneDelimiter)[1]}";
+        }
+        else if (Split[1].Contains(PlusTimeZoneDelimiter))
+        {
+          Temp = $"{Split[1].Split(PlusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{PlusTimeZoneDelimiter}{Split[1].Split(PlusTimeZoneDelimiter)[1]}";
+        }
+        New = $"{Split[0]}{HourMinSecDelimiter}{Temp}{HourMinSecDelimiter}{Split[2]}"; 
+      }
+      else
+      {
+        New = $"{Split[0]}{HourMinSecDelimiter}{Split[1]}{HourMinSecDelimiter}{SecondsToAdd}";
+      }
+      return New;
+    }
+
+    private DateTimeOffset? ConvertToDateTimeOffSet(string Value)
+    {
+      Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime;
+      if (Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(Value, out PartialDateTime))
+      {
+        return PartialDateTime.ToUniversalTime().ToLocalTime();
       }
       else
       {
         return null;
       }
+
+      //DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
+      //if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, 
+      //                                 System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
+      //{        
+      //  return TempDateTimeOffset;
+      //}
+      //else
+      //{
+      //  return null;
+      //}
     }
     
     

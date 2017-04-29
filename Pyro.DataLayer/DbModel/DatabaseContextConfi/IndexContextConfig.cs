@@ -22,9 +22,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
 
-      Property(x => x.String).IsOptional();
-
-      Property(x => x.Date).IsOptional();
+      Property(x => x.String).IsOptional();      
 
       Property(x => x.DateTimeOffsetLow).IsOptional();
       Property(x => x.DateTimeOffsetHigh).IsOptional();
@@ -46,10 +44,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.ReferenceFhirId).IsOptional();
       Property(x => x.ReferenceResourceType).IsOptional();
       Property(x => x.ReferenceVersionId).IsOptional();
-
-      //HasRequired(x => x.Url);
-      //HasRequired<ServiceRootURL_Store>(x => x.Url).WithMany().HasForeignKey(x => x.ServiceRootURL_StoreID);
-
+      
       HasOptional(x => x.ReferenceUrl);
       HasOptional<ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);      
 

@@ -189,6 +189,8 @@
     <Compile Include="Interfaces\UriSupport\IFhirUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
+    <Compile Include="Tools\DateTimeIndex.cs" />
+    <Compile Include="Tools\DateTimeSupport.cs" />
     <Compile Include="Tools\FhirDateSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
     <Compile Include="Tools\FhirNarativeGenerationSupport.cs" />
@@ -197,6 +199,7 @@
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
+    <Compile Include="Tools\IDateTimeIndex.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\RepositorySwitcher.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
