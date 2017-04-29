@@ -59,10 +59,6 @@
     <Reference Include="Hl7.FhirPath, Version=0.4.2.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.FhirPath.0.4.2-alpha4\lib\net45\Hl7.FhirPath.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.FluentPath, Version=0.3.1.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.FluentPath.0.3.1-alpha7\lib\net45\Hl7.FluentPath.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -129,11 +125,6 @@
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterTokenValue.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterValueBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterWithPrefixBase.cs" />
-    <Compile Include="BusinessEntities\Dto\Search\DtoSupportedSearchParameters.cs" />
-    <Compile Include="BusinessEntities\Dto\Search\DtoSupportedSearchParametersFactory.cs">
-      <DependentUpon>_SearchParameterToDbInfoGeneration.txt4</DependentUpon>
-    </Compile>
-    <Compile Include="BusinessEntities\Dto\Search\DtoSupportedSearchParametersFactory.Main.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
@@ -165,13 +156,9 @@
     <Compile Include="Database\StaticDatabaseInfo.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
     <Compile Include="Enum\FhirSearchEnum.cs" />
-    <Compile Include="Enum\FhirSearchEnumPartial.cs">
-      <DependentUpon>_SearchParameterEnumGeneration.txt4</DependentUpon>
-    </Compile>
     <Compile Include="Enum\RestEnum.cs" />
     <Compile Include="Enum\ServiceEnums.cs" />
     <Compile Include="Interfaces\Clone\IClonableDeep.cs" />
-    <Compile Include="Interfaces\Dto\IDtoSearchParameterDbInfo.cs" />
     <Compile Include="Interfaces\Repositories\IResourceRepository.cs" />
     <Compile Include="Interfaces\ITools\IApplicationCacheSupport.cs" />
     <Compile Include="Interfaces\UriSupport\IDtoFhirRequestUri.cs" />
@@ -212,8 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="BusinessEntities\Dto\Search\_SearchParameterToDbInfoGeneration.txt4" />
-    <None Include="Enum\_SearchParameterEnumGeneration.txt4" />
     <None Include="Interfaces\Repositories\MainTemplate.txt4" />
     <None Include="packages.config" />
     <None Include="Tools\MainTemplate.txt4" />

@@ -8,7 +8,6 @@ using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces;
 using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Engine.RepositorySupport;
 
 namespace Pyro.Engine.Services
 {
