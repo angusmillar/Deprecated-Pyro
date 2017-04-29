@@ -172,7 +172,7 @@ namespace Pyro.Test.IntergrationTest
       TransactionResultOrganization = TransactionResult.Entry[1].Resource as Organization;
 
       //Check the family name was updated in the returned resource
-      Assert.AreEqual(PatientFamilyName, TransactionResultPatient.Name[0].Family.ToArray()[0]);
+      Assert.AreEqual(PatientFamilyName, TransactionResultPatient.Name[0].Family);
 
       //------------------------------------------------------------------------------------------------------
       //Transaction Bundle 3 (GET) ------------------------------------------------------------------------

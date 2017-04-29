@@ -194,7 +194,7 @@ namespace Pyro.Engine.Services
         SearchParametersServiceRequestIfNoneExist.SearchParameterGeneric = SearchParameterGenericIfNoneExist;
         SearchParametersServiceRequestIfNoneExist.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource;
         SearchParametersServiceRequestIfNoneExist.ResourceType = _CurrentResourceType;
-        SearchParametersServiceRequest.CommonServices = this as ICommonServices;
+        SearchParametersServiceRequestIfNoneExist.CommonServices = this as ICommonServices;
         ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestIfNoneExist);
         if (SearchParametersServiceOutcomeIfNoneExist.FhirOperationOutcome != null)
         {
