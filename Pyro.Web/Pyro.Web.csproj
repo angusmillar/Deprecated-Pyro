@@ -310,7 +310,7 @@
     <Content Include="App_Data\Connectons.config" />
     <Content Include="..\PyroApp.config">
       <Link>App_Data\PyroApp.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\AWSPyro.pubxml" />
     <None Include="Properties\PublishProfiles\PyroLocal.pubxml" />
