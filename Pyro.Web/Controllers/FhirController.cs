@@ -55,9 +55,9 @@ namespace Pyro.Web.Controllers
     //Metadata 
     // GET: URL//FhirApi/metadata
     /// <summary>
-    /// Get the FHIR Conformance Resource for this Server.
+    /// Get the FHIR CapabilityStatement Resource for this Server.
     /// </summary>
-    /// <returns>Conformance Resource</returns>
+    /// <returns>CapabilityStatement Resource</returns>
     [HttpGet, Route("metadata")]
     [ActionLog]
     public HttpResponseMessage Metadata()

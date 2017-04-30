@@ -498,9 +498,9 @@
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Metadata">
             <summary>
-            Get the FHIR Conformance Resource for this Server.
+            Get the FHIR CapabilityStatement Resource for this Server.
             </summary>
-            <returns>Conformance Resource</returns>
+            <returns>CapabilityStatement Resource</returns>
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Get(System.String,System.String)">
             <summary>

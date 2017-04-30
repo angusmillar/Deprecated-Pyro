@@ -16,9 +16,9 @@ namespace Pyro.Web.Controllers
       HomeView.FhirApiEndpoint = "pyrohealth.net/test/stu3/fhir";
       HomeView.FhirSpecification = new Models.Common.ExternalPageLink()
       {
-        Description = "FHIR September 2016 V1.6.0 specification release",
+        Description = "FHIR April 2017 V3.0.0 specification release",
         Name = "FHIR STU3",
-        Url = new Uri("http://hl7.org/fhir/2016Sep/index.html")
+        Url = new Uri("http://hl7.org/fhir/STU3/index.html")
       };
 
       HomeView.FhirDotNetAPI = new Models.Common.ExternalPageLink()
