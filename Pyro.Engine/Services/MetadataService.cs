@@ -17,7 +17,7 @@ namespace Pyro.Engine.Services
   public class MetadataService
   { 
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
-    {
+    {      
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
 
@@ -33,129 +33,111 @@ namespace Pyro.Engine.Services
       }
       var Conformance = new CapabilityStatement();
 
-      //string ApplicationReleaseDate = "2016-11-01T10:00:00+10:00";
-      //string ServerName = "Pyro Server";
-
-
+      string ApplicationReleaseDate = "2017-05-01T10:00:00+10:00";
+      string ServerName = "Pyro Server";
       
-      //Conformance.Id = "metadata";
-      //Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
-      //Conformance.Version = ResourceServiceRequest.ApplicationVersion;
-      //Conformance.Name = ServerName;
-      //Conformance.Status = PublicationStatus.Active;
-      //Conformance.Experimental = true;
-      //Conformance.Date = ApplicationReleaseDate;
-      //Conformance.Publisher = "PyroHealth.net";
+      Conformance.Id = "metadata";
+      Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
+      Conformance.Version = ResourceServiceRequest.ApplicationVersion;
+      Conformance.Name = ServerName;
+      Conformance.Status = PublicationStatus.Active;
+      Conformance.Experimental = true;
+      Conformance.Date = ApplicationReleaseDate;
+      Conformance.Publisher = "PyroHealth.net";
 
-      //var Contact = new ContactDetail();
-      //Contact.Name = "Angus Millar";
-      //Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
-      //Conformance.Contact = new List<ContactDetail>() { Contact };
+      var Contact = new ContactDetail();
+      Contact.Name = "Angus Millar";
+      Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
+      Conformance.Contact = new List<ContactDetail>() { Contact };
 
-      //Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
+      Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
 
-      //var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
-      //Conformance.Jurisdiction = new List<CodeableConcept>() { Australia };
+      var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
+      Conformance.Jurisdiction = new List<CodeableConcept>() { Australia };
 
-      //Conformance.Purpose = new Markdown("Reference implementation of a FHIR Server");
+      Conformance.Purpose = new Markdown("Reference implementation of a FHIR Server");
 
-      //Conformance.Copyright = new Markdown("PyroHealth.net");
-      //Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Capability;
+      Conformance.Copyright = new Markdown("PyroHealth.net");
+      Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Capability;
 
-      //Conformance.Software = new CapabilityStatement.SoftwareComponent();
-      //Conformance.Software.Name = ServerName;
-      //Conformance.Software.Version = ResourceServiceRequest.ApplicationVersion;
-      //Conformance.Software.ReleaseDate = ApplicationReleaseDate;
+      Conformance.Software = new CapabilityStatement.SoftwareComponent();
+      Conformance.Software.Name = ServerName;
+      Conformance.Software.Version = ResourceServiceRequest.ApplicationVersion;
+      Conformance.Software.ReleaseDate = ApplicationReleaseDate;
 
-      //Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
-      //Conformance.Implementation.Description = ServerName;
-      //Conformance.Implementation.Url = ResourceServiceRequest.RootUrl.RootUrl;
+      Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
+      Conformance.Implementation.Description = ServerName;
+      Conformance.Implementation.Url = ResourceServiceRequest.RootUrl.Url;
+
+      Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
+      Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
+
+      var ContentFormatList = new List<string>();
+      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
+        ContentFormatList.Add(mediaType);
+      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS)
+        ContentFormatList.Add(mediaType);
+      Conformance.Format = ContentFormatList;
+
+      Conformance.Rest = new List<CapabilityStatement.RestComponent>();
+      var RestComponent = new CapabilityStatement.RestComponent();
+      Conformance.Rest.Add(RestComponent);
+      RestComponent.Mode = CapabilityStatement.RestfulCapabilityMode.Server;
+      RestComponent.Documentation = "STU3 V3.0.0 FHIR Server";
+      RestComponent.Security = new CapabilityStatement.SecurityComponent();
+      RestComponent.Security.Description = "No Security has been implemented, server if publicly open";
+
+      RestComponent.Interaction = new List<CapabilityStatement.SystemInteractionComponent>();
+      var SystemInteractionComponent = new CapabilityStatement.SystemInteractionComponent();
+      RestComponent.Interaction.Add(SystemInteractionComponent);
+      SystemInteractionComponent.Code = CapabilityStatement.SystemRestfulInteraction.Transaction;
+      SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
+
+      RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
+
+      var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
+      foreach (ResourceType ResourceType in ResourceTypeList)
+      {
+        FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
+        var ResourceComponent = new CapabilityStatement.ResourceComponent();
+        RestComponent.Resource.Add(ResourceComponent);
+        ResourceComponent.Type = ResourceType;
+        ResourceComponent.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
+        {
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete},
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Read},
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update},
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread},
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance }
+            //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
+        };
+        ResourceComponent.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
+        ResourceComponent.ReadHistory = true;
+        ResourceComponent.UpdateCreate = true;
+        ResourceComponent.ConditionalCreate = true;
+        ResourceComponent.ConditionalRead = CapabilityStatement.ConditionalReadStatus.FullSupport;
+        ResourceComponent.ConditionalUpdate = true;
+        ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
+        ResourceComponent.SearchInclude = new List<string>() { "???", "??????" };
+        ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
+
+        IList<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ResourceServiceRequest.CommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
+        foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
+        {
+          CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
+          ResourceComponent.SearchParam.Add(SearchParamComponent);
+
+          SearchParamComponent.Name = SupportedSearchParam.Name;
+          SearchParamComponent.Type = SupportedSearchParam.Type;          
+          SearchParamComponent.Definition = SupportedSearchParam.Url;
+          SearchParamComponent.Documentation = SupportedSearchParam.Description;                   
+        }
+      }
+      ConstructConformanceResourceNarrative(Conformance);
       
-      //Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
-      //Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
-
-      //var ContentFormatList = new List<string>();
-      //foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
-      //  ContentFormatList.Add(mediaType);
-      //foreach (var mediaType in Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS)
-      //  ContentFormatList.Add(mediaType);
-      //Conformance.Format = ContentFormatList;
-
-      //Conformance.Rest = new List<CapabilityStatement.RestComponent>();
-      //var RestComponent = new CapabilityStatement.RestComponent();
-      //Conformance.Rest.Add(RestComponent);
-      //RestComponent.Mode = CapabilityStatement.RestfulCapabilityMode.Server;
-      //RestComponent.Documentation = "STU3 V3.0.0 FHIR Server";
-      //RestComponent.Security = new CapabilityStatement.SecurityComponent();
-      //RestComponent.Security.Description = "No Security has been implemented, server if publicly open";
-
-      //RestComponent.Interaction = new List<CapabilityStatement.SystemInteractionComponent>();
-      //var SystemInteractionComponent = new CapabilityStatement.SystemInteractionComponent();
-      //RestComponent.Interaction.Add(SystemInteractionComponent);
-      //SystemInteractionComponent.Code = CapabilityStatement.SystemRestfulInteraction.Transaction;
-      //SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
-
-      //RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
-
-      //var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
-      //foreach (ResourceType ResourceType in ResourceTypeList)
-      //{
-      //  FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
-      //  var ResourceComponent = new CapabilityStatement.ResourceComponent();
-      //  RestComponent.Resource.Add(ResourceComponent);
-      //  ResourceComponent.Type = ResourceType;
-      //  ResourceComponent.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
-      //  {
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete},
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Read},
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update},
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread},
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
-      //    new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance }
-      //      //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
-      //  };
-      //  ResourceComponent.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
-      //  ResourceComponent.ReadHistory = true;
-      //  ResourceComponent.UpdateCreate = true;
-      //  ResourceComponent.ConditionalCreate = true;
-      //  ResourceComponent.ConditionalRead = CapabilityStatement.ConditionalReadStatus.FullSupport;
-      //  ResourceComponent.ConditionalUpdate = true;
-      //  ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
-      //  //ResourceComponent.SearchInclude = new List<string>() {"???", "??????" };
-      //  //ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
-
-      //  List<DtoSupportedSearchParameters> SupportedSearchParametersList = DtoSupportedSearchParametersFactory.GetSupportedParametersForResourceTypeList((FHIRAllTypes)FhirType.Value);
-      //  ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
-      //  foreach (var SupportedSearchParam in SupportedSearchParametersList)
-      //  {
-      //    CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
-      //    ResourceComponent.SearchParam.Add(SearchParamComponent);
-
-      //    SearchParamComponent.Name = Common.Enum.FhirSearchEnum.GetSearchParameterNameString()[SupportedSearchParam.Name];
-      //    SearchParamComponent.Type = SupportedSearchParam.SearchParameterType;
-      //    //Todo: What is this below
-      //    //SearchParamComponent.Definition = "";
-      //    //if (SupportedSearchParam.TypeModifierResourceList != null && SupportedSearchParam.TypeModifierResourceList.Count > 0)
-      //    //{
-      //    //  var TargetResourceTypeList = new List<ResourceType?>();
-      //    //  foreach (var x in SupportedSearchParam.TypeModifierResourceList)
-      //    //    TargetResourceTypeList.Add(Common.Enum.FhirSearchEnum.GetResourceTypeByString()[x]);
-      //    //  SearchParamComponent.Target = TargetResourceTypeList;
-      //    //}
-      //    //if (SupportedSearchParam.ModifierList != null && SupportedSearchParam.ModifierList.Count > 0)
-      //    //{
-      //    //  var ModifierList = new List<Conformance.SearchModifierCode?>();
-      //    //  foreach (Common.Enum.FhirSearchEnum.SearchModifierType SearchModifierType in SupportedSearchParam.ModifierList)
-      //    //    ModifierList.Add(Common.Enum.FhirSearchEnum.GetConformanceSearchModifierCodeDictionary()[SearchModifierType]);
-      //    //  SearchParamComponent.Modifier = ModifierList;
-      //    //}
-      //  }
-      //}
-      //ConstructConformanceResourceNarrative(Conformance);
-
-      
-
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;

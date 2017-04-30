@@ -162,19 +162,8 @@ namespace Pyro.DataLayer.Repository
     }
 
     //---- ServiceSearchParameters ---------------------------------------------------------------
-    protected ServiceSearchParameter AddServiceSearchParameters(ServiceSearchParameter ServiceSearchParameter)
-    {
-      ServiceSearchParameter = _Context.Set<ServiceSearchParameter>().Add(ServiceSearchParameter);
-      this.Save();
-      return ServiceSearchParameter;
-    }
 
-    protected ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
-    {
-      return _Context.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);      
-    }
-
-    public IList<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
+    public IList<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
       return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
         .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterLight
@@ -186,12 +175,54 @@ namespace Pyro.DataLayer.Repository
           Type = x.Type
         }).ToList();     
     }
+    
+    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    {
+      return _Context.ServiceSearchParameter
+        .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
+        {
+          Description = x.Description,
+          Expression = x.Expression,
+          Name = x.Name,
+          Resource = x.Resource,
+          Type = x.Type,
+          Url = x.Url,
+          XPath = x.XPath
+        }).ToList();            
+    }
+
+    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    {
+      return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
+        .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
+        {
+          Id = x.Id,
+          Name = x.Name,
+          Expression = x.Expression,
+          Resource = x.Resource,
+          Type = x.Type,
+          Description = x.Description,
+          Url = x.Url,
+          XPath = x.XPath
+        }).ToList();
+    }
+
+    protected ServiceSearchParameter AddServiceSearchParameters(ServiceSearchParameter ServiceSearchParameter)
+    {
+      ServiceSearchParameter = _Context.Set<ServiceSearchParameter>().Add(ServiceSearchParameter);
+      this.Save();
+      return ServiceSearchParameter;
+    }
+
+    protected ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
+    {
+      return _Context.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
+    }
 
     protected IList<ServiceSearchParameter> GetAllServiceSearchParameters()
     {
       return _Context.ServiceSearchParameter.ToList();
     }
-
     //---- Resource ---------------------------------------------------------------
 
     protected ResourceCurrentType DbGet<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)

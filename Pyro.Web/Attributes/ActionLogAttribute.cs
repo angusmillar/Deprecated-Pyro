@@ -58,7 +58,6 @@ namespace Pyro.Web.Attributes
         string machineName = System.Environment.MachineName;
         string httpVerb = actionExecutedContext.Request.Method.ToString();
         string ipAddress = owinContext.Request.RemoteIpAddress;
-        //string jsonRequestData = GetRequestData(actionExecutedContext);
         string controllerName = actionExecutedContext.ActionContext.ControllerContext.ControllerDescriptor.ControllerName;
         string actionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
         bool successfulRequest = (actionExecutedContext.Exception == null);
@@ -235,8 +234,12 @@ namespace Pyro.Web.Attributes
           requestDataObj.Detail = new List<AuditEvent.DetailComponent>();
           var DetailComponent = new AuditEvent.DetailComponent();
           requestDataObj.Detail.Add(DetailComponent);
-          DetailComponent.Value = Encoding.UTF8.GetBytes(GetRequestData(actionExecutedContext));                                   
-          Audit.Entity.Add(requestDataObj);
+          string RequestData = GetRequestData(actionExecutedContext);
+          if (!string.IsNullOrWhiteSpace(RequestData))
+          {
+            DetailComponent.Value = Encoding.UTF8.GetBytes(RequestData);
+            Audit.Entity.Add(requestDataObj);
+          }
         }
 
         if (true)
@@ -250,8 +253,12 @@ namespace Pyro.Web.Attributes
           responseDataObj.Detail = new List<AuditEvent.DetailComponent>();
           var DetailComponent = new AuditEvent.DetailComponent();
           responseDataObj.Detail.Add(DetailComponent);
-          DetailComponent.Value = Encoding.UTF8.GetBytes(GetResponseData(actionExecutedContext));                        
-          Audit.Entity.Add(responseDataObj);
+          string ResponseData = GetResponseData(actionExecutedContext);
+          if (!string.IsNullOrWhiteSpace(ResponseData))
+          {
+            DetailComponent.Value = Encoding.UTF8.GetBytes(ResponseData);
+            Audit.Entity.Add(responseDataObj);
+          }
         }
         //Commit to Database
         IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoFhirRequestUri, RestEnum.CrudOperationType.Create);

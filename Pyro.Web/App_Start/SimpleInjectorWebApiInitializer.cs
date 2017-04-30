@@ -41,7 +41,7 @@ namespace Pyro.Web.App_Start
       container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IServiceNegotiator, Services.ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<ICommonServices, Pyro.Engine.Services.CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);      
 
 
     }

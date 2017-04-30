@@ -8,6 +8,7 @@ namespace Pyro.Common.Interfaces.UriSupport
     string Authority { get; }
     string Id { get; }
     string ResourceOperation { get; }
+    string BaseOperation { get; }
     string VersionId { get; }
     bool IsFormDataSearch { get; }
     string ResourseType { get; }

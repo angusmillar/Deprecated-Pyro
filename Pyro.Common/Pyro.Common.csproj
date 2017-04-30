@@ -86,6 +86,7 @@
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameter.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterHeavy.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterLight.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalPut.cs" />
+    <Compile Include="Interfaces\Dto\IServiceSearchParameter.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWorkCodeGeneration.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>

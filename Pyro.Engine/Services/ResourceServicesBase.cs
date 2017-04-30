@@ -12,7 +12,7 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Engine.Services
 {
-  public class ResourceServicesBase : CommonServices, IResourceServicesBase, ICommonServices, IBaseServices 
+  public class ResourceServicesBase : CommonServices, IResourceServicesBase
   {
     protected bool _TransactionStarted;
     protected IResourceRepository _ResourceRepository = null;

@@ -13,8 +13,9 @@ namespace Pyro.Common.BusinessEntities.Service
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRootUrlStore RootUrl { get; set; }
     public string ApplicationVersion { get; set; }
+    public ICommonServices CommonServices { get; set; }
 
-    public ResourceServiceRequestMetadata(string ApplicationVersion, IDtoRootUrlStore RootUrl, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestMetadata(string ApplicationVersion, IDtoRootUrlStore RootUrl, IDtoSearchParameterGeneric SearchParameterGeneric, ICommonServices CommonServices)
     {
       if (string.IsNullOrEmpty(ApplicationVersion))
         throw new NullReferenceException("ApplicationVersion can not be null or empty string.");
@@ -22,10 +23,13 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("RootUrl can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
+      if (CommonServices == null)
+        throw new NullReferenceException("CommonServices can not be null.");
 
       this.ApplicationVersion = ApplicationVersion;
       this.RootUrl = RootUrl;
-      this.SearchParameterGeneric = SearchParameterGeneric;    
+      this.SearchParameterGeneric = SearchParameterGeneric;
+      this.CommonServices = CommonServices;
     }    
   }
 }

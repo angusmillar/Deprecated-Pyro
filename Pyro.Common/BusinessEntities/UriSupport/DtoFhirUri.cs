@@ -34,6 +34,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     private readonly string UrnSchemaCode = "urn";
     private readonly string UuidNameCode = "uuid";
     private readonly string OidNameCode = "oid";
+    private readonly string MetadataName = "metadata";
     protected bool IsValidFhirUri = false;
 
     internal DtoFhirUri()
@@ -127,6 +128,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     /// Resource Operation: '$lookup'
     /// </summary>
     public string ResourceOperation { get; private set; }
+    /// <summary>
+    /// BaseOperation: 'metadata', etc
+    /// </summary>
+    public string BaseOperation { get; private set; }
     /// <summary>
     /// example: '_search'
     /// </summary>
@@ -406,9 +411,16 @@ namespace Pyro.Common.BusinessEntities.UriSupport
             }
             else
             {
-              if (i > 0)
+              if (AbsolutePathArray[i] == MetadataName)
               {
-                ApiSegmentList.Add(AbsolutePathArray[i]);
+                this.BaseOperation = MetadataName;
+              }
+              else
+              {
+                if (i > 0)
+                {
+                  ApiSegmentList.Add(AbsolutePathArray[i]);
+                }
               }
             }
           }

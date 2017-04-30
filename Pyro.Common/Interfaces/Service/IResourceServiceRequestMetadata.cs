@@ -1,4 +1,5 @@
-﻿using Pyro.Common.Interfaces.Dto;
+﻿using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.Interfaces.Service
 {
@@ -7,5 +8,6 @@ namespace Pyro.Common.Interfaces.Service
     string ApplicationVersion { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRootUrlStore RootUrl { get; set; }
+    ICommonServices CommonServices { get; set; }
   }
 }

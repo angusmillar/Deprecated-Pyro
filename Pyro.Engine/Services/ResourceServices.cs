@@ -13,7 +13,7 @@ using Hl7.Fhir.Utility;
 
 namespace Pyro.Engine.Services
 {
-  public abstract class ResourceServices : ResourceServicesBase, IResourceServices, ICommonServices, IBaseServices
+  public abstract class ResourceServices : ResourceServicesBase, IResourceServices
   {
     //Constructor for dependency injection
     public ResourceServices(IUnitOfWork IUnitOfWork)

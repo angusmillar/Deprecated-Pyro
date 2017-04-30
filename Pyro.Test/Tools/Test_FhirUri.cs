@@ -10,7 +10,7 @@ using Pyro.Common.Interfaces.UriSupport;
 namespace Pyro.Test.Tools
 {
   [TestFixture]
-  [Category("Tools")]
+  [Category("ATools")]
   class Test_FhirUri
   {
     private char UriDelimieter = '/';
@@ -424,6 +424,39 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(uuid, FhirUri.ServiceRootUrl.OriginalString);
       Assert.AreEqual("localhost:8888/test/stu3/fhir", FhirUri.ServiceRootUrlForComparison);
     }
+
+    [Test]
+    public void Test_ReferanceToServiceRootMetadata()
+    {
+      //Arrange
+      // URl : "http://localhost:8888/test/stu3/fhir/metadata"
+      string uuid = "http://localhost:8888/test/stu3/fhir/metadata";
+      Uri ServiceRootUrl = new Uri(uuid);
+
+      //Act
+      IFhirUri FhirUri;
+      bool IsParsed = DtoFhirUri.TryParse(uuid, out FhirUri);
+
+
+      //Assert
+      Assert.AreEqual(true, IsParsed);
+      Assert.AreEqual("http", FhirUri.Schema);
+      Assert.AreEqual("://", FhirUri.SchemaDelimiter);
+      Assert.AreEqual("localhost:8888", FhirUri.Authority);
+      Assert.AreEqual(null, FhirUri.ResourseType);
+      Assert.AreEqual(3, FhirUri.ApiSegments.Length);
+      Assert.AreEqual(null, FhirUri.ResourceOperation);
+      Assert.AreEqual(false, FhirUri.IsFormDataSearch);
+      Assert.AreEqual(null, FhirUri.Query);
+      Assert.AreEqual(false, FhirUri.IsUuid);
+      Assert.AreEqual(false, FhirUri.IsUuidValid);
+      Assert.AreEqual(false, FhirUri.IsOid);
+      Assert.AreEqual(false, FhirUri.IsOidValid);
+      Assert.AreEqual(null, FhirUri.Id);
+      Assert.AreEqual("metadata", FhirUri.BaseOperation);
+      Assert.AreEqual("localhost:8888/test/stu3/fhir", FhirUri.ServiceRootUrlForComparison);
+    }
+
 
 
   }

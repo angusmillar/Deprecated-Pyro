@@ -41,7 +41,7 @@ namespace Pyro.Common.Cache
 
       //At Runtime get the URL from the database and then Cache it
       IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
-      DtoServiceSearchParameterLightList = Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersForResource(ResourceType));
+      DtoServiceSearchParameterLightList = Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersLightForResource(ResourceType));
 
       return DtoServiceSearchParameterLightList;
     }
