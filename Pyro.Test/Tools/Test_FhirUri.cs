@@ -10,7 +10,7 @@ using Pyro.Common.Interfaces.UriSupport;
 namespace Pyro.Test.Tools
 {
   [TestFixture]
-  [Category("ATools")]
+  [Category("Tools")]
   class Test_FhirUri
   {
     private char UriDelimieter = '/';
