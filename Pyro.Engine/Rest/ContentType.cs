@@ -15,11 +15,10 @@ namespace Pyro.Engine.Rest
   
 
   public static class ContentType 
-  {
-
-    public const string XmlResource = "application/xml+fhir";    
-    public const string JsonResource = "application/json+fhir";
-
+  {    
+    public const string XmlResource = Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
+    public const string JsonResource = Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER;
+    
     public static string GetContentType(Type type, Hl7.Fhir.Rest.ResourceFormat format)
     {
       if (typeof(Hl7.Fhir.Model.Resource).IsAssignableFrom(type) || type == typeof(Hl7.Fhir.Model.Resource))
