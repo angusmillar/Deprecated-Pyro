@@ -58,7 +58,7 @@ namespace Pyro.Engine.Services
       Conformance.Purpose = new Markdown("Reference implementation of a FHIR Server");
 
       Conformance.Copyright = new Markdown("PyroHealth.net");
-      Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Capability;
+      Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Instance;
 
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
