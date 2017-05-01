@@ -133,7 +133,8 @@ namespace Pyro.Engine.Services
           SearchParamComponent.Name = SupportedSearchParam.Name;
           SearchParamComponent.Type = SupportedSearchParam.Type;          
           SearchParamComponent.Definition = SupportedSearchParam.Url;
-          SearchParamComponent.Documentation = SupportedSearchParam.Description;                   
+          if (!string.IsNullOrWhiteSpace(SupportedSearchParam.Description))
+            SearchParamComponent.Documentation = SupportedSearchParam.Description;                   
         }
       }
       ConstructConformanceResourceNarrative(Conformance);
