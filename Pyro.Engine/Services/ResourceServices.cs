@@ -315,8 +315,15 @@ namespace Pyro.Engine.Services
         {
           //The resource has been found so update its version number based on the older resource              
           PyroServiceRequestPut.Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
+          
           oServiceOperationOutcome = SetResource(PyroServiceRequestPut.Resource, PyroServiceRequestPut.FhirRequestUri, RestEnum.CrudOperationType.Update);
           oServiceOperationOutcome.SuccessfulTransaction = true;
+          //If the found resource is IsDeleted = true then need to return Status = 201 (Created) after 
+          //performing to update, not 201 (OK)
+          if (DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
+          {
+            oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
+          }
         }
       }
       else if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 0)
