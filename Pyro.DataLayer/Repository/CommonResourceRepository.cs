@@ -297,22 +297,11 @@ namespace Pyro.DataLayer.Repository
       var NewResourceEntity = new ResourceCurrentType();
       //var ResourceHistoryEntity = new ResourceCurrentType();
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
-      ResourceHistoryEntity.IsCurrent = false;
-
-      //IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-
-
-
-      //this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
-      //IndexSettingSupport.ResetResourceEntityBase(ResourceEntity);
-
-      //this.ResetResourceEntity(ResourceEntity);
-
+      ResourceHistoryEntity.IsCurrent = false;      
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT);
       this.PopulateResourceEntity(NewResourceEntity, ResourceVersion, Resource, FhirRequestUri);
       NewResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
-
       this.Save();
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
@@ -320,6 +309,13 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
+    public int DeleteNonCurrentResourceIndexes()
+    {
+      int NumberOfRowsRemoved = this.ClearIndexes<ResourceCurrentType, ResourceIndexType>();      
+      this.Save();
+      return NumberOfRowsRemoved;
+    }
+    
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId)
     {      
       var OldResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);      

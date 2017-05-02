@@ -271,8 +271,24 @@ namespace Pyro.DataLayer.Repository
       where ResourceIndexType : ResourceIndexBase
     {
       IQueryable<ResourceCurrentType> ResourceEntity = null;
-      ResourceEntity = _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate);
+      ResourceEntity = _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate);      
       return ResourceEntity;
+    }
+
+    protected int ClearIndexes<ResourceCurrentType, ResourceIndexType>()
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase
+    {
+      //_Context.Set<ResourceIndexType>().Where(x => x.Pa)
+      int RowsRemovedCount = 0;
+      IQueryable<ResourceCurrentType> ResourceEntityList = null;
+      ResourceEntityList = _Context.Set<ResourceCurrentType>().Include(b => b.IndexList).Where(x => x.IsCurrent == false);
+      foreach (var ResourceEntity in ResourceEntityList)
+      {
+        RowsRemovedCount = RowsRemovedCount + ResourceEntity.IndexList.Count;
+        _Context.Set<ResourceIndexType>().RemoveRange(ResourceEntity.IndexList);
+      }
+      return RowsRemovedCount;
     }
 
     protected int DbGetALLCount<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate)
