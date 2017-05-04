@@ -16,7 +16,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
   public class ResourceContextConfig<ResourceCurrentType, ResourceIndexType> : EntityTypeConfiguration<ResourceCurrentType> 
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>    
-    where ResourceIndexType : ResourceIndexBase
+    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
     public ResourceContextConfig()
     {
@@ -41,6 +41,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       //Property(x => x.VersionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.Method).IsRequired();
+      HasMany(c => c.IndexList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
+
     }
   }
 }

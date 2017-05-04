@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Data.Entity;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.DataLayer.Support;
-using Pyro.DataLayer.IndexSetter;
-using Pyro.DataLayer.Search.Extentions;
-using Pyro.Common.BusinessEntities.Search;
-using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.BusinessEntities.Dto;
+﻿using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
-using Hl7.Fhir.ElementModel;
+using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.DataLayer.DbModel.EntityBase;
+using Pyro.DataLayer.IndexSetter;
 using Pyro.DataLayer.Repository.Interfaces;
+using Pyro.DataLayer.Search.Extentions;
+using Pyro.DataLayer.Support;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Pyro.DataLayer.Repository
 {
   public class CommonResourceRepository<ResourceCurrentType, ResourceIndexType> : CommonRepository, IResourceRepository
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()    
-    where ResourceIndexType : ResourceIndexBase, new()
+    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; }
 
@@ -138,46 +138,6 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    //public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
-    //{
-    //  IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-
-    //  if (!string.IsNullOrWhiteSpace(ResourceVersionNumber))
-    //  {
-    //    DatabaseOperationOutcome.SingleResourceRead = true;
-    //    var ResourceHistoryEntity = DbGet<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(x => x.FhirId == FhirResourceId && x.VersionId == ResourceVersionNumber);
-    //    if (ResourceHistoryEntity != null)
-    //    {
-    //      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceHistoryEntity, this.RepositoryResourceType, false));
-    //    }
-    //    else
-    //    {
-    //      var ResourceEntity = DbGet<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(x => x.FhirId == FhirResourceId && x.VersionId == ResourceVersionNumber);
-    //      if (ResourceEntity != null)
-    //        DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType, true));
-    //    }
-    //  }
-    //  else
-    //  {
-
-    //    DatabaseOperationOutcome.SingleResourceRead = false;
-    //    var Predicate = LinqKit.PredicateBuilder.New<ResourceBase>(true);
-    //    Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
-    //    int TotalRecordCount = DbGetALLCount<ResourceBase>(Predicate);
-    //    var Query = DbGetAll<ResourceBase>(Predicate);
-
-    //    //Todo: Sort not implemented just defaulting to last update order
-    //    //Query = Query.OrderBy(x => x.lastUpdated);
-    //    //int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-
-    //    //Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-    //    var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-    //    Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource<ResourceBase>(x, this.RepositoryResourceType, true)));
-
-    //  }
-    //  return DatabaseOperationOutcome;
-    //}
-
     public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
@@ -233,52 +193,7 @@ namespace Pyro.DataLayer.Repository
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
-
-    //public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters)
-    //{
-    //  IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
-    //  DatabaseOperationOutcome.SingleResourceRead = false;
-    //  int TotalRecordCount = 0;
-    //  SetNumberOfRecordsPerPage(DtoSearchParameters);
-
-    //  var DtoResourceList = new List<DtoResource>();
-
-    //  var Predicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>(true);
-    //  Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
-    //  ResourceCurrentType CurrentResourceEntity = DbGet<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(Predicate);
-
-    //  if (CurrentResourceEntity != null)
-    //  {
-    //    TotalRecordCount++;
-    //    //If page one required then add the current record to the return list as first.
-    //    if (DtoSearchParameters.RequiredPageNumber <= 1)
-    //    {
-    //      _NumberOfRecordsPerPage--;
-    //      DtoResourceList.Add(IndexSettingSupport.SetDtoResource(CurrentResourceEntity, RepositoryResourceType, true));
-    //    }
-    //  }
-
-    //  TotalRecordCount = TotalRecordCount + GetResourceHistoryEntityCount(Predicate);
-
-
-
-    //  int StartRecord = 0;
-    //  int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
-    //  if (DtoSearchParameters.RequiredPageNumber > PagesTotal)
-    //    StartRecord = (_NumberOfRecordsPerPage * (PagesTotal - 1)) - 1;
-    //  else if (DtoSearchParameters.RequiredPageNumber > 1)
-    //    StartRecord = (_NumberOfRecordsPerPage * (DtoSearchParameters.RequiredPageNumber - 1)) - 1;
-
-    //  GetResourceHistoryEntityList(Predicate, StartRecord, DtoResourceList);
-
-    //  DatabaseOperationOutcome.SingleResourceRead = false;
-    //  DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-    //  DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
-    //  DatabaseOperationOutcome.PageRequested = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-    //  DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
-    //  return DatabaseOperationOutcome;
-    //}
-
+    
     public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
       var ResourceEntity = new ResourceCurrentType();
@@ -309,13 +224,6 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public int DeleteNonCurrentResourceIndexes()
-    {
-      int NumberOfRowsRemoved = this.ClearIndexes<ResourceCurrentType, ResourceIndexType>();      
-      this.Save();
-      return NumberOfRowsRemoved;
-    }
-    
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId)
     {      
       var OldResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);      
@@ -376,22 +284,25 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    private void SetNumberOfRecordsPerPage(DtoSearchParameters DtoSearchParameters)
+    public int DeleteNonCurrentResourceIndexes()
     {
-      if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
-      {
-        if (DtoSearchParameters.CountOfRecordsRequested.Value < _MaxNumberOfRecordsPerPage)
-        {
-          _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
-        }
-        else
-        {
-          _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
-        }
-      }
-    }
+      int RowsRemovedCount = 0;
+      var IndexList = _Context.Set<ResourceIndexType>()
+        .Where(w => w.Resource.IsCurrent == false);
 
-    // --- Abstract Methods -------------------------------------------------------------
+      foreach (ResourceIndexType Index in IndexList)
+      {
+        RowsRemovedCount = RowsRemovedCount + 1;
+        (_Context as IObjectContextAdapter).ObjectContext.DeleteObject(Index);
+      }
+      //Old Way
+      //var ListToRemove = _Context.Set<ResourceIndexType>().Where(x => x.Resource.IsCurrent == false).ToList();
+      //RowsRemovedCount = ListToRemove.Count;
+      //ListToRemove.ForEach(x => _Context.Set<ResourceIndexType>().Remove(x));
+      this.Save();
+      return RowsRemovedCount;
+    }
+    
     public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceCurrentType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
     {
       var HistoryEntityList = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate)         
@@ -403,17 +314,7 @@ namespace Pyro.DataLayer.Repository
       if (HistoryEntityList != null)
         HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
     }
-
-    //public int GetResourceHistoryEntityCount(LinqKit.ExpressionStarter<ResourceCurrentType> Predicate)
-    //{
-    //  return DbGetAll<ResourceCurrentType>(Predicate).SelectMany(y => y.HistoryList).Count();
-    //}
-
-    //public void AddResourceHistoryEntityToResourceEntity(ResourceCurrentType ResourceEntity, ResourceCurrentType ResourceHistoryEntity)
-    //{
-    //  ResourceEntity.HistoryList.Add(ResourceHistoryEntity);
-    //}
-
+   
     public void ResetResourceEntity(ResourceCurrentType ResourceEntity)
     {
       ResourceEntity.IndexList.Clear();
@@ -434,25 +335,58 @@ namespace Pyro.DataLayer.Repository
     {
       IList<DtoServiceSearchParameterLight> searchparameters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
+      string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (DtoServiceSearchParameterLight SearchParameter in searchparameters)
       {        
         //Todo: Composite searchParameters are not supported as yet, need to do work to read 
         // the sub search parameters of the composite directly fro the SearchParameter resources.
         if (SearchParameter.Type != SearchParamType.Composite)
         {
-          IEnumerable<IElementNavigator> ResultList = Navigator.Select(SearchParameter.Expression, Navigator);
-          foreach (IElementNavigator oElement in ResultList)
+          bool SetSearchParameterIndex = true;
+          if ((SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id") ||
+            (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_lastUpdated"))
           {
-            if (oElement != null)
+            SetSearchParameterIndex = false;
+          }
+
+          if (SetSearchParameterIndex)
+          {
+            string Expression = SearchParameter.Expression;          
+            if (SearchParameter.Resource == Resource_ResourceName)
             {
-              IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceIndexType>(oElement, SearchParameter, FhirRequestUri, this as ICommonRepository);
-              if (ResourceIndex != null)
-                ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
+              //If the Expression is one wiht a parent resource of Resource then swap it for the actual current resource name
+              //For example make 'Resource._tag' be 'Observation._tag' for Observation resources.
+              Expression = Resource.TypeName +  SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
+            }
+            
+            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
+            foreach (IElementNavigator oElement in ResultList)
+            {
+              if (oElement != null)
+              {
+                IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter, FhirRequestUri, this as ICommonRepository);
+                if (ResourceIndex != null)
+                  ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
+              }
             }
           }
         }
       }
     }
 
+    private void SetNumberOfRecordsPerPage(DtoSearchParameters DtoSearchParameters)
+    {
+      if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
+      {
+        if (DtoSearchParameters.CountOfRecordsRequested.Value < _MaxNumberOfRecordsPerPage)
+        {
+          _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
+        }
+        else
+        {
+          _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
+        }
+      }
+    }
   }
 }

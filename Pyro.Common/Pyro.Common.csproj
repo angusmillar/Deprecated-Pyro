@@ -80,6 +80,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Attributes\EnumLiteralAttribute.cs" />
     <Compile Include="BusinessEntities\Dto\DtoPyroException.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
+    <Compile Include="BusinessEntities\Service\ResourceOperationsServiceRequest.cs" />
+    <Compile Include="BusinessEntities\Service\ResourceServiceDeleteHistoryIndexesRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestTransactionBundle.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestMetadata.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalDelete.cs" />
@@ -102,6 +105,8 @@
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
     <Compile Include="Cache\StaticCacheCommon.cs" />
+    <Compile Include="Enum\EnumUtility.cs" />
+    <Compile Include="Enum\FhirOperationEnum.cs" />
     <Compile Include="Extentions\FhirNarrativeExtentions.cs" />
     <Compile Include="Extentions\ResourceExtentions.cs" />
     <Compile Include="Interfaces\Dto\Headers\IDtoRequestHeaders.cs" />
@@ -136,6 +141,8 @@
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Service\IBundleTransactionService.cs" />
+    <Compile Include="Interfaces\Service\IResourceOperationsServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IResourceServiceDeleteHistoryIndexesRequest.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestTransactionBundle.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestMetadata.cs" />
     <Compile Include="Interfaces\Service\IResourceServiceRequestConditionalDelete.cs" />
@@ -190,6 +197,7 @@
     <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
+    <Compile Include="Tools\ReflectionHelper.cs" />
     <Compile Include="Tools\RepositorySwitcher.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>

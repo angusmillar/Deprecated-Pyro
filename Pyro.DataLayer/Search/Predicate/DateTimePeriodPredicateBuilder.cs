@@ -7,10 +7,11 @@ using Hl7.Fhir.Utility;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class DateTimePeriodPredicateBuilder
+  public static class DateTimePeriodPredicateBuilder<ResourceCurrentType, ResourceIndexType>
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<T> Build<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterBase SearchItem)
-      where T : ResourceBase
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)
     {
       if (SearchItem is DtoSearchParameterDateTime)
       {
@@ -126,8 +127,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)
-      where T : ResourceBase
+    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)     
     {
       var Expression = Search.DateTimePeriodCollectionAnyEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
       NewPredicate = NewPredicate.Or(Expression);
@@ -135,8 +135,7 @@ namespace Pyro.DataLayer.Search.Predicate
 
     }
 
-    private static ExpressionStarter<T> CollectionNotEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)
-       where T : ResourceBase
+    private static ExpressionStarter<ResourceCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)    
     {
       var NotEqualToExpression = Search.DateTimePeriodCollectionAnyNotEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
       var CollectionIsNullExpression = Search.SearchParameterIsNull(SearchTypeDateTime.Id);

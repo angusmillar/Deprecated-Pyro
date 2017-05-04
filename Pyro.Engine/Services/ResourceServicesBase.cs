@@ -23,7 +23,7 @@ namespace Pyro.Engine.Services
 
     protected FHIRAllTypes _CurrentResourceType;
 
-    public FHIRAllTypes CurrentResourceType
+    public FHIRAllTypes ServiceResourceType
     {
       get
       {
@@ -41,7 +41,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
@@ -86,14 +86,14 @@ namespace Pyro.Engine.Services
       if (CrudOperationType == RestEnum.CrudOperationType.Update && string.IsNullOrWhiteSpace(Resource.Id))
         throw new ArgumentNullException("Internal Server Error: Resource Id must be populated for CrudOperationType = Update");
 
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       //Assign GUID as FHIR id;
       if (string.IsNullOrWhiteSpace(Resource.Id))
         Resource.Id = Guid.NewGuid().ToString();
 
       //Validation of resource        
-      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
+      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(ServiceResourceType);
       IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(Resource);
       if (oResourceValidationOperationOutcome.HasError)
       {

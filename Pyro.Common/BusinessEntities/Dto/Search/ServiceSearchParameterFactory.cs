@@ -13,7 +13,12 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
   {
     public static IList<DtoServiceSearchParameter> FhirAPISearchParameters()
     {
-      IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
+      List<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
+
+      //Add all the base Resource parameters 
+      ServiceSearchParameterList.AddRange(BaseResourceSearchParameters());
+
+      //Add the ones for each Resource
       foreach (var SearchParameter in ModelInfo.SearchParameters)
       {
         //A searchParameter with no expression or name or Resource is useless
@@ -37,34 +42,17 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
       return ServiceSearchParameterList;
     }
 
-    public static IList<DtoServiceSearchParameter> BaseSearchParameters()
-    {
-      IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
-      ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
-      {
-        Name = "_format",
-        Description = "Required resource format XML or JSON to be returned",
-        Expression = null,
-        Resource = null,
-        Type =  SearchParamType.String,
-        Url = null,
-        XPath = null,
-        SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Base
-      });
-      return ServiceSearchParameterList;
-    }
-
     public static IList<DtoServiceSearchParameter> BaseResourceSearchParameters()
     {
       IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
-      
+
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
         Name = "_id",
         Description = "Logical id of this artifact",
         Expression = "Resource.id",
-        Resource = null,
-        Type = SearchParamType.String,
+        Resource = FHIRAllTypes.Resource.GetLiteral(),
+        Type = SearchParamType.Token,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-id",
         XPath = "f:Resource/f:id",
         SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Resource
@@ -75,8 +63,8 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         Name = "_lastUpdated",
         Description = "When the resource version last changed",
         Expression = "Resource.meta.lastUpdated",
-        Resource = null,
-        Type = SearchParamType.String,
+        Resource = FHIRAllTypes.Resource.GetLiteral(),
+        Type = SearchParamType.Date,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
         XPath = "f:Resource/f:meta/f:lastUpdated",
         SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Resource
@@ -87,7 +75,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         Name = "_profile",
         Description = "Profiles this resource claims to conform to",
         Expression = "Resource.meta.profile",
-        Resource = null,
+        Resource = FHIRAllTypes.Resource.GetLiteral(),
         Type = SearchParamType.Uri,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-profile",
         XPath = "f:Resource/f:meta/f:profile",
@@ -99,7 +87,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         Name = "_security",
         Description = "Security Labels applied to this resource",
         Expression = "Resource.meta.security",
-        Resource = null,
+        Resource = FHIRAllTypes.Resource.GetLiteral(),
         Type = SearchParamType.Token,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-security",
         XPath = "f:Resource/f:meta/f:security",
@@ -111,7 +99,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         Name = "_tag",
         Description = "Tags applied to this resource",
         Expression = "Resource.meta.tag",
-        Resource = null,
+        Resource = FHIRAllTypes.Resource.GetLiteral(),
         Type = SearchParamType.Token,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-tag",
         XPath = "f:Resource/f:meta/f:tag",
@@ -120,6 +108,38 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
 
       return ServiceSearchParameterList;
     }
+
+    public static IList<DtoServiceSearchParameter> BaseSearchParameters()
+    {
+      IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
+      ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
+      {
+        Name = Hl7.Fhir.Rest.HttpUtil.RESTPARAM_FORMAT,
+        Description = "Required resource format XML or JSON to be returned",
+        Expression = null,
+        Resource = null,
+        Type =  SearchParamType.String,
+        Url = null,
+        XPath = null,
+        SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Base
+      });
+
+      ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
+      {
+        Name = Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_SUMMARY,
+        Description = "The _summary parameter requests the server to return a subset of the resource. It can contain one of the following values: true | text | data | count | false where the default is false.",
+        Expression = null,
+        Resource = null,
+        Type = SearchParamType.Token,
+        Url = null,
+        XPath = null,
+        SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Base,
+      });
+
+      return ServiceSearchParameterList;
+    }
+
+
 
     public static IList<DtoServiceSearchParameter> BundleSearchParameters()
     {

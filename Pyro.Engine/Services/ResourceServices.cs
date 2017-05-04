@@ -46,7 +46,7 @@ namespace Pyro.Engine.Services
     // Get: URL/Fhir/Patient/1
     public virtual IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by FhirId
@@ -78,7 +78,7 @@ namespace Pyro.Engine.Services
     // GET: URL//FhirApi/Patient?family=Smith&given=John            
     public virtual IResourceServiceOutcome GetSearch(IResourceServiceRequestGetSearch PyroServiceRequestGetSearch)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by Search
@@ -111,7 +111,7 @@ namespace Pyro.Engine.Services
     //Read all history
     public virtual IResourceServiceOutcome GetHistory(IResourceServiceRequestGetHistory PyroServiceRequestGetHistory)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       if (string.IsNullOrWhiteSpace(PyroServiceRequestGetHistory.VersionId))
@@ -172,7 +172,7 @@ namespace Pyro.Engine.Services
     // POST: URL/FhirApi/Patient
     public virtual IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();      
       SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestPost.SearchParameterGeneric;
@@ -263,7 +263,7 @@ namespace Pyro.Engine.Services
     // PUT: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Put(IResourceServiceRequestPut PyroServiceRequestPut)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestPut.SearchParameterGeneric;
@@ -285,7 +285,7 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }
 
-      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(CurrentResourceType);
+      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(ServiceResourceType);
       IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(PyroServiceRequestPut.Resource);
       if (oResourceValidationOperationOutcome.HasError)
       {
@@ -352,7 +352,7 @@ namespace Pyro.Engine.Services
     // DELETE: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Delete(IResourceServiceRequestDelete PyroServiceRequestDelete)
     {
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.SearchParameterGeneric = PyroServiceRequestDelete.SearchParameterGeneric;
@@ -399,7 +399,7 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalPut(IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut)
     {
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
@@ -479,7 +479,7 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalDelete(IResourceServiceRequestConditionalDelete PyroServiceRequestConditionalDelete)
     {
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
       ISearchParametersServiceRequest SearchParametersServiceRequestBaseOnly = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequestBaseOnly.SearchParameterGeneric = PyroServiceRequestConditionalDelete.SearchParameterGeneric;
@@ -537,33 +537,33 @@ namespace Pyro.Engine.Services
 
     //DeleteHistoryIndexes
     //DELETE: URL/FhirApi/Patient?$ClearHistoryIndexes
-    public virtual IResourceServiceOutcome DeleteHistoryIndexes(IResourceServiceRequestConditionalDelete PyroServiceRequestClearHistoryIndexes)
+    public virtual IResourceServiceOutcome DeleteHistoryIndexes(IResourceServiceDeleteHistoryIndexesRequest ServiceRequest)
     {
-      IResourceServiceOutcome ServiceOperationOutcomeClearHistoryIndexes = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
       ISearchParametersServiceRequest SearchParametersServiceRequestBaseOnly = Common.CommonFactory.GetSearchParametersServiceRequest();
-      SearchParametersServiceRequestBaseOnly.SearchParameterGeneric = PyroServiceRequestClearHistoryIndexes.SearchParameterGeneric;
+      SearchParametersServiceRequestBaseOnly.SearchParameterGeneric = ServiceRequest.SearchParameterGeneric;
       SearchParametersServiceRequestBaseOnly.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       //SearchParametersServiceRequestBaseOnly.ResourceType = _CurrentResourceType;
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBaseOnly = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequestBaseOnly);
 
       if (SearchParametersServiceOutcomeBaseOnly.FhirOperationOutcome != null)
       {
-        ServiceOperationOutcomeClearHistoryIndexes.SearchParametersServiceOutcome = SearchParametersServiceOutcomeBaseOnly;
-        return ServiceOperationOutcomeClearHistoryIndexes;
+        ServiceOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcomeBaseOnly;
+        return ServiceOutcome;
       }
 
-      SearchParametersServiceOutcomeBaseOnly.SearchParameters.PrimaryRootUrlStore = PyroServiceRequestClearHistoryIndexes.FhirRequestUri.PrimaryRootUrlStore;
+      SearchParametersServiceOutcomeBaseOnly.SearchParameters.PrimaryRootUrlStore = ServiceRequest.FhirRequestUri.PrimaryRootUrlStore;
 
       int NumberOfIndexRowsDeleted = _ResourceRepository.DeleteNonCurrentResourceIndexes();
       
-      ServiceOperationOutcomeClearHistoryIndexes.HttpStatusCode = System.Net.HttpStatusCode.OK;
-      ServiceOperationOutcomeClearHistoryIndexes.OperationType = RestEnum.CrudOperationType.Update;
-      ServiceOperationOutcomeClearHistoryIndexes.SuccessfulTransaction = true;
-      ServiceOperationOutcomeClearHistoryIndexes.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational,
-        $"Sucsessfuly deleted history indexes for the resource type '{this.CurrentResourceType.GetLiteral()}'. A total of {NumberOfIndexRowsDeleted.ToString()} rows where deleted.");
-      ServiceOperationOutcomeClearHistoryIndexes.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;      
-      return ServiceOperationOutcomeClearHistoryIndexes;
+      ServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+      ServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
+      ServiceOutcome.SuccessfulTransaction = true;
+      ServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational,
+        $"Sucsessfuly deleted history indexes for the resource type '{this.ServiceResourceType.GetLiteral()}'. A total of {NumberOfIndexRowsDeleted.ToString()} rows where deleted.");
+      ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;      
+      return ServiceOutcome;
     }
 
 

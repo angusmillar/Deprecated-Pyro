@@ -7,7 +7,9 @@ using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class DateTimeSetter<ResourceIndexType> where ResourceIndexType : ResourceIndexBase, new()
+  public static class DateTimeSetter<ResourceCurrentType,ResourceIndexType>
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     private static List<ResourceIndexType> ResourceIndexList;
     private static int ServiceSearchParameterId;

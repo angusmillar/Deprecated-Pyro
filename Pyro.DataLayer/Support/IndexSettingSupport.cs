@@ -19,7 +19,7 @@ namespace Pyro.DataLayer.Support
 
     private static void SetResourceBase<ResourceCurrentType, ResourceIndexType>(Resource Resource, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {      
       ResourceCurrentBase.IsDeleted = IsDeleted;
       ResourceCurrentBase.VersionId = Version;
@@ -56,21 +56,21 @@ namespace Pyro.DataLayer.Support
 
     public static void SetResourceBaseAsDelete<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>    
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       SetResourceBase(null, ResourceCurrentBase, FhirResourceId, Version, true, Method);
     }
 
     public static void SetResourceBaseAddOrUpdate<ResourceCurrentType, ResourceIndexType>(Resource Resource, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       SetResourceBase(Resource, ResourceCurrentBase, null, Version, false, Method);
     }
 
     public static void ResetResourceEntityBase<ResourceCurrentType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>     
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       ResourceCurrentBase.IsCurrent = false;
       ResourceCurrentBase.FhirId = null;
@@ -83,7 +83,7 @@ namespace Pyro.DataLayer.Support
 
     public static void SetHistoryResourceEntity<ResourceCurrentType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceHistoryBase)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>    
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       ResourceHistoryBase.IsCurrent = false;
       ResourceHistoryBase.FhirId = ResourceCurrentBase.FhirId;

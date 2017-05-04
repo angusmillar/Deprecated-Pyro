@@ -13,24 +13,24 @@ namespace Pyro.Web.Response
 {
   public static class FhirRestResponse
   {
-    public static HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome oPyroServiceOperationOutcome, HttpRequestMessage Request)
+    public static HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome ResourceServiceOutcome, HttpRequestMessage Request)
     {
       //Todo: to support CORS it appears I need to return this 'Access-Control-Allow-Origin' in the HTTP header
 
-      HttpStatusCode HttpStatusCode = oPyroServiceOperationOutcome.HttpStatusCode;
-      Resource Resource = oPyroServiceOperationOutcome.ResourceResult;
+      HttpStatusCode HttpStatusCode = ResourceServiceOutcome.HttpStatusCode;
+      Resource Resource = ResourceServiceOutcome.ResourceResult;
       FhirMediaTypeFormatter FhirMediaTypeFormatter = null;
 
       HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
       if (Resource != null)
       {
-        if (oPyroServiceOperationOutcome.FormatMimeType == null)
+        if (ResourceServiceOutcome.FormatMimeType == null)
         {
           Response = Request.CreateResponse(HttpStatusCode, Resource);
         }
         else
         {
-          Formatters.FhirMediaTypeFormatter Formater = GetFhirMediaFormatter(Request, oPyroServiceOperationOutcome.FormatMimeType);
+          Formatters.FhirMediaTypeFormatter Formater = GetFhirMediaFormatter(Request, ResourceServiceOutcome.FormatMimeType);
           if (Formater != null)
           {
             FhirMediaTypeFormatter = Formater;
@@ -42,55 +42,61 @@ namespace Pyro.Web.Response
             Response = Request.CreateResponse(HttpStatusCode, Resource);
           }
         }
+
+        //Annotate the Resource wiht the _summary, will get the annotation in MediaTypeFormatter XML or JSON
+        if (Resource is Hl7.Fhir.Utility.IAnnotatable AnnotatableResource)
+        {
+          AnnotatableResource.AddAnnotation(ResourceServiceOutcome);
+        }        
       }
 
       //OK: 200
       if (HttpStatusCode == HttpStatusCode.OK)
       {
-        if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Read)
+        if (ResourceServiceOutcome.OperationType == RestEnum.CrudOperationType.Read)
         {
           //LastModified Header & ETagVersion &Location Header                    
-          if (oPyroServiceOperationOutcome.LastModified.HasValue)
+          if (ResourceServiceOutcome.LastModified.HasValue)
           {
-            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
-            if (Response.Content != null && oPyroServiceOperationOutcome.IsDeleted.HasValue && !oPyroServiceOperationOutcome.IsDeleted.Value)
-              Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;              
+            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
+            if (Response.Content != null && ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
+              Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;              
             Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri);
           }
           return Response;
         }
-        else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Update)
+        else if (ResourceServiceOutcome.OperationType == RestEnum.CrudOperationType.Update)
         {
           //Location Header
           if (Response.Content != null)
             Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri);
           //LastModified Header && ETagVersion
-          if (oPyroServiceOperationOutcome.LastModified.HasValue)
+          if (ResourceServiceOutcome.LastModified.HasValue)
           {
-            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
-            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;            
+            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
+            Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;            
           }
           return Response;
         }
-        else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Delete && oPyroServiceOperationOutcome.ResourceVersionNumber != null)
+        else if (ResourceServiceOutcome.OperationType == RestEnum.CrudOperationType.Delete && ResourceServiceOutcome.ResourceVersionNumber != null)
         {
           //LastModified Header && ETag Version
-          if (oPyroServiceOperationOutcome.LastModified != null)
+          if (ResourceServiceOutcome.LastModified != null)
           {
-            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
-            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
+            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
+            Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
           }
           return Response;
         }
-        else if (oPyroServiceOperationOutcome.OperationType == RestEnum.CrudOperationType.Create)
+        else if (ResourceServiceOutcome.OperationType == RestEnum.CrudOperationType.Create)
         {
           //LastModified Header && ETag Version
-          if (oPyroServiceOperationOutcome.LastModified != null)
+          if (ResourceServiceOutcome.LastModified != null)
           {
-            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);            
+            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);            
             //If we have a conditional Create where the Resource is found then we return OK but no Resource so no Content
             if (Response.Content != null)              
-              Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
+              Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
           }
           return Response;
         }
@@ -111,13 +117,13 @@ namespace Pyro.Web.Response
       {
         //Location Header
         if (Response.Content != null)
-          Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri, oPyroServiceOperationOutcome.FhirResourceId);
+          Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri, ResourceServiceOutcome.FhirResourceId);
 
         //LastModified Header && ETagVersion
-        if (oPyroServiceOperationOutcome.LastModified.HasValue)
+        if (ResourceServiceOutcome.LastModified.HasValue)
         {
-          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
-          Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
+          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
+          Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
         }
 
         return Response;
@@ -126,9 +132,9 @@ namespace Pyro.Web.Response
       else if (HttpStatusCode == HttpStatusCode.Gone)
       {
         //LastModified Header && ETagVersion
-        if (oPyroServiceOperationOutcome.LastModified.HasValue)
+        if (ResourceServiceOutcome.LastModified.HasValue)
         {
-          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
+          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
           //Support.HttpHeaderSupport.AddLastModified(Response, oPyroServiceOperationOutcome.LastModified.Value);
         }
         return Response;
@@ -137,11 +143,11 @@ namespace Pyro.Web.Response
       else if (HttpStatusCode == HttpStatusCode.NoContent)
       {
         //LastModified Header && ETagVersion
-        if (oPyroServiceOperationOutcome.LastModified.HasValue)
+        if (ResourceServiceOutcome.LastModified.HasValue)
         {
-          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(oPyroServiceOperationOutcome.ResourceVersionNumber);
+          Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
           if (Response.Content != null)
-            Response.Content.Headers.LastModified = oPyroServiceOperationOutcome.LastModified;
+            Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
         }
         return Response;
       }

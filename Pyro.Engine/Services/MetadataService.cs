@@ -18,7 +18,7 @@ namespace Pyro.Engine.Services
   { 
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
     {      
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
 
       SearchParametersServiceRequest.CommonServices = null;

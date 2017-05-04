@@ -85,11 +85,12 @@ namespace Pyro.Common.Tools
       }
       return DateTimeIndex;      
     }
-
+    
     private static DateTimeIndex ParsePartialDateTime(PartialDateTime? PartialDateTimeType)
     {
       //2012-12-01T12:00:00+01:00
       DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();
+
       DateTimeOffset High = DateTimeOffset.MaxValue;
       if (PartialDateTimeType != null)
       {
@@ -115,7 +116,7 @@ namespace Pyro.Common.Tools
           High = Low.AddMilliseconds(1);
         }
         else if (DateCharCount > 29)
-        {
+        {          
           High = Low.AddTicks(1);
         }    
       }

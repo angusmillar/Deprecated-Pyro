@@ -6,6 +6,7 @@ using System.Net;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
+using Hl7.Fhir.Rest;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -34,6 +35,7 @@ namespace Pyro.Common.BusinessEntities.Service
         _HttpStatusCode = value;
       }
     }
+    public SummaryType SummaryType { get; set; }
     private Resource _ResourceResult;
     public Resource ResourceResult
     {
@@ -48,6 +50,7 @@ namespace Pyro.Common.BusinessEntities.Service
     }
     public string FormatMimeType { get; set; }
     public bool SuccessfulTransaction { get; set; }
+    
 
     #endregion
 
@@ -57,6 +60,7 @@ namespace Pyro.Common.BusinessEntities.Service
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
       this.SuccessfulTransaction = false;
+      this.SummaryType = SummaryType.False;
   }
     #endregion
 
@@ -103,13 +107,9 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       else
       {
-        var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-        OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-        OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-        OpOutComeIssueComp.Diagnostics = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
-        var OpOutCome = new OperationOutcome();
-        OpOutCome.Issue = new List<OperationOutcome.IssueComponent>() { OpOutComeIssueComp };
-        throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, OpOutComeIssueComp.Diagnostics);
+        string message = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, message);        
+        throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, message);
       }
     }
 

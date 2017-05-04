@@ -49,7 +49,7 @@ namespace Pyro.Common
       return new DtoRootUrlStore();
     }
 
-    public static IResourceServiceOutcome GetServiceOperationOutcome()
+    public static IResourceServiceOutcome GetResourceServiceOutcome()
     {
       return new ResourceServiceOutcome();
     }
@@ -167,6 +167,16 @@ namespace Pyro.Common
     public static IBundleTransactionService GetBundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)
     {
       return new BundleTransactionService(ResourceServiceRequestTransactionBundle);
+    }
+
+    public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, Resource ParametersResource, IResourceServices ResourceServices, IDtoFhirRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    {
+      return new ResourceOperationsServiceRequest(OperationName, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
+    }
+
+    public static IResourceServiceDeleteHistoryIndexesRequest GetResourceServiceDeleteHistoryIndexesRequest()
+    {
+      return new ResourceServiceDeleteHistoryIndexesRequest();
     }
     
   }

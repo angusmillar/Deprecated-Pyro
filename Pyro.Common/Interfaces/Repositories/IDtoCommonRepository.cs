@@ -9,9 +9,9 @@ namespace Pyro.Common.Interfaces.Repositories
     IDtoRootUrlStore GetPrimaryRootUrlStore();
     IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
 
-    IList<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
-    IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy();
-    IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
+    List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
+    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy();
+    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
 
   }
 }

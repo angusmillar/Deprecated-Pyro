@@ -7,8 +7,10 @@ using Hl7.Fhir.Model;
 using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
-{
-  public abstract class ResourceIndexBase : ModelBase
+{  
+  public abstract class ResourceIndexBase<ResourceCurrentType, ResourceIndexType> : ModelBase
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
     public ServiceSearchParameter ServiceSearchParameter { get; set; }
     public int ServiceSearchParameterId { get; set; }
@@ -37,5 +39,8 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public string ReferenceVersionId { get; set; }
     public ServiceBaseUrl ReferenceUrl { get; set; }
     public int? ReferenceServiceBaseUrlId { get; set; }    
+
+    public virtual ResourceCurrentType Resource { get; set; }
+    public int ResourceId { get; set; }
   }
 }

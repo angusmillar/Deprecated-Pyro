@@ -6,10 +6,11 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class StringPredicateBuilder
+  public static class StringPredicateBuilder<ResourceCurrentType, ResourceIndexType>
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<T> Build<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterBase SearchItem) 
-      where T : ResourceBase
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)
     {
       if (SearchItem is DtoSearchParameterString)
       {

@@ -12,7 +12,9 @@ using Pyro.DataLayer.Repository.Interfaces;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class ReferenceSetter<ResourceIndexType> where ResourceIndexType : ResourceIndexBase, new()
+  public static class ReferenceSetter<ResourceCurrentType, ResourceIndexType>
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     private static List<ResourceIndexType> ResourceIndexList;
     private static int ServiceSearchParameterId;

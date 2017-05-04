@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hl7.Fhir.Model;
 using LinqKit;
-using System.Linq.Expressions;
-using System.Data.Entity;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.DataLayer.DbModel.Entity;
-using Pyro.DataLayer.Search;
-using Pyro.DataLayer.Search.Predicate;
-//using Pyro.DataModel.Support;
-using Pyro.Common.Interfaces;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.BusinessEntities.Search;
-using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.DataLayer.DbModel.Entity;
+using Pyro.DataLayer.DbModel.EntityBase;
+using Pyro.DataLayer.Search;
+using Pyro.DataLayer.Search.Predicate;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
+using Hl7.Fhir.Utility;
 
 
 namespace Pyro.DataLayer.Repository
@@ -35,11 +30,19 @@ namespace Pyro.DataLayer.Repository
     //---- PredicateGenerator ---------------------------------------------------------------
     protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters) 
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
-      var Search = new ResourceSearch<ResourceCurrentType>();
+      var Search = new ResourceSearch<ResourceCurrentType, ResourceIndexType>();
       var MainPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>(true);
       MainPredicate = MainPredicate.And(x => x.IsDeleted == false & x.IsCurrent == true);
+
+      IdSearchParameterPredicateProcessing(DtoSearchParameters, Search, MainPredicate);
+
+
+
+      //var LastUpdatedParamerter = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
+      //DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
+
 
       ExpressionStarter<ResourceCurrentType> NewPredicate = null;
 
@@ -50,7 +53,7 @@ namespace Pyro.DataLayer.Repository
         switch (SearchItem.Type)
         {
           case SearchParamType.Date:
-            NewPredicate = DateTimePeriodPredicateBuilder.Build(Search, NewPredicate, SearchItem);            
+            NewPredicate = DateTimePeriodPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Number:
             {
@@ -65,23 +68,23 @@ namespace Pyro.DataLayer.Repository
                   }
                 }
               }
-              NewPredicate = NumberPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+              NewPredicate = NumberPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             }
             break;
           case SearchParamType.Quantity:
-            NewPredicate = QuantityPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = QuantityPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Reference:
-            NewPredicate = ReferancePredicateBuilder.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
+            NewPredicate = ReferancePredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem, DtoSearchParameters.PrimaryRootUrlStore);
             break;
           case SearchParamType.String:
-            NewPredicate = StringPredicateBuilder.Build<ResourceCurrentType>(Search, NewPredicate, SearchItem);
+            NewPredicate = StringPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Token:
-            NewPredicate = TokenPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = TokenPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             break;
           case SearchParamType.Uri:
-            NewPredicate = UriPredicateBuilder.Build(Search, NewPredicate, SearchItem);
+            NewPredicate = UriPredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(Search, NewPredicate, SearchItem);
             break;
           default:
             throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.Type.ToString(), (int)SearchItem.Type, typeof(SearchParamType));
@@ -90,7 +93,7 @@ namespace Pyro.DataLayer.Repository
       }
 
       return MainPredicate;
-    }
+    }    
 
     //---- PrimaryRootUrlStore -------------------------------------------------------------------
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
@@ -163,7 +166,7 @@ namespace Pyro.DataLayer.Repository
 
     //---- ServiceSearchParameters ---------------------------------------------------------------
 
-    public IList<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
+    public List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
       return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
         .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterLight
@@ -176,7 +179,7 @@ namespace Pyro.DataLayer.Repository
         }).ToList();     
     }
     
-    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
       return _Context.ServiceSearchParameter
         .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
@@ -191,7 +194,7 @@ namespace Pyro.DataLayer.Repository
         }).ToList();            
     }
 
-    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
         .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
@@ -219,7 +222,7 @@ namespace Pyro.DataLayer.Repository
       return _Context.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
     }
 
-    protected IList<ServiceSearchParameter> GetAllServiceSearchParameters()
+    protected List<ServiceSearchParameter> GetAllServiceSearchParameters()
     {
       return _Context.ServiceSearchParameter.ToList();
     }
@@ -227,7 +230,7 @@ namespace Pyro.DataLayer.Repository
 
     protected ResourceCurrentType DbGet<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       ResourceCurrentType ResourceEntity = null;
       ResourceEntity = _Context.Set<ResourceCurrentType>().SingleOrDefault(predicate);
@@ -236,7 +239,7 @@ namespace Pyro.DataLayer.Repository
 
     protected DtoResource DbGetNoXML<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
      return _Context.Set<ResourceCurrentType>().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
       {
@@ -251,7 +254,7 @@ namespace Pyro.DataLayer.Repository
 
     protected DtoResource DbGetWithXML<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       return _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
       {
@@ -268,29 +271,14 @@ namespace Pyro.DataLayer.Repository
 
     protected IQueryable<ResourceCurrentType> DbGetAll<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       IQueryable<ResourceCurrentType> ResourceEntity = null;
       ResourceEntity = _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate);      
       return ResourceEntity;
     }
 
-    protected int ClearIndexes<ResourceCurrentType, ResourceIndexType>()
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase
-    {
-      //_Context.Set<ResourceIndexType>().Where(x => x.Pa)
-      int RowsRemovedCount = 0;
-      IQueryable<ResourceCurrentType> ResourceEntityList = null;
-      ResourceEntityList = _Context.Set<ResourceCurrentType>().Include(b => b.IndexList).Where(x => x.IsCurrent == false);
-      foreach (var ResourceEntity in ResourceEntityList)
-      {
-        RowsRemovedCount = RowsRemovedCount + ResourceEntity.IndexList.Count;
-        _Context.Set<ResourceIndexType>().RemoveRange(ResourceEntity.IndexList);
-      }
-      return RowsRemovedCount;
-    }
-
+    
     protected int DbGetALLCount<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate)
       where ResourceBaseType : ResourceBase
     {
@@ -301,7 +289,7 @@ namespace Pyro.DataLayer.Repository
 
     protected void DbAddEntity<ResourceCurrentType, ResourceIndexType>(ResourceCurrentType Entity)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       _Context.Set<ResourceCurrentType>().Add(Entity);
       this.Save();
@@ -309,7 +297,7 @@ namespace Pyro.DataLayer.Repository
 
     protected ResourceCurrentType DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate, List<Expression<Func<ResourceCurrentType, object>>> IncludeList)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>      
-      where ResourceIndexType : ResourceIndexBase
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
       ResourceCurrentType ResourceEntity = null;
 
@@ -324,5 +312,34 @@ namespace Pyro.DataLayer.Repository
 
     }
 
+
+    private static void IdSearchParameterPredicateProcessing<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    {
+      var IdSearchParamerterList = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
+      if (IdSearchParamerterList != null)
+      {
+        ExpressionStarter<ResourceCurrentType> NewIdPredicate = null;
+        foreach (var IdSearchParameter in IdSearchParamerterList)
+        {
+          if (IdSearchParameter is DtoSearchParameterToken)
+          {
+            var SearchTypeToken = IdSearchParameter as DtoSearchParameterToken;
+            NewIdPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
+            foreach (var SearchValue in SearchTypeToken.ValueList)
+            {
+              if (!SearchTypeToken.Modifier.HasValue)
+              {
+                var Expression = Search.TokenMainAnyEqualTo(SearchValue.Code);
+                NewIdPredicate = NewIdPredicate.Or(Expression);
+              }
+            }
+          }
+          MainPredicate.Extend<ResourceCurrentType>(NewIdPredicate, PredicateOperator.And);
+        }
+        DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
+      }
+    }
   }
 }

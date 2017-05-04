@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
@@ -18,6 +19,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public int RequiredPageNumber { get; set; }
     public int? CountOfRecordsRequested { get; set; }
     public string Format { get; set; }
+    public SummaryType Summary { get; set; }
 
     public class Sort
     {

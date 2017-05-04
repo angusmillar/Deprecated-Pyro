@@ -282,5 +282,31 @@ namespace Pyro.Web.Controllers
       IResourceServiceOutcome ResourceServiceOutcome = oService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
     }
+
+
+    //Resource Operations
+    // DELETE: URL/FhirApi/Patient/5
+    /// <summary>
+    /// Resource operation endpont. This is for operations that are to be perfomed on a Resource type, for example: Patient
+    /// </summary>
+    /// <param name="ResourceName">The name of the FHIR resource that the operation apllies to.</param>
+    /// <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+    /// <param name="Resource">Typicaly this is a Parameters resource given in the body</param>
+    /// <returns></returns>
+    [HttpPost, Route("{ResourceName}/${operation}")]
+    [ActionLog]
+    public HttpResponseMessage PerformResourceOperationWithParameters(string ResourceName, string operation, [FromBody] FhirModel.Resource Resource)
+    {     
+      IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);      
+      IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, Request.RequestUri);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);      
+      IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, Resource, oService, DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
+      var OperationService = new Engine.Services.FhirResourceOperationService();
+      IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceOperationsServiceRequest);      
+      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request);
+    }
+
+    
   }
 }

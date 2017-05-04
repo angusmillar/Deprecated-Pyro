@@ -8,7 +8,9 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class NumberSetter<ResourceIndexType> where ResourceIndexType : ResourceIndexBase, new()
+  public static class NumberSetter<ResourceCurrentType,ResourceIndexType>
+     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     private static List<ResourceIndexType> ResourceIndexList;
     private static int ServiceSearchParameterId;

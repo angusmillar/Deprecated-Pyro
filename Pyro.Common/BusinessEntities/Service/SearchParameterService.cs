@@ -115,7 +115,7 @@ namespace Pyro.Common.BusinessEntities.Service
       List<DtoServiceSearchParameterLight> DtoSupportedServiceSearchParameterList = new List<DtoServiceSearchParameterLight>();
       //List<DtoSupportedSearchParameters> DtoSupportedSearchParametersList = new List<DtoSupportedSearchParameters>();
 
-      //For non Resource URL values, e.g _format
+      //For non Resource URL values, e.g _format, _summary
       if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Base) == SearchParameterServiceType.Base)
       {
         DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BaseSearchParameters());
@@ -129,7 +129,7 @@ namespace Pyro.Common.BusinessEntities.Service
       //For Resource search parameyters
       if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
       {
-        DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BaseResourceSearchParameters());
+        //DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BaseResourceSearchParameters());
         DtoSupportedServiceSearchParameterList.AddRange(Cache.StaticCacheCommon.GetSearchParameterForResource(_SearchParametersServiceRequest.CommonServices, _SearchParametersServiceRequest.ResourceType.GetLiteral()));        
       }
 
@@ -148,7 +148,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
       }
 
-      if (oSearchParameter.Name == "_format")
+      if (oSearchParameter.Name == Hl7.Fhir.Rest.HttpUtil.RESTPARAM_FORMAT)
       {
         if (oSearchParameter is DtoSearchParameterString)
         {
@@ -156,6 +156,19 @@ namespace Pyro.Common.BusinessEntities.Service
           _SearchParametersServiceOutcome.SearchParameters.Format = FormatSearchParameter.ValueList[0].Value.Trim();
           return true;
         }
+      }
+
+      if (oSearchParameter.Name == Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_SUMMARY)
+      {
+        if (oSearchParameter is DtoSearchParameterToken FormatSearchParameter)
+        {
+          var SummaryDic = Common.Enum.FhirSearchEnum.GetSummaryTypeDictionary();
+          if (SummaryDic.ContainsKey(FormatSearchParameter.ValueList[0].Code.Trim()))
+          {
+            _SearchParametersServiceOutcome.SearchParameters.Summary = SummaryDic[FormatSearchParameter.ValueList[0].Code.Trim()];            
+          }                    
+        }
+        return true;
       }
 
       return false;

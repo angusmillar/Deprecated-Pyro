@@ -8,6 +8,8 @@ using Pyro.Common.Interfaces.ITools;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.BusinessEntities;
 using System.Configuration;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.Cache
 {
@@ -24,24 +26,34 @@ namespace Pyro.Common.Cache
       return PrimaryRootUrlStore;
     }
 
-    public static IList<DtoServiceSearchParameterLight> GetSearchParameterForResource(ICommonServices CommonServices, string ResourceType)
+    public static List<DtoServiceSearchParameterLight> GetSearchParameterForResource(ICommonServices CommonServices, string ResourceType)
     {
-      IList<DtoServiceSearchParameterLight> DtoServiceSearchParameterLightList = null;
-     
-      //At Runtime get the URL from the database and then Cache it
+      var DtoServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
+
       IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
-      DtoServiceSearchParameterLightList = Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => CommonServices.GetServiceSearchParametersForResource(ResourceType));
-     
+      
+      //Add the general Resource search parameters as well
+      string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
+      DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => CommonServices.GetServiceSearchParametersForResource(Resource_ResourceName)));
+
+      //Get all for the Resource Asked for       
+      DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => CommonServices.GetServiceSearchParametersForResource(ResourceType)));
+      
       return DtoServiceSearchParameterLightList;
     }
 
-    public static IList<DtoServiceSearchParameterLight> GetSearchParameterForResource(Common.Interfaces.Repositories.IDtoCommonRepository ICommonRepository, string ResourceType)
+    public static List<DtoServiceSearchParameterLight> GetSearchParameterForResource(Common.Interfaces.Repositories.IDtoCommonRepository ICommonRepository, string ResourceType)
     {
-      IList<DtoServiceSearchParameterLight> DtoServiceSearchParameterLightList = null;
-
-      //At Runtime get the URL from the database and then Cache it
+      var DtoServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
+      
       IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
-      DtoServiceSearchParameterLightList = Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersLightForResource(ResourceType));
+      
+      //Add the general Resource search parameters as well
+      string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
+      DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => ICommonRepository.GetServiceSearchParametersLightForResource(Resource_ResourceName)));
+
+      //Get all for the Resource Asked for 
+      DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersLightForResource(ResourceType)));
 
       return DtoServiceSearchParameterLightList;
     }

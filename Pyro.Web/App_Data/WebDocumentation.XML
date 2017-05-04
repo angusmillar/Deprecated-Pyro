@@ -600,6 +600,15 @@
             <param name="ResourceName">The name of the FHIR resource that is being removed.</param>    
             <returns>HTTP Status codes: 204 (No Content) or 404 Not Found or 412 Precondition Failed</returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.PerformResourceOperationWithParameters(System.String,System.String,Hl7.Fhir.Model.Resource)">
+            <summary>
+            Resource operation endpont. This is for operations that are to be perfomed on a Resource type, for example: Patient
+            </summary>
+            <param name="ResourceName">The name of the FHIR resource that the operation apllies to.</param>
+            <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+            <param name="Resource">Typicaly this is a Parameters resource given in the body</param>
+            <returns></returns>
+        </member>
         <member name="T:Pyro.Web.Services.ServiceNegotiator">
             <summary>
             Negotiates the required Resource server based on the Resource name provided 

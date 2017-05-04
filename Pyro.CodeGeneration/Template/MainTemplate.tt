@@ -42,12 +42,7 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
   {
 #>
   public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex> { }  
-  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase
-  {
-    public virtual <#=ResourceName#>Res <#=ResourceName#> { get; set; }
-    public <#=ResourceName#>ResIndex() { }
-  }
-
+  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex> { }
 <#
 }
 #>

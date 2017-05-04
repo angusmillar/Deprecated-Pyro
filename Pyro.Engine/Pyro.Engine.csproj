@@ -93,6 +93,7 @@
     <Compile Include="Interfaces\IResourceValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rest\ContentType.cs" />
+    <Compile Include="Services\FhirResourceOperationService.cs" />
     <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />

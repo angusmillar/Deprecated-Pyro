@@ -25,17 +25,17 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.SetPrimaryRootUrlStore(RootUrl);
     }
 
-    public IList<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
+    public List<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersLightForResource(ResourceType);
     }
 
-    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy();
     }
 
-    public IList<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
     }

@@ -6,10 +6,11 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class TokenPredicateBuilder
+  public static class TokenPredicateBuilder<ResourceCurrentType, ResourceIndexType>
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<T> Build<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterBase SearchItem) 
-      where T : ResourceBase
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)      
     {
       if (SearchItem is DtoSearchParameterToken)
       {
@@ -59,8 +60,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<T> CollectionEqualToPredicate<T>(ResourceSearch<T> Search, ExpressionStarter<T> NewPredicate, DtoSearchParameterToken SearchTypeToken, DtoSearchParameterTokenValue SearchValue) 
-      where T : ResourceBase
+    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterToken SearchTypeToken, DtoSearchParameterTokenValue SearchValue)     
     {
       var Expression = Search.TokenCollectionAnyEqualTo(SearchTypeToken.Id, SearchValue.Code, SearchValue.System, SearchValue.SearchType);
       NewPredicate = NewPredicate.Or(Expression);

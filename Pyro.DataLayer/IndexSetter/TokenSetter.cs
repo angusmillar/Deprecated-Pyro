@@ -10,7 +10,9 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class TokenSetter<ResourceIndexType> where ResourceIndexType : ResourceIndexBase, new()
+  public static class TokenSetter<ResourceCurrentType, ResourceIndexType>
+    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
 
     private static List<ResourceIndexType> ResourceIndexList;

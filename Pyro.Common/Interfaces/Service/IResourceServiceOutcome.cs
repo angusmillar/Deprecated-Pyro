@@ -16,6 +16,7 @@ namespace Pyro.Common.Interfaces.Service
     Uri ServiceRootUri { get; set; }
     Resource ResourceResult { get; set; }
     string FormatMimeType { get; set; }
+    Hl7.Fhir.Rest.SummaryType SummaryType { get; set; }
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     Service.ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
     bool SuccessfulTransaction { get; set; }

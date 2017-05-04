@@ -36,7 +36,7 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new ArgumentNullException("_ResourceServiceRequest can not be null.");
       }
 
-      _ServiceOperationOutcome = Common.CommonFactory.GetServiceOperationOutcome();
+      _ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;     
       Bundle bundle = _ResourceServiceRequest.Resource as Bundle;
 

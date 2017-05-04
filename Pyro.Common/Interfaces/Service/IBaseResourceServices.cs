@@ -14,8 +14,8 @@ namespace Pyro.Common.Interfaces.Service
     void CommitTransaction();
     void RolbackTransaction();
     bool IsTransactional { get; }
-     
 
+    FHIRAllTypes ServiceResourceType { get; }
 
     //Read
     // GET: URL/FhirApi/Patient/5    
@@ -50,6 +50,9 @@ namespace Pyro.Common.Interfaces.Service
     /// PUT: URL/FhirApi/Patient?given=angus
     IResourceServiceOutcome ConditionalPut(IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut);
 
+    //DeleteHistoryIndexes
+    // POST: URL/FhirAPI/Patient/$delete-history-indexes
+    IResourceServiceOutcome DeleteHistoryIndexes(IResourceServiceDeleteHistoryIndexesRequest PyroServiceRequestClearHistoryIndexes);
 
   }
 
