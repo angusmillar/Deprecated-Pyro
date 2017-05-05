@@ -108,7 +108,7 @@ namespace Pyro.DataLayer.Search
       MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(String)).Single();
       MethodCallExpression MethodEqualsCall = Expression.Call(InnerPropertyString, MethodEquals, InnerValueString);
       
-      var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
+      BinaryExpression IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
       Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
       
@@ -189,94 +189,51 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);      
     }
 
-    ////---- Date Index Expressions ------------------------------------------------------
-    //public Expression<Func<T, bool>> DatePropertyIsNotNull(string Property)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset != null);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(null);
-    //  var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
+    ////---- _lastUpdated Property Expressions ------------------------------------------------------
 
-    //public Expression<Func<T, bool>> DatePropertyIsNull(string Property)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset == null);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(null);
-    //  var BinaryExpression = Expression.Equal(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
+    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyGreaterThan(DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset > TestDate);
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
+      var BinaryExpression = Expression.GreaterThan(LastUpdatedProperty, constantReference);
+      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+    }
 
-    //public Expression<Func<T, bool>> DatePropertyEqualTo(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset == TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.Equal(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
+    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyGreaterThanOrEqualTo(DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset >= TestDate);
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
+      var BinaryExpression = Expression.GreaterThanOrEqual(LastUpdatedProperty, constantReference);
+      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+    }
 
-    //public Expression<Func<T, bool>> DatePropertyNotEqualTo(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset != TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.NotEqual(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
+    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyLessThan(DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset < TestDate);
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
+      var BinaryExpression = Expression.LessThan(LastUpdatedProperty, constantReference);
+      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+    }
 
-    //public Expression<Func<T, bool>> DatePropertyGreaterThan(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset > TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.GreaterThan(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
-
-    //public Expression<Func<T, bool>> DatePropertyGreaterThanOrEqualTo(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset >= TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.GreaterThanOrEqual(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
-
-    //public Expression<Func<T, bool>> DatePropertyLessThan(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset < TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.LessThan(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
-
-    //public Expression<Func<T, bool>> DatePropertyLessThanOrEqualTo(string Property, int Value)
-    //{
-    //  //(x => x.birthdate_DateTimeOffset <= TestDate);
-    //  var type = typeof(T);
-    //  var ParameterReferance = Expression.Parameter(type, "x");
-    //  var propertyReference = Expression.Property(ParameterReferance, Property + "_" + StaticDatabaseInfo.DatabaseIndexPropertyConstatnts.DateIndexConstatnts.Date);
-    //  var constantReference = Expression.Constant(Value, typeof(int?));
-    //  var BinaryExpression = Expression.LessThanOrEqual(propertyReference, constantReference);
-    //  return Expression.Lambda<Func<T, bool>>(BinaryExpression, new[] { ParameterReferance });
-    //}
+    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyLessThanOrEqualTo(DateTimeOffset Value)
+    {
+      //(x => x.birthdate_DateTimeOffset <= TestDate);
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));      
+      var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
+      var BinaryExpression = Expression.LessThanOrEqual(LastUpdatedProperty, constantReference);
+      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+    }
 
     ////---- DateTime Index Expressions ------------------------------------------------------
 

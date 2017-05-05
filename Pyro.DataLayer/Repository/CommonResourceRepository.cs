@@ -41,6 +41,8 @@ namespace Pyro.DataLayer.Repository
       int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
       var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
 
+      
+
       //Todo: Sort not implemented just defaulting to last update order
       Query = Query.OrderBy(x => x.LastUpdated);
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
@@ -209,6 +211,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
     {
+      DateTimeOffset TargetDate = new DateTimeOffset(2017, 05, 05, 00, 41, 54, 500, new TimeSpan(10, 0, 0));
       var NewResourceEntity = new ResourceCurrentType();
       //var ResourceHistoryEntity = new ResourceCurrentType();
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);

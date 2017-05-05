@@ -104,6 +104,7 @@
     <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
     <Compile Include="Search\ExpressionSupport\DateTimePeriodExpression.cs" />
     <Compile Include="Search\ExpressionSupport\DecimalExpression.cs" />
+    <Compile Include="Search\Predicate\LastUpdatedDatePredicateBuilder.cs" />
     <Compile Include="Search\ExpressionSupport\QuantityExpression.cs" />
     <Compile Include="Search\ExpressionSupport\ReferanceExpression.cs" />
     <Compile Include="Search\ExpressionSupport\TokenExpression.cs" />

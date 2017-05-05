@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
-
+using Pyro.Common.BusinessEntities.Search;
 
 namespace Pyro.Common.Tools
 {
   public class FhirDateTimeSupport
   {
-
     private readonly static char MinusTimeZoneDelimiter = '-';
     private readonly static char PlusTimeZoneDelimiter = '+';
     //private readonly static string TimeDelimiter = "T";
@@ -263,21 +262,46 @@ namespace Pyro.Common.Tools
       else
       {
         return null;
-      }
-
-      //DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
-      //if (DateTimeOffset.TryParseExact(Value, Format, System.Globalization.CultureInfo.InvariantCulture, 
-      //                                 System.Globalization.DateTimeStyles.RoundtripKind, out TempDateTimeOffset))
-      //{        
-      //  return TempDateTimeOffset;
-      //}
-      //else
-      //{
-      //  return null;
-      //}
+      }      
     }
-    
-    
+
+    public static DateTimeOffset CalculateHighDateTimeForRange(DateTimeOffset LowValue, DateTimePrecision Precision)
+    {
+      DateTimeOffset HighDateTime = LowValue;
+      if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Year)
+      {
+        HighDateTime = LowValue.AddYears(1).AddMilliseconds(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Month)
+      {
+        HighDateTime = LowValue.AddMonths(1).AddMilliseconds(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Day)
+      {
+        HighDateTime = LowValue.AddDays(1).AddMilliseconds(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.HourMin)
+      {
+        HighDateTime = LowValue.AddMinutes(1).AddMilliseconds(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Sec)
+      {
+        HighDateTime = LowValue.AddSeconds(1).AddMilliseconds(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
+      {
+        HighDateTime = LowValue.AddMilliseconds(1).AddTicks(-1);
+      }
+      else if (Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Tick)
+      {
+        HighDateTime = LowValue;
+      }
+      else
+      {
+        throw new System.ComponentModel.InvalidEnumArgumentException(Precision.ToString(), (int)Precision, typeof(DateTimePrecision));
+      }
+      return HighDateTime;
+    }
 
   }
 }

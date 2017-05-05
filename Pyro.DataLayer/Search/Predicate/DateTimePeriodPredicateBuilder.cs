@@ -2,6 +2,7 @@
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 
@@ -35,16 +36,16 @@ namespace Pyro.DataLayer.Search.Predicate
                   NewPredicate = CollectionNotEqualToPredicate(Search, NewPredicate, SearchTypeDateTime, SearchValue);
                   break;
                 case SearchParameter.SearchComparator.Gt:
-                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThan(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThan(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision)));
                   break;
                 case SearchParameter.SearchComparator.Lt:
-                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThan(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThan(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision)));
                   break;
                 case SearchParameter.SearchComparator.Ge:
-                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThanOrEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionGreaterThanOrEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision)));
                   break;
                 case SearchParameter.SearchComparator.Le:
-                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThanOrEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue)));
+                  NewPredicate = NewPredicate.Or(Search.DateTimePeriodCollectionLessThanOrEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision)));
                   break;
                 case SearchParameter.SearchComparator.Sa:
                   throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of FhirDateTime.");
@@ -129,7 +130,7 @@ namespace Pyro.DataLayer.Search.Predicate
 
     private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)     
     {
-      var Expression = Search.DateTimePeriodCollectionAnyEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
+      var Expression = Search.DateTimePeriodCollectionAnyEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
       NewPredicate = NewPredicate.Or(Expression);
       return NewPredicate;
 
@@ -137,49 +138,12 @@ namespace Pyro.DataLayer.Search.Predicate
 
     private static ExpressionStarter<ResourceCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterDateTime SearchTypeDateTime, DtoSearchParameterDateTimeValue SearchValue)    
     {
-      var NotEqualToExpression = Search.DateTimePeriodCollectionAnyNotEqualTo(SearchTypeDateTime.Id, SearchValue.Value, CalculateHighDateTimeForRange(SearchValue));
+      var NotEqualToExpression = Search.DateTimePeriodCollectionAnyNotEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
       var CollectionIsNullExpression = Search.SearchParameterIsNull(SearchTypeDateTime.Id);
       NewPredicate = NewPredicate.Or(NotEqualToExpression);
       NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
       return NewPredicate;
     }
-    
-    private static DateTimeOffset CalculateHighDateTimeForRange(DtoSearchParameterDateTimeValue SearchValue)
-    {
-      DateTimeOffset HighDateTime = SearchValue.Value;
-      if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Year)
-      {
-        HighDateTime = SearchValue.Value.AddYears(1).AddMilliseconds(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Month)
-      {
-        HighDateTime = SearchValue.Value.AddMonths(1).AddMilliseconds(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Day)
-      {
-        HighDateTime = SearchValue.Value.AddDays(1).AddMilliseconds(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.HourMin)
-      {
-        HighDateTime = SearchValue.Value.AddMinutes(1).AddMilliseconds(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Sec)
-      {
-        HighDateTime = SearchValue.Value.AddSeconds(1).AddMilliseconds(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.MilliSec)
-      {
-        HighDateTime = SearchValue.Value.AddMilliseconds(1).AddTicks(-1);
-      }
-      else if (SearchValue.Precision == Common.Tools.FhirDateTimeSupport.DateTimePrecision.Tick)
-      {
-        HighDateTime = SearchValue.Value;
-      }
-      else
-      {
-        throw new System.ComponentModel.InvalidEnumArgumentException(SearchValue.Precision.ToString(), (int)SearchValue.Precision, typeof(Common.Tools.FhirDateTimeSupport.DateTimePrecision));
-      }
-      return HighDateTime;
-    }
+        
   }
 }

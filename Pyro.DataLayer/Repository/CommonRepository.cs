@@ -37,13 +37,8 @@ namespace Pyro.DataLayer.Repository
       MainPredicate = MainPredicate.And(x => x.IsDeleted == false & x.IsCurrent == true);
 
       IdSearchParameterPredicateProcessing(DtoSearchParameters, Search, MainPredicate);
-
-
-
-      //var LastUpdatedParamerter = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
-      //DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
-
-
+      LastUpdatedDatePredicateBuilder<ResourceCurrentType, ResourceIndexType>.Build(DtoSearchParameters, Search, MainPredicate);
+      
       ExpressionStarter<ResourceCurrentType> NewPredicate = null;
 
 
@@ -93,7 +88,7 @@ namespace Pyro.DataLayer.Repository
       }
 
       return MainPredicate;
-    }    
+    }
 
     //---- PrimaryRootUrlStore -------------------------------------------------------------------
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
@@ -323,9 +318,8 @@ namespace Pyro.DataLayer.Repository
         ExpressionStarter<ResourceCurrentType> NewIdPredicate = null;
         foreach (var IdSearchParameter in IdSearchParamerterList)
         {
-          if (IdSearchParameter is DtoSearchParameterToken)
-          {
-            var SearchTypeToken = IdSearchParameter as DtoSearchParameterToken;
+          if (IdSearchParameter is DtoSearchParameterToken SearchTypeToken)
+          {            
             NewIdPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
             foreach (var SearchValue in SearchTypeToken.ValueList)
             {
@@ -341,5 +335,7 @@ namespace Pyro.DataLayer.Repository
         DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
       }
     }
+
+    
   }
 }

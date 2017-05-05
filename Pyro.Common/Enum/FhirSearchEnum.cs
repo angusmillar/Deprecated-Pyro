@@ -27,15 +27,15 @@ namespace Pyro.Common.Enum
     {
       return new Dictionary<string, SearchParameter.SearchComparator>()
       {
-        {SearchParameter.SearchComparator.Ap.GetPyroLiteral(), SearchParameter.SearchComparator.Ap},
-        {SearchParameter.SearchComparator.Eb.GetPyroLiteral(), SearchParameter.SearchComparator.Eb},
-        {SearchParameter.SearchComparator.Eq.GetPyroLiteral(), SearchParameter.SearchComparator.Eq},
-        {SearchParameter.SearchComparator.Gt.GetPyroLiteral(), SearchParameter.SearchComparator.Gt},
-        {SearchParameter.SearchComparator.Ge.GetPyroLiteral(), SearchParameter.SearchComparator.Ge},
-        {SearchParameter.SearchComparator.Lt.GetPyroLiteral(), SearchParameter.SearchComparator.Lt},
-        {SearchParameter.SearchComparator.Le.GetPyroLiteral(), SearchParameter.SearchComparator.Le},
-        {SearchParameter.SearchComparator.Ne.GetPyroLiteral(), SearchParameter.SearchComparator.Ne},
-        {SearchParameter.SearchComparator.Sa.GetPyroLiteral(), SearchParameter.SearchComparator.Sa}
+        {SearchParameter.SearchComparator.Ap.GetLiteral(), SearchParameter.SearchComparator.Ap},
+        {SearchParameter.SearchComparator.Eb.GetLiteral(), SearchParameter.SearchComparator.Eb},
+        {SearchParameter.SearchComparator.Eq.GetLiteral(), SearchParameter.SearchComparator.Eq},
+        {SearchParameter.SearchComparator.Gt.GetLiteral(), SearchParameter.SearchComparator.Gt},
+        {SearchParameter.SearchComparator.Ge.GetLiteral(), SearchParameter.SearchComparator.Ge},
+        {SearchParameter.SearchComparator.Lt.GetLiteral(), SearchParameter.SearchComparator.Lt},
+        {SearchParameter.SearchComparator.Le.GetLiteral(), SearchParameter.SearchComparator.Le},
+        {SearchParameter.SearchComparator.Ne.GetLiteral(), SearchParameter.SearchComparator.Ne},
+        {SearchParameter.SearchComparator.Sa.GetLiteral(), SearchParameter.SearchComparator.Sa}
       };
     }
 
