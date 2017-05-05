@@ -16,10 +16,8 @@ namespace Pyro.Common.BusinessEntities.Service
   {
     private static ISearchParametersServiceRequest _SearchParametersServiceRequest;
     private static ISearchParametersServiceOutcome _SearchParametersServiceOutcome;
-    //private static FHIRAllTypes? _ResourceType;
-    //private static SearchParameterServiceType _SearchParameterServiceType;
-    [Flags]
 
+    [Flags]
     public enum SearchParameterServiceType
     {
       None = 2,
@@ -105,7 +103,6 @@ namespace Pyro.Common.BusinessEntities.Service
             DtoServiceSearchParameterLight oSupportedSearchParameter = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
 
             _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
-          //}
         }
       }
     }
