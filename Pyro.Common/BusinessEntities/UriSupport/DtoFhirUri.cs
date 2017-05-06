@@ -159,9 +159,13 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           }
           string NewUriString = string.Empty;
           if (this.ApiSegments.Length == 0)
+          {            
             NewUriString = String.Format("{0}{1}{2}", Schema, SchemaDelimiter, Authority);
+          }
           else
+          {
             NewUriString = String.Format("{0}{1}{2}{3}{4}", Schema, SchemaDelimiter, Authority, UriDelimieter, ApiSegmentsToPath());
+          }
           return new Uri(NewUriString);
         }
         else
@@ -311,7 +315,14 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         {
           this.SchemaDelimiter = string.Empty;
         }
-        this.Authority = Uri.Authority;
+        if (Uri.IsDefaultPort)
+        {
+          this.Authority = Uri.Host;
+        }
+        else
+        {
+          this.Authority = Uri.Host + ":" + Uri.Port.ToString();
+        }
         UriPartToParse = Uri.AbsolutePath;
         if (!string.IsNullOrWhiteSpace(Uri.Query))
         {
