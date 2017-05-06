@@ -295,7 +295,7 @@ namespace Pyro.Engine.Services
       oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
       oPyroServiceOperationOutcome.RequestUri = FhirRequestUri.FhirUri.Uri;
       oPyroServiceOperationOutcome.ServiceRootUri = FhirRequestUri.FhirUri.ServiceRootUrl;
-      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;      
       oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
 
       return oPyroServiceOperationOutcome;

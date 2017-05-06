@@ -34,8 +34,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         _HttpStatusCode = value;
       }
-    }
-    public SummaryType SummaryType { get; set; }
+    }    
     private Resource _ResourceResult;
     public Resource ResourceResult
     {
@@ -59,8 +58,7 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
-      this.SuccessfulTransaction = false;
-      this.SummaryType = SummaryType.False;
+      this.SuccessfulTransaction = false;      
   }
     #endregion
 

@@ -19,7 +19,12 @@ namespace Pyro.Common.BusinessEntities.Search
     public int RequiredPageNumber { get; set; }
     public int? CountOfRecordsRequested { get; set; }
     public string Format { get; set; }
-    public SummaryType Summary { get; set; }
+    public SummaryType? SummaryType { get; set; }
+
+    public DtoSearchParameters()
+    {
+      this.SummaryType = null;
+    }
 
     public class Sort
     {

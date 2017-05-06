@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hl7.Fhir.Rest;
 using Pyro.Common.Interfaces.Dto;
 
 
@@ -13,6 +14,7 @@ namespace Pyro.Common.BusinessEntities.Search
     public IList<Tuple<string, string>> ParameterList { get; set; }
     public IList<Tuple<string, Hl7.Fhir.Rest.SortOrder>> Sort { get; }
     public int? Count { get; private set; }
+    public SummaryType? SummaryType { get; private set; }
 
     public DtoSearchParameterGeneric() { }
     public DtoSearchParameterGeneric(Hl7.Fhir.Rest.SearchParams SearchParams)
@@ -20,6 +22,7 @@ namespace Pyro.Common.BusinessEntities.Search
       this.ParameterList = SearchParams.Parameters;
       this.Sort = SearchParams.Sort;
       this.Count = SearchParams.Count;
+      this.SummaryType = SearchParams.Summary;
 
     }
 
@@ -43,6 +46,8 @@ namespace Pyro.Common.BusinessEntities.Search
 
         this.Sort = null;
         this.Count = ValuePairList.Count;
+        //Todo: How do we get the summary here?, do we need to get it here?
+        this.SummaryType = null;
       }
     }
   }

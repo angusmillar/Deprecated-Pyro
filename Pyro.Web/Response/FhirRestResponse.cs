@@ -13,7 +13,7 @@ namespace Pyro.Web.Response
 {
   public static class FhirRestResponse
   {
-    public static HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome ResourceServiceOutcome, HttpRequestMessage Request)
+    public static HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome ResourceServiceOutcome, HttpRequestMessage Request, Hl7.Fhir.Rest.SummaryType? SummaryType)
     {
       //Todo: to support CORS it appears I need to return this 'Access-Control-Allow-Origin' in the HTTP header
 
@@ -46,7 +46,10 @@ namespace Pyro.Web.Response
         //Annotate the Resource wiht the _summary, will get the annotation in MediaTypeFormatter XML or JSON
         if (Resource is Hl7.Fhir.Utility.IAnnotatable AnnotatableResource)
         {
-          AnnotatableResource.AddAnnotation(ResourceServiceOutcome);
+          if (SummaryType.HasValue)
+            AnnotatableResource.AddAnnotation(SummaryType.Value);
+          else
+            AnnotatableResource.AddAnnotation(Hl7.Fhir.Rest.SummaryType.False);
         }        
       }
 

@@ -162,7 +162,7 @@ namespace Pyro.Common.BusinessEntities.Service
           var SummaryDic = Common.Enum.FhirSearchEnum.GetSummaryTypeDictionary();
           if (SummaryDic.ContainsKey(FormatSearchParameter.ValueList[0].Code.Trim()))
           {
-            _SearchParametersServiceOutcome.SearchParameters.Summary = SummaryDic[FormatSearchParameter.ValueList[0].Code.Trim()];            
+            _SearchParametersServiceOutcome.SearchParameters.SummaryType = SummaryDic[FormatSearchParameter.ValueList[0].Code.Trim()];            
           }                    
         }
         return true;

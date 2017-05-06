@@ -9,5 +9,6 @@ namespace Pyro.Common.Interfaces.Dto
     int? Count { get; }
     IList<Tuple<string, string>> ParameterList { get; set; }
     IList<Tuple<string, SortOrder>> Sort { get; }
+    SummaryType? SummaryType { get; }
   }
 }
