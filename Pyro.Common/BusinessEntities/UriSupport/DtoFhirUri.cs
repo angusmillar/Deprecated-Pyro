@@ -43,6 +43,24 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     }
     internal DtoFhirUri(Uri Uri)
     {
+      //Rempove last slash '/'
+      if (Uri.IsAbsoluteUri)
+      {
+        if (Uri.AbsoluteUri.EndsWith(UriDelimieter.ToString()))
+        {
+          string UriString = Uri.AbsoluteUri.Substring(0, Uri.AbsoluteUri.Count() - 1);
+          Uri = new Uri(UriString);
+        }
+      }
+      else
+      {
+        if (Uri.OriginalString.EndsWith(UriDelimieter.ToString()))
+        {
+          string UriString = Uri.OriginalString.Substring(0, Uri.OriginalString.Count() - 1);
+          Uri = new Uri(UriString);
+        }
+      }
+
       SetDefaults();
       if (ParseUri(Uri))
       {
@@ -55,6 +73,12 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     }
     internal DtoFhirUri(string UriString)
     {
+      //Rempove last slash '/'
+      if (UriString.EndsWith(UriDelimieter.ToString()))
+      {
+        UriString = UriString.Substring(0, UriString.Count() - 1);
+      }      
+
       SetDefaults();
       if (Uri.IsWellFormedUriString(UriString, UriKind.Absolute))
       {
@@ -429,7 +453,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
               else
               {
                 if (i > 0)
-                {
+                {                  
                   ApiSegmentList.Add(AbsolutePathArray[i]);
                 }
               }
