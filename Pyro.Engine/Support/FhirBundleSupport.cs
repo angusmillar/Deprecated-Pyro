@@ -47,7 +47,7 @@ namespace Pyro.Engine.Support
         
         var FullUrlUriBuilder = new UriBuilder(FhirRequestUri.FhirUri.ServiceRootUrl);
         FullUrlUriBuilder.Path = string.Join("/", DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
-        oResEntry.FullUrl = FullUrlUriBuilder.Uri.OriginalString;
+        oResEntry.FullUrl = FullUrlUriBuilder.Uri.AbsoluteUri;
 
         if (BundleType == Bundle.BundleType.History)
         {
