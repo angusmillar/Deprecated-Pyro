@@ -44,13 +44,12 @@ namespace Pyro.Engine.Support
             throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
           }
         }
-        
-        var FullUrlUriBuilder = new UriBuilder(FhirRequestUri.FhirUri.ServiceRootUrl);
-        FullUrlUriBuilder.Path = string.Join("/", DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
-        oResEntry.FullUrl = FullUrlUriBuilder.Uri.AbsoluteUri;
+
+        oResEntry.FullUrl = string.Join("/", FhirRequestUri.FhirUri.ServiceRootUrl, DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
 
         if (BundleType == Bundle.BundleType.History)
         {
+          oResEntry.FullUrl = string.Join("/", oResEntry.FullUrl, "_history", DtoResource.Version);
           if (DtoResource.ResourceType.HasValue && DtoResource.ResourceType.HasValue)
           {
             oResEntry.Request = new Bundle.RequestComponent();
