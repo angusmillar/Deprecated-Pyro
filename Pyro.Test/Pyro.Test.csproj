@@ -121,6 +121,7 @@
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirDateSupport.cs" />
     <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
+    <Compile Include="Tools\Test_FhirRequestUri.cs" />
     <Compile Include="Tools\Test_FhirUri.cs" />
     <Compile Include="Tools\Test_PagingSupport.cs" />
   </ItemGroup>

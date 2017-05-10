@@ -104,6 +104,9 @@
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetSearch.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
+    <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
+    <Compile Include="Extentions\FhirRequestExtentions.cs" />
+    <Compile Include="Interfaces\UriSupport\IFhirRequestUri.cs" />
     <Compile Include="Cache\StaticCacheCommon.cs" />
     <Compile Include="Enum\EnumUtility.cs" />
     <Compile Include="Enum\FhirOperationEnum.cs" />

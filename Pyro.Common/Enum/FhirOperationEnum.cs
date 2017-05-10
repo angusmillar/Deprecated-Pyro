@@ -10,6 +10,13 @@ namespace Pyro.Common.Enum
 {
   public static class FhirOperationEnum
   {
+    public enum OperationType
+    {
+      Base,
+      Resource,
+      Instance
+    }
+
     public enum ResourceOperationType
     {
       [EnumLiteral("delete-history-indexes")]

@@ -44,6 +44,14 @@ namespace Pyro.Common
       return new DtoFhirRequestUri(PrimaryRootUrlStore, RequestUri);
     }
 
+    public static IDtoFhirRequestUri GetFhirRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, string RequestUri)
+    {
+      FhirRequestUri FhirRequestUri = new FhirRequestUri(PrimaryRootUrlStore.RootUri, RequestUri);
+      IFhirUri FhirUri = GetFhirUri(RequestUri);
+      return new DtoFhirRequestUri(PrimaryRootUrlStore, FhirUri);
+    }
+
+
     public static IDtoRootUrlStore GetRootUrlStore()
     {
       return new DtoRootUrlStore();
@@ -53,7 +61,18 @@ namespace Pyro.Common
     {
       return new ResourceServiceOutcome();
     }
+    
+    public static IFhirRequestUri GetFhirRequestUri(string PrimaryServiceRoot, string RequestUri)
+    {
+      return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
+    }
 
+    public static IFhirRequestUri GetFhirRequestUri(Uri PrimaryServiceRoot, string RequestUri)
+    {
+      return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
+    }
+
+    
     public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
     {
       return new DtoDatabaseOperationOutcome();
