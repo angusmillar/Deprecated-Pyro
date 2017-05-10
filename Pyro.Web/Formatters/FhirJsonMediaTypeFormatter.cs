@@ -13,7 +13,6 @@ using Hl7.Fhir.Rest;
 using Pyro.Web.Extensions;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Utility;
-using Hl7.Fhir.Rest;
 using System.Linq;
 
 namespace Pyro.Web.Formatters
