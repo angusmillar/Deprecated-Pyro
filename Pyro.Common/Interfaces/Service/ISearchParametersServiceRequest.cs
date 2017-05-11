@@ -13,6 +13,6 @@ namespace Pyro.Common.Interfaces.Service
     SearchParameterService.SearchParameterServiceType SearchParameterServiceType { get; set; }
     FHIRAllTypes? ResourceType { get; set; }
     ICommonServices CommonServices { get; set; }
-    //IList<DtoServiceSearchParameterLight> DtoServiceSearchParameterLightList { get; set; }
+    UriSupport.IDtoRequestUri RequestUri { get; set; }
   }
 }

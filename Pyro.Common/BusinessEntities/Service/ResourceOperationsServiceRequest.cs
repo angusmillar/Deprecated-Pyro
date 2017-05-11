@@ -12,16 +12,16 @@ namespace Pyro.Common.BusinessEntities.Service
     public string OperationName { get; set; }
     public Resource Resource { get; set; }
     public IResourceServices ResourceServices { get; set; }
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }    
 
-    internal ResourceOperationsServiceRequest(string OperationName, Resource Resource, IResourceServices ResourceServices, IDtoFhirRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    internal ResourceOperationsServiceRequest(string OperationName, Resource Resource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       this.OperationName = OperationName;
       this.Resource = Resource;
       this.ResourceServices = ResourceServices;
-      this.FhirRequestUri = FhirRequestUri;
+      this.RequestUri = FhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
     }

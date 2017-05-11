@@ -12,7 +12,7 @@ namespace Pyro.Common.Interfaces.Service
     System.Net.HttpStatusCode HttpStatusCode { get; set; }
     DateTimeOffset? LastModified { get; set; }
     bool? IsDeleted { get; set; }
-    Uri RequestUri { get; set; }
+    Pyro.Common.Interfaces.UriSupport.IFhirRequestUri RequestUri { get; set; }
     Uri ServiceRootUri { get; set; }
     Resource ResourceResult { get; set; }
     string FormatMimeType { get; set; }    

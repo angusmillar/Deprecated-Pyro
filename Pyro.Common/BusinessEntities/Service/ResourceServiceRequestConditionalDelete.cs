@@ -15,12 +15,12 @@ namespace Pyro.Common.BusinessEntities.Service
 {
   public class ResourceServiceRequestConditionalDelete : IResourceServiceRequestConditionalDelete
   {
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
    
-    public ResourceServiceRequestConditionalDelete(IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestConditionalDelete(IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
     {
-      this.FhirRequestUri = DtoFhirRequestUri;
+      this.RequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;   
     }
 

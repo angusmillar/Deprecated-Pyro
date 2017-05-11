@@ -16,10 +16,10 @@ namespace Pyro.Common.BusinessEntities.Service
   public class ResourceServiceRequestConditionalPut : IResourceServiceRequestConditionalPut
   {    
     public Resource Resource { get; set; }
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri FhirRequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
 
-    public ResourceServiceRequestConditionalPut(Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestConditionalPut(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       if (Resource == null)
         throw new NullReferenceException($"{Resource.ToString()} can not be null.");

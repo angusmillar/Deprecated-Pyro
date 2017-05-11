@@ -14,7 +14,7 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServiceRequestConditionalDelete
   {
-    IDtoFhirRequestUri FhirRequestUri { get; set; }
+    IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
   }
 }

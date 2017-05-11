@@ -18,10 +18,10 @@ namespace Pyro.DataLayer.IndexSetter
   {
     private static List<ResourceIndexType> ResourceIndexList;
     private static int ServiceSearchParameterId;
-    private static IDtoFhirRequestUri _FhirRequestUri;
+    private static IDtoRequestUri _FhirRequestUri;
     private static ICommonRepository _CommonRepository;
 
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter, IDtoFhirRequestUri FhirRequestUri, ICommonRepository CommonRepository)      
+    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter, IDtoRequestUri FhirRequestUri, ICommonRepository CommonRepository)      
     {
       ResourceIndexList = new List<ResourceIndexType>();      
       ServiceSearchParameterId = SearchParameter.Id;
@@ -58,20 +58,21 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (!ResourceReference.IsContainedReference && ResourceReference.Url != null)
         {
-          IFhirUri ReferanceUri = null;
-          if (DtoFhirUri.TryParse(ResourceReference.Url, out ReferanceUri))
+          string ErrorMessage;
+          IFhirRequestUri ReferanceUri = null;
+          if (FhirRequestUri.TryParse(_FhirRequestUri.PrimaryRootUrlStore.Url, ResourceReference.Url.OriginalString, out ReferanceUri, out ErrorMessage))
           {
             var ResourceIndex = new ResourceIndexType();
             SetResourceIndentityElements(ResourceIndex, ReferanceUri);
             if (ResourceReference.Url.IsAbsoluteUri)
             {
-              if (_FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+              if (_FhirRequestUri.PrimaryRootUrlStore.Url.ToLower() == ReferanceUri.UriPrimaryServiceRoot.OriginalString.ToLower())
               {
                 ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
               }
               else
               {
-                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString.ToLower());
               }
             }
             else
@@ -83,6 +84,7 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
+
     private static void SetFhirUri(FhirUri FhirUri)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
@@ -90,10 +92,12 @@ namespace Pyro.DataLayer.IndexSetter
         //Check the Uri is actual a Fhir resource reference 
         if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(FhirUri.Value))
         {
-          IFhirUri ReferanceUri = null;
+          IFhirRequestUri ReferanceUri = null;
+          string ErrorMessage;
           if (Uri.IsWellFormedUriString(FhirUri.Value, UriKind.Relative))
           {
-            if (DtoFhirUri.TryParse(FhirUri.Value.Trim(), out ReferanceUri))
+            
+            if (FhirRequestUri.TryParse(_FhirRequestUri.PrimaryRootUrlStore.Url, FhirUri.Value.Trim(), out ReferanceUri, out ErrorMessage))
             {
               var ResourceIndex = new ResourceIndexType();
               SetResourceIndentityElements(ResourceIndex, ReferanceUri);
@@ -103,17 +107,17 @@ namespace Pyro.DataLayer.IndexSetter
           }
           else if (Uri.IsWellFormedUriString(FhirUri.Value, UriKind.Absolute))
           {
-            if (DtoFhirUri.TryParse(FhirUri.Value.Trim(), out ReferanceUri))
+            if (FhirRequestUri.TryParse(_FhirRequestUri.PrimaryRootUrlStore.Url, FhirUri.Value.Trim(), out ReferanceUri, out ErrorMessage))
             {
               var ResourceIndex = new ResourceIndexType();
               SetResourceIndentityElements(ResourceIndex, ReferanceUri);
-              if (_FhirRequestUri.FhirUri.ServiceRootUrlForComparison == ReferanceUri.ServiceRootUrlForComparison)
+              if (_FhirRequestUri.PrimaryRootUrlStore.Url.ToLower() == ReferanceUri.UriPrimaryServiceRoot.OriginalString.ToLower())
               {
                 ResourceIndex.ReferenceServiceBaseUrlId = _FhirRequestUri.PrimaryRootUrlStore.Id;
               }
               else
               {
-                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.ServiceRootUrlForComparison);
+                ResourceIndex.ReferenceUrl = _CommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString.ToLower());
               }
               ResourceIndexList.Add(ResourceIndex);
             }
@@ -122,11 +126,11 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetResourceIndentityElements(ResourceIndexType ResourceIndex, IFhirUri ReferanceUri)
+    private static void SetResourceIndentityElements(ResourceIndexType ResourceIndex, IFhirRequestUri FhirRequestUri)
     {
-      ResourceIndex.ReferenceResourceType = ReferanceUri.ResourseType;
-      ResourceIndex.ReferenceVersionId = ReferanceUri.VersionId;
-      ResourceIndex.ReferenceFhirId = ReferanceUri.Id;
+      ResourceIndex.ReferenceResourceType = FhirRequestUri.ResourseName;
+      ResourceIndex.ReferenceVersionId = FhirRequestUri.VersionId;
+      ResourceIndex.ReferenceFhirId = FhirRequestUri.ResourceId;
     }
   }
 }

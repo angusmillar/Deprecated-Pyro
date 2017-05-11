@@ -15,7 +15,7 @@ namespace Pyro.Common.Interfaces.Service
   public interface IResourceServiceRequestTransactionBundle
   {
     Resource Resource { get; set; }
-    IDtoFhirRequestUri DtoFhirRequestUri { get; set; }
+    IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRequestHeaders RequestHeaders { get; set; }
     IServiceNegotiator ServiceNegotiator { get; set; }

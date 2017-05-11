@@ -16,15 +16,15 @@ namespace Pyro.Common.BusinessEntities.Service
   public class ResourceServiceRequestGetRead : IResourceServiceRequestGetRead
   {    
     public string ResourceId { get; set; }
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }
 
-    public ResourceServiceRequestGetRead(string ResourceId, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public ResourceServiceRequestGetRead(string ResourceId, IDtoRequestUri DtoRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       if (string.IsNullOrWhiteSpace(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
-      if (DtoFhirRequestUri == null)
+      if (DtoRequestUri == null)
         throw new NullReferenceException("DtoFhirRequestUri can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
@@ -32,7 +32,7 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("RequestHeaders can not be null.");
 
       this.ResourceId = ResourceId;
-      this.FhirRequestUri = DtoFhirRequestUri;
+      this.RequestUri = DtoRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
     }

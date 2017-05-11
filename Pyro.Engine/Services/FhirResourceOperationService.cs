@@ -19,8 +19,8 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("OperationName cannot be null.");
       if (ServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (ServiceRequest.FhirRequestUri == null)
-        throw new NullReferenceException("FhirRequestUri cannot be null.");
+      if (ServiceRequest.RequestUri == null)
+        throw new NullReferenceException("RequestUri cannot be null.");
       if (ServiceRequest.RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
       if (ServiceRequest.ResourceServices == null)
@@ -64,7 +64,7 @@ namespace Pyro.Engine.Services
         case FhirOperationEnum.ResourceOperationType.DeleteHistoryIndexes:
           {
             var RepositoryServiceRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
-            RepositoryServiceRequest.FhirRequestUri = _ServiceRequest.FhirRequestUri;
+            RepositoryServiceRequest.RequestUri = _ServiceRequest.RequestUri;
             RepositoryServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
             return ServiceRequest.ResourceServices.DeleteHistoryIndexes(RepositoryServiceRequest);
           }          

@@ -32,10 +32,12 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     public string Query { get; set; }
    
+    public string OriginalString { get; set; }
+
     public bool IsUrn { get; set; }
 
     public string Urn { get; set; }
-
+     
     public UrnType? UrnType { get; private set; }
 
     public bool IsFormDataSearch { get; set; }
@@ -58,6 +60,17 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     public bool IsHistoryReferance { get; set; }
 
+    public Uri UriPrimaryServiceRoot
+    {
+      get
+      {
+        if (this.IsRelativeToServer)
+          return this.PrimaryServiceRootServers;
+        else
+          return this.PrimaryServiceRootRemote;
+      }
+    }
+
     public Uri PrimaryServiceRootRemote { get; set; }
 
     public Uri PrimaryServiceRootServers  { get; set; }
@@ -78,7 +91,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       {
         _ErrorInParseing = true;
         _ParseErrorMessage = $"The Primary Service root Uri was not able to be parsed: {PrimaryServiceRoot}";        
-      }
+      }      
       if (!_ErrorInParseing)
         ProcessRequestUri(RequestUri);
     }
@@ -95,6 +108,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
 
     private bool ProcessRequestUri(string RequestUri)
     {
+      this.OriginalString = RequestUri;
       string ChainResult = string.Empty;
       ChainResult = ResolveQueryUriPart(RequestUri);
 

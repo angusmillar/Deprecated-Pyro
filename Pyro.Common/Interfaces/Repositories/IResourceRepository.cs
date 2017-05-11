@@ -10,8 +10,8 @@ namespace Pyro.Common.Interfaces.Repositories
   public interface IResourceRepository
   {
     IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false);
-    IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri);
-    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri);
+    IDatabaseOperationOutcome AddResource(Resource Resource, IDtoRequestUri FhirRequestUri);
+    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri);
     IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId);
     IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection);
     IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters);

@@ -6,22 +6,24 @@ namespace Pyro.Common.Interfaces.UriSupport
 {
   public interface IFhirRequestUri
   {
-    bool IsContained { get; set; }
-    bool IsFormDataSearch { get; set; }
-    bool IsHistoryReferance { get; set; }
-    bool IsMetaData { get; set; }
+    bool IsContained { get; }
+    bool IsFormDataSearch { get; }
+    bool IsHistoryReferance { get; }
+    bool IsMetaData { get; }
     bool IsOperation { get; }
-    bool IsRelativeToServer { get; set; }
-    bool IsUrn { get; set; }
-    string OperationName { get; set; }
+    bool IsRelativeToServer { get; }
+    bool IsUrn { get; }
+    string OperationName { get; }
     FhirOperationEnum.OperationType? OperationType { get; }
-    Uri PrimaryServiceRootRemote { get; set; }
-    Uri PrimaryServiceRootServers { get; set; }
-    string Query { get; set; }
-    string ResourceId { get; set; }
-    string ResourseName { get; set; }
-    string Urn { get; set; }
+    Uri UriPrimaryServiceRoot { get; }
+    Uri PrimaryServiceRootRemote { get; }
+    Uri PrimaryServiceRootServers { get; }
+    string Query { get; }
+    string ResourceId { get; }
+    string ResourseName { get; }
+    string Urn { get; }
     UrnType? UrnType { get; }
-    string VersionId { get; set; }    
+    string VersionId { get; }
+    string OriginalString { get; }
   }
 }

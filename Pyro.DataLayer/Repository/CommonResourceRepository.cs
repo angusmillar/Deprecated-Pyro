@@ -196,7 +196,7 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
     
-    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoRequestUri FhirRequestUri)
     {
       var ResourceEntity = new ResourceCurrentType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);      
@@ -209,7 +209,7 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri)
     {
       DateTimeOffset TargetDate = new DateTimeOffset(2017, 05, 05, 00, 41, 54, 500, new TimeSpan(10, 0, 0));
       var NewResourceEntity = new ResourceCurrentType();
@@ -334,7 +334,7 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity;
     }
 
-    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, string ResourceVersion, Resource Resource, IDtoFhirRequestUri FhirRequestUri)
+    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri)
     {
       IList<DtoServiceSearchParameterLight> searchparameters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);

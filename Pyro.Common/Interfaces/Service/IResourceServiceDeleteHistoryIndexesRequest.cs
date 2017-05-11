@@ -14,7 +14,7 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServiceDeleteHistoryIndexesRequest
   {
-    IDtoFhirRequestUri FhirRequestUri { get; set; }
+    IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
   }
 }

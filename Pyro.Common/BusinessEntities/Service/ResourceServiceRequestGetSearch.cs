@@ -7,10 +7,10 @@ namespace Pyro.Common.BusinessEntities.Service
 {
   public class ResourceServiceRequestGetSearch : IResourceServiceRequestGetSearch
   {
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
 
-    public ResourceServiceRequestGetSearch(IDtoFhirRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestGetSearch(IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       if (FhirRequestUri == null)
         throw new NullReferenceException("FhirRequestUri can not be null.");
@@ -18,7 +18,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      this.FhirRequestUri = FhirRequestUri;
+      this.RequestUri = FhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
     }
 

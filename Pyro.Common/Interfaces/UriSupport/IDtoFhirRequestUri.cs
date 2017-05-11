@@ -1,10 +1,12 @@
 ﻿using System;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.Interfaces.UriSupport
 {
-  public interface IDtoFhirRequestUri
+  public interface IDtoRequestUri
   {
-    Pyro.Common.Interfaces.UriSupport.IFhirUri FhirUri { get; set; }
-    Pyro.Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
+    //IFhirUri FhirUri { get; set; }
+    IFhirRequestUri FhirRequestUri { get; set; }
+    IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
   }
 }

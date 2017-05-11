@@ -15,7 +15,7 @@ namespace Pyro.DataLayer.IndexSetter
 {
   public static class IndexSetterFactory
   {
-    public static IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter, IDtoFhirRequestUri FhirRequestUri = null, ICommonRepository CommonRepository = null)
+    public static IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter, IDtoRequestUri RequestUri = null, ICommonRepository CommonRepository = null)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
@@ -31,12 +31,12 @@ namespace Pyro.DataLayer.IndexSetter
           return TokenSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Reference:
           {
-            if (FhirRequestUri == null || FhirRequestUri.PrimaryRootUrlStore == null)
+            if (RequestUri == null || RequestUri.PrimaryRootUrlStore == null)
               throw new NullReferenceException("FhirRequestUri and FhirRequestUri.PrimaryRootUrlStore cannot be null for SearchParamType.Reference type index setting.");
-            if (FhirRequestUri == null || FhirRequestUri.PrimaryRootUrlStore == null)
+            if (RequestUri == null || RequestUri.PrimaryRootUrlStore == null)
               throw new NullReferenceException("CommonRepository cannot be null for SearchParamType.Reference type index setting.");
 
-            return ReferenceSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter, FhirRequestUri, CommonRepository);
+            return ReferenceSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter, RequestUri, CommonRepository);
           }
         case SearchParamType.Composite:
           return null;

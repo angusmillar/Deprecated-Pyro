@@ -27,11 +27,11 @@ namespace Pyro.DataLayer.Search.Predicate
             {              
               if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
               {
-                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
               }
               else
               {
-                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirUri.ServiceRootUrlForComparison, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
               }                            
             }
             else
@@ -57,11 +57,11 @@ namespace Pyro.DataLayer.Search.Predicate
                 case SearchParameter.SearchModifierCode.Type:                  
                   if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                   {
-                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
                   }
                   else
                   {
-                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirUri.ServiceRootUrlForComparison, SearchValue.FhirUri.ResourseType, SearchValue.FhirUri.Id, SearchValue.FhirUri.VersionId));
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
                   }                  
                   break;
                 case SearchParameter.SearchModifierCode.Below:
@@ -84,10 +84,10 @@ namespace Pyro.DataLayer.Search.Predicate
 
     private static bool IsServiceUrlPrimary(Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore, DtoSearchParameterReferanceValue SearchValue)
     {
-      if (!string.IsNullOrWhiteSpace(SearchValue.FhirUri.ServiceRootUrlForComparison))
+      if (!string.IsNullOrWhiteSpace(SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower()))
       {
-        Common.Interfaces.UriSupport.IFhirUri PrimaryFhirUri = Common.CommonFactory.GetFhirUri(PrimaryRootUrlStore.Url);        
-        if (SearchValue.FhirUri.ServiceRootUrlForComparison != PrimaryFhirUri.ServiceRootUrlForComparison)
+        //Common.Interfaces.UriSupport.IFhirRequestUri PrimaryFhirUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore.Url);        
+        if (SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower() != PrimaryRootUrlStore.Url.ToLower())
         {
           return false;
         }

@@ -137,7 +137,7 @@ namespace Pyro.Test.Tools
       Uri Expected = new Uri("http://localhost:50579/fhirapi/Patient/Angus7/_history?page=2&_count=2");
 
       //Act
-      Uri Result = PagingSupport.GetPageNavigationUri(RequestUri, NewPageNumber);
+      Uri Result = PagingSupport.GetPageNavigationUri(RequestUri.OriginalString, NewPageNumber);
 
       //Assert
       Assert.AreEqual(Expected, Result);

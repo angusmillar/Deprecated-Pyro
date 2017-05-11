@@ -17,10 +17,10 @@ namespace Pyro.Common.BusinessEntities.Service
   {    
     public string ResourceId { get; set; }
     public string VersionId { get; set; }    
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }    
 
-    public ResourceServiceRequestGetHistory(string ResourceId, string Vid, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestGetHistory(string ResourceId, string Vid, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       if (string.IsNullOrEmpty(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
@@ -32,7 +32,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       this.ResourceId = ResourceId;
       this.VersionId = Vid;      
-      this.FhirRequestUri = DtoFhirRequestUri;
+      this.RequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;      
     }
   }

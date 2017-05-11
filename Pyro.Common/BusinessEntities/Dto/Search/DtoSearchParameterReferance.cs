@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.UriSupport;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
   public class DtoSearchParameterReferance : DtoSearchParameterBase
   {
+    private IDtoRequestUri _RequestUri;
     #region Constructor
-    public DtoSearchParameterReferance()
+    public DtoSearchParameterReferance(IDtoRequestUri RequestUri)
       : base()
     {
+      _RequestUri = RequestUri;
       this.Type = Hl7.Fhir.Model.SearchParamType.Reference;
       //this.DbSearchParameterType = DatabaseEnum.DbIndexType.ReferenceIndex;
     }
@@ -40,32 +43,34 @@ namespace Pyro.Common.BusinessEntities.Search
         }
         else
         {
-          Interfaces.UriSupport.IFhirUri TempFhirUri = null;
-          if (UriSupport.DtoFhirUri.TryParse(Value.Trim(), out TempFhirUri))
+          //_RequestUri
+          IFhirRequestUri TempFhirUri = null;
+          string ErrorMessage;
+          if (UriSupport.FhirRequestUri.TryParse(_RequestUri.PrimaryRootUrlStore.Url, Value.Trim(), out TempFhirUri, out ErrorMessage))
           {
-            DtoSearchParameterReferanceValue.FhirUri = TempFhirUri;
+            DtoSearchParameterReferanceValue.FhirRequestUri = TempFhirUri;
           }
           else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
           {
-            if (UriSupport.DtoFhirUri.TryParse($"{this.TypeModifierResource}/{Value.Trim()}", out TempFhirUri))
+            if (UriSupport.FhirRequestUri.TryParse(_RequestUri.PrimaryRootUrlStore.Url, $"{this.TypeModifierResource}/{Value.Trim()}", out TempFhirUri, out ErrorMessage))
             {
-              DtoSearchParameterReferanceValue.FhirUri = TempFhirUri;
+              DtoSearchParameterReferanceValue.FhirRequestUri = TempFhirUri;
             }
             else
             {
-              this.InvalidMessage = $"Unable to parse the Resource reference search parameter.";
+              this.InvalidMessage = $"Unable to parse the Resource reference search parameter. {ErrorMessage}";
               return false;
             }
           }
           else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.AllowedReferanceResourceList.Count() == 1)
           {
-            if (UriSupport.DtoFhirUri.TryParse($"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}", out TempFhirUri))
+            if (UriSupport.FhirRequestUri.TryParse(_RequestUri.PrimaryRootUrlStore.Url, $"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}", out TempFhirUri, out ErrorMessage))
             {
-              DtoSearchParameterReferanceValue.FhirUri = TempFhirUri;
+              DtoSearchParameterReferanceValue.FhirRequestUri = TempFhirUri;
             }
             else
             {
-              this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to.";
+              this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to. {ErrorMessage}";
               return false;
             }
           }
@@ -74,7 +79,7 @@ namespace Pyro.Common.BusinessEntities.Search
             this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to.";
             return false;
           }
-          if (!this.AllowedReferanceResourceList.Contains(DtoSearchParameterReferanceValue.FhirUri.ResourseType))
+          if (!this.AllowedReferanceResourceList.Contains(DtoSearchParameterReferanceValue.FhirRequestUri.ResourseName))
           {
             this.InvalidMessage = $"The Resource Name used in the reference search parameter is not allowed for this search parameter against this Resource.";
             return false;

@@ -14,7 +14,7 @@ namespace Pyro.Common.Interfaces.Service
   {    
     string ResourceId { get; set; }    
     Resource Resource { get; set; }
-    IDtoFhirRequestUri FhirRequestUri { get; set; }
+    IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRequestHeaders RequestHeaders { get; set; }
   }

@@ -11,7 +11,7 @@ namespace Pyro.Common.BusinessEntities.Service
 {
   public class ResourceServiceDeleteHistoryIndexesRequest : IResourceServiceDeleteHistoryIndexesRequest
   {
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     internal ResourceServiceDeleteHistoryIndexesRequest() { }
   }

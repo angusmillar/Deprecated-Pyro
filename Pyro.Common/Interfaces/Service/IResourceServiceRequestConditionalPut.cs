@@ -15,7 +15,7 @@ namespace Pyro.Common.Interfaces.Service
   public interface IResourceServiceRequestConditionalPut
   {
     Resource Resource { get; set; }
-    IDtoFhirRequestUri FhirRequestUri { get; set; }
+    IDtoRequestUri FhirRequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
   }
 }

@@ -14,7 +14,7 @@ namespace Pyro.Engine.Support
 {
   public static class FhirBundleSupport
   {
-    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IDtoFhirRequestUri FhirRequestUri, int SearchTotal, int PagesTotal, int PageRequested)
+    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IDtoRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested)
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
       FhirBundle.Type = BundleType;
@@ -22,10 +22,10 @@ namespace Pyro.Engine.Support
 
       //Paging           
       int LastPageNumber = PagingSupport.GetLastPageNumber(PagesTotal);
-      FhirBundle.FirstLink = PagingSupport.GetPageNavigationUri(FhirRequestUri.FhirUri.Uri, PagingSupport.GetFirstPageNumber());
-      FhirBundle.LastLink = PagingSupport.GetPageNavigationUri(FhirRequestUri.FhirUri.Uri, LastPageNumber);
-      FhirBundle.NextLink = PagingSupport.GetPageNavigationUri(FhirRequestUri.FhirUri.Uri, PagingSupport.GetNextPageNumber(PageRequested, PagesTotal));
-      FhirBundle.PreviousLink = PagingSupport.GetPageNavigationUri(FhirRequestUri.FhirUri.Uri, PagingSupport.GetPreviousPageNumber(PageRequested));
+      FhirBundle.FirstLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetFirstPageNumber());
+      FhirBundle.LastLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, LastPageNumber);
+      FhirBundle.NextLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetNextPageNumber(PageRequested, PagesTotal));
+      FhirBundle.PreviousLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetPreviousPageNumber(PageRequested));
 
       foreach (DtoResource DtoResource in ResourceList)
       {
@@ -45,7 +45,7 @@ namespace Pyro.Engine.Support
           }
         }
 
-        oResEntry.FullUrl = string.Join("/", FhirRequestUri.FhirUri.ServiceRootUrl, DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
+        oResEntry.FullUrl = string.Join("/", RequestUri.PrimaryRootUrlStore.Url, DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
 
         if (BundleType == Bundle.BundleType.History)
         {

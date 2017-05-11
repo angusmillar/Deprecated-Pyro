@@ -7,6 +7,7 @@ using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Rest;
+using Pyro.Common.Interfaces.UriSupport;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -15,13 +16,14 @@ namespace Pyro.Common.BusinessEntities.Service
     #region Public Properties
 
     public string FhirResourceId { get; set; }
-    public Uri RequestUri { get; set; }
+    //public Uri RequestUri { get; set; }
+    public IFhirRequestUri RequestUri { get; set; }
     public Uri ServiceRootUri { get; set; }
     public string ResourceVersionNumber { get; set; }
     public RestEnum.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
     public bool? IsDeleted { get; set; }
-    public Interfaces.Service.ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
+    public ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
     public IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }    
     private HttpStatusCode _HttpStatusCode { get; set; }
     public HttpStatusCode HttpStatusCode
@@ -50,6 +52,7 @@ namespace Pyro.Common.BusinessEntities.Service
     public string FormatMimeType { get; set; }
     public bool SuccessfulTransaction { get; set; }
     
+
 
     #endregion
 

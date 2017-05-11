@@ -17,15 +17,15 @@ namespace Pyro.Common.BusinessEntities.Service
   {    
     public string ResourceId { get; set; }    
     public Resource Resource { get; set; }
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }
 
-    public ResourceServiceRequestPut(string ResourceId, Resource Resource, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public ResourceServiceRequestPut(string ResourceId, Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {      
       this.ResourceId = ResourceId;      
       this.Resource = Resource;
-      this.FhirRequestUri = DtoFhirRequestUri;
+      this.RequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
     }

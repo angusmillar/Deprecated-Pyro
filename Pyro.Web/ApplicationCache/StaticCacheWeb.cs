@@ -45,16 +45,6 @@ namespace Pyro.Web.ApplicationCache
       }
     }
 
-    public static string WebConfigServiceBaseURLForComparison
-    {
-      get
-      {
-        var ServiceRootUri = new Uri(WebConfigServiceBaseURL);
-        return ServiceRootUri.Authority + ServiceRootUri.AbsolutePath;
-      }
-    }
-
-
   }
 
 

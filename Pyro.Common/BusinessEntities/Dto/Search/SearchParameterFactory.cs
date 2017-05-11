@@ -5,6 +5,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 
@@ -15,10 +16,12 @@ namespace Pyro.Common.BusinessEntities.Search
     private static readonly char _ParameterNameParameterValueDilimeter = '=';
     private static readonly char _ParameterNameModifierDilimeter = ':';
     private static string _RawSearchParameterAndValueString = string.Empty;
+    private static IDtoRequestUri _RequestUri;
 
-    public static DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices)
+    public static DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices, IDtoRequestUri RequestUri)
     {
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
+      _RequestUri = RequestUri;
 
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
@@ -85,7 +88,7 @@ namespace Pyro.Common.BusinessEntities.Search
         case SearchParamType.Token:
           return new DtoSearchParameterToken();          
         case SearchParamType.Reference:
-          return new DtoSearchParameterReferance();          
+          return new DtoSearchParameterReferance(_RequestUri);          
         case SearchParamType.Composite:
           throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));          
         case SearchParamType.Quantity:

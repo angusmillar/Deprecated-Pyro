@@ -50,7 +50,12 @@ namespace Pyro.Web.Attributes
         TimeSpan duration = stopwatch.Elapsed;
 
         IResourceServicesBase oService = _FhirServiceNegotiator.GetResourceServiceBase(ResourceType.AuditEvent.ToString());
-        IDtoFhirRequestUri DtoFhirRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, actionExecutedContext.Request.RequestUri);
+        IDtoRootUrlStore DtoRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(oService as ICommonServices);
+        IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);
+        //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, actionExecutedContext.Request.RequestUri);
+        IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+
+        //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
 
         // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
         var owinContext = actionExecutedContext.Request.GetOwinContext();
@@ -64,7 +69,7 @@ namespace Pyro.Web.Attributes
         System.Web.Http.Routing.IHttpRouteData route = actionExecutedContext.ActionContext.ControllerContext.RouteData;
 
         // Get the resource base
-        string baseUri = DtoFhirRequestUri.FhirUri.ServiceRootUrl.ToString();
+        string baseUri = DtoRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString;
 
         // Create the Security Event Object
         AuditEvent Audit = new AuditEvent();
@@ -261,7 +266,7 @@ namespace Pyro.Web.Attributes
           }
         }
         //Commit to Database
-        IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoFhirRequestUri, RestEnum.CrudOperationType.Create);
+        IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
       }
       catch (Exception Exec)
       {

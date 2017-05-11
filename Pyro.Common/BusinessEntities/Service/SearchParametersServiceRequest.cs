@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hl7.Fhir.Model;
-using Pyro.Common.Interfaces.Service;
+﻿using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.Dto;
-//using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Interfaces.UriSupport;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -17,7 +11,7 @@ namespace Pyro.Common.BusinessEntities.Service
     public SearchParameterService.SearchParameterServiceType SearchParameterServiceType { get; set; }
     public FHIRAllTypes? ResourceType { get; set; }
     public ICommonServices CommonServices { get; set; }
-    //public IList<DtoServiceSearchParameterLight> DtoServiceSearchParameterLightList { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
 
     internal SearchParametersServiceRequest(){}
   }

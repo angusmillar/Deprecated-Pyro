@@ -34,8 +34,9 @@ namespace Pyro.Common.Tools
       }
     }
 
-    public static Uri GetPageNavigationUri(Uri RequestUri, int NewPageNumber)
-    {
+    public static Uri GetPageNavigationUri(string RequestUriString, int NewPageNumber)
+    {      
+      Uri RequestUri = new Uri(RequestUriString);
       if (RequestUri != null)
       {
         string PageParameterText = "page=";

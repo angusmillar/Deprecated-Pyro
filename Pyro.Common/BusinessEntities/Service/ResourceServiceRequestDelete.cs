@@ -8,13 +8,13 @@ namespace Pyro.Common.BusinessEntities.Service
   public class ResourceServiceRequestDelete : IResourceServiceRequestDelete
   {    
     public string ResourceId { get; set; }
-    public IDtoFhirRequestUri FhirRequestUri { get; set; }
+    public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
    
-    public ResourceServiceRequestDelete(string ResourceId, IDtoFhirRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
+    public ResourceServiceRequestDelete(string ResourceId, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric)
     {   
       this.ResourceId = ResourceId;
-      this.FhirRequestUri = DtoFhirRequestUri;
+      this.RequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;   
     }
 

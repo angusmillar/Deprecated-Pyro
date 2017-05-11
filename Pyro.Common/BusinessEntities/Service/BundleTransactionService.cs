@@ -9,6 +9,7 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Tools;
+using Hl7.Fhir.Utility;
 using Hl7.Fhir.Model;
 using Pyro.Common.Extentions;
 
@@ -47,7 +48,7 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
+        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.RootUri;
         return _ServiceOperationOutcome;
       }
       else if (bundle.Type != Bundle.BundleType.Transaction || (bundle.Type != Bundle.BundleType.Transaction && bundle.Type != Bundle.BundleType.Batch))
@@ -57,7 +58,7 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
+        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.RootUri;
         return _ServiceOperationOutcome;
       }
       else
@@ -149,18 +150,23 @@ namespace Pyro.Common.BusinessEntities.Service
     
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry)
     {
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(DeleteEntry));
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
+      //_ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(DeleteEntry));
+      // = Common.CommonFactory.GetFhirRequestUri(ConstructRequestUrl(DeleteEntry));
+
+      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(DeleteEntry));
+      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
+      
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(_ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric);
+        IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(EntryRequestUri, SearchParameterGeneric);
         ResourceServiceOutcome = ResourceService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
       }
       else
       {
-        IResourceServiceRequestDelete ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequestDelete(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric);
+        IResourceServiceRequestDelete ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequestDelete(EntryRequestUri.FhirRequestUri.ResourceId, EntryRequestUri, SearchParameterGeneric);
         ResourceServiceOutcome = ResourceService.Delete(ResourceServiceRequest);
       }
 
@@ -200,23 +206,27 @@ namespace Pyro.Common.BusinessEntities.Service
     }
     private bool PostProcessing(Bundle.EntryComponent PostEntry)
     {
-      
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PostEntry));
-      if (!string.IsNullOrWhiteSpace(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourceOperation))
+
+      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(PostEntry));
+      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
+
+      //_ResourceServiceRequest.RequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PostEntry));
+      if (EntryRequestUri.FhirRequestUri.IsOperation)
       {
-        var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourceOperation}'.";
+        var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{EntryRequestUri.FhirRequestUri.OperationName}'.";
         var OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Invalid, Message);
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri;
+        _ServiceOperationOutcome.ServiceRootUri = _ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.RootUri;
         return false;
       }
-      IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);      
+      IFhirRequestUri ResourceIdToForce = Common.CommonFactory.GetFhirRequestUri(EntryRequestUri.PrimaryRootUrlStore.Url, OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
+      //IFhirUri ResourceIdToForce = Common.CommonFactory.GetFhirUri(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);      
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
-      IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.Id);
-      IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
+      IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = ResourceService.Post(ResourceServiceRequestPost);
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -257,20 +267,24 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }    
     private bool PutProcessing(Bundle.EntryComponent PutEntry)
-    {   
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PutEntry));
+    {
+      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(PutEntry));
+      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
+
+      //_ResourceServiceRequest.RequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(PutEntry));
+
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut = CommonFactory.GetResourceServiceRequestConditionalPut(PutEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric);
+        IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut = CommonFactory.GetResourceServiceRequestConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric);
         ResourceServiceOutcome = ResourceService.ConditionalPut(PyroServiceRequestConditionalPut);
       }
       else
       {
-        IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, PutEntry.Resource, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
+        IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(EntryRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders);
         ResourceServiceOutcome = ResourceService.Put(ResourceServiceRequestPut);
       }
 
@@ -295,7 +309,7 @@ namespace Pyro.Common.BusinessEntities.Service
         {
           PutEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           PutEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          PutEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
+          PutEntry.Response.Location = EntryRequestUri.FhirRequestUri.OriginalString;
         }
         return true;
       }
@@ -311,20 +325,24 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
     private bool GetProcessing(Bundle.EntryComponent GetEntry)
-    {    
-      _ResourceServiceRequest.DtoFhirRequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(GetEntry));
+    {
+
+      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(GetEntry));
+      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
+
+      //_ResourceServiceRequest.RequestUri.FhirUri = Common.CommonFactory.GetFhirUri(ConstructRequestUrl(GetEntry));
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Query);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.ResourseType);
+      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetTransactionalResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(_ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric);
+        IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(EntryRequestUri, SearchParameterGeneric);
         ResourceServiceOutcome = ResourceService.GetSearch(ResourceServiceRequestGetSearch);
       }
       else
       {
-        IResourceServiceRequestGetRead ResourceServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(_ResourceServiceRequest.DtoFhirRequestUri.FhirUri.Id, _ResourceServiceRequest.DtoFhirRequestUri, SearchParameterGeneric, RequestHeaders);
+        IResourceServiceRequestGetRead ResourceServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(EntryRequestUri.FhirRequestUri.ResourceId, _ResourceServiceRequest.RequestUri, SearchParameterGeneric, RequestHeaders);
         ResourceServiceOutcome = ResourceService.GetRead(ResourceServiceRequestGetRead);
       }
 
@@ -350,7 +368,7 @@ namespace Pyro.Common.BusinessEntities.Service
           GetEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
             GetEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          GetEntry.Response.Location = HttpHeaderSupport.AddResponseLocation(ResourceServiceOutcome.RequestUri).OriginalString;
+          GetEntry.Response.Location = EntryRequestUri.FhirRequestUri.OriginalString;
         }
         return true;
       }
@@ -366,9 +384,11 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
 
-    private Uri ConstructRequestUrl(Bundle.EntryComponent Entry)
+    private string ConstructRequestUrl(Bundle.EntryComponent Entry)
     {
-      return new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, Entry.Request.Url);
+      string UriString = _ResourceServiceRequest.RequestUri.PrimaryRootUrlStore.RootUri + "/" + Entry.Request.Url;
+      return UriString;
+      //return new Uri(_ResourceServiceRequest.DtoFhirRequestUri.PrimaryRootUrlStore.RootUri, Entry.Request.Url);
     }
     private string CreateFullUrl(IResourceServiceOutcome ResourceServiceOutcome)
     {
