@@ -253,6 +253,7 @@
     <Compile Include="Services\ServiceNegotiator.cs" />
     <Compile Include="Services\PrimaryServiceRootFactory.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Extensions\ControllerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\WebDocumentation.XML" />

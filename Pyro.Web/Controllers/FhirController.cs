@@ -320,7 +320,7 @@ namespace Pyro.Web.Controllers
 
 
     //Resource Operations
-    // DELETE: URL/FhirApi/Patient/5
+    // POST: URL/FhirApi/Patient/$delete-history-indexes
     /// <summary>
     /// Resource operation endpont. This is for operations that are to be perfomed on a Resource type, for example: Patient
     /// </summary>
@@ -345,35 +345,36 @@ namespace Pyro.Web.Controllers
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, SearchParameterGeneric.SummaryType);
     }
 
-    
-  }
-
-  public static class Util
-  {
-    public static string CalculateBaseURI(this System.Web.Http.ApiController me, string resourceName)
+    //Service Operations
+    // POST: URL/fhir/$delete-history-indexes
+    /// <summary>
+    /// Base operation endpont. This is for operations that are to be perfomed on the server base
+    /// </summary>    
+    /// <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+    /// <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
+    /// <returns></returns>
+    [HttpPost, Route("${operation}")]
+    [ActionLog]
+    public HttpResponseMessage PerformResourceOperationWithParameters(string operation, [FromBody] FhirModel.Resource Resource)
     {
-      System.Uri ri = me.ControllerContext.Request.RequestUri;
-      if (resourceName == "metadata" || resourceName == "${operation}")
-      {
-        return System.String.Format("{0}://{1}{2}{3}{4}",
-            ri.Scheme,
-            ri.Host,
-            ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
-            me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
-            me.ControllerContext.RouteData.Route.RouteTemplate.Replace("/metadata", "").Replace("/${operation}", ""));
-      }
+      ICommonServices oCommonServices = _FhirServiceNegotiator.GetCommonService();
+      string BaseRequestUri = this.CalculateBaseURI("${operation}");
+      IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(oCommonServices, BaseRequestUri);
+      IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
+      IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
 
-      if (me.ControllerContext.RouteData.Route.RouteTemplate.Contains("{ResourceName}"))
-        resourceName = "{ResourceName}";
-      string baseUri = System.String.Format("{0}://{1}{2}{3}{4}",
-          ri.Scheme,
-          ri.Host,
-          ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
-          me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
-          me.ControllerContext.RouteData.Route.RouteTemplate.Substring(0, me.ControllerContext.RouteData.Route.RouteTemplate.LastIndexOf(resourceName)));
+      IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, Resource, _FhirServiceNegotiator, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
 
-      return baseUri.TrimEnd('/');
+      var OperationService = new Engine.Services.FhirBaseOperationService();
+      IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
+      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, SearchParameterGeneric.SummaryType);
     }
 
+
+
+
   }
+
 }

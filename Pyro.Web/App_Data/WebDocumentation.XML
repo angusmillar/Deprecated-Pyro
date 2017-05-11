@@ -609,6 +609,14 @@
             <param name="Resource">Typicaly this is a Parameters resource given in the body</param>
             <returns></returns>
         </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.PerformResourceOperationWithParameters(System.String,Hl7.Fhir.Model.Resource)">
+            <summary>
+            Base operation endpont. This is for operations that are to be perfomed on the server base
+            </summary>    
+            <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+            <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
+            <returns></returns>
+        </member>
         <member name="T:Pyro.Web.Services.ServiceNegotiator">
             <summary>
             Negotiates the required Resource server based on the Resource name provided 

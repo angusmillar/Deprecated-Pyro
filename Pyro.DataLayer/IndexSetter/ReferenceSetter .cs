@@ -38,6 +38,10 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetResourcereference(ResourceReference);
         }
+        else if (Poco.FhirValue is Resource Resource)
+        {
+          SetResource(Resource);
+        }
         else
         {
           throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
@@ -48,6 +52,18 @@ namespace Pyro.DataLayer.IndexSetter
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+      }
+    }
+
+    private static void SetResource(Resource resource)
+    {
+      if (resource.ResourceType == ResourceType.Composition || resource.ResourceType == ResourceType.MessageHeader)
+      {
+        //ToDo: What do we do with this Resource as a ResourceReferance??
+        //FHIR Spec says:
+        //The first resource in the bundle, if the bundle type is "document" - this is a composition, and this parameter provides access to searches its contents
+        //and
+        //The first resource in the bundle, if the bundle type is "message" - this is a message header, and this parameter provides access to search its contents
       }
     }
 

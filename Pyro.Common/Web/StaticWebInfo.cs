@@ -10,6 +10,5 @@ namespace Pyro.Common.Web
   {
     public const string ServiceRoute = "test/stu3/fhir";
     public const string TestingPort = "8888";
-
   }
 }

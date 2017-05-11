@@ -17,11 +17,25 @@ namespace Pyro.Common.Enum
       Instance
     }
 
+    public enum BaseOperationType
+    {
+      [EnumLiteral("delete-history-indexes")]
+      DeleteHistoryIndexes,
+    };
+
     public enum ResourceOperationType
     {
       [EnumLiteral("delete-history-indexes")]
       DeleteHistoryIndexes,
     };
+
+    public static Dictionary<string, BaseOperationType> GetBaseOperationTypeByString()
+    {
+      return new Dictionary<string, BaseOperationType>()
+      {
+        {BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral(), BaseOperationType.DeleteHistoryIndexes},
+      };
+    }
 
     public static Dictionary<string, ResourceOperationType> GetResourceOperationTypeByString()
     {

@@ -32,12 +32,7 @@ namespace Pyro.Common
     public static IDtoRequestUri GetFhirRequestUri()
     {
       return new DtoRequestUri();
-    }
-
-    public static IDtoRequestUri GetRequestUri(IDtoRootUrlStore PrimaryRootUrlStore)
-    {
-      return new DtoRequestUri(PrimaryRootUrlStore);
-    }
+    }  
 
     public static IDtoRequestUri GetRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, IFhirRequestUri FhirRequestUri)
     {
@@ -190,6 +185,11 @@ namespace Pyro.Common
     public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       return new ResourceOperationsServiceRequest(OperationName, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
+    }
+
+    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, Resource ParametersResource, IServiceNegotiator ServiceNegotiator, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    {
+      return new BaseOperationsServiceRequest(OperationName, ParametersResource, ServiceNegotiator, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
     }
 
     public static IResourceServiceDeleteHistoryIndexesRequest GetResourceServiceDeleteHistoryIndexesRequest()
