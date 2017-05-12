@@ -19,16 +19,6 @@ namespace Pyro.Common
 {
   public static class CommonFactory
   {
-    //public static IFhirUri GetFhirUri(string value)
-    //{
-    //  return new DtoFhirUri(value);
-    //}
-
-    //public static IFhirUri GetFhirUri(Uri value)
-    //{
-    //  return new DtoFhirUri(value);
-    //}
-
     public static IDtoRequestUri GetFhirRequestUri()
     {
       return new DtoRequestUri();
@@ -43,12 +33,7 @@ namespace Pyro.Common
     {
       return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
     }
-
-
-
-
-
-
+    
     public static IDtoRootUrlStore GetRootUrlStore()
     {
       return new DtoRootUrlStore();
@@ -196,6 +181,13 @@ namespace Pyro.Common
     {
       return new ResourceServiceDeleteHistoryIndexesRequest();
     }
+
+    public static IDeleteManyHistoryIndexesService GetDeleteManyHistoryIndexesService(IBaseOperationsServiceRequest ServiceRequest)
+    {
+      return new DeleteManyHistoryIndexesService(ServiceRequest);
+    }
+
     
+
   }
 }

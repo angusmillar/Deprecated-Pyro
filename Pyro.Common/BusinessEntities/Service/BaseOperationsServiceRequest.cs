@@ -14,7 +14,8 @@ namespace Pyro.Common.BusinessEntities.Service
     public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }
-    
+    public Resource Resource { get; set; }
+
     internal BaseOperationsServiceRequest(string OperationName, Resource Resource, IServiceNegotiator ServiceNegotiator, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       this.OperationName = OperationName;  
@@ -22,6 +23,7 @@ namespace Pyro.Common.BusinessEntities.Service
       this.RequestUri = FhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
+      this.Resource = Resource;
     }
   }
 }

@@ -571,8 +571,18 @@ namespace Pyro.Engine.Services
       ServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       ServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
       ServiceOutcome.SuccessfulTransaction = true;
-      ServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational,
-        $"Sucsessfuly deleted history indexes for the resource type '{this.ServiceResourceType.GetLiteral()}'. A total of {NumberOfIndexRowsDeleted.ToString()} rows where deleted.");
+      //ServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational,
+      //  $"Sucsessfuly deleted history indexes for the resource type '{this.ServiceResourceType.GetLiteral()}'. A total of {NumberOfIndexRowsDeleted.ToString()} rows where deleted.");
+      Parameters ParametersResult = new Parameters();
+      ParametersResult.Id = this._CurrentResourceType.GetLiteral() + "_Response";
+      ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
+      var Param = new Parameters.ParameterComponent();
+      ParametersResult.Parameter.Add(Param);
+      Param.Name = $"{this._CurrentResourceType.GetLiteral()}_Resource_IndexesDeletedCount";
+      var Count = new FhirDecimal();
+      Count.Value = NumberOfIndexRowsDeleted;
+      Param.Value = Count;
+      ServiceOutcome.ResourceResult = ParametersResult;
       ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;      
       return ServiceOutcome;
     }

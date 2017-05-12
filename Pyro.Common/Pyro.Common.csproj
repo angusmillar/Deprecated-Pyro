@@ -93,6 +93,8 @@
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
+    <Compile Include="BusinessEntities\Service\DeleteManyHistoryIndexesService.cs" />
+    <Compile Include="Interfaces\Service\IDeleteManyHistoryIndexesService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceDeleteHistoryIndexesRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceRequestTransactionBundle.cs" />
