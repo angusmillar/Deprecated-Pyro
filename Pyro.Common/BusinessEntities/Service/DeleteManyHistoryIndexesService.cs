@@ -13,6 +13,7 @@ namespace Pyro.Common.BusinessEntities.Service
   {
     public IBaseOperationsServiceRequest _ServiceRequest;
     private const string _ParameterName = "ResourceType";
+    private List<string> _ResourceList;
 
     internal DeleteManyHistoryIndexesService(IBaseOperationsServiceRequest ServiceRequest)
     {
@@ -49,60 +50,57 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-      ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-
       
-
-      //do work
+      
       if (_ServiceRequest.Resource != null && _ServiceRequest.Resource is Parameters ParametersResource)
-      {
-        try
+      {                
+        var DeleteAll = ParametersResource.Parameter.SingleOrDefault(x => x.Name.ToLower() == _ParameterName.ToLower() && x.Value is FhirString a && a.Value == "*");
+        if (DeleteAll != null)
         {
-          List<string> ResourceList;
-          var DeleteAll = ParametersResource.Parameter.SingleOrDefault(x => x.Name.ToLower() == _ParameterName.ToLower() && x.Value is FhirString a && a.Value == "*");
-          if (DeleteAll != null)
+          if (ParametersResource.Parameter.Count > 1)
           {
-            if (ParametersResource.Parameter.Count > 1)
+            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
+            ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+            ResourceServiceOutcome.ResourceResult = Op;
+            ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+            ResourceServiceOutcome.SuccessfulTransaction = false;
+            return ResourceServiceOutcome;
+          }
+          //Loop through and Delete all resource indexes
+          _ResourceList = ModelInfo.SupportedResources;
+        }
+        else
+        {
+          //Collect from the parameters the Resources to have indexes deleted from 
+          _ResourceList = new List<string>();
+          foreach (var Parameter in ParametersResource.Parameter)
+          {
+            if (Parameter.Name.Trim().ToLower() == _ParameterName.ToLower() && Parameter.Value is FhirString ParamValue && ModelInfo.IsKnownResource(ParamValue.Value.Trim()))
             {
-              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
+              _ResourceList.Add(ParamValue.Value.Trim());
+            }
+            else
+            {
+              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
               ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
               ResourceServiceOutcome.ResourceResult = Op;
               ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
               ResourceServiceOutcome.SuccessfulTransaction = false;
               return ResourceServiceOutcome;
             }
-            //Loop through and Delete all resource indexes
-            ResourceList = ModelInfo.SupportedResources;
-          }
-          else
-          {
-            ResourceList = new List<string>();
-            foreach (var Parameter in ParametersResource.Parameter)
-            {
-              if (Parameter.Name.Trim().ToLower() == _ParameterName.ToLower() && Parameter.Value is FhirString ParamValue && ModelInfo.IsKnownResource(ParamValue.Value.Trim()))
-              {
-                ResourceList.Add(ParamValue.Value.Trim());
-              }
-              else
-              {
-                var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
-                ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-                ResourceServiceOutcome.ResourceResult = Op;
-                ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-                ResourceServiceOutcome.SuccessfulTransaction = false;
-                return ResourceServiceOutcome;
-              }
-            }            
-          }
+          }            
+        }
 
-          if (ResourceList.Count > 0)
+        try
+        {
+          if (_ResourceList.Count > 0)
           {
             _ServiceRequest.ServiceNegotiator.BeginTransaction();
             Parameters ParametersResult = new Parameters();
             ParametersResult.Id = ParametersResource.Id + "-Response";
             ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
 
-            foreach (string ResourceName in ResourceList)
+            foreach (string ResourceName in _ResourceList)
             {
               var ResourceService = _ServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
               var ResourceServiceDeleteHistoryIndexesRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
@@ -111,8 +109,7 @@ namespace Pyro.Common.BusinessEntities.Service
               IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = ResourceService.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
               {
-                _ServiceRequest.ServiceNegotiator.RollbackTransaction();
-                //ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                _ServiceRequest.ServiceNegotiator.RollbackTransaction();         
                 return ResourceServiceOutcomeDeleteResourceIndex;
               }
               else

@@ -44,13 +44,10 @@ namespace Pyro.Common
       return new ResourceServiceOutcome();
     }
     
-   
-
     public static IFhirRequestUri GetFhirRequestUri(Uri PrimaryServiceRoot, string RequestUri)
     {
       return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
     }
-
     
     public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
     {
