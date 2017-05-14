@@ -17,13 +17,16 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     public ServiceSearchParameterConfig()
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-      Property(x => x.Name).IsRequired();
+      Property(x => x.Name).HasMaxLength(50).IsRequired();
       Property(x => x.Description).IsOptional();
-      Property(x => x.Resource).IsRequired();
+      Property(x => x.Resource).HasMaxLength(50).IsRequired();
       Property(x => x.Expression).IsRequired();
       Property(x => x.Type).IsRequired();
-      Property(x => x.Url).IsOptional();
-      Property(x => x.XPath).IsOptional();      
+      Property(x => x.Url).HasMaxLength(450).IsOptional();
+      Property(x => x.XPath).IsOptional();
+      Property(x => x.LastUpdated).IsRequired();
+      Property(x => x.IsIndexed).IsRequired();
+      Property(x => x.Status).IsRequired();
     }
   }
 }

@@ -21,7 +21,10 @@ namespace Pyro.DataLayer.DbModel.Entity
     public SearchParamType Type { get; set; }
     public string XPath { get; set; }
     public string Expression { get; set; }
-    
+    public bool IsIndexed { get; set; }
+    public PublicationStatus Status { get; set; }
+    public DateTimeOffset LastUpdated { get; set; }
+
     /// <summary>
     /// If this search parameter is a Composite, this array contains 
     /// the list of search parameters the param is a combination of
@@ -33,7 +36,7 @@ namespace Pyro.DataLayer.DbModel.Entity
     /// uses 
     /// </summary>
     //public string[] Path { get; set; }
-    
+
     /// <summary>
     /// If this is a reference, the possible types of resources that the
     /// parameters references to

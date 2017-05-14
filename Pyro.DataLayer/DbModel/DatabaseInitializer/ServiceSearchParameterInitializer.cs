@@ -22,6 +22,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseInitializer
     protected override void Seed(PyroDbContext context)
     {      
       IList<DtoServiceSearchParameter> DtoServiceSearchParameterList = Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.FhirAPISearchParameters();
+      var LastUpdated = DateTimeOffset.Now;
       foreach (var SearchParameter in DtoServiceSearchParameterList)
       {
         context.ServiceSearchParameter.Add(new ServiceSearchParameter()
@@ -32,7 +33,10 @@ namespace Pyro.DataLayer.DbModel.DatabaseInitializer
           Resource = SearchParameter.Resource,
           Type = SearchParameter.Type,
           Url = SearchParameter.Url,
-          XPath = SearchParameter.XPath
+          XPath = SearchParameter.XPath,
+          IsIndexed = true,
+          LastUpdated = LastUpdated,
+          Status = PublicationStatus.Active           
         });
       }
       base.Seed(context);

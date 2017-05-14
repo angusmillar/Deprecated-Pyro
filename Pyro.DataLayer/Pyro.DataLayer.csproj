@@ -97,6 +97,11 @@
     <Compile Include="IndexSetter\QuantitySetter.cs" />
     <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
+    <Compile Include="Migrations\201705142245027_InitialCreate.cs" />
+    <Compile Include="Migrations\201705142245027_InitialCreate.Designer.cs">
+      <DependentUpon>201705142245027_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
@@ -135,6 +140,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705142245027_InitialCreate.resx">
+      <DependentUpon>201705142245027_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

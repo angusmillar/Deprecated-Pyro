@@ -26,7 +26,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(t => t.FhirId)
           .HasColumnName("FhirId")
-          .HasMaxLength(450)
+          .HasMaxLength(400)
           .IsRequired()
           .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 0);
 

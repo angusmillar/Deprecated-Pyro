@@ -17,7 +17,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     public ServiceBaseUrlContextConfig()
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-      Property(x => x.Url).IsRequired().HasMaxLength(2083).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_Url") { IsUnique = true }));
+      Property(x => x.Url).IsRequired().HasMaxLength(450).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_Url") { IsUnique = true }));
       Property(x => x.IsServersPrimaryUrlRoot).IsRequired();
     }
   }
