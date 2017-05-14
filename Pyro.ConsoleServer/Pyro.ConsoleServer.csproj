@@ -89,14 +89,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Pyro.Web\App_Data\Connectons.config">
-      <Link>App_Data\Connectons.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="..\PyroApp.config">
-      <Link>App_Data\PyroApp.config</Link>
-    </None>
     <None Include="App.config" />
+    <None Include="App_Data\Connectons.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App_Data\PyroApp.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

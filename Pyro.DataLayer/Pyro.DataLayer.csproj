@@ -121,13 +121,6 @@
     <Compile Include="Support\DbContextUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Pyro.Web\App_Data\Connectons.config">
-      <Link>App_Data\Connectons.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\PyroApp.config">
-      <Link>App_Data\PyroApp.config</Link>
-    </None>
     <None Include="App.config" />
     <None Include="DbModel\DatabaseContext\MainTemplate.txt4" />
     <None Include="DbModel\EntityGenerated\MainTemplate.txt4" />
@@ -140,6 +133,8 @@
       <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
