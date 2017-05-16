@@ -25,7 +25,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseInitializer
       var LastUpdated = DateTimeOffset.Now;
       foreach (var SearchParameter in DtoServiceSearchParameterList)
       {
-        context.ServiceSearchParameter.Add(new ServiceSearchParameter()
+        var ServiceSearchParameter = new ServiceSearchParameter()
         {
           Name = SearchParameter.Name,
           Description = SearchParameter.Description,
@@ -36,8 +36,15 @@ namespace Pyro.DataLayer.DbModel.DatabaseInitializer
           XPath = SearchParameter.XPath,
           IsIndexed = true,
           LastUpdated = LastUpdated,
-          Status = PublicationStatus.Active           
-        });
+          Status = PublicationStatus.Active
+        };
+        if (SearchParameter.TargetResourceTypeList != null && SearchParameter.TargetResourceTypeList.Count > 0)
+        {
+          ServiceSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+          foreach (var ResourceTypeTarget in SearchParameter.TargetResourceTypeList)
+            ServiceSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = ResourceTypeTarget.ResourceType });
+        }
+        context.ServiceSearchParameter.Add(ServiceSearchParameter);
       }
       base.Seed(context);
       context.SaveChanges();

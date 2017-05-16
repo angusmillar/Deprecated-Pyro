@@ -20,13 +20,13 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
 
       //Add the ones for each Resource
       foreach (var SearchParameter in ModelInfo.SearchParameters)
-      {
+      {        
         //A searchParameter with no expression or name or Resource is useless
         if (!string.IsNullOrWhiteSpace(SearchParameter.Expression) &&
           !string.IsNullOrWhiteSpace(SearchParameter.Name) &&
           !string.IsNullOrWhiteSpace(SearchParameter.Resource))
         {
-          ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
+          var DtoServiceSearchParameter = new DtoServiceSearchParameter()
           {
             Name = SearchParameter.Name,
             Description = SearchParameter.Description,
@@ -35,8 +35,15 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
             Type = SearchParameter.Type,
             Url = SearchParameter.Url,
             XPath = SearchParameter.XPath,
-            SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Resource            
-          });
+            SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Resource
+          };
+          if (SearchParameter.Target != null && SearchParameter.Target.Count() > 0)
+          {
+            DtoServiceSearchParameter.TargetResourceTypeList = new List<DtoServiceSearchParameterTargetResource>();
+            foreach(var ResourceType in SearchParameter.Target)
+              DtoServiceSearchParameter.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = ResourceType });
+          }
+          ServiceSearchParameterList.Add(DtoServiceSearchParameter);
         }
       }
       return ServiceSearchParameterList;

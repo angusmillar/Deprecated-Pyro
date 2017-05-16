@@ -17,6 +17,7 @@ namespace Pyro.Common.BusinessEntities.Dto
     public string Resource { get; set; }
     public SearchParamType Type { get; set; }
     public string Url { get; set; }
-    public string XPath { get; set; }    
+    public string XPath { get; set; }
+    public ICollection<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
   }
 }

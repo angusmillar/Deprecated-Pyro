@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using System.Runtime.Serialization;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.BusinessEntities.Dto
 {
@@ -17,7 +18,7 @@ namespace Pyro.Common.BusinessEntities.Dto
     public string Name { get; set; }
     public SearchParamType Type { get; set; }
     public string Expression { get; set; }
-
+    public ICollection<DtoServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
     public DtoServiceSearchParameterLight(){ }
 
     public DtoServiceSearchParameterLight(SerializationInfo info, StreamingContext context)

@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="DbModel\DatabaseContextConfi\IndexContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ResourceContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterTargetResourceConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceBaseUrlContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContext\PyroDbContext.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="DbModel\EntityGenerated\GeneratedResourceEntities.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DbModel\Entity\ServiceSearchParameterTargetResource.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameter.cs" />
     <Compile Include="DbModel\Entity\ServiceBaseUrl.cs" />
     <Compile Include="DbModel\Extentions\TypeConfigurationExtensions.cs" />
@@ -97,9 +99,9 @@
     <Compile Include="IndexSetter\QuantitySetter.cs" />
     <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
-    <Compile Include="Migrations\201705142245027_InitialCreate.cs" />
-    <Compile Include="Migrations\201705142245027_InitialCreate.Designer.cs">
-      <DependentUpon>201705142245027_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201705161120361_InitialCreate.cs" />
+    <Compile Include="Migrations\201705161120361_InitialCreate.Designer.cs">
+      <DependentUpon>201705161120361_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,8 +144,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705142245027_InitialCreate.resx">
-      <DependentUpon>201705142245027_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705161120361_InitialCreate.resx">
+      <DependentUpon>201705161120361_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

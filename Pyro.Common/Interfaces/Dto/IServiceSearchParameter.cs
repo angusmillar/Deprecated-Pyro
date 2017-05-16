@@ -1,4 +1,6 @@
-﻿using Hl7.Fhir.Model;
+﻿using System.Collections.Generic;
+using Hl7.Fhir.Model;
+
 
 namespace Pyro.Common.Interfaces.Dto
 {
@@ -11,6 +13,7 @@ namespace Pyro.Common.Interfaces.Dto
     string Resource { get; set; }
     SearchParamType Type { get; set; }
     string Url { get; set; }
-    string XPath { get; set; }
+    string XPath { get; set; }    
+    ICollection<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
   }
 }

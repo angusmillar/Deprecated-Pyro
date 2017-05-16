@@ -46,10 +46,8 @@ namespace Pyro.Web.Controllers
       IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(oService, BaseRequestUri);
       IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
       IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);      
-      //IDtoRootUrlStore PrimaryRootUrlStore = Pyro.Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(oService);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-      //IDtoRequestUri DtoFhirRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore);
+      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());     
       IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle = Common.CommonFactory.GetResourceServiceRequestTransactionBundle(resource, DtoRequestUri, SearchParameterGeneric, RequestHeaders, _FhirServiceNegotiator);
       IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(ResourceServiceRequestTransactionBundle);
       IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact();
@@ -69,9 +67,6 @@ namespace Pyro.Web.Controllers
       string BaseRequestUri = this.CalculateBaseURI("metadata");
       ICommonServices oService = _FhirServiceNegotiator.GetCommonService();
       IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, BaseRequestUri);
-      //IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-      //IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-      //IDtoRootUrlStore RootUrl = oService.GetPrimaryServiceRootUrl();
       var MetadataService = new Pyro.Engine.Services.MetadataService();
       string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Web.WebApiApplication).Assembly.Location).ProductVersion;
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
@@ -226,6 +221,7 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
       IResourceServices oService = _FhirServiceNegotiator.GetResourceService(ResourceName);
+
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, BaseRequestUri);
       IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
@@ -364,9 +360,7 @@ namespace Pyro.Web.Controllers
       IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-
       IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, Resource, _FhirServiceNegotiator, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
-
       var OperationService = new Engine.Services.FhirBaseOperationService();
       IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, SearchParameterGeneric.SummaryType);

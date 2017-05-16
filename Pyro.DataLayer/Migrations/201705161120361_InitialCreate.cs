@@ -88,6 +88,18 @@ namespace Pyro.DataLayer.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.ServiceSearchParameterTargetResource",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceType = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ServiceSearchParameter", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .Index(t => t.ServiceSearchParameterId);
+            
+            CreateTable(
                 "dbo.ActivityDefinitionRes",
                 c => new
                     {
@@ -6357,6 +6369,7 @@ namespace Pyro.DataLayer.Migrations
             DropForeignKey("dbo.ActivityDefinitionResIndex", "ReferenceServiceBaseUrlId", "dbo.ServiceBaseUrl");
             DropForeignKey("dbo.AccountResIndex", "ResourceId", "dbo.AccountRes");
             DropForeignKey("dbo.AccountResIndex", "ServiceSearchParameterId", "dbo.ServiceSearchParameter");
+            DropForeignKey("dbo.ServiceSearchParameterTargetResource", "ServiceSearchParameterId", "dbo.ServiceSearchParameter");
             DropForeignKey("dbo.AccountResIndex", "ReferenceServiceBaseUrlId", "dbo.ServiceBaseUrl");
             DropIndex("dbo.VisionPrescriptionResIndex", new[] { "ResourceId" });
             DropIndex("dbo.VisionPrescriptionResIndex", new[] { "ReferenceServiceBaseUrlId" });
@@ -6938,6 +6951,7 @@ namespace Pyro.DataLayer.Migrations
             DropIndex("dbo.ActivityDefinitionResIndex", new[] { "ServiceSearchParameterId" });
             DropIndex("dbo.ActivityDefinitionRes", "dsf");
             DropIndex("dbo.ActivityDefinitionRes", "UQ_FhirIdAndVersionId");
+            DropIndex("dbo.ServiceSearchParameterTargetResource", new[] { "ServiceSearchParameterId" });
             DropIndex("dbo.ServiceBaseUrl", new[] { "Url" });
             DropIndex("dbo.AccountResIndex", new[] { "ResourceId" });
             DropIndex("dbo.AccountResIndex", new[] { "ReferenceServiceBaseUrlId" });
@@ -7176,6 +7190,7 @@ namespace Pyro.DataLayer.Migrations
             DropTable("dbo.AdverseEventRes");
             DropTable("dbo.ActivityDefinitionResIndex");
             DropTable("dbo.ActivityDefinitionRes");
+            DropTable("dbo.ServiceSearchParameterTargetResource");
             DropTable("dbo.ServiceSearchParameter");
             DropTable("dbo.ServiceBaseUrl");
             DropTable("dbo.AccountResIndex");

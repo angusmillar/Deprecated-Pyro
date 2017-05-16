@@ -21,6 +21,10 @@ namespace Pyro.Common.Enum
     {
       [EnumLiteral("delete-history-indexes")]
       DeleteHistoryIndexes,
+      [EnumLiteral("server-search-parameter-set")]
+      ServerSearchParameterSet,
+      [EnumLiteral("server-search-parameter-index")]
+      serverSearchParameterIndexPending,
     };
 
     public enum ResourceOperationType

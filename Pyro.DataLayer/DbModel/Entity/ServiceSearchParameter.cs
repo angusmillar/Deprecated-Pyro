@@ -12,7 +12,7 @@ namespace Pyro.DataLayer.DbModel.Entity
   /// <summary>
   /// This class is a one-to-one match to the FHIR API SearchParamDefinition yet some have been excluded, commented out below
   /// </summary>
-  public class ServiceSearchParameter : ModelBase, IServiceSearchParameter
+  public class ServiceSearchParameter : ModelBase
   {
     public string Resource { get; set; }
     public string Name { get; set; }
@@ -23,7 +23,13 @@ namespace Pyro.DataLayer.DbModel.Entity
     public string Expression { get; set; }
     public bool IsIndexed { get; set; }
     public PublicationStatus Status { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public DateTimeOffset LastUpdated { get; set; }    
+    public ICollection<ServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }    
+
+    public ServiceSearchParameter()
+    {
+      this.TargetResourceTypeList = new HashSet<ServiceSearchParameterTargetResource>();
+    }
 
     /// <summary>
     /// If this search parameter is a Composite, this array contains 
@@ -37,15 +43,5 @@ namespace Pyro.DataLayer.DbModel.Entity
     /// </summary>
     //public string[] Path { get; set; }
 
-    /// <summary>
-    /// If this is a reference, the possible types of resources that the
-    /// parameters references to
-    /// </summary>
-    //public ResourceType[] Target { get; set; }
-
-    public ServiceSearchParameter()
-    {
-      
-    }
   }
 }

@@ -89,11 +89,14 @@
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameter.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterHeavy.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterLight.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterTargetResource.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\DeleteManyHistoryIndexesService.cs" />
+    <Compile Include="BusinessEntities\Service\ServerSearchParameterSetService.cs" />
+    <Compile Include="Interfaces\Dto\IServiceSearchParameterTargetResource.cs" />
     <Compile Include="Interfaces\Service\IDeleteManyHistoryIndexesService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceDeleteHistoryIndexesRequest.cs" />

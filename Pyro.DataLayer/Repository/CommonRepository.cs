@@ -141,7 +141,9 @@ namespace Pyro.DataLayer.Repository
         Pyro_RootUrlStore = new ServiceBaseUrl();
         Pyro_RootUrlStore.IsServersPrimaryUrlRoot = false;
         Pyro_RootUrlStore.Url = ServiceRootUrl;
-        return Pyro_RootUrlStore;
+        Pyro_RootUrlStore = _Context.Set<ServiceBaseUrl>().Add(Pyro_RootUrlStore);
+        this.Save();
+        return Pyro_RootUrlStore;        
       }
       else
       {
