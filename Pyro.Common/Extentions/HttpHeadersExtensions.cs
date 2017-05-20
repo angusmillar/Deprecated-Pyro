@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Hl7.Fhir.Rest;
 
-namespace Pyro.Web.Extensions
+namespace Pyro.Common.Extentions
 {
   public static class HttpHeadersExtensions
   {

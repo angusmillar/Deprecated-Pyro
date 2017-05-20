@@ -58,6 +58,15 @@ namespace Pyro.Common.Cache
       return DtoServiceSearchParameterLightList;
     }
 
+    public static string WebConfigServiceBaseURL
+    {
+      get
+      {
+        IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
+        return Cache.GetOrSet(() => WebConfigProperties.ServiceBaseURL());
+      }
+    }
+
   }
 
 

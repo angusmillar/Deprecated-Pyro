@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Pyro.Web.ApplicationCache
+namespace Pyro.Common.Cache
 {
   public static class WebConfigProperties
   {
@@ -9,7 +9,7 @@ namespace Pyro.Web.ApplicationCache
     {
       try
       {
-        return new Uri(ConfigurationManager.AppSettings["ServiceBaseURL"].ToString().TrimEnd('/')).ToString();        
+        return new Uri(ConfigurationManager.AppSettings["ServiceBaseURL"].ToString().TrimEnd('/')).ToString();
       }
       catch
       {

@@ -199,8 +199,6 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="ApplicationCache\StaticCacheWeb.cs" />
-    <Compile Include="ApplicationCache\WebConfigProperties.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -240,7 +238,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FhirController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Extensions\HttpHeadersExtensions.cs" />
     <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirXmlMediaTypeFormatter.cs" />

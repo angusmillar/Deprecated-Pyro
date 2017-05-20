@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Service;
@@ -18,30 +19,12 @@ namespace Pyro.Engine.Services
     //Constructor for dependency injection
     public ResourceServices(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork) { }
-
-    public void BeginTransaction()
+    
+    public DbContextTransaction BeginTransaction()
     {
-      _UnitOfWork.BeginTransaction();
+      return _UnitOfWork.BeginTransaction();
     }
-
-    public void CommitTransaction()
-    {
-      _UnitOfWork.CommitTransaction();      
-    }
-
-    public void RolbackTransaction()
-    {
-      _UnitOfWork.RollbackTransaction();
-    }
-
-    public bool IsTransactional
-    {
-      get
-      {
-        return _UnitOfWork.IsTransactional;
-      }
-    }
-
+    
     //GET Read   
     // Get: URL/Fhir/Patient/1
     public virtual IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead)
@@ -268,7 +251,7 @@ namespace Pyro.Engine.Services
     //Update (PUT)
     // PUT: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Put(IResourceServiceRequestPut PyroServiceRequestPut)
-    {
+    {      
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Pyro.Common.Interfaces.UriSupport;
+﻿using Hl7.Fhir.Model;
+using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.UriSupport;
-using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Web.ApplicationCache;
-using Hl7.Fhir.Model;
 
 
 namespace Pyro.Web.Services
@@ -21,7 +14,8 @@ namespace Pyro.Web.Services
       string ErrorMsg = "Error message not set in PrimaryServiceRootFactory";
 
       IDtoRootUrlStore PrimaryRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
-      string WebConfigServiceBase = StaticCacheWeb.WebConfigServiceBaseURL.ToLower();
+      //string WebConfigServiceBase = StaticCacheWeb.WebConfigServiceBaseURL.ToLower();
+      string WebConfigServiceBase = Common.Cache.StaticCacheCommon.WebConfigServiceBaseURL.ToLower();
 
       if (PrimaryRootUrlStore != null &&
         RequestRoot == PrimaryRootUrlStore.Url &&

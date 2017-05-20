@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,9 @@ using System.Threading.Tasks;
 namespace Pyro.Common.Interfaces.Service
 {
   public interface IServiceNegotiator
-  {
-    void BeginTransaction();
-    void CommitTransaction();
-    void RollbackTransaction();
-    bool IsTransactional { get; }
-    IResourceServices GetTransactionalResourceService(string ResourceName);
-    IResourceServices GetResourceService(string type);
+  {    
+    DbContextTransaction BeginTransaction();
+    IResourceServices GetResourceService(string ResourceName);    
     IResourceServicesBase GetResourceServiceBase(string type);
     ICommonServices GetCommonService();
   }

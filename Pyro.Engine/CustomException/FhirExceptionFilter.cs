@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Engine.CustomException
 {
@@ -17,9 +18,8 @@ namespace Pyro.Engine.CustomException
     {
       HttpResponseMessage response = null;
 
-      if (context.Exception is DtoPyroException)
-      {
-        var oDtoPyroException = (DtoPyroException)context.Exception;
+      if (context.Exception is DtoPyroException oDtoPyroException)
+      {        
         if (oDtoPyroException.OperationOutcome != null)
         {
           response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);
@@ -30,11 +30,11 @@ namespace Pyro.Engine.CustomException
           response = context.Request.CreateResponse(oDtoPyroException.HttpStatusCode, OpOutCome);
         }
       }
-      else if (context.Exception is SqlException)
+      else if (context.Exception is SqlException oSqlException)
       {
-        DtoPyroException oDtoPyroException = SqlExceptionSupport.GenerateDtoPyroException((SqlException)context.Exception, System.Diagnostics.Debugger.IsAttached);
-        FhirOperationOutcomeSupport.EscapeOperationOutComeContent(oDtoPyroException.OperationOutcome);
-        response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);
+        DtoPyroException PyroSqlException = SqlExceptionSupport.GenerateDtoPyroException(oSqlException, System.Diagnostics.Debugger.IsAttached);
+        FhirOperationOutcomeSupport.EscapeOperationOutComeContent(PyroSqlException.OperationOutcome);
+        response = context.Request.CreateResponse<Resource>(PyroSqlException.HttpStatusCode, PyroSqlException.OperationOutcome);
       }
       else if (context.Exception is Exception)
       {

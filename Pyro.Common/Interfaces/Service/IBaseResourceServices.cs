@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pyro.Common.BusinessEntities.Dto;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
+using System.Data.Entity;
 
 namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServices
   {
-    void BeginTransaction();
-    void CommitTransaction();
-    void RolbackTransaction();
-    bool IsTransactional { get; }
+    DbContextTransaction BeginTransaction();
 
     FHIRAllTypes ServiceResourceType { get; }
 

@@ -63,9 +63,9 @@ namespace Pyro.Common.BusinessEntities.Service
       
         try
         {
-            _ServiceRequest.ServiceNegotiator.BeginTransaction();
+            //_ServiceRequest.ServiceNegotiator.BeginTransaction();
            //   IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = ResourceService.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
-            _ServiceRequest.ServiceNegotiator.CommitTransaction();
+            //_ServiceRequest.ServiceNegotiator.CommitTransaction();
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       //      ResourceServiceOutcome.ResourceResult = ParametersResult;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -74,7 +74,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         catch (Exception Exec)
         {
-          _ServiceRequest.ServiceNegotiator.RollbackTransaction();
+          //_ServiceRequest.ServiceNegotiator.RollbackTransaction();
           var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, Exec.Message);
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.ResourceResult = OpOutCome;

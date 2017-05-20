@@ -94,8 +94,7 @@ namespace Pyro.Common.BusinessEntities.Service
         try
         {
           if (_ResourceList.Count > 0)
-          {
-            _ServiceRequest.ServiceNegotiator.BeginTransaction();
+          {            
             Parameters ParametersResult = new Parameters();
             ParametersResult.Id = ParametersResource.Id + "-Response";
             ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
@@ -108,8 +107,7 @@ namespace Pyro.Common.BusinessEntities.Service
               ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
               IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = ResourceService.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
-              {
-                _ServiceRequest.ServiceNegotiator.RollbackTransaction();         
+              {                
                 return ResourceServiceOutcomeDeleteResourceIndex;
               }
               else
@@ -119,8 +117,7 @@ namespace Pyro.Common.BusinessEntities.Service
                   ParametersResult.Parameter.AddRange(Param.Parameter);
                 }
               }
-            }
-            _ServiceRequest.ServiceNegotiator.CommitTransaction();
+            }            
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
             ResourceServiceOutcome.ResourceResult = ParametersResult;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -138,8 +135,7 @@ namespace Pyro.Common.BusinessEntities.Service
           }
         }
         catch(Exception Exec)
-        {
-          _ServiceRequest.ServiceNegotiator.RollbackTransaction();
+        {          
           var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, Exec.Message);
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.ResourceResult = OpOutCome;

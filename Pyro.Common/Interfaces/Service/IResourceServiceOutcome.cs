@@ -1,6 +1,7 @@
 ﻿using System;
 using Pyro.Common.Enum;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 
 namespace Pyro.Common.Interfaces.Service
 {
@@ -15,7 +16,8 @@ namespace Pyro.Common.Interfaces.Service
     Pyro.Common.Interfaces.UriSupport.IFhirRequestUri RequestUri { get; set; }
     Uri ServiceRootUri { get; set; }
     Resource ResourceResult { get; set; }
-    string FormatMimeType { get; set; }    
+    string FormatMimeType { get; set; }
+    SummaryType? SummaryType { get; set; }
     IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }
     Service.ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
     bool SuccessfulTransaction { get; set; }

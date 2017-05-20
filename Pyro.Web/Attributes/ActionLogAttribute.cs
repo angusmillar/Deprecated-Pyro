@@ -1,24 +1,17 @@
-﻿using System;
+﻿using Hl7.Fhir.Model;
+using Pyro.Common.Enum;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Interfaces.UriSupport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using System.Net.Http;
-using Hl7.Fhir.Model;
-
-using Pyro.Web.Response;
-using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.Interfaces;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Dto.Headers;
-using Pyro.Common.Enum;
-using Pyro.Web.Extensions;
-
-//using Hl7.Fhir.Server;
-//using HealthConnex.Fhir.Models;
-using System.Text;
 
 namespace Pyro.Web.Attributes
 {
@@ -41,240 +34,246 @@ namespace Pyro.Web.Attributes
 
     public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
     {
-      try
+      using (DbContextTransaction Transaction = _FhirServiceNegotiator.BeginTransaction())
       {
-        DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
-        // TimeSpan duration = (DateTime.Now - dtStart);
-        System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
-        stopwatch.Stop();
-        TimeSpan duration = stopwatch.Elapsed;
-
-        IResourceServicesBase oService = _FhirServiceNegotiator.GetResourceServiceBase(ResourceType.AuditEvent.ToString());
-        IDtoRootUrlStore DtoRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(oService as ICommonServices);
-        IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);
-        //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, actionExecutedContext.Request.RequestUri);
-        IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-
-        //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
-
-        // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
-        var owinContext = actionExecutedContext.Request.GetOwinContext();
-
-        string machineName = System.Environment.MachineName;
-        string httpVerb = actionExecutedContext.Request.Method.ToString();
-        string ipAddress = owinContext.Request.RemoteIpAddress;
-        string controllerName = actionExecutedContext.ActionContext.ControllerContext.ControllerDescriptor.ControllerName;
-        string actionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
-        bool successfulRequest = (actionExecutedContext.Exception == null);
-        System.Web.Http.Routing.IHttpRouteData route = actionExecutedContext.ActionContext.ControllerContext.RouteData;
-
-        // Get the resource base
-        string baseUri = DtoRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString;
-
-        // Create the Security Event Object
-        AuditEvent Audit = new AuditEvent();
-        if (actionExecutedContext.Request.Method == HttpMethod.Put)
-          Audit.Action = AuditEvent.AuditEventAction.U;
-        else if (actionExecutedContext.Request.Method == HttpMethod.Post)
-          Audit.Action = AuditEvent.AuditEventAction.C;
-        else if (actionExecutedContext.Request.Method == HttpMethod.Delete)
-          Audit.Action = AuditEvent.AuditEventAction.D;
-        else
-          Audit.Action = AuditEvent.AuditEventAction.R;
-
-        Audit.Recorded = DateTimeOffset.Now;
-
-        Audit.Outcome = AuditEvent.AuditEventOutcome.N0;
-        if (!successfulRequest)
+        try
         {
-          // log error
-          if (actionExecutedContext.Exception is Pyro.Common.BusinessEntities.Dto.DtoPyroException)
-          {
-            var fse = actionExecutedContext.Exception as Pyro.Common.BusinessEntities.Dto.DtoPyroException;
-            if ((int)fse.HttpStatusCode >= 500)
-              Audit.Outcome = AuditEvent.AuditEventOutcome.N8;
-            else if ((int)fse.HttpStatusCode >= 400)
-              Audit.Outcome = AuditEvent.AuditEventOutcome.N4;
-          }
+
+          DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
+          // TimeSpan duration = (DateTime.Now - dtStart);
+          System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
+          stopwatch.Stop();
+          TimeSpan duration = stopwatch.Elapsed;
+
+          IResourceServicesBase oService = _FhirServiceNegotiator.GetResourceServiceBase(ResourceType.AuditEvent.ToString());
+          IDtoRootUrlStore DtoRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(oService as ICommonServices);
+          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);
+          //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, actionExecutedContext.Request.RequestUri);
+          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+
+          //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
+
+          // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
+          var owinContext = actionExecutedContext.Request.GetOwinContext();
+
+          string machineName = System.Environment.MachineName;
+          string httpVerb = actionExecutedContext.Request.Method.ToString();
+          string ipAddress = owinContext.Request.RemoteIpAddress;
+          string controllerName = actionExecutedContext.ActionContext.ControllerContext.ControllerDescriptor.ControllerName;
+          string actionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
+          bool successfulRequest = (actionExecutedContext.Exception == null);
+          System.Web.Http.Routing.IHttpRouteData route = actionExecutedContext.ActionContext.ControllerContext.RouteData;
+
+          // Get the resource base
+          string baseUri = DtoRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString;
+
+          // Create the Security Event Object
+          AuditEvent Audit = new AuditEvent();
+          if (actionExecutedContext.Request.Method == HttpMethod.Put)
+            Audit.Action = AuditEvent.AuditEventAction.U;
+          else if (actionExecutedContext.Request.Method == HttpMethod.Post)
+            Audit.Action = AuditEvent.AuditEventAction.C;
+          else if (actionExecutedContext.Request.Method == HttpMethod.Delete)
+            Audit.Action = AuditEvent.AuditEventAction.D;
           else
+            Audit.Action = AuditEvent.AuditEventAction.R;
+
+          Audit.Recorded = DateTimeOffset.Now;
+
+          Audit.Outcome = AuditEvent.AuditEventOutcome.N0;
+          if (!successfulRequest)
           {
-            Audit.Outcome = AuditEvent.AuditEventOutcome.N8;
-          }
-        }
-
-        Audit.Type = new Coding() { System = "http://hl7.org/fhir/security-event-type", Code = "rest", Display = "Restful Operation" };
-        Audit.Subtype = new List<Coding>();
-
-        if (actionExecutedContext.Request.Method == HttpMethod.Put)
-          Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "update", Display = "update" });
-        else if (actionExecutedContext.Request.Method == HttpMethod.Post)
-          Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "create", Display = "create" });
-        else if (actionExecutedContext.Request.Method == HttpMethod.Delete)
-          Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "delete", Display = "delete" });
-        else if (actionExecutedContext.Request.Method == HttpMethod.Options)
-          Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "read", Display = "read" });
-        else if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id") && route.Values.ContainsKey("vid"))
-          Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "vread", Display = "vread" });
-        else if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id"))
-        {
-          if (owinContext.Request.Uri.OriginalString.Contains("_history"))
-            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "history-instance", Display = "history-instance" });
-          else
-            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "read", Display = "read" });
-        }
-        else if (route.Values.ContainsKey("ResourceName"))
-        {
-          if (owinContext.Request.Uri.OriginalString.Contains("_history"))
-            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "history-type", Display = "history-type" });
-          else
-            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "search-type", Display = "search-type" });
-        }
-
-        Audit.Agent.Add(new AuditEvent.AgentComponent());
-        // se.Participant[0].UserId = "";
-        // se.Participant[0].AltId = owinContext.Authentication.;
-        if (owinContext.Authentication.User != null && owinContext.Authentication.User.Identity.IsAuthenticated)
-        {
-          Audit.Agent[0].Name = owinContext.Authentication.User.Identity.Name;
-
-          // read additional details from the identity claims
-          var ci = owinContext.Authentication.User.Identity as System.Security.Claims.ClaimsIdentity;
-          if (ci != null)
-          {
-            var claim = ci.Claims.Where(c => c.Type == "name").FirstOrDefault();
-            if (claim != null)
-              Audit.Agent[0].Name = claim.Value;
-            claim = ci.Claims.Where(c => c.Type == "sub").FirstOrDefault();
-            if (claim != null)
-              Audit.Agent[0].AltId = claim.Value;
-            if (ci.Claims.Any(c => c.Type == "author_only_access" && c.Value == "true"))
+            // log error
+            if (actionExecutedContext.Exception is Pyro.Common.BusinessEntities.Dto.DtoPyroException)
             {
-              Audit.Agent[0].Role = new List<CodeableConcept>();
-              Audit.Agent[0].Role.Add(new CodeableConcept(null, "author_only_access"));
+              var fse = actionExecutedContext.Exception as Pyro.Common.BusinessEntities.Dto.DtoPyroException;
+              if ((int)fse.HttpStatusCode >= 500)
+                Audit.Outcome = AuditEvent.AuditEventOutcome.N8;
+              else if ((int)fse.HttpStatusCode >= 400)
+                Audit.Outcome = AuditEvent.AuditEventOutcome.N4;
+            }
+            else
+            {
+              Audit.Outcome = AuditEvent.AuditEventOutcome.N8;
             }
           }
-        }
-        Audit.Agent[0].Requestor = true;
-        Audit.Agent[0].Network = new AuditEvent.NetworkComponent()
-        {
-          Address = ipAddress,
-          Type = AuditEvent.AuditEventAgentNetworkType.N2
-        };
 
-        Audit.Source = new AuditEvent.SourceComponent();
-        Audit.Source.Site = "Cloud";
-        Audit.Source.Identifier = new Identifier(null, actionExecutedContext.Request.RequestUri.GetLeftPart(UriPartial.Authority));
-        Audit.Source.Type.Add(new Coding() { System = "http://hl7.org/fhir/ValueSet/audit-source-type", Code = "3", Display = "Web Server" });
+          Audit.Type = new Coding() { System = "http://hl7.org/fhir/security-event-type", Code = "rest", Display = "Restful Operation" };
+          Audit.Subtype = new List<Coding>();
 
-        if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id"))
-        {
-          string relativeUri = String.Format("{0}/{1}", route.Values["ResourceName"] as string, route.Values["id"] as string);
-          if (route.Values.ContainsKey("vid"))
-            relativeUri += "/_history/" + route.Values["vid"] as string;
-          Audit.Entity = new List<AuditEvent.EntityComponent>();
-          Audit.Entity.Add(new AuditEvent.EntityComponent()
+          if (actionExecutedContext.Request.Method == HttpMethod.Put)
+            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "update", Display = "update" });
+          else if (actionExecutedContext.Request.Method == HttpMethod.Post)
+            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "create", Display = "create" });
+          else if (actionExecutedContext.Request.Method == HttpMethod.Delete)
+            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "delete", Display = "delete" });
+          else if (actionExecutedContext.Request.Method == HttpMethod.Options)
+            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "read", Display = "read" });
+          else if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id") && route.Values.ContainsKey("vid"))
+            Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "vread", Display = "vread" });
+          else if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id"))
           {
-            Name = actionExecutedContext.Request.RequestUri.ToString(),
-            Reference = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
-            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
-          });
-          if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
-          {
-            string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
-            if (!string.IsNullOrEmpty(reference))
-              Audit.Entity[0].Reference.Reference = reference;
+            if (owinContext.Request.Uri.OriginalString.Contains("_history"))
+              Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "history-instance", Display = "history-instance" });
+            else
+              Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "read", Display = "read" });
           }
-        }
-        else
-        {
-          Audit.Entity = new List<AuditEvent.EntityComponent>();
-          Audit.Entity.Add(new AuditEvent.EntityComponent()
+          else if (route.Values.ContainsKey("ResourceName"))
           {
-            Name = actionExecutedContext.Request.RequestUri.ToString(),
-            Description = baseUri == null ?
-                              owinContext.Request.Uri.OriginalString
-                              : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""),
-            Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
-          });
-
-          if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
-          {
-            string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
-            if (!string.IsNullOrEmpty(reference))
-              Audit.Entity[0].Reference = new ResourceReference() { Reference = reference };
+            if (owinContext.Request.Uri.OriginalString.Contains("_history"))
+              Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "history-type", Display = "history-type" });
+            else
+              Audit.Subtype.Add(new Coding() { System = "http://hl7.org/fhir/restful-interaction", Code = "search-type", Display = "search-type" });
           }
-        }
 
-        Pyro.Common.Interfaces.ITools.IFhirNarativeGenerationSupport Narative = Pyro.Common.CommonFactory.GetFhirNarativeSupport();
-        Narative.NewValuePairList("Time", string.Format("{0} ({1:f3} sec)", dtStart, duration.TotalSeconds));
-        Narative.AppendValuePairList(actionExecutedContext.Request.Method.ToString(), string.Format("{0}", HttpUtility.HtmlEncode(baseUri == null ?
+          Audit.Agent.Add(new AuditEvent.AgentComponent());
+          // se.Participant[0].UserId = "";
+          // se.Participant[0].AltId = owinContext.Authentication.;
+          if (owinContext.Authentication.User != null && owinContext.Authentication.User.Identity.IsAuthenticated)
+          {
+            Audit.Agent[0].Name = owinContext.Authentication.User.Identity.Name;
+
+            // read additional details from the identity claims
+            var ci = owinContext.Authentication.User.Identity as System.Security.Claims.ClaimsIdentity;
+            if (ci != null)
+            {
+              var claim = ci.Claims.Where(c => c.Type == "name").FirstOrDefault();
+              if (claim != null)
+                Audit.Agent[0].Name = claim.Value;
+              claim = ci.Claims.Where(c => c.Type == "sub").FirstOrDefault();
+              if (claim != null)
+                Audit.Agent[0].AltId = claim.Value;
+              if (ci.Claims.Any(c => c.Type == "author_only_access" && c.Value == "true"))
+              {
+                Audit.Agent[0].Role = new List<CodeableConcept>();
+                Audit.Agent[0].Role.Add(new CodeableConcept(null, "author_only_access"));
+              }
+            }
+          }
+          Audit.Agent[0].Requestor = true;
+          Audit.Agent[0].Network = new AuditEvent.NetworkComponent()
+          {
+            Address = ipAddress,
+            Type = AuditEvent.AuditEventAgentNetworkType.N2
+          };
+
+          Audit.Source = new AuditEvent.SourceComponent();
+          Audit.Source.Site = "Cloud";
+          Audit.Source.Identifier = new Identifier(null, actionExecutedContext.Request.RequestUri.GetLeftPart(UriPartial.Authority));
+          Audit.Source.Type.Add(new Coding() { System = "http://hl7.org/fhir/ValueSet/audit-source-type", Code = "3", Display = "Web Server" });
+
+          if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id"))
+          {
+            string relativeUri = String.Format("{0}/{1}", route.Values["ResourceName"] as string, route.Values["id"] as string);
+            if (route.Values.ContainsKey("vid"))
+              relativeUri += "/_history/" + route.Values["vid"] as string;
+            Audit.Entity = new List<AuditEvent.EntityComponent>();
+            Audit.Entity.Add(new AuditEvent.EntityComponent()
+            {
+              Name = actionExecutedContext.Request.RequestUri.ToString(),
+              Reference = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
+              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
+            });
+            if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
+            {
+              string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
+              if (!string.IsNullOrEmpty(reference))
+                Audit.Entity[0].Reference.Reference = reference;
+            }
+          }
+          else
+          {
+            Audit.Entity = new List<AuditEvent.EntityComponent>();
+            Audit.Entity.Add(new AuditEvent.EntityComponent()
+            {
+              Name = actionExecutedContext.Request.RequestUri.ToString(),
+              Description = baseUri == null ?
                                 owinContext.Request.Uri.OriginalString
-                                : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""))));
-        Narative.AppendValuePairList("BaseUri", baseUri);
-        Narative.AppendValuePairList("From", ipAddress);
-        if (owinContext.Authentication.User != null && owinContext.Authentication.User.Identity.IsAuthenticated)
-          Narative.AppendValuePairList("User", owinContext.Authentication.User.ToString());
-        else
-          Narative.AppendValuePairList("User", "(anonymous)");
+                                : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""),
+              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
+            });
 
-        if (Audit.Outcome != AuditEvent.AuditEventOutcome.N0)
-        {
-          Audit.OutcomeDesc = actionExecutedContext.Exception.Message;
-          Narative.AppendValuePairList("Error", actionExecutedContext.Exception.Message);
-        }
-        Audit.Text = new Narrative();
-        Audit.Text.Div = Narative.Generate();
-
-        // Add custom SQL-on-FHIR event data
-        Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
-
-        if (true)
-        //if (FhirAppSettings.LogRequestData)
-        {
-          var requestDataObj = new AuditEvent.EntityComponent();
-          requestDataObj.Identifier = new Identifier(null, "RequestData");
-          requestDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
-          requestDataObj.Description = "Orginial Request Data";
-          requestDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" };
-          requestDataObj.Detail = new List<AuditEvent.DetailComponent>();
-          var DetailComponent = new AuditEvent.DetailComponent();
-          requestDataObj.Detail.Add(DetailComponent);
-          string RequestData = GetRequestData(actionExecutedContext);
-          if (!string.IsNullOrWhiteSpace(RequestData))
-          {
-            DetailComponent.Value = Encoding.UTF8.GetBytes(RequestData);
-            Audit.Entity.Add(requestDataObj);
+            if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
+            {
+              string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
+              if (!string.IsNullOrEmpty(reference))
+                Audit.Entity[0].Reference = new ResourceReference() { Reference = reference };
+            }
           }
-        }
 
-        if (true)
-        //if (FhirAppSettings.LogResponseData)
-        {
-          var responseDataObj = new AuditEvent.EntityComponent();
-          responseDataObj.Identifier = new Identifier(null, "ResponseData");
-          responseDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
-          responseDataObj.Description = "Orginial Response Data";
-          responseDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" };
-          responseDataObj.Detail = new List<AuditEvent.DetailComponent>();
-          var DetailComponent = new AuditEvent.DetailComponent();
-          responseDataObj.Detail.Add(DetailComponent);
-          string ResponseData = GetResponseData(actionExecutedContext);
-          if (!string.IsNullOrWhiteSpace(ResponseData))
+          Pyro.Common.Interfaces.ITools.IFhirNarativeGenerationSupport Narative = Pyro.Common.CommonFactory.GetFhirNarativeSupport();
+          Narative.NewValuePairList("Time", string.Format("{0} ({1:f3} sec)", dtStart, duration.TotalSeconds));
+          Narative.AppendValuePairList(actionExecutedContext.Request.Method.ToString(), string.Format("{0}", HttpUtility.HtmlEncode(baseUri == null ?
+                                  owinContext.Request.Uri.OriginalString
+                                  : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""))));
+          Narative.AppendValuePairList("BaseUri", baseUri);
+          Narative.AppendValuePairList("From", ipAddress);
+          if (owinContext.Authentication.User != null && owinContext.Authentication.User.Identity.IsAuthenticated)
+            Narative.AppendValuePairList("User", owinContext.Authentication.User.ToString());
+          else
+            Narative.AppendValuePairList("User", "(anonymous)");
+
+          if (Audit.Outcome != AuditEvent.AuditEventOutcome.N0)
           {
-            DetailComponent.Value = Encoding.UTF8.GetBytes(ResponseData);
-            Audit.Entity.Add(responseDataObj);
+            Audit.OutcomeDesc = actionExecutedContext.Exception.Message;
+            Narative.AppendValuePairList("Error", actionExecutedContext.Exception.Message);
           }
-        }
-        //Commit to Database
-        IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
-      }
-      catch (Exception Exec)
-      {
-        // TODO: This exception should be stored somewhere, registry?
-        System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
-      }
+          Audit.Text = new Narrative();
+          Audit.Text.Div = Narative.Generate();
 
-      base.OnActionExecuted(actionExecutedContext);
+          // Add custom SQL-on-FHIR event data
+          Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
+
+          if (true)
+          //if (FhirAppSettings.LogRequestData)
+          {
+            var requestDataObj = new AuditEvent.EntityComponent();
+            requestDataObj.Identifier = new Identifier(null, "RequestData");
+            requestDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
+            requestDataObj.Description = "Orginial Request Data";
+            requestDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" };
+            requestDataObj.Detail = new List<AuditEvent.DetailComponent>();
+            var DetailComponent = new AuditEvent.DetailComponent();
+            requestDataObj.Detail.Add(DetailComponent);
+            string RequestData = GetRequestData(actionExecutedContext);
+            if (!string.IsNullOrWhiteSpace(RequestData))
+            {
+              DetailComponent.Value = Encoding.UTF8.GetBytes(RequestData);
+              Audit.Entity.Add(requestDataObj);
+            }
+          }
+
+          if (true)
+          //if (FhirAppSettings.LogResponseData)
+          {
+            var responseDataObj = new AuditEvent.EntityComponent();
+            responseDataObj.Identifier = new Identifier(null, "ResponseData");
+            responseDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
+            responseDataObj.Description = "Orginial Response Data";
+            responseDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" };
+            responseDataObj.Detail = new List<AuditEvent.DetailComponent>();
+            var DetailComponent = new AuditEvent.DetailComponent();
+            responseDataObj.Detail.Add(DetailComponent);
+            string ResponseData = GetResponseData(actionExecutedContext);
+            if (!string.IsNullOrWhiteSpace(ResponseData))
+            {
+              DetailComponent.Value = Encoding.UTF8.GetBytes(ResponseData);
+              Audit.Entity.Add(responseDataObj);
+            }
+          }
+          //Commit to Database
+          IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
+          Transaction.Commit();
+        }
+        catch (Exception Exec)
+        {
+          // TODO: This exception should be stored somewhere, registry?
+          System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
+          Transaction.Rollback();
+        }
+
+        base.OnActionExecuted(actionExecutedContext);
+      }
     }
 
     private string GetRequestData(HttpActionExecutedContext context)

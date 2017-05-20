@@ -115,8 +115,8 @@ namespace Pyro.Test.IntergrationTest
       Assert.AreEqual(Common.Tools.HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(PatientResourceVersionNumber).Tag , Common.Tools.HttpHeaderSupport.GetETagEntityTagHeaderValueFromETagString(TransactionResult.Entry[0].Response.Etag).Tag);
 
       //Check that the FullURL of the entry is correct aginst the returned Resource 
-      string PatientFullUrlExpected = $"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneResourceId}/_history/{PatientResourceVersionNumber}";
-      Assert.AreEqual(PatientFullUrlExpected, $"{StaticTestData.FhirEndpoint()}/{TransactionResult.Entry[0].FullUrl}");
+      string PatientFullUrlExpected = $"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneResourceId}";
+      Assert.AreEqual(PatientFullUrlExpected, TransactionResult.Entry[0].FullUrl);
 
       //------------------------------------------------------------------------------------------------------
       //Transaction Bundle 2 (Update) ------------------------------------------------------------------------

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Data.Entity;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.Repository;
 using Pyro.DataLayer.DbModel.EntityGenerated;
@@ -12,58 +13,20 @@ using Hl7.Fhir.Model;
 namespace Pyro.DataLayer.DbModel.UnitOfWork
 {  
   public partial class UnitOfWork : IUnitOfWork, IDisposable
-  {
-    private bool _Transactional = false;
-    private System.Data.Entity.DbContextTransaction _Trans;
-
-    public void BeginTransaction()
+  { 
+    public DbContextTransaction BeginTransaction()
     {
       try
       {
-        _Trans = _context.Database.BeginTransaction();
+        DbContextTransaction DbContextTransaction = _context.Database.BeginTransaction();    
+        return DbContextTransaction;
       }
       catch (Exception Exec)
-      {
-        var Test = Exec.Message;
-      }
-      _Transactional = true;
-    }
-    public void CommitTransaction()
-    {
-      try
-      {
-        _Trans.Commit();
-      }
-      catch
-      {
-        _Trans.Rollback();
-        throw new NotImplementedException();
-
-      }
-      finally
-      {
-        _Trans.Dispose();
-        _Transactional = false;
-      }
-    }
-    public void RollbackTransaction()
-    {
-      try
-      {
-        _Trans.Rollback();
-      }
-      finally
-      {
-        _Trans.Dispose();
-        _Transactional = false;
-      }
-    }
-    public bool IsTransactional
-    {
-      get
-      {
-        return _Transactional;
-      }
+      {        
+        string Message = Exec.Message;
+        throw new Pyro.Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
+          Pyro.Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Message), Message);
+      }      
     }
 
     private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;

@@ -13,7 +13,8 @@ namespace Pyro.ConsoleServer
   {
     static void Main(string[] args)
     {    
-      string FhirEndpoint = Pyro.Web.ApplicationCache.StaticCacheWeb.WebConfigServiceBaseURL;
+      //string FhirEndpoint = Pyro.Web.ApplicationCache.StaticCacheWeb.WebConfigServiceBaseURL;
+      string FhirEndpoint = Pyro.Common.Cache.StaticCacheCommon.WebConfigServiceBaseURL;
       Uri FhirEndpointUri = new Uri(FhirEndpoint);      
       string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";           
 
