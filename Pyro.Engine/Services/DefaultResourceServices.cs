@@ -11,7 +11,7 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Engine.Services
 {
-  public class DefaultResourceServices : ResourceServices, IDefaultResourceServices, IResourceServices
+  public class DefaultResourceServices : ResourceServices, IDefaultResourceServices, IResourceServices, ICommonServices
   {
     //Constructor for dependency injection
     public DefaultResourceServices(IUnitOfWork IUnitOfWork)

@@ -19,8 +19,7 @@ namespace Pyro.Web.Services
   public class ServiceNegotiator : IServiceNegotiator
   {
     private readonly SimpleInjector.Container _Container = null;
-    private IDefaultResourceServices _TransactionalDefaultResourceServices = null;
-    private ICommonServices _TransactionalCommonServices = null;
+    private IDefaultResourceServices _DefaultResourceServices = null;    
 
     public ServiceNegotiator(SimpleInjector.Container Container)
     {
@@ -29,26 +28,27 @@ namespace Pyro.Web.Services
 
     public DbContextTransaction BeginTransaction()
     {
-      if (_TransactionalDefaultResourceServices == null)
-        _TransactionalDefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
-      return _TransactionalDefaultResourceServices.BeginTransaction();      
+      if (_DefaultResourceServices == null)
+        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+      return _DefaultResourceServices.BeginTransaction();      
     }
 
     public ICommonServices GetCommonService()
     {
-      if (_TransactionalCommonServices == null)
-        _TransactionalCommonServices = _Container.GetInstance<ICommonServices>();
-      return _TransactionalCommonServices;
+      if (_DefaultResourceServices == null)
+        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+      return _DefaultResourceServices as ICommonServices;      
     }
-    
+    public IResourceServicesBase GetResourceServiceBase(string ResourceName)
+    {
+      if (_DefaultResourceServices == null)
+        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+      return TransactionalResourceService(ResourceName) as IResourceServicesBase;
+    }
+
     public IResourceServices GetResourceService(string ResourceName)
     {
       return TransactionalResourceService(ResourceName);
-    }
-
-    public IResourceServicesBase GetResourceServiceBase(string ResourceName)
-    {
-      return TransactionalResourceService(ResourceName) as IResourceServicesBase;
     }
 
     private IResourceServices TransactionalResourceService(string ResourceName)
@@ -56,11 +56,11 @@ namespace Pyro.Web.Services
       Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
       if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
       {
-        if (_TransactionalDefaultResourceServices == null)
-          _TransactionalDefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+        if (_DefaultResourceServices == null)
+          _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
         FHIRAllTypes FHIRAllTypes = (FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName);
-        _TransactionalDefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;        
-        return _TransactionalDefaultResourceServices;
+        _DefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;        
+        return _DefaultResourceServices;
       }
       else
       {

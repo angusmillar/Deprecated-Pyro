@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace Pyro.Common.Interfaces.Service
 {
-  public interface IResourceServices
+  public interface IResourceServices: ICommonServices
   {
     DbContextTransaction BeginTransaction();
 
