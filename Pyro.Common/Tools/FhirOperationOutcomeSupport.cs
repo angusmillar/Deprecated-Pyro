@@ -25,6 +25,7 @@ namespace Pyro.Common.Tools
         NarativeTextList.Add(ObtainNarrativeText(Issue));
         OpOutCome.Issue.Add(Issue);
       }
+      OpOutCome.Text = new Narrative();
       OpOutCome.Text.Div = GenerateNarrative(NarativeTextList);
       OpOutCome.Meta = new Meta();
       OpOutCome.Meta.LastUpdated = DateTimeOffset.Now;
