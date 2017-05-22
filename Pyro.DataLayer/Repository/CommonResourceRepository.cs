@@ -357,7 +357,7 @@ namespace Pyro.DataLayer.Repository
             string Expression = SearchParameter.Expression;          
             if (SearchParameter.Resource == Resource_ResourceName)
             {
-              //If the Expression is one wiht a parent resource of Resource then swap it for the actual current resource name
+              //If the Expression is one with a parent resource of Resource then swap it for the actual current resource name
               //For example make 'Resource._tag' be 'Observation._tag' for Observation resources.
               Expression = Resource.TypeName +  SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }

@@ -14,9 +14,10 @@ namespace Pyro.Common.Interfaces.Service
     IDtoRootUrlStore GetPrimaryServiceRootUrl();
     IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
     List<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType);
-    
-    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy();
+
+    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
+    void AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
 
   }
 }

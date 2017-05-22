@@ -13,6 +13,7 @@ namespace Pyro.Common.Tools
   {
     public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class
     {
+      
       T item = MemoryCache.Default.Get(cacheKey) as T;
       if (item == null)
       {

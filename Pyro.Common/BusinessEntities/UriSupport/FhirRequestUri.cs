@@ -279,13 +279,13 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           }
           else
           {
-            _ParseErrorMessage = $"The URI has not Resource or metadata or $Operation or #Contained segment. Found: {Segment}";
+            _ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {Segment}";
             _ErrorInParseing = true;
             return string.Empty;
           }
         }
       }
-      _ParseErrorMessage = $"The URI has not Resource or metadata or $Operation or #Contained segment: {RequestRelativePath}";
+      _ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath}";
       _ErrorInParseing = true;
       return string.Empty;      
     }

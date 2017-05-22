@@ -25,6 +25,8 @@ namespace Pyro.Common.Enum
       ServerSearchParameterSet,
       [EnumLiteral("server-search-parameter-index")]
       serverSearchParameterIndexPending,
+      [EnumLiteral("server-search-parameter-report")]
+      serverSearchParameterIndexReport
     };
 
     public enum ResourceOperationType
@@ -38,6 +40,9 @@ namespace Pyro.Common.Enum
       return new Dictionary<string, BaseOperationType>()
       {
         {BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral(), BaseOperationType.DeleteHistoryIndexes},
+        {BaseOperationType.ServerSearchParameterSet.GetPyroLiteral(), BaseOperationType.ServerSearchParameterSet},
+        {BaseOperationType.serverSearchParameterIndexPending.GetPyroLiteral(), BaseOperationType.serverSearchParameterIndexPending},
+        {BaseOperationType.serverSearchParameterIndexReport.GetPyroLiteral(), BaseOperationType.serverSearchParameterIndexReport},
       };
     }
 

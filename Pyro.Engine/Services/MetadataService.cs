@@ -127,14 +127,17 @@ namespace Pyro.Engine.Services
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
         {
-          CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
-          ResourceComponent.SearchParam.Add(SearchParamComponent);
+          if (SupportedSearchParam.IsIndexed && SupportedSearchParam.Status == PublicationStatus.Active)
+          {
+            CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
+            ResourceComponent.SearchParam.Add(SearchParamComponent);
 
-          SearchParamComponent.Name = SupportedSearchParam.Name;
-          SearchParamComponent.Type = SupportedSearchParam.Type;          
-          SearchParamComponent.Definition = SupportedSearchParam.Url;
-          if (!string.IsNullOrWhiteSpace(SupportedSearchParam.Description))
-            SearchParamComponent.Documentation = SupportedSearchParam.Description;                   
+            SearchParamComponent.Name = SupportedSearchParam.Name;
+            SearchParamComponent.Type = SupportedSearchParam.Type;
+            SearchParamComponent.Definition = SupportedSearchParam.Url;
+            if (!string.IsNullOrWhiteSpace(SupportedSearchParam.Description))
+              SearchParamComponent.Documentation = SupportedSearchParam.Description;
+          }
         }
       }
       ConstructConformanceResourceNarrative(Conformance);

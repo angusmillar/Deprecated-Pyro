@@ -27,6 +27,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.LastUpdated).IsRequired();
       Property(x => x.IsIndexed).IsRequired();
       Property(x => x.Status).IsRequired();
+      Property(x => x.SearchParameterResourceId).HasMaxLength(400).IsOptional();
+      Property(x => x.SearchParameterResourceVersion).HasMaxLength(50).IsOptional();
       HasMany(c => c.TargetResourceTypeList).WithRequired(c => c.ServiceSearchParameter).HasForeignKey(c => c.ServiceSearchParameterId).WillCascadeOnDelete(true);
 
     }

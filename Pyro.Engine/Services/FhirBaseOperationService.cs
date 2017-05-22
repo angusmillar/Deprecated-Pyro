@@ -62,15 +62,22 @@ namespace Pyro.Engine.Services
         case FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes:
           {
             var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteManyHistoryIndexesService(ServiceRequest);
-
             return DeleteManyHistoryIndexesService.Process();            
           }
         case FhirOperationEnum.BaseOperationType.ServerSearchParameterSet:
+          {            
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            return ServerSearchParameterService.ProcessSet();
+          }
+        case FhirOperationEnum.BaseOperationType.serverSearchParameterIndexReport:
           {
-            throw new NotImplementedException();
-            //var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteManyHistoryIndexesService(ServiceRequest);
-
-            //return DeleteManyHistoryIndexesService.Process();
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            return ServerSearchParameterService.ProcessReport();
+          }
+        case FhirOperationEnum.BaseOperationType.serverSearchParameterIndexPending:
+          {
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            return ServerSearchParameterService.ProcessIndex();
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(BaseOperationType.GetPyroLiteral(), (int)BaseOperationType, typeof(FhirOperationEnum.BaseOperationType));

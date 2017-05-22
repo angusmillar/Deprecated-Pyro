@@ -165,46 +165,146 @@ namespace Pyro.DataLayer.Repository
 
     public List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
-      return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
-        .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterLight
-        {
-          Id = x.Id,
-          Name = x.Name,
-          Expression = x.Expression,
-          Resource = x.Resource,
-          Type = x.Type
-        }).ToList();     
+      var ReturnList = new List<DtoServiceSearchParameterLight>();
+      var List = _Context.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
+        .Select(x => new { x.Id, x.Name, x.Expression, x.Type, x.TargetResourceTypeList }).ToList();
+     foreach(var x in List)
+      {
+        var Light = new DtoServiceSearchParameterLight();
+        Light.Id = x.Id;
+        Light.Name = x.Name;
+        Light.Expression = x.Expression;
+        Light.Type = x.Type;
+        Light.TargetResourceTypeList = new List<DtoServiceSearchParameterTargetResource>();
+        foreach (var Target in x.TargetResourceTypeList)
+          Light.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+        ReturnList.Add(Light);
+      }
+      return ReturnList;      
     }
-    
+
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly= false)
+    {
+      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+
+      List<ServiceSearchParameter> ResourceServiceSearchParameterList;
+      if (CustomOnly)
+      {
+        ResourceServiceSearchParameterList = _Context.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.SearchParameterResourceId != null).ToList();
+      }
+      else
+      {
+        ResourceServiceSearchParameterList = _Context.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
+      }
+      
+      foreach (var x in ResourceServiceSearchParameterList)
+      {
+        var Heavy = new DtoServiceSearchParameterHeavy();
+        Heavy.Id = x.Id;
+        Heavy.Name = x.Name;
+        Heavy.Expression = x.Expression;
+        Heavy.Resource = x.Resource;
+        Heavy.Type = x.Type;
+        Heavy.Description = x.Description;
+        Heavy.Url = x.Url;
+        Heavy.XPath = x.XPath;
+        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+        Heavy.Status = x.Status;
+        Heavy.IsIndexed = x.IsIndexed;
+        Heavy.LastUpdated = x.LastUpdated;
+        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+        foreach (var Target in x.TargetResourceTypeList.ToList())
+          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+        ReturnList.Add(Heavy);
+      }
+      return ReturnList;
+    }
+
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
-      return _Context.ServiceSearchParameter
-        .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
-        {
-          Description = x.Description,
-          Expression = x.Expression,
-          Name = x.Name,
-          Resource = x.Resource,
-          Type = x.Type,
-          Url = x.Url,
-          XPath = x.XPath
-        }).ToList();            
+      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+
+      var ResourceServiceSearchParameterList = _Context.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
+      foreach (var x in ResourceServiceSearchParameterList)
+      {
+        var Heavy = new DtoServiceSearchParameterHeavy();
+        Heavy.Id = x.Id;
+        Heavy.Name = x.Name;
+        Heavy.Expression = x.Expression;
+        Heavy.Resource = x.Resource;
+        Heavy.Type = x.Type;
+        Heavy.Description = x.Description;
+        Heavy.Url = x.Url;
+        Heavy.XPath = x.XPath;
+        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+        Heavy.Status = x.Status;
+        Heavy.IsIndexed = x.IsIndexed;
+        Heavy.LastUpdated = x.LastUpdated;        
+        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+        foreach (var Target in x.TargetResourceTypeList.ToList())
+          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+        ReturnList.Add(Heavy);
+      }
+      return ReturnList;
     }
 
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
-      return _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType)
-        .Select(x => new Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy
+      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+
+      var ResourceServiceSearchParameterList = _Context.ServiceSearchParameter.Where(x => x.Resource == ResourceType).Include(x => x.TargetResourceTypeList).ToList();
+      foreach(var x in ResourceServiceSearchParameterList)
+      {
+        var Heavy = new DtoServiceSearchParameterHeavy();
+        Heavy.Id = x.Id;
+        Heavy.Name = x.Name;
+        Heavy.Expression = x.Expression;
+        Heavy.Resource = x.Resource;
+        Heavy.Type = x.Type;
+        Heavy.Description = x.Description;
+        Heavy.Url = x.Url;
+        Heavy.XPath = x.XPath;
+        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+        Heavy.Status = x.Status;
+        Heavy.IsIndexed = x.IsIndexed;
+        Heavy.LastUpdated = x.LastUpdated;
+        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+        foreach (var Target in x.TargetResourceTypeList.ToList())
+          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+        ReturnList.Add(Heavy);
+      }
+      return ReturnList;
+      
+    }
+
+    public void AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    {
+      if (ServiceSearchParameterHeavy != null)
+      {
+        var DbSearchParameter = new ServiceSearchParameter();
+        DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
+        DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
+        DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
+        DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+        DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
+        DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
+        DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
+        DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
+        DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
+        DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
+        DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
+        DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
+        if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
         {
-          Id = x.Id,
-          Name = x.Name,
-          Expression = x.Expression,
-          Resource = x.Resource,
-          Type = x.Type,
-          Description = x.Description,
-          Url = x.Url,
-          XPath = x.XPath
-        }).ToList();
+          DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+          foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
+            DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+        }
+        AddServiceSearchParameters(DbSearchParameter);
+      }
     }
 
     protected ServiceSearchParameter AddServiceSearchParameters(ServiceSearchParameter ServiceSearchParameter)
@@ -265,7 +365,6 @@ namespace Pyro.DataLayer.Repository
       }).FirstOrDefault();
     }
 
-
     protected IQueryable<ResourceCurrentType> DbGetAll<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
@@ -274,7 +373,6 @@ namespace Pyro.DataLayer.Repository
       ResourceEntity = _Context.Set<ResourceCurrentType>().AsExpandable().Where(predicate);      
       return ResourceEntity;
     }
-
     
     protected int DbGetALLCount<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate)
       where ResourceBaseType : ResourceBase
@@ -308,7 +406,6 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity;
 
     }
-
 
     private static void IdSearchParameterPredicateProcessing<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>

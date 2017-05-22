@@ -35,6 +35,7 @@ namespace Pyro.Common.Cache
       //Add the general Resource search parameters as well
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => CommonServices.GetServiceSearchParametersForResource(Resource_ResourceName)));
+      
 
       //Get all for the Resource Asked for       
       DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => CommonServices.GetServiceSearchParametersForResource(ResourceType)));

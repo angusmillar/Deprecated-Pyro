@@ -109,7 +109,8 @@
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\DeleteManyHistoryIndexesService.cs" />
-    <Compile Include="BusinessEntities\Service\ServerSearchParameterSetService.cs" />
+    <Compile Include="Interfaces\Service\IServerSearchParameterSetService.cs" />
+    <Compile Include="BusinessEntities\Service\ServerSearchParameterService.cs" />
     <Compile Include="Cache\WebConfigProperties.cs" />
     <Compile Include="Extentions\HttpHeadersExtensions.cs" />
     <Compile Include="Interfaces\Dto\IServiceSearchParameterTargetResource.cs" />

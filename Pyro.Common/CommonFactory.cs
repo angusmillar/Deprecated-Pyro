@@ -184,7 +184,12 @@ namespace Pyro.Common
       return new DeleteManyHistoryIndexesService(ServiceRequest);
     }
 
-    
+    public static IServerSearchParameterService GetServerSearchParameterService(IBaseOperationsServiceRequest ServiceRequest)
+    {
+      return new ServerSearchParameterService(ServiceRequest);
+    }
+
+
 
   }
 }

@@ -24,6 +24,8 @@ namespace Pyro.DataLayer.DbModel.Entity
     public bool IsIndexed { get; set; }
     public PublicationStatus Status { get; set; }
     public DateTimeOffset LastUpdated { get; set; }    
+    public string SearchParameterResourceId { get; set; }
+    public string SearchParameterResourceVersion { get; set; }
     public ICollection<ServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }    
 
     public ServiceSearchParameter()

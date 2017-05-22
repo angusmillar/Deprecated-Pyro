@@ -30,14 +30,19 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersLightForResource(ResourceType);
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
     {
-      return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy();
+      return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy(CustomOnly);
     }
 
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
+    }
+
+    public void AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    {
+      _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
     }
   }
 }

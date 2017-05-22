@@ -18,6 +18,11 @@ namespace Pyro.Common.BusinessEntities.Dto
     public SearchParamType Type { get; set; }
     public string Url { get; set; }
     public string XPath { get; set; }
-    public ICollection<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public string SearchParameterResourceId { get; set; }
+    public string SearchParameterResourceVersion { get; set; }
+    public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public bool IsIndexed { get; set; }
+    public PublicationStatus Status { get; set; }
+    public DateTimeOffset LastUpdated { get; set; }
   }
 }

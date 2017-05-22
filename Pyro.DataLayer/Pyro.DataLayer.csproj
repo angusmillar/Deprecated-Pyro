@@ -103,6 +103,10 @@
     <Compile Include="Migrations\201705161120361_InitialCreate.Designer.cs">
       <DependentUpon>201705161120361_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705211407145_SearchParamReferance.cs" />
+    <Compile Include="Migrations\201705211407145_SearchParamReferance.Designer.cs">
+      <DependentUpon>201705211407145_SearchParamReferance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
@@ -146,6 +150,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705161120361_InitialCreate.resx">
       <DependentUpon>201705161120361_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705211407145_SearchParamReferance.resx">
+      <DependentUpon>201705211407145_SearchParamReferance.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
