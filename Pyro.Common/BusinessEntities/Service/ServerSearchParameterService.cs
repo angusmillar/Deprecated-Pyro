@@ -23,6 +23,11 @@ namespace Pyro.Common.BusinessEntities.Service
       this._ServiceRequest = ServiceRequest;
     }
 
+    public IResourceServiceOutcome ProcessIndex()
+    {
+      throw new NotImplementedException();
+    }
+
     public IResourceServiceOutcome ProcessSet()
     {
       if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
@@ -88,69 +93,108 @@ namespace Pyro.Common.BusinessEntities.Service
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
                           TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
+                          
                           OperationOutcome OperationOutcomeValidation = ValidateSearchParameterResource(TargetSearchParameter);
                           if (OperationOutcomeValidation == null)
                           {
-                            foreach(var Base in TargetSearchParameter.Base)
-                            {
-                              var DbSearchParamListForResource = (ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(Base.Value.GetLiteral());
-                              DbSearchParamListForResource.AddRange((ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
-                              var CodeAlreadyIndexed= DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
-                              if (CodeAlreadyIndexed == null)
-                              {
-                                CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId == null);
-                                if (CodeAlreadyIndexed == null)
-                                {
-                                  var NewServiceSearchParameter = new Dto.DtoServiceSearchParameterHeavy();
-                                  if (TargetSearchParameter.Description != null)
-                                    NewServiceSearchParameter.Description = TargetSearchParameter.Description.Value;
-                                  NewServiceSearchParameter.Expression = TargetSearchParameter.Expression;
-                                  NewServiceSearchParameter.Name = TargetSearchParameter.Code;
-                                  NewServiceSearchParameter.Resource = Base.GetLiteral();
-                                  NewServiceSearchParameter.SearchParameterResourceId = TargetSearchParameter.Id;
-                                  NewServiceSearchParameter.SearchParameterResourceVersion = TargetSearchParameter.Version;
-                                  NewServiceSearchParameter.TargetResourceTypeList = new List<Interfaces.Dto.IServiceSearchParameterTargetResource>();
-                                  if (TargetSearchParameter.Target != null)
-                                  {
-                                    foreach (var Target in TargetSearchParameter.Target)
-                                    {
-                                      if (Target.HasValue)
-                                        NewServiceSearchParameter.TargetResourceTypeList.Add(new Dto.DtoServiceSearchParameterTargetResource() { ResourceType = Target.Value });
-                                    }
-                                  }
-                                  NewServiceSearchParameter.Type = TargetSearchParameter.Type.Value;
-                                  NewServiceSearchParameter.Url = TargetSearchParameter.Url;
-                                  NewServiceSearchParameter.XPath = TargetSearchParameter.Xpath;
-                                  NewServiceSearchParameter.Status = TargetSearchParameter.Status.Value;
-                                  NewServiceSearchParameter.IsIndexed = false;
+                            var List = GenerateDbSearchParameterList(TargetSearchParameter);
 
-                                  //Add the new SearchParameterIndex to the database
-                                  (ResourceServicesSearchParameter as ICommonServices).AddServiceSearchParametersHeavy(NewServiceSearchParameter);
-                                  
-                                }
-                                else
-                                {
-                                  var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The SearchParameter referenced has a Code element that in already indexed. This Code of {CodeAlreadyIndexed.Name} is a base FHIR search parameter and can not be modified. You could try a different Code value and thereby create a separate search parameter index.");
-                                  ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-                                  ResourceServiceOutcome.ResourceResult = OpOutCome;
-                                  ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-                                  ResourceServiceOutcome.SuccessfulTransaction = false;
-                                  return ResourceServiceOutcome;
-                                }
-                              }
-                              else
+                            foreach(var Item in List)
+                            {
+                              var DbSearchParamListForResource = (ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(Item.Resource);
+                              DbSearchParamListForResource.AddRange((ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+
+                              var CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
+                              if (CodeAlreadyIndexed != null)
                               {
-                                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The SearchParameter referenced in already associated with the servers search indexes. If you wish to modify the SearchParameter then you need only to update the resource id={CodeAlreadyIndexed.SearchParameterResourceId} and then call the Update indexes operation {Enum.FhirOperationEnum.BaseOperationType.serverSearchParameterIndexPending.GetPyroLiteral()}");
+                                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+                                $"The SearchParameter referenced in already associated with the servers search indexes. If you wish to modify the SearchParameter then you need only to update the resource id={CodeAlreadyIndexed.SearchParameterResourceId} and then call the Update indexes operation {Enum.FhirOperationEnum.BaseOperationType.serverSearchParameterIndexPending.GetPyroLiteral()}");
                                 ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                                 ResourceServiceOutcome.ResourceResult = OpOutCome;
                                 ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
                                 ResourceServiceOutcome.SuccessfulTransaction = false;
                                 return ResourceServiceOutcome;
                               }
-                            }                            
+
+                              CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId == null);
+                              if (CodeAlreadyIndexed != null)
+                              {
+                                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+                                    $"The SearchParameter referenced has a Code element that in already indexed. This Code of {CodeAlreadyIndexed.Name} is a base FHIR search parameter and can not be modified. You could try a different Code value and thereby create a separate search parameter index.");
+                                ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                                ResourceServiceOutcome.ResourceResult = OpOutCome;
+                                ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+                                ResourceServiceOutcome.SuccessfulTransaction = false;
+                                return ResourceServiceOutcome;
+                              }
+                            }
+
+                            //Add the new SearchParameterIndex to the database
+                            foreach (var Item in List)                            
+                              (ResourceServicesSearchParameter as ICommonServices).AddServiceSearchParametersHeavy(Item);
+
+                            //foreach (var Base in TargetSearchParameter.Base)
+                            //{
+                            //  var DbSearchParamListForResource = (ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(Base.Value.GetLiteral());
+                            //  DbSearchParamListForResource.AddRange((ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+                            //  var CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
+                            //  if (CodeAlreadyIndexed == null)
+                            //  {
+                            //    CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId == null);
+                            //    if (CodeAlreadyIndexed == null)
+                            //    {
+                            //      var NewServiceSearchParameter = new Dto.DtoServiceSearchParameterHeavy();
+                            //      if (TargetSearchParameter.Description != null)
+                            //        NewServiceSearchParameter.Description = TargetSearchParameter.Description.Value;
+                            //      NewServiceSearchParameter.Expression = TargetSearchParameter.Expression;
+                            //      NewServiceSearchParameter.Name = TargetSearchParameter.Code;
+                            //      NewServiceSearchParameter.Resource = Base.GetLiteral();
+                            //      NewServiceSearchParameter.SearchParameterResourceId = TargetSearchParameter.Id;
+                            //      NewServiceSearchParameter.SearchParameterResourceVersion = TargetSearchParameter.Version;
+                            //      NewServiceSearchParameter.TargetResourceTypeList = new List<Interfaces.Dto.IServiceSearchParameterTargetResource>();
+                            //      if (TargetSearchParameter.Target != null)
+                            //      {
+                            //        foreach (var Target in TargetSearchParameter.Target)
+                            //        {
+                            //          if (Target.HasValue)
+                            //            NewServiceSearchParameter.TargetResourceTypeList.Add(new Dto.DtoServiceSearchParameterTargetResource() { ResourceType = Target.Value });
+                            //        }
+                            //      }
+                            //      NewServiceSearchParameter.Type = TargetSearchParameter.Type.Value;
+                            //      NewServiceSearchParameter.Url = TargetSearchParameter.Url;
+                            //      NewServiceSearchParameter.XPath = TargetSearchParameter.Xpath;
+                            //      NewServiceSearchParameter.Status = TargetSearchParameter.Status.Value;
+                            //      NewServiceSearchParameter.IsIndexed = false;
+
+                            //      //Add the new SearchParameterIndex to the database
+                            //      (ResourceServicesSearchParameter as ICommonServices).AddServiceSearchParametersHeavy(NewServiceSearchParameter);
+
+                            //    }
+                            //    else
+                            //    {
+                            //      var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+                            //        $"The SearchParameter referenced has a Code element that in already indexed. This Code of {CodeAlreadyIndexed.Name} is a base FHIR search parameter and can not be modified. You could try a different Code value and thereby create a separate search parameter index.");
+                            //      ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                            //      ResourceServiceOutcome.ResourceResult = OpOutCome;
+                            //      ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+                            //      ResourceServiceOutcome.SuccessfulTransaction = false;
+                            //      return ResourceServiceOutcome;
+                            //    }
+                            //  }
+                            //  else
+                            //  {
+                            //    var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+                            //      $"The SearchParameter referenced in already associated with the servers search indexes. If you wish to modify the SearchParameter then you need only to update the resource id={CodeAlreadyIndexed.SearchParameterResourceId} and then call the Update indexes operation {Enum.FhirOperationEnum.BaseOperationType.serverSearchParameterIndexPending.GetPyroLiteral()}");
+                            //    ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                            //    ResourceServiceOutcome.ResourceResult = OpOutCome;
+                            //    ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+                            //    ResourceServiceOutcome.SuccessfulTransaction = false;
+                            //    return ResourceServiceOutcome;
+                            //  }
+                            //}
                           }
                           else
-                          {                                                        
+                          {
                             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                             ResourceServiceOutcome.ResourceResult = OperationOutcomeValidation;
                             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -260,9 +304,8 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.SuccessfulTransaction = false;
         return ResourceServiceOutcome;
       }
-      
     }
-    
+
     public IResourceServiceOutcome ProcessReport()
     {
       if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
@@ -298,47 +341,256 @@ namespace Pyro.Common.BusinessEntities.Service
       ICommonServices oCommonServices = _ServiceRequest.ServiceNegotiator.GetCommonService();
 
       List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = oCommonServices.GetServiceSearchParametersHeavy(true);
-      CalculateDiff(DbSearchParameterList);
+      List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList);
+      var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
+      if (ErrorList.Count() > 0)
+      {
+        List<OperationOutcome.IssueComponent> IssueList = new List<OperationOutcome.IssueComponent>();
+        foreach(var item in ErrorList)
+        {
+          IssueList.AddRange(item.OperationOutcome.Issue);
+        }
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList);
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        ResourceServiceOutcome.ResourceResult = OpOutCome;
+        ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+        ResourceServiceOutcome.SuccessfulTransaction = false;
+        return ResourceServiceOutcome;
+      }
+      else
+      {
+        var ReturnParametersResource = new Parameters();
 
-      throw new NotImplementedException();
+
+        var DropIndexParameter = new Parameters.ParameterComponent();
+        DropIndexParameter.Name = "DropIndexList";        
+        ReturnParametersResource.Parameter.Add(DropIndexParameter);
+
+        var DeleteList = CompairisonResultList.Where(x => x.DeleteIndexList.Count > 0);
+        foreach (var Del1 in DeleteList)
+        {
+          foreach (var Del2 in Del1.DeleteIndexList)
+          {
+            foreach (var Del3 in Del2.Value)
+            {
+              var Para = new Parameters.ParameterComponent();
+              Para.Name = "DropIndexDetails";
+              Para.Value = new FhirString($"Index for: Resource: {Del3.Resource}; SearchName: {Del3.Name}; Expression: {Del3.Expression}; SearchParameterResourceId: {Del3.SearchParameterResourceId}; SearchParameterVersion: {Del3.SearchParameterResourceVersion}");
+              if (DropIndexParameter.Part == null)
+                DropIndexParameter.Part = new List<Parameters.ParameterComponent>();
+              DropIndexParameter.Part.Add(Para);
+            }
+          }
+        }
+
+        var CreateIndexParameter = new Parameters.ParameterComponent();
+        CreateIndexParameter.Name = "CreateIndexList";
+        ReturnParametersResource.Parameter.Add(CreateIndexParameter);
+
+        var CreateList = CompairisonResultList.Where(x => x.CreateIndexList.Count > 0);
+        foreach (var Create1 in CreateList)
+        {
+          foreach (var Create2 in Create1.CreateIndexList)
+          {
+            foreach (var Create3 in Create2.Value)
+            {
+              var Para = new Parameters.ParameterComponent();
+              Para.Name = "CreateIndexDetails";
+              Para.Value = new FhirString($"Index for: Resource: {Create3.Resource}; SearchName: {Create3.Name}; Expression: {Create3.Expression}; SearchParameterResourceId: {Create3.SearchParameterResourceId}; SearchParameterVersion: {Create3.SearchParameterResourceVersion}");
+              if (CreateIndexParameter.Part == null)
+                CreateIndexParameter.Part = new List<Parameters.ParameterComponent>();
+              CreateIndexParameter.Part.Add(Para);
+            }
+          }
+        }
+
+        var UpdateSearchName = new Parameters.ParameterComponent();
+        UpdateSearchName.Name = "UpdateSearchNameList";
+        ReturnParametersResource.Parameter.Add(UpdateSearchName);
+        var UpdateSearchNameList = CompairisonResultList.Where(x => x.UpdateSearchParameterList.Count > 0);
+        foreach (var Update1 in UpdateSearchNameList)
+        {
+          foreach (var Update2 in Update1.UpdateSearchParameterList)
+          {
+            foreach (var Update3 in Update2.Value)
+            {
+              var Para = new Parameters.ParameterComponent();
+              Para.Name = "UpdateSearchNameDetails";
+              Para.Value = new FhirString($"Search Name for: Resource: {Update3.New.Resource}; NewSearchName: {Update3.New.Name}; OldSearchName: {Update3.Old.Name}; SearchParameterResourceId: {Update3.New.SearchParameterResourceId}; NewSearchParameterVersion: {Update3.New.SearchParameterResourceVersion}; OldSearchParameterVersion: {Update3.Old.SearchParameterResourceVersion}");
+              if (UpdateSearchName.Part == null)
+                UpdateSearchName.Part = new List<Parameters.ParameterComponent>();
+              UpdateSearchName.Part.Add(Para);
+            }
+          }
+        }
+
+
+
+
+        //All good return ParametersResource with the SearchParameter Resource registered.
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+        ResourceServiceOutcome.ResourceResult = ReturnParametersResource;
+        ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+        ResourceServiceOutcome.SuccessfulTransaction = true;
+        return ResourceServiceOutcome;
+
+        ////Produce the report as a Parameters Resource
+        //var Report = new Parameters();
+        //Report.Id = "server-search-parameter-report-response";
+        //Report.Parameter = new List<Parameters.ParameterComponent>();
+        //foreach (var CompairisonResult in CompairisonResultList)
+        //{          
+        //  var Para = new Parameters.ParameterComponent();
+        //  Para.Name = "DeleteIndexList";
+        //  foreach (var Del in CompairisonResult.DeleteIndexList)
+        //  {
+        //    var ParaDel = new Parameters.ParameterComponent();
+        //    ParaDel.Name = $"{Del.Value.
+        //  }
+        //}
+      }      
     }
 
-    private void CalculateDiff(List<DtoServiceSearchParameterHeavy> dbSearchParameterList)
+
+    private List<CompairisonResult> CalculateDiff(List<DtoServiceSearchParameterHeavy> DbSearchParameterList)
     {
-      foreach(var Para in dbSearchParameterList)
+      List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();    
+      var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);
+      var oResService = _ServiceRequest.ServiceNegotiator.GetResourceServiceBase(ResourceType.SearchParameter.GetLiteral());
+      
+      foreach (var OldList in GroupList)
       {
-        var oResService = _ServiceRequest.ServiceNegotiator.GetResourceServiceBase(ResourceType.SearchParameter.GetLiteral());
-        var ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
-        ResourceServiceOutcome = oResService.GetResourceInstance(Para.SearchParameterResourceId, _ServiceRequest.RequestUri, ResourceServiceOutcome);
-        if (ResourceServiceOutcome.ResourceResult != null)
+        var CurrentParameter = Common.CommonFactory.GetResourceServiceOutcome();
+        var FirstInstance = OldList.FirstOrDefault();
+        CurrentParameter = oResService.GetResourceInstance(FirstInstance.SearchParameterResourceId, _ServiceRequest.RequestUri, CurrentParameter);
+        if (CurrentParameter.ResourceVersionNumber != FirstInstance.SearchParameterResourceVersion)
         {
-          if (ResourceServiceOutcome.ResourceVersionNumber != Para.SearchParameterResourceVersion)
+          CompairisonResult Result;
+          if (CurrentParameter.IsDeleted.HasValue && CurrentParameter.IsDeleted.Value)
           {
-            //It is a new version so check for diff, unless it is not indexed in which case it is just new but the resource was updated 
-            //post registering.
+            //need to drop all?
+            Result = new CompairisonResult();
+            foreach(var Old in OldList)
+            {
+              Result.AddDeleteSearchParameter(Old);
+              Result.AddIndexDelete(Old);              
+            }
+            CompairisonResultList.Add(Result);
           }
           else
           {
-            //it is the very same version, so nothing to changed but still need to check it is already indexed
-            //if not it is new and needs to be added. If it is indexed then nothing to do.
+            var NewSearchParameterResource = CurrentParameter.ResourceResult as SearchParameter;
+            var ValadationOperationOutCome = ValidateSearchParameterResource(NewSearchParameterResource);            
+            if (ValadationOperationOutCome == null)
+            {
+              List<DtoServiceSearchParameterHeavy> NewList = GenerateDbSearchParameterList(NewSearchParameterResource);
+              Result = GetCompairisonResult(OldList.ToList(), NewList);
+              CompairisonResultList.Add(Result);
+            }
+            else
+            {
+              Result = new CompairisonResult();
+              Result.OperationOutcome = ValadationOperationOutCome;
+              CompairisonResultList.Add(Result);
+            }
           }
+        }
+      }
+      return CompairisonResultList;      
+    }
+
+
+    private CompairisonResult GetCompairisonResult(List<DtoServiceSearchParameterHeavy> OldList, List<DtoServiceSearchParameterHeavy> NewList)
+    {
+      CompairisonResult CompairisonResult = new CompairisonResult();
+      //OldList = OldList.OrderBy(x => x.Resource).ToList();
+      //NewList = NewList.OrderBy(x => x.Resource).ToList();
+
+      //Find the Old items not in the new list so they can be removed
+      foreach (var Old in OldList)
+      {
+        var New = NewList.SingleOrDefault(x => x.Resource == Old.Resource);
+        if (New == null)
+        {
+          CompairisonResult.AddIndexDelete(Old);
+          CompairisonResult.AddDeleteSearchParameter(Old);
+        }
+      }
+     
+      foreach (var New in NewList)
+      {
+        //New items not in the old list can be added
+        var Old = OldList.SingleOrDefault(x => x.Resource == New.Resource);
+        if (Old == null)
+        {
+          CompairisonResult.AddCreateIndex(New);
+          CompairisonResult.AddCreateSearchParameter(New);
         }
         else
         {
-          throw new Exception($"Internal Server error: Database misalignment, A custom service search parameter references the SearchParameter Resource wiht the id= {Para.SearchParameterResourceId} and yet that resource does not exist at all.");
+          //Is in the Old and new list so check the properties of each
+
+          bool ChangeDetected = false;
+
+          //Check the Publication Status has not changed
+          if (ChangeDetected == false && Old.Status != New.Status)
+          {
+            if (Old.Status == PublicationStatus.Active && New.Status != PublicationStatus.Active)
+            {
+              ChangeDetected = true;
+
+              //Delete index List
+              CompairisonResult.AddIndexDelete(Old);
+
+              //Delete the Custom SearchParameter reference
+              CompairisonResult.AddDeleteSearchParameter(Old);
+
+            }
+            else if (Old.Status != PublicationStatus.Active && New.Status == PublicationStatus.Active)
+            {
+              ChangeDetected = true;
+
+              //Delete the old Add the new 
+              CompairisonResult.AddIndexDelete(Old);
+              CompairisonResult.AddCreateIndex(New);
+
+              //Update the Custom SearchParameter reference
+              CompairisonResult.AddDeleteSearchParameter(Old);
+              CompairisonResult.AddCreateSearchParameter(New);
+            }
+          }
+
+          //Check the Expression or Type has not changed
+          if (ChangeDetected == false &&
+            Old.Expression != New.Expression ||
+            Old.Type != New.Type)
+          {
+            ChangeDetected = true;
+            //Delete index List
+            CompairisonResult.AddIndexDelete(Old);
+
+            //Add index List
+            CompairisonResult.AddCreateIndex(New);
+
+            //Update the Custom SearchParameter reference
+            CompairisonResult.AddDeleteSearchParameter(Old);
+            CompairisonResult.AddCreateSearchParameter(New);
+          }
+
+          if (ChangeDetected == false &&
+            Old.Name != New.Name)
+          {
+            CompairisonResult.AddUpdateSearchParameter(Old, New);
+          }
+
         }
-
       }
-      _ServiceRequest.ServiceNegotiator.GetCommonService();
+      return CompairisonResult;
     }
-
-    public IResourceServiceOutcome ProcessIndex()
-    {
-      throw new NotImplementedException();
-    }
+    
 
     private OperationOutcome ValidateSearchParameterResource(SearchParameter Resource)
-    {      
+    {
       var IssueList = new List<OperationOutcome.IssueComponent>();
 
       if (string.IsNullOrWhiteSpace(Resource.Code))
@@ -358,7 +610,7 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       else
       {
-        foreach(var Item in Resource.Base)
+        foreach (var Item in Resource.Base)
         {
           if (!Item.HasValue)
           {
@@ -366,7 +618,7 @@ namespace Pyro.Common.BusinessEntities.Service
             Issue.Severity = OperationOutcome.IssueSeverity.Error;
             Issue.Diagnostics = $"The SearchParameter Resource  with the id={Resource.Id} base element was null or perhaps not a known FHIR Resource type.";
             IssueList.Add(Issue);
-          }          
+          }
         }
       }
 
@@ -379,7 +631,7 @@ namespace Pyro.Common.BusinessEntities.Service
         Issue.Diagnostics = $"The SearchParameter Resource with the id={Resource.Id} must have a Type element that is not empty.";
         IssueList.Add(Issue);
       }
-      
+
 
       if (string.IsNullOrWhiteSpace(Resource.Expression))
       {
@@ -407,6 +659,114 @@ namespace Pyro.Common.BusinessEntities.Service
         return null;
       }
     }
+
+    private List<Dto.DtoServiceSearchParameterHeavy> GenerateDbSearchParameterList(SearchParameter SearchParameterResource)
+    {
+      var ReturnList = new List<Dto.DtoServiceSearchParameterHeavy>();
+      foreach (var Base in SearchParameterResource.Base)
+      {
+        var New = new Dto.DtoServiceSearchParameterHeavy();
+        if (SearchParameterResource.Description != null)
+          New.Description = SearchParameterResource.Description.Value;
+        New.Expression = SearchParameterResource.Expression;
+        New.Name = SearchParameterResource.Code;
+        New.Resource = Base.GetLiteral();
+        New.SearchParameterResourceId = SearchParameterResource.Id;
+        New.SearchParameterResourceVersion = SearchParameterResource.Meta.VersionId;
+        New.TargetResourceTypeList = new List<Interfaces.Dto.IServiceSearchParameterTargetResource>();
+        if (SearchParameterResource.Target != null)
+        {
+          foreach (var Target in SearchParameterResource.Target)
+          {
+            if (Target.HasValue)
+              New.TargetResourceTypeList.Add(new Dto.DtoServiceSearchParameterTargetResource() { ResourceType = Target.Value });
+          }
+        }
+        New.Type = SearchParameterResource.Type.Value;
+        New.Url = SearchParameterResource.Url;
+        New.XPath = SearchParameterResource.Xpath;
+        New.Status = SearchParameterResource.Status.Value;
+        New.IsIndexed = false;
+        ReturnList.Add(New);
+      }
+      return ReturnList;
+    }
+
+    private class CompairisonResult
+    {
+      public void AddIndexDelete(DtoServiceSearchParameterHeavy item)
+      {
+        AddToList(this.DeleteIndexList, item);
+      }
+      public void AddCreateIndex(DtoServiceSearchParameterHeavy item)
+      {
+        AddToList(this.CreateIndexList, item);
+      }
+
+      public void AddCreateSearchParameter(DtoServiceSearchParameterHeavy item)
+      {
+        AddToList(this.CreateSearchParameterList, item);
+      }
+      public void AddUpdateSearchParameter(DtoServiceSearchParameterHeavy Old, DtoServiceSearchParameterHeavy New)
+      {
+        var Update = new Update();
+        Update.Old = Old;
+        Update.New = New;
+
+        if (UpdateSearchParameterList.ContainsKey(Old.Resource))
+        {
+          UpdateSearchParameterList[Old.Resource].Add(Update);
+        }
+        else
+        {
+          UpdateSearchParameterList.Add(Old.Resource, new List<Update>() { Update });
+        }
+
+
+      }
+      public void AddDeleteSearchParameter(DtoServiceSearchParameterHeavy item)
+      {
+        AddToList(this.DeleteSearchParameterList, item);
+      }
+
+      public OperationOutcome OperationOutcome { get; set; }
+      public Dictionary<string, List<Dto.DtoServiceSearchParameterHeavy>> DeleteIndexList;
+      public Dictionary<string, List<Dto.DtoServiceSearchParameterHeavy>> CreateIndexList;
+
+      public Dictionary<string, List<Dto.DtoServiceSearchParameterHeavy>> CreateSearchParameterList;
+      public Dictionary<string, List<Update>> UpdateSearchParameterList;
+      public Dictionary<string, List<Dto.DtoServiceSearchParameterHeavy>> DeleteSearchParameterList;
+
+      private void AddToList(Dictionary<string, List<Dto.DtoServiceSearchParameterHeavy>> List, DtoServiceSearchParameterHeavy item)
+      {
+        if (List.ContainsKey(item.Resource))
+        {
+          List[item.Resource].Add(item);
+        }
+        else
+        {
+          List.Add(item.Resource, new List<DtoServiceSearchParameterHeavy>() { item });
+        }
+      }
+
+      public CompairisonResult()
+      {
+        this.DeleteIndexList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
+        this.CreateIndexList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
+
+        this.CreateSearchParameterList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
+        this.UpdateSearchParameterList = new Dictionary<string, List<Update>>();
+        this.DeleteSearchParameterList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
+      }
+
+      public class Update
+      {
+        public Dto.DtoServiceSearchParameterHeavy Old { get; set; }
+        public Dto.DtoServiceSearchParameterHeavy New { get; set; }
+      }
+    }
+
+
 
   }
 }
