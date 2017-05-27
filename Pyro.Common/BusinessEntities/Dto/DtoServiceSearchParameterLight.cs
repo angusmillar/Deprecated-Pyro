@@ -18,7 +18,9 @@ namespace Pyro.Common.BusinessEntities.Dto
     public string Name { get; set; }
     public SearchParamType Type { get; set; }
     public string Expression { get; set; }
-    public ICollection<DtoServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    //public ICollection<DtoServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    
     public DtoServiceSearchParameterLight(){ }
 
     public DtoServiceSearchParameterLight(SerializationInfo info, StreamingContext context)

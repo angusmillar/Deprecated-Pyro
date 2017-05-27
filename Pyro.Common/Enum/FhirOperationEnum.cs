@@ -18,31 +18,34 @@ namespace Pyro.Common.Enum
     }
 
     public enum BaseOperationType
-    {
-      [EnumLiteral("delete-history-indexes")]
-      DeleteHistoryIndexes,
-      [EnumLiteral("server-search-parameter-set")]
-      ServerSearchParameterSet,
-      [EnumLiteral("server-search-parameter-index")]
-      serverSearchParameterIndexPending,
-      [EnumLiteral("server-search-parameter-report")]
-      serverSearchParameterIndexReport
+    {      
+      [EnumLiteral("server-indexes-delete-history-indexes")]
+      ServerIndexesDeleteHistoryIndexes,
+      
+      [EnumLiteral("server-indexes-set")]
+      ServerIndexesSet,
+
+      [EnumLiteral("server-indexes-index")]
+      ServerIndexesIndex,
+
+      [EnumLiteral("server-indexes-report")]
+      ServerSearchParameterIndexReport
     };
 
     public enum ResourceOperationType
     {
-      [EnumLiteral("delete-history-indexes")]
-      DeleteHistoryIndexes,
+      [EnumLiteral("server-indexes-delete-history-indexes")]
+      ServerIndexesDeleteHistoryIndexes,
     };
 
     public static Dictionary<string, BaseOperationType> GetBaseOperationTypeByString()
     {
       return new Dictionary<string, BaseOperationType>()
       {
-        {BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral(), BaseOperationType.DeleteHistoryIndexes},
-        {BaseOperationType.ServerSearchParameterSet.GetPyroLiteral(), BaseOperationType.ServerSearchParameterSet},
-        {BaseOperationType.serverSearchParameterIndexPending.GetPyroLiteral(), BaseOperationType.serverSearchParameterIndexPending},
-        {BaseOperationType.serverSearchParameterIndexReport.GetPyroLiteral(), BaseOperationType.serverSearchParameterIndexReport},
+        {BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral(), BaseOperationType.ServerIndexesDeleteHistoryIndexes},
+        {BaseOperationType.ServerIndexesSet.GetPyroLiteral(), BaseOperationType.ServerIndexesSet},
+        {BaseOperationType.ServerIndexesIndex.GetPyroLiteral(), BaseOperationType.ServerIndexesIndex},
+        {BaseOperationType.ServerSearchParameterIndexReport.GetPyroLiteral(), BaseOperationType.ServerSearchParameterIndexReport},
       };
     }
 
@@ -50,7 +53,7 @@ namespace Pyro.Common.Enum
     {
       return new Dictionary<string, ResourceOperationType>()
       {
-        {ResourceOperationType.DeleteHistoryIndexes.GetPyroLiteral(), ResourceOperationType.DeleteHistoryIndexes},
+        {ResourceOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral(), ResourceOperationType.ServerIndexesDeleteHistoryIndexes},
       };
     }
 

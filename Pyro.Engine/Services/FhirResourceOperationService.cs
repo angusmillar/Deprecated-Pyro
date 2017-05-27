@@ -61,12 +61,10 @@ namespace Pyro.Engine.Services
 
       switch (ResourceOperationType)
       {
-        case FhirOperationEnum.ResourceOperationType.DeleteHistoryIndexes:
+        case FhirOperationEnum.ResourceOperationType.ServerIndexesDeleteHistoryIndexes:
           {
-            var RepositoryServiceRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
-            RepositoryServiceRequest.RequestUri = _ServiceRequest.RequestUri;
-            RepositoryServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
-            return ServiceRequest.ResourceServices.DeleteHistoryIndexes(RepositoryServiceRequest);
+            var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
+            return DeleteManyHistoryIndexesService.DeleteMany();
           }          
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(ResourceOperationType.GetPyroLiteral(), (int)ResourceOperationType, typeof(FhirOperationEnum.ResourceOperationType));

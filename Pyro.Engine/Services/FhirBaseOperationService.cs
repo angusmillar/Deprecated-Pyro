@@ -59,24 +59,24 @@ namespace Pyro.Engine.Services
 
       switch (BaseOperationType)
       {
-        case FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes:
+        case FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes:
           {
-            var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteManyHistoryIndexesService(ServiceRequest);
-            return DeleteManyHistoryIndexesService.Process();            
+            var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
+            return DeleteManyHistoryIndexesService.DeleteMany();            
           }
-        case FhirOperationEnum.BaseOperationType.ServerSearchParameterSet:
+        case FhirOperationEnum.BaseOperationType.ServerIndexesSet:
           {            
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessSet();
           }
-        case FhirOperationEnum.BaseOperationType.serverSearchParameterIndexReport:
+        case FhirOperationEnum.BaseOperationType.ServerSearchParameterIndexReport:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessReport();
           }
-        case FhirOperationEnum.BaseOperationType.serverSearchParameterIndexPending:
+        case FhirOperationEnum.BaseOperationType.ServerIndexesIndex:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(ServiceRequest);
+            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessIndex();
           }
         default:

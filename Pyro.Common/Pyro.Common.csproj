@@ -108,7 +108,7 @@
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
-    <Compile Include="BusinessEntities\Service\DeleteManyHistoryIndexesService.cs" />
+    <Compile Include="BusinessEntities\Service\DeleteHistoryIndexesService.cs" />
     <Compile Include="Interfaces\Service\IServerSearchParameterSetService.cs" />
     <Compile Include="BusinessEntities\Service\ServerSearchParameterService.cs" />
     <Compile Include="Cache\WebConfigProperties.cs" />
@@ -215,6 +215,7 @@
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
+    <Compile Include="Tools\FhirResourceSerializationSupport.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />

@@ -110,7 +110,6 @@
     <Compile Include="Services\ResourceServicesBase.cs" />
     <Compile Include="Services\PyroService.cs" />
     <Compile Include="Support\FhirBundleSupport.cs" />
-    <Compile Include="Support\FhirResourceSerializationSupport.cs" />
     <Compile Include="Validation\BaseResourceValidation.cs" />
     <Compile Include="Validation\ConceptMapResourceValidation.cs" />
     <Compile Include="Validation\DefaultResourceValidation.cs" />

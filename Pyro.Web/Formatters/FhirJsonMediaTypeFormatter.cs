@@ -49,10 +49,8 @@ namespace Pyro.Web.Formatters
           return System.Threading.Tasks.Task.Factory.StartNew<object>(() =>
           {
             if (typeof(Resource).IsAssignableFrom(type))
-            {              
-              FhirJsonParser FhirJsonParser = new FhirJsonParser();
-              Resource resource = FhirJsonParser.Parse<Resource>(body);
-              return resource;
+            {
+              return Common.Tools.FhirResourceSerializationSupport.DeSerializeFromJson(body);
             }
             else
             {
@@ -80,7 +78,6 @@ namespace Pyro.Web.Formatters
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
       StreamWriter writer = new StreamWriter(writeStream);
-      //JsonWriter jsonwriter = new JsonTextWriter(writer);
       JsonWriter jsonwriter = SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
       if (typeof(Resource).IsAssignableFrom(type))
       {

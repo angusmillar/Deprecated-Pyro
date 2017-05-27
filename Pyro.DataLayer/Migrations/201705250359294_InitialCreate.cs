@@ -84,6 +84,8 @@ namespace Pyro.DataLayer.Migrations
                         IsIndexed = c.Boolean(nullable: false),
                         Status = c.Int(nullable: false),
                         LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        SearchParameterResourceId = c.String(maxLength: 400),
+                        SearchParameterResourceVersion = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.Id);
             

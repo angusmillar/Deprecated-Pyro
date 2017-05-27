@@ -20,14 +20,16 @@ namespace Pyro.Common.BusinessEntities.Search
 
     public static DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices, IDtoRequestUri RequestUri)
     {
-      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
       _RequestUri = RequestUri;
+      DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
+      
 
       string ParameterName = Parameter.Item1;
       string ParameterValue = Parameter.Item2;
       oSearchParameter.Id = DtoSupportedSearchParametersResource.Id;
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
+      oSearchParameter.TargetResourceTypeList = DtoSupportedSearchParametersResource.TargetResourceTypeList;
       //oSearchParameter.IsDbCollection = DtoSupportedSearchParametersResource.IsDbCollection;
       //oSearchParameter.DbPropertyName = DtoSupportedSearchParametersResource.DbPropertyName;
       oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;
@@ -62,7 +64,7 @@ namespace Pyro.Common.BusinessEntities.Search
       {
         if (oSearchParameter.Type == SearchParamType.Reference)
         {
-          (oSearchParameter as DtoSearchParameterReferance).AllowedReferanceResourceList = Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oSearchParameter.Resource, oSearchParameter.Name);          
+          (oSearchParameter as DtoSearchParameterReferance).AllowedReferanceResourceList = Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oSearchParameter);          
         }
 
         if (!oSearchParameter.TryParseValue(ParameterValue))

@@ -57,8 +57,9 @@ namespace Pyro.Web.Formatters
           {
             if (typeof(Resource).IsAssignableFrom(type))
             {
-              FhirXmlParser FhirXmlParser = new FhirXmlParser();
-              Resource resource = FhirXmlParser.Parse<Resource>(body);
+              Resource resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(body);
+              //FhirXmlParser FhirXmlParser = new FhirXmlParser();
+              //Resource resource = FhirXmlParser.Parse<Resource>(body);
               return resource;
             }
             else

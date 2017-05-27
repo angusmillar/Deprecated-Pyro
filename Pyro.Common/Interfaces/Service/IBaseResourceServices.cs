@@ -1,5 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using System.Data.Entity;
+using System.Collections.Generic;
+using Pyro.Common.Interfaces.UriSupport;
 
 namespace Pyro.Common.Interfaces.Service
 {
@@ -46,6 +48,8 @@ namespace Pyro.Common.Interfaces.Service
     // POST: URL/FhirAPI/Patient/$delete-history-indexes
     IResourceServiceOutcome DeleteHistoryIndexes(IResourceServiceDeleteHistoryIndexesRequest PyroServiceRequestClearHistoryIndexes);
 
+    //Add the given ServiceSearchParameterLight to the current resource instance
+    void AddResourceIndexs(List<Common.BusinessEntities.Dto.DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
   }
 
 }

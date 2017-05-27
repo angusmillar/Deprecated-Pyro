@@ -194,7 +194,7 @@ namespace Pyro.Common.BusinessEntities.Service
         if (oInboundSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
         {
            
-          if (!Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter.TypeModifierResource, oInboundSearchParameter.Name).Contains(oInboundSearchParameter.TypeModifierResource))
+          if (!Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
           {
             DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
             DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The reference search parameter modifier was expected to be a Fhir resource type that is supported for this search parameter. The Resource given was: {oInboundSearchParameter.TypeModifierResource} which is not supported for this search parameter.', ";
@@ -220,7 +220,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       if (oInboundSearchParameter.TypeModifierResource != null)
       {        
-        if (!Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter.TypeModifierResource, oInboundSearchParameter.Name).Contains(oInboundSearchParameter.TypeModifierResource))
+        if (!Dto.Search.ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
         {
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
           DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the 'Resource' type found in the '[ResourceType]' Modifier is not supported. 'Resource' type was: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);

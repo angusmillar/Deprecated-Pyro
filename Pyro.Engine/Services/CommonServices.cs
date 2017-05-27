@@ -40,9 +40,20 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
     }
 
-    public void AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
-      _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
+      return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);      
     }
+
+    public DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    {
+      return _UnitOfWork.CommonRepository.UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
+    }
+    
+    public void DeleteServiceSearchParameters(int Id)
+    {
+      _UnitOfWork.CommonRepository.DeleteServiceSearchParameters(Id);
+    }
+
   }
 }

@@ -18,5 +18,6 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber);
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);
     int DeleteNonCurrentResourceIndexes();
+    void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
   }
 }

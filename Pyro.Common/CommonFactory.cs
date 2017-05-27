@@ -179,9 +179,14 @@ namespace Pyro.Common
       return new ResourceServiceDeleteHistoryIndexesRequest();
     }
 
-    public static IDeleteManyHistoryIndexesService GetDeleteManyHistoryIndexesService(IBaseOperationsServiceRequest ServiceRequest)
+    public static IDeleteHistoryIndexesService GetDeleteHistoryIndexesService(IBaseOperationsServiceRequest BaseServiceRequest)
     {
-      return new DeleteManyHistoryIndexesService(ServiceRequest);
+      return new DeleteHistoryIndexesService(BaseServiceRequest);
+    }
+
+    public static IDeleteHistoryIndexesService GetDeleteHistoryIndexesService(IResourceOperationsServiceRequest ResourceServiceRequest)
+    {
+      return new DeleteHistoryIndexesService(ResourceServiceRequest);
     }
 
     public static IServerSearchParameterService GetServerSearchParameterService(IBaseOperationsServiceRequest ServiceRequest)

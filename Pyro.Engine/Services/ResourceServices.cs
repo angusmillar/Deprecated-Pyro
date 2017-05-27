@@ -28,7 +28,7 @@ namespace Pyro.Engine.Services
     //GET Read   
     // Get: URL/Fhir/Patient/1
     public virtual IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead)
-    {
+    {      
       IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       
@@ -568,6 +568,10 @@ namespace Pyro.Engine.Services
       return ServiceOutcome;
     }
 
+    public virtual void AddResourceIndexs(List<Common.BusinessEntities.Dto.DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri)
+    {
+      _ResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
+    }
 
   }
 }

@@ -175,7 +175,7 @@ namespace Pyro.DataLayer.Repository
         Light.Name = x.Name;
         Light.Expression = x.Expression;
         Light.Type = x.Type;
-        Light.TargetResourceTypeList = new List<DtoServiceSearchParameterTargetResource>();
+        Light.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
         foreach (var Target in x.TargetResourceTypeList)
           Light.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
         ReturnList.Add(Light);
@@ -280,43 +280,107 @@ namespace Pyro.DataLayer.Repository
       
     }
 
-    public void AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
-      if (ServiceSearchParameterHeavy != null)
+      if (ServiceSearchParameterHeavy == null)
+        return null;
+       
+      var DbSearchParameter = new ServiceSearchParameter();
+      DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
+      DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
+      DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
+      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+      DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
+      DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
+      DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
+      DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
+      DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
+      DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
+      DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
+      DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
+      if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
       {
-        var DbSearchParameter = new ServiceSearchParameter();
-        DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
-        DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
-        DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
-        DbSearchParameter.LastUpdated = DateTimeOffset.Now;
-        DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
-        DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
-        DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
-        DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
-        DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
-        DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
-        DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
-        DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
-        if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
-        {
-          DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
-          foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
-            DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-        }
-        AddServiceSearchParameters(DbSearchParameter);
+        DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+        foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
+          DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
       }
+      ServiceSearchParameter value = AddServiceSearchParameters(DbSearchParameter);
+      ServiceSearchParameterHeavy.Id = value.Id;
+      this.Save();
+      return ServiceSearchParameterHeavy;            
     }
 
+    public DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    {
+      if (ServiceSearchParameterHeavy == null)
+        return null;
+
+      var DbSearchParameter = new ServiceSearchParameter();
+      DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
+      DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
+      DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
+      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+      DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
+      DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
+      DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
+      DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
+      DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
+      DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
+      DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
+      DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
+      if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
+      {
+        DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+        foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
+          DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+      }
+      ServiceSearchParameter value = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
+      ServiceSearchParameterHeavy.Id = value.Id;      
+      return ServiceSearchParameterHeavy;
+    }
+
+
+    public void DeleteServiceSearchParameters(int Id)
+    {
+      var Entity = _Context.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
+      if (Entity != null)
+      {
+        _Context.ServiceSearchParameter.Remove(Entity);
+        this.Save();
+      }
+    }
+    
     protected ServiceSearchParameter AddServiceSearchParameters(ServiceSearchParameter ServiceSearchParameter)
     {
       ServiceSearchParameter = _Context.Set<ServiceSearchParameter>().Add(ServiceSearchParameter);
       this.Save();
       return ServiceSearchParameter;
     }
-
+    
     protected ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
     {
       return _Context.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
+    }
+
+    protected ServiceSearchParameter UpdateServiceSearchParameters(int Id, ServiceSearchParameter SearchParameter)
+    {
+      var DbSearchParameter = _Context.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
+      DbSearchParameter.Description = SearchParameter.Description;
+      DbSearchParameter.Expression = SearchParameter.Expression;
+      DbSearchParameter.IsIndexed = SearchParameter.IsIndexed;
+      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+      DbSearchParameter.Name = SearchParameter.Name;
+      DbSearchParameter.Resource = SearchParameter.Resource;
+      DbSearchParameter.SearchParameterResourceId = SearchParameter.SearchParameterResourceId;
+      DbSearchParameter.SearchParameterResourceVersion = SearchParameter.SearchParameterResourceVersion;
+      DbSearchParameter.Status = SearchParameter.Status;
+      DbSearchParameter.TargetResourceTypeList = SearchParameter.TargetResourceTypeList;
+      DbSearchParameter.Type = SearchParameter.Type;
+      DbSearchParameter.Url = SearchParameter.Url;
+      DbSearchParameter.XPath = SearchParameter.XPath;
+      _Context.Entry(DbSearchParameter).State = EntityState.Modified;
+      this.Save();
+      return DbSearchParameter;
     }
 
     protected List<ServiceSearchParameter> GetAllServiceSearchParameters()

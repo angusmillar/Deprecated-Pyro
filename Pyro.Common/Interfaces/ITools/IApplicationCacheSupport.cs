@@ -9,5 +9,6 @@ namespace Pyro.Common.Interfaces.ITools
     T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class;
     void Set(string cacheKey, object value);
     object Get(string cacheKey);
+    void RemoveAll();
   }
 }

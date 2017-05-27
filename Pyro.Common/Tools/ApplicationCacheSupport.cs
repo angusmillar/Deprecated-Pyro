@@ -11,6 +11,7 @@ namespace Pyro.Common.Tools
 {
   public class ApplicationCacheSupport : IApplicationCacheSupport
   {
+    private Object ThreadLock = new object();
     public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class
     {
       
@@ -58,6 +59,18 @@ namespace Pyro.Common.Tools
       }
       return item;
     }
+
+    public void RemoveAll()
+    {
+      lock (ThreadLock)
+      {
+        foreach (var element in MemoryCache.Default)
+        {
+          MemoryCache.Default.Remove(element.Key);
+        }
+      }
+    }
+
   }
 
 }

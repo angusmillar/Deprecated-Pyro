@@ -36,7 +36,6 @@ namespace Pyro.Common.Cache
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => CommonServices.GetServiceSearchParametersForResource(Resource_ResourceName)));
       
-
       //Get all for the Resource Asked for       
       DtoServiceSearchParameterLightList.AddRange(Cache.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => CommonServices.GetServiceSearchParametersForResource(ResourceType)));
       
@@ -66,6 +65,12 @@ namespace Pyro.Common.Cache
         IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
         return Cache.GetOrSet(() => WebConfigProperties.ServiceBaseURL());
       }
+    }
+
+    public static void ClearCache()
+    {
+      IApplicationCacheSupport Cache = Common.CommonFactory.GetApplicationCacheService();
+      Cache.RemoveAll();
     }
 
   }

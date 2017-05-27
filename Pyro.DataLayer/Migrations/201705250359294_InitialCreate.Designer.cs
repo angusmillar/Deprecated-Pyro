@@ -7,13 +7,13 @@ namespace Pyro.DataLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SearchParamReferance : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SearchParamReferance));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705211407145_SearchParamReferance"; }
+            get { return "201705250359294_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

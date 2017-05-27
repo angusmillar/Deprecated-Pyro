@@ -9,38 +9,43 @@ using Pyro.Common.Enum;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
-  public class DeleteManyHistoryIndexesService : IDeleteManyHistoryIndexesService
+  public class DeleteHistoryIndexesService : IDeleteHistoryIndexesService
   {
-    public IBaseOperationsServiceRequest _ServiceRequest;
+    private IBaseOperationsServiceRequest _BaseOpServiceRequest;
+    private IResourceOperationsServiceRequest _ResourceOpServiceRequest;
     private const string _ParameterName = "ResourceType";
     private List<string> _ResourceList;
 
-    internal DeleteManyHistoryIndexesService(IBaseOperationsServiceRequest ServiceRequest)
+    internal DeleteHistoryIndexesService(IBaseOperationsServiceRequest BaseOpServiceRequest)
     {
-      this._ServiceRequest = ServiceRequest;
-    }     
-    public IResourceServiceOutcome Process()
+      this._BaseOpServiceRequest = BaseOpServiceRequest;
+    }
+    internal DeleteHistoryIndexesService(IResourceOperationsServiceRequest ResourceOpServiceRequest)
     {
-      if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
+      this._ResourceOpServiceRequest = ResourceOpServiceRequest;
+    }
+    public IResourceServiceOutcome DeleteMany()
+    {
+      if (string.IsNullOrWhiteSpace(_BaseOpServiceRequest.OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
-      if (_ServiceRequest.Resource == null)
+      if (_BaseOpServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (_ServiceRequest.RequestUri == null)
+      if (_BaseOpServiceRequest.RequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
-      if (_ServiceRequest.RequestHeaders == null)
+      if (_BaseOpServiceRequest.RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (_ServiceRequest.Resource == null)
+      if (_BaseOpServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (_ServiceRequest.SearchParameterGeneric == null)
+      if (_BaseOpServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_ServiceRequest.ServiceNegotiator == null)
+      if (_BaseOpServiceRequest.ServiceNegotiator == null)
         throw new NullReferenceException("ServiceNegotiator cannot be null.");
       
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
@@ -52,14 +57,14 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       
       
-      if (_ServiceRequest.Resource != null && _ServiceRequest.Resource is Parameters ParametersResource)
+      if (_BaseOpServiceRequest.Resource != null && _BaseOpServiceRequest.Resource is Parameters ParametersResource)
       {                
         var DeleteAll = ParametersResource.Parameter.SingleOrDefault(x => x.Name.ToLower() == _ParameterName.ToLower() && x.Value is FhirString a && a.Value == "*");
         if (DeleteAll != null)
         {
           if (ParametersResource.Parameter.Count > 1)
           {
-            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
+            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             ResourceServiceOutcome.ResourceResult = Op;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -81,7 +86,7 @@ namespace Pyro.Common.BusinessEntities.Service
             }
             else
             {
-              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
+              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
               ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
               ResourceServiceOutcome.ResourceResult = Op;
               ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -96,15 +101,15 @@ namespace Pyro.Common.BusinessEntities.Service
           if (_ResourceList.Count > 0)
           {            
             Parameters ParametersResult = new Parameters();
-            ParametersResult.Id = ParametersResource.Id + "-Response";
+            //ParametersResult.Id = ParametersResource.Id + "-Response";
             ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
 
             foreach (string ResourceName in _ResourceList)
             {
-              var ResourceService = _ServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
+              var ResourceService = _BaseOpServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
               var ResourceServiceDeleteHistoryIndexesRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
-              ResourceServiceDeleteHistoryIndexesRequest.RequestUri = _ServiceRequest.RequestUri;
-              ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
+              ResourceServiceDeleteHistoryIndexesRequest.RequestUri = _BaseOpServiceRequest.RequestUri;
+              ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
               IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = ResourceService.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
               {                
@@ -126,7 +131,7 @@ namespace Pyro.Common.BusinessEntities.Service
           }
           else
           {
-            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.DeleteHistoryIndexes.GetPyroLiteral()} No ResourceType were provided for index deleteion.");
+            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} No ResourceType were provided for index deleteion.");
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             ResourceServiceOutcome.ResourceResult = Op;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -153,6 +158,27 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.SuccessfulTransaction = false;
         return ResourceServiceOutcome;
       }
+    }
+
+    public IResourceServiceOutcome DeleteSingle()
+    {
+      if (string.IsNullOrWhiteSpace(_ResourceOpServiceRequest.OperationName))
+        throw new NullReferenceException("OperationName cannot be null.");
+      if (_ResourceOpServiceRequest.Resource == null)
+        throw new NullReferenceException("Resource cannot be null.");
+      if (_ResourceOpServiceRequest.RequestUri == null)
+        throw new NullReferenceException("RequestUri cannot be null.");
+      if (_ResourceOpServiceRequest.RequestHeaders == null)
+        throw new NullReferenceException("RequestHeaders cannot be null.");
+      if (_ResourceOpServiceRequest.Resource == null)
+        throw new NullReferenceException("Resource cannot be null.");
+      if (_ResourceOpServiceRequest.SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+
+      var RepositoryServiceRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
+      RepositoryServiceRequest.RequestUri = _ResourceOpServiceRequest.RequestUri;
+      RepositoryServiceRequest.SearchParameterGeneric = _ResourceOpServiceRequest.SearchParameterGeneric;
+      return _ResourceOpServiceRequest.ResourceServices.DeleteHistoryIndexes(RepositoryServiceRequest);
     }
   }
 }

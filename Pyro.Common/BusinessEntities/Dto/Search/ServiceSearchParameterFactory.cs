@@ -39,7 +39,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
           };
           if (SearchParameter.Target != null && SearchParameter.Target.Count() > 0)
           {
-            DtoServiceSearchParameter.TargetResourceTypeList = new List<DtoServiceSearchParameterTargetResource>();
+            DtoServiceSearchParameter.TargetResourceTypeList = new List<Common.Interfaces.Dto.IServiceSearchParameterTargetResource>();
             foreach(var ResourceType in SearchParameter.Target)
               DtoServiceSearchParameter.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = ResourceType });
           }
@@ -177,16 +177,26 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
       return ServiceSearchParameterList;
     }
 
-    public static IList<string> GetSearchParameterTargetResourceList(string ResourceName, string SearchName)
+    public static IList<string> GetSearchParameterTargetResourceList(Pyro.Common.BusinessEntities.Search.DtoSearchParameterBase oSearchParameterBase)
     {
-      var SearchParameter = ModelInfo.SearchParameters.SingleOrDefault(x => x.Name == SearchName & x.Resource == ResourceName);
-      if (SearchParameter != null)
+      IList<string> Result = new List<string>();
+      foreach (var Res in oSearchParameterBase.TargetResourceTypeList)
       {
-        IList<string> Result = new List<string>();
-        SearchParameter.Target.ToList().ForEach(x => Result.Add(x.GetLiteral()));
-        return Result;
+        Result.Add(Res.ResourceType.GetLiteral());
       }
-      return null;
+      return Result;
     }
+
+    //public static IList<string> GetSearchParameterTargetResourceList(string ResourceName, string SearchName)
+    //{
+    //  var SearchParameter = ModelInfo.SearchParameters.SingleOrDefault(x => x.Name == SearchName & x.Resource == ResourceName);
+    //  if (SearchParameter != null)
+    //  {
+    //    IList<string> Result = new List<string>();
+    //    SearchParameter.Target.ToList().ForEach(x => Result.Add(x.GetLiteral()));
+    //    return Result;
+    //  }
+    //  return null;
+    //}
   }
 }

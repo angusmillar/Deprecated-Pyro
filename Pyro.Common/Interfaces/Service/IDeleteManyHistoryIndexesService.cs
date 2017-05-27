@@ -1,7 +1,7 @@
 ﻿namespace Pyro.Common.Interfaces.Service
 {
-  public interface IDeleteManyHistoryIndexesService
+  public interface IDeleteHistoryIndexesService
   {
-    IResourceServiceOutcome Process();
+    IResourceServiceOutcome DeleteMany();
   }
 }

@@ -35,7 +35,7 @@ namespace Pyro.Engine.Support
         {
           try
           {
-            oResEntry.Resource = FhirResourceSerializationSupport.Serialize(DtoResource.Xml);
+            oResEntry.Resource = FhirResourceSerializationSupport.DeSerializeFromXml(DtoResource.Xml);
           }
           catch (Exception oExec)
           {

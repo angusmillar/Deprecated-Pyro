@@ -200,7 +200,7 @@ namespace Pyro.DataLayer.Repository
     {
       var ResourceEntity = new ResourceCurrentType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);      
-      this.PopulateResourceEntity(ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), Resource, FhirRequestUri);
+      this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
       ResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
@@ -210,14 +210,12 @@ namespace Pyro.DataLayer.Repository
     }
 
     public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri)
-    {
-      DateTimeOffset TargetDate = new DateTimeOffset(2017, 05, 05, 00, 41, 54, 500, new TimeSpan(10, 0, 0));
-      var NewResourceEntity = new ResourceCurrentType();
-      //var ResourceHistoryEntity = new ResourceCurrentType();
+    {      
+      var NewResourceEntity = new ResourceCurrentType();      
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
       ResourceHistoryEntity.IsCurrent = false;      
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT);
-      this.PopulateResourceEntity(NewResourceEntity, ResourceVersion, Resource, FhirRequestUri);
+      this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
       NewResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
       this.Save();
@@ -286,6 +284,34 @@ namespace Pyro.DataLayer.Repository
       this.Save();
       return DatabaseOperationOutcome;
     }
+    
+    public void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri)
+    {
+      int ChunkSize = 100;
+      int ProgressCount = 0;
+      var Count = DbGetAll<ResourceCurrentType, ResourceIndexType>(x => x.IsCurrent == true & x.IsDeleted == false).Count();
+
+      while(Count > ProgressCount)
+      {
+        var EntityList = DbGetAll<ResourceCurrentType, ResourceIndexType>(x => x.IsCurrent == true & x.IsDeleted == false)
+         .Include(x => x.IndexList)
+         .OrderBy(x => x.Id)
+         .Skip(ProgressCount)
+         .Take(ChunkSize)
+         .ToList();
+        foreach (var Entity in EntityList)
+        {
+          Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(Entity.XmlBlob);
+          AddResourceIndexes(Entity, Resource, FhirRequestUri, ServiceSearchParameterLightList);
+        }
+        this.Save();
+        ProgressCount = ProgressCount + ChunkSize;
+      }
+         
+        
+
+
+    }
 
     public int DeleteNonCurrentResourceIndexes()
     {
@@ -334,13 +360,23 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity;
     }
 
-    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri)
-    {
-      IList<DtoServiceSearchParameterLight> searchparameters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
+    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri)
+    {            
+      IList<DtoServiceSearchParameterLight> SearchParmeters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
+      _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
+    }
+
+    public void AddResourceIndexes(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParmeters)
+    {      
+      _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
+    }
+
+    private void _PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParametersList)
+    {     
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
-      foreach (DtoServiceSearchParameterLight SearchParameter in searchparameters)
-      {        
+      foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
+      {
         //Todo: Composite searchParameters are not supported as yet, need to do work to read 
         // the sub search parameters of the composite directly fro the SearchParameter resources.
         if (SearchParameter.Type != SearchParamType.Composite)
@@ -354,14 +390,14 @@ namespace Pyro.DataLayer.Repository
 
           if (SetSearchParameterIndex)
           {
-            string Expression = SearchParameter.Expression;          
+            string Expression = SearchParameter.Expression;
             if (SearchParameter.Resource == Resource_ResourceName)
             {
               //If the Expression is one with a parent resource of Resource then swap it for the actual current resource name
               //For example make 'Resource._tag' be 'Observation._tag' for Observation resources.
-              Expression = Resource.TypeName +  SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
+              Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
-            
+
             IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
             foreach (IElementNavigator oElement in ResultList)
             {
