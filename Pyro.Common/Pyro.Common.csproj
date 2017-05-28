@@ -108,6 +108,8 @@
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IServerResourceReportService.cs" />
+    <Compile Include="BusinessEntities\Service\ServerResourceReportService.cs" />
     <Compile Include="BusinessEntities\Service\DeleteHistoryIndexesService.cs" />
     <Compile Include="Interfaces\Service\IServerSearchParameterSetService.cs" />
     <Compile Include="BusinessEntities\Service\ServerSearchParameterService.cs" />

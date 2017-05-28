@@ -79,6 +79,11 @@ namespace Pyro.Engine.Services
             var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessIndex();
           }
+        case FhirOperationEnum.BaseOperationType.ServerResourceReport:
+          {
+            var ServerSearchParameterService = Common.CommonFactory.GetServerResourceReportService(_ServiceRequest);
+            return ServerSearchParameterService.Process();
+          }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(BaseOperationType.GetPyroLiteral(), (int)BaseOperationType, typeof(FhirOperationEnum.BaseOperationType));
       }

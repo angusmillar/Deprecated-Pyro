@@ -284,7 +284,30 @@ namespace Pyro.DataLayer.Repository
       this.Save();
       return DatabaseOperationOutcome;
     }
-    
+
+    public ResourceCurrentType LoadCurrentResourceEntity(string fhirResourceId)
+    {
+      var IncludeList = new List<Expression<Func<ResourceCurrentType, object>>>();
+      IncludeList.Add(x => x.IndexList);
+
+      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == fhirResourceId & x.IsCurrent == true, IncludeList);
+      return ResourceEntity;
+    }
+
+    public int GetTotalCurrentResourceCount()
+    {
+      return DbGetALLCount<ResourceCurrentType>(x => x.IsCurrent == true);
+    }
+
+    public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue()
+    {
+      var LastEntity = _Context.Set<ResourceCurrentType>().Max(x => x.LastUpdated);
+      if (LastEntity != null)
+        return LastEntity;
+      else
+        return null;
+    }
+
     public void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri)
     {
       int ChunkSize = 100;
@@ -350,16 +373,7 @@ namespace Pyro.DataLayer.Repository
       throw new NotImplementedException("Does this line above work like the one below??");
       //_Context.PatientIndex.RemoveRange(ResourceEntity.IndexList);
     }
-
-    public ResourceCurrentType LoadCurrentResourceEntity(string fhirResourceId)
-    {
-      var IncludeList = new List<Expression<Func<ResourceCurrentType, object>>>();
-      IncludeList.Add(x => x.IndexList);
-
-      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == fhirResourceId & x.IsCurrent == true, IncludeList);
-      return ResourceEntity;
-    }
-
+    
     public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri)
     {            
       IList<DtoServiceSearchParameterLight> SearchParmeters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());

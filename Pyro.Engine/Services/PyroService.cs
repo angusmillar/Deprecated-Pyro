@@ -380,5 +380,38 @@ namespace Pyro.Engine.Services
       }
     }
 
+    public static IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, IServiceNegotiator FhirServiceNegotiator, string operation)
+    {
+      using (DbContextTransaction Transaction = FhirServiceNegotiator.BeginTransaction())
+      {
+        try
+        {
+          ICommonServices oCommonServices = FhirServiceNegotiator.GetCommonService();
+          IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(oCommonServices, BaseRequestUri);
+          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
+          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, FhirServiceNegotiator, DtoRequestUri, SearchParameterGeneric, RequestHeaders);        
+          var OperationService = new Engine.Services.FhirBaseOperationService();
+          IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
+          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
+          if (ResourceServiceOutcome.SuccessfulTransaction)
+            Transaction.Commit();
+          else
+            Transaction.Rollback();
+
+          return ResourceServiceOutcome;
+        }
+        catch (Exception Exec)
+        {
+          Transaction.Rollback();
+          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
+            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+        }
+      }
+    }
+
+
   }
 }

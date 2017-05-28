@@ -174,6 +174,12 @@ namespace Pyro.Common
       return new BaseOperationsServiceRequest(OperationName, ParametersResource, ServiceNegotiator, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
     }
 
+    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, IServiceNegotiator ServiceNegotiator, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    {
+      return new BaseOperationsServiceRequest(OperationName, null, ServiceNegotiator, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
+    }
+
+
     public static IResourceServiceDeleteHistoryIndexesRequest GetResourceServiceDeleteHistoryIndexesRequest()
     {
       return new ResourceServiceDeleteHistoryIndexesRequest();
@@ -194,6 +200,10 @@ namespace Pyro.Common
       return new ServerSearchParameterService(ServiceRequest);
     }
 
+    public static IServerResourceReportService GetServerResourceReportService(IBaseOperationsServiceRequest ServiceRequest)
+    {
+      return new ServerResourceReportService(ServiceRequest);
+    }
 
 
   }

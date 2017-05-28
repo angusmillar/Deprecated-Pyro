@@ -25,5 +25,16 @@ namespace Pyro.Common.BusinessEntities.Service
       this.RequestHeaders = RequestHeaders;
       this.Resource = Resource;
     }
+
+    internal BaseOperationsServiceRequest(string OperationName, IServiceNegotiator ServiceNegotiator, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    {
+      this.OperationName = OperationName;
+      this.ServiceNegotiator = ServiceNegotiator;
+      this.RequestUri = FhirRequestUri;
+      this.SearchParameterGeneric = SearchParameterGeneric;
+      this.RequestHeaders = RequestHeaders;
+      this.Resource = null;
+    }
+
   }
 }

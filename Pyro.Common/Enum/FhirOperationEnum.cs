@@ -29,7 +29,11 @@ namespace Pyro.Common.Enum
       ServerIndexesIndex,
 
       [EnumLiteral("server-indexes-report")]
-      ServerSearchParameterIndexReport
+      ServerSearchParameterIndexReport,
+
+      [EnumLiteral("server-resource-report")]
+      ServerResourceReport
+
     };
 
     public enum ResourceOperationType
@@ -46,6 +50,7 @@ namespace Pyro.Common.Enum
         {BaseOperationType.ServerIndexesSet.GetPyroLiteral(), BaseOperationType.ServerIndexesSet},
         {BaseOperationType.ServerIndexesIndex.GetPyroLiteral(), BaseOperationType.ServerIndexesIndex},
         {BaseOperationType.ServerSearchParameterIndexReport.GetPyroLiteral(), BaseOperationType.ServerSearchParameterIndexReport},
+        {BaseOperationType.ServerResourceReport.GetPyroLiteral(), BaseOperationType.ServerResourceReport},
       };
     }
 

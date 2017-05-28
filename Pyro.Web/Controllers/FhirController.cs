@@ -241,11 +241,11 @@ namespace Pyro.Web.Controllers
     //Resource Operations
     // POST: URL/FhirApi/Patient/$delete-history-indexes
     /// <summary>
-    /// Resource operation endpont. This is for operations that are to be perfomed on a Resource type, for example: Patient
+    /// Resource operation endpoint. This is for operations that are to be performed on a Resource type, for example: Patient
     /// </summary>
-    /// <param name="ResourceName">The name of the FHIR resource that the operation apllies to.</param>
-    /// <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
-    /// <param name="Resource">Typicaly this is a Parameters resource given in the body</param>
+    /// <param name="ResourceName">The name of the FHIR resource that the operation applies to.</param>
+    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
+    /// <param name="Resource">Typically this is a Parameters resource given in the body</param>
     /// <returns></returns>
     [HttpPost, Route("{ResourceName}/${operation}")]
     [ActionLog]
@@ -259,9 +259,9 @@ namespace Pyro.Web.Controllers
     //Service Operations
     // POST: URL/fhir/$delete-history-indexes
     /// <summary>
-    /// Base operation endpont. This is for operations that are to be perfomed on the server base
+    /// Base operation endpoint. This is for operations that are to be performed on the server base
     /// </summary>    
-    /// <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
     /// <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
     /// <returns></returns>
     [HttpPost, Route("${operation}")]
@@ -272,7 +272,25 @@ namespace Pyro.Web.Controllers
       IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithParameters(BaseRequestUri, Request, _FhirServiceNegotiator, operation, Resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
-    
+
+    //Service Operations
+    // GET: URL/fhir/$delete-history-indexes
+    /// <summary>
+    /// Base operation endpoint. This is for operations that are to be performed on the server base
+    /// </summary>    
+    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
+    /// <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
+    /// <returns></returns>
+    [HttpGet, Route("${operation}")]
+    [ActionLog]
+    public HttpResponseMessage BaseOperationWithParameters(string operation)
+    {
+      string BaseRequestUri = this.CalculateBaseURI("${operation}");
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithOutParameters(BaseRequestUri, Request, _FhirServiceNegotiator, operation);
+      return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+    }
+
+
   }
 
 }

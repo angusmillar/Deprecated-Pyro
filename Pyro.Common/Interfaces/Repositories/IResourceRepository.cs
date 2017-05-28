@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces.UriSupport;
@@ -19,5 +20,7 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);
     int DeleteNonCurrentResourceIndexes();
     void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
+    int GetTotalCurrentResourceCount();
+    DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
   }
 }

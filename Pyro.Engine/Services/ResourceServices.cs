@@ -573,5 +573,15 @@ namespace Pyro.Engine.Services
       _ResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
     }
 
+    public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue()
+    {
+     return _ResourceRepository.GetLastCurrentResourceLastUpdatedValue();
+    }
+
+    public int GetTotalCurrentResourceCount()
+    {
+      return _ResourceRepository.GetTotalCurrentResourceCount();
+    }
+
   }
 }

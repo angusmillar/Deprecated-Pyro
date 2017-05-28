@@ -1,4 +1,5 @@
 ﻿using Hl7.Fhir.Model;
+using System;
 using System.Data.Entity;
 using System.Collections.Generic;
 using Pyro.Common.Interfaces.UriSupport;
@@ -50,6 +51,11 @@ namespace Pyro.Common.Interfaces.Service
 
     //Add the given ServiceSearchParameterLight to the current resource instance
     void AddResourceIndexs(List<Common.BusinessEntities.Dto.DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
+    
+    DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
+   
+    int GetTotalCurrentResourceCount();
+
   }
 
 }

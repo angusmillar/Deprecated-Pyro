@@ -602,18 +602,26 @@
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.ResourceOperationWithParameters(System.String,System.String,Hl7.Fhir.Model.Resource)">
             <summary>
-            Resource operation endpont. This is for operations that are to be perfomed on a Resource type, for example: Patient
+            Resource operation endpoint. This is for operations that are to be performed on a Resource type, for example: Patient
             </summary>
-            <param name="ResourceName">The name of the FHIR resource that the operation apllies to.</param>
-            <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
-            <param name="Resource">Typicaly this is a Parameters resource given in the body</param>
+            <param name="ResourceName">The name of the FHIR resource that the operation applies to.</param>
+            <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
+            <param name="Resource">Typically this is a Parameters resource given in the body</param>
             <returns></returns>
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.BaseOperationWithParameters(System.String,Hl7.Fhir.Model.Resource)">
             <summary>
-            Base operation endpont. This is for operations that are to be perfomed on the server base
+            Base operation endpoint. This is for operations that are to be performed on the server base
             </summary>    
-            <param name="operation">The name of the operation, must be prefixed wiht a '$'. For example: '$my-operation-name' </param>
+            <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
+            <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
+            <returns></returns>
+        </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.BaseOperationWithParameters(System.String)">
+            <summary>
+            Base operation endpoint. This is for operations that are to be performed on the server base
+            </summary>    
+            <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
             <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
             <returns></returns>
         </member>
