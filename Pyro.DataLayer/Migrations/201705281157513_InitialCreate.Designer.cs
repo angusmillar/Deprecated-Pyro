@@ -13,7 +13,7 @@ namespace Pyro.DataLayer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201705250359294_InitialCreate"; }
+            get { return "201705281157513_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

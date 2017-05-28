@@ -99,9 +99,9 @@
     <Compile Include="IndexSetter\QuantitySetter.cs" />
     <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
-    <Compile Include="Migrations\201705250359294_InitialCreate.cs" />
-    <Compile Include="Migrations\201705250359294_InitialCreate.Designer.cs">
-      <DependentUpon>201705250359294_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201705281157513_InitialCreate.cs" />
+    <Compile Include="Migrations\201705281157513_InitialCreate.Designer.cs">
+      <DependentUpon>201705281157513_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,8 +144,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705250359294_InitialCreate.resx">
-      <DependentUpon>201705250359294_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705281157513_InitialCreate.resx">
+      <DependentUpon>201705281157513_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

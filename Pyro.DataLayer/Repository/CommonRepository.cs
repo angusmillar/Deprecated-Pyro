@@ -167,7 +167,7 @@ namespace Pyro.DataLayer.Repository
     {
       var ReturnList = new List<DtoServiceSearchParameterLight>();
       var List = _Context.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
-        .Select(x => new { x.Id, x.Name, x.Expression, x.Type, x.TargetResourceTypeList }).ToList();
+        .Select(x => new { x.Id, x.Name, x.Expression, x.Resource, x.Type, x.TargetResourceTypeList }).ToList();
      foreach(var x in List)
       {
         var Light = new DtoServiceSearchParameterLight();
@@ -175,6 +175,7 @@ namespace Pyro.DataLayer.Repository
         Light.Name = x.Name;
         Light.Expression = x.Expression;
         Light.Type = x.Type;
+        Light.Resource = x.Resource;
         Light.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
         foreach (var Target in x.TargetResourceTypeList)
           Light.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });

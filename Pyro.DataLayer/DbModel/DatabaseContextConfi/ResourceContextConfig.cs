@@ -37,7 +37,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
          .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 1);
       
       //Property(x => x.FhirId).IsRequired().HasMaxLength(500).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_FhirId") { IsUnique = true }));
-      Property(x => x.LastUpdated).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
+      //Property(x => x.LastUpdated).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
+      Property(x => x.LastUpdated).HasPrecision(3).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("dsf")));
       //Property(x => x.VersionId).IsRequired();
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.Method).IsRequired();

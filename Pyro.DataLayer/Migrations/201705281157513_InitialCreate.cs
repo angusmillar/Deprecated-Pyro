@@ -16,7 +16,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -110,7 +110,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -161,7 +161,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -212,7 +212,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -263,7 +263,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -314,7 +314,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -365,7 +365,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -416,7 +416,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -467,7 +467,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -518,7 +518,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -569,7 +569,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -620,7 +620,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -671,7 +671,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -722,7 +722,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -773,7 +773,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -824,7 +824,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -875,7 +875,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -926,7 +926,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -977,7 +977,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1028,7 +1028,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1079,7 +1079,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1130,7 +1130,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1181,7 +1181,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1232,7 +1232,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1283,7 +1283,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1334,7 +1334,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1385,7 +1385,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1436,7 +1436,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1487,7 +1487,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1538,7 +1538,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1589,7 +1589,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1640,7 +1640,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1691,7 +1691,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1742,7 +1742,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1793,7 +1793,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1844,7 +1844,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1895,7 +1895,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1946,7 +1946,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -1997,7 +1997,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2048,7 +2048,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2099,7 +2099,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2150,7 +2150,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2201,7 +2201,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2252,7 +2252,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2303,7 +2303,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2354,7 +2354,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2405,7 +2405,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2456,7 +2456,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2507,7 +2507,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2558,7 +2558,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2609,7 +2609,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2660,7 +2660,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2711,7 +2711,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2762,7 +2762,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2813,7 +2813,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2864,7 +2864,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2915,7 +2915,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -2966,7 +2966,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3017,7 +3017,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3068,7 +3068,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3119,7 +3119,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3170,7 +3170,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3221,7 +3221,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3272,7 +3272,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3323,7 +3323,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3374,7 +3374,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3425,7 +3425,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3476,7 +3476,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3527,7 +3527,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3578,7 +3578,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3629,7 +3629,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3680,7 +3680,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3731,7 +3731,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3782,7 +3782,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3833,7 +3833,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3884,7 +3884,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3935,7 +3935,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -3986,7 +3986,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4037,7 +4037,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4088,7 +4088,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4139,7 +4139,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4190,7 +4190,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4241,7 +4241,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4292,7 +4292,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4343,7 +4343,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4394,7 +4394,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4445,7 +4445,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4496,7 +4496,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4547,7 +4547,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4598,7 +4598,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4649,7 +4649,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4700,7 +4700,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4751,7 +4751,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4802,7 +4802,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4853,7 +4853,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4904,7 +4904,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -4955,7 +4955,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5006,7 +5006,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5057,7 +5057,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5108,7 +5108,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5159,7 +5159,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5210,7 +5210,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5261,7 +5261,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5312,7 +5312,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5363,7 +5363,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5414,7 +5414,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5465,7 +5465,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5516,7 +5516,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5567,7 +5567,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5618,7 +5618,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5669,7 +5669,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5720,7 +5720,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5771,7 +5771,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5822,7 +5822,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5873,7 +5873,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5924,7 +5924,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })
@@ -5975,7 +5975,7 @@ namespace Pyro.DataLayer.Migrations
                         FhirId = c.String(nullable: false, maxLength: 400),
                         IsDeleted = c.Boolean(nullable: false),
                         VersionId = c.String(nullable: false, maxLength: 50),
-                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 7),
+                        LastUpdated = c.DateTimeOffset(nullable: false, precision: 3),
                         XmlBlob = c.String(nullable: false),
                         Method = c.Int(nullable: false),
                     })

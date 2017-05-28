@@ -27,7 +27,11 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.DateTimeOffsetLow).IsOptional();
       Property(x => x.DateTimeOffsetHigh).IsOptional();
-      
+
+      //Property(x => x.DateTimeOffsetLow).HasPrecision(3).IsOptional();
+      //Property(x => x.DateTimeOffsetHigh).HasPrecision(3).IsOptional();
+
+
       //Example of index, note that max string for an index is 900 bytes
       //Property(x => x.DateTimeOffsetLow).IsOptional().IsOptional()
       //  .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetLow")));
