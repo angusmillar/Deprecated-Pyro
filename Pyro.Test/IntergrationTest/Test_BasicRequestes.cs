@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using NUnit.Framework;
 using Hl7.Fhir.Model;
-
+using Hl7.Fhir.Rest;
 
 namespace Pyro.Test.IntergrationTest
 {
@@ -42,7 +42,8 @@ namespace Pyro.Test.IntergrationTest
       Patient PatientOne = new Patient();
       PatientOne.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
       PatientOne.BirthDateElement = new Date("1979-09-30");
-      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
+      string PatientOneMRNIdentifer = Guid.NewGuid().ToString();
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
       PatientOne.Gender = AdministrativeGender.Unknown;
 
       Patient PatientResult = null;
@@ -114,6 +115,97 @@ namespace Pyro.Test.IntergrationTest
       catch (Hl7.Fhir.Rest.FhirOperationException OpExec)
       {
         Assert.AreEqual(OpExec.Status, System.Net.HttpStatusCode.Gone, "Final Get did not return Http Status of Gone.");
+      }
+
+    }
+
+    [Test]
+    public void Test_CaseSensitive_FHIR_Id()
+    {
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+      
+      //Add a Patient resource by Update
+      Patient PatientOne = new Patient();
+      string PatientOneResourceId = Guid.NewGuid().ToString().ToLower();
+      PatientOne.Id = PatientOneResourceId;
+      string PatientOneFamilyName = "TestPatientOne";
+      PatientOne.Name.Add(HumanName.ForFamily(PatientOneFamilyName).WithGiven("Test"));
+      PatientOne.BirthDateElement = new Date("1979-09-30");
+      string PatientOneMRNIdentifer = Guid.NewGuid().ToString();
+      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
+      PatientOne.Gender = AdministrativeGender.Unknown;
+
+      Patient PatientResult = null;
+      try
+      {
+        PatientResult = clientFhir.Update(PatientOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(PatientResult, "Resource create by Updated returned resource of null");      
+      PatientResult = null;
+
+
+      //Add a Patient resource by Update
+      Patient PatientTwo = new Patient();
+      string PatientTwoResourceId = PatientOneResourceId.ToUpper();
+      PatientTwo.Id = PatientTwoResourceId;
+      string PatientTwoFamilyName = "TestPatientTwo";
+      PatientTwo.Name.Add(HumanName.ForFamily(PatientTwoFamilyName).WithGiven("Test"));
+      PatientTwo.BirthDateElement = new Date("1979-09-30");
+      string PatientTwoMRNIdentifer = Guid.NewGuid().ToString();
+      PatientTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
+      PatientTwo.Gender = AdministrativeGender.Unknown;
+
+      PatientResult = null;
+      try
+      {
+        PatientResult = clientFhir.Update(PatientTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(PatientResult, "Resource create by Updated returned resource of null");      
+      PatientResult = null;
+
+      Bundle SearchResult = null;
+      try
+      {
+        SearchResult = clientFhir.SearchById<Patient>(PatientOneResourceId);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.AreEqual(1, SearchResult.Entry.Count);
+      Assert.AreEqual(PatientOneFamilyName, (SearchResult.Entry[0].Resource as Patient).Name[0].Family);
+
+      SearchResult = null;
+      try
+      {
+        SearchResult = clientFhir.SearchById<Patient>(PatientTwoResourceId);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.AreEqual(1, SearchResult.Entry.Count);
+      Assert.AreEqual(PatientTwoFamilyName, (SearchResult.Entry[0].Resource as Patient).Name[0].Family);
+
+      //--- Clean Up ---------------------------------------------------------
+      //Clean up by deleting all Test Patients
+      SearchParams sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
+      try
+      {
+        clientFhir.Delete("Patient", sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource Patient: " + Exec.Message);
       }
 
     }

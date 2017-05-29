@@ -3,5 +3,6 @@
   public interface IDeleteHistoryIndexesService
   {
     IResourceServiceOutcome DeleteMany();
+    IResourceServiceOutcome DeleteSingle();
   }
 }

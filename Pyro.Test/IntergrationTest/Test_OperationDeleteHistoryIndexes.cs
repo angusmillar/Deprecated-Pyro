@@ -17,7 +17,7 @@ namespace Pyro.Test.IntergrationTest
   class Test_OperationDeleteHistoryIndexes
   {
     private System.IDisposable Server;
-    private const string OperationName = "delete-history-indexes";
+    private const string OperationName = "server-indexes-delete-history-indexes";
     [SetUp]
     public void Setup()
     {
@@ -80,7 +80,7 @@ namespace Pyro.Test.IntergrationTest
       //Now setup to use the base operation $delete-history-indexes      
       //Parameter Resource
       Parameters ParametersIn = new Parameters();
-      ParametersIn.Id = Guid.NewGuid().ToString();
+      //ParametersIn.Id = Guid.NewGuid().ToString();
       ParametersIn.Parameter = new List<Parameters.ParameterComponent>();
       var ParamOne = new Parameters.ParameterComponent();
       ParametersIn.Parameter.Add(ParamOne);
