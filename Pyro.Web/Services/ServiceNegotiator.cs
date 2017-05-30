@@ -18,8 +18,7 @@ namespace Pyro.Web.Services
   /// </summary>
   public class ServiceNegotiator : IServiceNegotiator
   {
-    private readonly SimpleInjector.Container _Container = null;
-    private IDefaultResourceServices _DefaultResourceServices = null;    
+    private readonly SimpleInjector.Container _Container = null;     
 
     public ServiceNegotiator(SimpleInjector.Container Container)
     {
@@ -28,21 +27,16 @@ namespace Pyro.Web.Services
 
     public DbContextTransaction BeginTransaction()
     {
-      if (_DefaultResourceServices == null)
-        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
-      return _DefaultResourceServices.BeginTransaction();      
+      return _Container.GetInstance<IDefaultResourceServices>().BeginTransaction();
     }
 
     public ICommonServices GetCommonService()
-    {
-      if (_DefaultResourceServices == null)
-        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
-      return _DefaultResourceServices as ICommonServices;      
+    {      
+      return _Container.GetInstance<IDefaultResourceServices>() as ICommonServices;      
     }
+
     public IResourceServicesBase GetResourceServiceBase(string ResourceName)
     {
-      if (_DefaultResourceServices == null)
-        _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
       return TransactionalResourceService(ResourceName) as IResourceServicesBase;
     }
 
@@ -55,12 +49,11 @@ namespace Pyro.Web.Services
     {      
       Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
       if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-      {
-        if (_DefaultResourceServices == null)
-          _DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
+      {        
+        var DefaultResourceServices = _Container.GetInstance<IDefaultResourceServices>();
         FHIRAllTypes FHIRAllTypes = (FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName);
-        _DefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;        
-        return _DefaultResourceServices;
+        DefaultResourceServices.SetCurrentResourceType = FHIRAllTypes;        
+        return DefaultResourceServices;
       }
       else
       {

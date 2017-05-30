@@ -10,9 +10,9 @@ using System.Net;
 
 namespace Pyro.Common.Tools
 {
-  public static class RepositorySwitcher
+  public class RepositorySwitcher
   {
-    public static IResourceRepository GetRepository(FHIRAllTypes ResourceType, IUnitOfWork UnitOfWork)
+    public  IResourceRepository GetRepository(FHIRAllTypes ResourceType, IUnitOfWork UnitOfWork)
     {
       switch (ResourceType)
       {

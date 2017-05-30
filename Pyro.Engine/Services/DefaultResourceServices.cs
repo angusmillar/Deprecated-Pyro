@@ -22,7 +22,7 @@ namespace Pyro.Engine.Services
       set
       {        
         _CurrentResourceType = value;
-        _ResourceRepository = Pyro.Common.Tools.RepositorySwitcher.GetRepository(_CurrentResourceType, _UnitOfWork);        
+        _ResourceRepository = new Pyro.Common.Tools.RepositorySwitcher().GetRepository(_CurrentResourceType, _UnitOfWork);        
       }
     }
   }
