@@ -278,8 +278,7 @@ namespace Pyro.Web.Controllers
     /// <summary>
     /// Base operation endpoint. This is for operations that are to be performed on the server base
     /// </summary>    
-    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>
-    /// <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
+    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>    
     /// <returns></returns>
     [HttpGet, Route("${operation}")]
     [ActionLog]
