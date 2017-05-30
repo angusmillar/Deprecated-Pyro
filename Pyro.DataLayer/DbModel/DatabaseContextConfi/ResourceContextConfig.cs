@@ -24,16 +24,19 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.IsDeleted).IsRequired();
 
+      // Should be only 64 char not 400?? Version is the same they are both id datatypes
+      // They are also both CaseSensitive
       Property(t => t.FhirId)
           .HasColumnAnnotation("CaseSensitive", true)
           .HasColumnName("FhirId")
-          .HasMaxLength(400)
+          .HasMaxLength(128) 
           .IsRequired()
           .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 0);
 
       Property(t => t.VersionId)
+         .HasColumnAnnotation("CaseSensitive", true)
          .HasColumnName("VersionId")
-         .HasMaxLength(50)
+         .HasMaxLength(128)
          .IsRequired()
          .HasUniqueIndexAnnotation("UQ_FhirIdAndVersionId", 1);
       

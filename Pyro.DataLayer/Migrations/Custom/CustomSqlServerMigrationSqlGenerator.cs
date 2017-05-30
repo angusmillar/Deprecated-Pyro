@@ -21,10 +21,10 @@ namespace Pyro.DataLayer.Migrations.Custom
         {
           using (var writer = Writer())
           {
-            if (alterColumnOperation.Column.IsNullable.HasValue && alterColumnOperation.Column.IsNullable.Value)
+            if (alterColumnOperation.Column.IsNullable.HasValue && !alterColumnOperation.Column.IsNullable.Value)
             {
               writer.WriteLine(
-                "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS",
+                "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL",
                 alterColumnOperation.Table,
                 alterColumnOperation.Column.Name,
                 alterColumnOperation.Column.MaxLength);
@@ -32,10 +32,10 @@ namespace Pyro.DataLayer.Migrations.Custom
             else
             {
               writer.WriteLine(
-                  "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL",
-                  alterColumnOperation.Table,
-                  alterColumnOperation.Column.Name,
-                  alterColumnOperation.Column.MaxLength);
+                "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NULL",
+                alterColumnOperation.Table,
+                alterColumnOperation.Column.Name,
+                alterColumnOperation.Column.MaxLength);
             }
             Statement(writer);
           }
@@ -53,18 +53,18 @@ namespace Pyro.DataLayer.Migrations.Custom
         {
           using (var writer = Writer())
           {
-            if (addColumnOperation.Column.IsNullable.HasValue && addColumnOperation.Column.IsNullable.Value)
+            if (addColumnOperation.Column.IsNullable.HasValue && !addColumnOperation.Column.IsNullable.Value)
             {
               writer.WriteLine(
-                "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS",
-                addColumnOperation.Table,
-                addColumnOperation.Column.Name,
-                addColumnOperation.Column.MaxLength);
+                  "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL",
+                  addColumnOperation.Table,
+                  addColumnOperation.Column.Name,
+                  addColumnOperation.Column.MaxLength);
             }
             else
             {
               writer.WriteLine(
-                  "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL",
+                  "ALTER TABLE {0} ALTER COLUMN {1} NVARCHAR({2}) COLLATE SQL_Latin1_General_CP1_CS_AS NULL",
                   addColumnOperation.Table,
                   addColumnOperation.Column.Name,
                   addColumnOperation.Column.MaxLength);

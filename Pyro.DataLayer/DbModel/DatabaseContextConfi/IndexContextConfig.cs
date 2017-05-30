@@ -53,9 +53,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.SystemHigh).HasMaxLength(300).IsOptional();      
       Property(x => x.UnitHigh).HasMaxLength(50).IsOptional();
 
-      Property(x => x.ReferenceFhirId).HasMaxLength(400).IsOptional();
+      Property(x => x.ReferenceFhirId)
+        .HasColumnAnnotation("CaseSensitive", true)
+        .HasMaxLength(128).IsOptional();
       Property(x => x.ReferenceResourceType).HasMaxLength(50).IsOptional();
-      Property(x => x.ReferenceVersionId).HasMaxLength(50).IsOptional();
+      Property(x => x.ReferenceVersionId)
+        .HasColumnAnnotation("CaseSensitive", true)
+        .HasMaxLength(128).IsOptional();
       
       HasOptional(x => x.ReferenceUrl);
       HasOptional<ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);      
