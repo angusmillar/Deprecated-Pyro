@@ -12,6 +12,7 @@ using Hl7.Fhir.Rest;
 namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
+  [Parallelizable(ParallelScope.Children)]
   [Category("IntergrationTest")]
   class Test_ConditionalRequests
   {

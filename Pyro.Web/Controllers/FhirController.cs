@@ -17,8 +17,7 @@ namespace Pyro.Web.Controllers
     //Constructor for dependence injection 
     public FhirController(IServiceNegotiator FhirServiceNegotiator)
     {
-      _FhirServiceNegotiator = FhirServiceNegotiator;
-      //Configuration.DependencyResolver.GetService
+      _FhirServiceNegotiator = FhirServiceNegotiator;      
     }
 
     //Service Root Base
