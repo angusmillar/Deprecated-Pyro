@@ -14,10 +14,13 @@ namespace Pyro.Web.Controllers
       ViewBag.Title = "Pyro Fhir Server";
       var HomeView = new HomeViewModels();
       HomeView.FhirApiEndpoint = "pyrohealth.net/test/stu3/fhir";
+      HomeView.FhirSpecificationVersion = Hl7.Fhir.Model.ModelInfo.Version;
+      HomeView.FhirSpecificationReleaseName = $"FHIR April 2017 V{ HomeView.FhirSpecificationVersion}";
+      HomeView.FhirSpecificationName = "FHIR STU3";
       HomeView.FhirSpecification = new Models.Common.ExternalPageLink()
       {
-        Description = "FHIR April 2017 V3.0.0 specification release",
-        Name = "FHIR STU3",
+        Description = $"{HomeView.FhirSpecificationReleaseName} specification release",
+        Name = HomeView.FhirSpecificationName,
         Url = new Uri("http://hl7.org/fhir/STU3/index.html")
       };
 
