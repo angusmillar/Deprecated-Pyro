@@ -3,9 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+
     <title>@ViewBag.Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>    
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+  
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/FhirRest")
+  <script>hljs.initHighlightingOnLoad();</script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,6 +31,9 @@
                 <ul class="nav navbar-nav">                    
                     <li>@Html.ActionLink("FHIR API", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
+              <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("FHIR Client", "Index", "FhirClientPage/FhirClient", new { area = "" }, null)</li>
+              </ul>
             </div>
         </div>
     </div>
@@ -33,8 +45,11 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+  
+
 </body>
+
 </html>

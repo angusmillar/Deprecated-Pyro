@@ -206,6 +206,9 @@
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\FhirClientPage\Controllers\FhirClientController.cs" />
+    <Compile Include="Areas\FhirClientPage\FhirClientPageAreaRegistration.cs" />
+    <Compile Include="Areas\FhirClientPage\Models\FhirClientViewModel.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -278,7 +281,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
-    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
@@ -306,11 +308,15 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="App_Data\PyroApp.config" />
     <Content Include="App_Data\Connectons.config" />
+    <Content Include="Areas\FhirClientPage\Views\web.config" />
+    <Content Include="Areas\FhirClientPage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\FhirClientPage\Views\FhirClient\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AWSPyro.pubxml" />
     <None Include="Properties\PublishProfiles\PyroLocal.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\FhirRest.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
