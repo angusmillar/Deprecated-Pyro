@@ -26,6 +26,11 @@ namespace Pyro.Web
 
       bundles.Add(new ScriptBundle("~/bundles/FhirRest").Include(
                  "~/Scripts/FhirRest.js"));
+
+      bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
+                 "~/Scripts/typeahead.bundle.min.js"));
+
+
     }
   }
 }
