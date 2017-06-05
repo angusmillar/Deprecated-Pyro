@@ -16,6 +16,11 @@ textarea {
     max-width: 280px;
 }
 
+#queryString {
+  width: 5000px;
+}
+
+
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
   color: white;
   background-color: black;
