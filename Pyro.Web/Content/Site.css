@@ -13,11 +13,11 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 580px;
 }
 
 #queryString {
-  width: 5000px;
+  width: 800px;
 }
 
 

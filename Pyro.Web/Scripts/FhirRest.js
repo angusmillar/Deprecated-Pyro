@@ -4,13 +4,14 @@
 function OnPageLoad(ServerRootUrl) {
   $(document).ready(function () {
     _ServerRootUrl = ServerRootUrl;
-    MakeFhirGetCall()    
+    MakeFhirGetCall();    
   });
 }
 
 //Make Fhir call on button click
 $(document).ready(function () {  
   $("#searchButton").click(function () {
+    var FhirQuery2 = _ServerRootUrl + '/' + $('#queryString').val();
     MakeFhirGetCall();
   });
 });
@@ -19,6 +20,8 @@ function MakeFhirGetCall()
 {
   //Get the user query string and append to service root url
   var FhirQuery = _ServerRootUrl + '/' + $('#queryString').val();
+  
+
 
   //Make the JSON Call
   var JsonAcceptHeader = 'application/fhir+json';  
@@ -79,7 +82,7 @@ function xhr_get(FhirQuery, DataType, AcceptHeader) {
     headers: { 'Accept': AcceptHeader },
     dataType: DataType,
     cache: false
-  })  
+  });  
 }
 
 function HighLightBlock() {
@@ -99,7 +102,7 @@ function formatXml(xml) {
     if (node.match(/.+<\/\w[^>]*>$/)) {
       indent = 0;
     } else if (node.match(/^<\/\w/)) {
-      if (pad != 0) {
+      if (pad !== 0) {
         pad -= 1;
       }
     } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
@@ -156,14 +159,14 @@ $(document).ready(function () {
       matcher: function (item) {
         var tquery = extractor(this.query);
         if (!tquery) return false;
-        return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+        return ~item.toLowerCase().indexOf(tquery.toLowerCase());
       },
       highlighter: function (item) {
 
-        var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+        var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
         return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-          return '<strong>' + match + '</strong>'
-        })
+          return '<strong>' + match + '</strong>';
+        });
       }
 
     });
