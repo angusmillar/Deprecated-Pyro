@@ -8,6 +8,8 @@ namespace Pyro.Web
     // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
     public static void RegisterBundles(BundleCollection bundles)
     {
+      bundles.UseCdn = true;
+
       bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                   "~/Scripts/jquery-{version}.js"));
 
@@ -29,6 +31,14 @@ namespace Pyro.Web
 
       bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
                  "~/Scripts/typeahead.bundle.min.js"));
+
+
+      var HighLighttheme = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css";
+      bundles.Add(new StyleBundle("~/highlight/css", HighLighttheme));
+
+
+      var HighLightjs = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
+      bundles.Add(new ScriptBundle("~/highlight/script", HighLightjs));
 
 
     }

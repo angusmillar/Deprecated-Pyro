@@ -3,8 +3,11 @@
 @Scripts.Render("~/bundles/typeahead")
 @Scripts.Render("~/bundles/FhirRest")
 
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+@Scripts.Render("~/highlight/script")
+@Styles.Render("~/highlight/css")
+
+@*<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css">*@
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>*@
 <script>hljs.initHighlightingOnLoad();</script>
 
 @{
@@ -23,41 +26,59 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-9">
-          <p>
+      <div id="bloodhound" class="row">
+        <div class="col-lg-12">
+          <div class="wrapper">
+
+            <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
+
+            <button id="searchButton" type="submit" class="btn btn-primary">
+              <span class="">Send</span> <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @*<div class="row">
+          <div class="col-lg-12">
             <div id="bloodhound">
-              <label for="queryString">FHIR Query</label>
-              <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
-              <button id="searchButton" class="btn btn-primary">Send</button>
+              <span>
+                <label for="queryString">FHIR Query</label>
+
+                <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
+
+                <button id="searchButton" class="btn btn-primary">Send</button>
+              </span>
+
             </div>
-          </p>
-        </div>
-      </div>
-      <p>
-        <ul class="nav nav-pills">
-          <li class="active"><a data-toggle="pill" href="#jsonPill">JSON</a></li>
-          <li><a data-toggle="pill" href="#xmlPill">XML</a></li>
-          <li><a data-toggle="pill" href="#treePill">Tree</a></li>
-        </ul>
-      </p>
-      <div class="tab-content">
-        <div id="jsonPill" class="tab-pane fade in active">
-          <p><text>HTTP Status: </text><strong id="fhirjsonStatus"></strong></p>
-          <p><pre><code class="json" id="fhirjson">FHIR Resource Loading...</code></pre></p>
-        </div>
-        <div id="xmlPill" class="tab-pane fade">
-          <p><text>HTTP Status: </text><strong id="fhirxmlStatus"></strong></p>
-          <p><pre><code class="xml" id="fhirxml">FHIR Resource Loading...</code></pre></p>
-        </div>
-        <div id="treePill" class="tab-pane fade">
+          </div>
+        </div>*@
+      <div class="col-sm-12 col-lg-12">
+        <div class="row">
           <p>
-            <pre><code id="fhirtree">FHIR Resource Loading...</code></pre>
+            <ul class="nav nav-pills">
+              <li class="active"><a data-toggle="pill" href="#jsonPill">JSON</a></li>
+              <li><a data-toggle="pill" href="#xmlPill">XML</a></li>
+              <li><a data-toggle="pill" href="#treePill">Tree</a></li>
+            </ul>
           </p>
+          <div class="tab-content">
+            <div id="jsonPill" class="tab-pane fade in active">
+              <p><text>HTTP Status: </text><strong id="fhirjsonStatus"></strong></p>
+              <p><pre><code class="json" id="fhirjson"><img class="center-block" src="~/Content/Images/clock-loading.gif" alt="Flame" /></code></pre></p>
+            </div>
+            <div id="xmlPill" class="tab-pane fade">
+              <p><text>HTTP Status: </text><strong id="fhirxmlStatus"></strong></p>
+              <p><pre><code class="xml" id="fhirxml"><img class="center-block" src="~/Content/Images/clock-loading.gif" alt="Flame" /></code></pre></p>
+            </div>
+            <div id="treePill" class="tab-pane fade">
+              <p>
+                <pre><code id="fhirtree">FHIR Resource Loading...</code></pre>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>

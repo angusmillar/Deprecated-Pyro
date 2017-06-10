@@ -1,25 +1,36 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 580px;
+  max-width: 580px;
 }
 
-#queryString {
-  width: 800px;
+.twitter-typeahead, .tt-hint, .tt-input, .tt-menu {
+  width: 100%;
 }
 
+/*#queryString {
+  max-width: 900px;
+}*/
+
+.wrapper {
+  display: flex;
+}
+
+.typeahead {
+  flex: 1 0 auto;
+}
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
   color: white;
@@ -27,8 +38,8 @@ textarea {
 }
 
 .nav-pills > li > a, .nav-pills > li > a:hover, .nav-pills > li > a:focus {
-    color: black;
-    background-color: whitesmoke;
+  color: black;
+  background-color: whitesmoke;
 }
 
 #scrollable-dropdown-menu .tt-dropdown-menu {

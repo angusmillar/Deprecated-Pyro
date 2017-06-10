@@ -268,6 +268,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\clock-loading.gif" />
     <Content Include="Content\Images\icon-fhir-16.png" />
     <Content Include="Content\Images\icon-fhir-24.png" />
     <Content Include="Content\Images\icon-fhir-32.png" />
