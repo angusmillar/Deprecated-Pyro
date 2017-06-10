@@ -10,18 +10,18 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Engine.Services
 {
-  public class CommonServices : BaseServices, ICommonServices 
-  {     
+  public class CommonServices : BaseServices, ICommonServices
+  {
     public CommonServices(IUnitOfWork IUnitOfWork)
-      : base(IUnitOfWork){}
+      : base(IUnitOfWork) { }
 
     public IDtoRootUrlStore GetPrimaryServiceRootUrl()
-    { 
-      return _UnitOfWork.CommonRepository.GetPrimaryRootUrlStore();            
+    {
+      return _UnitOfWork.CommonRepository.GetPrimaryRootUrlStore();
     }
 
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
-    {      
+    {
       return _UnitOfWork.CommonRepository.SetPrimaryRootUrlStore(RootUrl);
     }
 
@@ -42,14 +42,14 @@ namespace Pyro.Engine.Services
 
     public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
-      return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);      
+      return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
     }
 
     public DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       return _UnitOfWork.CommonRepository.UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
     }
-    
+
     public void DeleteServiceSearchParameters(int Id)
     {
       _UnitOfWork.CommonRepository.DeleteServiceSearchParameters(Id);

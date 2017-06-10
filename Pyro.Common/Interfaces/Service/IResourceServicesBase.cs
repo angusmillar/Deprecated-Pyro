@@ -8,8 +8,7 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServicesBase
   {
-    FHIRAllTypes ServiceResourceType { get; }
-    FHIRAllTypes SetCurrentResourceType { set; }
+    FHIRAllTypes ServiceResourceType { get; }    
 
     IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IDtoRequestUri FhirRequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome);
     IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IDtoRequestUri FhirRequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome);

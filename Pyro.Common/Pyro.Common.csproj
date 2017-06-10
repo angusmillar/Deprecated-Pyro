@@ -132,7 +132,7 @@
     <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
     <Compile Include="Interfaces\Service\IBaseOperationsServiceRequest.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirRequestUri.cs" />
-    <Compile Include="Cache\StaticCacheCommon.cs" />
+    <Compile Include="Cache\CacheCommon.cs" />
     <Compile Include="Enum\EnumUtility.cs" />
     <Compile Include="Enum\FhirOperationEnum.cs" />
     <Compile Include="Extentions\FhirNarrativeExtentions.cs" />

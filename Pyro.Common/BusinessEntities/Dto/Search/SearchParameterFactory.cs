@@ -11,14 +11,14 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
-  public static class SearchParameterFactory
+  public class SearchParameterFactory
   {
-    private static readonly char _ParameterNameParameterValueDilimeter = '=';
-    private static readonly char _ParameterNameModifierDilimeter = ':';
-    private static string _RawSearchParameterAndValueString = string.Empty;
-    private static IDtoRequestUri _RequestUri;
+    private readonly char _ParameterNameParameterValueDilimeter = '=';
+    private readonly char _ParameterNameModifierDilimeter = ':';
+    private string _RawSearchParameterAndValueString = string.Empty;
+    private IDtoRequestUri _RequestUri;
 
-    public static DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices, IDtoRequestUri RequestUri)
+    public DtoSearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, ICommonServices CommonServices, IDtoRequestUri RequestUri)
     {
       _RequestUri = RequestUri;
       DtoSearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
@@ -47,7 +47,7 @@ namespace Pyro.Common.BusinessEntities.Search
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
-        var SearchParameterGeneric = new Pyro.Common.BusinessEntities.Search.DtoSearchParameterGeneric();
+        var SearchParameterGeneric = new DtoSearchParameterGeneric();
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
@@ -55,6 +55,7 @@ namespace Pyro.Common.BusinessEntities.Search
 
         ISearchParametersServiceRequest SearchParametersServiceRequestChainedSearch = Pyro.Common.CommonFactory.GetSearchParametersServiceRequest();
         SearchParametersServiceRequestChainedSearch.SearchParameterGeneric = SearchParameterGeneric;
+        var SearchParameterService = new SearchParameterService();
         SearchParametersServiceRequestChainedSearch.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Resource;
         SearchParametersServiceRequestChainedSearch.ResourceType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value;
         SearchParametersServiceRequestChainedSearch.CommonServices = CommonServices;
@@ -75,7 +76,7 @@ namespace Pyro.Common.BusinessEntities.Search
       return oSearchParameter;
     }
 
-    private static DtoSearchParameterBase InitalizeSearchParameter(SearchParamType DbSearchParameterType)
+    private DtoSearchParameterBase InitalizeSearchParameter(SearchParamType DbSearchParameterType)
     {
       switch (DbSearchParameterType)
       {
@@ -102,7 +103,7 @@ namespace Pyro.Common.BusinessEntities.Search
       }
     }
 
-    private static bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
+    private bool ParseModifier(string Name, DtoSearchParameterBase oSearchParameter)
     {
       if (Name.Contains(_ParameterNameModifierDilimeter))
       {
@@ -115,7 +116,7 @@ namespace Pyro.Common.BusinessEntities.Search
         return true;
       }
     }
-    private static bool ParseModifierType(DtoSearchParameterBase SearchParameter, string value)
+    private bool ParseModifierType(DtoSearchParameterBase SearchParameter, string value)
     {
       var SearchModifierTypeDic = FhirSearchEnum.GetSearchModifierTypeDictionary();
       string ValueCaseCorrectly = StringSupport.ToLowerFast(value);

@@ -28,9 +28,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
     public IResourceServiceOutcome Transact()
     {
-      if (_ResourceServiceRequest.ServiceNegotiator == null)
+      if (_ResourceServiceRequest.ResourceServices == null)
       {
-        throw new ArgumentNullException("_ServiceNegotiator can not be null.");
+        throw new ArgumentNullException("DefaultResourceServices can not be null.");
       }
       if (_ResourceServiceRequest == null)
       {
@@ -153,17 +153,18 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
       
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      _ResourceServiceRequest.ResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
+      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
         IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = ResourceService.ConditionalDelete(ResourceServiceRequestConditionalDelete);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.ConditionalDelete(ResourceServiceRequestConditionalDelete);
       }
       else
       {
         IResourceServiceRequestDelete ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequestDelete(EntryRequestUri.FhirRequestUri.ResourceId, EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = ResourceService.Delete(ResourceServiceRequest);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.Delete(ResourceServiceRequest);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -217,8 +218,9 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
-      IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
-      IResourceServiceOutcome ResourceServiceOutcome = ResourceService.Post(ResourceServiceRequestPost);
+      _ResourceServiceRequest.ResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
+      //IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.Post(ResourceServiceRequestPost);
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
@@ -262,17 +264,18 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_ResourceServiceRequest.RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);      
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      _ResourceServiceRequest.ResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
         IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut = CommonFactory.GetResourceServiceRequestConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = ResourceService.ConditionalPut(PyroServiceRequestConditionalPut);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.ConditionalPut(PyroServiceRequestConditionalPut);
       }
       else
       {
         IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(EntryRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders);
-        ResourceServiceOutcome = ResourceService.Put(ResourceServiceRequestPut);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.Put(ResourceServiceRequestPut);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -317,16 +320,17 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
+      _ResourceServiceRequest.ResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
         IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = ResourceService.GetSearch(ResourceServiceRequestGetSearch);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.GetSearch(ResourceServiceRequestGetSearch);
       }
       else
       {
         IResourceServiceRequestGetRead ResourceServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(EntryRequestUri.FhirRequestUri.ResourceId, _ResourceServiceRequest.RequestUri, SearchParameterGeneric, RequestHeaders);
-        ResourceServiceOutcome = ResourceService.GetRead(ResourceServiceRequestGetRead);
+        ResourceServiceOutcome = _ResourceServiceRequest.ResourceServices.GetRead(ResourceServiceRequestGetRead);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)

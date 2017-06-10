@@ -375,8 +375,9 @@ namespace Pyro.DataLayer.Repository
     }
     
     public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri)
-    {            
-      IList<DtoServiceSearchParameterLight> SearchParmeters = Common.Cache.StaticCacheCommon.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
+    {
+      var Cache = new Common.Cache.CacheCommon();
+      IList<DtoServiceSearchParameterLight> SearchParmeters = Cache.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 

@@ -21,8 +21,8 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("RequestUri cannot be null.");
       if (ServiceRequest.RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (ServiceRequest.ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator cannot be null.");
+      if (ServiceRequest.ResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null.");
       if (ServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
@@ -32,6 +32,7 @@ namespace Pyro.Engine.Services
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = ServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);

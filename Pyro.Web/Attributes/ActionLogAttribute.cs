@@ -16,16 +16,17 @@ using System.Web.Http.Filters;
 namespace Pyro.Web.Attributes
 {
   public class ActionLogAttribute : ActionFilterAttribute
-  {
-    private IServiceNegotiator _FhirServiceNegotiator;
+  {    
     private string DateTimeKey = "ActionStartDateTime";
     private string StopwatchKey = "ActionStopwatch";
     static public string ResourceIdentityKey = "ResourceIdentity";
 
+
     public override void OnActionExecuting(HttpActionContext actionContext)
     {
-      _FhirServiceNegotiator = actionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
-
+      //var _FhirServiceNegotiator = actionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;      
+      //var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
+      
       actionContext.Request.Properties[DateTimeKey] = DateTime.Now;
       actionContext.Request.Properties[StopwatchKey] = System.Diagnostics.Stopwatch.StartNew();
 
@@ -34,21 +35,23 @@ namespace Pyro.Web.Attributes
 
     public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
     {
-      using (DbContextTransaction Transaction = _FhirServiceNegotiator.BeginTransaction())
+      var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
+      var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
+
+      using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
       {
         try
         {
-
           DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
           // TimeSpan duration = (DateTime.Now - dtStart);
           System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
           stopwatch.Stop();
           TimeSpan duration = stopwatch.Elapsed;
 
-          IResourceServicesBase oService = _FhirServiceNegotiator.GetResourceServiceBase(ResourceType.AuditEvent.ToString());
-          IDtoRootUrlStore DtoRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(oService as ICommonServices);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);
-          //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create(oService as ICommonServices, actionExecutedContext.Request.RequestUri);
+          ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
+          var Cache = new Pyro.Common.Cache.CacheCommon();
+          IDtoRootUrlStore DtoRootUrlStore = Cache.GetPrimaryRootUrlStore(ResourceServices);
+          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);          
           IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
 
           //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
@@ -262,7 +265,7 @@ namespace Pyro.Web.Attributes
             }
           }
           //Commit to Database
-          IResourceServiceOutcome ResourceServiceOutcome = oService.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
+          IResourceServiceOutcome ResourceServiceOutcome = (ResourceServices as IResourceServicesBase).SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
           Transaction.Commit();
         }
         catch (Exception Exec)

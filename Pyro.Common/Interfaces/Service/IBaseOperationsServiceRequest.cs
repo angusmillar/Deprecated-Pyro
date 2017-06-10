@@ -7,8 +7,8 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IBaseOperationsServiceRequest
   {    
-    string OperationName { get; set; }    
-    IServiceNegotiator ServiceNegotiator { get; set; }
+    string OperationName { get; set; }
+    IResourceServices ResourceServices { get; set; }
     IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRequestHeaders RequestHeaders { get; set; }

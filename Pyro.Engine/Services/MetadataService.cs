@@ -23,6 +23,7 @@ namespace Pyro.Engine.Services
 
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = ResourceServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);

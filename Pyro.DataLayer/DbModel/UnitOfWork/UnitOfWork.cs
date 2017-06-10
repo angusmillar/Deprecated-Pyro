@@ -18,8 +18,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       try
       {
-        DbContextTransaction DbContextTransaction = _context.Database.BeginTransaction();    
-        return DbContextTransaction;
+        return _context.Database.BeginTransaction();            
       }
       catch (Exception Exec)
       {        
@@ -76,7 +75,12 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     public void Dispose()
     {
       Dispose(true);
-      GC.SuppressFinalize(this);
+      //GC.SuppressFinalize(this);
+    }
+
+    ~UnitOfWork() // the finalizer
+    {
+      Dispose(false);
     }
     #endregion
 

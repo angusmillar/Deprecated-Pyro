@@ -32,14 +32,15 @@ namespace Pyro.Common.BusinessEntities.Service
           throw new NullReferenceException($"Resource cannot be given for Operation ${Enum.FhirOperationEnum.BaseOperationType.ServerResourceReport.GetPyroLiteral()}.");
         if (_BaseOpServiceRequest.SearchParameterGeneric == null)
           throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-        if (_BaseOpServiceRequest.ServiceNegotiator == null)
-          throw new NullReferenceException("ServiceNegotiator cannot be null.");
+        if (_BaseOpServiceRequest.ResourceServices == null)
+          throw new NullReferenceException("ResourceServices cannot be null.");
 
         IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
         ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
         SearchParametersServiceRequest.CommonServices = null;
         SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
+        var SearchParameterService = new SearchParameterService();
         SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
         SearchParametersServiceRequest.ResourceType = null;
         ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
@@ -59,8 +60,8 @@ namespace Pyro.Common.BusinessEntities.Service
           ResourceReportParameter.Part = new List<Parameters.ParameterComponent>();
           ReturnParametersResource.Parameter.Add(ResourceReportParameter);
 
-          var oResourceService = _BaseOpServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
-          int TotalCount = oResourceService.GetTotalCurrentResourceCount();
+          _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);          
+          int TotalCount = _BaseOpServiceRequest.ResourceServices.GetTotalCurrentResourceCount();
 
           var TotalCountParameter = new Parameters.ParameterComponent();
           TotalCountParameter.Name = $"TotalCount";
@@ -69,7 +70,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
           if (TotalCount > 0)
           {
-            DateTimeOffset? LastUpdated = oResourceService.GetLastCurrentResourceLastUpdatedValue();
+            DateTimeOffset? LastUpdated = _BaseOpServiceRequest.ResourceServices.GetLastCurrentResourceLastUpdatedValue();
             if (LastUpdated.HasValue)
             {
               var LastUpdatedParameter = new Parameters.ParameterComponent();

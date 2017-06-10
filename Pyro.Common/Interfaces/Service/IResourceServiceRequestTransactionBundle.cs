@@ -18,6 +18,6 @@ namespace Pyro.Common.Interfaces.Service
     IDtoRequestUri RequestUri { get; set; }
     IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     IDtoRequestHeaders RequestHeaders { get; set; }
-    IServiceNegotiator ServiceNegotiator { get; set; }
+    IResourceServices ResourceServices { get; set; }
   }
 }

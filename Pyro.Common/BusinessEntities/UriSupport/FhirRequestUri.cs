@@ -214,8 +214,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         if (RequestUri.ToLower().StartsWith($"{_UrnName}:{_OidName}:"))
         {
           this.UrnType = UriSupport.UrnType.oid;
-          this.Urn = RequestUri;
-          //string test = this.Urn.Substring(8, this.Urn.Count() - 8);
+          this.Urn = RequestUri;          
           if (!Oid.IsValidValue(this.Urn))
           {
             _ParseErrorMessage = $"The {_UrnName}:{_OidName} value given is not valid: {this.Urn}";

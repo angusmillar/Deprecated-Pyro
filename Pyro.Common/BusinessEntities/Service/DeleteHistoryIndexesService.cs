@@ -38,16 +38,17 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Resource cannot be null.");
       if (_BaseOpServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_BaseOpServiceRequest.ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator cannot be null.");
+      if (_BaseOpServiceRequest.ResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null.");
       
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-      SearchParametersServiceRequest.ResourceType = null;
+      SearchParametersServiceRequest.ResourceType = null;      
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
@@ -106,11 +107,11 @@ namespace Pyro.Common.BusinessEntities.Service
 
             foreach (string ResourceName in _ResourceList)
             {
-              var ResourceService = _BaseOpServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
+              _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);              
               var ResourceServiceDeleteHistoryIndexesRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
               ResourceServiceDeleteHistoryIndexesRequest.RequestUri = _BaseOpServiceRequest.RequestUri;
               ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
-              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = ResourceService.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
+              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = _BaseOpServiceRequest.ResourceServices.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
               {                
                 return ResourceServiceOutcomeDeleteResourceIndex;

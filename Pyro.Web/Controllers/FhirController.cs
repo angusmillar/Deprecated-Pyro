@@ -14,7 +14,7 @@ namespace Pyro.Web.Controllers
   public class FhirController : ApiController
   {
     private readonly IServiceNegotiator _FhirServiceNegotiator;
-    //Constructor for dependence injection 
+    //Constructor for dependence injection inject container into 
     public FhirController(IServiceNegotiator FhirServiceNegotiator)
     {
       _FhirServiceNegotiator = FhirServiceNegotiator;      
@@ -35,9 +35,10 @@ namespace Pyro.Web.Controllers
     [HttpPost, Route("")]
     [ActionLog]
     public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
-    {
+    {       
       string BaseRequestUri = this.CalculateBaseURI("metadata");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Base(BaseRequestUri, Request, _FhirServiceNegotiator, resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Base(BaseRequestUri, Request, oService, resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -52,7 +53,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Metadata()
     {      
       string BaseRequestUri = this.CalculateBaseURI("metadata");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Metadata(BaseRequestUri, Request, _FhirServiceNegotiator);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Metadata(BaseRequestUri, Request, oService);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -71,7 +73,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Get(string ResourceName, string id)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Get(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, id);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Get(BaseRequestUri, Request, oService, ResourceName, id);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -89,7 +92,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Search(string ResourceName)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Search(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Search(BaseRequestUri, Request, oService, ResourceName);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -110,7 +114,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.GetHistory(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, id, vid);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.GetHistory(BaseRequestUri, Request, oService, ResourceName, id, vid);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -131,7 +136,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Post(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Post(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Post(BaseRequestUri, Request, oService, ResourceName, resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -148,7 +154,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage PostFormSearch(string ResourceName, [FromBody] FormDataCollection FormDataCollection)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.PostFormSearch(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, FormDataCollection);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.PostFormSearch(BaseRequestUri, Request, oService, ResourceName, FormDataCollection);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -168,8 +175,10 @@ namespace Pyro.Web.Controllers
     [ActionLog]
     public HttpResponseMessage Put(string ResourceName, string id, [FromBody] FhirModel.Resource resource)
     {
+
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Put(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, id, resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Put(BaseRequestUri, Request, oService, ResourceName, id, resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -188,7 +197,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage Delete(string ResourceName, string id)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Delete(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, id);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.Delete(BaseRequestUri, Request, oService, ResourceName, id);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -212,7 +222,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage ConditionalPut(string ResourceName, [FromBody] FhirModel.Resource resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ConditionalPut(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ConditionalPut(BaseRequestUri, Request, oService, ResourceName, resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -232,7 +243,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage ConditionalDelete(string ResourceName)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ConditionalDelete(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ConditionalDelete(BaseRequestUri, Request, oService, ResourceName);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -251,7 +263,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage ResourceOperationWithParameters(string ResourceName, string operation, [FromBody] FhirModel.Resource Resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ResourceOperationWithParameters(BaseRequestUri, Request, _FhirServiceNegotiator, ResourceName, operation, Resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.ResourceOperationWithParameters(BaseRequestUri, Request, oService, ResourceName, operation, Resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -268,7 +281,8 @@ namespace Pyro.Web.Controllers
     public HttpResponseMessage BaseOperationWithParameters(string operation, [FromBody] FhirModel.Resource Resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithParameters(BaseRequestUri, Request, _FhirServiceNegotiator, operation, Resource);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithParameters(BaseRequestUri, Request, oService, operation, Resource);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -282,11 +296,13 @@ namespace Pyro.Web.Controllers
     [HttpGet, Route("${operation}")]
     [ActionLog]
     public HttpResponseMessage BaseOperationWithParameters(string operation)
-    {
+    {      
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
-      IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithOutParameters(BaseRequestUri, Request, _FhirServiceNegotiator, operation);
+      var oService = _FhirServiceNegotiator.Create<IResourceServices>();
+      IResourceServiceOutcome ResourceServiceOutcome = PyroService.BaseOperationWithOutParameters(BaseRequestUri, Request, oService, operation);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
+
 
 
   }

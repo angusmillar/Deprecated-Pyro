@@ -37,14 +37,15 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_ServiceRequest.ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator cannot be null.");
+      if (_ServiceRequest.ResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
@@ -54,10 +55,8 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-
-      ICommonServices oCommonServices = _ServiceRequest.ServiceNegotiator.GetCommonService();
       
-      List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = oCommonServices.GetServiceSearchParametersHeavy(true);
+      List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -88,7 +87,7 @@ namespace Pyro.Common.BusinessEntities.Service
           {
             foreach (var Del3 in Del2.Value)
             {
-              oCommonServices.DeleteServiceSearchParameters(Del3.Id);
+              _ServiceRequest.ResourceServices.DeleteServiceSearchParameters(Del3.Id);
             }
           }
         }
@@ -100,7 +99,7 @@ namespace Pyro.Common.BusinessEntities.Service
           {
             foreach (var Create3 in Create2.Value)
             {
-              Create3.Id = oCommonServices.AddServiceSearchParametersHeavy(Create3).Id;
+              Create3.Id = _ServiceRequest.ResourceServices.AddServiceSearchParametersHeavy(Create3).Id;
             }
           }
         }
@@ -174,7 +173,8 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
         ResourceServiceOutcome.SuccessfulTransaction = true;
 
-        Pyro.Common.Cache.StaticCacheCommon.ClearCache();
+        var Cache = new Pyro.Common.Cache.CacheCommon();
+        Cache.ClearCache();
         return ResourceServiceOutcome;
         
       }
@@ -195,14 +195,15 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_ServiceRequest.ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator cannot be null.");
+      if (_ServiceRequest.ResourceServices == null)
+        throw new NullReferenceException("ResourceServicescannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
@@ -217,7 +218,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         if (Parameters.Parameter != null || Parameters.Parameter.Count() == 0)
         {
-          IResourceServicesBase ResourceServicesSearchParameter = _ServiceRequest.ServiceNegotiator.GetResourceServiceBase(ResourceType.SearchParameter.GetLiteral());
+          _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);          
           Parameters ReturnParametersResource = new Parameters();
           ReturnParametersResource.Parameter = new List<Parameters.ParameterComponent>();
 
@@ -237,8 +238,8 @@ namespace Pyro.Common.BusinessEntities.Service
                     {
                       if (!FhirUri.IsOperation)
                       {
-                        var ResourceServiceOutcomeGetSearchParameterResource = Common.CommonFactory.GetResourceServiceOutcome();
-                        ResourceServiceOutcomeGetSearchParameterResource = ResourceServicesSearchParameter.GetResourceInstance(FhirUri.ResourceId, _ServiceRequest.RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
+                        var ResourceServiceOutcomeGetSearchParameterResource = Common.CommonFactory.GetResourceServiceOutcome();                        
+                        ResourceServiceOutcomeGetSearchParameterResource = (_ServiceRequest.ResourceServices as IResourceServicesBase).GetResourceInstance(FhirUri.ResourceId, _ServiceRequest.RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
                           TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
@@ -250,9 +251,9 @@ namespace Pyro.Common.BusinessEntities.Service
 
                             foreach(var Item in List)
                             {
-                              var DbSearchParamListForResource = (ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(Item.Resource);
+                              var DbSearchParamListForResource = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavyForResource(Item.Resource);
                               if (Item.Resource != ResourceType.Resource.GetLiteral())
-                                DbSearchParamListForResource.AddRange((ResourceServicesSearchParameter as ICommonServices).GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+                                DbSearchParamListForResource.AddRange(_ServiceRequest.ResourceServices.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
 
                               var CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
                               if (CodeAlreadyIndexed != null)
@@ -279,8 +280,8 @@ namespace Pyro.Common.BusinessEntities.Service
                               }
                             }
                             //Add the new SearchParameterIndex to the database
-                            foreach (var Item in List)                            
-                              (ResourceServicesSearchParameter as ICommonServices).AddServiceSearchParametersHeavy(Item);
+                            foreach (var Item in List)
+                              _ServiceRequest.ResourceServices.AddServiceSearchParametersHeavy(Item);
                           }
                           else
                           {
@@ -409,14 +410,15 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_ServiceRequest.ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator cannot be null.");
+      if (_ServiceRequest.ResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
       SearchParametersServiceRequest.SearchParameterGeneric = _ServiceRequest.SearchParameterGeneric;
+      var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
@@ -426,10 +428,8 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-
-      ICommonServices oCommonServices = _ServiceRequest.ServiceNegotiator.GetCommonService();
-
-      List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = oCommonServices.GetServiceSearchParametersHeavy(true);
+      
+      List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -540,8 +540,8 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         if (LightList.Count() > 0)
         {
-          var oResourceService = _ServiceRequest.ServiceNegotiator.GetResourceService(ResourceName);
-          oResourceService.AddResourceIndexs(LightList, _ServiceRequest.RequestUri);
+          _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);
+          _ServiceRequest.ResourceServices.AddResourceIndexs(LightList, _ServiceRequest.RequestUri);
         }
       }
 
@@ -551,10 +551,9 @@ namespace Pyro.Common.BusinessEntities.Service
         foreach (var Updated in Item.CreateIndexList)
         {
           foreach (var Updated2 in Updated.Value)
-          {
-            var oCommonService = _ServiceRequest.ServiceNegotiator.GetCommonService();
+          {            
             Updated2.IsIndexed = true;
-            oCommonService.UpdateServiceSearchParametersHeavy(Updated2);
+            _ServiceRequest.ResourceServices.UpdateServiceSearchParametersHeavy(Updated2);
           }
         }
       }
@@ -569,8 +568,7 @@ namespace Pyro.Common.BusinessEntities.Service
           {
             Updated2.New.Id = Updated2.Old.Id;
             Updated2.New.IsIndexed = Updated2.Old.IsIndexed;
-            var oCommonService = _ServiceRequest.ServiceNegotiator.GetCommonService();
-            oCommonService.UpdateServiceSearchParametersHeavy(Updated2.New);
+            _ServiceRequest.ResourceServices.UpdateServiceSearchParametersHeavy(Updated2.New);
           }
         }
       }
@@ -581,13 +579,13 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();    
       var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);
-      var oResService = _ServiceRequest.ServiceNegotiator.GetResourceServiceBase(ResourceType.SearchParameter.GetLiteral());
+      _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);
       
       foreach (var OldList in GroupList)
       {
         var CurrentParameter = Common.CommonFactory.GetResourceServiceOutcome();
         var FirstInstance = OldList.FirstOrDefault();
-        CurrentParameter = oResService.GetResourceInstance(FirstInstance.SearchParameterResourceId, _ServiceRequest.RequestUri, CurrentParameter);
+        CurrentParameter = (_ServiceRequest.ResourceServices as IResourceServicesBase).GetResourceInstance(FirstInstance.SearchParameterResourceId, _ServiceRequest.RequestUri, CurrentParameter);
         CompairisonResult Result;
         if (CurrentParameter.ResourceVersionNumber != FirstInstance.SearchParameterResourceVersion)
         {          

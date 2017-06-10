@@ -624,10 +624,5 @@
             <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>    
             <returns></returns>
         </member>
-        <member name="T:Pyro.Web.Services.ServiceNegotiator">
-            <summary>
-            Negotiates the required Resource server based on the Resource name provided 
-            </summary>
-        </member>
     </members>
 </doc>

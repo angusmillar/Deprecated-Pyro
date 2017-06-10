@@ -12,6 +12,10 @@ namespace Pyro.Common.Interfaces.Service
 
     FHIRAllTypes ServiceResourceType { get; }
 
+    void SetCurrentResourceType(FHIRAllTypes ResourceType);
+    void SetCurrentResourceType(string ResourceName);
+    void SetCurrentResourceType(ResourceType ResourceType);
+
     //Read
     // GET: URL/FhirApi/Patient/5    
     IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead);

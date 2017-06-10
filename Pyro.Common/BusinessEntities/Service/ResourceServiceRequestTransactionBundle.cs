@@ -18,10 +18,10 @@ namespace Pyro.Common.BusinessEntities.Service
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public IDtoRequestHeaders RequestHeaders { get; set; }
     public Resource Resource { get; set; }
-    public IServiceNegotiator ServiceNegotiator { get; set; }
+    public IResourceServices ResourceServices { get; set; }
     public IDtoRequestUri RequestUri { get; set; }
 
-    public ResourceServiceRequestTransactionBundle(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders, IServiceNegotiator ServiceNegotiator)
+    public ResourceServiceRequestTransactionBundle(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders, IResourceServices ResourceServices)
     {
       if (Resource == null)
         throw new NullReferenceException("Resource can not be null.");
@@ -31,14 +31,14 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
-      if (ServiceNegotiator == null)
-        throw new NullReferenceException("ServiceNegotiator can not be null.");
+      if (ResourceServices == null)
+        throw new NullReferenceException("ResourceServices can not be null.");
 
       this.Resource = Resource;
       this.RequestUri = DtoFhirRequestUri;
       this.SearchParameterGeneric = SearchParameterGeneric;
       this.RequestHeaders = RequestHeaders;
-      this.ServiceNegotiator = ServiceNegotiator;
+      this.ResourceServices = ResourceServices;
     }    
   }
 }

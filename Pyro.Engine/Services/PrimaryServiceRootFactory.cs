@@ -19,8 +19,9 @@
         string RequestRoot = PrimaryServiceRootFromRequst.ToLower();
         string ErrorMsg = "Error message not set in PrimaryServiceRootFactory";
 
-        IDtoRootUrlStore PrimaryRootUrlStore = Common.Cache.StaticCacheCommon.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
-        string WebConfigServiceBase = Common.Cache.StaticCacheCommon.WebConfigServiceBaseURL.ToLower();
+        var Cache = new Common.Cache.CacheCommon();
+        IDtoRootUrlStore PrimaryRootUrlStore = Cache.GetPrimaryRootUrlStore(CommonServices as ICommonServices);
+        string WebConfigServiceBase = Cache.WebConfigServiceBaseURL().ToLower();
 
         if (PrimaryRootUrlStore != null &&
           RequestRoot == PrimaryRootUrlStore.Url &&

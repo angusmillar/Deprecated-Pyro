@@ -14,7 +14,7 @@ namespace Pyro.Web.App_Start
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(HttpConfiguration configuration)
     {
-      var container = new Container();     
+      var container = new Container();      
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       
       InitializeContainer(container);
@@ -29,9 +29,9 @@ namespace Pyro.Web.App_Start
 
     private static void InitializeContainer(Container container)
     {      
-      container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IDefaultResourceServices, Pyro.Engine.Services.DefaultResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);      
+      container.Register<IServiceNegotiator, Services.ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);      
+      container.Register<IResourceServices, Pyro.Engine.Services.ResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
     }
   }
 }

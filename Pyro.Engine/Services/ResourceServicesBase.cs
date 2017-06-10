@@ -21,7 +21,7 @@ namespace Pyro.Engine.Services
     public ResourceServicesBase(IUnitOfWork IUnitOfWork)
       : base(IUnitOfWork) { }
 
-    protected FHIRAllTypes _CurrentResourceType;
+    protected FHIRAllTypes _CurrentResourceType = FHIRAllTypes.AuditEvent;
 
     public FHIRAllTypes ServiceResourceType
     {
@@ -31,13 +31,13 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public FHIRAllTypes SetCurrentResourceType
-    {
-      set
-      {
-        _CurrentResourceType = value;
-      }
-    }
+    //public FHIRAllTypes SetCurrentResourceType
+    //{
+    //  set
+    //  {
+    //    _CurrentResourceType = value;
+    //  }
+    //}
 
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
