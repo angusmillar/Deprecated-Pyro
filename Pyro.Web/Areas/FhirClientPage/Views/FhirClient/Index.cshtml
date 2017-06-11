@@ -23,7 +23,13 @@
           <img class="img-circle" width="50" height="50" src="~/Content/Images/PyroIcon-100.png" alt="Pyro" />
         </div>
       </div>
-
+      <div class="col-lg-5">
+        <div class="row">
+          <p>
+            <img class="moveFhirLogoImage" style="float:left" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" /><strong>Service root URL:</strong> @Model.ServiceBaseRoot
+          </p>
+        </div>
+      </div>
       <div class="col-lg-9">
         <div class="row">
           <div id="bloodhound">
@@ -48,11 +54,11 @@
           </p>
           <div class="tab-content">
             <div id="jsonPill" class="tab-pane fade in active">
-              <p><text>HTTP Status: </text><strong id="fhirjsonStatus"></strong></p>
+              <p><strong>Http Status: </strong><text id="fhirjsonStatus"></text></p>
               <p><pre><code class="json" id="fhirjson"><img class="center-block" src="~/Content/Images/clock-loading.gif" alt="Flame" /></code></pre></p>
             </div>
             <div id="xmlPill" class="tab-pane fade">
-              <p><text>HTTP Status: </text><strong id="fhirxmlStatus"></strong></p>
+              <p><strong>Http Status: </strong><text id="fhirxmlStatus"></text></p>
               <p><pre><code class="xml" id="fhirxml"><img class="center-block" src="~/Content/Images/clock-loading.gif" alt="Flame" /></code></pre></p>
             </div>
             <div id="treePill" class="tab-pane fade">

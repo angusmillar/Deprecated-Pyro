@@ -1,45 +1,45 @@
 ﻿@model Pyro.Web.Models.HomeViewModels
 <div class="container">
-    <div class="panel panel-default">
-        <div class="panel-body">           
-            <div class="row">
-                <div class="col-sm-9">                    
-                    <h2>Pyro Server</h2>
-                    <p class="small">FHIR Server Implementation</p>
-                    <blockquote class="hidden-xs">
-                        <p><img style="float:left" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" />FHIR endpoint: <code class="text-muted">@Model.FhirApiEndpoint</code></p>
-                    </blockquote>
-                    <small class="visible-xs">
-                        <img style="float:left" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" />FHIR endpoint: <code class="text-muted">@Model.FhirApiEndpoint</code>
-                    </small>
-                </div>
-                <div class="col-sm-3">
-                    <img class="img-responsive" src="~/Content/Images/PyroIcon-150.png" alt="Pyro" />                    
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <h4 class="text-info"><span class="glyphicon glyphicon-wrench"></span> Implementation</h4>
-                    <p>This server implements the @Model.FhirSpecification.Description, and built utilising the official <a href=@Model.FhirDotNetAPI.Url>@Model.FhirDotNetAPI.Name</a>. </p>
-                    <p>The server supports CRUD, vread and all search parameters and resources as of the release. </p> 
-                    <p>This server is used for testing only and its resources may be removed and reset at any time.</p>                    
-                </div>
-                <div class="col-sm-4">
-                    <h4 class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> Who am I?</h4>
-                    <p><a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">Angus Millar</a>: I'm a keen Australian integration specialist with a passion for HL7 integration and informatics.</p> 
-                    <p>My passion grew from many years working in pathology laboratories later moving into Laboratory Information Systems support and development at Kestral Computing.</p> 
-                    <p>More recently I have worked on EMR integration at QLD Health and currently, work as a Solution Architect at the Australian Digital Health Agency (formally known as NeHTA).</p>
-                    <p>I regularly attend the Australian FHIR Connectathons and run the beginner streams helping educate newcomers to the FHIR specification.</p>
-                </div>
-                <div class="col-sm-4">
-                    <h4 class="text-info"><span class="glyphicon glyphicon-info-sign"></span> Information</h4>                    
-                    <p>Links to interesting FHIR based resources<p>
-                    @foreach (var link in Model.InformationPageLinkList)
-                    {
-                      <p><a href=@link.Url class="btn btn-default btn-sm">@link.Name &raquo;</a></p>
-                    }                    
-                </div>
-            </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-9">
+          <h2>Pyro Server</h2>
+          <p class="small">FHIR Server Implementation</p>
+          <blockquote class="hidden-xs">
+            <p><img style="float:left" class="moveFhirLogoImage" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" />FHIR endpoint: <code class="text-muted">@Model.FhirApiEndpoint</code></p>
+          </blockquote>
+          <small class="visible-xs">
+            <img style="float:left" class="moveFhirLogoImage" src="~/Content/Images/icon-fhir-24.png" alt="Pyro" />FHIR endpoint: <code class="text-muted">@Model.FhirApiEndpoint</code>
+          </small>
         </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" src="~/Content/Images/PyroIcon-150.png" alt="Pyro" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <h4 class="text-info"><span class="glyphicon glyphicon-wrench"></span> Implementation</h4>
+          <p>This server implements the @Model.FhirSpecification.Description, and built utilising the official <a href=@Model.FhirDotNetAPI.Url>@Model.FhirDotNetAPI.Name</a>. </p>
+          <p>The server supports CRUD, vread and all search parameters and resources as of the release. </p>
+          <p>This server is used for testing only and its resources may be removed and reset at any time.</p>
+        </div>
+        <div class="col-sm-4">
+          <h4 class="text-info"><span class="glyphicon glyphicon-sunglasses"></span> Who am I?</h4>
+          <p><a href="https://www.linkedin.com/in/angus-millar-64298342?trk=hp-identity-name">Angus Millar</a>: I'm a keen Australian integration specialist with a passion for HL7 integration and informatics.</p>
+          <p>My passion grew from many years working in pathology laboratories later moving into Laboratory Information Systems support and development at Kestral Computing.</p>
+          <p>More recently I have worked on EMR integration at QLD Health and currently, work as a Solution Architect at the Australian Digital Health Agency (formally known as NeHTA).</p>
+          <p>I regularly attend the Australian FHIR Connectathons and run the beginner streams helping educate newcomers to the FHIR specification.</p>
+        </div>
+        <div class="col-sm-4">
+          <h4 class="text-info"><span class="glyphicon glyphicon-info-sign"></span> Information</h4>
+          <p>Links to interesting FHIR based resources<p>
+            @foreach (var link in Model.InformationPageLinkList)
+            {
+            <p><a href=@link.Url class="btn btn-default btn-sm">@link.Name &raquo;</a></p>
+            }
+          </div>
+        </div>
+      </div>
     </div>
- </div>
+  </div>

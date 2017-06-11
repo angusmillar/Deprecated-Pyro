@@ -15,7 +15,6 @@ namespace Pyro.Web.Controllers
       var HomeView = new HomeViewModels();
       var Cache = new Pyro.Common.Cache.CacheCommon();
       HomeView.FhirApiEndpoint = Cache.WebConfigServiceBaseURL();
-      //HomeView.FhirApiEndpoint = "pyrohealth.net/test/stu3/fhir";
       HomeView.FhirSpecificationVersion = Hl7.Fhir.Model.ModelInfo.Version;
       HomeView.FhirSpecificationReleaseName = $"FHIR April 2017 V{ HomeView.FhirSpecificationVersion}";
       HomeView.FhirSpecificationName = "FHIR STU3";
