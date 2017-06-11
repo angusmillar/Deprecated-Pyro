@@ -4,27 +4,26 @@
 function OnPageLoad(ServerRootUrl) {
   $(document).ready(function () {
     _ServerRootUrl = ServerRootUrl;
-    MakeFhirGetCall();    
+    MakeFhirGetCall();
   });
 }
 
 //Make Fhir call on button click
-$(document).ready(function () {  
+$(document).ready(function () {
   $("#searchButton").click(function () {
     var FhirQuery2 = _ServerRootUrl + '/' + $('#queryString').val();
     MakeFhirGetCall();
   });
 });
 
-function MakeFhirGetCall()
-{
+function MakeFhirGetCall() {
   //Get the user query string and append to service root url
   var FhirQuery = _ServerRootUrl + '/' + $('#queryString').val();
-  
+
 
 
   //Make the JSON Call
-  var JsonAcceptHeader = 'application/fhir+json';  
+  var JsonAcceptHeader = 'application/fhir+json';
   var jsonrequest = xhr_get(FhirQuery, 'json', JsonAcceptHeader);
 
   jsonrequest.done(function (data, status, jqxhr) {
@@ -44,11 +43,11 @@ function MakeFhirGetCall()
     //Treat like finaly, clean up if needed.
     //$("#fhirjson").text("<p>An error has occurred: </p> <p>" + status + "</p>");        
   });
-  
+
   //Make the XML Call
   var XmlAcceptHeader = 'application/fhir+xml';
   var xmlrequest = xhr_get(FhirQuery, 'xml', XmlAcceptHeader);
-  
+
   xmlrequest.done(function (data, status, jqxhr) {
     httpStatusFormated('#fhirxmlStatus', status, jqxhr.status);
     $("#fhirxml").text(formatXml(jqxhr.responseText));
@@ -69,27 +68,26 @@ function MakeFhirGetCall()
 }
 
 
-function httpStatusFormated(location, statusText, statusCode)
-{
+function httpStatusFormated(location, statusText, statusCode) {
   return $(location).text("(" + statusCode + ") " + statusText);
 }
 
 
-function xhr_get(FhirQuery, DataType, AcceptHeader) {  
+function xhr_get(FhirQuery, DataType, AcceptHeader) {
   return $.ajax({
     url: FhirQuery,
     type: 'get',
     headers: { 'Accept': AcceptHeader },
     dataType: DataType,
     cache: false
-  });  
+  });
 }
 
 function HighLightBlock() {
 
   $('pre code').each(function (i, block) {
-      hljs.highlightBlock(block);
-  });  
+    hljs.highlightBlock(block);
+  });
 }
 
 function formatXml(xml) {
@@ -126,7 +124,7 @@ function formatXml(xml) {
 
 $(document).ready(function () {
 
-  var statesone = ['Patient', 'Observation', 'DiagnosticReport', 'Encounter', '$server-resource-report',
+  var fhirResourceNames = ['Patient', 'Observation', 'DiagnosticReport', 'Encounter', '$server-resource-report',
     '$server-indexes-delete-history-indexes'
   ];
 
@@ -135,7 +133,7 @@ $(document).ready(function () {
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     // `states` is an array of state names defined in "The Basics"
-    local: statesone
+    local: fhirResourceNames
   });
 
   function extractor(query) {
@@ -153,7 +151,7 @@ $(document).ready(function () {
     {
       name: 'states',
       source: states,
-      updater: function(item) {
+      updater: function (item) {
         return this.$element.val().replace(/[^,]*$/, '') + item + ',';
       },
       matcher: function (item) {
