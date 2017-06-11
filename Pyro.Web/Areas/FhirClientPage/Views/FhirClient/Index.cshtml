@@ -6,8 +6,6 @@
 @Scripts.Render("~/highlight/script")
 @Styles.Render("~/highlight/css")
 
-@*<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css">*@
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>*@
 <script>hljs.initHighlightingOnLoad();</script>
 
 @{
@@ -26,34 +24,20 @@
         </div>
       </div>
 
-      <div id="bloodhound" class="row">
-        <div class="col-lg-12">
-          <div class="wrapper">
-
-            <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
-
-            <button id="searchButton" type="submit" class="btn btn-primary">
-              <span class="">Send</span> <i class="fa fa-search"></i>
-            </button>
+      <div class="col-lg-9">
+        <div class="row">
+          <div id="bloodhound">
+            <div class="wrapper">
+              <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
+              <button id="searchButton" type="submit" class="btn btn-primary">
+                <span class="">Send</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      @*<div class="row">
-          <div class="col-lg-12">
-            <div id="bloodhound">
-              <span>
-                <label for="queryString">FHIR Query</label>
-
-                <input id="queryString" class="typeahead form-control" type="text" value="Patient/IHIStatusExample" placeholder="Resource Name">
-
-                <button id="searchButton" class="btn btn-primary">Send</button>
-              </span>
-
-            </div>
-          </div>
-        </div>*@
-      <div class="col-sm-12 col-lg-12">
+      <div class="col-lg-12">
         <div class="row">
           <p>
             <ul class="nav nav-pills">

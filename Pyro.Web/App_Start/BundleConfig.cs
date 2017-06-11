@@ -34,12 +34,15 @@ namespace Pyro.Web
 
 
       var HighLighttheme = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css";
-      bundles.Add(new StyleBundle("~/highlight/css", HighLighttheme));
+      bundles.Add(new StyleBundle("~/highlight/css", HighLighttheme).Include(
+        "~/Content/googlecode.css"));
 
 
       var HighLightjs = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
-      bundles.Add(new ScriptBundle("~/highlight/script", HighLightjs));
+      bundles.Add(new ScriptBundle("~/highlight/script", HighLightjs).Include(
+        "~/bundles/highlight.pack.js"));
 
+      BundleTable.EnableOptimizations = true;
 
     }
   }
