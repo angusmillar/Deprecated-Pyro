@@ -9,6 +9,7 @@ using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure.Annotations;
 using Pyro.DataLayer.DbModel.Entity;
+using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
@@ -17,7 +18,10 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     public ServiceBaseUrlContextConfig()
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-      Property(x => x.Url).IsRequired().HasMaxLength(450).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("IX_Url") { IsUnique = true }));
+      Property(x => x.Url).IsRequired()
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.UriMaxLength)
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("IX_Url") { IsUnique = true }));
       Property(x => x.IsServersPrimaryUrlRoot).IsRequired();
     }
   }

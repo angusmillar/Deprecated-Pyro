@@ -24,7 +24,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.String);
+      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.String);
       ConstantExpression InnerValueString = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
       MethodInfo MethodEquals = typeof(String).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(String)).Single();
       MethodCallExpression MethodEqualsCall = Expression.Call(InnerPropertyString, MethodEquals, InnerValueString);
@@ -45,7 +45,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.String);
+      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.String);
       ConstantExpression InnerValueString = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
 
       MethodInfo MethodStartsWith = typeof(String).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -72,7 +72,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.String);
+      MemberExpression InnerPropertyString = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.String);
       ConstantExpression InnerValueString = Expression.Constant(StringSupport.ToLowerAndRemoveDiacritics(Value.Trim()));
 
       MethodInfo MethodContains = typeof(String).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
@@ -92,7 +92,7 @@ namespace Pyro.DataLayer.Search
     {
       //(x => x.birthdate_DateTimeOffset > TestDate);
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
       MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.GreaterThan(LastUpdatedProperty, constantReference);
@@ -103,7 +103,7 @@ namespace Pyro.DataLayer.Search
     {
       //(x => x.birthdate_DateTimeOffset >= TestDate);
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
       MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.GreaterThanOrEqual(LastUpdatedProperty, constantReference);
@@ -114,7 +114,7 @@ namespace Pyro.DataLayer.Search
     {
       //(x => x.birthdate_DateTimeOffset < TestDate);
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
       MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.LessThan(LastUpdatedProperty, constantReference);
@@ -125,7 +125,7 @@ namespace Pyro.DataLayer.Search
     {
       //(x => x.birthdate_DateTimeOffset <= TestDate);
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.LastUpdated;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
       MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.LessThanOrEqual(LastUpdatedProperty, constantReference);
@@ -139,8 +139,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -163,8 +163,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -187,8 +187,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -211,8 +211,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -235,8 +235,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -259,8 +259,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
       ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
@@ -280,7 +280,7 @@ namespace Pyro.DataLayer.Search
     {
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
 
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.FhirId;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.FhirId;
       MemberExpression FhirIdProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
 
       ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
@@ -296,8 +296,8 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
       ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
       ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
 
@@ -351,8 +351,8 @@ namespace Pyro.DataLayer.Search
 
         BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-        MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-        MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
+        MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+        MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
 
         ConstantExpression SearchValueReferenceLow = Expression.Constant(LowNumber, typeof(decimal?));
         ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
@@ -413,8 +413,8 @@ namespace Pyro.DataLayer.Search
 
         BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-        MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-        MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
+        MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+        MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
 
         ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
 
@@ -459,11 +459,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(LowNumber, typeof(decimal?));
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
@@ -492,11 +492,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceLow = Expression.Constant(LowNumber, typeof(decimal?));
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
@@ -526,11 +526,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
 
@@ -557,11 +557,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
 
@@ -588,11 +588,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
 
@@ -619,11 +619,11 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Comparator);
-      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Quantity);
-      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.System);
-      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Code);
-      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Unit);
+      MemberExpression propertyReferenceComparator = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Comparator);
+      MemberExpression propertyReferenceNumber = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Quantity);
+      MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+      MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
+      MemberExpression propertyReferenceUnit = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Unit);
 
       ConstantExpression SearchValueReferenceMid = Expression.Constant(MidNumber, typeof(decimal?));
 
@@ -651,7 +651,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Uri);
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Uri);
       ConstantExpression InnerValue = Expression.Constant(Value);
 
       MethodInfo MethodEquals = typeof(string).GetMethods().Where(m => m.Name == "Equals" && m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(string)).Single();
@@ -673,7 +673,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Uri);
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Uri);
       ConstantExpression InnerValue = Expression.Constant(Value);
 
       MethodInfo MethodContains = typeof(string).GetMethods().Where(m => m.Name == "Contains" && m.GetParameters().Length == 1).Single();
@@ -696,7 +696,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Uri);
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Uri);
       ConstantExpression InnerValue = Expression.Constant(Value);
 
       MethodInfo MethodStartsWith = typeof(string).GetMethods().Where(m => m.Name == "StartsWith" && m.GetParameters().Length == 1).Single();
@@ -719,7 +719,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.Uri);
+      MemberExpression InnerProperty = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Uri);
       ConstantExpression InnerValue = Expression.Constant(Value);
 
       MethodInfo MethodEndsWith = typeof(string).GetMethods().Where(m => m.Name == "EndsWith" && m.GetParameters().Length == 1).Single();
@@ -741,10 +741,10 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceServiceBaseUrlId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceServiceBaseUrlId);
-      MemberExpression propertyReferenceResourceType = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceResourceType);
-      MemberExpression propertyReferenceFhirId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceFhirId);
-      MemberExpression propertyReferenceVersionId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceVersionId);
+      MemberExpression propertyReferenceServiceBaseUrlId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceServiceBaseUrlId);
+      MemberExpression propertyReferenceResourceType = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceResourceType);
+      MemberExpression propertyReferenceFhirId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceFhirId);
+      MemberExpression propertyReferenceVersionId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceVersionId);
 
       ConstantExpression SearchValueReferenceServiceBaseUrlId = Expression.Constant(ServiceBaseUrlId, typeof(int?));
       ConstantExpression SearchValueReferenceResourceType = Expression.Constant(ResourceType, typeof(string));
@@ -778,12 +778,12 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceServiceBaseUrlId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceServiceBaseUrlId);
-      MemberExpression propertyReferenceResourceType = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceResourceType);
-      MemberExpression propertyReferenceFhirId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceFhirId);
-      MemberExpression propertyReferenceVersionId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceVersionId);
-      MemberExpression propertyReferenceUrl = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ReferenceUrl);
-      MemberExpression propertyReferenceServiceRootURL_StoreRootUrl = Expression.Property(propertyReferenceUrl, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.ServiceBaseUrlConstatnts.Url);
+      MemberExpression propertyReferenceServiceBaseUrlId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceServiceBaseUrlId);
+      MemberExpression propertyReferenceResourceType = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceResourceType);
+      MemberExpression propertyReferenceFhirId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceFhirId);
+      MemberExpression propertyReferenceVersionId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceVersionId);
+      MemberExpression propertyReferenceUrl = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceUrl);
+      MemberExpression propertyReferenceServiceRootURL_StoreRootUrl = Expression.Property(propertyReferenceUrl, StaticDatabaseInfo.ServiceBaseUrlConstatnts.Url);
 
       ConstantExpression SearchValueReferenceUrlString = Expression.Constant(UrlString, typeof(string));
       ConstantExpression SearchValueReferenceResource = Expression.Constant(ResourceType, typeof(string));
@@ -831,7 +831,7 @@ namespace Pyro.DataLayer.Search
 
     private BinaryExpression SearchParameterIdBinaryExpression(int Id, ParameterExpression InnerParameter)
     {
-      MemberExpression InnerPropertyId = Expression.Property(InnerParameter, StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceIndexConstatnts.ServiceSearchParameterId);
+      MemberExpression InnerPropertyId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ServiceSearchParameterId);
       ConstantExpression InnerValueId = Expression.Constant(Id);
       return Expression.Equal(InnerPropertyId, InnerValueId);
     }
@@ -839,7 +839,7 @@ namespace Pyro.DataLayer.Search
     private MethodCallExpression IndexListAnyMethodCallExpression(ParameterExpression IndexListParameter, Expression<Func<ResourceIndexType, bool>> InnerFunction)
     {
       var type = typeof(ResourceCurrentType);
-      string DbPropertyName = StaticDatabaseInfo.DataLayerIndexPropertyConstatnts.BaseResourceConstatnts.IndexList;
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexList;
       MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ResourceIndexType));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);

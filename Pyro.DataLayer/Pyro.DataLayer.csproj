@@ -98,13 +98,13 @@
     <Compile Include="IndexSetter\QuantitySetter.cs" />
     <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
-    <Compile Include="Migrations\201705292249035_First.cs" />
-    <Compile Include="Migrations\201705292249035_First.Designer.cs">
-      <DependentUpon>201705292249035_First.cs</DependentUpon>
+    <Compile Include="Migrations\201706121344523_First.cs" />
+    <Compile Include="Migrations\201706121344523_First.Designer.cs">
+      <DependentUpon>201706121344523_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705292254120_CaseSensitive_FHIR_Id_And_Version.cs" />
-    <Compile Include="Migrations\201705292254120_CaseSensitive_FHIR_Id_And_Version.Designer.cs">
-      <DependentUpon>201705292254120_CaseSensitive_FHIR_Id_And_Version.cs</DependentUpon>
+    <Compile Include="Migrations\201706121348468_CaseSensativeFhirId.cs" />
+    <Compile Include="Migrations\201706121348468_CaseSensativeFhirId.Designer.cs">
+      <DependentUpon>201706121348468_CaseSensativeFhirId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
@@ -149,11 +149,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705292249035_First.resx">
-      <DependentUpon>201705292249035_First.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706121344523_First.resx">
+      <DependentUpon>201706121344523_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705292254120_CaseSensitive_FHIR_Id_And_Version.resx">
-      <DependentUpon>201705292254120_CaseSensitive_FHIR_Id_And_Version.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706121348468_CaseSensativeFhirId.resx">
+      <DependentUpon>201706121348468_CaseSensativeFhirId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

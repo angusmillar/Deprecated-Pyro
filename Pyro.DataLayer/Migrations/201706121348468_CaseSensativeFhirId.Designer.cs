@@ -7,13 +7,13 @@ namespace Pyro.DataLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CaseSensitive_FHIR_Id_And_Version : IMigrationMetadata
+    public sealed partial class CaseSensativeFhirId : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CaseSensitive_FHIR_Id_And_Version));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CaseSensativeFhirId));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705292254120_CaseSensitive_FHIR_Id_And_Version"; }
+            get { return "201706121348468_CaseSensativeFhirId"; }
         }
         
         string IMigrationMetadata.Source

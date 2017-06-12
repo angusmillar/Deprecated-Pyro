@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.Tools
 {
-  public class StringSupport
+  public static class StringSupport
   {
     public static string RemoveDiacritics(string text)
     {
@@ -64,6 +64,9 @@ namespace Pyro.Common.Tools
       }
     }
 
-
+    public static string TruncateLongString(this string str, int maxLength)
+    {
+      return str.Substring(0, Math.Min(str.Length, maxLength));
+    }
   }
 }
