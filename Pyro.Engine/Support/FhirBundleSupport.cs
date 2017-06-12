@@ -49,7 +49,7 @@ namespace Pyro.Engine.Support
 
         if (BundleType == Bundle.BundleType.History)
         {
-          oResEntry.FullUrl = string.Join("/", oResEntry.FullUrl, "_history", DtoResource.Version);
+          oResEntry.FullUrl = string.Join("/", oResEntry.FullUrl);
           if (DtoResource.ResourceType.HasValue && DtoResource.ResourceType.HasValue)
           {
             oResEntry.Request = new Bundle.RequestComponent();
