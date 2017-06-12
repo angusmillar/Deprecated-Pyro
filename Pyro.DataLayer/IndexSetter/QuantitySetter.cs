@@ -87,7 +87,7 @@ namespace Pyro.DataLayer.IndexSetter
       //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.     
     }
 
-    private static void SetQuantity(Quantity Quantity, , List<ResourceIndexType> ResourceIndexList)
+    private static void SetQuantity(Quantity Quantity, List<ResourceIndexType> ResourceIndexList)
     {
       if (Quantity.Value.HasValue)
       {
