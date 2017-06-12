@@ -8,35 +8,32 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class NumberSetter<ResourceCurrentType,ResourceIndexType>
+  public static class NumberSetter<ResourceCurrentType, ResourceIndexType>
      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
-    private static List<ResourceIndexType> ResourceIndexList;
-    private static int ServiceSearchParameterId;
-
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)      
+    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      ResourceIndexList = new List<ResourceIndexType>();      
-      ServiceSearchParameterId = SearchParameter.Id;
+      var ResourceIndexList = new List<ResourceIndexType>();
+      int ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {        
+      {
         if (Poco.FhirValue is Integer Integer)
         {
-          SetInteger(Integer);
+          SetInteger(Integer, ResourceIndexList);
         }
         else if (Poco.FhirValue is PositiveInt PositiveInt)
         {
-          SetPositiveInt(PositiveInt);
+          SetPositiveInt(PositiveInt, ResourceIndexList);
         }
         else if (Poco.FhirValue is Duration Duration)
         {
-          SetDuration(Duration);
+          SetDuration(Duration, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirDecimal FhirDecimal)
         {
-          SetFhirDecimal(FhirDecimal);
+          SetFhirDecimal(FhirDecimal, ResourceIndexList);
         }
         else
         {
@@ -44,24 +41,24 @@ namespace Pyro.DataLayer.IndexSetter
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
-      }      
+      }
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
-    private static void SetFhirDecimal(FhirDecimal FhirDecimal)
+    private static void SetFhirDecimal(FhirDecimal FhirDecimal, List<ResourceIndexType> ResourceIndexList)
     {
       if (FhirDecimal.Value.HasValue)
       {
         var ResourceIndex = new ResourceIndexType();
-        ResourceIndex.Quantity = FhirDecimal.Value;        
+        ResourceIndex.Quantity = FhirDecimal.Value;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
 
-    private static void SetDuration(Duration Duration)     
+    private static void SetDuration(Duration Duration, List<ResourceIndexType> ResourceIndexList)
     {
       if (Duration.Value.HasValue)
       {
@@ -76,10 +73,10 @@ namespace Pyro.DataLayer.IndexSetter
           ResourceIndex.Comparator = null;
         }
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
 
-    private static void SetPositiveInt(PositiveInt PositiveInt) 
+    private static void SetPositiveInt(PositiveInt PositiveInt, List<ResourceIndexType> ResourceIndexList)
     {
       if (PositiveInt.Value.HasValue)
       {
@@ -90,10 +87,10 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndex.Quantity = Convert.ToInt32(PositiveInt.Value);
         ResourceIndex.Comparator = null;
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
 
-    private static void SetInteger(Integer Integer) 
+    private static void SetInteger(Integer Integer, List<ResourceIndexType> ResourceIndexList)
     {
       if (Integer.Value.HasValue)
       {
@@ -102,7 +99,7 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndex.Quantity = Convert.ToInt32(Integer.Value);
         ResourceIndex.Comparator = null;
         ResourceIndexList.Add(ResourceIndex);
-      }      
-    }    
+      }
+    }
   }
 }

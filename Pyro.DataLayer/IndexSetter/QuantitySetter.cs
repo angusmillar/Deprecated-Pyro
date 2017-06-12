@@ -11,55 +11,53 @@ namespace Pyro.DataLayer.IndexSetter
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
-    private static List<ResourceIndexType> ResourceIndexList;
-    private static int ServiceSearchParameterId;
-  
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)      
+
+    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      ResourceIndexList = new List<ResourceIndexType>();
-      ServiceSearchParameterId = SearchParameter.Id;
+      var ResourceIndexList = new List<ResourceIndexType>();
+      var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {        
+      {
         if (Poco.FhirValue is Money Money)
         {
-          SetMoney(Money);
+          SetMoney(Money, ResourceIndexList);
         }
         else if (Poco.FhirValue is SimpleQuantity SimpleQuantity)
         {
-         SetSimpleQuantity(SimpleQuantity);
+          SetSimpleQuantity(SimpleQuantity, ResourceIndexList);
         }
         else if (Poco.FhirValue is Quantity Quantity)
         {
-          SetQuantity(Quantity);
+          SetQuantity(Quantity, ResourceIndexList);
         }
         else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
         {
-          SetPositionComponent(PositionComponent);
+          SetPositionComponent(PositionComponent, ResourceIndexList);
         }
         else if (Poco.FhirValue is Range Range)
         {
-          SetRange(Range);
-        }        
+          SetRange(Range, ResourceIndexList);
+        }
         else
         {
           throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
-      }      
+      }
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
-    private static void SetRange(Range Range)       
+    private static void SetRange(Range Range, List<ResourceIndexType> ResourceIndexList)
     {
       //If either value is missing then their is no range as the Range data type uses SimpleQuantity 
       //which has no Comparator property. Therefore there is no such thing as >10 or <100, their must be to values
       // for examples 10 - 100. 
-      if (Range.High.Value.HasValue && Range.Low.Value.HasValue)     
+      if (Range.High.Value.HasValue && Range.Low.Value.HasValue)
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.Comparator = Range.Low.Comparator;
@@ -78,7 +76,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetPositionComponent(Location.PositionComponent PositionComponent)       
+    private static void SetPositionComponent(Location.PositionComponent PositionComponent, List<ResourceIndexType> ResourceIndexList)
     {
       //The only Quantity for Location.PositionComponent is in the Location resource and it's use if a little odd.
       //You never actual store a 'near-distance' search parameter as an index but rather it is used in conjunction with the 
@@ -89,7 +87,7 @@ namespace Pyro.DataLayer.IndexSetter
       //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.     
     }
 
-    private static void SetQuantity(Quantity Quantity)       
+    private static void SetQuantity(Quantity Quantity, , List<ResourceIndexType> ResourceIndexList)
     {
       if (Quantity.Value.HasValue)
       {
@@ -128,10 +126,10 @@ namespace Pyro.DataLayer.IndexSetter
           ResourceIndex.Unit = null;
         }
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
 
-    private static void SetSimpleQuantity(SimpleQuantity SimpleQuantity)
+    private static void SetSimpleQuantity(SimpleQuantity SimpleQuantity, List<ResourceIndexType> ResourceIndexList)
     {
       if (SimpleQuantity.Value.HasValue)
       {
@@ -171,10 +169,10 @@ namespace Pyro.DataLayer.IndexSetter
           ResourceIndex.Unit = null;
         }
         ResourceIndexList.Add(ResourceIndex);
-      }     
+      }
     }
 
-    private static void SetMoney(Money Money)       
+    private static void SetMoney(Money Money, List<ResourceIndexType> ResourceIndexList)
     {
       if (Money.Value.HasValue)
       {
@@ -213,8 +211,8 @@ namespace Pyro.DataLayer.IndexSetter
           ResourceIndex.Unit = null;
         }
         ResourceIndexList.Add(ResourceIndex);
-      }     
+      }
     }
-    
+
   }
 }

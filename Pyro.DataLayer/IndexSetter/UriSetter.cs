@@ -12,23 +12,21 @@ namespace Pyro.DataLayer.IndexSetter
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
-    private static List<ResourceIndexType> ResourceIndexList;
-    private static int ServiceSearchParameterId;
 
     public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      ResourceIndexList = new List<ResourceIndexType>();      
-      ServiceSearchParameterId = SearchParameter.Id;
+      var ResourceIndexList = new List<ResourceIndexType>();
+      var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {        
+      {
         if (Poco.FhirValue is FhirUri FhirUri)
         {
-          SetUri(FhirUri);
-        }  
+          SetUri(FhirUri, ResourceIndexList);
+        }
         else if (Poco.FhirValue is Oid Oid)
         {
-          SetOid(Oid);
+          SetOid(Oid, ResourceIndexList);
         }
         else
         {
@@ -36,32 +34,32 @@ namespace Pyro.DataLayer.IndexSetter
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
-      }      
+      }
       else
       {
         throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
-    private static void SetOid(Oid Oid)
+    private static void SetOid(Oid Oid, List<ResourceIndexType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Oid.Value))
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.Uri = Oid.Value;
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
-    private static void SetUri(FhirUri FhirUri)
+
+    private static void SetUri(FhirUri FhirUri, List<ResourceIndexType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.Uri = FhirUri.Value;
         ResourceIndexList.Add(ResourceIndex);
-      }     
+      }
     }
 
-   
   }
 }

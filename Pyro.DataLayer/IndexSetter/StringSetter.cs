@@ -11,40 +11,38 @@ namespace Pyro.DataLayer.IndexSetter
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
-    private static List<ResourceIndexType> ResourceIndexList;
-    private static int ServiceSearchParameterId;  
     private const string ItemDelimeter = " ";
 
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)      
+    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      ResourceIndexList = new List<ResourceIndexType>();
-      ServiceSearchParameterId = SearchParameter.Id;
+      var ResourceIndexList = new List<ResourceIndexType>();
+      var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {        
+      {
         if (Poco.FhirValue is FhirString FhirString)
         {
-          SetFhirString(FhirString);
+          SetFhirString(FhirString, ResourceIndexList);
         }
         else if (Poco.FhirValue is Address address)
         {
-          SetAddress(address);          
+          SetAddress(address, ResourceIndexList);
         }
         else if (Poco.FhirValue is HumanName HumanName)
         {
-          SetHumanName(HumanName);         
+          SetHumanName(HumanName, ResourceIndexList);
         }
         else if (Poco.FhirValue is Markdown Markdown)
         {
-          SetMarkdown(Markdown);          
+          SetMarkdown(Markdown, ResourceIndexList);
         }
         else if (Poco.FhirValue is Annotation Annotation)
         {
-          SetAnnotation(Annotation);          
+          SetAnnotation(Annotation, ResourceIndexList);
         }
         else
         {
-          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
       }
       else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
@@ -61,40 +59,40 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else
       {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
       ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
       return ResourceIndexList;
     }
 
-    private static void SetFhirString(FhirString FhirString)      
+    private static void SetFhirString(FhirString FhirString, List<ResourceIndexType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = FhirString.Value;
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
-    private static void SetAnnotation(Annotation Annotation)
+    private static void SetAnnotation(Annotation Annotation, List<ResourceIndexType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim());
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
-    private static void SetMarkdown(Markdown Markdown)
+    private static void SetMarkdown(Markdown Markdown, List<ResourceIndexType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim());
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
-    private static void SetHumanName(HumanName HumanName)       
+    private static void SetHumanName(HumanName HumanName, List<ResourceIndexType> ResourceIndexList)
     {
       string FullName = string.Empty;
       foreach (var Given in HumanName.Given)
@@ -112,10 +110,10 @@ namespace Pyro.DataLayer.IndexSetter
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim());
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
 
-    private static void SetAddress(Address Address)
+    private static void SetAddress(Address Address, List<ResourceIndexType> ResourceIndexList)
     {
       string FullAdddress = string.Empty;
       foreach (var Line in Address.Line)
@@ -143,7 +141,7 @@ namespace Pyro.DataLayer.IndexSetter
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim());
         ResourceIndexList.Add(ResourceIndex);
-      }      
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
 {
   public static class DateTimePeriodExpression
   {
-    public static Expression EqualToExpression(      
+    public static Expression EqualToExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -73,7 +73,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
       return BinaryExpression_Final;
     }
 
-    public static Expression NotEqualToExpression(      
+    public static Expression NotEqualToExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -126,7 +126,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
       return BinaryExpression_Final;
     }
 
-    public static Expression GreaterThanOrEqualToExpression(      
+    public static Expression GreaterThanOrEqualToExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -169,7 +169,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
       return BinaryExpression_Final;
     }
 
-    public static Expression GreaterThanExpression(      
+    public static Expression GreaterThanExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -208,7 +208,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
       return BinaryExpression_Final;
     }
 
-    public static Expression LessThanOrEqualToExpression(      
+    public static Expression LessThanOrEqualToExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -252,7 +252,7 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
     }
 
 
-    public static Expression LessThanExpression(      
+    public static Expression LessThanExpression(
       MemberExpression propertyReferenceLow,
       ConstantExpression SearchValueReferenceLow,
       MemberExpression propertyReferenceHigh,
@@ -287,7 +287,6 @@ namespace Pyro.DataLayer.Search.ExpressionSupport
 
       return BinaryExpression_Final;
     }
-
 
   }
 

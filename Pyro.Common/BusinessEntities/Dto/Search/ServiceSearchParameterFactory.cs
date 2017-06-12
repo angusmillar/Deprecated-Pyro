@@ -20,7 +20,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
 
       //Add the ones for each Resource
       foreach (var SearchParameter in ModelInfo.SearchParameters)
-      {        
+      {
         //A searchParameter with no expression or name or Resource is useless
         if (!string.IsNullOrWhiteSpace(SearchParameter.Expression) &&
           !string.IsNullOrWhiteSpace(SearchParameter.Name) &&
@@ -40,7 +40,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
           if (SearchParameter.Target != null && SearchParameter.Target.Count() > 0)
           {
             DtoServiceSearchParameter.TargetResourceTypeList = new List<Common.Interfaces.Dto.IServiceSearchParameterTargetResource>();
-            foreach(var ResourceType in SearchParameter.Target)
+            foreach (var ResourceType in SearchParameter.Target)
               DtoServiceSearchParameter.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = ResourceType });
           }
           ServiceSearchParameterList.Add(DtoServiceSearchParameter);
@@ -125,7 +125,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         Description = "Required resource format XML or JSON to be returned",
         Expression = null,
         Resource = null,
-        Type =  SearchParamType.String,
+        Type = SearchParamType.String,
         Url = null,
         XPath = null,
         SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Base
@@ -145,8 +145,6 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
 
       return ServiceSearchParameterList;
     }
-
-
 
     public static IList<DtoServiceSearchParameter> BundleSearchParameters()
     {
@@ -187,16 +185,5 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
       return Result;
     }
 
-    //public static IList<string> GetSearchParameterTargetResourceList(string ResourceName, string SearchName)
-    //{
-    //  var SearchParameter = ModelInfo.SearchParameters.SingleOrDefault(x => x.Name == SearchName & x.Resource == ResourceName);
-    //  if (SearchParameter != null)
-    //  {
-    //    IList<string> Result = new List<string>();
-    //    SearchParameter.Target.ToList().ForEach(x => Result.Add(x.GetLiteral()));
-    //    return Result;
-    //  }
-    //  return null;
-    //}
   }
 }
