@@ -167,7 +167,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.PrimaryServiceRootRemote.OriginalString, PrimaryServiceRootRemote);
       Assert.AreEqual(Result.IsRelativeToServer, false);
       Assert.AreEqual(Result.IsOperation, true);
-      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationType.Base);
+      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationScope.Base);
       Assert.AreEqual(Result.OperationName, "SomeOperation");
       Assert.AreEqual(Result.Query, "given=john&family=smith");
     }
@@ -186,7 +186,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsRelativeToServer, true);
       Assert.AreEqual(Result.IsOperation, true);
-      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationType.Resource);      
+      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationScope.Resource);      
       Assert.AreEqual(Result.OperationName, "SomeOperation");      
       Assert.AreEqual(Result.Query, "given=john&family=smith");
     }
@@ -205,7 +205,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsRelativeToServer, true);
       Assert.AreEqual(Result.IsOperation, true);
-      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationType.Instance);
+      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationScope.Instance);
       Assert.AreEqual(Result.OperationName, "SomeOperation");
       Assert.AreEqual(Result.Query, "given=john&family=smith");
     }

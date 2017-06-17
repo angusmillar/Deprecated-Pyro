@@ -14,6 +14,7 @@ using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Pyro.Common.BusinessEntities.FhirOperation;
 
 namespace Pyro.Common
 {
@@ -22,18 +23,18 @@ namespace Pyro.Common
     public static IDtoRequestUri GetFhirRequestUri()
     {
       return new DtoRequestUri();
-    }  
+    }
 
     public static IDtoRequestUri GetRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, IFhirRequestUri FhirRequestUri)
     {
       return new DtoRequestUri(PrimaryRootUrlStore, FhirRequestUri);
     }
-    
+
     public static IFhirRequestUri GetFhirRequestUri(string PrimaryServiceRoot, string RequestUri)
     {
       return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
     }
-    
+
     public static IDtoRootUrlStore GetRootUrlStore()
     {
       return new DtoRootUrlStore();
@@ -43,12 +44,12 @@ namespace Pyro.Common
     {
       return new ResourceServiceOutcome();
     }
-    
+
     public static IFhirRequestUri GetFhirRequestUri(Uri PrimaryServiceRoot, string RequestUri)
     {
       return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
     }
-    
+
     public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
     {
       return new DtoDatabaseOperationOutcome();
@@ -113,7 +114,7 @@ namespace Pyro.Common
     {
       return new ResourceServiceRequestTransactionBundle(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders, ResourceServices);
     }
-    
+
     public static IApplicationCacheSupport GetApplicationCacheService()
     {
       return new Tools.ApplicationCacheSupport();
@@ -164,21 +165,20 @@ namespace Pyro.Common
       return new BundleTransactionService(ResourceServiceRequestTransactionBundle);
     }
 
-    public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new ResourceOperationsServiceRequest(OperationName, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
+      return new ResourceOperationsServiceRequest(OperationName, OperationClass, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
     }
 
-    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new BaseOperationsServiceRequest(OperationName, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
+      return new BaseOperationsServiceRequest(OperationName, OperationClass, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
     }
 
-    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, OperationClass OperationClass, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       return new BaseOperationsServiceRequest(OperationName, null, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
     }
-
 
     public static IResourceServiceDeleteHistoryIndexesRequest GetResourceServiceDeleteHistoryIndexesRequest()
     {
@@ -203,6 +203,11 @@ namespace Pyro.Common
     public static IServerResourceReportService GetServerResourceReportService(IBaseOperationsServiceRequest ServiceRequest)
     {
       return new ServerResourceReportService(ServiceRequest);
+    }
+
+    public static IValidateResourceInstanceService GetValidateResourceInstanceService(IResourceOperationsServiceRequest ResourceServiceRequest)
+    {
+      return new ValidateResourceInstanceService(ResourceServiceRequest);
     }
 
 

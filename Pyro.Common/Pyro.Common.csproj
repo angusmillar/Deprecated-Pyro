@@ -56,6 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Hl7.Fhir.Specification.STU3, Version=0.93.4.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Specification.STU3.0.93.4\lib\net45\Hl7.Fhir.Specification.STU3.dll</HintPath>
+    </Reference>
     <Reference Include="Hl7.Fhir.STU3.Core, Version=0.93.4.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.STU3.0.93.4\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
     </Reference>
@@ -67,6 +70,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=64eb6448c87dfed9, processorArchitecture=MSIL">
+      <HintPath>..\packages\p3-sharpcompress.0.10.5.2\lib\net40\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -106,8 +112,12 @@
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterTargetResource.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
+    <Compile Include="BusinessEntities\FhirOperation\OperationClass.cs" />
+    <Compile Include="BusinessEntities\FhirOperation\OperationClassFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IValidateResourceInstanceService.cs" />
+    <Compile Include="BusinessEntities\Service\ValidateResourceInstanceService.cs" />
     <Compile Include="Interfaces\Service\IServerResourceReportService.cs" />
     <Compile Include="BusinessEntities\Service\ServerResourceReportService.cs" />
     <Compile Include="BusinessEntities\Service\DeleteHistoryIndexesService.cs" />
@@ -218,6 +228,8 @@
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
     <Compile Include="Tools\FhirResourceSerializationSupport.cs" />
+    <Compile Include="Tools\FhirResourceValidation\AustralianFhirProfileResolver.cs" />
+    <Compile Include="Tools\FhirResourceValidation\FhirValidationSupport.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />
@@ -236,6 +248,9 @@
     <None Include="app.config" />
     <None Include="Interfaces\Repositories\MainTemplate.txt4" />
     <None Include="packages.config" />
+    <None Include="specification.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Tools\MainTemplate.txt4" />
   </ItemGroup>
   <ItemGroup />

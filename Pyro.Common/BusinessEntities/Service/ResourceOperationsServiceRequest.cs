@@ -3,22 +3,25 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.BusinessEntities.FhirOperation;
 using System;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class ResourceOperationsServiceRequest : IResourceOperationsServiceRequest
-  {    
+  {
     public string OperationName { get; set; }
+    public OperationClass OperationClass { get; set; }
     public Resource Resource { get; set; }
     public IResourceServices ResourceServices { get; set; }
     public IDtoRequestUri RequestUri { get; set; }
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
-    public IDtoRequestHeaders RequestHeaders { get; set; }    
+    public IDtoRequestHeaders RequestHeaders { get; set; }
 
-    internal ResourceOperationsServiceRequest(string OperationName, Resource Resource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    internal ResourceOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource Resource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
       this.OperationName = OperationName;
+      this.OperationClass = OperationClass;
       this.Resource = Resource;
       this.ResourceServices = ResourceServices;
       this.RequestUri = FhirRequestUri;

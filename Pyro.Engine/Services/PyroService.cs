@@ -325,7 +325,7 @@ namespace Pyro.Engine.Services
           IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+          IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirResourceOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceOperationsServiceRequest);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -356,7 +356,7 @@ namespace Pyro.Engine.Services
           IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+          IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, null, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -376,7 +376,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public static IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string operation)
+    public static IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string OperationName)
     {
       using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
       {
@@ -387,7 +387,7 @@ namespace Pyro.Engine.Services
           IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
           IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
           IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+          IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(OperationName, null, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;

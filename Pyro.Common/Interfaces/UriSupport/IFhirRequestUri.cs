@@ -14,7 +14,7 @@ namespace Pyro.Common.Interfaces.UriSupport
     bool IsRelativeToServer { get; }
     bool IsUrn { get; }
     string OperationName { get; }
-    FhirOperationEnum.OperationType? OperationType { get; }
+    FhirOperationEnum.OperationScope? OperationType { get; }
     Uri UriPrimaryServiceRoot { get; }
     Uri PrimaryServiceRootRemote { get; }
     Uri PrimaryServiceRootServers { get; }

@@ -24,6 +24,7 @@ namespace Pyro.Common.BusinessEntities.Service
       Base = 4,
       Bundle = 8,
       Resource = 16,
+      Operation = 32,
     };
 
     public ISearchParametersServiceOutcome ProcessSearchParameters(ISearchParametersServiceRequest SearchParametersServiceRequest)
@@ -31,14 +32,23 @@ namespace Pyro.Common.BusinessEntities.Service
       _SearchParametersServiceRequest = SearchParametersServiceRequest;
       if (_SearchParametersServiceRequest.SearchParameterServiceType == SearchParameterServiceType.None)
         throw new NullReferenceException("Server error: SearchParameterServiceType can not be 'None'.");
-      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource) && _SearchParametersServiceRequest.ResourceType == null)
-        throw new NullReferenceException("Server error: ResourceType can not be null when enum SearchParameterServiceType is set to Resource.");
-      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource) && _SearchParametersServiceRequest.CommonServices == null)
-        throw new NullReferenceException("Server error: CommonServices can not be null when enum SearchParameterServiceType is set to Resource.");
-      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource) && _SearchParametersServiceRequest.RequestUri == null)
-        throw new NullReferenceException("Server error: RequestUri can not be null when enum SearchParameterServiceType is set to Resource.");
       if (_SearchParametersServiceRequest.SearchParameterGeneric == null)
         throw new NullReferenceException("Server error: SearchParameterGeneric can not be null.");
+
+      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
+        && _SearchParametersServiceRequest.ResourceType == null)
+        throw new NullReferenceException("Server error: ResourceType can not be null when enum SearchParameterServiceType is set to Resource.");
+      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
+        && _SearchParametersServiceRequest.CommonServices == null)
+        throw new NullReferenceException("Server error: CommonServices can not be null when enum SearchParameterServiceType is set to Resource.");
+      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
+        && _SearchParametersServiceRequest.RequestUri == null)
+        throw new NullReferenceException("Server error: RequestUri can not be null when enum SearchParameterServiceType is set to Resource.");
+
+      if (((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Operation) == SearchParameterServiceType.Operation)
+        && _SearchParametersServiceRequest.OperationClass == null)
+        throw new NullReferenceException("Server error: OperationClass can not be null when enum SearchParameterServiceType is set to Operation.");
+
 
       _SearchParametersServiceOutcome = Common.CommonFactory.GetSearchParametersServiceOutcome();
       ParseSupportedSearchParameters();
@@ -116,18 +126,23 @@ namespace Pyro.Common.BusinessEntities.Service
       //For non Resource URL values, e.g _format, _summary
       if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Base) == SearchParameterServiceType.Base)
       {
-        DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BaseSearchParameters());
+        DtoSupportedServiceSearchParameterList.AddRange(Dto.Search.ServiceSearchParameterFactory.BaseSearchParameters());
       }
       //For Bundle URL Parameters e.g page, _sort
       if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Bundle) == SearchParameterServiceType.Bundle)
       {
-        DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BundleSearchParameters());
+        DtoSupportedServiceSearchParameterList.AddRange(Dto.Search.ServiceSearchParameterFactory.BundleSearchParameters());
       }
 
-      //For Resource search parameyters
+      //For Bundle URL Parameters e.g page, _sort
+      if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Operation) == SearchParameterServiceType.Operation)
+      {
+        DtoSupportedServiceSearchParameterList.AddRange(Dto.Search.ServiceSearchParameterFactory.OperationSearchParameters(_SearchParametersServiceRequest.OperationClass));
+      }
+
+      //For Resource search parameters
       if ((_SearchParametersServiceRequest.SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
       {
-        //DtoSupportedServiceSearchParameterList.AddRange(Pyro.Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.BaseResourceSearchParameters());
         var Cache = new Pyro.Common.Cache.CacheCommon();
         DtoSupportedServiceSearchParameterList.AddRange(Cache.GetSearchParameterForResource(_SearchParametersServiceRequest.CommonServices, _SearchParametersServiceRequest.ResourceType.GetLiteral()));
       }

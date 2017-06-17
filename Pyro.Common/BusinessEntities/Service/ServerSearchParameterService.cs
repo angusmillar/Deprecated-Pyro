@@ -25,8 +25,10 @@ namespace Pyro.Common.BusinessEntities.Service
 
     public IResourceServiceOutcome ProcessIndex()
     {
-      if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
+      if (_ServiceRequest.OperationClass == null)
+        throw new NullReferenceException("OperationClass cannot be null.");
+      if (_ServiceRequest.OperationClass.Scope == FhirOperationEnum.OperationScope.Base)
+        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
       if (_ServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.RequestUri == null)
@@ -39,6 +41,7 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
       if (_ServiceRequest.ResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
+
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
@@ -55,7 +58,7 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-      
+
       List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
@@ -75,7 +78,7 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       else
       {
-        var ReturnParametersResource = new Parameters();        
+        var ReturnParametersResource = new Parameters();
         var DropIndexParameter = new Parameters.ParameterComponent();
         DropIndexParameter.Name = "DroppedIndexList";
         ReturnParametersResource.Parameter.Add(DropIndexParameter);
@@ -113,7 +116,7 @@ namespace Pyro.Common.BusinessEntities.Service
           foreach (var Del2 in Del1.DeleteIndexList)
           {
             foreach (var Del3 in Del2.Value)
-            {                            
+            {
               var Para = new Parameters.ParameterComponent();
               Para.Name = "DroppedIndexDetails";
               Para.Value = new FhirString($"Index for: Resource: {Del3.Resource}; SearchName: {Del3.Name}; Expression: {Del3.Expression}; SearchParameterResourceId: {Del3.SearchParameterResourceId}; SearchParameterVersion: {Del3.SearchParameterResourceVersion}");
@@ -130,7 +133,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
         var CreateIndexParameter = new Parameters.ParameterComponent();
         CreateIndexParameter.Name = "CreatedIndexList";
-        ReturnParametersResource.Parameter.Add(CreateIndexParameter);        
+        ReturnParametersResource.Parameter.Add(CreateIndexParameter);
         var CreateList = CompairisonResultList.Where(x => x.CreateIndexList.Count > 0);
         foreach (var Create1 in CreateList)
         {
@@ -167,7 +170,7 @@ namespace Pyro.Common.BusinessEntities.Service
             }
           }
         }
-               
+
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
         ResourceServiceOutcome.ResourceResult = ReturnParametersResource;
         ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -176,15 +179,17 @@ namespace Pyro.Common.BusinessEntities.Service
         var Cache = new Pyro.Common.Cache.CacheCommon();
         Cache.ClearCache();
         return ResourceServiceOutcome;
-        
+
       }
 
     }
 
     public IResourceServiceOutcome ProcessSet()
     {
-      if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
+      if (_ServiceRequest.OperationClass == null)
+        throw new NullReferenceException("OperationClass cannot be null.");
+      if (_ServiceRequest.OperationClass.Scope == FhirOperationEnum.OperationScope.Base)
+        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
       if (_ServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.RequestUri == null)
@@ -218,7 +223,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         if (Parameters.Parameter != null || Parameters.Parameter.Count() == 0)
         {
-          _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);          
+          _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);
           Parameters ReturnParametersResource = new Parameters();
           ReturnParametersResource.Parameter = new List<Parameters.ParameterComponent>();
 
@@ -238,18 +243,18 @@ namespace Pyro.Common.BusinessEntities.Service
                     {
                       if (!FhirUri.IsOperation)
                       {
-                        var ResourceServiceOutcomeGetSearchParameterResource = Common.CommonFactory.GetResourceServiceOutcome();                        
+                        var ResourceServiceOutcomeGetSearchParameterResource = Common.CommonFactory.GetResourceServiceOutcome();
                         ResourceServiceOutcomeGetSearchParameterResource = (_ServiceRequest.ResourceServices as IResourceServicesBase).GetResourceInstance(FhirUri.ResourceId, _ServiceRequest.RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
                           TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
-                          
+
                           OperationOutcome OperationOutcomeValidation = ValidateSearchParameterResource(TargetSearchParameter);
                           if (OperationOutcomeValidation == null)
                           {
                             var List = GenerateDbSearchParameterList(TargetSearchParameter);
 
-                            foreach(var Item in List)
+                            foreach (var Item in List)
                             {
                               var DbSearchParamListForResource = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavyForResource(Item.Resource);
                               if (Item.Resource != ResourceType.Resource.GetLiteral())
@@ -259,7 +264,7 @@ namespace Pyro.Common.BusinessEntities.Service
                               if (CodeAlreadyIndexed != null)
                               {
                                 var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
-                                $"The SearchParameter referenced in already associated with the servers search indexes. If you wish to modify the SearchParameter then you need only to update the SearchParameter with the resource id = {CodeAlreadyIndexed.SearchParameterResourceId} and then call the Update indexes operation {Enum.FhirOperationEnum.BaseOperationType.ServerIndexesIndex.GetPyroLiteral()}");
+                                $"The SearchParameter referenced in already associated with the servers search indexes. If you wish to modify the SearchParameter then you need only to update the SearchParameter with the resource id = {CodeAlreadyIndexed.SearchParameterResourceId} and then call the Update indexes operation {Enum.FhirOperationEnum.OperationType.ServerIndexesIndex.GetPyroLiteral()}");
                                 ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                                 ResourceServiceOutcome.ResourceResult = OpOutCome;
                                 ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -398,8 +403,10 @@ namespace Pyro.Common.BusinessEntities.Service
 
     public IResourceServiceOutcome ProcessReport()
     {
-      if (string.IsNullOrWhiteSpace(_ServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
+      if (_ServiceRequest.OperationClass == null)
+        throw new NullReferenceException("OperationClass cannot be null.");
+      if (_ServiceRequest.OperationClass.Scope == FhirOperationEnum.OperationScope.Base)
+        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
       if (_ServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
       if (_ServiceRequest.RequestUri == null)
@@ -428,14 +435,14 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-      
+
       List<Dto.DtoServiceSearchParameterHeavy> DbSearchParameterList = _ServiceRequest.ResourceServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
       {
         List<OperationOutcome.IssueComponent> IssueList = new List<OperationOutcome.IssueComponent>();
-        foreach(var item in ErrorList)
+        foreach (var item in ErrorList)
         {
           IssueList.AddRange(item.OperationOutcome.Issue);
         }
@@ -452,7 +459,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
 
         var DropIndexParameter = new Parameters.ParameterComponent();
-        DropIndexParameter.Name = "DropIndexList";        
+        DropIndexParameter.Name = "DropIndexList";
         ReturnParametersResource.Parameter.Add(DropIndexParameter);
 
         var DeleteList = CompairisonResultList.Where(x => x.DeleteIndexList.Count > 0);
@@ -461,7 +468,7 @@ namespace Pyro.Common.BusinessEntities.Service
           foreach (var Del2 in Del1.DeleteIndexList)
           {
             foreach (var Del3 in Del2.Value)
-            {              
+            {
               var Para = new Parameters.ParameterComponent();
               Para.Name = "DropIndexDetails";
               Para.Value = new FhirString($"Index for: Resource: {Del3.Resource}; SearchName: {Del3.Name}; Expression: {Del3.Expression}; SearchParameterResourceId: {Del3.SearchParameterResourceId}; SearchParameterVersion: {Del3.SearchParameterResourceVersion}");
@@ -512,13 +519,13 @@ namespace Pyro.Common.BusinessEntities.Service
             }
           }
         }
-       
+
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
         ResourceServiceOutcome.ResourceResult = ReturnParametersResource;
         ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
         ResourceServiceOutcome.SuccessfulTransaction = true;
-        return ResourceServiceOutcome;        
-      }      
+        return ResourceServiceOutcome;
+      }
     }
 
     private void CreateResourceIndexesInDatabase(List<CompairisonResult> CompairisonResultList)
@@ -551,7 +558,7 @@ namespace Pyro.Common.BusinessEntities.Service
         foreach (var Updated in Item.CreateIndexList)
         {
           foreach (var Updated2 in Updated.Value)
-          {            
+          {
             Updated2.IsIndexed = true;
             _ServiceRequest.ResourceServices.UpdateServiceSearchParametersHeavy(Updated2);
           }
@@ -577,10 +584,10 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private List<CompairisonResult> CalculateDiff(List<DtoServiceSearchParameterHeavy> DbSearchParameterList)
     {
-      List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();    
+      List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();
       var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);
       _ServiceRequest.ResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);
-      
+
       foreach (var OldList in GroupList)
       {
         var CurrentParameter = Common.CommonFactory.GetResourceServiceOutcome();
@@ -588,22 +595,22 @@ namespace Pyro.Common.BusinessEntities.Service
         CurrentParameter = (_ServiceRequest.ResourceServices as IResourceServicesBase).GetResourceInstance(FirstInstance.SearchParameterResourceId, _ServiceRequest.RequestUri, CurrentParameter);
         CompairisonResult Result;
         if (CurrentParameter.ResourceVersionNumber != FirstInstance.SearchParameterResourceVersion)
-        {          
+        {
           if (CurrentParameter.IsDeleted.HasValue && CurrentParameter.IsDeleted.Value)
           {
             //need to drop all?
             Result = new CompairisonResult();
-            foreach(var Old in OldList)
+            foreach (var Old in OldList)
             {
               Result.AddDeleteSearchParameter(Old);
-              Result.AddIndexDelete(Old);              
+              Result.AddIndexDelete(Old);
             }
             CompairisonResultList.Add(Result);
           }
           else
           {
             var NewSearchParameterResource = CurrentParameter.ResourceResult as SearchParameter;
-            var ValadationOperationOutCome = ValidateSearchParameterResource(NewSearchParameterResource);            
+            var ValadationOperationOutCome = ValidateSearchParameterResource(NewSearchParameterResource);
             if (ValadationOperationOutCome == null)
             {
               List<DtoServiceSearchParameterHeavy> NewList = GenerateDbSearchParameterList(NewSearchParameterResource);
@@ -634,7 +641,7 @@ namespace Pyro.Common.BusinessEntities.Service
           CompairisonResultList.Add(Result);
         }
       }
-      return CompairisonResultList;      
+      return CompairisonResultList;
     }
 
     private CompairisonResult GetCompairisonResult(List<DtoServiceSearchParameterHeavy> OldList, List<DtoServiceSearchParameterHeavy> NewList)
@@ -653,7 +660,7 @@ namespace Pyro.Common.BusinessEntities.Service
           CompairisonResult.AddDeleteSearchParameter(Old);
         }
       }
-     
+
       foreach (var New in NewList)
       {
         //New items not in the old list can be added
@@ -724,7 +731,7 @@ namespace Pyro.Common.BusinessEntities.Service
       }
       return CompairisonResult;
     }
-    
+
     private OperationOutcome ValidateSearchParameterResource(SearchParameter Resource)
     {
       var IssueList = new List<OperationOutcome.IssueComponent>();
@@ -901,6 +908,6 @@ namespace Pyro.Common.BusinessEntities.Service
         public Dto.DtoServiceSearchParameterHeavy New { get; set; }
       }
     }
-    
+
   }
 }

@@ -10,6 +10,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure.Annotations;
 using Pyro.DataLayer.DbModel.Entity;
 using Pyro.DataLayer.DbModel.Extentions;
+using Pyro.Common.Database;
 
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
@@ -19,18 +20,18 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     public ServiceSearchParameterConfig()
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-      Property(x => x.Name).HasMaxLength(50)
+      Property(x => x.Name).HasMaxLength(StaticDatabaseInfo.ServiceSearchParameterConstatnts.NameMaxLength)
         .IsRequired()
-        .HasUniqueIndexAnnotation("UQ_ResourceAndName", 1);
+        .HasUniqueIndexAnnotation("uq_ResourceAndName", 1);
 
       Property(x => x.Description).IsOptional();
-      Property(x => x.Resource).HasMaxLength(50)
+      Property(x => x.Resource).HasMaxLength(StaticDatabaseInfo.ServiceSearchParameterConstatnts.DescriptionMaxLength)
         .IsRequired()
-        .HasUniqueIndexAnnotation("UQ_ResourceAndName", 0);
+        .HasUniqueIndexAnnotation("uq_ResourceAndName", 0);
 
       Property(x => x.Expression).IsRequired();
       Property(x => x.Type).IsRequired();
-      Property(x => x.Url).HasMaxLength(450).IsOptional();
+      Property(x => x.Url).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.UriMaxLength).IsOptional();
       Property(x => x.XPath).IsOptional();
       Property(x => x.LastUpdated).IsRequired();
       Property(x => x.IsIndexed)
@@ -43,8 +44,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Status") { IsUnique = false }));
 
-      Property(x => x.SearchParameterResourceId).HasMaxLength(400).IsOptional();
-      Property(x => x.SearchParameterResourceVersion).HasMaxLength(50).IsOptional();
+      Property(x => x.SearchParameterResourceId).HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength).IsOptional();
+      Property(x => x.SearchParameterResourceVersion).HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength).IsOptional();
       HasMany(c => c.TargetResourceTypeList).WithRequired(c => c.ServiceSearchParameter).HasForeignKey(c => c.ServiceSearchParameterId).WillCascadeOnDelete(true);
 
     }

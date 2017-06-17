@@ -175,6 +175,39 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
       return ServiceSearchParameterList;
     }
 
+    public static IList<DtoServiceSearchParameter> OperationSearchParameters(FhirOperation.OperationClass OperationClass)
+    {
+      IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
+      if (OperationClass.Type == Enum.FhirOperationEnum.OperationType.Validate)
+      {
+        ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
+        {
+          Name = "profile",
+          Description = "If this is nominated, then the resource is validated against this specific profile. If a profile is nominated, and the server cannot validate against the nominated profile, it SHALL return an error",
+          Expression = null,
+          Resource = null,
+          Type = SearchParamType.Uri,
+          Url = null,
+          XPath = null,
+          SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Operation
+        });
+
+        ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
+        {
+          Name = "mode",
+          Description = "Default is 'no action'; (e.g. general validation)",
+          Expression = null,
+          Resource = null,
+          Type = SearchParamType.Token,
+          Url = null,
+          XPath = null,
+          SearchParameterServiceType = Service.SearchParameterService.SearchParameterServiceType.Operation
+        });
+      }
+
+      return ServiceSearchParameterList;
+    }
+
     public static IList<string> GetSearchParameterTargetResourceList(Pyro.Common.BusinessEntities.Search.DtoSearchParameterBase oSearchParameterBase)
     {
       IList<string> Result = new List<string>();

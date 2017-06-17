@@ -20,14 +20,20 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       this._BaseOpServiceRequest = BaseOpServiceRequest;
     }
+
     internal DeleteHistoryIndexesService(IResourceOperationsServiceRequest ResourceOpServiceRequest)
     {
       this._ResourceOpServiceRequest = ResourceOpServiceRequest;
     }
+
     public IResourceServiceOutcome DeleteMany()
     {
       if (string.IsNullOrWhiteSpace(_BaseOpServiceRequest.OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
+      if (_BaseOpServiceRequest.OperationClass == null)
+        throw new NullReferenceException("OperationClass cannot be null.");
+      if (_BaseOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Base)
+        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
       if (_BaseOpServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
       if (_BaseOpServiceRequest.RequestUri == null)
@@ -40,7 +46,7 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
       if (_BaseOpServiceRequest.ResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
-      
+
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
@@ -48,7 +54,7 @@ namespace Pyro.Common.BusinessEntities.Service
       SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
       var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-      SearchParametersServiceRequest.ResourceType = null;      
+      SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
@@ -56,16 +62,16 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
-      
-      
+
+
       if (_BaseOpServiceRequest.Resource != null && _BaseOpServiceRequest.Resource is Parameters ParametersResource)
-      {                
+      {
         var DeleteAll = ParametersResource.Parameter.SingleOrDefault(x => x.Name.ToLower() == _ParameterName.ToLower() && x.Value is FhirString a && a.Value == "*");
         if (DeleteAll != null)
         {
           if (ParametersResource.Parameter.Count > 1)
           {
-            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
+            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} can not have a mixture of ResourceType = * and ResourceType = [ResourceName], only one or the other.");
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             ResourceServiceOutcome.ResourceResult = Op;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -87,33 +93,33 @@ namespace Pyro.Common.BusinessEntities.Service
             }
             else
             {
-              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
+              var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} unknown parameter found. Name = {Parameter.Name}, Value = {Parameter.Value}");
               ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
               ResourceServiceOutcome.ResourceResult = Op;
               ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
               ResourceServiceOutcome.SuccessfulTransaction = false;
               return ResourceServiceOutcome;
             }
-          }            
+          }
         }
 
         try
         {
           if (_ResourceList.Count > 0)
-          {            
+          {
             Parameters ParametersResult = new Parameters();
             //ParametersResult.Id = ParametersResource.Id + "-Response";
             ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
 
             foreach (string ResourceName in _ResourceList)
             {
-              _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);              
+              _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);
               var ResourceServiceDeleteHistoryIndexesRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
               ResourceServiceDeleteHistoryIndexesRequest.RequestUri = _BaseOpServiceRequest.RequestUri;
               ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
               IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = _BaseOpServiceRequest.ResourceServices.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
-              {                
+              {
                 return ResourceServiceOutcomeDeleteResourceIndex;
               }
               else
@@ -123,7 +129,7 @@ namespace Pyro.Common.BusinessEntities.Service
                   ParametersResult.Parameter.AddRange(Param.Parameter);
                 }
               }
-            }            
+            }
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
             ResourceServiceOutcome.ResourceResult = ParametersResult;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -132,7 +138,7 @@ namespace Pyro.Common.BusinessEntities.Service
           }
           else
           {
-            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} No ResourceType were provided for index deleteion.");
+            var Op = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Warning, OperationOutcome.IssueType.BusinessRule, $"Operation: ${FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral()} No ResourceType were provided for index deleteion.");
             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             ResourceServiceOutcome.ResourceResult = Op;
             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -140,8 +146,8 @@ namespace Pyro.Common.BusinessEntities.Service
             return ResourceServiceOutcome;
           }
         }
-        catch(Exception Exec)
-        {          
+        catch (Exception Exec)
+        {
           var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, Exec.Message);
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.ResourceResult = OpOutCome;
@@ -167,6 +173,10 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("OperationName cannot be null.");
       if (_ResourceOpServiceRequest.Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
+      if (_ResourceOpServiceRequest.OperationClass == null)
+        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
+      if (_ResourceOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Resource)
+        throw new NullReferenceException("OperationClass cannot be null.");
       if (_ResourceOpServiceRequest.RequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
       if (_ResourceOpServiceRequest.RequestHeaders == null)

@@ -30,13 +30,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         new IndexAnnotation(new IndexAttribute("ix_String") { IsUnique = false }));
 
       Property(x => x.DateTimeOffsetLow)
-        .HasPrecision(3)
+        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetLow") { IsUnique = false }));
 
       Property(x => x.DateTimeOffsetHigh)
-        .HasPrecision(3)
+        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetHigh") { IsUnique = false }));
@@ -47,26 +47,48 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         new IndexAnnotation(new IndexAttribute("ix_Uri") { IsUnique = false }));
 
       Property(x => x.Comparator).IsOptional();
-      Property(x => x.Quantity).IsOptional().HasPrecision(28, 14);
-      Property(x => x.Code).HasMaxLength(50)
+      Property(x => x.Quantity)
+        .IsOptional()
+        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityPrecision,
+        StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityScale);
+
+      Property(x => x.Code)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
-      Property(x => x.System).HasMaxLength(300)
+
+      Property(x => x.System)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_System") { IsUnique = false }));
-      Property(x => x.Unit).HasMaxLength(50).IsOptional();
+
+      Property(x => x.Unit)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .IsOptional();
 
       Property(x => x.ComparatorHigh).IsOptional();
-      Property(x => x.QuantityHigh).IsOptional().HasPrecision(28, 14);
-      Property(x => x.CodeHigh).HasMaxLength(50).IsOptional();
-      Property(x => x.SystemHigh).HasMaxLength(300).IsOptional();
-      Property(x => x.UnitHigh).HasMaxLength(50).IsOptional();
+      Property(x => x.QuantityHigh)
+        .IsOptional()
+        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityPrecision,
+        StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityScale);
+
+      Property(x => x.CodeHigh)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
+        .IsOptional();
+
+      Property(x => x.SystemHigh)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .IsOptional();
+
+      Property(x => x.UnitHigh)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.UnitMaxLength)
+        .IsOptional();
 
       Property(x => x.ReferenceFhirId)
         .HasColumnAnnotation("CaseSensitive", true)
-        .HasMaxLength(128)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_ReferenceFhirId") { IsUnique = false }));
@@ -75,7 +97,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.ReferenceVersionId)
         .HasColumnAnnotation("CaseSensitive", true)
-        .HasMaxLength(128).IsOptional();
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
+        .IsOptional();
 
       HasOptional(x => x.ReferenceUrl);
       HasOptional<ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);

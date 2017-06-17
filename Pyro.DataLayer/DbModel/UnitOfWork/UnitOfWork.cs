@@ -11,27 +11,27 @@ using Pyro.DataLayer.DbModel.EntityGenerated;
 using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.DbModel.UnitOfWork
-{  
+{
   public partial class UnitOfWork : IUnitOfWork, IDisposable
-  { 
+  {
     public DbContextTransaction BeginTransaction()
     {
       try
       {
-        return _context.Database.BeginTransaction();            
+        return _context.Database.BeginTransaction();
       }
       catch (Exception Exec)
-      {        
+      {
         string Message = Exec.Message;
         throw new Pyro.Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
           Pyro.Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Message), Message);
-      }      
+      }
     }
 
     private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;
 
-    private CommonRepository _CommonRepository;  
-    
+    private CommonRepository _CommonRepository;
+
     public UnitOfWork()
     {
       _context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
@@ -46,7 +46,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
         return _CommonRepository;
       }
     }
-    
+
     #region Implementing IDiosposable...
 
     #region private dispose variable declaration...
@@ -75,7 +75,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     public void Dispose()
     {
       Dispose(true);
-      //GC.SuppressFinalize(this);
+      GC.SuppressFinalize(this);
     }
 
     ~UnitOfWork() // the finalizer

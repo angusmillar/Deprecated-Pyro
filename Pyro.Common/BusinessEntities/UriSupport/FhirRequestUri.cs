@@ -52,7 +52,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       }
     }
 
-    public FhirOperationEnum.OperationType? OperationType { get; private set; }
+    public FhirOperationEnum.OperationScope? OperationType { get; private set; }
 
     public bool IsContained { get; set; }
 
@@ -245,7 +245,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         if (Segment.StartsWith("$"))
         {
           //It is a base operation          
-          this.OperationType = FhirOperationEnum.OperationType.Base;
+          this.OperationType = FhirOperationEnum.OperationScope.Base;
           this.OperationName = Segment.TrimStart('$');
           return RequestRelativePath.Substring(this.OperationName.Count() + 1, RequestRelativePath.Count() - (this.OperationName.Count() + 1));
         }
@@ -322,7 +322,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
             else if (!this.IsOperation && Segment.StartsWith("$"))
             {
               //A Resource $operation e.g (base/Patient/$operation)              
-              this.OperationType = FhirOperationEnum.OperationType.Resource;
+              this.OperationType = FhirOperationEnum.OperationScope.Resource;
               this.OperationName = Segment.TrimStart('$');
               Remainder = RemoveStartsWithSlash(Remainder.Substring(this.OperationName.Count() + 1, Remainder.Count() - (this.OperationName.Count() + 1)));
               return Remainder;
@@ -339,7 +339,7 @@ namespace Pyro.Common.BusinessEntities.UriSupport
             if (!this.IsOperation && this.ResourceId != null && Segment.StartsWith("$"))
             {
               //A Resource Instance $operation e.g (base/Patient/10/$operation)              
-              this.OperationType = FhirOperationEnum.OperationType.Instance;
+              this.OperationType = FhirOperationEnum.OperationScope.Instance;
               this.OperationName = Segment.TrimStart('$');
               Remainder = RemoveStartsWithSlash(Remainder.Substring(this.OperationName.Count() + 1, Remainder.Count() - (this.OperationName.Count() + 1)));
               return Remainder;

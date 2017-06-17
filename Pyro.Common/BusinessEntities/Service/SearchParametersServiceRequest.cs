@@ -1,7 +1,9 @@
 ﻿using Hl7.Fhir.Model;
+using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.BusinessEntities.FhirOperation;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -9,10 +11,11 @@ namespace Pyro.Common.BusinessEntities.Service
   {
     public IDtoSearchParameterGeneric SearchParameterGeneric { get; set; }
     public SearchParameterService.SearchParameterServiceType SearchParameterServiceType { get; set; }
+    public OperationClass OperationClass { get; set; }
     public FHIRAllTypes? ResourceType { get; set; }
     public ICommonServices CommonServices { get; set; }
     public IDtoRequestUri RequestUri { get; set; }
 
-    internal SearchParametersServiceRequest(){}
+    internal SearchParametersServiceRequest() { }
   }
 }

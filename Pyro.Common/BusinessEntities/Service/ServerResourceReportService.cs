@@ -22,14 +22,16 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       try
       {
-        if (string.IsNullOrWhiteSpace(_BaseOpServiceRequest.OperationName))
-          throw new NullReferenceException("OperationName cannot be null.");
+        if (_BaseOpServiceRequest.OperationClass == null)
+          throw new NullReferenceException("OperationClass cannot be null.");
+        if (_BaseOpServiceRequest.OperationClass.Scope == FhirOperationEnum.OperationScope.Base)
+          throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
         if (_BaseOpServiceRequest.RequestUri == null)
           throw new NullReferenceException("RequestUri cannot be null.");
         if (_BaseOpServiceRequest.RequestHeaders == null)
           throw new NullReferenceException("RequestHeaders cannot be null.");
         if (_BaseOpServiceRequest.Resource != null)
-          throw new NullReferenceException($"Resource cannot be given for Operation ${Enum.FhirOperationEnum.BaseOperationType.ServerResourceReport.GetPyroLiteral()}.");
+          throw new NullReferenceException($"Resource cannot be given for Operation ${Enum.FhirOperationEnum.OperationType.ServerResourceReport.GetPyroLiteral()}.");
         if (_BaseOpServiceRequest.SearchParameterGeneric == null)
           throw new NullReferenceException("SearchParameterGeneric cannot be null.");
         if (_BaseOpServiceRequest.ResourceServices == null)
@@ -60,7 +62,7 @@ namespace Pyro.Common.BusinessEntities.Service
           ResourceReportParameter.Part = new List<Parameters.ParameterComponent>();
           ReturnParametersResource.Parameter.Add(ResourceReportParameter);
 
-          _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);          
+          _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);
           int TotalCount = _BaseOpServiceRequest.ResourceServices.GetTotalCurrentResourceCount();
 
           var TotalCountParameter = new Parameters.ParameterComponent();

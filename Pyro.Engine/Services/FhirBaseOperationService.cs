@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.BusinessEntities.FhirOperation;
 
 namespace Pyro.Engine.Services
 {
   public class FhirBaseOperationService
   {
     IBaseOperationsServiceRequest _ServiceRequest;
-    FhirOperationEnum.BaseOperationType BaseOperationType;
+
     public IResourceServiceOutcome Process(IBaseOperationsServiceRequest ServiceRequest)
     {
       if (string.IsNullOrWhiteSpace(ServiceRequest.OperationName))
@@ -43,7 +44,7 @@ namespace Pyro.Engine.Services
         return ResourceServiceOutcome;
       }
 
-      var OperationDic = FhirOperationEnum.GetBaseOperationTypeByString();
+      var OperationDic = FhirOperationEnum.GetOperationTypeByString();
       if (!OperationDic.ContainsKey(ServiceRequest.OperationName))
       {
         string Message = $"The base operation named ${ServiceRequest.OperationName} is not supported by the server.";
@@ -53,40 +54,49 @@ namespace Pyro.Engine.Services
         ResourceServiceOutcome.SuccessfulTransaction = false;
         return ResourceServiceOutcome;
       }
-      else
-      {
-        BaseOperationType = OperationDic[ServiceRequest.OperationName];
-      }
 
-      switch (BaseOperationType)
+      var Op = OperationDic[ServiceRequest.OperationName];
+      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Base && x.Type == Op);
+      if (OperationClass == null)
       {
-        case FhirOperationEnum.BaseOperationType.ServerIndexesDeleteHistoryIndexes:
+        string Message = $"The base operation named ${ServiceRequest.OperationName} is not supported by the server as a service base operation type.";
+        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
+        ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        ResourceServiceOutcome.SuccessfulTransaction = false;
+        return ResourceServiceOutcome;
+      }
+      _ServiceRequest.OperationClass = OperationClass;
+
+      switch (OperationClass.Type)
+      {
+        case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
           {
             var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
-            return DeleteManyHistoryIndexesService.DeleteMany();            
+            return DeleteManyHistoryIndexesService.DeleteMany();
           }
-        case FhirOperationEnum.BaseOperationType.ServerIndexesSet:
-          {            
+        case FhirOperationEnum.OperationType.ServerIndexesSet:
+          {
             var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessSet();
           }
-        case FhirOperationEnum.BaseOperationType.ServerSearchParameterIndexReport:
+        case FhirOperationEnum.OperationType.ServerSearchParameterIndexReport:
           {
             var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessReport();
           }
-        case FhirOperationEnum.BaseOperationType.ServerIndexesIndex:
+        case FhirOperationEnum.OperationType.ServerIndexesIndex:
           {
             var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
             return ServerSearchParameterService.ProcessIndex();
           }
-        case FhirOperationEnum.BaseOperationType.ServerResourceReport:
+        case FhirOperationEnum.OperationType.ServerResourceReport:
           {
             var ServerSearchParameterService = Common.CommonFactory.GetServerResourceReportService(_ServiceRequest);
             return ServerSearchParameterService.Process();
           }
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(BaseOperationType.GetPyroLiteral(), (int)BaseOperationType, typeof(FhirOperationEnum.BaseOperationType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));
       }
     }
   }

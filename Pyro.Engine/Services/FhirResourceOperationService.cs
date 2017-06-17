@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.BusinessEntities.FhirOperation;
 
 namespace Pyro.Engine.Services
 {
+  //[base]/[Resource]/$some-operation
   public class FhirResourceOperationService
   {
     IResourceOperationsServiceRequest _ServiceRequest;
-    FhirOperationEnum.ResourceOperationType ResourceOperationType;
     public IResourceServiceOutcome Process(IResourceOperationsServiceRequest ServiceRequest)
     {
       if (string.IsNullOrWhiteSpace(ServiceRequest.OperationName))
@@ -39,13 +40,13 @@ namespace Pyro.Engine.Services
       SearchParametersServiceRequest.ResourceType = null;
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-      {        
+      {
         ResourceServiceOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
-        ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;        
+        ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }
 
-      var OperationDic = FhirOperationEnum.GetResourceOperationTypeByString();
+      var OperationDic = FhirOperationEnum.GetOperationTypeByString();
       if (!OperationDic.ContainsKey(ServiceRequest.OperationName))
       {
         string Message = $"The resource operation named ${ServiceRequest.OperationName} is not supported by the server.";
@@ -55,21 +56,36 @@ namespace Pyro.Engine.Services
         ResourceServiceOutcome.SuccessfulTransaction = false;
         return ResourceServiceOutcome;
       }
-      else
-      {
-        ResourceOperationType = OperationDic[ServiceRequest.OperationName];
-      }
 
-      switch (ResourceOperationType)
+      var Op = OperationDic[ServiceRequest.OperationName];
+      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Resource && x.Type == Op);
+      if (OperationClass == null)
       {
-        case FhirOperationEnum.ResourceOperationType.ServerIndexesDeleteHistoryIndexes:
+        string Message = $"The resource operation named ${ServiceRequest.OperationName} is not supported by the server as a resource service operation type.";
+        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
+        ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        ResourceServiceOutcome.SuccessfulTransaction = false;
+        return ResourceServiceOutcome;
+      }
+      _ServiceRequest.OperationClass = OperationClass;
+
+
+      switch (OperationClass.Type)
+      {
+        case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
           {
             var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
             return DeleteManyHistoryIndexesService.DeleteSingle();
-          }          
+          }
+        case FhirOperationEnum.OperationType.Validate:
+          {
+            var ValidateResourceInstanceService = Common.CommonFactory.GetValidateResourceInstanceService(_ServiceRequest);
+            return ValidateResourceInstanceService.ValidateResource();
+          }
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(ResourceOperationType.GetPyroLiteral(), (int)ResourceOperationType, typeof(FhirOperationEnum.ResourceOperationType));
-      }      
+          throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));
+      }
     }
   }
 }
