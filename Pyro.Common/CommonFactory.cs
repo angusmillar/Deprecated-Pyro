@@ -205,11 +205,10 @@ namespace Pyro.Common
       return new ServerResourceReportService(ServiceRequest);
     }
 
-    public static IValidateResourceInstanceService GetValidateResourceInstanceService(IResourceOperationsServiceRequest ResourceServiceRequest)
+    public static IFhirValidateOperationService GetFhirValidateOperationService(IResourceOperationsServiceRequest ResourceServiceRequest)
     {
-      return new ValidateResourceInstanceService(ResourceServiceRequest);
+      return new FhirValidateOperationService(ResourceServiceRequest);
     }
-
 
   }
 }

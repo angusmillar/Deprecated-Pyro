@@ -313,38 +313,6 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public static IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string ResourceName, string operation, Resource Resource)
-    {
-      using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
-      {
-        try
-        {
-          ResourceServices.SetCurrentResourceType(ResourceName);
-          IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(ResourceServices, BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
-          var OperationService = new Engine.Services.FhirResourceOperationService();
-          IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceOperationsServiceRequest);
-          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
-          if (ResourceServiceOutcome.SuccessfulTransaction)
-            Transaction.Commit();
-          else
-            Transaction.Rollback();
-
-          return ResourceServiceOutcome;
-        }
-        catch (Exception Exec)
-        {
-          Transaction.Rollback();
-          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
-            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
-        }
-      }
-    }
-
     public static IResourceServiceOutcome BaseOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string operation, Resource Resource)
     {
       using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
@@ -407,6 +375,68 @@ namespace Pyro.Engine.Services
       }
     }
 
+    public static IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string ResourceName, string operation, Resource Resource)
+    {
+      using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
+      {
+        try
+        {
+          ResourceServices.SetCurrentResourceType(ResourceName);
+          IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(ResourceServices, BaseRequestUri);
+          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
+          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+          var OperationService = new Engine.Services.FhirResourceOperationService();
+          IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceOperationsServiceRequest);
+          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
+          if (ResourceServiceOutcome.SuccessfulTransaction)
+            Transaction.Commit();
+          else
+            Transaction.Rollback();
 
+          return ResourceServiceOutcome;
+        }
+        catch (Exception Exec)
+        {
+          Transaction.Rollback();
+          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
+            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+        }
+      }
+    }
+
+    public static IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, IResourceServices ResourceServices, string ResourceName, string operation, Resource Resource, string FhirId)
+    {
+      using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
+      {
+        try
+        {
+          ResourceServices.SetCurrentResourceType(ResourceName);
+          IDtoRootUrlStore DtoRootUrlStore = Services.PrimaryServiceRootFactory.Create(ResourceServices, BaseRequestUri);
+          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
+          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IResourceOperationsServiceRequest ResourceInstanceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, ResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+          var OperationService = new Engine.Services.FhirResourceInstanceOperationService();
+          IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceInstanceOperationsServiceRequest);
+          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
+          if (ResourceServiceOutcome.SuccessfulTransaction)
+            Transaction.Commit();
+          else
+            Transaction.Rollback();
+
+          return ResourceServiceOutcome;
+        }
+        catch (Exception Exec)
+        {
+          Transaction.Rollback();
+          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
+            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+        }
+      }
+    }
   }
 }

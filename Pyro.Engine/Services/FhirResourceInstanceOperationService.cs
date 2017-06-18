@@ -10,8 +10,8 @@ using Pyro.Common.BusinessEntities.FhirOperation;
 
 namespace Pyro.Engine.Services
 {
-  //[base]/[Resource]/$some-operation
-  public class FhirResourceOperationService
+  //[base]/[Resource]/[FhirId]/$some-operation
+  public class FhirResourceInstanceOperationService
   {
     IResourceOperationsServiceRequest _ServiceRequest;
     public IResourceServiceOutcome Process(IResourceOperationsServiceRequest ServiceRequest)
@@ -22,6 +22,10 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("Resource cannot be null.");
       if (ServiceRequest.RequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
+      if (ServiceRequest.RequestUri.FhirRequestUri == null)
+        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri cannot be null.");
+      if (string.IsNullOrWhiteSpace(ServiceRequest.RequestUri.FhirRequestUri.ResourceId))
+        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri.ResourceId cannot be null or empty.");
       if (ServiceRequest.RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
       if (ServiceRequest.ResourceServices == null)
@@ -59,10 +63,10 @@ namespace Pyro.Engine.Services
       }
 
       var Op = OperationDic[ServiceRequest.OperationName];
-      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Resource && x.Type == Op);
+      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Instance && x.Type == Op);
       if (OperationClass == null)
       {
-        string Message = $"The resource operation named ${ServiceRequest.OperationName} is not supported by the server as a resource service operation type.";
+        string Message = $"The resource operation named ${ServiceRequest.OperationName} is not supported by the server as a resource instance service operation type.";
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
@@ -74,15 +78,10 @@ namespace Pyro.Engine.Services
 
       switch (OperationClass.Type)
       {
-        case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
-          {
-            var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
-            return DeleteManyHistoryIndexesService.DeleteSingle();
-          }
         case FhirOperationEnum.OperationType.Validate:
           {
             var ValidateResourceInstanceService = Common.CommonFactory.GetFhirValidateOperationService(_ServiceRequest);
-            return ValidateResourceInstanceService.ValidateResource();
+            return ValidateResourceInstanceService.ValidateResourceInstance();
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

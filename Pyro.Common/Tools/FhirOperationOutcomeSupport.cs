@@ -15,9 +15,6 @@ namespace Pyro.Common.Tools
   {
     public static OperationOutcome Generate(List<OperationOutcome.IssueComponent> IssueList)
     {
-      if (IssueList.Count == 0)
-        return null;
-
       var NarativeTextList = new List<string>();
       var OpOutCome = new OperationOutcome();
       foreach (var Issue in IssueList)
@@ -56,6 +53,16 @@ namespace Pyro.Common.Tools
           Issue.Location = EscapedLocation;
         }
       }
+    }
+
+    public static OperationOutcome.IssueComponent CreateIssue(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message)
+    {
+      var Issue = new OperationOutcome.IssueComponent();
+      Issue.Severity = IssueSeverity;
+      Issue.Code = IssueType;
+      Issue.Details = new CodeableConcept();
+      Issue.Details.Text = Message;
+      return Issue;
     }
 
     public static OperationOutcome Append(OperationOutcome.IssueSeverity IssueSeverity, OperationOutcome.IssueType? IssueType, string Message, OperationOutcome Exsisting = null)
@@ -159,7 +166,7 @@ namespace Pyro.Common.Tools
     private static string ConstructNarrative(string Message, OperationOutcome.IssueSeverity? IssueSeverity, OperationOutcome.IssueType? IssueType)
     {
       var NarativeSupport = Common.CommonFactory.GetFhirNarativeSupport();
-      
+
       if (IssueSeverity.HasValue)
         NarativeSupport.NewValuePairList("IssueSeverity", IssueSeverity.Value.GetLiteral(), "Status", 4);
       if (IssueType.HasValue)

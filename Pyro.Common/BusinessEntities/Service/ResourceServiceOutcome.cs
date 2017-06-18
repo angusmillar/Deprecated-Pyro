@@ -23,8 +23,6 @@ namespace Pyro.Common.BusinessEntities.Service
     public RestEnum.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }
     public bool? IsDeleted { get; set; }
-    public ISearchParametersServiceOutcome SearchParametersServiceOutcome { get; set; }
-    public IResourceValidationOperationOutcome ResourceValidationOperationOutcome { get; set; }    
     private HttpStatusCode _HttpStatusCode { get; set; }
     public HttpStatusCode HttpStatusCode
     {
@@ -36,7 +34,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         _HttpStatusCode = value;
       }
-    }    
+    }
     private Resource _ResourceResult;
     public Resource ResourceResult
     {
@@ -52,7 +50,7 @@ namespace Pyro.Common.BusinessEntities.Service
     public string FormatMimeType { get; set; }
     public SummaryType? SummaryType { get; set; }
     public bool SuccessfulTransaction { get; set; }
-    
+
 
 
     #endregion
@@ -62,41 +60,22 @@ namespace Pyro.Common.BusinessEntities.Service
     {
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
-      this.SuccessfulTransaction = false;      
-  }
+      this.SuccessfulTransaction = false;
+    }
     #endregion
 
     #region Private Methods
 
     private HttpStatusCode ResolveHttpStatusCode()
     {
-      if (this.SearchParametersServiceOutcome != null && this.SearchParametersServiceOutcome.FhirOperationOutcome != null)
-      {
-        return this.SearchParametersServiceOutcome.HttpStatusCode;
-      }
-      else if (this.ResourceValidationOperationOutcome != null && this.ResourceValidationOperationOutcome.FhirOperationOutcome != null)
-      {
-        return this.ResourceValidationOperationOutcome.HttpStatusCode;
-      }
-      else
-      {
-        return _HttpStatusCode;
-      }      
+      return _HttpStatusCode;
     }
 
     private Resource ResolveResource()
-    {      
-      if (this.SearchParametersServiceOutcome != null && this.SearchParametersServiceOutcome.FhirOperationOutcome != null)
+    {
+      if (this._ResourceResult != null)
       {
-        return this.SearchParametersServiceOutcome.FhirOperationOutcome;
-      }
-      else if (this.ResourceValidationOperationOutcome != null && this.ResourceValidationOperationOutcome.FhirOperationOutcome != null)
-      {
-        return this.ResourceValidationOperationOutcome.FhirOperationOutcome;
-      }
-      else if (this._ResourceResult != null)
-      {
-        return this._ResourceResult;        
+        return this._ResourceResult;
       }
       else if (this.OperationType == RestEnum.CrudOperationType.Create ||
         this.OperationType == RestEnum.CrudOperationType.Update ||
@@ -110,7 +89,7 @@ namespace Pyro.Common.BusinessEntities.Service
       else
       {
         string message = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
-        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, message);        
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, message);
         throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, message);
       }
     }

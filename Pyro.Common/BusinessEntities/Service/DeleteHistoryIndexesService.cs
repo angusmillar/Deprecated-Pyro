@@ -58,7 +58,8 @@ namespace Pyro.Common.BusinessEntities.Service
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
-        ResourceServiceOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
+        ResourceServiceOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
+        ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ResourceServiceOutcome;
       }

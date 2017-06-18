@@ -15,9 +15,9 @@ using Hl7.Fhir.Introspection;
 namespace Pyro.Engine.Services
 {
   public class MetadataService
-  { 
+  {
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
-    {      
+    {
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
 
@@ -29,14 +29,16 @@ namespace Pyro.Engine.Services
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
-        ServiceOperationOutcome.SearchParametersServiceOutcome = SearchParametersServiceOutcome;
+        ServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
+        ServiceOperationOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
+        ServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ServiceOperationOutcome;
       }
       var Conformance = new CapabilityStatement();
 
       string ApplicationReleaseDate = "2017-05-01T10:00:00+10:00";
       string ServerName = "Pyro Server";
-      
+
       Conformance.Id = "metadata";
       Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
       Conformance.Version = ResourceServiceRequest.ApplicationVersion;
@@ -142,7 +144,7 @@ namespace Pyro.Engine.Services
         }
       }
       ConstructConformanceResourceNarrative(Conformance);
-      
+
       IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
@@ -158,10 +160,10 @@ namespace Pyro.Engine.Services
 
     private void ConstructConformanceResourceNarrative(CapabilityStatement Conformance)
     {
-      var XDoc = new XmlDocument();      
+      var XDoc = new XmlDocument();
       var Xroot = XDoc.CreateElement("div");
       var xmlns = XDoc.CreateAttribute("xmlns");
-      xmlns.Value = XmlNs.XHTML;      
+      xmlns.Value = XmlNs.XHTML;
       Xroot.SetAttributeNode(xmlns);
       XDoc.AppendChild(Xroot);
 

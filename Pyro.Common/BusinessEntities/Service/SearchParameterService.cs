@@ -63,7 +63,6 @@ namespace Pyro.Common.BusinessEntities.Service
       _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
       _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = _SearchParametersServiceRequest.SearchParameterGeneric.Count;
 
-      //var oSearchParameterNameDictionary = FhirSearchEnum.GetSearchParameterNameTypeDictionary();
       List<DtoServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters();
 
       foreach (var Parameter in _SearchParametersServiceRequest.SearchParameterGeneric.ParameterList)
@@ -109,12 +108,8 @@ namespace Pyro.Common.BusinessEntities.Service
         _SearchParametersServiceOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
         foreach (var SortItem in _SearchParametersServiceRequest.SearchParameterGeneric.Sort)
         {
-          //if (oSearchParameterNameDictionary.ContainsKey(SortItem.Item1.Trim()))
-          //{
-          //var SearchParameterNameType = oSearchParameterNameDictionary[SortItem.Item1.Trim()];
           string SearchParameterName = SortItem.Item1.Trim();
           DtoServiceSearchParameterLight oSupportedSearchParameter = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
-
           _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
         }
       }

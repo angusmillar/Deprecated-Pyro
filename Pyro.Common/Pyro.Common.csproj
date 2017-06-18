@@ -116,8 +116,10 @@
     <Compile Include="BusinessEntities\FhirOperation\OperationClassFactory.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
-    <Compile Include="Interfaces\Service\IValidateResourceInstanceService.cs" />
-    <Compile Include="BusinessEntities\Service\ValidateResourceInstanceService.cs" />
+    <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IResourceInstanceOperationsServiceRequest.cs" />
+    <Compile Include="Interfaces\Service\IFhirValidateOperationService.cs" />
+    <Compile Include="BusinessEntities\Service\FhirValidateOperationService.cs" />
     <Compile Include="Interfaces\Service\IServerResourceReportService.cs" />
     <Compile Include="BusinessEntities\Service\ServerResourceReportService.cs" />
     <Compile Include="BusinessEntities\Service\DeleteHistoryIndexesService.cs" />

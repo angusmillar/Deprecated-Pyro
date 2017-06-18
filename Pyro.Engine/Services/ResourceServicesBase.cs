@@ -78,7 +78,7 @@ namespace Pyro.Engine.Services
     }
 
     public IResourceServiceOutcome SetResource(Resource Resource, IDtoRequestUri RequestUri, RestEnum.CrudOperationType CrudOperationType)
-    {      
+    {
       if (CrudOperationType == RestEnum.CrudOperationType.Update && (Resource.Meta == null || string.IsNullOrWhiteSpace(Resource.Meta.VersionId)))
         throw new ArgumentNullException("Internal Server Error:Resource's Version can not be null when CrudOperationType = Update");
       if ((CrudOperationType != RestEnum.CrudOperationType.Create) && (CrudOperationType != RestEnum.CrudOperationType.Update))
@@ -91,15 +91,6 @@ namespace Pyro.Engine.Services
       //Assign GUID as FHIR id;
       if (string.IsNullOrWhiteSpace(Resource.Id))
         Resource.Id = Guid.NewGuid().ToString();
-
-      //Validation of resource        
-      Interfaces.IResourceValidation Validation = Pyro.Engine.Validation.ResourceValidationFactory.GetValidationInstance(ServiceResourceType);
-      IResourceValidationOperationOutcome oResourceValidationOperationOutcome = Validation.Validate(Resource);
-      if (oResourceValidationOperationOutcome.HasError)
-      {
-        ServiceOperationOutcome.ResourceValidationOperationOutcome = oResourceValidationOperationOutcome;
-        return ServiceOperationOutcome;
-      }
 
       string ResourceVersionNumber = string.Empty;
       if (Resource.Meta == null)
@@ -123,8 +114,8 @@ namespace Pyro.Engine.Services
         DatabaseOperationOutcome = _ResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);
       }
       else if (CrudOperationType == RestEnum.CrudOperationType.Create)
-      {        
-        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, RequestUri);        
+      {
+        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, RequestUri);
       }
 
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
@@ -295,7 +286,7 @@ namespace Pyro.Engine.Services
       oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
       oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
       oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
-      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;      
+      oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
 
       return oPyroServiceOperationOutcome;

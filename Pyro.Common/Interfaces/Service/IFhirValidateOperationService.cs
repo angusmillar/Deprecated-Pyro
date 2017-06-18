@@ -2,8 +2,9 @@
 
 namespace Pyro.Common.Interfaces.Service
 {
-  public interface IValidateResourceInstanceService
+  public interface IFhirValidateOperationService
   {
     IResourceServiceOutcome ValidateResource();
+    IResourceServiceOutcome ValidateResourceInstance();
   }
 }
