@@ -8,12 +8,13 @@ namespace Pyro.Common.Tools.FhirResourceValidation
 {
   public class InternalServerProfileResolver : IResourceResolver
   {
-    private _Resource
+    private IResourceServices _Resource;
     public List<StructureDefinition> TestProfiles = new List<StructureDefinition>();
 
     public InternalServerProfileResolver(IResourceServices ResourceServices)
     {
-      ResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
+      _Resource = ResourceServices;
+      _Resource.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
 
       //Add StructureDefinition resource to this list when we have them rather than obtaining from Server.
       // TestProfiles.Add();
