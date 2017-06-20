@@ -8,6 +8,7 @@ using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Validation;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Specification.Terminology;
+using System.IO;
 
 namespace Pyro.Common.Tools.FhirResourceValidation
 {
@@ -21,7 +22,8 @@ namespace Pyro.Common.Tools.FhirResourceValidation
 
       var MultiResolver = new MultiResolver();
       // Use the specification zip that is local (from the NuGet package)
-      MultiResolver.AddSource(new ZipSource("specification.zip"));
+      var SpecificationFilePath = Path.Combine(AppContext.BaseDirectory, @"bin\specification.zip");
+      MultiResolver.AddSource(new ZipSource(SpecificationFilePath));
       // Try using the fixed content
       MultiResolver.AddSource(new AustralianFhirProfileResolver());
 
@@ -31,7 +33,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       MultiResolver.AddSource(new WebResolver(id => new FhirClient(Cache.WebConfigServiceBaseURL())));
 
       // for Debugging look somewhere?
-      //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://localhost:8888/test/stu3/fhir")));
+      //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://localhost:50579/test/stu3/fhir")));
 
       // Prepare the artefact resolvers (cache to reduce complexity)
       ResourceResolver = new CachedResolver(MultiResolver);
