@@ -24,7 +24,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         if (_BaseOpServiceRequest.OperationClass == null)
           throw new NullReferenceException("OperationClass cannot be null.");
-        if (_BaseOpServiceRequest.OperationClass.Scope == FhirOperationEnum.OperationScope.Base)
+        if (_BaseOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Base)
           throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
         if (_BaseOpServiceRequest.RequestUri == null)
           throw new NullReferenceException("RequestUri cannot be null.");
