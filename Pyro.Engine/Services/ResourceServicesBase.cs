@@ -155,12 +155,16 @@ namespace Pyro.Engine.Services
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceHistoryByFhirID(ResourceId, SearchParametersServiceOutcome.SearchParameters);
 
+      Uri SupportedSearchSelfLink = null;
+      Uri.TryCreate(RequestUri.FhirRequestUri.OriginalString, UriKind.Absolute, out SupportedSearchSelfLink);
+
       oPyroServiceOperationOutcome.ResourceResult = Support.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
                                                                                            Bundle.BundleType.History,
                                                                                            RequestUri,
                                                                                            DatabaseOperationOutcome.SearchTotal,
                                                                                            DatabaseOperationOutcome.PagesTotal,
-                                                                                           DatabaseOperationOutcome.PageRequested);
+                                                                                           DatabaseOperationOutcome.PageRequested,
+                                                                                           SupportedSearchSelfLink);
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
       oPyroServiceOperationOutcome.IsDeleted = null;
@@ -278,7 +282,8 @@ namespace Pyro.Engine.Services
                                                                                              RequestUri,
                                                                                              DatabaseOperationOutcome.SearchTotal,
                                                                                              DatabaseOperationOutcome.PagesTotal,
-                                                                                             DatabaseOperationOutcome.PageRequested);
+                                                                                             DatabaseOperationOutcome.PageRequested,
+                                                                                             SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl());
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
       oPyroServiceOperationOutcome.IsDeleted = null;

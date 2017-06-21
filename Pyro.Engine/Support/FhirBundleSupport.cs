@@ -14,7 +14,7 @@ namespace Pyro.Engine.Support
 {
   public static class FhirBundleSupport
   {
-    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IDtoRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested)
+    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IDtoRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested, Uri SearchPerformedUri = null)
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
       FhirBundle.Type = BundleType;
@@ -26,6 +26,8 @@ namespace Pyro.Engine.Support
       FhirBundle.LastLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, LastPageNumber);
       FhirBundle.NextLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetNextPageNumber(PageRequested, PagesTotal));
       FhirBundle.PreviousLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetPreviousPageNumber(PageRequested));
+      if (SearchPerformedUri != null)
+        FhirBundle.SelfLink = SearchPerformedUri;
 
       foreach (DtoResource DtoResource in ResourceList)
       {
