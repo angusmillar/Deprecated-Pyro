@@ -37,7 +37,7 @@ namespace Pyro.Common.BusinessEntities.Search
         }
 
         var ValuePairList = System.Web.HttpUtility.ParseQueryString(SearchParameterString);
-        
+
 
         foreach (string Key in ValuePairList.AllKeys)
         {
@@ -45,7 +45,24 @@ namespace Pyro.Common.BusinessEntities.Search
         }
 
         this.Sort = null;
-        this.Count = ValuePairList.Count;
+        var CountParameter = this.ParameterList.SingleOrDefault(x => x.Item1.ToLower() == SearchParams.SEARCH_PARAM_COUNT);
+        if (CountParameter != null)
+        {
+          int CountInt;
+          if (int.TryParse(CountParameter.Item2, out CountInt))
+          {
+            this.Count = CountInt;
+          }
+          else
+          {
+            this.Count = null;
+          }
+        }
+        else
+        {
+          this.Count = null;
+        }
+
         //Todo: How do we get the summary here?, do we need to get it here?
         this.SummaryType = null;
       }

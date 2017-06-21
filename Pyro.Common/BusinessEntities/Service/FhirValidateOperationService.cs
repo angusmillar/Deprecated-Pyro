@@ -500,7 +500,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private OperationOutcome PerformValidation(ValidationOperationItems ValidationOperationItems)
     {
-      var ValidationSupport = new Tools.FhirResourceValidation.FhirValidationSupport();
+      var ValidationSupport = new Tools.FhirResourceValidation.FhirValidationSupport(_ResourceOpServiceRequest.ResourceServices);
       return ValidationSupport.Validate(ValidationOperationItems.ResourceToValidate, new List<string> { ValidationOperationItems.ProfileUri });
     }
 
