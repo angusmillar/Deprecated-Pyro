@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Tools
 {
@@ -14,19 +17,25 @@ namespace Pyro.Common.Tools
       return PagesTotal;
     }
 
-    public static int GetNextPageNumber(int PageCurrentlyRequired, int PagesTotal)
+    public static int? GetNextPageNumber(int PageCurrentlyRequired, int PagesTotal)
     {
+      if (PageCurrentlyRequired < 1)
+        PageCurrentlyRequired = 1;
       if (PageCurrentlyRequired >= PagesTotal)
-        return PagesTotal;
+        return null;
       else
         return PageCurrentlyRequired + 1;
     }
 
-    public static int GetPreviousPageNumber(int PageCurrentlyRequired)
+    public static int? GetPreviousPageNumber(int PageCurrentlyRequired, int PagesTotal)
     {
-      if (PageCurrentlyRequired == 1)
+      if (PageCurrentlyRequired <= 1)
       {
-        return PageCurrentlyRequired;
+        return null;
+      }
+      else if (PageCurrentlyRequired >= PagesTotal)
+      {
+        return PagesTotal - 1;
       }
       else
       {
@@ -34,8 +43,8 @@ namespace Pyro.Common.Tools
       }
     }
 
-    public static Uri GetPageNavigationUri(string RequestUriString, int NewPageNumber)
-    {      
+    public static Uri GetPageNavigationUriOLD(string RequestUriString, int NewPageNumber)
+    {
       Uri RequestUri = new Uri(RequestUriString);
       if (RequestUri != null)
       {
@@ -55,6 +64,41 @@ namespace Pyro.Common.Tools
         return new Uri(String.Format("{0}://{1}{2}{3}{4}{5}", RequestUri.Scheme, RequestUri.Authority, RequestUri.AbsolutePath, RequestUri.Query, "&", "page=" + NewPageNumber.ToString()));
       }
       return null;
+    }
+
+    public static Uri GetPageNavigationUri(string RequestUriString, int? NewPageNumber)
+    {
+      //examples
+      //http://localhost:8888/test/stu3/fhir/StructureDefinition
+      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?page=1
+      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?url=http://blabla.com/something&page=1
+      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?url=http://blabla.com/something&page=1&xyz=bla
+
+      //If the page number is null then we don't need a link as we are currently at the end or the beginning
+      if (!NewPageNumber.HasValue)
+        return null;
+
+      string PageParameterText = "page=";
+      var RequestSplit = RequestUriString.Split('?');
+      if (RequestSplit.Length > 1)
+      {
+        string Base = RequestSplit[0];
+        RequestSplit[0] = string.Empty;
+        string Query = String.Join("", RequestSplit);
+        List<string> ParameterSplit = new List<string>(Query.Split('&'));
+        var PageParameter = ParameterSplit.SingleOrDefault(x => x.StartsWith(PageParameterText));
+        if (PageParameter != null)
+        {
+          Query = Query.Replace(PageParameter, $"{PageParameterText}{NewPageNumber.ToString()}");
+          return new Uri($"{Base}?{Query}");
+        }
+        else
+        {
+          Query += $"{PageParameterText}{NewPageNumber.ToString()}";
+          return new Uri($"{Base}?{Query}");
+        }
+      }
+      return new Uri($"{RequestUriString}?{PageParameterText}{NewPageNumber.ToString()}");
     }
 
     public static int CalculatePageRequired(int RequiredPageNumber, int NumberOfRecordsPerPage, int TotalRecordCount)
@@ -87,6 +131,26 @@ namespace Pyro.Common.Tools
       {
         return TotalPages + 1;
       }
+    }
+
+    public static void SetBundlePagnation(Bundle Bundle, string RequestUriString, int PagesTotal, int PageCurrentlyRequired, Uri SearchPerformedUri = null)
+    {
+      int LastPageNumber = PagingSupport.GetLastPageNumber(PagesTotal);
+
+      Bundle.FirstLink = PagingSupport.GetPageNavigationUri(RequestUriString, PagingSupport.GetFirstPageNumber());
+
+      Bundle.LastLink = PagingSupport.GetPageNavigationUri(RequestUriString, LastPageNumber);
+
+      Uri Next = PagingSupport.GetPageNavigationUri(RequestUriString, PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal));
+      if (Next != null)
+        Bundle.NextLink = Next;
+
+      Uri Previous = PagingSupport.GetPageNavigationUri(RequestUriString, PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, PagesTotal));
+      if (Previous != null)
+        Bundle.PreviousLink = Previous;
+
+      if (SearchPerformedUri != null)
+        Bundle.SelfLink = SearchPerformedUri;
     }
   }
 }

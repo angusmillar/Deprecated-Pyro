@@ -90,9 +90,9 @@ namespace Pyro.Test.Tools
       //Arrange      
       int PageCurrentlyRequired = 10;
       int PagesTotal = 10;
-      int Expected = 10;
+      int? Expected = null;
       //Act
-      int Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -107,7 +107,7 @@ namespace Pyro.Test.Tools
       int PagesTotal = 10;
       int Expected = 6;
       //Act
-      int Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -119,9 +119,9 @@ namespace Pyro.Test.Tools
       //Arrange      
       int PageCurrentlyRequired = 15;
       int PagesTotal = 10;
-      int Expected = 10;
+      int? Expected = null;
       //Act
-      int Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -149,8 +149,9 @@ namespace Pyro.Test.Tools
       //Arrange      
       int PageCurrentlyRequired = 10;
       int Expected = 9;
+      int TotalPages = 15;
       //Act
-      int Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired);
+      int? Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -161,13 +162,149 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       int PageCurrentlyRequired = 1;
-      int Expected = 1;
+      int? Expected = null;
+      int TotalPages = 15;
       //Act
-      int Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired);
+      int? Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
 
       //Assert
       Assert.AreEqual(Expected, Result);
     }
+
+    [Test]
+    public void Test_SetBundlePagnation_LowerEdge()
+    {
+      //Arrange      
+      int TotalPages = 1;
+      int PageCurrentlyRequired = 1;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient";
+
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
+      Assert.AreEqual(Bundle.PreviousLink, null);
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=1");
+    }
+
+    [Test]
+    public void Test_SetBundlePagnation_LowerOuter()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 0;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient";
+
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
+      Assert.AreEqual(Bundle.PreviousLink, null);
+      Assert.AreEqual(Bundle.NextLink, "http://someserver.net/fhir/Patient?page=2");
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=10");
+    }
+
+
+    [Test]
+    public void Test_SetBundlePagnation_Mid()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 5;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient";
+
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?page=4");
+      Assert.AreEqual(Bundle.NextLink, "http://someserver.net/fhir/Patient?page=6");
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=10");
+    }
+
+    [Test]
+    public void Test_SetBundlePagnation_Last()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 10;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient";
+
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?page=9");
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=10");
+    }
+
+    [Test]
+    public void Test_SetBundlePagnation_LastOuter()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 15;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient";
+
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?page=9");
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=10");
+    }
+
+    [Test]
+    public void Test_SetBundlePagnation_PageRequestedAtEnd()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 15;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient?given=testman&page=" + PageCurrentlyRequired;
+      Uri SearchPerformedUri = new Uri(RequestUriString);
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 1.ToString());
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 9.ToString());
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 10.ToString());
+    }
+
+    [Test]
+    public void Test_SetBundlePagnation_PageRequestedInMid()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 15;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient?page=" + PageCurrentlyRequired + "&given=testman";
+      Uri SearchPerformedUri = new Uri(RequestUriString);
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=" + 1.ToString() + "&given=testman");
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?page=" + 9.ToString() + "&given=testman");
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=" + 10.ToString() + "&given=testman");
+    }
+
 
 
   }
