@@ -305,6 +305,26 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=" + 10.ToString() + "&given=testman");
     }
 
+    [Test]
+    public void Test_SetBundlePagnation_SearchParameterNoPageParameter()
+    {
+      //Arrange      
+      int TotalPages = 10;
+      int PageCurrentlyRequired = 15;
+      Bundle Bundle = new Bundle();
+      string RequestUriString = "http://someserver.net/fhir/Patient?given=testman";
+      Uri SearchPerformedUri = new Uri(RequestUriString);
+      //Act
+      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+
+      //Assert
+      Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 1.ToString());
+      Assert.AreEqual(Bundle.PreviousLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 9.ToString());
+      Assert.AreEqual(Bundle.NextLink, null);
+      Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 10.ToString());
+    }
+
+
 
 
   }

@@ -94,7 +94,7 @@ namespace Pyro.Common.Tools
         }
         else
         {
-          Query += $"{PageParameterText}{NewPageNumber.ToString()}";
+          Query += $"&{PageParameterText}{NewPageNumber.ToString()}";
           return new Uri($"{Base}?{Query}");
         }
       }
