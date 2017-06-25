@@ -55,9 +55,9 @@ namespace Pyro.Common
       return new DtoDatabaseOperationOutcome();
     }
 
-    public static IResourceServiceRequestGetRead GetResourceServiceRequestGetRead(string ResourceId, IDtoRequestUri DtoRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
+    public static IResourceServiceRequestGetRead GetResourceServiceRequestGetRead(string FhirId, IDtoRequestUri DtoRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
     {
-      return new ResourceServiceRequestGetRead(ResourceId, DtoRequestUri, DtoSearchParameterGeneric, RequestHeaders);
+      return new ResourceServiceRequestGetRead(FhirId, DtoRequestUri, DtoSearchParameterGeneric, RequestHeaders);
     }
 
     public static IResourceServiceRequestGetSearch GetResourceServiceRequestGetSearch(IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)

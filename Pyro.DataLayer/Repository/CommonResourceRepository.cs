@@ -41,8 +41,6 @@ namespace Pyro.DataLayer.Repository
       int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
       var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
 
-
-
       //Todo: Sort not implemented just defaulting to last update order
       Query = Query.OrderBy(x => x.LastUpdated);
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);

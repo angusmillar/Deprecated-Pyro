@@ -102,6 +102,7 @@
     <Compile Include="Services\FhirBaseOperationService.cs" />
     <Compile Include="Services\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Services\FhirResourceOperationService.cs" />
+    <Compile Include="Services\IPyroService.cs" />
     <Compile Include="Services\PrimaryServiceRootFactory.cs" />
     <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
