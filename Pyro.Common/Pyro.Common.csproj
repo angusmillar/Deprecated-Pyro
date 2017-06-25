@@ -114,6 +114,8 @@
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClass.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClassFactory.cs" />
+    <Compile Include="BusinessEntities\Global\GlobalProperties.cs" />
+    <Compile Include="BusinessEntities\Global\IGlobalProperties.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />

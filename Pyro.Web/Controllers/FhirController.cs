@@ -1,4 +1,5 @@
 ﻿using Pyro.Common.Interfaces.Service;
+using Pyro.Common.BusinessEntities.Global;
 using Pyro.Web.Attributes;
 using Pyro.Web.Extensions;
 using Pyro.Web.Response;
@@ -8,16 +9,19 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 
+
 namespace Pyro.Web.Controllers
 {
   [RoutePrefix(Pyro.Common.Web.StaticWebInfo.ServiceRoute)]
   public class FhirController : ApiController
   {
     private readonly IServiceNegotiator _FhirServiceNegotiator;
+    private readonly IGlobalProperties _GlobalProperties;
     //Constructor for dependence injection inject container into 
-    public FhirController(IServiceNegotiator FhirServiceNegotiator)
+    public FhirController(IServiceNegotiator FhirServiceNegotiator, IGlobalProperties GlobalProperties)
     {
       _FhirServiceNegotiator = FhirServiceNegotiator;
+      _GlobalProperties = GlobalProperties;
     }
 
     //Service Root Base
@@ -326,5 +330,7 @@ namespace Pyro.Web.Controllers
 
 
   }
+
+
 
 }
