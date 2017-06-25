@@ -24,7 +24,8 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
       {
         try
         {
-          SeedService.Seed();
+          if (SeedService.DoesSeedNeedToRun())
+            SeedService.Seed();
         }
         catch (Exception Exec)
         {
