@@ -9,11 +9,17 @@ using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.Repository;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Hl7.Fhir.Model;
+using Pyro.Common.BusinessEntities.Global;
 
 namespace Pyro.DataLayer.DbModel.UnitOfWork
 {
   public partial class UnitOfWork : IUnitOfWork, IDisposable
   {
+    public UnitOfWork()
+    {
+      _context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
+    }
+
     public DbContextTransaction BeginTransaction()
     {
       try
@@ -31,11 +37,6 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;
 
     private CommonRepository _CommonRepository;
-
-    public UnitOfWork()
-    {
-      _context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
-    }
 
     public IDtoCommonRepository CommonRepository
     {

@@ -16,6 +16,7 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
       _Context = Context;
       SeedServiceList = new List<IPyroSeedService>();
       SeedServiceList.Add(new PyroSeedServiceSearchParameters(_Context));
+      SeedServiceList.Add(new SeedServiceOperationValidate(_Context));
     }
 
     public void Seed()
