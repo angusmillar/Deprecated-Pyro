@@ -27,12 +27,12 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
       //id = Resource-validate
       //_Context.
 
-      throw new NotImplementedException();
+      return false;
     }
 
     public void Seed()
     {
-      throw new NotImplementedException();
+
     }
   }
 }
