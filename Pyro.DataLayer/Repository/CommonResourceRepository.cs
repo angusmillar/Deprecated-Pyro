@@ -27,7 +27,7 @@ namespace Pyro.DataLayer.Repository
   {
     public FHIRAllTypes RepositoryResourceType { get; }
 
-    public CommonResourceRepository(Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext Context, FHIRAllTypes RepositoryResourceType)
+    public CommonResourceRepository(Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext Context, FHIRAllTypes RepositoryResourceType)
       : base(Context)
     {
       this.RepositoryResourceType = RepositoryResourceType;

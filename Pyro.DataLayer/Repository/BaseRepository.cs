@@ -15,8 +15,8 @@ namespace Pyro.DataLayer.Repository
 {
   public class BaseRepository : IBaseRepository
   {
-    internal Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _Context = null;
-    
+    internal Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext _Context = null;
+
     protected int _NumberOfRecordsPerPage = 10;
     protected int _MaxNumberOfRecordsPerPage = 100;
 

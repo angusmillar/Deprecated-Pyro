@@ -7,6 +7,7 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.Interfaces.ITools;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
@@ -18,9 +19,14 @@ namespace Pyro.Engine.Services
 {
   public class ResourceServices : ResourceServicesBase, IResourceServices
   {
+    private IRepositorySwitcher RepositorySwitcher;
+
     //Constructor for dependency injection
-    public ResourceServices(IUnitOfWork IUnitOfWork)
-      : base(IUnitOfWork) { }
+    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher)
+      : base(IUnitOfWork)
+    {
+      RepositorySwitcher = IRepositorySwitcher;
+    }
 
     public DbContextTransaction BeginTransaction()
     {
@@ -30,7 +36,7 @@ namespace Pyro.Engine.Services
     public void SetCurrentResourceType(FHIRAllTypes ResourceType)
     {
       _CurrentResourceType = ResourceType;
-      _ResourceRepository = new Pyro.Common.Tools.RepositorySwitcher().GetRepository(_CurrentResourceType, _UnitOfWork);
+      _ResourceRepository = RepositorySwitcher.GetRepository(_CurrentResourceType);
     }
 
     public void SetCurrentResourceType(ResourceType ResourceType)

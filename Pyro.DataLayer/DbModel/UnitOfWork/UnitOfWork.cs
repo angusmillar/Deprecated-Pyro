@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Data.Entity;
+﻿using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.Repositories;
+using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.Repository;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Global;
+using System;
+using System.Data.Entity;
 
 namespace Pyro.DataLayer.DbModel.UnitOfWork
 {
   public partial class UnitOfWork : IUnitOfWork, IDisposable
   {
-    public UnitOfWork()
+    private IPyroDbContext _context = null;
+
+    public UnitOfWork(IPyroDbContext PyroDbContext)
     {
-      _context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
+      //_context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
+      _context = PyroDbContext;
     }
 
     public DbContextTransaction BeginTransaction()
     {
       try
       {
-        return _context.Database.BeginTransaction();
+        return _context.BeginTransaction();
       }
       catch (Exception Exec)
       {
@@ -33,8 +30,6 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
           Pyro.Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Message), Message);
       }
     }
-
-    private Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext _context = null;
 
     private CommonRepository _CommonRepository;
 

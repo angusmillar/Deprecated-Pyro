@@ -238,6 +238,7 @@
     <Compile Include="Tools\HttpHeaderSupport.cs" />
     <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />
+    <Compile Include="Interfaces\ITools\IRepositorySwitcher.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ReflectionHelper.cs" />
     <Compile Include="Tools\RepositorySwitcher.cs">

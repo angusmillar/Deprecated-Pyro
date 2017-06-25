@@ -21,7 +21,7 @@ namespace Pyro.DataLayer.Repository
   public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
   {
     #region Constructor
-    public CommonRepository(Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext Context)
+    public CommonRepository(Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext Context)
     {
       _Context = Context;
     }
@@ -191,7 +191,7 @@ namespace Pyro.DataLayer.Repository
 
       return ReturnList;
     }
-    
+
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
     {
       var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();

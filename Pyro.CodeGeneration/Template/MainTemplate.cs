@@ -13,6 +13,7 @@
 // Pyro.DataLayer\DbModel\EntityGenerated\MainTemplate.txt4
 // Generated items
 // Pyro.Common\Tools\RepositorySwitcher.cs
+// Pyro.DataLayer\DbModel\DatabaseContext\IPyroDbContextCodeGenerated.cs
 // Pyro.DataLayer\DbModel\DatabaseContext\PyroDbContextCodeGenerated.cs
 // Pyro.Common\Interfaces\Repositories\IUnitOfWorkCodeGeneration.cs
 // Pyro.DataLayer\DbModel\UnitOfWork\UnitOfWorkCodeGenerated.cs

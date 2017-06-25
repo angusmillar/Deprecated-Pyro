@@ -71,6 +71,10 @@
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterTargetResourceConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceBaseUrlContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContext\IPyroDbContext.cs" />
+    <Compile Include="DbModel\DatabaseContext\IPyroDbContextCodeGenerated.cs">
+      <DependentUpon>MainTemplate.txt4</DependentUpon>
+    </Compile>
     <Compile Include="DbModel\DatabaseContext\PyroDbContext.cs" />
     <Compile Include="DbModel\DatabaseContext\PyroDbContextCodeGenerated.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
