@@ -16,10 +16,13 @@ namespace Pyro.Engine.CustomException
   {
     public override void OnException(HttpActionExecutedContext context)
     {
+      //Log.Error(context.Exception, "Error caught at top layer FhirExceptionFilter");
+
       HttpResponseMessage response = null;
 
       if (context.Exception is DtoPyroException oDtoPyroException)
-      {        
+      {
+
         if (oDtoPyroException.OperationOutcome != null)
         {
           response = context.Request.CreateResponse<Resource>(oDtoPyroException.HttpStatusCode, oDtoPyroException.OperationOutcome);
