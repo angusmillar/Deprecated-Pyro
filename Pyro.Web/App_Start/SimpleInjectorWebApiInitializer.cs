@@ -13,6 +13,7 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.BusinessEntities.Global;
   using Pyro.Common.Interfaces.ITools;
   using Pyro.Common.Tools;
+  using Pyro.Common.Logging;
 
 
   public static class SimpleInjectorWebApiInitializer
@@ -36,9 +37,10 @@ namespace Pyro.Web.App_Start
     private static void InitializeContainer(Container container)
     {
       //Singleton
+      container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
 
-      //Scoped      
+      //Scoped            
       container.Register<IPyroDbContext, PyroDbContext>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IServiceNegotiator, ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);

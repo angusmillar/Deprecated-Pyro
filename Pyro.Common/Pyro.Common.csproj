@@ -224,6 +224,8 @@
     <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
     <Compile Include="Interfaces\Service\IBaseResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />
+    <Compile Include="Logging\ILog.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
     <Compile Include="Tools\DateTimeIndex.cs" />

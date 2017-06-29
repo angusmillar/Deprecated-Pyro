@@ -17,12 +17,14 @@ namespace Pyro.Web.Controllers
   {
     private readonly IGlobalProperties IGlobalProperties;
     private readonly IPyroService IPyroService;
-    private static readonly NLog.ILogger Log = NLog.LogManager.GetCurrentClassLogger();
+    private readonly Pyro.Common.Logging.ILog Log;
     //Constructor for dependence injection inject container into 
-    public FhirController(IPyroService IPyroService, IGlobalProperties IGlobalProperties)
+    public FhirController(IPyroService IPyroService, IGlobalProperties IGlobalProperties, Pyro.Common.Logging.ILog Log)
     {
       this.IGlobalProperties = IGlobalProperties;
       this.IPyroService = IPyroService;
+      this.Log = Log;
+      Log.Info($"Test logging");
     }
 
     //Service Root Base
@@ -56,9 +58,6 @@ namespace Pyro.Web.Controllers
     [ActionLog]
     public HttpResponseMessage Metadata()
     {
-      Common.Tools.Logger.Log.Info($"Request: {Request.RequestUri.OriginalString}");
-
-
       string BaseRequestUri = this.CalculateBaseURI("metadata");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Metadata(BaseRequestUri, Request);
       return FhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
