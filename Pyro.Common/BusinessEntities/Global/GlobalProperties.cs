@@ -12,6 +12,7 @@ namespace Pyro.Common.BusinessEntities.Global
     public GlobalProperties()
     {
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
+      _ApplicationCacheServicesActive = true;
     }
 
     private string _ServiceRootUrl;
@@ -20,6 +21,14 @@ namespace Pyro.Common.BusinessEntities.Global
       get { return _ServiceRootUrl; }
     }
 
+    private bool _ApplicationCacheServicesActive;
+    public bool ApplicationCacheServicesActive
+    {
+      get
+      {
+        return _ApplicationCacheServicesActive;
+      }
+    }
   }
 
 

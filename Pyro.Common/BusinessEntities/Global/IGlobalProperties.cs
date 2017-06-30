@@ -3,5 +3,6 @@
   public interface IGlobalProperties
   {
     string ServiceRootUrl { get; }
+    bool ApplicationCacheServicesActive { get; }
   }
 }

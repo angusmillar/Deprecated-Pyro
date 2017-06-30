@@ -14,7 +14,7 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.Interfaces.ITools;
   using Pyro.Common.Tools;
   using Pyro.Common.Logging;
-
+  using Pyro.Common.ServiceRoot;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -41,11 +41,15 @@ namespace Pyro.Web.App_Start
       container.Register<IGlobalProperties, GlobalProperties>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
 
       //Scoped            
+      container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IPyroDbContext, PyroDbContext>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IServiceNegotiator, ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IPyroService, PyroService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<ICommonServices, CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
     }
   }

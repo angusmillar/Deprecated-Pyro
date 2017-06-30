@@ -227,6 +227,10 @@
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceRoot\IPrimaryServiceRootCache.cs" />
+    <Compile Include="ServiceRoot\IRequestServiceRootValidate.cs" />
+    <Compile Include="ServiceRoot\PrimaryServiceRootCache.cs" />
+    <Compile Include="ServiceRoot\RequestServiceRootValidate.cs" />
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
     <Compile Include="Tools\DateTimeIndex.cs" />
     <Compile Include="Tools\DateTimeSupport.cs" />
