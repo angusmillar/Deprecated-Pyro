@@ -1,16 +1,37 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.ServiceRoot;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Pyro.Common.BusinessEntities.UriSupport
 {
-  //public enum UrnType { uuid, oid };
+  public enum UrnType { uuid, oid };
 
-  public class FhirRequestUri : IFhirRequestUri
+  public class FhirRequestUriForDi : IFhirRequestUri
   {
+    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="PrimaryServiceRoot">Should take the form http://SomeServer.net/bla/bla/bla/fhir </param>
+    public FhirRequestUriForDi(IPrimaryServiceRootCache IPrimaryServiceRootCache)
+    {
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      Uri TempUri = null;
+      if (Uri.TryCreate(this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig(), UriKind.RelativeOrAbsolute, out TempUri))
+      {
+        this.PrimaryServiceRootServers = TempUri;
+      }
+      else
+      {
+        ErrorInParseing = true;
+        ParseErrorMessage = $"The Primary Service root Uri was not able to be parsed: {this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig()}";
+      }
+    }
+
     private const string _MetadataName = "metadata";
     private const string _HistoryName = "_history";
     private const string _SearchFormDataName = "_search";
@@ -19,31 +40,20 @@ namespace Pyro.Common.BusinessEntities.UriSupport
     private const string _uuidName = "uuid";
     private const string _HttpName = "http";
     private const string _HttpsName = "https";
-    internal string _ParseErrorMessage = string.Empty;
-    internal bool _ErrorInParseing = false;
 
+    public string ParseErrorMessage { get; set; }
+    public bool ErrorInParseing { get; set; }
     public string ResourseName { get; set; }
-
     public string ResourceId { get; set; }
-
     public string VersionId { get; set; }
-
     public string OperationName { get; set; }
-
     public string Query { get; set; }
-
     public string OriginalString { get; set; }
-
     public bool IsUrn { get; set; }
-
     public string Urn { get; set; }
-
     public UrnType? UrnType { get; private set; }
-
     public bool IsFormDataSearch { get; set; }
-
     public bool IsRelativeToServer { get; set; }
-
     public bool IsOperation
     {
       get
@@ -51,15 +61,10 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         return (this.OperationType.HasValue);
       }
     }
-
     public FhirOperationEnum.OperationScope? OperationType { get; private set; }
-
     public bool IsContained { get; set; }
-
     public bool IsMetaData { get; set; }
-
     public bool IsHistoryReferance { get; set; }
-
     public Uri UriPrimaryServiceRoot
     {
       get
@@ -70,65 +75,33 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           return this.PrimaryServiceRootRemote;
       }
     }
-
     public Uri PrimaryServiceRootRemote { get; set; }
-
     public Uri PrimaryServiceRootServers { get; set; }
-
-    public string ParseErrorMessage => throw new NotImplementedException();
-
-    public bool ErrorInParseing => throw new NotImplementedException();
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="PrimaryServiceRoot">Should take the form http://SomeServer.net/bla/bla/bla/fhir </param>
-    internal FhirRequestUri(string PrimaryServiceRoot, string RequestUri)
+    public bool Parse(string RequestUri)
     {
-      RequestUri = System.Net.WebUtility.UrlDecode(RequestUri);
-      Uri TempUri = null;
-      if (Uri.TryCreate(PrimaryServiceRoot, UriKind.RelativeOrAbsolute, out TempUri))
-      {
-        this.PrimaryServiceRootServers = TempUri;
-      }
-      else
-      {
-        _ErrorInParseing = true;
-        _ParseErrorMessage = $"The Primary Service root Uri was not able to be parsed: {PrimaryServiceRoot}";
-      }
-      if (!_ErrorInParseing)
-        ProcessRequestUri(RequestUri);
+      ParseErrorMessage = string.Empty;
+      ErrorInParseing = false;
+      return ProcessRequestUri(System.Net.WebUtility.UrlDecode(RequestUri));
     }
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="PrimaryServiceRoot">Should take the form http://SomeServer.net/bla/bla/bla/fhir </param>
-    internal FhirRequestUri(Uri PrimaryServiceRoot, string RequestUri)
-    {
-      RequestUri = System.Net.WebUtility.UrlDecode(RequestUri);
-      this.PrimaryServiceRootServers = PrimaryServiceRoot;
-      ProcessRequestUri(RequestUri);
-    }
-
     private bool ProcessRequestUri(string RequestUri)
     {
       this.OriginalString = RequestUri;
       string ChainResult = string.Empty;
       ChainResult = ResolveQueryUriPart(RequestUri);
 
-      if (!_ErrorInParseing)
+      if (!ErrorInParseing)
         ChainResult = ResolvePrimaryServiceRoot(ChainResult);
 
-      if (!_ErrorInParseing)
+      if (!ErrorInParseing)
         ChainResult = ResolveRelativeUriPart(ChainResult);
 
-      if (!_ErrorInParseing)
+      if (!ErrorInParseing)
         ChainResult = ResolveResourceIdPart(ChainResult);
 
       if (ChainResult != string.Empty)
       {
-        _ParseErrorMessage = $"The URI has extra unknown content near the end of : '{ChainResult}'. The full URI was: '{RequestUri}'";
-        _ErrorInParseing = true;
+        ParseErrorMessage = $"The URI has extra unknown content near the end of : '{ChainResult}'. The full URI was: '{RequestUri}'";
+        ErrorInParseing = true;
         return false;
       }
       else
@@ -136,7 +109,6 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         return true;
       }
     }
-
     private string ResolveQueryUriPart(string value)
     {
       if (value.Contains('?'))
@@ -210,8 +182,8 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           this.Urn = RequestUri;
           if (!Uuid.IsValidValue(this.Urn))
           {
-            _ParseErrorMessage = $"The {_UrnName}:{_uuidName} value given is not valid: {this.Urn}";
-            _ErrorInParseing = true;
+            ParseErrorMessage = $"The {_UrnName}:{_uuidName} value given is not valid: {this.Urn}";
+            ErrorInParseing = true;
             return string.Empty;
           }
         }
@@ -221,8 +193,8 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           this.Urn = RequestUri;
           if (!Oid.IsValidValue(this.Urn))
           {
-            _ParseErrorMessage = $"The {_UrnName}:{_OidName} value given is not valid: {this.Urn}";
-            _ErrorInParseing = true;
+            ParseErrorMessage = $"The {_UrnName}:{_OidName} value given is not valid: {this.Urn}";
+            ErrorInParseing = true;
             return string.Empty;
           }
         }
@@ -282,14 +254,14 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           }
           else
           {
-            _ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {Segment}";
-            _ErrorInParseing = true;
+            ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {Segment}";
+            ErrorInParseing = true;
             return string.Empty;
           }
         }
       }
-      _ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath}";
-      _ErrorInParseing = true;
+      ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath}";
+      ErrorInParseing = true;
       return string.Empty;
     }
     private string ResolveResourceIdPart(string value)
@@ -367,7 +339,6 @@ namespace Pyro.Common.BusinessEntities.UriSupport
         return Remainder;
       }
     }
-
     private static string RemoveStartsWithSlash(string value)
     {
       if (value.StartsWith("/"))
@@ -375,26 +346,21 @@ namespace Pyro.Common.BusinessEntities.UriSupport
       return value;
     }
 
-    public static bool TryParse(string PrimaryServiceRoot, string RequestUri, out IFhirRequestUri Value, out string ErrorMessage)
-    {
-      var item = new FhirRequestUri(PrimaryServiceRoot, RequestUri);
-      if (item._ErrorInParseing)
-      {
-        Value = null;
-        ErrorMessage = item._ParseErrorMessage;
-        return false;
-      }
-      else
-      {
-        Value = item;
-        ErrorMessage = null;
-        return true;
-      }
-    }
-
-    public bool Parse(string RequestUri)
-    {
-      throw new NotImplementedException();
-    }
+    //public static bool TryParse(string PrimaryServiceRoot, string RequestUri, out IFhirRequestUri Value, out string ErrorMessage)
+    //{
+    //  var item = new FhirRequestUri(PrimaryServiceRoot, RequestUri);
+    //  if (item._ErrorInParseing)
+    //  {
+    //    Value = null;
+    //    ErrorMessage = item._ParseErrorMessage;
+    //    return false;
+    //  }
+    //  else
+    //  {
+    //    Value = item;
+    //    ErrorMessage = null;
+    //    return true;
+    //  }
+    //}
   }
 }

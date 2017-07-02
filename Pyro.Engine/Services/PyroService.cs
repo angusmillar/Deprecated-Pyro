@@ -22,11 +22,15 @@ namespace Pyro.Engine.Services
   {
     private IResourceServices IResourceServices;
     private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
+    private readonly Pyro.Common.CompositionRoot.ICommonFactory ICommonFactory;
 
-    public PyroService(IResourceServices IResourceServices, IRequestServiceRootValidate IRequestServiceRootValidate)
+    public PyroService(IResourceServices IResourceServices,
+      IRequestServiceRootValidate IRequestServiceRootValidate,
+      Pyro.Common.CompositionRoot.ICommonFactory ICommonFactory)
     {
       this.IResourceServices = IResourceServices;
       this.IRequestServiceRootValidate = IRequestServiceRootValidate;
+      this.ICommonFactory = ICommonFactory;
     }
 
     public IResourceServiceOutcome Base(string BaseRequestUri, HttpRequestMessage Request, Resource resource)
@@ -36,15 +40,11 @@ namespace Pyro.Engine.Services
         try
         {
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle = Common.CommonFactory.GetResourceServiceRequestTransactionBundle(resource, DtoRequestUri, SearchParameterGeneric, RequestHeaders, IResourceServices);
-          IBundleTransactionService BundleTransactionService = Common.CommonFactory.GetBundleTransactionService(ResourceServiceRequestTransactionBundle);
-          IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact();
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IBundleTransactionService BundleTransactionService = ICommonFactory.CreateBundleTransactionService();
+          IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact(resource, DtoRequestUri);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
-
           if (ResourceServiceOutcome.SuccessfulTransaction)
             Transaction.Commit();
           else
@@ -68,11 +68,9 @@ namespace Pyro.Engine.Services
         try
         {
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          var MetadataService = new Pyro.Engine.Services.MetadataService();
-          string ApplicationVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Engine.Services.ResourceServices).Assembly.Location).ProductVersion;
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IResourceServiceRequestMetadata ResourceServiceRequestMetadata = Common.CommonFactory.GetResourceServiceRequestMetadata(ApplicationVersion, DtoRootUrlStore, SearchParameterGeneric, IResourceServices);
-          IResourceServiceOutcome ResourceServiceOutcome = MetadataService.GetServersConformanceResource(ResourceServiceRequestMetadata);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
+          IMetadataService MetadataService = ICommonFactory.CreateMetadataService();
+          IResourceServiceOutcome ResourceServiceOutcome = MetadataService.GetServersConformanceResource(SearchParameterGeneric);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -94,10 +92,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestGetRead PyroServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(id, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(PyroServiceRequestGetRead);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -121,9 +118,8 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestGetHistory ResourceServiceRequestGetHistory = Common.CommonFactory.GetResourceServiceRequestGetHistory(id, vid, DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetHistory(ResourceServiceRequestGetHistory);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -147,9 +143,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(ResourceServiceRequestGetSearch);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -173,10 +169,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(resource, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(ResourceServiceRequestPost);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -200,9 +195,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Hl7.Fhir.Rest.SearchParams.FromUriParamList(FormDataCollection.GetAsTupleCollection()));
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(ResourceServiceRequestGetSearch);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -226,10 +221,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(id, resource, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Put(ResourceServiceRequestPut);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -253,9 +247,8 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestDelete ResourceServiceRequestDelete = Common.CommonFactory.GetResourceServiceRequestDelete(id, DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Delete(ResourceServiceRequestDelete);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -279,9 +272,8 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestConditionalPut ResourceServiceRequestConditionalPut = Common.CommonFactory.GetResourceServiceRequestConditionalPut(resource, DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalPut(ResourceServiceRequestConditionalPut);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -305,9 +297,8 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(DtoRequestUri, SearchParameterGeneric);
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalDelete(ResourceServiceRequestConditionalDelete);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
@@ -330,10 +321,9 @@ namespace Pyro.Engine.Services
         try
         {
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(operation, null, Resource, IResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
@@ -361,10 +351,9 @@ namespace Pyro.Engine.Services
         try
         {
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IBaseOperationsServiceRequest BaseOperationsServiceRequest = Common.CommonFactory.GetBaseOperationsServiceRequest(OperationName, null, IResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(BaseOperationsServiceRequest);
@@ -393,10 +382,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceOperationsServiceRequest ResourceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, IResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirResourceOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceOperationsServiceRequest);
@@ -425,10 +413,9 @@ namespace Pyro.Engine.Services
         {
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, Request.RequestUri.OriginalString);
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
-          IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(Request.GetSearchParams());
-          IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(Request.Headers);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
+          IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
           IResourceOperationsServiceRequest ResourceInstanceOperationsServiceRequest = Common.CommonFactory.GetResourceOperationsServiceRequest(operation, null, Resource, IResourceServices, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           var OperationService = new Engine.Services.FhirResourceInstanceOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = OperationService.Process(ResourceInstanceOperationsServiceRequest);

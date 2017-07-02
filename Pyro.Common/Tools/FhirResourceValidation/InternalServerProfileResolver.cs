@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Utility;
+using Pyro.Common.Interfaces.Dto.Headers;
 
 namespace Pyro.Common.Tools.FhirResourceValidation
 {
@@ -46,7 +47,8 @@ namespace Pyro.Common.Tools.FhirResourceValidation
     {
       string PrimaryServiceRoot = _Cache.GetPrimaryRootUrlStore(_ResourceServices).Url;
       string RequestUriString = System.IO.Path.Combine(PrimaryServiceRoot, uri);
-      var DtoRequestHeaders = new Pyro.Common.BusinessEntities.Dto.Headers.DtoRequestHeaders();
+
+      IDtoRequestHeaders DtoRequestHeaders = Pyro.Common.CommonFactory.GetDtoRequestHeaders();
       Interfaces.UriSupport.IFhirRequestUri FhirRequestUri = CommonFactory.GetFhirRequestUri(PrimaryServiceRoot, RequestUriString);
       Interfaces.UriSupport.IDtoRequestUri RequestUri = CommonFactory.GetRequestUri(_Cache.GetPrimaryRootUrlStore(_ResourceServices), FhirRequestUri);
       Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric();

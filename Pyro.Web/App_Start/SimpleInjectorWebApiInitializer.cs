@@ -15,6 +15,12 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.Tools;
   using Pyro.Common.Logging;
   using Pyro.Common.ServiceRoot;
+  using Pyro.Common.Interfaces.Dto.Headers;
+  using Pyro.Common.BusinessEntities.Dto.Headers;
+  using Pyro.Common.Interfaces.UriSupport;
+  using Pyro.Common.Interfaces.Dto;
+  using Pyro.Common.BusinessEntities.Search;
+  using Pyro.Common.BusinessEntities.Service;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -39,6 +45,19 @@ namespace Pyro.Web.App_Start
       //Singleton
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
+
+      //Transient
+      container.Register<IDtoRequestHeaders, DtoRequestHeaders>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUriForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUriForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+
+      container.Register<IBundleTransactionService, BundleTransactionService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+      container.Register<IMetadataService, MetadataService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+
+
+
 
       //Scoped            
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);

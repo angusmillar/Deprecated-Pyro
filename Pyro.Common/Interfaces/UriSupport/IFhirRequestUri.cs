@@ -25,5 +25,8 @@ namespace Pyro.Common.Interfaces.UriSupport
     UrnType? UrnType { get; }
     string VersionId { get; }
     string OriginalString { get; }
+    string ParseErrorMessage { get; }
+    bool ErrorInParseing { get; }
+    bool Parse(string RequestUri);
   }
 }

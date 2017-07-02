@@ -10,5 +10,7 @@ namespace Pyro.Common.Interfaces.Dto
     IList<Tuple<string, string>> ParameterList { get; set; }
     IList<Tuple<string, SortOrder>> Sort { get; }
     SummaryType? SummaryType { get; }
+    IDtoSearchParameterGeneric Parse(Hl7.Fhir.Rest.SearchParams SearchParams);
+    IDtoSearchParameterGeneric Parse(string SearchParameterString);
   }
 }

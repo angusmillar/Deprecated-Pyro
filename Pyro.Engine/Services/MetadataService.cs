@@ -11,18 +11,32 @@ using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Service;
 using Hl7.Fhir.Introspection;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
+using Pyro.Common.BusinessEntities.Global;
 
 namespace Pyro.Engine.Services
 {
-  public class MetadataService
+  public class MetadataService : IMetadataService
   {
-    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IResourceServiceRequestMetadata ResourceServiceRequest)
+    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    private readonly IGlobalProperties IGlobalProperties;
+    private readonly ICommonServices ICommonServices;
+
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices)
+    {
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      this.IGlobalProperties = IGlobalProperties;
+      this.ICommonServices = ICommonServices;
+    }
+
+    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
 
       SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = ResourceServiceRequest.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
       var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
@@ -40,8 +54,8 @@ namespace Pyro.Engine.Services
       string ServerName = "Pyro Server";
 
       Conformance.Id = "metadata";
-      Conformance.Url = ResourceServiceRequest.RootUrl.ToString() + @"/metadata";
-      Conformance.Version = ResourceServiceRequest.ApplicationVersion;
+      Conformance.Url = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url + @"/metadata";
+      Conformance.Version = IGlobalProperties.ApplicationVersionInfo;
       Conformance.Name = ServerName;
       Conformance.Status = PublicationStatus.Active;
       Conformance.Experimental = true;
@@ -65,12 +79,12 @@ namespace Pyro.Engine.Services
 
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
-      Conformance.Software.Version = ResourceServiceRequest.ApplicationVersion;
+      Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;
       Conformance.Software.ReleaseDate = ApplicationReleaseDate;
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = ServerName;
-      Conformance.Implementation.Url = ResourceServiceRequest.RootUrl.Url;
+      Conformance.Implementation.Url = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
       Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
@@ -126,7 +140,7 @@ namespace Pyro.Engine.Services
         ResourceComponent.SearchInclude = new List<string>() { "???", "??????" };
         ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
 
-        IList<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ResourceServiceRequest.CommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        IList<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
         {

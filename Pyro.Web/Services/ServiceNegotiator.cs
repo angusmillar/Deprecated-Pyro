@@ -14,8 +14,6 @@ namespace Pyro.Web.Services
     public T Create<T>() where T : ICommonServices
     {
       return (T)Container.GetInstance(typeof(T));
-    }    
+    }
   }
-
-
 }

@@ -105,16 +105,6 @@ namespace Pyro.Common
       return new ResourceServiceRequestConditionalDelete(DtoFhirRequestUri, DtoSearchParameterGeneric);
     }
 
-    public static IResourceServiceRequestMetadata GetResourceServiceRequestMetadata(string ApplicationVersion, IDtoRootUrlStore RootUrl, IDtoSearchParameterGeneric DtoSearchParameterGeneric, ICommonServices CommonServices)
-    {
-      return new ResourceServiceRequestMetadata(ApplicationVersion, RootUrl, DtoSearchParameterGeneric, CommonServices);
-    }
-
-    public static IResourceServiceRequestTransactionBundle GetResourceServiceRequestTransactionBundle(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders, IResourceServices ResourceServices)
-    {
-      return new ResourceServiceRequestTransactionBundle(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders, ResourceServices);
-    }
-
     public static IApplicationCacheSupport GetApplicationCacheService()
     {
       return new Tools.ApplicationCacheSupport();
@@ -145,24 +135,28 @@ namespace Pyro.Common
       return new SearchParametersServiceOutcome();
     }
 
+    public static IDtoRequestHeaders GetDtoRequestHeaders()
+    {
+      return new BusinessEntities.Dto.Headers.DtoRequestHeaders();
+    }
+
     public static IDtoRequestHeaders GetDtoRequestHeaders(Bundle.RequestComponent RequestComponent)
     {
-      return new BusinessEntities.Dto.Headers.DtoRequestHeaders(RequestComponent);
+      var IDtoRequestHeaders = new BusinessEntities.Dto.Headers.DtoRequestHeaders();
+      IDtoRequestHeaders.Parse(RequestComponent);
+      return IDtoRequestHeaders;
     }
 
     public static IDtoRequestHeaders GetDtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
     {
-      return new BusinessEntities.Dto.Headers.DtoRequestHeaders(HttpRequestHeaders);
+      var IDtoRequestHeaders = new BusinessEntities.Dto.Headers.DtoRequestHeaders();
+      IDtoRequestHeaders.Parse(HttpRequestHeaders);
+      return IDtoRequestHeaders;
     }
 
     public static IFhirNarativeGenerationSupport GetFhirNarativeSupport()
     {
       return new Tools.FhirNarativeGenerationSupport();
-    }
-
-    public static IBundleTransactionService GetBundleTransactionService(IResourceServiceRequestTransactionBundle ResourceServiceRequestTransactionBundle)
-    {
-      return new BundleTransactionService(ResourceServiceRequestTransactionBundle);
     }
 
     public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)

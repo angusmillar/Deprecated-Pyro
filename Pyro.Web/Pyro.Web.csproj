@@ -241,6 +241,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
+    <Compile Include="CompositionRoot\CommonFactory.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FhirController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -260,7 +261,6 @@
     <Compile Include="Response\FhirRestResponse.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\ServiceNegotiator.cs" />
-    <Compile Include="Services\PrimaryServiceRootFactory.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />
   </ItemGroup>

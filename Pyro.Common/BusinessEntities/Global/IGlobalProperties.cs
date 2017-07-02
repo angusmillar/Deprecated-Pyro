@@ -4,5 +4,6 @@
   {
     string ServiceRootUrl { get; }
     bool ApplicationCacheServicesActive { get; }
+    string ApplicationVersionInfo { get; }
   }
 }

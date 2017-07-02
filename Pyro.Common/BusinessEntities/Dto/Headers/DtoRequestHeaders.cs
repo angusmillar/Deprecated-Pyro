@@ -21,7 +21,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Headers
     public string IfMatch { get; set; }
 
     public DtoRequestHeaders() { }
-    public DtoRequestHeaders(Bundle.RequestComponent RequestComponent)
+    public IDtoRequestHeaders Parse(Bundle.RequestComponent RequestComponent)
     {
       if (!string.IsNullOrWhiteSpace(RequestComponent.IfNoneExist))
       {
@@ -38,13 +38,14 @@ namespace Pyro.Common.BusinessEntities.Dto.Headers
       {
         this.IfNoneMatch = ParseVersionHeader(RequestComponent.IfNoneMatch);
       }
-      
+
       if (!string.IsNullOrWhiteSpace(RequestComponent.IfMatch))
       {
         this.IfMatch = ParseVersionHeader(RequestComponent.IfMatch);
       }
+      return this;
     }
-    public DtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
+    public IDtoRequestHeaders Parse(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
     {
       IEnumerable<string> IfNoneExist;
       if (HttpRequestHeaders.TryGetValues(_IfNoneExistHeader, out IfNoneExist))
@@ -61,9 +62,10 @@ namespace Pyro.Common.BusinessEntities.Dto.Headers
       IEnumerable<string> IfMatchHeader;
       if (HttpRequestHeaders.TryGetValues(_IfMatchHeader, out IfMatchHeader))
         this.IfMatch = IfMatchHeader.FirstOrDefault();
-    }
 
-    private string ParseVersionHeader(string VersionMatch)
+      return this;
+    }
+    public string ParseVersionHeader(string VersionMatch)
     {
       //Example: W/"2"
       VersionMatch = VersionMatch.Trim();
