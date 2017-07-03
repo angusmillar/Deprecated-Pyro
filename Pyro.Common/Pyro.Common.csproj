@@ -114,13 +114,18 @@
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterLight.cs" />
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterTargetResource.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
+    <Compile Include="BusinessEntities\Dto\IDtoServiceSearchParameterLight.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterGenericForDi.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\IDtoSearchParameterBase.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\IDtoSearchParameterReferance.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\ISearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClass.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClassFactory.cs" />
     <Compile Include="BusinessEntities\Global\GlobalProperties.cs" />
     <Compile Include="BusinessEntities\Global\IGlobalProperties.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
+    <Compile Include="BusinessEntities\Service\ISearchParameterService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoRequestUriForDi.cs" />
     <Compile Include="BusinessEntities\UriSupport\FhirRequestUriForDI.cs" />
@@ -213,6 +218,8 @@
     <Compile Include="ServiceRoot\IRequestServiceRootValidate.cs" />
     <Compile Include="ServiceRoot\PrimaryServiceRootCache.cs" />
     <Compile Include="ServiceRoot\RequestServiceRootValidate.cs" />
+    <Compile Include="ServiceSearchParameter\IServiceSearchParameterCache.cs" />
+    <Compile Include="ServiceSearchParameter\ServiceSearchParameterCache.cs" />
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
     <Compile Include="Tools\DateTimeIndex.cs" />
     <Compile Include="Tools\DateTimeSupport.cs" />

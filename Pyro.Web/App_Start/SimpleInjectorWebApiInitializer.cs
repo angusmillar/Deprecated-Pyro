@@ -21,6 +21,7 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.Interfaces.Dto;
   using Pyro.Common.BusinessEntities.Search;
   using Pyro.Common.BusinessEntities.Service;
+  using Pyro.Common.ServiceSearchParameter;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -44,41 +45,46 @@ namespace Pyro.Web.App_Start
     {
       //Singleton
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
-      container.Register<IGlobalProperties, GlobalProperties>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
-      container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Singleton);
+      container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
 
       //Transient
-      container.Register<IDtoRequestHeaders, DtoRequestHeaders>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
-      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUriForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
-      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUriForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
-      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
+      container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
+      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUriForDi>(Lifestyle.Transient);
+      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUriForDi>(Lifestyle.Transient);
+      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(Lifestyle.Transient);
 
-      container.Register<IBundleTransactionService, BundleTransactionService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
-      container.Register<IMetadataService, MetadataService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
-
-
-      //Scoped            
-      container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IPyroDbContext, PyroDbContext>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IUnitOfWork, UnitOfWork>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IServiceNegotiator, ServiceNegotiator>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IRepositorySwitcher, RepositorySwitcher>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IPyroService, PyroService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<ICommonServices, CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IResourceServices, ResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
+      container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
+      container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
+      container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
 
 
-      //Operations Locator 
-      container.Register<IFhirBaseOperationService, FhirBaseOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IFhirResourceOperationService, FhirResourceOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      ////Operations
-      container.Register<IDeleteHistoryIndexesService, DeleteHistoryIndexesService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IServerSearchParameterService, ServerSearchParameterService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IServerResourceReportService, ServerResourceReportService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
-      container.Register<IFhirValidateOperationService, FhirValidateOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      //Scoped      
+      container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Scoped);
+      container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
+      container.Register<IServiceSearchParameterCache, ServiceSearchParameterCache>(Lifestyle.Scoped);
+
+      container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
+      container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
+      container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
+      container.Register<IServiceNegotiator, ServiceNegotiator>(Lifestyle.Scoped);
+      container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
+      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
+      container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
+      container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
+
+      container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
+
+      //Scoped Operations Locator 
+      container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
+      container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
+      container.Register<IFhirResourceOperationService, FhirResourceOperationService>(Lifestyle.Scoped);
+      //Scoped Operations
+      container.Register<IDeleteHistoryIndexesService, DeleteHistoryIndexesService>(Lifestyle.Scoped);
+      container.Register<IServerSearchParameterService, ServerSearchParameterService>(Lifestyle.Scoped);
+      container.Register<IServerResourceReportService, ServerResourceReportService>(Lifestyle.Scoped);
+      container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
 
 
 

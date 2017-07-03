@@ -11,18 +11,16 @@ using Pyro.Common.Interfaces.Dto;
 namespace Pyro.Common.BusinessEntities.Dto
 {
   [Serializable]
-  public class DtoServiceSearchParameterLight
+  public class DtoServiceSearchParameterLight : IDtoServiceSearchParameterLight
   {
     public int Id { get; set; }
     public string Resource { get; set; }
     public string Name { get; set; }
     public SearchParamType Type { get; set; }
     public string Expression { get; set; }
-    //public ICollection<DtoServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
-    public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
-    
-    public DtoServiceSearchParameterLight(){ }
 
+    public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public DtoServiceSearchParameterLight() { }
     public DtoServiceSearchParameterLight(SerializationInfo info, StreamingContext context)
     {
       Id = info.GetInt32("Id");

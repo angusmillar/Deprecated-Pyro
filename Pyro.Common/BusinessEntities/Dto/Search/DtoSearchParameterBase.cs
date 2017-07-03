@@ -12,19 +12,14 @@ using Pyro.Common.Interfaces.Service;
 namespace Pyro.Common.BusinessEntities.Search
 {
 
-  public abstract class DtoSearchParameterBase : DtoServiceSearchParameterLight
+  public abstract class DtoSearchParameterBase : DtoServiceSearchParameterLight, IDtoSearchParameterBase
   {
     protected const char OrDelimiter = ',';
-    //public FhirSearchEnum.SearchParameterNameType Name { get; set; }
-    //public FHIRAllTypes? Resource { get; set; }
     public string RawValue { get; set; }
-    //public DatabaseEnum.DbIndexType DbSearchParameterType { get; set; }
     public SearchParameter.SearchModifierCode? Modifier { get; set; }
     public string TypeModifierResource { get; set; }
     public ISearchParametersServiceOutcome ChainedSearchParameter { get; set; }
     public bool HasLogicalOrProperties { get; set; }
-    //public string DbPropertyName { get; set; }
-    //public bool IsDbCollection { get; set; }
     public bool IsValid { get; set; }
     public string InvalidMessage { get; set; }
     public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }

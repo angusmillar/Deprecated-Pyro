@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
+using Pyro.Common.BusinessEntities.Search;
 
 namespace Pyro.Common.BusinessEntities.Dto.Search
 {
@@ -208,7 +209,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
       return ServiceSearchParameterList;
     }
 
-    public static IList<string> GetSearchParameterTargetResourceList(Pyro.Common.BusinessEntities.Search.DtoSearchParameterBase oSearchParameterBase)
+    public static IList<string> GetSearchParameterTargetResourceList(IDtoSearchParameterBase oSearchParameterBase)
     {
       IList<string> Result = new List<string>();
       foreach (var Res in oSearchParameterBase.TargetResourceTypeList)

@@ -8,16 +8,19 @@ using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class ServerResourceReportService : IServerResourceReportService
   {
     private readonly IResourceServices IResourceServices;
+    private readonly ICommonFactory ICommonFactory;
 
-    public ServerResourceReportService(IResourceServices IResourceServices)
+    public ServerResourceReportService(IResourceServices IResourceServices, ICommonFactory ICommonFactory)
     {
       this.IResourceServices = IResourceServices;
+      this.ICommonFactory = ICommonFactory;
     }
 
     public IResourceServiceOutcome Process(IDtoSearchParameterGeneric SearchParameterGeneric)
@@ -31,13 +34,8 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
-        ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
-        SearchParametersServiceRequest.CommonServices = null;
-        SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
-        var SearchParameterService = new SearchParameterService();
-        SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-        SearchParametersServiceRequest.ResourceType = null;
-        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+        ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
         if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
         {
           ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;

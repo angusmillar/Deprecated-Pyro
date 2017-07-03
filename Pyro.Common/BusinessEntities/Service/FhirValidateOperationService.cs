@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.Enum;
-using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.BusinessEntities.FhirOperation;
@@ -407,14 +402,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private ISearchParametersServiceOutcome ParseUrlSearchParameters(Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric, FhirOperation.OperationClass OperationClass)
     {
-      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
-      SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
-      var SearchParameterService = new SearchParameterService();
-      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Operation;
-      SearchParametersServiceRequest.ResourceType = null;
-      SearchParametersServiceRequest.OperationClass = OperationClass;
-      return SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      return SearchService.ProcessOperationSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Operation, OperationClass);
     }
 
     private ValidationOperationItems ConsoladateValidationOperationItems(ValidationOperationItems FromUrl, ValidationOperationItems FromParameters)

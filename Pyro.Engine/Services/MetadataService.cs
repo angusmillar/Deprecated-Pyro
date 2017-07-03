@@ -14,6 +14,7 @@ using Hl7.Fhir.Introspection;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.BusinessEntities.Global;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Engine.Services
 {
@@ -22,12 +23,14 @@ namespace Pyro.Engine.Services
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ICommonServices ICommonServices;
+    private readonly ICommonFactory ICommonFactory;
 
-    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices)
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, ICommonFactory ICommonFactory)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IGlobalProperties = IGlobalProperties;
       this.ICommonServices = ICommonServices;
+      this.ICommonFactory = ICommonFactory;
     }
 
     public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IDtoSearchParameterGeneric SearchParameterGeneric)
@@ -35,12 +38,8 @@ namespace Pyro.Engine.Services
       IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
 
-      SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
-      var SearchParameterService = new SearchParameterService();
-      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-      SearchParametersServiceRequest.ResourceType = null;
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;

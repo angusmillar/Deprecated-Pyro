@@ -14,7 +14,6 @@ namespace Pyro.Common.BusinessEntities.Search
       : base()
     {
       this.Type = Hl7.Fhir.Model.SearchParamType.Number;
-      //this.DbSearchParameterType = Pyro.Common.Enum.DatabaseEnum.DbIndexType.NumberIndex;
     }
     #endregion
 
@@ -22,7 +21,7 @@ namespace Pyro.Common.BusinessEntities.Search
 
     public override bool TryParseValue(string Values)
     {
-      this.ValueList = new List<DtoSearchParameterNumberValue>();      
+      this.ValueList = new List<DtoSearchParameterNumberValue>();
       foreach (var Value in Values.Split(OrDelimiter))
       {
         var DtoSearchParameterNumber = new DtoSearchParameterNumberValue();

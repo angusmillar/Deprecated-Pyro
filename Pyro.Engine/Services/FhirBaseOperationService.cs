@@ -45,13 +45,8 @@ namespace Pyro.Engine.Services
       //_ServiceRequest = ServiceRequest;
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
-      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
-      SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = SearchPrameterGeneric;
-      var SearchParameterService = new SearchParameterService();
-      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-      SearchParametersServiceRequest.ResourceType = null;
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchPrameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;

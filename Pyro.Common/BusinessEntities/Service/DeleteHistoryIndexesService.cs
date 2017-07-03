@@ -10,17 +10,20 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.BusinessEntities.FhirOperation;
 using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class DeleteHistoryIndexesService : IDeleteHistoryIndexesService
   {
     private readonly IResourceServices IResourceServices;
+    private readonly ICommonFactory ICommonFactory;
     private const string _ParameterName = "ResourceType";
 
-    public DeleteHistoryIndexesService(IResourceServices ResourceServices)
+    public DeleteHistoryIndexesService(IResourceServices ResourceServices, ICommonFactory ICommonFactory)
     {
       this.IResourceServices = ResourceServices;
+      this.ICommonFactory = ICommonFactory;
     }
 
     public IResourceServiceOutcome DeleteMany(
@@ -39,13 +42,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
-      ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
-      SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
-      var SearchParameterService = new SearchParameterService();
-      SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
-      SearchParametersServiceRequest.ResourceType = null;
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchParameterService.ProcessSearchParameters(SearchParametersServiceRequest);
+      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ResourceServiceOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;

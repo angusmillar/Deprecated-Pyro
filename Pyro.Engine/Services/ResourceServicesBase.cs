@@ -31,14 +31,6 @@ namespace Pyro.Engine.Services
       }
     }
 
-    //public FHIRAllTypes SetCurrentResourceType
-    //{
-    //  set
-    //  {
-    //    _CurrentResourceType = value;
-    //  }
-    //}
-
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
       IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
@@ -133,7 +125,6 @@ namespace Pyro.Engine.Services
           ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
         if (CrudOperationType == RestEnum.CrudOperationType.Update)
           ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-
       }
       else
       {
