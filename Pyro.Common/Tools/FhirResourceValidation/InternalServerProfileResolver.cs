@@ -27,8 +27,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       Interfaces.UriSupport.IFhirRequestUri FhirRequestUri = CommonFactory.GetFhirRequestUri(PrimaryServiceRoot, RequestUriString);
       Interfaces.UriSupport.IDtoRequestUri RequestUri = CommonFactory.GetRequestUri(PrimaryRootUrlStore, FhirRequestUri);
       Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric($"url={ uri}");
-      IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(RequestUri, SearchParameterGeneric);
-      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetSearch(ResourceServiceRequestGetSearch);
+      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetSearch(RequestUri, SearchParameterGeneric);
       if (ResourceServiceOutcome.ResourceResult != null && (ResourceServiceOutcome.ResourceResult as Bundle).Entry.Count > 1)
       {
         throw new System.Exception($"More than a single {ResourceType.StructureDefinition.GetLiteral()} instance was found with the Canonical Uri of {uri} at the endpoint {PrimaryServiceRoot + "/" + ResourceType.StructureDefinition.GetLiteral()}.");
@@ -52,8 +51,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       Interfaces.UriSupport.IFhirRequestUri FhirRequestUri = CommonFactory.GetFhirRequestUri(PrimaryServiceRoot, RequestUriString);
       Interfaces.UriSupport.IDtoRequestUri RequestUri = CommonFactory.GetRequestUri(_Cache.GetPrimaryRootUrlStore(_ResourceServices), FhirRequestUri);
       Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric();
-      IResourceServiceRequestGetRead ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetRead(FhirRequestUri.ResourceId, RequestUri, SearchParameterGeneric, DtoRequestHeaders);
-      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetRead(ResourceServiceRequestGetSearch);
+      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetRead(FhirRequestUri.ResourceId, RequestUri, SearchParameterGeneric, DtoRequestHeaders);
       return ResourceServiceOutcome.ResourceResult;
 
     }

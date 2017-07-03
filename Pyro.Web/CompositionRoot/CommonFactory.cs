@@ -56,5 +56,40 @@ namespace Pyro.Web.CompositionRoot
     {
       return Container.GetInstance<IMetadataService>();
     }
+
+    public IDeleteHistoryIndexesService CreateDeleteHistoryIndexesService()
+    {
+      return Container.GetInstance<IDeleteHistoryIndexesService>();
+    }
+
+    public IServerSearchParameterService CreateServerSearchParameterService()
+    {
+      return Container.GetInstance<IServerSearchParameterService>();
+    }
+
+    public IServerResourceReportService CreateServerResourceReportService()
+    {
+      return Container.GetInstance<IServerResourceReportService>();
+    }
+
+    public IFhirValidateOperationService CreateFhirValidateOperationService()
+    {
+      return Container.GetInstance<IFhirValidateOperationService>();
+    }
+
+    public IFhirResourceInstanceOperationService CreateFhirResourceInstanceOperationService()
+    {
+      return Container.GetInstance<IFhirResourceInstanceOperationService>();
+    }
+
+    public IFhirBaseOperationService CreateFhirBaseOperationService()
+    {
+      return Container.GetInstance<IFhirBaseOperationService>();
+    }
+
+    public IFhirResourceOperationService CreateFhirResourceOperationService()
+    {
+      return Container.GetInstance<IFhirResourceOperationService>();
+    }
   }
 }

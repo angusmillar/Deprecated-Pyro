@@ -57,8 +57,6 @@ namespace Pyro.Web.App_Start
       container.Register<IMetadataService, MetadataService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Transient);
 
 
-
-
       //Scoped            
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
@@ -70,6 +68,20 @@ namespace Pyro.Web.App_Start
       container.Register<IPyroService, PyroService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<ICommonServices, CommonServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+
+
+      //Operations Locator 
+      container.Register<IFhirBaseOperationService, FhirBaseOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IFhirResourceOperationService, FhirResourceOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      ////Operations
+      container.Register<IDeleteHistoryIndexesService, DeleteHistoryIndexesService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IServerSearchParameterService, ServerSearchParameterService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IServerResourceReportService, ServerResourceReportService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+      container.Register<IFhirValidateOperationService, FhirValidateOperationService>(SimpleInjector.Lifestyles.AsyncScopedLifestyle.Scoped);
+
+
+
     }
   }
 }

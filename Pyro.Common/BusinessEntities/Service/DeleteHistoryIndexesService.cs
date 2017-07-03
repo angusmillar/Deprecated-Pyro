@@ -6,52 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.BusinessEntities.FhirOperation;
+using Pyro.Common.Interfaces.Dto.Headers;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class DeleteHistoryIndexesService : IDeleteHistoryIndexesService
   {
-    private IBaseOperationsServiceRequest _BaseOpServiceRequest;
-    private IResourceOperationsServiceRequest _ResourceOpServiceRequest;
+    private readonly IResourceServices IResourceServices;
     private const string _ParameterName = "ResourceType";
-    private List<string> _ResourceList;
 
-    internal DeleteHistoryIndexesService(IBaseOperationsServiceRequest BaseOpServiceRequest)
+    public DeleteHistoryIndexesService(IResourceServices ResourceServices)
     {
-      this._BaseOpServiceRequest = BaseOpServiceRequest;
+      this.IResourceServices = ResourceServices;
     }
 
-    internal DeleteHistoryIndexesService(IResourceOperationsServiceRequest ResourceOpServiceRequest)
+    public IResourceServiceOutcome DeleteMany(
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric,
+      Resource Resource)
     {
-      this._ResourceOpServiceRequest = ResourceOpServiceRequest;
-    }
-
-    public IResourceServiceOutcome DeleteMany()
-    {
-      if (string.IsNullOrWhiteSpace(_BaseOpServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
-      if (_BaseOpServiceRequest.OperationClass == null)
-        throw new NullReferenceException("OperationClass cannot be null.");
-      if (_BaseOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Base)
-        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
-      if (_BaseOpServiceRequest.Resource == null)
-        throw new NullReferenceException("Resource cannot be null.");
-      if (_BaseOpServiceRequest.RequestUri == null)
+      if (RequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
-      if (_BaseOpServiceRequest.RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (_BaseOpServiceRequest.Resource == null)
+      if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (_BaseOpServiceRequest.SearchParameterGeneric == null)
+      if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (_BaseOpServiceRequest.ResourceServices == null)
+      if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
       var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
@@ -64,8 +54,8 @@ namespace Pyro.Common.BusinessEntities.Service
         return ResourceServiceOutcome;
       }
 
-
-      if (_BaseOpServiceRequest.Resource != null && _BaseOpServiceRequest.Resource is Parameters ParametersResource)
+      List<string> _ResourceList = new List<string>();
+      if (Resource != null && Resource is Parameters ParametersResource)
       {
         var DeleteAll = ParametersResource.Parameter.SingleOrDefault(x => x.Name.ToLower() == _ParameterName.ToLower() && x.Value is FhirString a && a.Value == "*");
         if (DeleteAll != null)
@@ -114,11 +104,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
             foreach (string ResourceName in _ResourceList)
             {
-              _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);
-              var ResourceServiceDeleteHistoryIndexesRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
-              ResourceServiceDeleteHistoryIndexesRequest.RequestUri = _BaseOpServiceRequest.RequestUri;
-              ResourceServiceDeleteHistoryIndexesRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
-              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = _BaseOpServiceRequest.ResourceServices.DeleteHistoryIndexes(ResourceServiceDeleteHistoryIndexesRequest);
+              IResourceServices.SetCurrentResourceType(ResourceName);
+              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = IResourceServices.DeleteHistoryIndexes(RequestUri, SearchParameterGeneric);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
               {
                 return ResourceServiceOutcomeDeleteResourceIndex;
@@ -168,29 +155,16 @@ namespace Pyro.Common.BusinessEntities.Service
       }
     }
 
-    public IResourceServiceOutcome DeleteSingle()
+    public IResourceServiceOutcome DeleteSingle(
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric)
     {
-      if (string.IsNullOrWhiteSpace(_ResourceOpServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
-      if (_ResourceOpServiceRequest.Resource == null)
-        throw new NullReferenceException("Resource cannot be null.");
-      if (_ResourceOpServiceRequest.OperationClass == null)
-        throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
-      if (_ResourceOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Resource)
-        throw new NullReferenceException("OperationClass cannot be null.");
-      if (_ResourceOpServiceRequest.RequestUri == null)
+      if (RequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
-      if (_ResourceOpServiceRequest.RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (_ResourceOpServiceRequest.Resource == null)
-        throw new NullReferenceException("Resource cannot be null.");
-      if (_ResourceOpServiceRequest.SearchParameterGeneric == null)
+      if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
-      var RepositoryServiceRequest = Common.CommonFactory.GetResourceServiceDeleteHistoryIndexesRequest();
-      RepositoryServiceRequest.RequestUri = _ResourceOpServiceRequest.RequestUri;
-      RepositoryServiceRequest.SearchParameterGeneric = _ResourceOpServiceRequest.SearchParameterGeneric;
-      return _ResourceOpServiceRequest.ResourceServices.DeleteHistoryIndexes(RepositoryServiceRequest);
+      return IResourceServices.DeleteHistoryIndexes(RequestUri, SearchParameterGeneric);
     }
   }
 }

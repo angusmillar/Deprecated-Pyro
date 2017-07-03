@@ -6,42 +6,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Dto.Headers;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class ServerResourceReportService : IServerResourceReportService
   {
-    private IBaseOperationsServiceRequest _BaseOpServiceRequest;
+    private readonly IResourceServices IResourceServices;
 
-    internal ServerResourceReportService(IBaseOperationsServiceRequest BaseOpServiceRequest)
+    public ServerResourceReportService(IResourceServices IResourceServices)
     {
-      this._BaseOpServiceRequest = BaseOpServiceRequest;
+      this.IResourceServices = IResourceServices;
     }
 
-    public IResourceServiceOutcome Process()
+    public IResourceServiceOutcome Process(IDtoSearchParameterGeneric SearchParameterGeneric)
     {
+      if (SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      if (IResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null.");
+
       try
       {
-        if (_BaseOpServiceRequest.OperationClass == null)
-          throw new NullReferenceException("OperationClass cannot be null.");
-        if (_BaseOpServiceRequest.OperationClass.Scope != FhirOperationEnum.OperationScope.Base)
-          throw new NullReferenceException("OperationClass.Scope must be 'Base' for this operation method.");
-        if (_BaseOpServiceRequest.RequestUri == null)
-          throw new NullReferenceException("RequestUri cannot be null.");
-        if (_BaseOpServiceRequest.RequestHeaders == null)
-          throw new NullReferenceException("RequestHeaders cannot be null.");
-        if (_BaseOpServiceRequest.Resource != null)
-          throw new NullReferenceException($"Resource cannot be given for Operation ${Enum.FhirOperationEnum.OperationType.ServerResourceReport.GetPyroLiteral()}.");
-        if (_BaseOpServiceRequest.SearchParameterGeneric == null)
-          throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-        if (_BaseOpServiceRequest.ResourceServices == null)
-          throw new NullReferenceException("ResourceServices cannot be null.");
-
         IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
         ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
         SearchParametersServiceRequest.CommonServices = null;
-        SearchParametersServiceRequest.SearchParameterGeneric = _BaseOpServiceRequest.SearchParameterGeneric;
+        SearchParametersServiceRequest.SearchParameterGeneric = SearchParameterGeneric;
         var SearchParameterService = new SearchParameterService();
         SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
         SearchParametersServiceRequest.ResourceType = null;
@@ -63,8 +55,8 @@ namespace Pyro.Common.BusinessEntities.Service
           ResourceReportParameter.Part = new List<Parameters.ParameterComponent>();
           ReturnParametersResource.Parameter.Add(ResourceReportParameter);
 
-          _BaseOpServiceRequest.ResourceServices.SetCurrentResourceType(ResourceName);
-          int TotalCount = _BaseOpServiceRequest.ResourceServices.GetTotalCurrentResourceCount();
+          IResourceServices.SetCurrentResourceType(ResourceName);
+          int TotalCount = IResourceServices.GetTotalCurrentResourceCount();
 
           var TotalCountParameter = new Parameters.ParameterComponent();
           TotalCountParameter.Name = $"TotalCount";
@@ -73,7 +65,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
           if (TotalCount > 0)
           {
-            DateTimeOffset? LastUpdated = _BaseOpServiceRequest.ResourceServices.GetLastCurrentResourceLastUpdatedValue();
+            DateTimeOffset? LastUpdated = IResourceServices.GetLastCurrentResourceLastUpdatedValue();
             if (LastUpdated.HasValue)
             {
               var LastUpdatedParameter = new Parameters.ParameterComponent();

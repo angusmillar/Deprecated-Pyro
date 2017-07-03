@@ -55,56 +55,6 @@ namespace Pyro.Common
       return new DtoDatabaseOperationOutcome();
     }
 
-    public static IResourceServiceRequestGetRead GetResourceServiceRequestGetRead(string FhirId, IDtoRequestUri DtoRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new ResourceServiceRequestGetRead(FhirId, DtoRequestUri, DtoSearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IResourceServiceRequestGetSearch GetResourceServiceRequestGetSearch(IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestGetSearch(DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
-    public static IResourceServiceRequestGetHistory GetResourceServiceRequestGetHistory(string FhirId, string Vid, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestGetHistory(FhirId, Vid, DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
-    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders, string ForceId)
-    {
-      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders, ForceId);
-    }
-
-    public static IResourceServiceRequestPost GetResourceServiceRequestPost(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestPost(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
-    public static IResourceServiceRequestPut GetResourceServiceRequestPut(string id, Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new ResourceServiceRequestPut(id, Resource, DtoFhirRequestUri, DtoSearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IResourceServiceRequestConditionalPut GetResourceServiceRequestConditionalPut(Resource Resource, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestConditionalPut(Resource, DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
-    public static IResourceServiceRequestDelete GetResourceServiceRequestDelete(string id, IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestDelete(id, DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
-    public static IResourceServiceRequestConditionalDelete GetResourceServiceRequestConditionalDelete(IDtoRequestUri DtoFhirRequestUri, IDtoSearchParameterGeneric DtoSearchParameterGeneric)
-    {
-      return new ResourceServiceRequestConditionalDelete(DtoFhirRequestUri, DtoSearchParameterGeneric);
-    }
-
     public static IApplicationCacheSupport GetApplicationCacheService()
     {
       return new Tools.ApplicationCacheSupport();
@@ -159,50 +109,6 @@ namespace Pyro.Common
       return new Tools.FhirNarativeGenerationSupport();
     }
 
-    public static IResourceOperationsServiceRequest GetResourceOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new ResourceOperationsServiceRequest(OperationName, OperationClass, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, OperationClass OperationClass, Resource ParametersResource, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new BaseOperationsServiceRequest(OperationName, OperationClass, ParametersResource, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IBaseOperationsServiceRequest GetBaseOperationsServiceRequest(string OperationName, OperationClass OperationClass, IResourceServices ResourceServices, IDtoRequestUri FhirRequestUri, IDtoSearchParameterGeneric SearchParameterGeneric, IDtoRequestHeaders RequestHeaders)
-    {
-      return new BaseOperationsServiceRequest(OperationName, null, ResourceServices, FhirRequestUri, SearchParameterGeneric, RequestHeaders);
-    }
-
-    public static IResourceServiceDeleteHistoryIndexesRequest GetResourceServiceDeleteHistoryIndexesRequest()
-    {
-      return new ResourceServiceDeleteHistoryIndexesRequest();
-    }
-
-    public static IDeleteHistoryIndexesService GetDeleteHistoryIndexesService(IBaseOperationsServiceRequest BaseServiceRequest)
-    {
-      return new DeleteHistoryIndexesService(BaseServiceRequest);
-    }
-
-    public static IDeleteHistoryIndexesService GetDeleteHistoryIndexesService(IResourceOperationsServiceRequest ResourceServiceRequest)
-    {
-      return new DeleteHistoryIndexesService(ResourceServiceRequest);
-    }
-
-    public static IServerSearchParameterService GetServerSearchParameterService(IBaseOperationsServiceRequest ServiceRequest)
-    {
-      return new ServerSearchParameterService(ServiceRequest);
-    }
-
-    public static IServerResourceReportService GetServerResourceReportService(IBaseOperationsServiceRequest ServiceRequest)
-    {
-      return new ServerResourceReportService(ServiceRequest);
-    }
-
-    public static IFhirValidateOperationService GetFhirValidateOperationService(IResourceOperationsServiceRequest ResourceServiceRequest)
-    {
-      return new FhirValidateOperationService(ResourceServiceRequest);
-    }
 
   }
 }

@@ -3,10 +3,12 @@ using System;
 using System.Data.Entity;
 using System.Collections.Generic;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Dto.Headers;
 
 namespace Pyro.Common.Interfaces.Service
 {
-  public interface IResourceServices: ICommonServices
+  public interface IResourceServices : ICommonServices
   {
     DbContextTransaction BeginTransaction();
 
@@ -18,46 +20,76 @@ namespace Pyro.Common.Interfaces.Service
 
     //Read
     // GET: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome GetRead(IResourceServiceRequestGetRead PyroServiceRequestGetRead);
+    IResourceServiceOutcome GetRead(
+      string ResourceId,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric,
+      IDtoRequestHeaders RequestHeaders);
 
     //Search
     // GET: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome GetSearch(IResourceServiceRequestGetSearch PyroServiceRequestGetSearch);
+    IResourceServiceOutcome GetSearch(
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     //History
     // GET: URL/FhirApi/Patient/5/_history    
     // GET: URL/FhirApi/Patient/5/_history/2    
-    IResourceServiceOutcome GetHistory(IResourceServiceRequestGetHistory PyroServiceRequestGetHistory);
+    IResourceServiceOutcome GetHistory(
+      string ResourceId,
+      string VersionId,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     // Add
     // POST: URL/FhirApi/Patient
-    IResourceServiceOutcome Post(IResourceServiceRequestPost PyroServiceRequestPost);
+    IResourceServiceOutcome Post(
+      Resource Resource,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric,
+      IDtoRequestHeaders RequestHeaders,
+      string ForceId);
 
     //Update
     // PUT: URL/FhirApi/Patient/5
-    IResourceServiceOutcome Put(IResourceServiceRequestPut PyroServiceRequestPut);
+    IResourceServiceOutcome Put(
+      string ResourceId,
+      Resource Resource,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric,
+      IDtoRequestHeaders RequestHeaders);
 
     //Delete
     // DELETE: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome Delete(IResourceServiceRequestDelete PyroServiceRequestDelete);
+    IResourceServiceOutcome Delete(
+      string ResourceId,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     //Conditional Delete
     // DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
-    IResourceServiceOutcome ConditionalDelete(IResourceServiceRequestConditionalDelete PyroServiceRequestConditionalDelete);
+    IResourceServiceOutcome ConditionalDelete(
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     //Conditional Update
     /// PUT: URL/FhirApi/Patient?given=angus
-    IResourceServiceOutcome ConditionalPut(IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut);
+    IResourceServiceOutcome ConditionalPut(
+      Resource Resource,
+      IDtoRequestUri FhirRequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     //DeleteHistoryIndexes
     // POST: URL/FhirAPI/Patient/$delete-history-indexes
-    IResourceServiceOutcome DeleteHistoryIndexes(IResourceServiceDeleteHistoryIndexesRequest PyroServiceRequestClearHistoryIndexes);
+    IResourceServiceOutcome DeleteHistoryIndexes(
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric);
 
     //Add the given ServiceSearchParameterLight to the current resource instance
     void AddResourceIndexs(List<Common.BusinessEntities.Dto.DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
-    
+
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
-   
+
     int GetTotalCurrentResourceCount();
 
   }

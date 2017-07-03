@@ -1,9 +1,9 @@
-﻿using Pyro.Common.Interfaces.Service;
+﻿using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.Interfaces.Service
 {
   public interface IServerResourceReportService
   {
-    IResourceServiceOutcome Process();
+    IResourceServiceOutcome Process(IDtoSearchParameterGeneric SearchParameterGeneric);
   }
 }

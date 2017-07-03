@@ -162,17 +162,14 @@ namespace Pyro.Common.BusinessEntities.Service
 
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
-      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestConditionalDelete ResourceServiceRequestConditionalDelete = Common.CommonFactory.GetResourceServiceRequestConditionalDelete(EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = IResourceServices.ConditionalDelete(ResourceServiceRequestConditionalDelete);
+        ResourceServiceOutcome = IResourceServices.ConditionalDelete(EntryRequestUri, SearchParameterGeneric);
       }
       else
       {
-        IResourceServiceRequestDelete ResourceServiceRequest = Common.CommonFactory.GetResourceServiceRequestDelete(EntryRequestUri.FhirRequestUri.ResourceId, EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = IResourceServices.Delete(ResourceServiceRequest);
+        ResourceServiceOutcome = IResourceServices.Delete(EntryRequestUri.FhirRequestUri.ResourceId, EntryRequestUri, SearchParameterGeneric);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -225,10 +222,8 @@ namespace Pyro.Common.BusinessEntities.Service
       IFhirRequestUri ResourceIdToForce = Common.CommonFactory.GetFhirRequestUri(EntryRequestUri.PrimaryRootUrlStore.Url, OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
-      IResourceServiceRequestPost ResourceServiceRequestPost = Common.CommonFactory.GetResourceServiceRequestPost(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
-      //IResourceServices ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
-      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(ResourceServiceRequestPost);
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
@@ -272,18 +267,15 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
-      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestConditionalPut PyroServiceRequestConditionalPut = CommonFactory.GetResourceServiceRequestConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = IResourceServices.ConditionalPut(PyroServiceRequestConditionalPut);
+        ResourceServiceOutcome = IResourceServices.ConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric);
       }
       else
       {
-        IResourceServiceRequestPut ResourceServiceRequestPut = Common.CommonFactory.GetResourceServiceRequestPut(EntryRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders);
-        ResourceServiceOutcome = IResourceServices.Put(ResourceServiceRequestPut);
+        ResourceServiceOutcome = IResourceServices.Put(EntryRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -328,17 +320,14 @@ namespace Pyro.Common.BusinessEntities.Service
       IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
       IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      //var ResourceService = _ResourceServiceRequest.ServiceNegotiator.GetResourceService(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        IResourceServiceRequestGetSearch ResourceServiceRequestGetSearch = Common.CommonFactory.GetResourceServiceRequestGetSearch(EntryRequestUri, SearchParameterGeneric);
-        ResourceServiceOutcome = IResourceServices.GetSearch(ResourceServiceRequestGetSearch);
+        ResourceServiceOutcome = IResourceServices.GetSearch(EntryRequestUri, SearchParameterGeneric);
       }
       else
       {
-        IResourceServiceRequestGetRead ResourceServiceRequestGetRead = Common.CommonFactory.GetResourceServiceRequestGetRead(EntryRequestUri.FhirRequestUri.ResourceId, _RequestUri, SearchParameterGeneric, RequestHeaders);
-        ResourceServiceOutcome = IResourceServices.GetRead(ResourceServiceRequestGetRead);
+        ResourceServiceOutcome = IResourceServices.GetRead(EntryRequestUri.FhirRequestUri.ResourceId, _RequestUri, SearchParameterGeneric, RequestHeaders);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)

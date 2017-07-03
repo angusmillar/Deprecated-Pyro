@@ -7,32 +7,47 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.BusinessEntities.FhirOperation;
+using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.Interfaces.Dto.Headers;
+using Hl7.Fhir.Model;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Engine.Services
 {
-  public class FhirBaseOperationService
+  public class FhirBaseOperationService : IFhirBaseOperationService
   {
-    IBaseOperationsServiceRequest _ServiceRequest;
+    private readonly ICommonFactory ICommonFactory;
 
-    public IResourceServiceOutcome Process(IBaseOperationsServiceRequest ServiceRequest)
+    public FhirBaseOperationService(ICommonFactory ICommonFactory)
     {
-      if (string.IsNullOrWhiteSpace(ServiceRequest.OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
-      if (ServiceRequest.RequestUri == null)
-        throw new NullReferenceException("RequestUri cannot be null.");
-      if (ServiceRequest.RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (ServiceRequest.ResourceServices == null)
-        throw new NullReferenceException("ResourceServices cannot be null.");
-      if (ServiceRequest.SearchParameterGeneric == null)
-        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      this.ICommonFactory = ICommonFactory;
+    }
 
-      _ServiceRequest = ServiceRequest;
+    public IResourceServiceOutcome Process(
+      string OperationName,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchPrameterGeneric,
+      IDtoRequestHeaders RequestHeaders,
+      Resource Resource)
+    {
+      if (string.IsNullOrWhiteSpace(OperationName))
+        throw new NullReferenceException("OperationName cannot be null.");
+      if (RequestUri == null)
+        throw new NullReferenceException("RequestUri cannot be null.");
+      if (RequestHeaders == null)
+        throw new NullReferenceException("RequestHeaders cannot be null.");
+      //if (IResourceServices == null)
+      //  throw new NullReferenceException("ResourceServices cannot be null.");
+      if (SearchPrameterGeneric == null)
+        throw new NullReferenceException("SearchPrameterGeneric cannot be null.");
+
+      //_ServiceRequest = ServiceRequest;
       IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
 
       ISearchParametersServiceRequest SearchParametersServiceRequest = Common.CommonFactory.GetSearchParametersServiceRequest();
       SearchParametersServiceRequest.CommonServices = null;
-      SearchParametersServiceRequest.SearchParameterGeneric = ServiceRequest.SearchParameterGeneric;
+      SearchParametersServiceRequest.SearchParameterGeneric = SearchPrameterGeneric;
       var SearchParameterService = new SearchParameterService();
       SearchParametersServiceRequest.SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Base;
       SearchParametersServiceRequest.ResourceType = null;
@@ -46,9 +61,9 @@ namespace Pyro.Engine.Services
       }
 
       var OperationDic = FhirOperationEnum.GetOperationTypeByString();
-      if (!OperationDic.ContainsKey(ServiceRequest.OperationName))
+      if (!OperationDic.ContainsKey(OperationName))
       {
-        string Message = $"The base operation named ${ServiceRequest.OperationName} is not supported by the server.";
+        string Message = $"The base operation named ${OperationName} is not supported by the server.";
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
@@ -56,45 +71,44 @@ namespace Pyro.Engine.Services
         return ResourceServiceOutcome;
       }
 
-      var Op = OperationDic[ServiceRequest.OperationName];
+      var Op = OperationDic[OperationName];
       OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Base && x.Type == Op);
       if (OperationClass == null)
       {
-        string Message = $"The base operation named ${ServiceRequest.OperationName} is not supported by the server as a service base operation type.";
+        string Message = $"The base operation named ${OperationName} is not supported by the server as a service base operation type.";
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         ResourceServiceOutcome.SuccessfulTransaction = false;
         return ResourceServiceOutcome;
       }
-      _ServiceRequest.OperationClass = OperationClass;
 
       switch (OperationClass.Type)
       {
         case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
           {
-            var DeleteManyHistoryIndexesService = Common.CommonFactory.GetDeleteHistoryIndexesService(_ServiceRequest);
-            return DeleteManyHistoryIndexesService.DeleteMany();
+            IDeleteHistoryIndexesService DeleteManyHistoryIndexesService = ICommonFactory.CreateDeleteHistoryIndexesService();
+            return DeleteManyHistoryIndexesService.DeleteMany(RequestUri, SearchPrameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerIndexesSet:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
-            return ServerSearchParameterService.ProcessSet();
+            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+            return ServerSearchParameterService.ProcessSet(RequestUri, SearchPrameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerSearchParameterIndexReport:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
-            return ServerSearchParameterService.ProcessReport();
+            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+            return ServerSearchParameterService.ProcessReport(RequestUri, SearchPrameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerIndexesIndex:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerSearchParameterService(_ServiceRequest);
-            return ServerSearchParameterService.ProcessIndex();
+            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+            return ServerSearchParameterService.ProcessIndex(RequestUri, SearchPrameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerResourceReport:
           {
-            var ServerSearchParameterService = Common.CommonFactory.GetServerResourceReportService(_ServiceRequest);
-            return ServerSearchParameterService.Process();
+            IServerResourceReportService ServerResourceReportService = ICommonFactory.CreateServerResourceReportService();
+            return ServerResourceReportService.Process(SearchPrameterGeneric);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

@@ -121,11 +121,13 @@
     <Compile Include="BusinessEntities\Global\GlobalProperties.cs" />
     <Compile Include="BusinessEntities\Global\IGlobalProperties.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
-    <Compile Include="BusinessEntities\Service\BaseOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoRequestUriForDi.cs" />
     <Compile Include="BusinessEntities\UriSupport\FhirRequestUriForDI.cs" />
     <Compile Include="CompositionRoot\ICommonFactory.cs" />
+    <Compile Include="Interfaces\Service\IFhirBaseOperationService.cs" />
+    <Compile Include="Interfaces\Service\IFhirResourceInstanceOperationService.cs" />
+    <Compile Include="Interfaces\Service\IFhirResourceOperationService.cs" />
     <Compile Include="Interfaces\Service\IMetadataService.cs" />
     <Compile Include="Interfaces\Service\IResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="Interfaces\Service\IFhirValidateOperationService.cs" />
@@ -139,18 +141,8 @@
     <Compile Include="Extentions\HttpHeadersExtensions.cs" />
     <Compile Include="Interfaces\Dto\IServiceSearchParameterTargetResource.cs" />
     <Compile Include="Interfaces\Service\IDeleteManyHistoryIndexesService.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceOperationsServiceRequest.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceDeleteHistoryIndexesRequest.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalDelete.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestDelete.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestPut.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestPost.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetHistory.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetSearch.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestGetRead.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
     <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
-    <Compile Include="Interfaces\Service\IBaseOperationsServiceRequest.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirRequestUri.cs" />
     <Compile Include="Cache\CacheCommon.cs" />
     <Compile Include="Enum\EnumUtility.cs" />
@@ -180,23 +172,12 @@
     <Compile Include="BusinessEntities\Dto\Search\DtoUnspportedSearchParameter.cs" />
     <Compile Include="Interfaces\Dto\IDtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\SearchParameterFactory.cs" />
-    <Compile Include="BusinessEntities\Service\ResourceServiceRequestConditionalPut.cs" />
     <Compile Include="Interfaces\Dto\IServiceSearchParameter.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWork.cs" />
     <Compile Include="Interfaces\Repositories\IUnitOfWorkCodeGeneration.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Service\IBundleTransactionService.cs" />
-    <Compile Include="Interfaces\Service\IResourceOperationsServiceRequest.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceDeleteHistoryIndexesRequest.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestConditionalDelete.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestDelete.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestConditionalPut.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestPut.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestPost.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestGetHistory.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestGetSearch.cs" />
-    <Compile Include="Interfaces\Service\IResourceServiceRequestGetRead.cs" />
     <Compile Include="Interfaces\Service\IResourceServicesBase.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceRequest.cs" />
     <Compile Include="Interfaces\Service\ISearchParametersServiceOutcome.cs" />
