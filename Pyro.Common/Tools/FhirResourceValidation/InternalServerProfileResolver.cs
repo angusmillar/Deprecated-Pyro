@@ -5,29 +5,31 @@ using System.Linq;
 using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.CompositionRoot;
+using Pyro.Common.ServiceRoot;
 
 namespace Pyro.Common.Tools.FhirResourceValidation
 {
   public class InternalServerProfileResolver : IResourceResolver
   {
-    private IResourceServices _ResourceServices;
-    private Common.Cache.CacheCommon _Cache;
+    private readonly IResourceServices IResourceServices;
+    private readonly ICommonFactory ICommonFactory;
+    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
 
-    public InternalServerProfileResolver(IResourceServices ResourceServices)
+    public InternalServerProfileResolver(IResourceServices IResourceServices, ICommonFactory ICommonFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache)
     {
-      _ResourceServices = ResourceServices;
-      _ResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
-      _Cache = new Common.Cache.CacheCommon();
+      this.IResourceServices = IResourceServices;
+      this.ICommonFactory = ICommonFactory;
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
     }
     public Resource ResolveByCanonicalUri(string uri)
     {
-      Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore = _Cache.GetPrimaryRootUrlStore(_ResourceServices);
-      string PrimaryServiceRoot = PrimaryRootUrlStore.Url;
+      IResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
+      string PrimaryServiceRoot = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
       string RequestUriString = $"{PrimaryServiceRoot}/{ResourceType.StructureDefinition.GetLiteral()}/?url={uri}";
-      Interfaces.UriSupport.IFhirRequestUri FhirRequestUri = CommonFactory.GetFhirRequestUri(PrimaryServiceRoot, RequestUriString);
-      Interfaces.UriSupport.IDtoRequestUri RequestUri = CommonFactory.GetRequestUri(PrimaryRootUrlStore, FhirRequestUri);
-      Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric($"url={ uri}");
-      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetSearch(RequestUri, SearchParameterGeneric);
+      Interfaces.UriSupport.IDtoRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
+      Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse($"url={ uri}");
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestUri, SearchParameterGeneric);
       if (ResourceServiceOutcome.ResourceResult != null && (ResourceServiceOutcome.ResourceResult as Bundle).Entry.Count > 1)
       {
         throw new System.Exception($"More than a single {ResourceType.StructureDefinition.GetLiteral()} instance was found with the Canonical Uri of {uri} at the endpoint {PrimaryServiceRoot + "/" + ResourceType.StructureDefinition.GetLiteral()}.");
@@ -41,19 +43,16 @@ namespace Pyro.Common.Tools.FhirResourceValidation
         return null;
       }
     }
-
     public Resource ResolveByUri(string uri)
     {
-      string PrimaryServiceRoot = _Cache.GetPrimaryRootUrlStore(_ResourceServices).Url;
+      IResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
+      string PrimaryServiceRoot = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
       string RequestUriString = System.IO.Path.Combine(PrimaryServiceRoot, uri);
-
-      IDtoRequestHeaders DtoRequestHeaders = Pyro.Common.CommonFactory.GetDtoRequestHeaders();
-      Interfaces.UriSupport.IFhirRequestUri FhirRequestUri = CommonFactory.GetFhirRequestUri(PrimaryServiceRoot, RequestUriString);
-      Interfaces.UriSupport.IDtoRequestUri RequestUri = CommonFactory.GetRequestUri(_Cache.GetPrimaryRootUrlStore(_ResourceServices), FhirRequestUri);
-      Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric();
-      IResourceServiceOutcome ResourceServiceOutcome = _ResourceServices.GetRead(FhirRequestUri.ResourceId, RequestUri, SearchParameterGeneric, DtoRequestHeaders);
+      IDtoRequestHeaders DtoRequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
+      Interfaces.UriSupport.IDtoRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
+      Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(RequestUri.FhirRequestUri.ResourceId, RequestUri, SearchParameterGeneric, DtoRequestHeaders);
       return ResourceServiceOutcome.ResourceResult;
-
     }
   }
 }

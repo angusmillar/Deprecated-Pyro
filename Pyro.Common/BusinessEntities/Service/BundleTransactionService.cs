@@ -12,20 +12,24 @@ using Pyro.Common.Tools;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.Model;
 using Pyro.Common.Extentions;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
   public class BundleTransactionService : IBundleTransactionService
   {
     private readonly IResourceServices IResourceServices;
+    private readonly ICommonFactory ICommonFactory;
+
     private IDtoRequestUri _RequestUri { get; set; }
 
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
-    public BundleTransactionService(IResourceServices IResourceServices)
+    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory)
     {
       this.IResourceServices = IResourceServices;
+      this.ICommonFactory = ICommonFactory;
     }
 
     public IResourceServiceOutcome Transact(Resource Resource, IDtoRequestUri RequestUri)
@@ -157,10 +161,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry)
     {
-      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(DeleteEntry));
-      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
-
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      IDtoRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(DeleteEntry));
+      IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
@@ -207,8 +209,7 @@ namespace Pyro.Common.BusinessEntities.Service
     }
     private bool PostProcessing(Bundle.EntryComponent PostEntry)
     {
-      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(PostEntry));
-      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
+      IDtoRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PostEntry));
       if (EntryRequestUri.FhirRequestUri.IsOperation)
       {
         var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{EntryRequestUri.FhirRequestUri.OperationName}'.";
@@ -219,9 +220,11 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ServiceRootUri = _RequestUri.PrimaryRootUrlStore.RootUri;
         return false;
       }
-      IFhirRequestUri ResourceIdToForce = Common.CommonFactory.GetFhirRequestUri(EntryRequestUri.PrimaryRootUrlStore.Url, OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
-      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PostEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+
+      IFhirRequestUri ResourceIdToForce = ICommonFactory.CreateFhirRequestUri();
+      ResourceIdToForce.Parse(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
+      IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PostEntry.Request);
+      IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
 
@@ -263,10 +266,9 @@ namespace Pyro.Common.BusinessEntities.Service
     }
     private bool PutProcessing(Bundle.EntryComponent PutEntry)
     {
-      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(PutEntry));
-      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
-      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(PutEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      IDtoRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PutEntry));
+      IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PutEntry.Request);
+      IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
@@ -315,10 +317,9 @@ namespace Pyro.Common.BusinessEntities.Service
     }
     private bool GetProcessing(Bundle.EntryComponent GetEntry)
     {
-      IFhirRequestUri EntryFhirRequestUri = Common.CommonFactory.GetFhirRequestUri(_RequestUri.PrimaryRootUrlStore.Url, ConstructRequestUrl(GetEntry));
-      IDtoRequestUri EntryRequestUri = Common.CommonFactory.GetRequestUri(_RequestUri.PrimaryRootUrlStore, EntryFhirRequestUri);
-      IDtoRequestHeaders RequestHeaders = Common.CommonFactory.GetDtoRequestHeaders(GetEntry.Request);
-      IDtoSearchParameterGeneric SearchParameterGeneric = Common.CommonFactory.GetDtoSearchParameterGeneric(EntryRequestUri.FhirRequestUri.Query);
+      IDtoRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(GetEntry));
+      IDtoRequestHeaders RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(GetEntry.Request);
+      IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)

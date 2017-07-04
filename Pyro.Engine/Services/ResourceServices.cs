@@ -260,7 +260,7 @@ namespace Pyro.Engine.Services
 
       if ((RequestHeaders != null) && (!string.IsNullOrWhiteSpace(RequestHeaders.IfNoneExist)))
       {
-        IDtoSearchParameterGeneric SearchParameterGenericIfNoneExist = Common.CommonFactory.GetDtoSearchParameterGeneric(RequestHeaders.IfNoneExist);
+        IDtoSearchParameterGeneric SearchParameterGenericIfNoneExist = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(RequestHeaders.IfNoneExist);
         ISearchParameterService SearchServiceIfNoneExist = ICommonFactory.CreateSearchParameterService();
         ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchService.ProcessSearchParameters(SearchParameterGenericIfNoneExist, SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType, null);
         if (SearchParametersServiceOutcomeIfNoneExist.FhirOperationOutcome != null)

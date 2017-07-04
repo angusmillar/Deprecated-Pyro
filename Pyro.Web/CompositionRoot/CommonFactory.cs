@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Hl7.Fhir.Specification.Source;
 using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.CompositionRoot;
@@ -9,6 +10,7 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.FhirResourceValidation;
 
 namespace Pyro.Web.CompositionRoot
 {
@@ -102,6 +104,11 @@ namespace Pyro.Web.CompositionRoot
     public IDtoSearchParameterReferance CreateDtoSearchParameterReferance()
     {
       return Container.GetInstance<IDtoSearchParameterReferance>();
+    }
+
+    public List<IResourceResolver> CreateResourceResolverList()
+    {
+      return Container.GetAllInstances<IResourceResolver>().ToList();
     }
   }
 }

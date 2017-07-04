@@ -9,6 +9,7 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.BusinessEntities.FhirOperation;
 using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.Tools.FhirResourceValidation;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -21,10 +22,12 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private readonly ICommonFactory ICommonFactory;
     private readonly IResourceServices IResourceServices;
-    public FhirValidateOperationService(ICommonFactory ICommonFactory, IResourceServices IResourceServices)
+    private readonly IFhirValidationSupport IFhirValidationSupport;
+    public FhirValidateOperationService(ICommonFactory ICommonFactory, IResourceServices IResourceServices, IFhirValidationSupport IFhirValidationSupport)
     {
       this.ICommonFactory = ICommonFactory;
       this.IResourceServices = IResourceServices;
+      this.IFhirValidationSupport = IFhirValidationSupport;
     }
 
     public IResourceServiceOutcome ValidateResource(
@@ -46,6 +49,9 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("ResourceServices cannot be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      if (IFhirValidationSupport == null)
+        throw new NullReferenceException("IFhirValidationSupport cannot be null.");
+
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
@@ -147,6 +153,8 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("_ResourceOpServiceRequest.RequestUri.FhirRequestUri cannot be null");
       if (string.IsNullOrWhiteSpace(RequestUri.FhirRequestUri.ResourceId))
         throw new NullReferenceException("Resource Id endpoint must be used for ValidateResourceInstance.");
+      if (IFhirValidationSupport == null)
+        throw new NullReferenceException("IFhirValidationSupport cannot be null.");
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
@@ -502,8 +510,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private OperationOutcome PerformValidation(ValidationOperationItems ValidationOperationItems)
     {
-      var ValidationSupport = new Tools.FhirResourceValidation.FhirValidationSupport(IResourceServices);
-      return ValidationSupport.Validate(ValidationOperationItems.ResourceToValidate, new List<string> { ValidationOperationItems.ProfileUri });
+      return IFhirValidationSupport.Validate(ValidationOperationItems.ResourceToValidate, new List<string> { ValidationOperationItems.ProfileUri });
     }
 
     private OperationOutcome AllOkOperationOutcome()

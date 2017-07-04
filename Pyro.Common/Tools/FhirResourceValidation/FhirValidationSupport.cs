@@ -10,32 +10,47 @@ using Hl7.Fhir.Rest;
 using Hl7.Fhir.Specification.Terminology;
 using System.IO;
 using System.Web.Hosting;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.Tools.FhirResourceValidation
 {
-  public class FhirValidationSupport
+  public class FhirValidationSupport : IFhirValidationSupport
   {
     private IResourceResolver ResourceResolver;
-    private string SpecificationFileName = "specification.zip";
-    public FhirValidationSupport(Interfaces.Service.IResourceServices ResourceServices)
+    private readonly ICommonFactory ICommonFactory;
+
+    public FhirValidationSupport(ICommonFactory ICommonFactory)
     {
+      this.ICommonFactory = ICommonFactory;
+
       // Ensure the FHIR extensions are registered
       Hl7.Fhir.FhirPath.PocoNavigatorExtensions.PrepareFhirSymbolTableFunctions();
 
       var MultiResolver = new MultiResolver();
-      // Use the specification zip that is local (from the NuGet package)
 
-      //var SpecificationFilePath = Path.Combine(AppContext.BaseDirectory, @"bin\specification.zip");      
-      MultiResolver.AddSource(new ZipSource(ResolveSpecificationZipFilePath()));
+      //Load all the ResourceResolvers from the DI injection, current list in order is:
+      //InternalServerProfileResolver
+      //AustralianFhirProfileResolver
+      //ZipSourceResolver
+      foreach (IResourceResolver ResourceResolver in ICommonFactory.CreateResourceResolverList())
+      {
+        MultiResolver.AddSource(ResourceResolver);
+      }
+
+      //Below are manual loads for debugging
+
+      //FHIR Specification.zip Zip file 
+      //MultiResolver.AddSource(new ZipSourceResolver());
 
       // Try using the fixed content
-      MultiResolver.AddSource(new AustralianFhirProfileResolver());
+      //MultiResolver.AddSource(new AustralianFhirProfileResolver());
 
       // A specific FHIR Registry Server on the web           
       //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://someonesfhirserver.com/fhir")));
 
       //Look in this Pyro server's Resource
-      MultiResolver.AddSource(new InternalServerProfileResolver(ResourceServices));
+      //MultiResolver.AddSource(new InternalServerProfileResolver());
 
       //for Debugging look somewhere?
       //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://localhost:50579/test/stu3/fhir")));
@@ -74,19 +89,5 @@ namespace Pyro.Common.Tools.FhirResourceValidation
 
     }
 
-    private string ResolveSpecificationZipFilePath()
-    {
-      if (HostingEnvironment.IsHosted)
-      {
-        //If running is IIS either IIS Express in dev or IIS in production i.e (Pyro.Web)
-        return Path.Combine(AppContext.BaseDirectory, @"bin\" + SpecificationFileName);
-      }
-      else
-      {
-        //If running as a console server i.e (Pyro.ConsoleServer)
-        return Path.Combine(AppContext.BaseDirectory, SpecificationFileName);
-      }
-
-    }
   }
 }

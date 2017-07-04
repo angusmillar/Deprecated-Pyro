@@ -1,9 +1,12 @@
-﻿using Pyro.Common.BusinessEntities.Search;
+﻿using Hl7.Fhir.Specification.Source;
+using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using System;
+using System.Collections.Generic;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -29,5 +32,7 @@ namespace Pyro.Common.CompositionRoot
     IFhirResourceInstanceOperationService CreateFhirResourceInstanceOperationService();
     IFhirBaseOperationService CreateFhirBaseOperationService();
     IFhirResourceOperationService CreateFhirResourceOperationService();
+
+    List<IResourceResolver> CreateResourceResolverList();
   }
 }

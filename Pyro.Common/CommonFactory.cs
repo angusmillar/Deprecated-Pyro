@@ -20,10 +20,6 @@ namespace Pyro.Common
 {
   public static class CommonFactory
   {
-    public static IDtoRequestUri GetFhirRequestUri()
-    {
-      return new DtoRequestUri();
-    }
 
     public static IDtoRequestUri GetRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, IFhirRequestUri FhirRequestUri)
     {
@@ -45,11 +41,6 @@ namespace Pyro.Common
       return new ResourceServiceOutcome();
     }
 
-    public static IFhirRequestUri GetFhirRequestUri(Uri PrimaryServiceRoot, string RequestUri)
-    {
-      return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
-    }
-
     public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
     {
       return new DtoDatabaseOperationOutcome();
@@ -60,48 +51,9 @@ namespace Pyro.Common
       return new Tools.ApplicationCacheSupport();
     }
 
-    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric()
-    {
-      return new BusinessEntities.Search.DtoSearchParameterGeneric();
-    }
-
-    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric(SearchParams SearchParams)
-    {
-      return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParams);
-    }
-
-    public static IDtoSearchParameterGeneric GetDtoSearchParameterGeneric(string SearchParamsString)
-    {
-      return new BusinessEntities.Search.DtoSearchParameterGeneric(SearchParamsString);
-    }
-
-    public static ISearchParametersServiceRequest GetSearchParametersServiceRequest()
-    {
-      return new SearchParametersServiceRequest();
-    }
-
     public static ISearchParametersServiceOutcome GetSearchParametersServiceOutcome()
     {
       return new SearchParametersServiceOutcome();
-    }
-
-    public static IDtoRequestHeaders GetDtoRequestHeaders()
-    {
-      return new BusinessEntities.Dto.Headers.DtoRequestHeaders();
-    }
-
-    public static IDtoRequestHeaders GetDtoRequestHeaders(Bundle.RequestComponent RequestComponent)
-    {
-      var IDtoRequestHeaders = new BusinessEntities.Dto.Headers.DtoRequestHeaders();
-      IDtoRequestHeaders.Parse(RequestComponent);
-      return IDtoRequestHeaders;
-    }
-
-    public static IDtoRequestHeaders GetDtoRequestHeaders(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
-    {
-      var IDtoRequestHeaders = new BusinessEntities.Dto.Headers.DtoRequestHeaders();
-      IDtoRequestHeaders.Parse(HttpRequestHeaders);
-      return IDtoRequestHeaders;
     }
 
     public static IFhirNarativeGenerationSupport GetFhirNarativeSupport()

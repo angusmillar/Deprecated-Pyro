@@ -22,6 +22,8 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.BusinessEntities.Search;
   using Pyro.Common.BusinessEntities.Service;
   using Pyro.Common.ServiceSearchParameter;
+  using Pyro.Common.Tools.FhirResourceValidation;
+  using Hl7.Fhir.Specification.Source;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -30,15 +32,10 @@ namespace Pyro.Web.App_Start
     {
       var container = new Container();
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
-
       InitializeContainer(container);
-
       container.RegisterWebApiControllers(configuration);
-
       container.Verify();
-
       configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
-
     }
 
     private static void InitializeContainer(Container container)
@@ -76,15 +73,23 @@ namespace Pyro.Web.App_Start
 
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
 
-      //Scoped Operations Locator 
+      //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceOperationService, FhirResourceOperationService>(Lifestyle.Scoped);
-      //Scoped Operations
+      //Scoped: Operations
       container.Register<IDeleteHistoryIndexesService, DeleteHistoryIndexesService>(Lifestyle.Scoped);
       container.Register<IServerSearchParameterService, ServerSearchParameterService>(Lifestyle.Scoped);
       container.Register<IServerResourceReportService, ServerResourceReportService>(Lifestyle.Scoped);
       container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
+      container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
+
+      //Scoped: Load all the FHIR Validation Resolvers 
+      container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
+
+
+
+
 
 
 
