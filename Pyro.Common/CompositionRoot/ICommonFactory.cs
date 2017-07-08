@@ -5,13 +5,18 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
+using Hl7.Fhir.Model;
 
 namespace Pyro.Common.CompositionRoot
 {
   public interface ICommonFactory
   {
+    //IResourceRepository CreateCommonResourceRepository<ResourceCurrentType, ResourceIndexType>(FHIRAllTypes FHIRAllTypes);
+    //ICommonResourceRepository<ResourceCurrentType, ResourceIndexType> CreateCommonResourceRepository<ResourceCurrentType, ResourceIndexType>();
+
     //Reused objects
     IDtoRequestHeaders CreateDtoRequestHeaders();
     IFhirRequestUri CreateFhirRequestUri();
@@ -34,5 +39,8 @@ namespace Pyro.Common.CompositionRoot
     IFhirResourceOperationService CreateFhirResourceOperationService();
 
     List<IResourceResolver> CreateResourceResolverList();
+
+
+
   }
 }

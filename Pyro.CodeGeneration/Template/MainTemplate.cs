@@ -17,5 +17,6 @@
 // Pyro.DataLayer\DbModel\DatabaseContext\PyroDbContextCodeGenerated.cs
 // Pyro.Common\Interfaces\Repositories\IUnitOfWorkCodeGeneration.cs
 // Pyro.DataLayer\DbModel\UnitOfWork\UnitOfWorkCodeGenerated.cs
+// Pyro.DataLayer\DbModel\EntityGenerated\CommonResourceRepositoryTypeList.cs
 // Pyro.DataLayer\DbModel\EntityGenerated\GeneratedResourceEntities.cs
 

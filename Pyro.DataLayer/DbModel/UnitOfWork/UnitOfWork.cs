@@ -1,4 +1,5 @@
 ﻿using Hl7.Fhir.Model;
+using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.Repository;
@@ -10,11 +11,12 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
   public partial class UnitOfWork : IUnitOfWork, IDisposable
   {
     private IPyroDbContext _context = null;
+    private IResourceRepositoryFactory IResourceRepositoryFactory;
 
-    public UnitOfWork(IPyroDbContext PyroDbContext)
+    public UnitOfWork(IPyroDbContext PyroDbContext, IResourceRepositoryFactory IResourceRepositoryFactory)
     {
-      //_context = new Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext();
       _context = PyroDbContext;
+      this.IResourceRepositoryFactory = IResourceRepositoryFactory;
     }
 
     public DbContextTransaction BeginTransaction()

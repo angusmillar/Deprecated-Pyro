@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
-  public abstract class ModelBase
+  public abstract class ModelBase : IModelBase
   {
     public int Id { get; set; }
   }

@@ -14,7 +14,14 @@ namespace Pyro.Common.Logging
   /// <typeparam name="T"></typeparam>
   public class Log<T> : ILog
   {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(T).FullName, typeof(T));
+    //private static readonly ILogger logger = LogManager.GetLogger(typeof(T).FullName, typeof(T));
+    private static readonly ILogger logger = LogManager.GetLogger(typeof(T).FullName);
+
+    public Log()
+    {
+
+    }
+
 
     public void Trace(Exception exception, string message)
     {

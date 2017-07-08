@@ -8,6 +8,7 @@ using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.DataLayer.DbModel.EntityBase;
+using Pyro.DataLayer.DbModel.UnitOfWork;
 using Pyro.DataLayer.IndexSetter;
 using Pyro.DataLayer.Repository.Interfaces;
 using Pyro.DataLayer.Search.Extentions;
@@ -21,16 +22,19 @@ using System.Linq.Expressions;
 
 namespace Pyro.DataLayer.Repository
 {
-  public class CommonResourceRepository<ResourceCurrentType, ResourceIndexType> : CommonRepository, IResourceRepository
+  public class CommonResourceRepository<ResourceCurrentType, ResourceIndexType> :
+    CommonRepository,
+    ICommonResourceRepository<ResourceCurrentType, ResourceIndexType>,
+    IResourceRepository
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
-    public FHIRAllTypes RepositoryResourceType { get; }
+    public FHIRAllTypes RepositoryResourceType { get; set; }
 
-    public CommonResourceRepository(Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext Context, FHIRAllTypes RepositoryResourceType)
+    public CommonResourceRepository(Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext Context)
       : base(Context)
     {
-      this.RepositoryResourceType = RepositoryResourceType;
+      //this.RepositoryResourceType = RepositoryResourceType;
     }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)

@@ -24,6 +24,9 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools.FhirResourceValidation;
   using Hl7.Fhir.Specification.Source;
+  using System.Linq;
+  using Pyro.DataLayer.DbModel.EntityGenerated;
+  using Pyro.DataLayer.DbModel.EntityBase;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -44,6 +47,8 @@ namespace Pyro.Web.App_Start
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
+
 
       //Transient
       container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
@@ -88,10 +93,13 @@ namespace Pyro.Web.App_Start
       container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
 
 
+      //container.Register<IPatientRes, PatientRes>(Lifestyle.Scoped);
+      //container.Register<IPatientResIndex, PatientResIndex>(Lifestyle.Scoped);
 
 
-
-
+      //Bellow returns all CommonResourceRepository types to be registered in contaioner
+      var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
+      container.Register(typeof(ICommonResourceRepository<,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
 
     }
   }

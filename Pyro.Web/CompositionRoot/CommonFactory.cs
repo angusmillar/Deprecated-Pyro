@@ -10,7 +10,11 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Tools.FhirResourceValidation;
+using Pyro.DataLayer.DbModel.UnitOfWork;
+using Pyro.DataLayer.DbModel.EntityGenerated;
+using Hl7.Fhir.Model;
 
 namespace Pyro.Web.CompositionRoot
 {
