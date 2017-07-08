@@ -23,7 +23,11 @@ namespace Pyro.Common.BusinessEntities.Service
     private readonly ICommonFactory ICommonFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IFhirValidationSupport IFhirValidationSupport;
-    public FhirValidateOperationService(ICommonFactory ICommonFactory, IResourceServices IResourceServices, IFhirValidationSupport IFhirValidationSupport)
+
+    public FhirValidateOperationService(
+      ICommonFactory ICommonFactory,
+      IResourceServices IResourceServices,
+      IFhirValidationSupport IFhirValidationSupport)
     {
       this.ICommonFactory = ICommonFactory;
       this.IResourceServices = IResourceServices;
