@@ -46,7 +46,7 @@ namespace Pyro.Common.ServiceRoot
         //There is no primary in the database / Cache.
         //If the Web.Config ServiceBaseURL equals the incoming request Service Base URL 
         //Therefore set the database's primary service root URL, as this is a clean install.
-        ILog.Info($"Clean install detected. As the first request's Service root is equal to the ServiceBaseURL found in the Web.config this will be set in the database for future requests. ServiceBaseURL is : {IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig()}");
+        ILog.Info($"Clean install detected. As the first request's Service root is equal to the ServiceBaseURL found in the Web.config this will be set in the database for future requests. ServiceBaseURL is : {IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig()} ");
         return ICommonServices.SetPrimaryRootUrlStore(WebConfigServiceBase);
       }
 
@@ -58,7 +58,7 @@ namespace Pyro.Common.ServiceRoot
         //The incoming request Service Base URL equals the Web.Config entry yet does not equal the Service Base URL
         //found in the database. We will assume someone knows what they are doing if they are capable of changing the Web.Config setting.
         //So update the database primary Service Base URL to match the Web.Config and request
-        ILog.Info($"The incoming request's Service Base URL equals the Web.Config file entry 'ServiceBaseURL' yet does not equal the Primary Service Base URL found in the database. The server will assume someone knows what they are doing if they are capable of changing the Web.Config setting and will update the database primary Service Base URL to match the Web.Config and request");
+        ILog.Info($"The incoming request's Service Base URL equals the Web.Config file entry 'ServiceBaseURL' yet does not equal the Primary Service Base URL found in the database. The server will assume someone knows what they are doing if they are capable of changing the Web.Config setting and will update the database primary Service Base URL to match the Web.Config and request. ");
         return ICommonServices.SetPrimaryRootUrlStore(WebConfigServiceBase);
       }
 
@@ -94,11 +94,11 @@ namespace Pyro.Common.ServiceRoot
           "will use this going forward as the service root URL for new resource. Yet all absolute references outside the database " +
           "will become invalid. " +
           "This change is not to be taken lightly and you should consider the ramifications carefully in the context of the " +
-          "systems that interact with this service.";
+          "systems that interact with this service. ";
         throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
       }
 
-      ErrorMsg = "Server Internal Error: Logic to resolve the Primary Service Root has failed.";
+      ErrorMsg = "Server Internal Error: Logic to resolve the Primary Service Root has failed. ";
       throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
     }
 
