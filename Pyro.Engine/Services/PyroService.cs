@@ -15,6 +15,8 @@ using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Dto.Headers;
 using System.Data.Entity;
 using Pyro.Common.ServiceRoot;
+using Pyro.Common.CompositionRoot;
+using Pyro.Common.Logging;
 
 namespace Pyro.Engine.Services
 {
@@ -22,15 +24,18 @@ namespace Pyro.Engine.Services
   {
     private IResourceServices IResourceServices;
     private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
-    private readonly Pyro.Common.CompositionRoot.ICommonFactory ICommonFactory;
+    private readonly ICommonFactory ICommonFactory;
+    private readonly ILog ILog;
 
     public PyroService(IResourceServices IResourceServices,
       IRequestServiceRootValidate IRequestServiceRootValidate,
-      Pyro.Common.CompositionRoot.ICommonFactory ICommonFactory)
+      ICommonFactory ICommonFactory,
+      ILog ILog)
     {
       this.IResourceServices = IResourceServices;
       this.IRequestServiceRootValidate = IRequestServiceRootValidate;
       this.ICommonFactory = ICommonFactory;
+      this.ILog = ILog;
     }
 
     public IResourceServiceOutcome Base(string BaseRequestUri, HttpRequestMessage Request, Resource resource)
@@ -49,12 +54,12 @@ namespace Pyro.Engine.Services
             Transaction.Commit();
           else
             Transaction.Rollback();
-
           return ResourceServiceOutcome;
         }
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Base");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -78,6 +83,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Metadata");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -103,6 +109,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Get");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -127,6 +134,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.History");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -150,7 +158,8 @@ namespace Pyro.Engine.Services
         }
         catch (Exception Exec)
         {
-          //Transaction.Rollback();
+          Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Search");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -176,6 +185,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Post");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -201,6 +211,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.PostFormSearch");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -226,6 +237,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Put");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -250,6 +262,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.Delete");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -274,6 +287,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.ConditionalPut");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -298,6 +312,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.ConditionalDelete");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -327,6 +342,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.BaseOperationWithParameters");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -356,6 +372,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.BaseOperationWithOutParameters");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -386,6 +403,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.ResourceOperationWithParameters");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -416,6 +434,7 @@ namespace Pyro.Engine.Services
         catch (Exception Exec)
         {
           Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.ResourceInstanceOperationWithParameters");
           throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
