@@ -95,7 +95,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
-      SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
 
       GetResourceInstance(
@@ -134,7 +133,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
-      SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
       GetResourcesBySearch(
         RequestUri,
@@ -175,7 +173,6 @@ namespace Pyro.Engine.Services
         ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBundleSearchParameters(SearchParameterGeneric);
 
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-        SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
         if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
         {
@@ -256,7 +253,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
-      SearchParametersServiceOutcomeBase.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
       if ((RequestHeaders != null) && (!string.IsNullOrWhiteSpace(RequestHeaders.IfNoneExist)))
       {
@@ -270,7 +266,6 @@ namespace Pyro.Engine.Services
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeIfNoneExist.SearchParameters.Format;
           return oServiceOperationOutcome;
         }
-        SearchParametersServiceOutcomeIfNoneExist.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
         IDatabaseOperationOutcome DatabaseOperationOutcomeIfNoneExist = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeIfNoneExist.SearchParameters, false);
         if (DatabaseOperationOutcomeIfNoneExist.SearchTotal == 1)
@@ -331,11 +326,11 @@ namespace Pyro.Engine.Services
     //Update (PUT)
     // PUT: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Put(
-      string ResourceId,//
-      Resource Resource,//
-      IDtoRequestUri RequestUri,//
-      IDtoSearchParameterGeneric SearchParameterGeneric,//
-      IDtoRequestHeaders RequestHeaders)//
+      string ResourceId,
+      Resource Resource,
+      IDtoRequestUri RequestUri,
+      IDtoSearchParameterGeneric SearchParameterGeneric,
+      IDtoRequestHeaders RequestHeaders)
     {
       if (string.IsNullOrWhiteSpace(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty.");
@@ -359,7 +354,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
-      SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
       if (string.IsNullOrWhiteSpace(Resource.Id) || Resource.Id != ResourceId)
       {
@@ -451,7 +445,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
-      SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
       IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(ResourceId, false);
       if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1 &&
@@ -509,8 +502,6 @@ namespace Pyro.Engine.Services
         return ServiceOperationOutcomeConditionalPut;
       }
       ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-
-      SearchParametersServiceOutcomeAll.SearchParameters.PrimaryRootUrlStore = FhirRequestUri.PrimaryRootUrlStore;
 
       IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
       if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 0)
@@ -621,8 +612,6 @@ namespace Pyro.Engine.Services
         return ServiceOperationOutcomeConditionalDelete;
       }
 
-      SearchParametersServiceOutcomeAll.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
-
       IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
 
       //There are zero or many or one to be deleted, note that GetResourceBySearch never returns deleted resource.
@@ -656,8 +645,6 @@ namespace Pyro.Engine.Services
         ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
         return ServiceOutcome;
       }
-
-      SearchParametersServiceOutcomeBaseOnly.SearchParameters.PrimaryRootUrlStore = RequestUri.PrimaryRootUrlStore;
 
       int NumberOfIndexRowsDeleted = _ResourceRepository.DeleteNonCurrentResourceIndexes();
 

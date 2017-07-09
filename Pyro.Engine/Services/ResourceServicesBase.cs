@@ -274,7 +274,7 @@ namespace Pyro.Engine.Services
                                                                                              DatabaseOperationOutcome.SearchTotal,
                                                                                              DatabaseOperationOutcome.PagesTotal,
                                                                                              DatabaseOperationOutcome.PageRequested,
-                                                                                             SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl());
+                                                                                             SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString));
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
       oPyroServiceOperationOutcome.IsDeleted = null;

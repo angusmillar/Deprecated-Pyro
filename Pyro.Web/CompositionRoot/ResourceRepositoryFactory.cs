@@ -1,6 +1,7 @@
 ﻿using Pyro.Common.Interfaces.Repositories;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
+using Pyro.DataLayer.Repository.Interfaces;
 
 namespace Pyro.Web.CompositionRoot
 {
@@ -18,6 +19,11 @@ namespace Pyro.Web.CompositionRoot
       var CommonResourceRepository = (ICommonResourceRepository<ResourceCurrentType, ResourceIndexType>)Container.GetInstance(typeof(ICommonResourceRepository<ResourceCurrentType, ResourceIndexType>));
       CommonResourceRepository.RepositoryResourceType = FHIRAllTypes;
       return CommonResourceRepository;
+    }
+
+    public IDtoCommonRepository CreateDtoCommonRepository()
+    {
+      return (IDtoCommonRepository)Container.GetInstance<ICommonRepository>();
     }
   }
 }

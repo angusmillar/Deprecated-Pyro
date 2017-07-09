@@ -3,6 +3,7 @@ using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.BusinessEntities.Search;
 using Hl7.Fhir.Model;
+using Pyro.Common.Tools;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
@@ -10,13 +11,13 @@ namespace Pyro.DataLayer.Search.Predicate
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)     
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)
     {
       if (SearchItem is DtoSearchParameterReferance)
       {
         var SearchTypeReference = SearchItem as DtoSearchParameterReferance;
         if (SearchTypeReference.ChainedSearchParameter != null)
-        {          
+        {
           throw new NotImplementedException("Chained parameters have not been implemented for use on this server.");
         }
         else
@@ -24,21 +25,21 @@ namespace Pyro.DataLayer.Search.Predicate
           foreach (var SearchValue in SearchTypeReference.ValueList)
           {
             if (!SearchTypeReference.Modifier.HasValue)
-            {              
+            {
               if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
               {
                 NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
               }
               else
               {
-                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
-              }                            
+                NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.StripHttp().ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
+              }
             }
             else
             {
               switch (SearchTypeReference.Modifier)
-              {               
-                case SearchParameter.SearchModifierCode.Missing:                  
+              {
+                case SearchParameter.SearchModifierCode.Missing:
                   if (SearchValue.IsMissing)
                   {
                     NewPredicate = NewPredicate.Or(Search.ReferanceCollectionIsNull(SearchTypeReference.Id));
@@ -46,7 +47,7 @@ namespace Pyro.DataLayer.Search.Predicate
                   else
                   {
                     NewPredicate = NewPredicate.Or(Search.ReferanceCollectionIsNotNull(SearchTypeReference.Id));
-                  }                                    
+                  }
                   break;
                 case SearchParameter.SearchModifierCode.Exact:
                   throw new FormatException($"The search modifier: {SearchTypeReference.Modifier.ToString()} is not supported for search parameter types of Reference.");
@@ -54,15 +55,15 @@ namespace Pyro.DataLayer.Search.Predicate
                   throw new FormatException($"The search modifier: {SearchTypeReference.Modifier.ToString()} is not supported for search parameter types of Reference.");
                 case SearchParameter.SearchModifierCode.Text:
                   throw new FormatException($"The search modifier: {SearchTypeReference.Modifier.ToString()} is not supported for search parameter types of Reference.");
-                case SearchParameter.SearchModifierCode.Type:                  
+                case SearchParameter.SearchModifierCode.Type:
                   if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                   {
                     NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
                   }
                   else
                   {
-                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
-                  }                  
+                    NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByUrlString(SearchTypeReference.Id, SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.StripHttp().ToLower(), SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
+                  }
                   break;
                 case SearchParameter.SearchModifierCode.Below:
                   throw new FormatException($"The search modifier: {SearchTypeReference.Modifier.ToString()} is not supported for search parameter types of Reference.");
@@ -84,10 +85,9 @@ namespace Pyro.DataLayer.Search.Predicate
 
     private static bool IsServiceUrlPrimary(Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore, DtoSearchParameterReferanceValue SearchValue)
     {
-      if (!string.IsNullOrWhiteSpace(SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower()))
+      if (!string.IsNullOrWhiteSpace(SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString))
       {
-        //Common.Interfaces.UriSupport.IFhirRequestUri PrimaryFhirUri = Common.CommonFactory.GetFhirRequestUri(PrimaryRootUrlStore.Url);        
-        if (SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.ToLower() != PrimaryRootUrlStore.Url.ToLower())
+        if (!SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString.IsEqualUri(PrimaryRootUrlStore.Url))
         {
           return false;
         }

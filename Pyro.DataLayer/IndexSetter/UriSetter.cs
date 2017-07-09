@@ -3,6 +3,7 @@ using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Tools;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,14 +31,14 @@ namespace Pyro.DataLayer.IndexSetter
         }
         else
         {
-          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
@@ -56,7 +57,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
         var ResourceIndex = new ResourceIndexType();
-        ResourceIndex.Uri = FhirUri.Value;
+        ResourceIndex.Uri = FhirUri.Value.StripHttp();
         ResourceIndexList.Add(ResourceIndex);
       }
     }

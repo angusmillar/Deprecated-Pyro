@@ -110,10 +110,10 @@ namespace Pyro.Common.BusinessEntities.Service
           {
 
             IDtoSearchParameterBase oSearchParameter = ISearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
-            if (oSearchParameter.Type == SearchParamType.Reference)
-            {
-              oSearchParameter.PrimaryRootUrlStore = _SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore;
-            }
+            //if (oSearchParameter.Type == SearchParamType.Reference)
+            //{
+            //  oSearchParameter.PrimaryRootUrlStore = _SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore;
+            //}
 
             if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter, _SearchParametersServiceOutcome))
             {

@@ -13,7 +13,6 @@ namespace Pyro.Common.BusinessEntities.Search
   public class DtoSearchParameters
   {
     public FHIRAllTypes? ResourceTarget { get; set; }
-    public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
     public List<IDtoSearchParameterBase> SearchParametersList { get; set; }
     public List<DtoUnspportedSearchParameter> UnspportedSearchParameterList { get; set; }
     public List<Sort> SortList { get; set; }
@@ -21,9 +20,9 @@ namespace Pyro.Common.BusinessEntities.Search
     public int? CountOfRecordsRequested { get; set; }
     public string Format { get; set; }
     public SummaryType? SummaryType { get; set; }
-    public Uri SupportedSearchUrl()
+    public Uri SupportedSearchUrl(string RequestPrimaryServiceRoot)
     {
-      string UrlString = PrimaryRootUrlStore.Url;
+      string UrlString = RequestPrimaryServiceRoot;
       if (ResourceTarget.HasValue)
         UrlString = $"{UrlString}/{ResourceTarget.GetLiteral()}";
       for (int i = 0; i < SearchParametersList.Count; i++)

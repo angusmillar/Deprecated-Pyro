@@ -51,7 +51,7 @@ namespace Pyro.Engine.Support
           }
         }
 
-        oResEntry.FullUrl = string.Join("/", RequestUri.PrimaryRootUrlStore.Url, DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
+        oResEntry.FullUrl = string.Join("/", RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString, DtoResource.ResourceType.GetLiteral(), DtoResource.FhirId);
 
         if (BundleType == Bundle.BundleType.History)
         {

@@ -33,15 +33,11 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       }
     }
 
-    private CommonRepository _CommonRepository;
-
     public IDtoCommonRepository CommonRepository
     {
       get
       {
-        if (this._CommonRepository == null)
-          this._CommonRepository = new CommonRepository(_context);
-        return _CommonRepository;
+        return IResourceRepositoryFactory.CreateDtoCommonRepository();
       }
     }
 

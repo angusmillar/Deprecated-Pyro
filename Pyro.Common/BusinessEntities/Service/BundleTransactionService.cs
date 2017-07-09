@@ -370,7 +370,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private string ConstructRequestUrl(Bundle.EntryComponent Entry)
     {
-      return _RequestUri.PrimaryRootUrlStore.RootUri + "/" + Entry.Request.Url;
+      return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.Scheme}://{_RequestUri.PrimaryRootUrlStore.RootUri}/{Entry.Request.Url}";
     }
 
     private string CreateFullUrl(IResourceServiceOutcome ResourceServiceOutcome)
@@ -378,7 +378,7 @@ namespace Pyro.Common.BusinessEntities.Service
       //Get Search results will have either a bundle or no resource and do not require FullURLs
       if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult.ResourceType != ResourceType.Bundle)
       {
-        return $"{ResourceServiceOutcome.ServiceRootUri.OriginalString}/{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
+        return $"{ResourceServiceOutcome.RequestUri.UriPrimaryServiceRoot.Scheme}://{ResourceServiceOutcome.ServiceRootUri.OriginalString}/{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
       }
       return null;
     }

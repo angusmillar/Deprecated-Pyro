@@ -10,12 +10,18 @@ using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces;
 using Pyro.Common.Interfaces.Repositories;
+using Pyro.DataLayer.DbModel.DatabaseContext;
 
 namespace Pyro.DataLayer.Repository
 {
   public class BaseRepository : IBaseRepository
   {
-    internal Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext _Context = null;
+    internal IPyroDbContext IPyroDbContext = null;
+
+    public BaseRepository(IPyroDbContext IPyroDbContext)
+    {
+      this.IPyroDbContext = IPyroDbContext;
+    }
 
     protected int _NumberOfRecordsPerPage = 10;
     protected int _MaxNumberOfRecordsPerPage = 100;
@@ -27,7 +33,7 @@ namespace Pyro.DataLayer.Repository
     {
       try
       {
-        _Context.SaveChanges();
+        IPyroDbContext.SaveChanges();
       }
       catch (DbEntityValidationException e)
       {

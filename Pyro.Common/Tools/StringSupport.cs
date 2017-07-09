@@ -68,5 +68,37 @@ namespace Pyro.Common.Tools
     {
       return str.Substring(0, Math.Min(str.Length, maxLength));
     }
+
+
+    /// <summary>
+    /// Returns the string removing http:// or https://
+    /// </summary>
+    /// <param name="Uri"></param>
+    /// <returns></returns>
+    public static string StripHttp(this string Uri)
+    {
+      string http = "http://";
+      string https = "https://";
+      if (Uri.ToLower().StartsWith(http))
+      {
+        Uri = Uri.Substring(http.Count(), Uri.Count() - http.Count());
+      }
+      if (Uri.ToLower().StartsWith(https))
+      {
+        Uri = Uri.Substring(https.Count(), Uri.Count() - https.Count());
+      }
+      return Uri;
+    }
+    /// <summary>
+    /// Strips of either https or http and performs a insensative compare between the two uris
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="Uri"></param>
+    /// <returns></returns>
+    public static bool IsEqualUri(this string left, string Uri)
+    {
+      return (left.StripHttp() == Uri.StripHttp());
+    }
+
   }
 }

@@ -7,6 +7,7 @@ using Pyro.Common.BusinessEntities.Search;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.ServiceRoot;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.DbModel.UnitOfWork;
 using Pyro.DataLayer.IndexSetter;
@@ -19,6 +20,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using Pyro.DataLayer.DbModel.DatabaseContext;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -31,10 +33,10 @@ namespace Pyro.DataLayer.Repository
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
 
-    public CommonResourceRepository(Pyro.DataLayer.DbModel.DatabaseContext.IPyroDbContext Context)
-      : base(Context)
+    public CommonResourceRepository(IPyroDbContext Context, IPrimaryServiceRootCache IPrimaryServiceRootCache)
+      : base(Context, IPrimaryServiceRootCache)
     {
-      //this.RepositoryResourceType = RepositoryResourceType;
+
     }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
@@ -283,7 +285,7 @@ namespace Pyro.DataLayer.Repository
 
     public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue()
     {
-      var LastEntity = _Context.Set<ResourceCurrentType>().Max(x => x.LastUpdated);
+      var LastEntity = IPyroDbContext.Set<ResourceCurrentType>().Max(x => x.LastUpdated);
       if (LastEntity != null)
         return LastEntity;
       else
@@ -321,13 +323,13 @@ namespace Pyro.DataLayer.Repository
     public int DeleteNonCurrentResourceIndexes()
     {
       int RowsRemovedCount = 0;
-      var IndexList = _Context.Set<ResourceIndexType>()
+      var IndexList = IPyroDbContext.Set<ResourceIndexType>()
         .Where(w => w.Resource.IsCurrent == false);
 
       foreach (ResourceIndexType Index in IndexList)
       {
         RowsRemovedCount = RowsRemovedCount + 1;
-        (_Context as IObjectContextAdapter).ObjectContext.DeleteObject(Index);
+        (IPyroDbContext as IObjectContextAdapter).ObjectContext.DeleteObject(Index);
       }
       //Old Way
       //var ListToRemove = _Context.Set<ResourceIndexType>().Where(x => x.Resource.IsCurrent == false).ToList();

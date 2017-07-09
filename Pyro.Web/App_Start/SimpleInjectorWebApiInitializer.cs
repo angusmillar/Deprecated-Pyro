@@ -27,6 +27,8 @@ namespace Pyro.Web.App_Start
   using System.Linq;
   using Pyro.DataLayer.DbModel.EntityGenerated;
   using Pyro.DataLayer.DbModel.EntityBase;
+  using Pyro.DataLayer.Repository.Interfaces;
+  using Pyro.DataLayer.Repository;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -100,6 +102,7 @@ namespace Pyro.Web.App_Start
       //Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
+      container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
 
     }
   }

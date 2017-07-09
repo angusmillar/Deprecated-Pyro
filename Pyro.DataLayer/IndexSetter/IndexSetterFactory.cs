@@ -24,7 +24,7 @@ namespace Pyro.DataLayer.IndexSetter
         case SearchParamType.Number:
           return NumberSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Date:
-          return DateTimeSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);          
+          return DateTimeSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.String:
           return StringSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Token:
@@ -33,7 +33,7 @@ namespace Pyro.DataLayer.IndexSetter
           {
             if (RequestUri == null || RequestUri.PrimaryRootUrlStore == null)
               throw new NullReferenceException("FhirRequestUri and FhirRequestUri.PrimaryRootUrlStore cannot be null for SearchParamType.Reference type index setting.");
-            if (RequestUri == null || RequestUri.PrimaryRootUrlStore == null)
+            if (CommonRepository == null)
               throw new NullReferenceException("CommonRepository cannot be null for SearchParamType.Reference type index setting.");
 
             return ReferenceSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter, RequestUri, CommonRepository);
@@ -41,9 +41,9 @@ namespace Pyro.DataLayer.IndexSetter
         case SearchParamType.Composite:
           return null;
         case SearchParamType.Quantity:
-          return QuantitySetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);          
+          return QuantitySetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         case SearchParamType.Uri:
-          return UriSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);          
+          return UriSetter<ResourceCurrentType, ResourceIndexType>.Set(oElement, SearchParameter);
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.Type.ToString(), (int)SearchParameter.Type, typeof(SearchParamType));
       }
