@@ -253,6 +253,8 @@
     <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirXmlMediaTypeFormatter.cs" />
+    <Compile Include="Formatters\IFhirJsonMediaTypeFormatter.cs" />
+    <Compile Include="Formatters\IFhirXmlMediaTypeFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

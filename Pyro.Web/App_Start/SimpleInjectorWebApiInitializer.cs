@@ -30,6 +30,7 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
+  using Pyro.Web.Formatters;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -49,6 +50,10 @@ namespace Pyro.Web.App_Start
       //Singleton
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+
+      container.Register<IFhirJsonMediaTypeFormatter, FhirJsonMediaTypeFormatter>(Lifestyle.Singleton);
+      container.Register<IFhirXmlMediaTypeFormatter, FhirXmlMediaTypeFormatter>(Lifestyle.Singleton);
+
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
       //Singleton: Index Setters

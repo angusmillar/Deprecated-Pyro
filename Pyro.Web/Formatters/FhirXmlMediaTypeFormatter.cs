@@ -19,7 +19,7 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Web.Formatters
 {
-  public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter
+  public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter, IFhirXmlMediaTypeFormatter
   {
 
     public FhirXmlMediaTypeFormatter()
@@ -36,7 +36,6 @@ namespace Pyro.Web.Formatters
     {
       return type == typeof(Hl7.Fhir.Model.Resource);
     }
-
 
     public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
     {

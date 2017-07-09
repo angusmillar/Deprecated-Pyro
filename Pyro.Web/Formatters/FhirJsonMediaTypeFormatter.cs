@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace Pyro.Web.Formatters
 {
-  public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter
+  public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter, IFhirJsonMediaTypeFormatter
   {
     public FhirJsonMediaTypeFormatter()
       : base()
@@ -39,7 +39,7 @@ namespace Pyro.Web.Formatters
       {
         var body = base.ReadBodyFromStream(readStream, content);
         if (string.IsNullOrWhiteSpace(body))
-        {          
+        {
           string Message = string.Format("The server was expecting a FHIR resource in the request body and found the body empty.");
           var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
           throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
@@ -96,7 +96,7 @@ namespace Pyro.Web.Formatters
           FhirSerializer.SerializeResource(Resource, jsonwriter, Summary);
         }
       }
-      writer.Flush();      
+      writer.Flush();
       return System.Threading.Tasks.Task.CompletedTask;
     }
 
