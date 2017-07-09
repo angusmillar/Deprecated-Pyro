@@ -32,11 +32,12 @@ namespace Pyro.DataLayer.Repository
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
+    private IIndexSetterFactory IIndexSetterFactory;
 
-    public CommonResourceRepository(IPyroDbContext Context, IPrimaryServiceRootCache IPrimaryServiceRootCache)
+    public CommonResourceRepository(IPyroDbContext Context, IPrimaryServiceRootCache IPrimaryServiceRootCache, IIndexSetterFactory IIndexSetterFactory)
       : base(Context, IPrimaryServiceRootCache)
     {
-
+      this.IIndexSetterFactory = IIndexSetterFactory;
     }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
@@ -400,9 +401,54 @@ namespace Pyro.DataLayer.Repository
             IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
             foreach (IElementNavigator oElement in ResultList)
             {
+              IList<ResourceIndexType> ResourceIndex = null;
               if (oElement != null)
               {
-                IList<ResourceIndexType> ResourceIndex = IndexSetterFactory.Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter, FhirRequestUri, this as ICommonRepository);
+                switch (SearchParameter.Type)
+                {
+                  case SearchParamType.Number:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateINumberSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.Date:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateDateTimeSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.String:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateStringSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.Token:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateTokenSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.Reference:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateReferenceSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.Composite:
+                    {
+                      break;
+                    }
+                  case SearchParamType.Quantity:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateQuantitySetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  case SearchParamType.Uri:
+                    {
+                      ResourceIndex = IIndexSetterFactory.CreateUriSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      break;
+                    }
+                  default:
+                    throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.Type.ToString(), (int)SearchParameter.Type, typeof(SearchParamType));
+                }
+
                 if (ResourceIndex != null)
                   ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
               }

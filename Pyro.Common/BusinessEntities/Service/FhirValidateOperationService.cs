@@ -424,40 +424,46 @@ namespace Pyro.Common.BusinessEntities.Service
       var ReturnValidationOperationItems = new ValidationOperationItems();
 
       //Profile
-      string ServiceBaseURL = new Common.Cache.CacheCommon().WebConfigServiceBaseURL(); ;
-      string ErrorMessageFromUrl = string.Empty;
       IFhirRequestUri FhirRequestUriFromUrl = null;
       if (!string.IsNullOrWhiteSpace(FromUrl.ProfileUri))
       {
-        if (UriSupport.FhirRequestUri.TryParse(ServiceBaseURL, FromUrl.ProfileUri, out FhirRequestUriFromUrl, out ErrorMessageFromUrl))
+        FhirRequestUriFromUrl = ICommonFactory.CreateFhirRequestUri();
+        if (FhirRequestUriFromUrl.Parse(FromUrl.ProfileUri))
         {
           ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromUrl;
+          ReturnValidationOperationItems.ProfileUri = FromUrl.ProfileUri;
         }
       }
 
-      string ErrorMessageFromParameters = string.Empty;
       IFhirRequestUri FhirRequestUriFromParameters = null;
       if (FhirRequestUriFromUrl == null && !string.IsNullOrWhiteSpace(FromParameters.ProfileUri))
       {
-        if (UriSupport.FhirRequestUri.TryParse(ServiceBaseURL, FromParameters.ProfileUri, out FhirRequestUriFromParameters, out ErrorMessageFromParameters))
+        FhirRequestUriFromParameters = ICommonFactory.CreateFhirRequestUri();
+        if (FhirRequestUriFromUrl.Parse(FromParameters.ProfileUri))
         {
-          ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromUrl;
+          ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromParameters;
+          ReturnValidationOperationItems.ProfileUri = FromParameters.ProfileUri;
         }
       }
-      if (FhirRequestUriFromUrl != null)
-      {
-        ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromUrl;
-        ReturnValidationOperationItems.ProfileUri = FromUrl.ProfileUri;
-      }
-      else if (FhirRequestUriFromParameters != null)
-      {
-        ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromParameters;
-        ReturnValidationOperationItems.ProfileUri = FromParameters.ProfileUri;
-      }
-      else if (!string.IsNullOrWhiteSpace(ErrorMessageFromUrl) || !string.IsNullOrWhiteSpace(ErrorMessageFromParameters))
+
+      if (!string.IsNullOrWhiteSpace(FromUrl.ProfileUri) && !string.IsNullOrWhiteSpace(FromParameters.ProfileUri))
       {
         var OpOutComeIssue = Common.Tools.FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
-          $"The Profile URI's provided can not be parsed as FHIR URI's. Parsing error messages are: {ErrorMessageFromUrl}, {ErrorMessageFromParameters} ");
+          $"No Profile URI found in either the request URL or the Parameter body, Validation cannot be performed with out a profile reference.");
+        IssueList.Add(OpOutComeIssue);
+      }
+
+      if (ReturnValidationOperationItems.FhirRequestUriProfileUri == null && FhirRequestUriFromUrl.ErrorInParseing)
+      {
+        var OpOutComeIssue = Common.Tools.FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+          $"The Profile URI's provided in the request URL can not be parsed as FHIR URI's. Parsing error message is: {FhirRequestUriFromUrl.ParseErrorMessage}");
+        IssueList.Add(OpOutComeIssue);
+      }
+
+      if (ReturnValidationOperationItems.FhirRequestUriProfileUri == null && FhirRequestUriFromParameters.ErrorInParseing)
+      {
+        var OpOutComeIssue = Common.Tools.FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
+          $"The Profile URI's provided in the Parameter Resource body can not be parsed as FHIR URI's. Parsing error message is: {FhirRequestUriFromParameters.ParseErrorMessage}");
         IssueList.Add(OpOutComeIssue);
       }
 

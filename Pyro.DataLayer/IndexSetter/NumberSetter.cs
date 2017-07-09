@@ -8,11 +8,13 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class NumberSetter<ResourceCurrentType, ResourceIndexType>
-     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+  public class NumberSetter : INumberSetter
   {
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public NumberSetter() { }
+
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       var ResourceIndexList = new List<ResourceIndexType>();
       int ServiceSearchParameterId = SearchParameter.Id;
@@ -21,34 +23,36 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is Integer Integer)
         {
-          SetInteger(Integer, ResourceIndexList);
+          SetInteger<ResourceCurrentType, ResourceIndexType>(Integer, ResourceIndexList);
         }
         else if (Poco.FhirValue is PositiveInt PositiveInt)
         {
-          SetPositiveInt(PositiveInt, ResourceIndexList);
+          SetPositiveInt<ResourceCurrentType, ResourceIndexType>(PositiveInt, ResourceIndexList);
         }
         else if (Poco.FhirValue is Duration Duration)
         {
-          SetDuration(Duration, ResourceIndexList);
+          SetDuration<ResourceCurrentType, ResourceIndexType>(Duration, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirDecimal FhirDecimal)
         {
-          SetFhirDecimal(FhirDecimal, ResourceIndexList);
+          SetFhirDecimal<ResourceCurrentType, ResourceIndexType>(FhirDecimal, ResourceIndexList);
         }
         else
         {
-          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
-    private static void SetFhirDecimal(FhirDecimal FhirDecimal, List<ResourceIndexType> ResourceIndexList)
+    private static void SetFhirDecimal<ResourceCurrentType, ResourceIndexType>(FhirDecimal FhirDecimal, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (FhirDecimal.Value.HasValue)
       {
@@ -58,7 +62,9 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetDuration(Duration Duration, List<ResourceIndexType> ResourceIndexList)
+    private static void SetDuration<ResourceCurrentType, ResourceIndexType>(Duration Duration, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (Duration.Value.HasValue)
       {
@@ -76,7 +82,9 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetPositiveInt(PositiveInt PositiveInt, List<ResourceIndexType> ResourceIndexList)
+    private static void SetPositiveInt<ResourceCurrentType, ResourceIndexType>(PositiveInt PositiveInt, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (PositiveInt.Value.HasValue)
       {
@@ -90,7 +98,9 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetInteger(Integer Integer, List<ResourceIndexType> ResourceIndexList)
+    private static void SetInteger<ResourceCurrentType, ResourceIndexType>(Integer Integer, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (Integer.Value.HasValue)
       {

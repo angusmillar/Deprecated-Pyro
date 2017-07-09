@@ -101,13 +101,20 @@
     <Compile Include="DbModel\UnitOfWork\UnitOfWorkCodeGenerated.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IndexSetterFactory.cs" />
+    <Compile Include="IndexSetter\IDateTimeSetter.cs" />
+    <Compile Include="IndexSetter\IIndexSetterFactory.cs" />
     <Compile Include="IndexSetter\DateTimeSetter.cs" />
-    <Compile Include="IndexSetter\ReferenceSetter .cs" />
+    <Compile Include="IndexSetter\INumberSetter.cs" />
+    <Compile Include="IndexSetter\IQuantitySetter.cs" />
+    <Compile Include="IndexSetter\IReferenceSetter.cs" />
+    <Compile Include="IndexSetter\IStringSetter.cs" />
+    <Compile Include="IndexSetter\ITokenSetter.cs" />
+    <Compile Include="IndexSetter\IUriSetter.cs" />
+    <Compile Include="IndexSetter\NumberSetter.cs" />
+    <Compile Include="IndexSetter\ReferenceSetter.cs" />
     <Compile Include="IndexSetter\UriSetter.cs" />
     <Compile Include="IndexSetter\TokenSetter.cs" />
     <Compile Include="IndexSetter\QuantitySetter.cs" />
-    <Compile Include="IndexSetter\NumberSetter.cs" />
     <Compile Include="IndexSetter\StringSetter.cs" />
     <Compile Include="Migrations\201706130247261_First.cs" />
     <Compile Include="Migrations\201706130247261_First.Designer.cs">

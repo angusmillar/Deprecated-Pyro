@@ -29,6 +29,7 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.DbModel.EntityBase;
   using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
+  using Pyro.DataLayer.IndexSetter;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -50,6 +51,22 @@ namespace Pyro.Web.App_Start
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
+      //Singleton: Index Setters
+      container.Register<IIndexSetterFactory, Pyro.Web.CompositionRoot.IndexSetterFactory>(Lifestyle.Singleton);
+      container.Register<IReferenceSetter, ReferenceSetter>(Lifestyle.Scoped);
+      container.Register<INumberSetter, NumberSetter>(Lifestyle.Singleton);
+      container.Register<IDateTimeSetter, DateTimeSetter>(Lifestyle.Singleton);
+      container.Register<IQuantitySetter, QuantitySetter>(Lifestyle.Singleton);
+      container.Register<IStringSetter, StringSetter>(Lifestyle.Singleton);
+      container.Register<ITokenSetter, TokenSetter>(Lifestyle.Singleton);
+      container.Register<IUriSetter, UriSetter>(Lifestyle.Singleton);
+
+
+
+
+
+
+
 
 
       //Transient

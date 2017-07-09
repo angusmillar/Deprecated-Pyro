@@ -217,9 +217,8 @@ namespace Pyro.Common.BusinessEntities.Service
           {
             if (Para.Value != null && Para.Value is ResourceReference Ref)
             {
-              IFhirRequestUri FhirUri;
-              string ErrorMessageFhirUri;
-              if (UriSupport.FhirRequestUri.TryParse(RequestUri.FhirRequestUri.PrimaryServiceRootServers.OriginalString, Ref.Reference, out FhirUri, out ErrorMessageFhirUri))
+              IFhirRequestUri FhirUri = ICommonFactory.CreateFhirRequestUri();
+              if (FhirUri.Parse(Ref.Reference))
               {
                 if (FhirUri.IsRelativeToServer)
                 {
@@ -335,7 +334,7 @@ namespace Pyro.Common.BusinessEntities.Service
               }
               else
               {
-                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value was not able to be parsed, Error message: {ErrorMessageFhirUri}");
+                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value was not able to be parsed, Error message: {FhirUri.ParseErrorMessage}");
                 ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                 ResourceServiceOutcome.ResourceResult = OpOutCome;
                 ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;

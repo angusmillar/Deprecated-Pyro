@@ -8,12 +8,12 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class TokenSetter<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+  public class TokenSetter : ITokenSetter
   {
-
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public TokenSetter() { }
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       var ResourceIndexList = new List<ResourceIndexType>();
       var ServiceSearchParameterId = SearchParameter.Id;
@@ -22,64 +22,64 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is Code Code)
         {
-          SetCode(Code, ResourceIndexList);
+          SetCode<ResourceCurrentType, ResourceIndexType>(Code, ResourceIndexList);
         }
         else if (Poco.FhirValue is CodeableConcept CodeableConcept)
         {
-          SetCodeableConcept(CodeableConcept, ResourceIndexList);
+          SetCodeableConcept<ResourceCurrentType, ResourceIndexType>(CodeableConcept, ResourceIndexList);
         }
         else if (Poco.FhirValue is Coding Coding)
         {
-          SetCoding(Coding, ResourceIndexList);
+          SetCoding<ResourceCurrentType, ResourceIndexType>(Coding, ResourceIndexList);
         }
         else if (Poco.FhirValue.TypeName == "code")
         {
           if (Poco.Value is string CodeValue)
-            SetCodeTypeT(CodeValue, ResourceIndexList);
+            SetCodeTypeT<ResourceCurrentType, ResourceIndexType>(CodeValue, ResourceIndexList);
         }
         else if (Poco.FhirValue is ContactPoint ContactPoint)
         {
-          SetContactPoint(ContactPoint, ResourceIndexList);
+          SetContactPoint<ResourceCurrentType, ResourceIndexType>(ContactPoint, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirBoolean FhirBoolean)
         {
-          SetFhirBoolean(FhirBoolean, ResourceIndexList);
+          SetFhirBoolean<ResourceCurrentType, ResourceIndexType>(FhirBoolean, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirDateTime FhirDateTime)
         {
-          SetFhirDateTime(FhirDateTime, ResourceIndexList);
+          SetFhirDateTime<ResourceCurrentType, ResourceIndexType>(FhirDateTime, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirString FhirString)
         {
-          SetFhirString(FhirString, ResourceIndexList);
+          SetFhirString<ResourceCurrentType, ResourceIndexType>(FhirString, ResourceIndexList);
         }
         else if (Poco.FhirValue is Id Id)
         {
-          SetId(Id, ResourceIndexList);
+          SetId<ResourceCurrentType, ResourceIndexType>(Id, ResourceIndexList);
         }
         else if (Poco.FhirValue is Identifier Identifier)
         {
-          SetIdentifier(Identifier, ResourceIndexList);
+          SetIdentifier<ResourceCurrentType, ResourceIndexType>(Identifier, ResourceIndexList);
         }
         else if (Poco.FhirValue is PositiveInt PositiveInt)
         {
-          SetPositiveInt(PositiveInt, ResourceIndexList);
+          SetPositiveInt<ResourceCurrentType, ResourceIndexType>(PositiveInt, ResourceIndexList);
         }
         else if (Poco.FhirValue is Quantity Quantity)
         {
-          SetQuantity(Quantity, ResourceIndexList);
+          SetQuantity<ResourceCurrentType, ResourceIndexType>(Quantity, ResourceIndexList);
         }
         else if (Poco.FhirValue is Range Range)
         {
-          SetRange(Range, ResourceIndexList);
+          SetRange<ResourceCurrentType, ResourceIndexType>(Range, ResourceIndexList);
         }
         else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
         {
-          SePositionComponent(PositionComponent, ResourceIndexList);
+          SePositionComponent<ResourceCurrentType, ResourceIndexType>(PositionComponent, ResourceIndexList);
         }
         else
         {
-          throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
@@ -91,19 +91,19 @@ namespace Pyro.DataLayer.IndexSetter
       else if (oElement.Value is bool Bool)
       {
         var FhirBool = new FhirBoolean(Bool);
-        SetFhirBoolean(FhirBool, ResourceIndexList);
+        SetFhirBoolean<ResourceCurrentType, ResourceIndexType>(FhirBool, ResourceIndexList);
       }
       else
       {
-        throw new FormatException($"Unkown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
       ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
       return ResourceIndexList;
-
     }
 
-
-    private static void SetCodeTypeT(string CodeValue, List<ResourceIndexType> ResourceIndexList)
+    private void SetCodeTypeT<ResourceCurrentType, ResourceIndexType>(string CodeValue, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(CodeValue))
       {
@@ -112,8 +112,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SePositionComponent(Location.PositionComponent PositionComponent, List<ResourceIndexType> ResourceIndexList)
+    private void SePositionComponent<ResourceCurrentType, ResourceIndexType>(Location.PositionComponent PositionComponent, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (PositionComponent.Latitude != null && PositionComponent.Latitude.HasValue && PositionComponent.Longitude != null && PositionComponent.Longitude.HasValue)
       {
@@ -137,16 +138,18 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetRange(Range range, List<ResourceIndexType> ResourceIndexList)
+    private void SetRange<ResourceCurrentType, ResourceIndexType>(Range range, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       //There is no way to sensibly turn a Range into a Token type, so we just do nothing
       //and ignore setting the index. The reason this method is here is due to some search parameters
       //being a choice type where one of the choices is valid for token, like Boolean, yet others are 
       //not like Range as seen for the 'value' search parameter on the 'Group' resource .        
     }
-
-    private static void SetQuantity(Quantity Quantity, List<ResourceIndexType> ResourceIndexList)
+    private void SetQuantity<ResourceCurrentType, ResourceIndexType>(Quantity Quantity, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (Quantity.Value.HasValue)
       {
@@ -159,8 +162,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetPositiveInt(PositiveInt PositiveInt, List<ResourceIndexType> ResourceIndexList)
+    private void SetPositiveInt<ResourceCurrentType, ResourceIndexType>(PositiveInt PositiveInt, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (PositiveInt.Value.HasValue)
       {
@@ -170,8 +174,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetIdentifier(Identifier Identifier, List<ResourceIndexType> ResourceIndexList)
+    private void SetIdentifier<ResourceCurrentType, ResourceIndexType>(Identifier Identifier, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Identifier.Value))
       {
@@ -184,8 +189,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetId(Id Id, List<ResourceIndexType> ResourceIndexList)
+    private void SetId<ResourceCurrentType, ResourceIndexType>(Id Id, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Id.Value))
       {
@@ -195,8 +201,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetFhirString(FhirString FhirString, List<ResourceIndexType> ResourceIndexList)
+    private void SetFhirString<ResourceCurrentType, ResourceIndexType>(FhirString FhirString, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
@@ -206,8 +213,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetFhirDateTime(FhirDateTime FhirDateTime, List<ResourceIndexType> ResourceIndexList)
+    private void SetFhirDateTime<ResourceCurrentType, ResourceIndexType>(FhirDateTime FhirDateTime, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(FhirDateTime.Value))
       {
@@ -220,8 +228,9 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-
-    private static void SetFhirBoolean(FhirBoolean FhirBoolean, List<ResourceIndexType> ResourceIndexList)
+    private void SetFhirBoolean<ResourceCurrentType, ResourceIndexType>(FhirBoolean FhirBoolean, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (FhirBoolean.Value != null)
       {
@@ -231,8 +240,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetContactPoint(ContactPoint ContactPoint, List<ResourceIndexType> ResourceIndexList)
+    private void SetContactPoint<ResourceCurrentType, ResourceIndexType>(ContactPoint ContactPoint, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(ContactPoint.Value))
       {
@@ -245,8 +255,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetCoding(Coding Coding, List<ResourceIndexType> ResourceIndexList)
+    private void SetCoding<ResourceCurrentType, ResourceIndexType>(Coding Coding, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Coding.Code))
       {
@@ -259,8 +270,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetCodeableConcept(CodeableConcept CodeableConcept, List<ResourceIndexType> ResourceIndexList)
+    private void SetCodeableConcept<ResourceCurrentType, ResourceIndexType>(CodeableConcept CodeableConcept, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (CodeableConcept.Coding.Count == 0)
       {
@@ -274,12 +286,13 @@ namespace Pyro.DataLayer.IndexSetter
       {
         foreach (Coding Code in CodeableConcept.Coding)
         {
-          SetCoding(Code, ResourceIndexList);
+          SetCoding<ResourceCurrentType, ResourceIndexType>(Code, ResourceIndexList);
         }
       }
     }
-
-    private static void SetCode(Code Code, List<ResourceIndexType> ResourceIndexList)
+    private void SetCode<ResourceCurrentType, ResourceIndexType>(Code Code, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Code.Value))
       {

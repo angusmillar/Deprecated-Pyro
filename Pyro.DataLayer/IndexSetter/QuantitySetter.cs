@@ -7,12 +7,13 @@ using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class QuantitySetter<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+  public class QuantitySetter : IQuantitySetter
   {
+    public QuantitySetter() { }
 
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       var ResourceIndexList = new List<ResourceIndexType>();
       var ServiceSearchParameterId = SearchParameter.Id;
@@ -21,23 +22,23 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is Money Money)
         {
-          SetMoney(Money, ResourceIndexList);
+          SetMoney<ResourceCurrentType, ResourceIndexType>(Money, ResourceIndexList);
         }
         else if (Poco.FhirValue is SimpleQuantity SimpleQuantity)
         {
-          SetSimpleQuantity(SimpleQuantity, ResourceIndexList);
+          SetSimpleQuantity<ResourceCurrentType, ResourceIndexType>(SimpleQuantity, ResourceIndexList);
         }
         else if (Poco.FhirValue is Quantity Quantity)
         {
-          SetQuantity(Quantity, ResourceIndexList);
+          SetQuantity<ResourceCurrentType, ResourceIndexType>(Quantity, ResourceIndexList);
         }
         else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
         {
-          SetPositionComponent(PositionComponent, ResourceIndexList);
+          SetPositionComponent<ResourceCurrentType, ResourceIndexType>(PositionComponent, ResourceIndexList);
         }
         else if (Poco.FhirValue is Range Range)
         {
-          SetRange(Range, ResourceIndexList);
+          SetRange<ResourceCurrentType, ResourceIndexType>(Range, ResourceIndexList);
         }
         else
         {
@@ -52,7 +53,9 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetRange(Range Range, List<ResourceIndexType> ResourceIndexList)
+    private void SetRange<ResourceCurrentType, ResourceIndexType>(Range Range, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       //If either value is missing then their is no range as the Range data type uses SimpleQuantity 
       //which has no Comparator property. Therefore there is no such thing as >10 or <100, their must be to values
@@ -75,8 +78,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetPositionComponent(Location.PositionComponent PositionComponent, List<ResourceIndexType> ResourceIndexList)
+    private void SetPositionComponent<ResourceCurrentType, ResourceIndexType>(Location.PositionComponent PositionComponent, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       //The only Quantity for Location.PositionComponent is in the Location resource and it's use if a little odd.
       //You never actual store a 'near-distance' search parameter as an index but rather it is used in conjunction with the 
@@ -86,8 +90,9 @@ namespace Pyro.DataLayer.IndexSetter
       //Where we need to work out the distance say in km between 'near' [latitude]:[longitude] we have stored in the db index and the [latitude]:[longitude] given in the search url's 'near'.
       //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.     
     }
-
-    private static void SetQuantity(Quantity Quantity, List<ResourceIndexType> ResourceIndexList)
+    private void SetQuantity<ResourceCurrentType, ResourceIndexType>(Quantity Quantity, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (Quantity.Value.HasValue)
       {
@@ -128,8 +133,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetSimpleQuantity(SimpleQuantity SimpleQuantity, List<ResourceIndexType> ResourceIndexList)
+    private void SetSimpleQuantity<ResourceCurrentType, ResourceIndexType>(SimpleQuantity SimpleQuantity, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (SimpleQuantity.Value.HasValue)
       {
@@ -171,8 +177,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetMoney(Money Money, List<ResourceIndexType> ResourceIndexList)
+    private void SetMoney<ResourceCurrentType, ResourceIndexType>(Money Money, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (Money.Value.HasValue)
       {

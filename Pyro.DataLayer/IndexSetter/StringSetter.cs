@@ -9,13 +9,14 @@ using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public static class StringSetter<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+  public class StringSetter : IStringSetter
   {
     private const string ItemDelimeter = " ";
+    public StringSetter() { }
 
-    public static IList<ResourceIndexType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       var ResourceIndexList = new List<ResourceIndexType>();
       var ServiceSearchParameterId = SearchParameter.Id;
@@ -24,23 +25,23 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is FhirString FhirString)
         {
-          SetFhirString(FhirString, ResourceIndexList);
+          SetFhirString<ResourceCurrentType, ResourceIndexType>(FhirString, ResourceIndexList);
         }
         else if (Poco.FhirValue is Address address)
         {
-          SetAddress(address, ResourceIndexList);
+          SetAddress<ResourceCurrentType, ResourceIndexType>(address, ResourceIndexList);
         }
         else if (Poco.FhirValue is HumanName HumanName)
         {
-          SetHumanName(HumanName, ResourceIndexList);
+          SetHumanName<ResourceCurrentType, ResourceIndexType>(HumanName, ResourceIndexList);
         }
         else if (Poco.FhirValue is Markdown Markdown)
         {
-          SetMarkdown(Markdown, ResourceIndexList);
+          SetMarkdown<ResourceCurrentType, ResourceIndexType>(Markdown, ResourceIndexList);
         }
         else if (Poco.FhirValue is Annotation Annotation)
         {
-          SetAnnotation(Annotation, ResourceIndexList);
+          SetAnnotation<ResourceCurrentType, ResourceIndexType>(Annotation, ResourceIndexList);
         }
         else
         {
@@ -67,7 +68,9 @@ namespace Pyro.DataLayer.IndexSetter
       return ResourceIndexList;
     }
 
-    private static void SetFhirString(FhirString FhirString, List<ResourceIndexType> ResourceIndexList)
+    private void SetFhirString<ResourceCurrentType, ResourceIndexType>(FhirString FhirString, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
@@ -76,7 +79,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private static void SetAnnotation(Annotation Annotation, List<ResourceIndexType> ResourceIndexList)
+    private void SetAnnotation<ResourceCurrentType, ResourceIndexType>(Annotation Annotation, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
@@ -85,7 +90,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private static void SetMarkdown(Markdown Markdown, List<ResourceIndexType> ResourceIndexList)
+    private void SetMarkdown<ResourceCurrentType, ResourceIndexType>(Markdown Markdown, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
@@ -94,7 +101,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private static void SetHumanName(HumanName HumanName, List<ResourceIndexType> ResourceIndexList)
+    private void SetHumanName<ResourceCurrentType, ResourceIndexType>(HumanName HumanName, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       string FullName = string.Empty;
       foreach (var Given in HumanName.Given)
@@ -114,8 +123,9 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-
-    private static void SetAddress(Address Address, List<ResourceIndexType> ResourceIndexList)
+    private void SetAddress<ResourceCurrentType, ResourceIndexType>(Address Address, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
       string FullAdddress = string.Empty;
       foreach (var Line in Address.Line)
