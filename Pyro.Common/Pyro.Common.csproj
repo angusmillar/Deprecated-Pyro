@@ -127,8 +127,8 @@
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
     <Compile Include="BusinessEntities\Service\ISearchParameterService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
-    <Compile Include="BusinessEntities\UriSupport\DtoRequestUriForDi.cs" />
-    <Compile Include="BusinessEntities\UriSupport\FhirRequestUriForDI.cs" />
+    <Compile Include="BusinessEntities\UriSupport\DtoRequestUri.cs" />
+    <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
     <Compile Include="CompositionRoot\ICommonFactory.cs" />
     <Compile Include="CompositionRoot\IResourceRepositoryFactory.cs" />
     <Compile Include="Interfaces\Repositories\ICommonResourceRepository.cs" />
@@ -149,7 +149,6 @@
     <Compile Include="Interfaces\Dto\IServiceSearchParameterTargetResource.cs" />
     <Compile Include="Interfaces\Service\IDeleteManyHistoryIndexesService.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
-    <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirRequestUri.cs" />
     <Compile Include="Cache\CacheCommon.cs" />
     <Compile Include="Enum\EnumUtility.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParameterService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceOutcome.cs" />
-    <Compile Include="BusinessEntities\UriSupport\DtoRequestUri.cs" />
     <Compile Include="CommonFactory.cs" />
     <Compile Include="Database\StaticDatabaseInfo.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />

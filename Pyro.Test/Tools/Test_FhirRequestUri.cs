@@ -6,29 +6,49 @@ using NUnit.Framework.Constraints;
 using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Extentions;
+using Pyro.Common.ServiceRoot;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Test.Tools
 {
   [TestFixture]
   [Category("Tool: FhirRequestUri")]
   class Test_FhirRequestUri
-  {    
+  {
     private string PrimaryServiceRootLocal = "http://localhost:8888/test/stu3/fhir";
     private string PrimaryServiceRootWeb = "http://pyrohealth.net/test/stu3/fhir";
     private string PrimaryServiceRootRemote = "http://SomeOther/one/two/three/fhir";
+    private Moq.Mock<IPrimaryServiceRootCache> MokPrimaryServiceRootCache = null;
+
+
+    private void SetServiceRootMok(string PrimaryServiceRoot)
+    {
+      Moq.Mock<IDtoRootUrlStore> MokDtoRootUrlStore = new Moq.Mock<IDtoRootUrlStore>();
+      MokDtoRootUrlStore.Setup(x => x.Url).Returns(PrimaryServiceRoot);
+      MokDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(PrimaryServiceRoot));
+      MokDtoRootUrlStore.Setup(x => x.Id).Returns(1);
+      MokDtoRootUrlStore.Setup(x => x.IsServersPrimaryUrlRoot).Returns(true);
+
+      MokPrimaryServiceRootCache = new Moq.Mock<IPrimaryServiceRootCache>();
+      MokPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromDatabase()).Returns(MokDtoRootUrlStore.Object);
+      MokPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromWebConfig()).Returns(PrimaryServiceRoot);
+    }
 
     [Test]
     public void Test_BasicLocal()
     {
       //Arrange
       // URl : Http://localhost:50579/fhirapi/Organization/1
-      string Request = PrimaryServiceRootLocal + "/Patient/10";
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      string Request = HttpsPrimaryServiceRootLocal + "/Patient/10";
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
-      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootLocal);
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
       Assert.AreEqual(Result.ResourseName, "Patient");
       Assert.AreEqual(Result.ResourceId, "10");
       Assert.AreEqual(Result.IsRelativeToServer, true);
@@ -37,16 +57,20 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.OperationName, null);
     }
 
+
     [Test]
     public void Test_BasicWeb()
     {
       //Arrange      
       string Request = PrimaryServiceRootWeb + "/Patient/10";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
       //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.ResourseName, "Patient");
       Assert.AreEqual(Result.ResourceId, "10");
@@ -60,11 +84,14 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootRemote + "/Patient/10";
-      
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      SetServiceRootMok(PrimaryServiceRootLocal);
+
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootRemote.OriginalString, PrimaryServiceRootRemote);
       Assert.AreEqual(Result.ResourseName, "Patient");
       Assert.AreEqual(Result.ResourceId, "10");
@@ -77,11 +104,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = "#10";
+      SetServiceRootMok(PrimaryServiceRootLocal);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
-      //Assert      
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.IsContained, true);
       Assert.AreEqual(Result.ResourceId, "10");
       Assert.AreEqual(Result.ResourseName, null);
@@ -94,11 +123,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = "Patient/#10";
+      SetServiceRootMok(PrimaryServiceRootLocal);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
-      //Assert      
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.IsContained, true);
       Assert.AreEqual(Result.ResourceId, "10");
       Assert.AreEqual(Result.ResourseName, "Patient");
@@ -110,11 +141,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootRemote + "/Patient/10/_history/20";
+      SetServiceRootMok(PrimaryServiceRootLocal);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootRemote.OriginalString, PrimaryServiceRootRemote);
       Assert.AreEqual(Result.IsHistoryReferance, true);
       Assert.AreEqual(Result.VersionId, "20");
@@ -126,11 +159,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootRemote + "/Patient/10/_history";
+      SetServiceRootMok(PrimaryServiceRootLocal);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootRemote.OriginalString, PrimaryServiceRootRemote);
       Assert.AreEqual(Result.IsHistoryReferance, true);
       Assert.AreEqual(Result.VersionId, null);
@@ -142,11 +177,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = "Patient/10/_history/20";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsHistoryReferance, true);
       Assert.AreEqual(Result.VersionId, "20");
@@ -158,12 +195,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootRemote + "/$SomeOperation?given=john&family=smith";
+      SetServiceRootMok(PrimaryServiceRootLocal);
 
-
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootLocal, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootRemote.OriginalString, PrimaryServiceRootRemote);
       Assert.AreEqual(Result.IsRelativeToServer, false);
       Assert.AreEqual(Result.IsOperation, true);
@@ -177,17 +215,18 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootWeb + "/Patient/$SomeOperation?given=john&family=smith";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsRelativeToServer, true);
       Assert.AreEqual(Result.IsOperation, true);
-      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationScope.Resource);      
-      Assert.AreEqual(Result.OperationName, "SomeOperation");      
+      Assert.AreEqual(Result.OperationType, Pyro.Common.Enum.FhirOperationEnum.OperationScope.Resource);
+      Assert.AreEqual(Result.OperationName, "SomeOperation");
       Assert.AreEqual(Result.Query, "given=john&family=smith");
     }
 
@@ -196,12 +235,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange      
       string Request = PrimaryServiceRootWeb + "/Patient/10/$SomeOperation?given=john&family=smith";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsRelativeToServer, true);
       Assert.AreEqual(Result.IsOperation, true);
@@ -216,11 +256,13 @@ namespace Pyro.Test.Tools
       //Arrange      
       //Http://localhost:50579/fhirapi/Organization/_search
       string Request = PrimaryServiceRootWeb + "/Patient/_search";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsHistoryReferance, false);
       Assert.AreEqual(Result.IsFormDataSearch, true);
@@ -232,28 +274,29 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = PrimaryServiceRootWeb + "/Patient/10/RUBBISH";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      try
-      {
-        var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
-      }
-      catch(FormatException Exec)
-      {
-        Assert.AreEqual(Exec.Message, "The URI has extra unknown content near the end of : 'RUBBISH'. The full URI was: 'http://pyrohealth.net/test/stu3/fhir/Patient/10/RUBBISH'");
-      }      
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsFalse(Result.Parse(Request));
+      Assert.IsTrue(Result.ErrorInParseing);
+      Assert.IsTrue(!string.IsNullOrWhiteSpace(Result.ParseErrorMessage));
     }
-    
+
     [Test]
     public void Test_urn_uuid()
     {
       //Arrange            
       string Request = "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsUrn, true);
       Assert.AreEqual(Result.UrnType, UrnType.uuid);
@@ -265,11 +308,13 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = "urn:oid:1.2.36.1.2001.1001.101";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      var Result = Common.CommonFactory.GetFhirRequestUri(PrimaryServiceRootWeb, Request);
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
 
       //Assert
+      Assert.IsTrue(Result.Parse(Request));
       Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, PrimaryServiceRootWeb);
       Assert.AreEqual(Result.IsUrn, true);
       Assert.AreEqual(Result.UrnType, UrnType.oid);
@@ -294,16 +339,16 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = "urn:oid:1.2.36.1.2001.1001.101";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      IFhirRequestUri Result;
-      string ErrorMessage;
-      if (FhirRequestUri.TryParse(PrimaryServiceRootWeb, Request, out Result, out ErrorMessage))
-      {
-        Assert.AreEqual(Result.Urn, "urn:oid:1.2.36.1.2001.1001.101");
-        Assert.AreEqual(Result.IsUrn, true);
-        Assert.AreEqual(Result.UrnType, UrnType.oid);
-      }
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.Urn, "urn:oid:1.2.36.1.2001.1001.101");
+      Assert.AreEqual(Result.IsUrn, true);
+      Assert.AreEqual(Result.UrnType, UrnType.oid);
     }
 
     [Test]
@@ -311,14 +356,14 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = "urn:oid:1.2.06.0.2001.1001.101";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      IFhirRequestUri Result;
-      string ErrorMessage;
-      if (!FhirRequestUri.TryParse(PrimaryServiceRootWeb, Request, out Result, out ErrorMessage))
-      {
-        Assert.AreEqual(ErrorMessage, "The urn:oid value given is not valid: urn:oid:1.2.06.0.2001.1001.101");
-      }             
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsFalse(Result.Parse(Request));
+      Assert.AreEqual(Result.ParseErrorMessage, "The urn:oid value given is not valid: urn:oid:1.2.06.0.2001.1001.101");
     }
 
     [Test]
@@ -326,16 +371,16 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      IFhirRequestUri Result;
-      string ErrorMessage;
-      if (FhirRequestUri.TryParse(PrimaryServiceRootWeb, Request, out Result, out ErrorMessage))
-      {
-        Assert.AreEqual(Result.Urn, "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a");
-        Assert.AreEqual(Result.IsUrn, true);
-        Assert.AreEqual(Result.UrnType, UrnType.uuid);
-      }
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.Urn, "urn:uuid:61ebe359-bfdc-4613-8bf2-c5e300945f0a");
+      Assert.AreEqual(Result.IsUrn, true);
+      Assert.AreEqual(Result.UrnType, UrnType.uuid);
     }
 
     [Test]
@@ -343,14 +388,15 @@ namespace Pyro.Test.Tools
     {
       //Arrange            
       string Request = "urn:uuid:61ebe359-XXXXX-bfdc-4613-8bf2-c5e300945f0a";
+      SetServiceRootMok(PrimaryServiceRootWeb);
 
-      //Act
-      IFhirRequestUri Result;
-      string ErrorMessage;
-      if (!FhirRequestUri.TryParse(PrimaryServiceRootWeb, Request, out Result, out ErrorMessage))
-      {
-        Assert.AreEqual(ErrorMessage, "The urn:uuid value given is not valid: urn:uuid:61ebe359-XXXXX-bfdc-4613-8bf2-c5e300945f0a");
-      }
+      //Act      
+      var Result = new FhirRequestUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsFalse(Result.Parse(Request));
+      Assert.AreEqual(Result.ParseErrorMessage, "The urn:uuid value given is not valid: urn:uuid:61ebe359-XXXXX-bfdc-4613-8bf2-c5e300945f0a");
+      Assert.IsTrue(Result.ErrorInParseing);
     }
 
 

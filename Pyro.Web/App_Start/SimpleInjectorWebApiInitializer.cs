@@ -61,24 +61,18 @@ namespace Pyro.Web.App_Start
       container.Register<ITokenSetter, TokenSetter>(Lifestyle.Singleton);
       container.Register<IUriSetter, UriSetter>(Lifestyle.Singleton);
 
-
-
-
-
-
-
-
-
       //Transient
       container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
-      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUriForDi>(Lifestyle.Transient);
-      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUriForDi>(Lifestyle.Transient);
+      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUri>(Lifestyle.Transient);
+      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUri>(Lifestyle.Transient);
       container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(Lifestyle.Transient);
 
       container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
       container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
       container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
+
+      container.Register<IFhirNarativeGenerationSupport, FhirNarativeGenerationSupport>(Lifestyle.Transient);
 
 
       //Scoped      

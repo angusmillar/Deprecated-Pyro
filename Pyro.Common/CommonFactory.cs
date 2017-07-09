@@ -20,17 +20,6 @@ namespace Pyro.Common
 {
   public static class CommonFactory
   {
-
-    public static IDtoRequestUri GetRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, IFhirRequestUri FhirRequestUri)
-    {
-      return new DtoRequestUri(PrimaryRootUrlStore, FhirRequestUri);
-    }
-
-    public static IFhirRequestUri GetFhirRequestUri(string PrimaryServiceRoot, string RequestUri)
-    {
-      return new FhirRequestUri(PrimaryServiceRoot, RequestUri);
-    }
-
     public static IDtoRootUrlStore GetRootUrlStore()
     {
       return new DtoRootUrlStore();

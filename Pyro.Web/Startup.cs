@@ -37,7 +37,7 @@ namespace Pyro.Web
         Console.WriteLine($"------------------------- Headers -------------------------------");
         Console.WriteLine("");
         foreach (var Head in HeaderDic)
-        {          
+        {
           Console.WriteLine($"{Head.Key.PadRight(16, ' ')}: {string.Join(",", Head.Value)}");
         }
         Console.WriteLine("");
@@ -60,12 +60,10 @@ namespace Pyro.Web
       //AreaRegistration.RegisterAllAreas();
       //GlobalConfiguration.Configure(WebApiConfig.Register);
       //--------------------------------------------------------
-      
-      
 
       WebApiConfig.Register(HttpConfiguration);
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-      RegisterRoutes();      
+      RegisterRoutes();
       BundleConfig.RegisterBundles(BundleTable.Bundles);
 
       ConfigureAuth(app);

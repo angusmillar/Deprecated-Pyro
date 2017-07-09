@@ -7,21 +7,30 @@ using Pyro.Common.BusinessEntities.UriSupport;
 using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.ServiceRoot;
 
 namespace Pyro.Common.BusinessEntities.UriSupport
 {
   public class DtoRequestUri : IDtoRequestUri
-  {    
-    public IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
-    public IFhirRequestUri FhirRequestUri { get; set; }
+  {
+    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
 
-    internal DtoRequestUri() { }
-
-    internal DtoRequestUri(IDtoRootUrlStore PrimaryRootUrlStore, IFhirRequestUri FhirRequestUri)
+    public DtoRequestUri(IPrimaryServiceRootCache IPrimaryServiceRootCache)
     {
-      this.PrimaryRootUrlStore = PrimaryRootUrlStore;
-      this.FhirRequestUri = FhirRequestUri;
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
     }
-    
+
+    public IDtoRootUrlStore PrimaryRootUrlStore
+    {
+      get
+      {
+        return IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase();
+      }
+      set
+      {
+        throw new NotImplementedException();
+      }
+    }
+    public IFhirRequestUri FhirRequestUri { get; set; }
   }
 }

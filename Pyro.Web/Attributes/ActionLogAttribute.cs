@@ -2,6 +2,7 @@
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.UriSupport;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ using System.Web.Http.Filters;
 namespace Pyro.Web.Attributes
 {
   public class ActionLogAttribute : ActionFilterAttribute
-  {    
+  {
     private string DateTimeKey = "ActionStartDateTime";
     private string StopwatchKey = "ActionStopwatch";
     static public string ResourceIdentityKey = "ResourceIdentity";
@@ -24,12 +25,8 @@ namespace Pyro.Web.Attributes
 
     public override void OnActionExecuting(HttpActionContext actionContext)
     {
-      //var _FhirServiceNegotiator = actionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;      
-      //var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
-      
       actionContext.Request.Properties[DateTimeKey] = DateTime.Now;
       actionContext.Request.Properties[StopwatchKey] = System.Diagnostics.Stopwatch.StartNew();
-
       base.OnActionExecuting(actionContext);
     }
 
@@ -37,6 +34,7 @@ namespace Pyro.Web.Attributes
     {
       var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
       var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
+      var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
 
       using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
       {
@@ -49,10 +47,8 @@ namespace Pyro.Web.Attributes
           TimeSpan duration = stopwatch.Elapsed;
 
           ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
-          var Cache = new Pyro.Common.Cache.CacheCommon();
-          IDtoRootUrlStore DtoRootUrlStore = Cache.GetPrimaryRootUrlStore(ResourceServices);
-          IFhirRequestUri FhirRequestUri = Common.CommonFactory.GetFhirRequestUri(DtoRootUrlStore.Url, actionExecutedContext.Request.RequestUri.OriginalString);          
-          IDtoRequestUri DtoRequestUri = Common.CommonFactory.GetRequestUri(DtoRootUrlStore, FhirRequestUri);
+          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
+
 
           //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
 
