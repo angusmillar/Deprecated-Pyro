@@ -24,7 +24,7 @@ namespace Pyro.Web.Controllers
       this.IGlobalProperties = IGlobalProperties;
       this.IPyroService = IPyroService;
       this.Log = Log;
-      Log.Info($"Test logging");
+      //Log.Info($"Test logging");
     }
 
     //Service Root Base
