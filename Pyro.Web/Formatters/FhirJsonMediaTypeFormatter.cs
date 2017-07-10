@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace Pyro.Web.Formatters
 {
-  public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter, IFhirJsonMediaTypeFormatter
+  public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter
   {
     public FhirJsonMediaTypeFormatter()
       : base()

@@ -52,9 +52,6 @@ namespace Pyro.Web.App_Start
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
 
-      container.Register<IFhirJsonMediaTypeFormatter, FhirJsonMediaTypeFormatter>(Lifestyle.Singleton);
-      container.Register<IFhirXmlMediaTypeFormatter, FhirXmlMediaTypeFormatter>(Lifestyle.Singleton);
-
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
 

@@ -26,24 +26,19 @@ namespace Pyro.Web
       //Content-Type: application/fhir+xml
       //Accept: application/fhir+xml      
       config.Formatters.Clear();
-      config.Formatters.Add((Formatters.FhirJsonMediaTypeFormatter)config.DependencyResolver.GetService(typeof(Formatters.FhirJsonMediaTypeFormatter)));
-      //config.Formatters.Add(new Formatters.FhirJsonMediaTypeFormatter());
+      config.Formatters.Add(new Formatters.FhirJsonMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
-      config.Formatters.Add((Formatters.FhirXmlMediaTypeFormatter)config.DependencyResolver.GetService(typeof(Formatters.FhirXmlMediaTypeFormatter)));
-      //config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
+      config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter());
-
-
-
-
 
 
       //Add Exception Handler
       config.Filters.Add(new Pyro.Engine.CustomException.FhirExceptionFilter());
 
-      // Web API routes
+
       config.MapHttpAttributeRoutes();
+
 
     }
   }

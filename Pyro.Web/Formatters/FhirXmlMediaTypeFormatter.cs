@@ -19,7 +19,7 @@ using Pyro.Common.BusinessEntities.Dto;
 
 namespace Pyro.Web.Formatters
 {
-  public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter, IFhirXmlMediaTypeFormatter
+  public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter
   {
 
     public FhirXmlMediaTypeFormatter()
