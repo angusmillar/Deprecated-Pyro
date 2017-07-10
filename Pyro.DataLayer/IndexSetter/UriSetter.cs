@@ -60,7 +60,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
         var ResourceIndex = new ResourceIndexType();
-        ResourceIndex.Uri = FhirUri.Value.StripHttp();
+        ResourceIndex.Uri = StringSupport.ToLowerFast(FhirUri.Value.StripHttp());
         ResourceIndexList.Add(ResourceIndex);
       }
     }

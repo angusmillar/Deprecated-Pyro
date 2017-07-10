@@ -97,7 +97,7 @@ namespace Pyro.DataLayer.Repository
     //---- PrimaryRootUrlStore -------------------------------------------------------------------
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
-      RootUrl = RootUrl.StripHttp().ToLower();
+      RootUrl = StringSupport.ToLowerFast(RootUrl.StripHttp());
       ServiceBaseUrl ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
       {
@@ -140,7 +140,7 @@ namespace Pyro.DataLayer.Repository
     /// <returns></returns>
     public ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
     {
-      ServiceRootUrl = ServiceRootUrl.StripHttp().ToLower();
+      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
       ServiceBaseUrl Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
       if (Pyro_RootUrlStore == null)
       {
@@ -164,7 +164,8 @@ namespace Pyro.DataLayer.Repository
 
     protected ServiceBaseUrl GetPyro_RootUrlStore(string ServiceRootUrl)
     {
-      return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl.StripHttp().ToLower());
+      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
+      return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl);
     }
 
     //---- ServiceSearchParameters ---------------------------------------------------------------

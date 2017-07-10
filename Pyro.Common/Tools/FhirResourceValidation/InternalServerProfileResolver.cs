@@ -26,7 +26,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
     {
       IResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
       string PrimaryServiceRoot = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
-      string RequestUriString = $"{PrimaryServiceRoot}/{ResourceType.StructureDefinition.GetLiteral()}/?url={uri}";
+      string RequestUriString = $"https://{PrimaryServiceRoot}/{ResourceType.StructureDefinition.GetLiteral()}/?url={uri}";
       Interfaces.UriSupport.IDtoRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
       Interfaces.Dto.IDtoSearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse($"url={ uri}");
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestUri, SearchParameterGeneric);

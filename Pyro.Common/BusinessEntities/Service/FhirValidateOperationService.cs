@@ -439,7 +439,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (FhirRequestUriFromUrl == null && !string.IsNullOrWhiteSpace(FromParameters.ProfileUri))
       {
         FhirRequestUriFromParameters = ICommonFactory.CreateFhirRequestUri();
-        if (FhirRequestUriFromUrl.Parse(FromParameters.ProfileUri))
+        if (FhirRequestUriFromParameters.Parse(FromParameters.ProfileUri))
         {
           ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromParameters;
           ReturnValidationOperationItems.ProfileUri = FromParameters.ProfileUri;
