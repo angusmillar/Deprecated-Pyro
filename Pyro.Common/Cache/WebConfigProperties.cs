@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using Pyro.Common.Tools;
 
 namespace Pyro.Common.Cache
 {
@@ -17,7 +18,23 @@ namespace Pyro.Common.Cache
         throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
           Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Fatal, Hl7.Fhir.Model.OperationOutcome.IssueType.Exception, Msg), Msg);
       }
-
     }
+
+    public static bool ApplicationCacheServicesActive()
+    {
+      try
+      {
+        string CacheServicesActive = ConfigurationManager.AppSettings["ApplicationCacheServicesActive"].ToString();
+        return StringSupport.StringToBoolean(CacheServicesActive);
+      }
+      catch (NullReferenceException)
+      {
+        //if not set in file then default to true;
+        return true;
+      }
+    }
+
+
+
   }
 }

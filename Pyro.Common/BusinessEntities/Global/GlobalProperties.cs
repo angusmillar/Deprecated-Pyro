@@ -12,7 +12,7 @@ namespace Pyro.Common.BusinessEntities.Global
     public GlobalProperties()
     {
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
-      _ApplicationCacheServicesActive = true;
+      _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();
       _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.BusinessEntities.Global.GlobalProperties).Assembly.Location).ProductVersion;
     }
 

@@ -69,6 +69,18 @@ namespace Pyro.Common.Tools
       return str.Substring(0, Math.Min(str.Length, maxLength));
     }
 
+    public static bool StringToBoolean(string value)
+    {
+      value = ToLowerFast(value);
+      if ((value == "true") || (value == "yes") || (value == "on") || (value == "1"))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
 
     /// <summary>
     /// Returns the string removing http:// or https://
