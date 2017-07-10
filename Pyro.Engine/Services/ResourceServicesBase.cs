@@ -45,7 +45,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
         oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Version;
         oPyroServiceOperationOutcome.RequestUri = null;
-        oPyroServiceOperationOutcome.ServiceRootUri = null;
         oPyroServiceOperationOutcome.FormatMimeType = null;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
         return oPyroServiceOperationOutcome;
@@ -63,7 +62,6 @@ namespace Pyro.Engine.Services
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
       oPyroServiceOperationOutcome.ResourceVersionNumber = null;
       oPyroServiceOperationOutcome.RequestUri = null;
-      oPyroServiceOperationOutcome.ServiceRootUri = null;
       oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
 
       return oPyroServiceOperationOutcome;
@@ -119,7 +117,7 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcome.OperationType = CrudOperationType;
         ServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
         ServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        ServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
+        //ServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         ServiceOperationOutcome.FormatMimeType = null;
         if (CrudOperationType == RestEnum.CrudOperationType.Create)
           ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
@@ -135,7 +133,6 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcome.OperationType = CrudOperationType;
         ServiceOperationOutcome.ResourceVersionNumber = string.Empty;
         ServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        ServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         ServiceOperationOutcome.FormatMimeType = null;
         ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
       }
@@ -162,7 +159,6 @@ namespace Pyro.Engine.Services
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
       oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-      oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
       oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
 
       return oPyroServiceOperationOutcome;
@@ -181,7 +177,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
         oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
         oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       }
       else
@@ -193,7 +188,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
         oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
         oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
       }
       return oPyroServiceOperationOutcome;
@@ -221,7 +215,6 @@ namespace Pyro.Engine.Services
             oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
             oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
             oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-            oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
             oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotModified;
             return oPyroServiceOperationOutcome;
           }
@@ -234,7 +227,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
         oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
         oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       }
       else if (DatabaseOperationOutcome.ReturnedResourceList.Count == 1 && DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
@@ -246,7 +238,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
         oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
         oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Gone;
       }
       else
@@ -258,7 +249,6 @@ namespace Pyro.Engine.Services
         oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
         oPyroServiceOperationOutcome.ResourceVersionNumber = null;
         oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-        oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
         oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
       }
       return oPyroServiceOperationOutcome;
@@ -281,7 +271,6 @@ namespace Pyro.Engine.Services
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
       oPyroServiceOperationOutcome.ResourceVersionNumber = string.Empty;
       oPyroServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-      oPyroServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
       oPyroServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
 

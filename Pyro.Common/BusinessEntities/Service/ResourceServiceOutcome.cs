@@ -18,7 +18,6 @@ namespace Pyro.Common.BusinessEntities.Service
     public string FhirResourceId { get; set; }
     //public Uri RequestUri { get; set; }
     public IFhirRequestUri RequestUri { get; set; }
-    public Uri ServiceRootUri { get; set; }
     public string ResourceVersionNumber { get; set; }
     public RestEnum.CrudOperationType OperationType { get; set; }
     public DateTimeOffset? LastModified { get; set; }

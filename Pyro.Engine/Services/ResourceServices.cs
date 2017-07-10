@@ -278,7 +278,6 @@ namespace Pyro.Engine.Services
           oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
           oServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeIfNoneExist.ReturnedResourceList[0].Version;
           oServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-          oServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
           oServiceOperationOutcome.SuccessfulTransaction = true;
@@ -295,7 +294,6 @@ namespace Pyro.Engine.Services
           oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Create;
           oServiceOperationOutcome.ResourceVersionNumber = string.Empty;
           oServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
-          oServiceOperationOutcome.ServiceRootUri = RequestUri.PrimaryRootUrlStore.RootUri;
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
           return oServiceOperationOutcome;
@@ -459,7 +457,6 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
         oServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version;
         oServiceOperationOutcome.RequestUri = null;
-        oServiceOperationOutcome.ServiceRootUri = null;
         oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
       }
       else
@@ -554,7 +551,6 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
         ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = null;
         ServiceOperationOutcomeConditionalPut.RequestUri = null;
-        ServiceOperationOutcomeConditionalPut.ServiceRootUri = null;
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
         return ServiceOperationOutcomeConditionalPut;

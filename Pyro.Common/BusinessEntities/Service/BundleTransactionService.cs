@@ -60,7 +60,6 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _RequestUri.PrimaryRootUrlStore.RootUri;
         return _ServiceOperationOutcome;
       }
       else if (bundle.Type != Bundle.BundleType.Transaction || (bundle.Type != Bundle.BundleType.Transaction && bundle.Type != Bundle.BundleType.Batch))
@@ -70,7 +69,6 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _RequestUri.PrimaryRootUrlStore.RootUri;
         return _ServiceOperationOutcome;
       }
       else
@@ -217,7 +215,6 @@ namespace Pyro.Common.BusinessEntities.Service
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
-        _ServiceOperationOutcome.ServiceRootUri = _RequestUri.PrimaryRootUrlStore.RootUri;
         return false;
       }
 
@@ -378,7 +375,8 @@ namespace Pyro.Common.BusinessEntities.Service
       //Get Search results will have either a bundle or no resource and do not require FullURLs
       if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult.ResourceType != ResourceType.Bundle)
       {
-        return $"{ResourceServiceOutcome.RequestUri.UriPrimaryServiceRoot.Scheme}://{ResourceServiceOutcome.ServiceRootUri.OriginalString}/{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
+        return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString}/{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
+        //return $"{ResourceServiceOutcome.RequestUri.UriPrimaryServiceRoot.Scheme}://{ResourceServiceOutcome.ServiceRootUri.OriginalString}/{ResourceServiceOutcome.ResourceResult.TypeName}/{ResourceServiceOutcome.FhirResourceId}";
       }
       return null;
     }
