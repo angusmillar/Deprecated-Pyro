@@ -31,6 +31,7 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
   using Pyro.Web.Formatters;
+  using Pyro.Common.Cache;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -56,6 +57,11 @@ namespace Pyro.Web.App_Start
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
+
+      //Singleton: Cache      
+      container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
+      container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);
+
       //Singleton: Index Setters
       container.Register<IIndexSetterFactory, Pyro.Web.CompositionRoot.IndexSetterFactory>(Lifestyle.Singleton);
       container.Register<IReferenceSetter, ReferenceSetter>(Lifestyle.Scoped);
@@ -65,6 +71,8 @@ namespace Pyro.Web.App_Start
       container.Register<IStringSetter, StringSetter>(Lifestyle.Singleton);
       container.Register<ITokenSetter, TokenSetter>(Lifestyle.Singleton);
       container.Register<IUriSetter, UriSetter>(Lifestyle.Singleton);
+
+
 
       //Transient
       container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
@@ -81,9 +89,8 @@ namespace Pyro.Web.App_Start
 
 
       //Scoped      
-      container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Scoped);
-      container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
-      container.Register<IServiceSearchParameterCache, ServiceSearchParameterCache>(Lifestyle.Scoped);
+
+
 
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
@@ -106,6 +113,10 @@ namespace Pyro.Web.App_Start
       container.Register<IServerResourceReportService, ServerResourceReportService>(Lifestyle.Scoped);
       container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
       container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
+
+      //Scoped: Cache
+      container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
+      container.Register<IServiceSearchParameterCache, ServiceSearchParameterCache>(Lifestyle.Scoped);
 
       //Scoped: Load all the FHIR Validation Resolvers 
       container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });

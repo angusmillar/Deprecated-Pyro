@@ -21,6 +21,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using Pyro.DataLayer.DbModel.DatabaseContext;
+using Pyro.Common.ServiceSearchParameter;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -32,12 +33,17 @@ namespace Pyro.DataLayer.Repository
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
-    private IIndexSetterFactory IIndexSetterFactory;
+    private readonly IIndexSetterFactory IIndexSetterFactory;
+    private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
 
-    public CommonResourceRepository(IPyroDbContext Context, IPrimaryServiceRootCache IPrimaryServiceRootCache, IIndexSetterFactory IIndexSetterFactory)
+    public CommonResourceRepository(IPyroDbContext Context,
+      IPrimaryServiceRootCache IPrimaryServiceRootCache,
+      IIndexSetterFactory IIndexSetterFactory,
+      IServiceSearchParameterCache IServiceSearchParameterCache)
       : base(Context, IPrimaryServiceRootCache)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
+      this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
@@ -361,8 +367,7 @@ namespace Pyro.DataLayer.Repository
 
     public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri)
     {
-      var Cache = new Common.Cache.CacheCommon();
-      IList<DtoServiceSearchParameterLight> SearchParmeters = Cache.GetSearchParameterForResource(this as IDtoCommonRepository, Resource.ResourceType.GetLiteral());
+      IList<DtoServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 

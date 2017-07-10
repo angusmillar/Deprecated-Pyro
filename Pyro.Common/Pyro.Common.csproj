@@ -129,6 +129,8 @@
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoRequestUri.cs" />
     <Compile Include="BusinessEntities\UriSupport\FhirRequestUri.cs" />
+    <Compile Include="Cache\CacheClear.cs" />
+    <Compile Include="Cache\ICacheClear.cs" />
     <Compile Include="CompositionRoot\ICommonFactory.cs" />
     <Compile Include="CompositionRoot\IResourceRepositoryFactory.cs" />
     <Compile Include="Interfaces\Repositories\ICommonResourceRepository.cs" />
@@ -150,7 +152,6 @@
     <Compile Include="Interfaces\Service\IDeleteManyHistoryIndexesService.cs" />
     <Compile Include="BusinessEntities\Service\SearchParametersServiceRequest.cs" />
     <Compile Include="Interfaces\UriSupport\IFhirRequestUri.cs" />
-    <Compile Include="Cache\CacheCommon.cs" />
     <Compile Include="Enum\EnumUtility.cs" />
     <Compile Include="Enum\FhirOperationEnum.cs" />
     <Compile Include="Extentions\FhirNarrativeExtentions.cs" />

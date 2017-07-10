@@ -11,6 +11,7 @@ using Pyro.Common.Interfaces.UriSupport;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Cache;
 
 namespace Pyro.Common.BusinessEntities.Service
 {
@@ -18,14 +19,16 @@ namespace Pyro.Common.BusinessEntities.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly ICacheClear ICacheClear;
     //public IBaseOperationsServiceRequest _ServiceRequest;
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
 
-    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonFactory ICommonFactory)
+    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ICacheClear ICacheClear)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.ICacheClear = ICacheClear;
     }
 
     public IResourceServiceOutcome ProcessIndex(
@@ -171,8 +174,9 @@ namespace Pyro.Common.BusinessEntities.Service
         ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
         ResourceServiceOutcome.SuccessfulTransaction = true;
 
-        var Cache = new Pyro.Common.Cache.CacheCommon();
-        Cache.ClearCache();
+        //Clear the Cache as stale search parameters now exists 
+        ICacheClear.ClearCache();
+
         return ResourceServiceOutcome;
 
       }

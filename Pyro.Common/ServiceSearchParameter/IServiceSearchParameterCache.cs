@@ -6,7 +6,6 @@ namespace Pyro.Common.ServiceSearchParameter
 {
   public interface IServiceSearchParameterCache
   {
-    List<DtoServiceSearchParameterLight> GetSearchParameterForResource(IDtoCommonRepository ICommonRepository, string ResourceType);
     List<DtoServiceSearchParameterLight> GetSearchParameterForResource(string ResourceType);
   }
 }

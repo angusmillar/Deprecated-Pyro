@@ -44,24 +44,5 @@ namespace Pyro.Common.ServiceSearchParameter
       return DtoServiceSearchParameterLightList;
     }
 
-    public List<DtoServiceSearchParameterLight> GetSearchParameterForResource(Common.Interfaces.Repositories.IDtoCommonRepository ICommonRepository, string ResourceType)
-    {
-      var DtoServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
-      //Add the general Resource search parameters as well
-      string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
-      if (!GlobalProperties.ApplicationCacheServicesActive)
-      {
-        DtoServiceSearchParameterLightList.AddRange(ICommonRepository.GetServiceSearchParametersLightForResource(Resource_ResourceName));
-        DtoServiceSearchParameterLightList.AddRange(ICommonRepository.GetServiceSearchParametersLightForResource(ResourceType));
-      }
-      else
-      {
-        DtoServiceSearchParameterLightList.AddRange(IApplicationCacheSupport.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => ICommonRepository.GetServiceSearchParametersLightForResource(Resource_ResourceName)));
-        DtoServiceSearchParameterLightList.AddRange(IApplicationCacheSupport.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => ICommonRepository.GetServiceSearchParametersLightForResource(ResourceType)));
-      }
-      return DtoServiceSearchParameterLightList;
-    }
-
-
   }
 }
