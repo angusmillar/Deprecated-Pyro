@@ -90,7 +90,7 @@ namespace Pyro.Common.BusinessEntities.Service
           NoRequestEntry.Request = GenerateRequestComponentForEntry(NoRequestEntry);
         }
 
-        //All entries with a Request, shouidl be all at this point
+        //All entries with a Request, should be all at this point
         var EntryWithRequestList = bundle.Entry.Where(x => x.Request != null && x.Request.Method.HasValue);
         var EntryWithResourceAndRequestList = EntryWithRequestList.Where(x => x.Resource != null);
 
@@ -367,7 +367,8 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private string ConstructRequestUrl(Bundle.EntryComponent Entry)
     {
-      return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.Scheme}://{_RequestUri.PrimaryRootUrlStore.RootUri}/{Entry.Request.Url}";
+      return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString}/{Entry.Request.Url}";
+      //return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.Scheme}://{_RequestUri.PrimaryRootUrlStore.RootUri}/{Entry.Request.Url}";
     }
 
     private string CreateFullUrl(IResourceServiceOutcome ResourceServiceOutcome)
