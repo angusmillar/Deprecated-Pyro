@@ -268,13 +268,13 @@ namespace Pyro.Common.BusinessEntities.UriSupport
           }
           else
           {
-            ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {Segment}";
+            ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
             ErrorInParseing = true;
             return string.Empty;
           }
         }
       }
-      ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath}";
+      ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath} in URL {this.OriginalString}";
       ErrorInParseing = true;
       return string.Empty;
     }
