@@ -230,6 +230,7 @@
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
+    <Compile Include="Tools\FhirOpOutcome\OpOutComeSupport.cs" />
     <Compile Include="Tools\FhirResourceSerializationSupport.cs" />
     <Compile Include="Tools\FhirResourceValidation\IFhirValidationSupport.cs" />
     <Compile Include="Tools\FhirResourceValidation\InternalServerProfileResolver.cs" />

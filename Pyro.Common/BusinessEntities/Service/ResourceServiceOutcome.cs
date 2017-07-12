@@ -49,13 +49,10 @@ namespace Pyro.Common.BusinessEntities.Service
     public string FormatMimeType { get; set; }
     public SummaryType? SummaryType { get; set; }
     public bool SuccessfulTransaction { get; set; }
-
-
-
     #endregion
 
     #region Constructor
-    internal ResourceServiceOutcome()
+    public ResourceServiceOutcome()
     {
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;

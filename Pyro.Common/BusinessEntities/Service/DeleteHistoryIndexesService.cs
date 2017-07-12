@@ -40,7 +40,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);

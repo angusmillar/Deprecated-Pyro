@@ -49,7 +49,7 @@ namespace Pyro.Common.BusinessEntities.Service
       _RequestUri = RequestUri;
 
 
-      _ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      _ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       Bundle bundle = Resource as Bundle;
 

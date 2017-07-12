@@ -22,13 +22,12 @@ namespace Pyro.Engine.Services
   public class ResourceServices : ResourceServicesBase, IResourceServices
   {
     private readonly IRepositorySwitcher IRepositorySwitcher;
-    private readonly ICommonFactory ICommonFactory;
+
     //Constructor for dependency injection
     public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory)
-      : base(IUnitOfWork)
+      : base(IUnitOfWork, ICommonFactory)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
-      this.ICommonFactory = ICommonFactory;
     }
 
     public DbContextTransaction BeginTransaction()
@@ -80,7 +79,7 @@ namespace Pyro.Engine.Services
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by FhirId
@@ -119,7 +118,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by Search
@@ -160,7 +159,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       if (string.IsNullOrWhiteSpace(VersionId))
@@ -241,7 +240,7 @@ namespace Pyro.Engine.Services
         }
       }
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -341,7 +340,7 @@ namespace Pyro.Engine.Services
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -432,7 +431,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -486,7 +485,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
 
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = ICommonFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
@@ -568,7 +567,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
 
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = ICommonFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
 
       ISearchParameterService SearchServiceBase = ICommonFactory.CreateSearchParameterService();
@@ -629,7 +628,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
 
-      IResourceServiceOutcome ServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
 
       ISearchParameterService SearchServiceBase = ICommonFactory.CreateSearchParameterService();

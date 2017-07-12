@@ -15,6 +15,7 @@ using Pyro.Common.Tools.FhirResourceValidation;
 using Pyro.DataLayer.DbModel.UnitOfWork;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.ITools;
 
 namespace Pyro.Web.CompositionRoot
 {
@@ -128,6 +129,16 @@ namespace Pyro.Web.CompositionRoot
     public IDatabaseOperationOutcome CreateDatabaseOperationOutcome()
     {
       return Container.GetInstance<IDatabaseOperationOutcome>();
+    }
+
+    public IResourceServiceOutcome CreateResourceServiceOutcome()
+    {
+      return Container.GetInstance<IResourceServiceOutcome>();
+    }
+
+    public IFhirNarativeGenerationSupport CreateFhirNarativeGenerationSupport()
+    {
+      return Container.GetInstance<IFhirNarativeGenerationSupport>();
     }
   }
 }

@@ -90,6 +90,7 @@ namespace Pyro.Web.App_Start
       container.Register<IFhirNarativeGenerationSupport, FhirNarativeGenerationSupport>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
 
+      container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
 
 

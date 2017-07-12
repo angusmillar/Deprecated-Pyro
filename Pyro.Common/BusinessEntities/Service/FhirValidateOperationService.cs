@@ -59,7 +59,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
-      ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
       FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
@@ -161,7 +161,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
-      ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
@@ -527,7 +527,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private IResourceServiceOutcome FinalResourceServiceOutcome(List<OperationOutcome.IssueComponent> IssueList)
     {
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       //Success is based on the IssueComponent's Severity where True if 
       //Severity = null, or not IssueSeverity.Information or IssueSeverity.Warning 

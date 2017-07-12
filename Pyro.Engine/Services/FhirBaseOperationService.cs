@@ -43,7 +43,7 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("SearchPrameterGeneric cannot be null.");
 
       //_ServiceRequest = ServiceRequest;
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchPrameterGeneric);

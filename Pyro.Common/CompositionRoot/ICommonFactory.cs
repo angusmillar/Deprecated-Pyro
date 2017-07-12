@@ -9,6 +9,7 @@ using Pyro.Common.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.ITools;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -28,7 +29,8 @@ namespace Pyro.Common.CompositionRoot
     IDtoSearchParameterReferance CreateDtoSearchParameterReferance();
     IDtoRootUrlStore CreateDtoRootUrlStore();
     IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
-
+    IResourceServiceOutcome CreateResourceServiceOutcome();
+    IFhirNarativeGenerationSupport CreateFhirNarativeGenerationSupport();
 
     //Services
     IBundleTransactionService CreateBundleTransactionService();

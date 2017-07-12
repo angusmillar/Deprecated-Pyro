@@ -32,7 +32,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       try
       {
-        IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+        IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
         ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
         ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);

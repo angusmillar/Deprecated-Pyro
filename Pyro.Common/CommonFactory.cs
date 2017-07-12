@@ -20,10 +20,6 @@ namespace Pyro.Common
 {
   public static class CommonFactory
   {
-    public static IResourceServiceOutcome GetResourceServiceOutcome()
-    {
-      return new ResourceServiceOutcome();
-    }
 
     public static IFhirNarativeGenerationSupport GetFhirNarativeSupport()
     {

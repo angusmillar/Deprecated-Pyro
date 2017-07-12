@@ -9,6 +9,7 @@ using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Engine.Services
 {
@@ -16,10 +17,14 @@ namespace Pyro.Engine.Services
   {
     protected bool _TransactionStarted;
     protected IResourceRepository _ResourceRepository = null;
+    protected readonly ICommonFactory ICommonFactory;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork)
-      : base(IUnitOfWork) { }
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, ICommonFactory ICommonFactory)
+      : base(IUnitOfWork)
+    {
+      this.ICommonFactory = ICommonFactory;
+    }
 
     protected FHIRAllTypes _CurrentResourceType = FHIRAllTypes.AuditEvent;
 
@@ -33,7 +38,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IResourceServiceOutcome oPyroServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome oPyroServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
@@ -76,7 +81,7 @@ namespace Pyro.Engine.Services
       if (CrudOperationType == RestEnum.CrudOperationType.Update && string.IsNullOrWhiteSpace(Resource.Id))
         throw new ArgumentNullException("Internal Server Error: Resource Id must be populated for CrudOperationType = Update");
 
-      IResourceServiceOutcome ServiceOperationOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       //Assign GUID as FHIR id;
       if (string.IsNullOrWhiteSpace(Resource.Id))

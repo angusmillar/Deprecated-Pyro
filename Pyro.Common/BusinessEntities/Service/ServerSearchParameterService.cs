@@ -45,7 +45,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (IResourceServices == null)
         throw new NullReferenceException("IResourceServices cannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -197,7 +197,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServicescannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchServiceRequest = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchServiceRequest.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -232,7 +232,7 @@ namespace Pyro.Common.BusinessEntities.Service
                     {
                       if (!FhirUri.IsOperation)
                       {
-                        var ResourceServiceOutcomeGetSearchParameterResource = Common.CommonFactory.GetResourceServiceOutcome();
+                        var ResourceServiceOutcomeGetSearchParameterResource = ICommonFactory.CreateResourceServiceOutcome();
                         ResourceServiceOutcomeGetSearchParameterResource = (IResourceServices as IResourceServicesBase).GetResourceInstance(FhirUri.ResourceId, RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
@@ -404,7 +404,7 @@ namespace Pyro.Common.BusinessEntities.Service
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = Common.CommonFactory.GetResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -570,7 +570,7 @@ namespace Pyro.Common.BusinessEntities.Service
 
       foreach (var OldList in GroupList)
       {
-        var CurrentParameter = Common.CommonFactory.GetResourceServiceOutcome();
+        var CurrentParameter = ICommonFactory.CreateResourceServiceOutcome();
         var FirstInstance = OldList.FirstOrDefault();
         CurrentParameter = (IResourceServices as IResourceServicesBase).GetResourceInstance(FirstInstance.SearchParameterResourceId, RequestUri, CurrentParameter);
         CompairisonResult Result;
