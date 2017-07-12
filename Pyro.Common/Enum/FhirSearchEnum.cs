@@ -10,16 +10,16 @@ using Pyro.Common.BusinessEntities.Search;
 namespace Pyro.Common.Enum
 {
   public static partial class FhirSearchEnum
-  {    
+  {
     public static Dictionary<string, Hl7.Fhir.Rest.SummaryType> GetSummaryTypeDictionary()
     {
       return new Dictionary<string, Hl7.Fhir.Rest.SummaryType>()
       {
-        {Hl7.Fhir.Rest.SummaryType.Count.GetPyroLiteral(), Hl7.Fhir.Rest.SummaryType.Count},
-        {Hl7.Fhir.Rest.SummaryType.Data.GetPyroLiteral(), Hl7.Fhir.Rest.SummaryType.Data},
-        {Hl7.Fhir.Rest.SummaryType.False.GetPyroLiteral(), Hl7.Fhir.Rest.SummaryType.False},
-        {Hl7.Fhir.Rest.SummaryType.Text.GetPyroLiteral(), Hl7.Fhir.Rest.SummaryType.Text},
-        {Hl7.Fhir.Rest.SummaryType.True.GetPyroLiteral(), Hl7.Fhir.Rest.SummaryType.True},        
+        {Hl7.Fhir.Rest.SummaryType.Count.ToString(), Hl7.Fhir.Rest.SummaryType.Count},
+        {Hl7.Fhir.Rest.SummaryType.Data.ToString(), Hl7.Fhir.Rest.SummaryType.Data},
+        {Hl7.Fhir.Rest.SummaryType.False.ToString(), Hl7.Fhir.Rest.SummaryType.False},
+        {Hl7.Fhir.Rest.SummaryType.Text.ToString(), Hl7.Fhir.Rest.SummaryType.Text},
+        {Hl7.Fhir.Rest.SummaryType.True.ToString(), Hl7.Fhir.Rest.SummaryType.True},
       };
     }
 
@@ -43,15 +43,15 @@ namespace Pyro.Common.Enum
     {
       return new Dictionary<string, SearchParameter.SearchModifierCode>()
       {
-        {SearchParameter.SearchModifierCode.Missing.GetPyroLiteral(), SearchParameter.SearchModifierCode.Missing},
-        {SearchParameter.SearchModifierCode.Exact.GetPyroLiteral(), SearchParameter.SearchModifierCode.Exact},
-        {SearchParameter.SearchModifierCode.Contains.GetPyroLiteral(), SearchParameter.SearchModifierCode.Contains},
-        {SearchParameter.SearchModifierCode.Text.GetPyroLiteral(), SearchParameter.SearchModifierCode.Text},
-        {SearchParameter.SearchModifierCode.Type.GetPyroLiteral(), SearchParameter.SearchModifierCode.Type},
-        {SearchParameter.SearchModifierCode.Below.GetPyroLiteral(), SearchParameter.SearchModifierCode.Below},
-        {SearchParameter.SearchModifierCode.Above.GetPyroLiteral(), SearchParameter.SearchModifierCode.Above},
-        {SearchParameter.SearchModifierCode.In.GetPyroLiteral(), SearchParameter.SearchModifierCode.In},
-        {SearchParameter.SearchModifierCode.NotIn.GetPyroLiteral(), SearchParameter.SearchModifierCode.NotIn}
+        {SearchParameter.SearchModifierCode.Missing.GetLiteral(), SearchParameter.SearchModifierCode.Missing},
+        {SearchParameter.SearchModifierCode.Exact.GetLiteral(), SearchParameter.SearchModifierCode.Exact},
+        {SearchParameter.SearchModifierCode.Contains.GetLiteral(), SearchParameter.SearchModifierCode.Contains},
+        {SearchParameter.SearchModifierCode.Text.GetLiteral(), SearchParameter.SearchModifierCode.Text},
+        {SearchParameter.SearchModifierCode.Type.GetLiteral(), SearchParameter.SearchModifierCode.Type},
+        {SearchParameter.SearchModifierCode.Below.GetLiteral(), SearchParameter.SearchModifierCode.Below},
+        {SearchParameter.SearchModifierCode.Above.GetLiteral(), SearchParameter.SearchModifierCode.Above},
+        {SearchParameter.SearchModifierCode.In.GetLiteral(), SearchParameter.SearchModifierCode.In},
+        {SearchParameter.SearchModifierCode.NotIn.GetLiteral(), SearchParameter.SearchModifierCode.NotIn}
       };
     }
 
