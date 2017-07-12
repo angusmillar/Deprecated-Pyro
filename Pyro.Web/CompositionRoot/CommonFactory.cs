@@ -105,6 +105,11 @@ namespace Pyro.Web.CompositionRoot
       return Container.GetInstance<ISearchParameterService>();
     }
 
+    public ISearchParametersServiceOutcome CreateSearchParametersServiceOutcome()
+    {
+      return Container.GetInstance<ISearchParametersServiceOutcome>();
+    }
+
     public IDtoSearchParameterReferance CreateDtoSearchParameterReferance()
     {
       return Container.GetInstance<IDtoSearchParameterReferance>();
@@ -113,6 +118,16 @@ namespace Pyro.Web.CompositionRoot
     public List<IResourceResolver> CreateResourceResolverList()
     {
       return Container.GetAllInstances<IResourceResolver>().ToList();
+    }
+
+    public IDtoRootUrlStore CreateDtoRootUrlStore()
+    {
+      return Container.GetInstance<IDtoRootUrlStore>();
+    }
+
+    public IDatabaseOperationOutcome CreateDatabaseOperationOutcome()
+    {
+      return Container.GetInstance<IDatabaseOperationOutcome>();
     }
   }
 }

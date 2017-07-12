@@ -22,6 +22,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceSearchParameter;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -39,8 +40,9 @@ namespace Pyro.DataLayer.Repository
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory IIndexSetterFactory,
-      IServiceSearchParameterCache IServiceSearchParameterCache)
-      : base(Context, IPrimaryServiceRootCache)
+      IServiceSearchParameterCache IServiceSearchParameterCache,
+      ICommonFactory ICommonFactory)
+      : base(Context, IPrimaryServiceRootCache, ICommonFactory)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
@@ -88,7 +90,7 @@ namespace Pyro.DataLayer.Repository
         }).ToList();
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
       DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
@@ -99,7 +101,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
@@ -119,7 +121,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
 
       if (!string.IsNullOrWhiteSpace(ResourceVersionNumber))
       {
@@ -153,7 +155,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
 
       SetNumberOfRecordsPerPage(DtoSearchParameters);
@@ -194,7 +196,7 @@ namespace Pyro.DataLayer.Repository
       this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
       ResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(ResourceEntity);
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
@@ -210,7 +212,7 @@ namespace Pyro.DataLayer.Repository
       NewResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
       this.Save();
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
@@ -231,14 +233,14 @@ namespace Pyro.DataLayer.Repository
       this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
       OldResourceEntity.IsCurrent = false;
       this.Save();
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
     }
 
     public IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       foreach (string ResourceId in ResourceIdCollection)
       {
         var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);

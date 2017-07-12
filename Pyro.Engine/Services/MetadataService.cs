@@ -157,7 +157,7 @@ namespace Pyro.Engine.Services
       }
       ConstructConformanceResourceNarrative(Conformance);
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = Common.CommonFactory.GetDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
       //ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);

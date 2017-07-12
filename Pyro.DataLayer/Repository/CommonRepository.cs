@@ -17,17 +17,20 @@ using System.Linq.Expressions;
 using Hl7.Fhir.Utility;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceRoot;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.DataLayer.Repository
 {
   public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
   {
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    protected readonly ICommonFactory ICommonFactory;
     #region Constructor
-    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache)
+    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
       : base(IPyroDbContext)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      this.ICommonFactory = ICommonFactory;
     }
     #endregion
 
@@ -125,7 +128,7 @@ namespace Pyro.DataLayer.Repository
       ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
       if (oServiceBaseUrl != null)
       {
-        DtoRootUrlStore = Common.CommonFactory.GetRootUrlStore();
+        DtoRootUrlStore = ICommonFactory.CreateDtoRootUrlStore();
         DtoRootUrlStore.Id = oServiceBaseUrl.Id;
         DtoRootUrlStore.Url = oServiceBaseUrl.Url;
         DtoRootUrlStore.IsServersPrimaryUrlRoot = oServiceBaseUrl.IsServersPrimaryUrlRoot;

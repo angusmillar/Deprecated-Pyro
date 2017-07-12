@@ -20,29 +20,9 @@ namespace Pyro.Common
 {
   public static class CommonFactory
   {
-    public static IDtoRootUrlStore GetRootUrlStore()
-    {
-      return new DtoRootUrlStore();
-    }
-
     public static IResourceServiceOutcome GetResourceServiceOutcome()
     {
       return new ResourceServiceOutcome();
-    }
-
-    public static IDatabaseOperationOutcome GetDatabaseOperationOutcome()
-    {
-      return new DtoDatabaseOperationOutcome();
-    }
-
-    public static IApplicationCacheSupport GetApplicationCacheService()
-    {
-      return new Tools.ApplicationCacheSupport();
-    }
-
-    public static ISearchParametersServiceOutcome GetSearchParametersServiceOutcome()
-    {
-      return new SearchParametersServiceOutcome();
     }
 
     public static IFhirNarativeGenerationSupport GetFhirNarativeSupport()

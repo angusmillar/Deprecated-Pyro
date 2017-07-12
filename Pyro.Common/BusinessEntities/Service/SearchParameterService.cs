@@ -90,7 +90,7 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Server error: OperationClass can not be null when enum SearchParameterServiceType is set to Operation.");
 
 
-      ISearchParametersServiceOutcome _SearchParametersServiceOutcome = Common.CommonFactory.GetSearchParametersServiceOutcome();
+      ISearchParametersServiceOutcome _SearchParametersServiceOutcome = ICommonFactory.CreateSearchParametersServiceOutcome();
       _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
       _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = ResourceType;
       _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<IDtoSearchParameterBase>();

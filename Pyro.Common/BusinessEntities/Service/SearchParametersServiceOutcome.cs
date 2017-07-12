@@ -15,7 +15,7 @@ namespace Pyro.Common.BusinessEntities.Service
     public OperationOutcome FhirOperationOutcome { get; set; }
     public DtoSearchParameters SearchParameters { get; set; }
 
-    internal SearchParametersServiceOutcome() { }
+    public SearchParametersServiceOutcome() { }
 
   }
 }

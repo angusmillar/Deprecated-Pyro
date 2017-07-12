@@ -24,7 +24,11 @@ namespace Pyro.Common.CompositionRoot
     IDtoRequestUri CreateDtoRequestUri(string RequestUri);
     IDtoSearchParameterGeneric CreateDtoSearchParameterGeneric();
     ISearchParameterService CreateSearchParameterService();
+    ISearchParametersServiceOutcome CreateSearchParametersServiceOutcome();
     IDtoSearchParameterReferance CreateDtoSearchParameterReferance();
+    IDtoRootUrlStore CreateDtoRootUrlStore();
+    IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
+
 
     //Services
     IBundleTransactionService CreateBundleTransactionService();

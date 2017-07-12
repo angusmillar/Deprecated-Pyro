@@ -32,6 +32,7 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.IndexSetter;
   using Pyro.Web.Formatters;
   using Pyro.Common.Cache;
+  using Pyro.Common.BusinessEntities.Dto;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -75,20 +76,25 @@ namespace Pyro.Web.App_Start
       container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
       container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUri>(Lifestyle.Transient);
       container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUri>(Lifestyle.Transient);
-      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(Lifestyle.Transient);
+      container.Register<IDtoRootUrlStore, DtoRootUrlStore>(Lifestyle.Transient);
+
 
       container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
+
       container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
+      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(Lifestyle.Transient);
       container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
+      container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
 
       container.Register<IFhirNarativeGenerationSupport, FhirNarativeGenerationSupport>(Lifestyle.Transient);
+      container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
 
 
-      //Scoped      
 
 
 
+      //Scoped            
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);

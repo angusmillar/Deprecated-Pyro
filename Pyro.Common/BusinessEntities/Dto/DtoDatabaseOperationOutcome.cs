@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.BusinessEntities.Dto
 {
-  class DtoDatabaseOperationOutcome : Pyro.Common.Interfaces.Service.IDatabaseOperationOutcome
+  public class DtoDatabaseOperationOutcome : Pyro.Common.Interfaces.Service.IDatabaseOperationOutcome
   {
     public List<DtoResource> ReturnedResourceList { get; set; }
     public int SearchTotal { get; set; }
@@ -17,7 +17,7 @@ namespace Pyro.Common.BusinessEntities.Dto
     public bool RecourceIsDeleted { get; set; }
     public int ResourceVersionNumber { get; set; }
 
-    internal DtoDatabaseOperationOutcome()
+    public DtoDatabaseOperationOutcome()
     {
       this.ReturnedResourceList = new List<DtoResource>();
       this.RecourceIsDeleted = false;
