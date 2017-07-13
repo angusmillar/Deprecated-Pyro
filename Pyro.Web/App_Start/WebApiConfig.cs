@@ -26,9 +26,9 @@ namespace Pyro.Web
       //Content-Type: application/fhir+xml
       //Accept: application/fhir+xml      
       config.Formatters.Clear();
-      config.Formatters.Add(new Formatters.FhirJsonMediaTypeFormatter());
+      config.Formatters.Add(new Pyro.Common.Formatters.FhirJsonMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
-      config.Formatters.Add(new Formatters.FhirXmlMediaTypeFormatter());
+      config.Formatters.Add(new Pyro.Common.Formatters.FhirXmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter());
 

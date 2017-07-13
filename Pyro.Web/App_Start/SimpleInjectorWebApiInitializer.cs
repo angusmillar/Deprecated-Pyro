@@ -30,7 +30,6 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
-  using Pyro.Web.Formatters;
   using Pyro.Common.Cache;
   using Pyro.Common.BusinessEntities.Dto;
 

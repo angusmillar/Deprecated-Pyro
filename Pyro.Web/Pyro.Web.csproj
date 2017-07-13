@@ -250,9 +250,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FhirController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
-    <Compile Include="Formatters\FhirMediaTypeFormatter.cs" />
-    <Compile Include="Formatters\FhirXmlMediaTypeFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -10,12 +10,12 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Newtonsoft.Json;
 using Hl7.Fhir.Rest;
-using Pyro.Web.Extensions;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Utility;
 using System.Linq;
+using System.Text;
 
-namespace Pyro.Web.Formatters
+namespace Pyro.Common.Formatters
 {
   public class FhirJsonMediaTypeFormatter : FhirMediaTypeFormatter
   {
@@ -29,10 +29,12 @@ namespace Pyro.Web.Formatters
     public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
     {
       base.SetDefaultContentHeaders(type, headers, mediaType);
-      //MediaTypeHeaderValue
-      headers.ContentType = Pyro.Engine.Rest.ContentType.GetMediaTypeHeaderValue(type, Hl7.Fhir.Rest.ResourceFormat.Json);
+      string ContentTypeString = this.BuildContentType(Hl7.Fhir.Rest.ResourceFormat.Json);
+      headers.ContentType.MediaType = ContentTypeString;
+      headers.ContentType.CharSet = Encoding.UTF8.WebName;
     }
 
+    //=============== Read ==================================================   
     public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
     {
       try
@@ -75,6 +77,7 @@ namespace Pyro.Web.Formatters
       }
     }
 
+    //=============== Write ==================================================  
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
       StreamWriter writer = new StreamWriter(writeStream);

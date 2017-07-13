@@ -12,13 +12,13 @@ namespace Pyro.Engine.Rest
   //also note that some of these methods where in Spark.Engine.Core.FhirMediaType yet there 
   //was also a comment in this file saying 'API: This class can be merged into HL7.Fhir.Rest.ContentType'
   //This is what I have done here. When a new Fhir api is released this class may be able to be removed
-  
 
-  public static class ContentType 
-  {    
+
+  public static class ContentType
+  {
     public const string XmlResource = Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
     public const string JsonResource = Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER;
-    
+
     public static string GetContentType(Type type, Hl7.Fhir.Rest.ResourceFormat format)
     {
       if (typeof(Hl7.Fhir.Model.Resource).IsAssignableFrom(type) || type == typeof(Hl7.Fhir.Model.Resource))
@@ -36,7 +36,9 @@ namespace Pyro.Engine.Rest
 
     public static MediaTypeHeaderValue GetMediaTypeHeaderValue(Type type, Hl7.Fhir.Rest.ResourceFormat format)
     {
-      string mediatype = ContentType.GetContentType(type, format);
+      string mediatype = Hl7.Fhir.Rest.ContentType.BuildContentType(format, false);
+
+      mediatype = ContentType.GetContentType(type, format);
       MediaTypeHeaderValue header = new MediaTypeHeaderValue(mediatype);
       header.CharSet = Encoding.UTF8.WebName;
       return header;

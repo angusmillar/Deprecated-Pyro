@@ -7,7 +7,6 @@ using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
-using Pyro.Web.Formatters;
 
 namespace Pyro.Web.Response
 {
@@ -15,11 +14,9 @@ namespace Pyro.Web.Response
   {
     public static HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome ResourceServiceOutcome, HttpRequestMessage Request, Hl7.Fhir.Rest.SummaryType? SummaryType)
     {
-      //Todo: to support CORS it appears I need to return this 'Access-Control-Allow-Origin' in the HTTP header
-
       HttpStatusCode HttpStatusCode = ResourceServiceOutcome.HttpStatusCode;
       Resource Resource = ResourceServiceOutcome.ResourceResult;
-      FhirMediaTypeFormatter FhirMediaTypeFormatter = null;
+      Pyro.Common.Formatters.FhirMediaTypeFormatter FhirMediaTypeFormatter = null;
 
       HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
       if (Resource != null)
@@ -30,7 +27,7 @@ namespace Pyro.Web.Response
         }
         else
         {
-          Formatters.FhirMediaTypeFormatter Formater = GetFhirMediaFormatter(Request, ResourceServiceOutcome.FormatMimeType);
+          Pyro.Common.Formatters.FhirMediaTypeFormatter Formater = GetFhirMediaFormatter(Request, ResourceServiceOutcome.FormatMimeType);
           if (Formater != null)
           {
             FhirMediaTypeFormatter = Formater;
@@ -43,14 +40,14 @@ namespace Pyro.Web.Response
           }
         }
 
-        //Annotate the Resource wiht the _summary, will get the annotation in MediaTypeFormatter XML or JSON
+        //Annotate the Resource with the _summary, will get the annotation in MediaTypeFormatter XML or JSON
         if (Resource is Hl7.Fhir.Utility.IAnnotatable AnnotatableResource)
         {
           if (SummaryType.HasValue)
             AnnotatableResource.AddAnnotation(SummaryType.Value);
           else
             AnnotatableResource.AddAnnotation(Hl7.Fhir.Rest.SummaryType.False);
-        }        
+        }
       }
 
       //OK: 200
@@ -63,7 +60,7 @@ namespace Pyro.Web.Response
           {
             Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
             if (Response.Content != null && ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
-              Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;              
+              Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
             Response.Headers.Location = HttpHeaderSupport.AddResponseLocation(Request.RequestUri);
           }
           return Response;
@@ -77,7 +74,7 @@ namespace Pyro.Web.Response
           if (ResourceServiceOutcome.LastModified.HasValue)
           {
             Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
-            Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;            
+            Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
           }
           return Response;
         }
@@ -96,9 +93,9 @@ namespace Pyro.Web.Response
           //LastModified Header && ETag Version
           if (ResourceServiceOutcome.LastModified != null)
           {
-            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);            
+            Response.Headers.ETag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber);
             //If we have a conditional Create where the Resource is found then we return OK but no Resource so no Content
-            if (Response.Content != null)              
+            if (Response.Content != null)
               Response.Content.Headers.LastModified = ResourceServiceOutcome.LastModified;
           }
           return Response;
@@ -193,7 +190,7 @@ namespace Pyro.Web.Response
 
     }
 
-    private static Formatters.FhirMediaTypeFormatter GetFhirMediaFormatter(HttpRequestMessage request, string format)
+    private static Pyro.Common.Formatters.FhirMediaTypeFormatter GetFhirMediaFormatter(HttpRequestMessage request, string format)
     {
       if (!Common.Tools.HttpHeaderSupport.IsAcceptMediaTypeSetInRequest(request))
       {
@@ -202,11 +199,11 @@ namespace Pyro.Web.Response
           string MediaType = Common.Tools.HttpHeaderSupport.GetFhirMediaTypeString(format);
           if (MediaType == Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER)
           {
-            return new Formatters.FhirXmlMediaTypeFormatter();
+            return new Pyro.Common.Formatters.FhirXmlMediaTypeFormatter();
           }
           else if (MediaType == Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER)
           {
-            return new Formatters.FhirJsonMediaTypeFormatter();
+            return new Pyro.Common.Formatters.FhirJsonMediaTypeFormatter();
           }
         }
       }

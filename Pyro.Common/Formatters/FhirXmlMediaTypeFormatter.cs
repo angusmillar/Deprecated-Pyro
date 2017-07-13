@@ -15,13 +15,12 @@ using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.Rest;
 using Pyro.Common.BusinessEntities.Dto;
+using System.Text;
 
-
-namespace Pyro.Web.Formatters
+namespace Pyro.Common.Formatters
 {
   public class FhirXmlMediaTypeFormatter : FhirMediaTypeFormatter
   {
-
     public FhirXmlMediaTypeFormatter()
       : base()
     {
@@ -30,13 +29,15 @@ namespace Pyro.Web.Formatters
         SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
     }
 
-
-    //=============== Read ==================================================
-    public override bool CanReadType(Type type)
+    public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
     {
-      return type == typeof(Hl7.Fhir.Model.Resource);
+      base.SetDefaultContentHeaders(type, headers, mediaType);
+      string ContentTypeString = this.BuildContentType(Hl7.Fhir.Rest.ResourceFormat.Xml);
+      headers.ContentType.MediaType = ContentTypeString;
+      headers.ContentType.CharSet = Encoding.UTF8.WebName;
     }
 
+    //=============== Read ==================================================   
     public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
     {
       try
@@ -78,12 +79,7 @@ namespace Pyro.Web.Formatters
       }
     }
 
-    //=============== Write ==================================================    
-    public override bool CanWriteType(Type type)
-    {
-      return type == typeof(Hl7.Fhir.Model.Resource);
-    }
-
+    //=============== Write ==================================================        
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
       return System.Threading.Tasks.Task.Factory.StartNew(() =>

@@ -5,8 +5,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.IO;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 
-namespace Pyro.Web.Formatters
+namespace Pyro.Common.Formatters
 {
   public class FhirMediaTypeFormatter : MediaTypeFormatter
   {
@@ -21,9 +22,7 @@ namespace Pyro.Web.Formatters
 
     public override bool CanReadType(Type type)
     {
-
-      bool can = typeof(Resource).IsAssignableFrom(type);  /* || type == typeof(Bundle) || (type == typeof(TagList) ) */
-      return can;
+      return typeof(Resource).IsAssignableFrom(type);  /* || type == typeof(Bundle) || (type == typeof(TagList) ) */
     }
 
     public override bool CanWriteType(Type type)
@@ -31,11 +30,9 @@ namespace Pyro.Web.Formatters
       return typeof(Resource).IsAssignableFrom(type);
     }
 
-
     public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
     {
       base.SetDefaultContentHeaders(type, headers, mediaType);
-      //setEntryHeaders(headers);
     }
 
     public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, MediaTypeHeaderValue mediaType)
@@ -47,7 +44,7 @@ namespace Pyro.Web.Formatters
       //  MediaThing = thing;
       //}
       //return base.GetPerRequestFormatterInstance(type, request, MediaThing);
-      
+
       return base.GetPerRequestFormatterInstance(type, request, mediaType);
     }
 
@@ -62,6 +59,20 @@ namespace Pyro.Web.Formatters
 
       StreamReader reader = new StreamReader(readStream, Encoding.UTF8, true);
       return reader.ReadToEnd();
+    }
+
+    public string BuildContentType(ResourceFormat format)
+    {
+      string contentType;
+
+      if (format == ResourceFormat.Json)
+        contentType = Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER;
+      else if (format == ResourceFormat.Xml)
+        contentType = Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
+      else
+        throw new ArgumentException("Cannot determine content type for data format " + format);
+
+      return contentType;
     }
 
   }
