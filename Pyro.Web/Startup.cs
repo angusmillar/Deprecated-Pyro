@@ -49,27 +49,20 @@ namespace Pyro.Web
         Console.WriteLine("-------------------------------------------------------------------");
       });
 
-
       HttpConfiguration = new HttpConfiguration();
-      //Database.SetInitializer<Pyro.DataLayer.DbModel.DatabaseContext.PyroDbContext>(new Pyro.DataLayer.DbModel.DatabaseInitializer.ServiceSearchParameterInitializer());
       App_Start.SimpleInjectorWebApiInitializer.Initialize(HttpConfiguration);
-
-
-
-      //Would like to call these two from here but they fail, they are left in Global.asax??
-      //AreaRegistration.RegisterAllAreas();
-      //GlobalConfiguration.Configure(WebApiConfig.Register);
-      //--------------------------------------------------------
-
       WebApiConfig.Register(HttpConfiguration);
+      RegisterAllAreas();
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
       RegisterRoutes();
       BundleConfig.RegisterBundles(BundleTable.Bundles);
-
       ConfigureAuth(app);
-
       app.UseWebApi(HttpConfiguration);
+    }
 
+    public virtual void RegisterAllAreas()
+    {
+      AreaRegistration.RegisterAllAreas();
     }
 
     public virtual void RegisterRoutes()

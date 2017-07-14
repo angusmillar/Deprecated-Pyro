@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Pyro.Common.Tools;
 using NUnit.Framework.Constraints;
+using Pyro.Common.Interfaces.Tools.HtmlSupport;
 
 namespace Pyro.Test.Tools
 {
@@ -12,7 +13,7 @@ namespace Pyro.Test.Tools
     [Test]
     public void Test_NarativeGeneration()
     {
-      var Narative = new FhirNarativeGenerationSupport();
+      var Narative = new HtmlGenerationSupport();
 
       Narative.NewValuePairList("Dog", "Peppa", "Things", 3);
       Narative.AppendValuePairList("Cat", "meow");

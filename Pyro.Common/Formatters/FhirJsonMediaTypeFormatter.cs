@@ -81,7 +81,8 @@ namespace Pyro.Common.Formatters
     public override System.Threading.Tasks.Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
     {
       StreamWriter writer = new StreamWriter(writeStream);
-      JsonWriter jsonwriter = SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
+      // This will use the BetterJsonWriter which handles precision correctly
+      JsonWriter jsonwriter = SerializationUtil.CreateJsonTextWriter(writer);
       if (typeof(Resource).IsAssignableFrom(type))
       {
         if (value != null)

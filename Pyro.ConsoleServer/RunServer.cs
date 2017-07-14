@@ -18,7 +18,7 @@ namespace Pyro.ConsoleServer
       Uri FhirEndpointUri = new Uri(FhirEndpoint);
       string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";
 
-      using (WebApp.Start<Pyro.Web.Startup>(uri))
+      using (WebApp.Start<StartupConsole>(uri))
       {
         Console.WriteLine("===================================================================");
         Console.WriteLine("================| Pyro FHIR Server Running |=======================");

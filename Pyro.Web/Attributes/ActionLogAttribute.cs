@@ -13,6 +13,7 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Pyro.Common.Interfaces.Tools.HtmlSupport;
 
 namespace Pyro.Web.Attributes
 {
@@ -200,7 +201,7 @@ namespace Pyro.Web.Attributes
             }
           }
 
-          Pyro.Common.Interfaces.ITools.IFhirNarativeGenerationSupport Narative = ICommonFactory.CreateFhirNarativeGenerationSupport();
+          IHtmlGenerationSupport Narative = ICommonFactory.CreateFhirNarativeGenerationSupport();
           Narative.NewValuePairList("Time", string.Format("{0} ({1:f3} sec)", dtStart, duration.TotalSeconds));
           Narative.AppendValuePairList(actionExecutedContext.Request.Method.ToString(), string.Format("{0}", HttpUtility.HtmlEncode(baseUri == null ?
                                   owinContext.Request.Uri.OriginalString

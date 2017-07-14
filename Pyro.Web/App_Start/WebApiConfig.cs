@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http.Cors;
+using Pyro.Common.Tools.FhirNarrative;
 
 namespace Pyro.Web
 {
@@ -31,7 +32,6 @@ namespace Pyro.Web
       config.Formatters.Add(new Pyro.Common.Formatters.FhirXmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
       config.Formatters.Add(new System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter());
-
 
       //Add Exception Handler
       config.Filters.Add(new Pyro.Engine.CustomException.FhirExceptionFilter());

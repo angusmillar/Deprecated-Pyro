@@ -4,13 +4,13 @@ using System.Linq;
 using System.Xml.Linq;
 using Pyro.Common.Interfaces.ITools;
 
-namespace Pyro.Common.Tools
+namespace Pyro.Common.Interfaces.Tools.HtmlSupport
 {
-  public class FhirNarativeGenerationSupport : IFhirNarativeGenerationSupport
+  public class HtmlGenerationSupport : IHtmlGenerationSupport
   {
     private ICollection<SectionBase> _SectionList;
 
-    public FhirNarativeGenerationSupport()
+    public HtmlGenerationSupport()
     {
       _SectionList = new List<SectionBase>();
     }
@@ -19,6 +19,7 @@ namespace Pyro.Common.Tools
     {
       ValuePair.NewValuePairList(_SectionList, Desciption, Value, Heading, HeaderStrength);
     }
+
     public void AppendValuePairList(string Desciption, string Value)
     {
       ValuePair.AppendValuePairList(_SectionList, Desciption, Value);
@@ -74,32 +75,55 @@ namespace Pyro.Common.Tools
           Header.Value = Heading;
         }
 
-        XElement SpanDesc = new XElement(span);
-        XElement Bold = new XElement(b);
-        SpanDesc.Add(Bold);
-        Bold.Value = string.Format("{0}: ", Desciption);
-        XElement TableDataDesc = new XElement(td);
-        TableDataDesc.Add(SpanDesc);
+        XElement TableDataDesc = null;
+        if (!string.IsNullOrWhiteSpace(Desciption))
+        {
+          XElement SpanDesc = new XElement(span);
+          XElement Bold = new XElement(b);
+          SpanDesc.Add(Bold);
 
-        XElement SpanValue = new XElement(span);
-        SpanValue.Value = Value;
+          Bold.Value = string.Format("{0}: ", Desciption);
+          TableDataDesc = new XElement(td);
+          TableDataDesc.Add(SpanDesc);
+        }
 
-        XElement TableDataValue = new XElement(td);
-        TableDataValue.Add(SpanValue);
+        XElement TableDataValue = null;
+        if (!string.IsNullOrWhiteSpace(Value))
+        {
+          XElement SpanValue = new XElement(span);
+          SpanValue.Value = Value;
 
-        XElement TableRow = new XElement(tr);
-        TableRow.Add(TableDataDesc);
-        TableRow.Add(TableDataValue);
+          TableDataValue = new XElement(td);
+          TableDataValue.Add(SpanValue);
+        }
+
+        XElement TableRow = null;
+        if (TableDataDesc != null)
+        {
+          if (TableRow == null)
+            TableRow = new XElement(tr);
+          TableRow.Add(TableDataDesc);
+        }
+        if (TableDataValue != null)
+        {
+          if (TableRow == null)
+            TableRow = new XElement(tr);
+          TableRow.Add(TableDataValue);
+        }
 
         SectionBase SectionBase = SectionBaseList.LastOrDefault();
         if (SectionBase != null)
         {
           SectionBase.End();
         }
+
         ValuePair oValuePair = new ValuePair();
         if (Header != null)
           oValuePair.Heading = Header;
-        oValuePair.ElementList.Add(TableRow);
+
+        if (TableRow != null)
+          oValuePair.ElementList.Add(TableRow);
+
         SectionBaseList.Add(oValuePair);
       }
 

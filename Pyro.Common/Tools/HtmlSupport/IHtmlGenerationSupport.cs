@@ -1,6 +1,6 @@
-﻿namespace Pyro.Common.Interfaces.ITools
+﻿namespace Pyro.Common.Interfaces.Tools.HtmlSupport
 {
-  public interface IFhirNarativeGenerationSupport
+  public interface IHtmlGenerationSupport
   {
     void AppendParagraph(string Value);
     void AppendValuePairList(string Desciption, string Value);

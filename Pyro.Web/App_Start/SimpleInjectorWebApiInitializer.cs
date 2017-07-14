@@ -32,6 +32,9 @@ namespace Pyro.Web.App_Start
   using Pyro.DataLayer.IndexSetter;
   using Pyro.Common.Cache;
   using Pyro.Common.BusinessEntities.Dto;
+  using Pyro.Common.Tools.FhirNarrative;
+  using Pyro.Common.FhirHttpResponse;
+  using Pyro.Common.Interfaces.Tools.HtmlSupport;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -54,6 +57,8 @@ namespace Pyro.Web.App_Start
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
+      container.Register<IFhirResourceNarrative, FhirResourceNarrative>(Lifestyle.Singleton);
+
 
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
@@ -86,7 +91,7 @@ namespace Pyro.Web.App_Start
       container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
 
-      container.Register<IFhirNarativeGenerationSupport, FhirNarativeGenerationSupport>(Lifestyle.Transient);
+      container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
 
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
@@ -103,6 +108,8 @@ namespace Pyro.Web.App_Start
       container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
+      container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Scoped);
+
 
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
 

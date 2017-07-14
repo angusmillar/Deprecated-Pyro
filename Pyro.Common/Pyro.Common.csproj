@@ -134,6 +134,7 @@
     <Compile Include="CompositionRoot\ICommonFactory.cs" />
     <Compile Include="CompositionRoot\IResourceRepositoryFactory.cs" />
     <Compile Include="FhirHttpResponse\FhirRestResponse.cs" />
+    <Compile Include="FhirHttpResponse\IFhirRestResponse.cs" />
     <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirMediaTypeFormatter.cs" />
     <Compile Include="Formatters\FhirXmlMediaTypeFormatter.cs" />
@@ -230,10 +231,12 @@
     <Compile Include="Tools\DateTimeSupport.cs" />
     <Compile Include="Tools\FhirDateSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
-    <Compile Include="Tools\FhirNarativeGenerationSupport.cs" />
+    <Compile Include="Tools\HtmlSupport\HtmlGenerationSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />
     <Compile Include="Tools\DecimalSupport.cs" />
     <Compile Include="Extentions\FormDataCollectionExtentions.cs" />
+    <Compile Include="Tools\FhirNarrative\IFhirResourceNarrative.cs" />
+    <Compile Include="Tools\FhirNarrative\FhirResourceNarrative.cs" />
     <Compile Include="Tools\FhirResourceSerializationSupport.cs" />
     <Compile Include="Tools\FhirResourceValidation\IFhirValidationSupport.cs" />
     <Compile Include="Tools\FhirResourceValidation\InternalServerProfileResolver.cs" />
@@ -241,7 +244,7 @@
     <Compile Include="Tools\FhirResourceValidation\FhirValidationSupport.cs" />
     <Compile Include="Tools\FhirResourceValidation\ZipSourceResolver.cs" />
     <Compile Include="Tools\HttpHeaderSupport.cs" />
-    <Compile Include="Interfaces\ITools\IFhirNarativeGenerationSupport.cs" />
+    <Compile Include="Tools\HtmlSupport\IHtmlGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />
     <Compile Include="Interfaces\ITools\IRepositorySwitcher.cs" />
     <Compile Include="Tools\Logger.cs" />

@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="RunServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartupConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

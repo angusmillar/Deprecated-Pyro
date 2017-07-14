@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.ITools;
+using Pyro.Common.Interfaces.Tools.HtmlSupport;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -30,7 +31,7 @@ namespace Pyro.Common.CompositionRoot
     IDtoRootUrlStore CreateDtoRootUrlStore();
     IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
     IResourceServiceOutcome CreateResourceServiceOutcome();
-    IFhirNarativeGenerationSupport CreateFhirNarativeGenerationSupport();
+    IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();
 
     //Services
     IBundleTransactionService CreateBundleTransactionService();

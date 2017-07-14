@@ -58,8 +58,6 @@ namespace Pyro.Common.Formatters
             if (typeof(Resource).IsAssignableFrom(type))
             {
               Resource resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(body);
-              //FhirXmlParser FhirXmlParser = new FhirXmlParser();
-              //Resource resource = FhirXmlParser.Parse<Resource>(body);
               return resource;
             }
             else

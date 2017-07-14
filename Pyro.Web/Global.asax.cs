@@ -13,10 +13,13 @@ namespace Pyro.Web
   {
     protected void Application_Start()
     {
+
+
+
       //If I don't have these two then Help pages do not render correctly
       //RegisterAllAreas seems to create page and Configure populates the pages
-      AreaRegistration.RegisterAllAreas();
-      GlobalConfiguration.Configure(WebApiConfig.Register);
+      //AreaRegistration.RegisterAllAreas();
+      //GlobalConfiguration.Configure(WebApiConfig.Register);
       //------------------------------------------------------
 
       //Below have been moved to Startup.cs for OWIN set-up
