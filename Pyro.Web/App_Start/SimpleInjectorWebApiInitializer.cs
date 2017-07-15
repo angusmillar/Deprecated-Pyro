@@ -52,7 +52,10 @@ namespace Pyro.Web.App_Start
 
     private static void InitializeContainer(Container container)
     {
-      //Singleton
+      //========================================================================================================
+      //=================== Singleton ==========================================================================            
+      //========================================================================================================
+
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
       container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Singleton);
@@ -77,8 +80,9 @@ namespace Pyro.Web.App_Start
       container.Register<IUriSetter, UriSetter>(Lifestyle.Singleton);
 
 
-
-      //Transient
+      //========================================================================================================
+      //=================== Transient ==========================================================================            
+      //========================================================================================================      
       container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
       container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUri>(Lifestyle.Transient);
       container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUri>(Lifestyle.Transient);
@@ -97,11 +101,9 @@ namespace Pyro.Web.App_Start
 
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
-
-
-
-
-      //Scoped            
+      //========================================================================================================
+      //=================== Scoped =============================================================================            
+      //========================================================================================================
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
@@ -111,8 +113,6 @@ namespace Pyro.Web.App_Start
       container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Scoped);
-
-
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
 
       //Scoped: Operations Locator 
@@ -133,12 +133,7 @@ namespace Pyro.Web.App_Start
       //Scoped: Load all the FHIR Validation Resolvers 
       container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
 
-
-      //container.Register<IPatientRes, PatientRes>(Lifestyle.Scoped);
-      //container.Register<IPatientResIndex, PatientResIndex>(Lifestyle.Scoped);
-
-
-      //Bellow returns all CommonResourceRepository types to be registered in contaioner
+      //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
