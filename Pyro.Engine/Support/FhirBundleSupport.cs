@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using Pyro.Common.Interfaces.UriSupport;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
@@ -47,7 +48,7 @@ namespace Pyro.Engine.Support
           {
             string Message = string.Format("Internal Server Error: Serialization of a Resource retrieved from the servers database failed. The record details were: Key: {0}, ResourceVersion: {1}, Received: {2}. The parser exception error was '{3}", DtoResource.FhirId, DtoResource.Version, DtoResource.Received.ToString(), oExec.Message);
             OperationOutcome OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
-            throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
+            throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
           }
         }
 

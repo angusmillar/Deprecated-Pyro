@@ -12,7 +12,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using System.Net;
 using Pyro.Common.Interfaces.Dto.Headers;
 using Pyro.Common.CompositionRoot;
@@ -58,7 +58,7 @@ namespace Pyro.Engine.Services
         string ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
         var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
         OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
-        throw new DtoPyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
+        throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
       }
     }
 

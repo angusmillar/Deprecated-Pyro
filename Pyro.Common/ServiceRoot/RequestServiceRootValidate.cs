@@ -1,5 +1,5 @@
 ﻿using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Tools;
@@ -71,7 +71,7 @@ namespace Pyro.Common.ServiceRoot
         //does not match that in the Web.Config file.
         //This is a configuration error.
         ErrorMsg = "The ServiceBaseURL configured in the Servers Web.Config does not match the service root URL found in the incoming request.";
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
       }
 
       if (IDtoPrimaryRootUrlStore != null &&
@@ -96,11 +96,11 @@ namespace Pyro.Common.ServiceRoot
           "will become invalid. " +
           "This change is not to be taken lightly and you should consider the ramifications carefully in the context of the " +
           "systems that interact with this service. ";
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
       }
 
       ErrorMsg = "Server Internal Error: Logic to resolve the Primary Service Root has failed. ";
-      throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
+      throw new PyroException(System.Net.HttpStatusCode.InternalServerError, Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMsg), ErrorMsg);
     }
 
   }

@@ -3,6 +3,7 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.Repository;
+using Pyro.Common.Exceptions;
 using System;
 using System.Data.Entity;
 
@@ -28,7 +29,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       catch (Exception Exec)
       {
         string Message = Exec.Message;
-        throw new Pyro.Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError,
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
           Pyro.Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Message), Message);
       }
     }

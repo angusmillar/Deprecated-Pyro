@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.Interfaces;
+using Pyro.Common.Exceptions;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 
@@ -57,7 +53,7 @@ namespace Pyro.DataLayer.Repository
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Diagnostics = outputLines.ToString();
         OpOutCome.Issue.Add(OpOutComeIssueComp);
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, outputLines.ToString(), e);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, outputLines.ToString(), e);
       }
       catch (DbUpdateException Exec)
       {
@@ -73,7 +69,7 @@ namespace Pyro.DataLayer.Repository
         OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
         OpOutComeIssueComp.Diagnostics = Exec.InnerException.InnerException.ToString();
         OpOutCome.Issue.Add(OpOutComeIssueComp);
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutCome, Exec.InnerException.InnerException.Message, Exec);
       }
     }
   }

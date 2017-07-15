@@ -13,11 +13,6 @@ namespace Pyro.Web.Areas.HelpPage.Controllers
   {
     private const string ErrorViewName = "Error";
 
-    //public HelpController()
-    //    : this(GlobalConfiguration.Configuration)
-    //{
-    //}
-
     public HelpController()
           : this(Startup.HttpConfiguration)
     {

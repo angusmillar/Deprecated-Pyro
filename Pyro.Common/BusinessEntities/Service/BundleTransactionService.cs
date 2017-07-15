@@ -12,6 +12,7 @@ using Pyro.Common.Tools;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.Model;
 using Pyro.Common.Extentions;
+using Pyro.Common.Exceptions;
 using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.BusinessEntities.Service
@@ -150,7 +151,7 @@ namespace Pyro.Common.BusinessEntities.Service
         }
         catch (Exception Exec)
         {
-          throw new Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError, FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+          throw new PyroException(System.Net.HttpStatusCode.InternalServerError, FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
       }
 

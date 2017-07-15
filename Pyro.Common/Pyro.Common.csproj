@@ -104,7 +104,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
-    <Compile Include="BusinessEntities\Dto\DtoPyroException.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
@@ -133,6 +132,10 @@
     <Compile Include="Cache\ICacheClear.cs" />
     <Compile Include="CompositionRoot\ICommonFactory.cs" />
     <Compile Include="CompositionRoot\IResourceRepositoryFactory.cs" />
+    <Compile Include="Exceptions\IFhirExceptionFilter.cs" />
+    <Compile Include="Exceptions\PyroException.cs" />
+    <Compile Include="Exceptions\FhirExceptionFilter.cs" />
+    <Compile Include="Exceptions\SqlExceptionSupport.cs" />
     <Compile Include="FhirHttpResponse\FhirRestResponse.cs" />
     <Compile Include="FhirHttpResponse\IFhirRestResponse.cs" />
     <Compile Include="Formatters\FhirJsonMediaTypeFormatter.cs" />
@@ -196,7 +199,6 @@
     <Compile Include="BusinessEntities\Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="BusinessEntities\Service\SearchParameterService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceServiceOutcome.cs" />
-    <Compile Include="CommonFactory.cs" />
     <Compile Include="Database\StaticDatabaseInfo.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
     <Compile Include="Enum\FhirSearchEnum.cs" />

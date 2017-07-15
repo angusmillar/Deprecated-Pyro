@@ -19,7 +19,10 @@ namespace Pyro.Test.IntergrationTest
       //Now we just check if any have been registered and if so don't do it again.
       //This only happen on integration test cases
       if (this._RouteCollection.Count == 0)
-       RouteConfig.RegisterRoutes(this._RouteCollection);      
+        RouteConfig.RegisterRoutes(this._RouteCollection);
     }
+    //Need this empty to not RegisterAllAreas, we only do that on Pyro.Web
+    public override void RegisterAllAreas() { }
+
   }
 }

@@ -18,7 +18,7 @@
 //    //Constructor for dependency injection
 //    public DefaultResourceServices(IUnitOfWork IUnitOfWork)
 //      : base(IUnitOfWork){}
-    
+
 //    public void SetCurrentResourceType(FHIRAllTypes ResourceType)
 //    {      
 //      _CurrentResourceType = ResourceType;
@@ -29,7 +29,7 @@
 //    {      
 //      SetCurrentResourceType(ResourceType.SearchParameter.GetLiteral());
 //    }
-    
+
 //    public void SetCurrentResourceType(string ResourceName)
 //    {
 //      Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
@@ -42,12 +42,12 @@
 //        string ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
 //        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
 //        OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
-//        throw new DtoPyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
+//        throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
 //      }      
 //    }
 
 
-    
+
 
 //    //public new FHIRAllTypes SetCurrentResourceType
 //    //{

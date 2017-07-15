@@ -1,9 +1,9 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,9 +84,9 @@ namespace Pyro.Web.Attributes
           if (!successfulRequest)
           {
             // log error
-            if (actionExecutedContext.Exception is Pyro.Common.BusinessEntities.Dto.DtoPyroException)
+            if (actionExecutedContext.Exception is PyroException)
             {
-              var fse = actionExecutedContext.Exception as Pyro.Common.BusinessEntities.Dto.DtoPyroException;
+              var fse = actionExecutedContext.Exception as PyroException;
               if ((int)fse.HttpStatusCode >= 500)
                 Audit.Outcome = AuditEvent.AuditEventOutcome.N8;
               else if ((int)fse.HttpStatusCode >= 400)

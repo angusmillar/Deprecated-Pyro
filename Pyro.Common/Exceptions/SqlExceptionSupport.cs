@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 using Pyro.Common.BusinessEntities.Dto;
 using System.Data.SqlClient;
 using Hl7.Fhir.Model;
-//using Pyro.DataModel.Repository;
 
-namespace Pyro.Engine.CustomException
+namespace Pyro.Common.Exceptions
 {
   public static class SqlExceptionSupport
   {
-    public static DtoPyroException GenerateDtoPyroException(SqlException SqlException, bool DebuggerAttached = false)
+    public static PyroException GenerateDtoPyroException(SqlException SqlException, bool DebuggerAttached = false)
     {
       OperationOutcome OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, ResolveIssueType(SqlException.Number), "SQL Exception has occurred, see diagnostics for exception message.");
       if (DebuggerAttached)
         OpOutCome.Issue[0].Diagnostics = SqlException.Message;
       else
         OpOutCome.Issue[0].Diagnostics = ResolveDiagnosticsText(SqlException.Number);
-      return new DtoPyroException(ResolveHttpStatusCode(SqlException.Number), OpOutCome, SqlException.Message, SqlException);
+      return new PyroException(ResolveHttpStatusCode(SqlException.Number), OpOutCome, SqlException.Message, SqlException);
     }
 
     private static string ResolveDiagnosticsText(int SqlErrorNumber)

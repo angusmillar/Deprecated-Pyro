@@ -280,7 +280,7 @@ namespace Pyro.Common.Tools
           {
             string Message = $"The Resource name given: '{ResourceType.GetLiteral()}' has no matching server repository. ";
             var OpOutCome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
-            throw new DtoPyroException(HttpStatusCode.BadRequest, OpOutCome, Message);
+            throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, Message);
           }
       }
     }

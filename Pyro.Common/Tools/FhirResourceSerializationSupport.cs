@@ -1,7 +1,7 @@
 ﻿using System;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 
 namespace Pyro.Common.Tools
 {
@@ -18,7 +18,7 @@ namespace Pyro.Common.Tools
       {
         string Message = string.Format("DeSerialisation of a XML to FHIR Resource failed with the following message: {0}", oExec.Message);
         OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
       }
     }
 
@@ -27,13 +27,13 @@ namespace Pyro.Common.Tools
       try
       {
         FhirJsonParser FhirJsonParser = new FhirJsonParser();
-        return FhirJsonParser.Parse<Resource>(Json);        
+        return FhirJsonParser.Parse<Resource>(Json);
       }
       catch (Exception oExec)
       {
         string Message = string.Format("DeSerialisation of a JSON to FHIR Resource failed with the following message: {0}", oExec.Message);
         OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
-        throw new DtoPyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
       }
     }
 

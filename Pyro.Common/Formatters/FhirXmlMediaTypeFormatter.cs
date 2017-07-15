@@ -14,7 +14,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.Rest;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using System.Text;
 
 namespace Pyro.Common.Formatters
@@ -48,7 +48,7 @@ namespace Pyro.Common.Formatters
           //return System.Threading.Tasks.Task.FromResult<object>(null);
           string Message = string.Format("The server was expecting a FHIR resource in the request body and found the body empty.");
           var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
-          throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
+          throw new PyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
 
         }
         else
@@ -64,7 +64,7 @@ namespace Pyro.Common.Formatters
             {
               string Message = string.Format("FHIR resource type error, the resource does not appear to be a FHIR resource, type found was: " + type.Name);
               var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, Message);
-              throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
+              throw new PyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message);
             }
           });
         }
@@ -73,7 +73,7 @@ namespace Pyro.Common.Formatters
       {
         string Message = string.Format("FHIR parser failed with the following error message: " + Exec.Message);
         var oOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Structure, Message);
-        throw new DtoPyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message, Exec);
+        throw new PyroException(System.Net.HttpStatusCode.BadRequest, oOperationOutcome, Message, Exec);
       }
     }
 

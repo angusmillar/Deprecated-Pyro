@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.Service;
 using System.Net;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Rest;
@@ -86,7 +86,7 @@ namespace Pyro.Common.BusinessEntities.Service
       {
         string message = "Internal Server Error: PyroServiceOperationoutcome was unable to resolve a Http Status Code for the operation performed.";
         var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, message);
-        throw new DtoPyroException(HttpStatusCode.InternalServerError, OpOutCome, message);
+        throw new PyroException(HttpStatusCode.InternalServerError, OpOutCome, message);
       }
     }
 

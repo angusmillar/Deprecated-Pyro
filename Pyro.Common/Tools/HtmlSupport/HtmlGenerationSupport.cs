@@ -53,6 +53,7 @@ namespace Pyro.Common.Interfaces.Tools.HtmlSupport
       {
         RootDiv.Add(item.Generate());
       }
+      _SectionList.Clear();
       return RootDiv.ToString();
     }
 

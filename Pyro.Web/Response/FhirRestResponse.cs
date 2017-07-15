@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Pyro.Common.Interfaces.Service;
 using System.Net.Http;
 using System.Net;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Exceptions;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
@@ -109,7 +109,7 @@ namespace Pyro.Web.Response
           oIssueComponent.Diagnostics = "Internal Error. FhirRestResponse contains no FHIR Resource or Id.";
           var oOperationOutcome = new OperationOutcome();
           oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
-          throw new DtoPyroException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
+          throw new PyroException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
         }
       }
       //Created: 201 

@@ -35,6 +35,7 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.Tools.FhirNarrative;
   using Pyro.Common.FhirHttpResponse;
   using Pyro.Common.Interfaces.Tools.HtmlSupport;
+  using Pyro.Common.Exceptions;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -54,11 +55,12 @@ namespace Pyro.Web.App_Start
       //Singleton
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+      container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Singleton);
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
       container.Register<IFhirResourceNarrative, FhirResourceNarrative>(Lifestyle.Singleton);
-
+      container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Singleton);
 
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
@@ -91,10 +93,10 @@ namespace Pyro.Web.App_Start
       container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
 
-      container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
 
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
+
 
 
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using Pyro.Common.Exceptions;
 using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Tools
@@ -58,9 +59,9 @@ namespace Pyro.Common.Tools
       EntityTagHeaderValue TempEtag;
       if (EntityTagHeaderValue.TryParse(ETag, out TempEtag))
       {
-        return TempEtag;        
+        return TempEtag;
       }
-      throw new FormatException("ETag is not formated correctly, string was: " + ETag);  
+      throw new FormatException("ETag is not formated correctly, string was: " + ETag);
     }
 
     /// <summary>
@@ -126,7 +127,7 @@ namespace Pyro.Common.Tools
         {
           string ErrorMessage = "if-Modified-Since value could not be converted to a DateTime. The value found was: " + ifModifiedSince;
           var Operationoutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, ErrorMessage);
-          throw new Common.BusinessEntities.Dto.DtoPyroException(System.Net.HttpStatusCode.InternalServerError, Operationoutcome, ErrorMessage);
+          throw new PyroException(System.Net.HttpStatusCode.InternalServerError, Operationoutcome, ErrorMessage);
         }
         //Remove the milliseconds        
         lastModified = new DateTimeOffset(lastModified.Value.Year, lastModified.Value.Month, lastModified.Value.Day, lastModified.Value.Hour, lastModified.Value.Minute, lastModified.Value.Second, 0, lastModified.Value.Offset);
