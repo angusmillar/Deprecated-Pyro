@@ -32,9 +32,6 @@ namespace Pyro.Web
       bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
                  "~/Scripts/typeahead.bundle.min.js"));
 
-      bundles.Add(new ScriptBundle("~/bundles/GoogleAnalyticsTracking").Include(
-                "~/Scripts/GoogleAnalyticsTracking.js"));
-
       var HighLighttheme = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css";
       bundles.Add(new StyleBundle("~/highlight/css", HighLighttheme).Include(
         "~/Content/googlecode.css"));
