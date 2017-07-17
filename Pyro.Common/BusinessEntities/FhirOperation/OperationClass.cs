@@ -8,6 +8,9 @@ using Pyro.Common.Enum;
 
 namespace Pyro.Common.BusinessEntities.FhirOperation
 {
+  /// <summary>
+  /// Only required for $Operation search parameters
+  /// </summary>
   public class OperationClass
   {
     public FhirOperationEnum.OperationScope Scope { get; set; }

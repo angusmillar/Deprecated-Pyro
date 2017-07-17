@@ -25,8 +25,6 @@ namespace Pyro.Web.App_Start
   using Pyro.Common.Tools.FhirResourceValidation;
   using Hl7.Fhir.Specification.Source;
   using System.Linq;
-  using Pyro.DataLayer.DbModel.EntityGenerated;
-  using Pyro.DataLayer.DbModel.EntityBase;
   using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
@@ -93,7 +91,7 @@ namespace Pyro.Web.App_Start
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
 
       container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
-      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGenericForDi>(Lifestyle.Transient);
+      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGeneric>(Lifestyle.Transient);
       container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
 

@@ -49,7 +49,7 @@ namespace Pyro.Common.BusinessEntities.Search
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
-        var SearchParameterGeneric = new DtoSearchParameterGeneric();
+        var SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric();
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
         var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);

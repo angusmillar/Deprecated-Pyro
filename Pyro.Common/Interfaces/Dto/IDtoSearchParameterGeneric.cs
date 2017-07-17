@@ -12,5 +12,7 @@ namespace Pyro.Common.Interfaces.Dto
     SummaryType? SummaryType { get; }
     IDtoSearchParameterGeneric Parse(Hl7.Fhir.Rest.SearchParams SearchParams);
     IDtoSearchParameterGeneric Parse(string SearchParameterString);
+    IList<Tuple<string, string>> Include { get; set; }
+    IList<Tuple<string, string>> RevInclude { get; set; }
   }
 }

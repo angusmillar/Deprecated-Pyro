@@ -7,6 +7,7 @@ using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Utility;
+using Pyro.Common.BusinessEntities.Dto.Search;
 
 namespace Pyro.Common.BusinessEntities.Search
 {
@@ -42,6 +43,7 @@ namespace Pyro.Common.BusinessEntities.Search
         return null;
       }
     }
+    public List<SearchParameterInclude> IncludeList { get; set; }
     public DtoSearchParameters()
     {
       this.SummaryType = null;

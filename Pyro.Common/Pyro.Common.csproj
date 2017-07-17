@@ -114,10 +114,11 @@
     <Compile Include="BusinessEntities\Dto\DtoServiceSearchParameterTargetResource.cs" />
     <Compile Include="BusinessEntities\Dto\Headers\DtoRequestHeaders.cs" />
     <Compile Include="BusinessEntities\Dto\IDtoServiceSearchParameterLight.cs" />
-    <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterGenericForDi.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\IDtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\IDtoSearchParameterReferance.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ISearchParameterFactory.cs" />
+    <Compile Include="BusinessEntities\Dto\Search\SearchParameterInclude.cs" />
     <Compile Include="BusinessEntities\Dto\Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClass.cs" />
     <Compile Include="BusinessEntities\FhirOperation\OperationClassFactory.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterBase.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDateTime.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterDateTimeValue.cs" />
-    <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterGeneric.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterQuantityValue.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterQuantity.cs" />
     <Compile Include="BusinessEntities\Dto\Search\DtoSearchParameterNumberValue.cs" />

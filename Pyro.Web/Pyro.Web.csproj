@@ -329,6 +329,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\FhirRest.js" />
+    <Content Include="Scripts\GoogleAnalyticsTracking.js" />
     <Content Include="Scripts\highlight.pack.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />

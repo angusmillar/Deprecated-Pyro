@@ -10,7 +10,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public PyroDbContext()
       : base("PyroConnectionString")
     {
-      DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
+      //Below is only commented out for LinqPad Debug testing
+      //DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
     }
 
     public DbContextTransaction BeginTransaction()

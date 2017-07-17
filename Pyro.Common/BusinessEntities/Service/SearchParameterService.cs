@@ -90,14 +90,15 @@ namespace Pyro.Common.BusinessEntities.Service
         throw new NullReferenceException("Server error: OperationClass can not be null when enum SearchParameterServiceType is set to Operation.");
 
 
-      ISearchParametersServiceOutcome _SearchParametersServiceOutcome = ICommonFactory.CreateSearchParametersServiceOutcome();
-      _SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
-      _SearchParametersServiceOutcome.SearchParameters.ResourceTarget = ResourceType;
-      _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<IDtoSearchParameterBase>();
-      _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
-      _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ICommonFactory.CreateSearchParametersServiceOutcome();
+      SearchParametersServiceOutcome.SearchParameters = new DtoSearchParameters();
+      SearchParametersServiceOutcome.SearchParameters.ResourceTarget = ResourceType;
+      SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<IDtoSearchParameterBase>();
+      SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+      SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
 
       List<DtoServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceType);
+      ProcessIncludeSearchParameters(SearchParameterGeneric, SearchParametersServiceOutcome);
 
       foreach (var Parameter in SearchParameterGeneric.ParameterList)
       {
@@ -110,16 +111,11 @@ namespace Pyro.Common.BusinessEntities.Service
           {
 
             IDtoSearchParameterBase oSearchParameter = ISearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
-            //if (oSearchParameter.Type == SearchParamType.Reference)
-            //{
-            //  oSearchParameter.PrimaryRootUrlStore = _SearchParametersServiceOutcome.SearchParameters.PrimaryRootUrlStore;
-            //}
-
-            if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter, _SearchParametersServiceOutcome))
+            if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter, SearchParametersServiceOutcome))
             {
-              if (!IsSingularSearchParameter(oSearchParameter, _SearchParametersServiceOutcome))
+              if (!IsSingularSearchParameter(oSearchParameter, SearchParametersServiceOutcome))
               {
-                _SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
+                SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(oSearchParameter);
               }
             }
           }
@@ -131,7 +127,7 @@ namespace Pyro.Common.BusinessEntities.Service
             if (ResourceType.HasValue)
               ResourceName = ResourceType.Value.ToString();
             DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for the resource type '{ResourceName}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
-            _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+            SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
           }
         }
       }
@@ -139,20 +135,114 @@ namespace Pyro.Common.BusinessEntities.Service
       //resolve Sort order parameters
       if (SearchParameterGeneric.Sort != null)
       {
-        _SearchParametersServiceOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
+        SearchParametersServiceOutcome.SearchParameters.SortList = new List<DtoSearchParameters.Sort>();
         foreach (var SortItem in SearchParameterGeneric.Sort)
         {
           string SearchParameterName = SortItem.Item1.Trim();
           DtoServiceSearchParameterLight oSupportedSearchParameter = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
-          _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
+          SearchParametersServiceOutcome.SearchParameters.SortList.Add(new DtoSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
         }
       }
 
-      return _SearchParametersServiceOutcome;
+      return SearchParametersServiceOutcome;
     }
 
+    private void ProcessIncludeSearchParameters(IDtoSearchParameterGeneric SearchParameterGeneric, ISearchParametersServiceOutcome SearchParametersServiceOutcome)
+    {
+      if (SearchParameterGeneric.Include != null)
+      {
+        foreach (var Include in SearchParameterGeneric.Include)
+        {
+          bool ParseOk = true;
+          var SearchParameterInclude = new Dto.Search.SearchParameterInclude();
+          var Key = Include.Item1;
+          var KeySplitArray = Key.Split(':'); //_includes:recurse
+          SearchParameterInclude.IsRecurse = false;
+          if (KeySplitArray.Count() > 1)
+          {
+            if (KeySplitArray[1].ToLower() == "recurse")
+            {
+              SearchParameterInclude.IsRecurse = true;
+            }
+          }
 
-    private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
+          var Value = Include.Item2;
+          var valueSplitArray = Value.Split(':');
+          string ScourceResource = valueSplitArray[0].Trim();
+          if (ModelInfo.IsKnownResource(ScourceResource))
+          {
+            SearchParameterInclude.SourceResourceType = ModelInfo.FhirTypeNameToFhirType(ScourceResource).Value;
+          }
+          else
+          {
+            ParseOk = false;
+            if (SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList == null)
+              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<DtoUnspportedSearchParameter>();
+            SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+            { RawParameter = $"{Key}={Value}", ReasonMessage = "The source Resource of the _includes parameter is not recognised." });
+
+          }
+
+          if (valueSplitArray.Count() > 2)
+          {
+            string TargetResourceType = valueSplitArray[2].Trim();
+            if (ModelInfo.IsKnownResource(TargetResourceType))
+            {
+              ParseOk = false;
+              SearchParameterInclude.SearchParameterTargetResourceType = ModelInfo.FhirTypeNameToFhirType(TargetResourceType).Value;
+              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+              { RawParameter = $"{Key}={Value}", ReasonMessage = "The target Resource of the _includes parameter is not recognised." });
+            }
+          }
+
+          if (valueSplitArray.Count() > 1)
+          {
+            string SearchTerm = valueSplitArray[1].Trim();
+            List<DtoServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType.Resource, null, SearchParameterInclude.SourceResourceType.GetLiteral());
+            DtoServiceSearchParameterLight DtoServiceSearchParameterLight = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchTerm);
+            if (DtoServiceSearchParameterLight != null)
+            {
+              if (DtoServiceSearchParameterLight.Type == SearchParamType.Reference)
+              {
+                if (DtoServiceSearchParameterLight.TargetResourceTypeList != null && SearchParameterInclude.SearchParameterTargetResourceType.HasValue)
+                {
+                  if (DtoServiceSearchParameterLight.TargetResourceTypeList.SingleOrDefault(x => x.ResourceType.GetLiteral() == SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()) == null)
+                  {
+                    ParseOk = false;
+                    SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+                    { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{DtoServiceSearchParameterLight.Resource}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
+                  }
+                }
+                SearchParameterInclude.SearchParameter = DtoServiceSearchParameterLight;
+              }
+              else
+              {
+                ParseOk = false;
+                SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter type Reference, found type '{DtoServiceSearchParameterLight.Type.ToString()}'." });
+              }
+            }
+            else
+            {
+              ParseOk = false;
+              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+              { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' search parameter '{SearchTerm}' is not valid for that Resource type." });
+            }
+          }
+
+          //All ok so add as valid include
+          if (ParseOk)
+          {
+            if (SearchParametersServiceOutcome.SearchParameters.IncludeList == null)
+              SearchParametersServiceOutcome.SearchParameters.IncludeList = new List<Dto.Search.SearchParameterInclude>();
+            SearchParametersServiceOutcome.SearchParameters.IncludeList.Add(SearchParameterInclude);
+          }
+
+        }
+      }
+    }
+
+    private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, string ResourceType)
     {
       List<DtoServiceSearchParameterLight> DtoSupportedServiceSearchParameterList = new List<DtoServiceSearchParameterLight>();
       //For non Resource URL values, e.g _format, _summary
@@ -175,11 +265,18 @@ namespace Pyro.Common.BusinessEntities.Service
       //For Resource search parameters
       if ((SearchParameterServiceType & SearchParameterServiceType.Resource) == SearchParameterServiceType.Resource)
       {
-        DtoSupportedServiceSearchParameterList.AddRange(IServiceSearchParameterCache.GetSearchParameterForResource(ResourceType.Value.GetLiteral()));
+        DtoSupportedServiceSearchParameterList.AddRange(IServiceSearchParameterCache.GetSearchParameterForResource(ResourceType));
       }
 
       return DtoSupportedServiceSearchParameterList;
     }
+
+    private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
+    {
+      return GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceType.Value.GetLiteral());
+    }
+
+
     private bool IsSingularSearchParameter(IDtoSearchParameterBase oSearchParameter, ISearchParametersServiceOutcome _SearchParametersServiceOutcome)
     {
       if (oSearchParameter.Name == "page")
