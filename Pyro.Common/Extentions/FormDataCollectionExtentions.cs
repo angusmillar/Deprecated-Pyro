@@ -12,8 +12,11 @@ namespace Pyro.Common.Extentions
     public static IEnumerable<Tuple<string, string>> GetAsTupleCollection(this IEnumerable<KeyValuePair<string, string>> values)
     {
       List<Tuple<string, string>> SearchTupleCollection = new List<Tuple<string, string>>();
-      foreach(var Pair in values)
-        SearchTupleCollection.Add(new Tuple<string, string>(Pair.Key, Pair.Value));
+      if (values != null)
+      {
+        foreach (var Pair in values)
+          SearchTupleCollection.Add(new Tuple<string, string>(Pair.Key, Pair.Value));
+      }
       return SearchTupleCollection;
     }
   }
