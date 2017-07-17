@@ -273,7 +273,10 @@ namespace Pyro.Common.BusinessEntities.Service
 
     private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
     {
-      return GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceType.Value.GetLiteral());
+      string ResourceString = string.Empty;
+      if (ResourceType.HasValue)
+        ResourceString = ResourceType.Value.GetLiteral();
+      return GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceString);
     }
 
 
