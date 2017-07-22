@@ -103,7 +103,6 @@
     <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />
-    <Compile Include="Services\DefaultResourceServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\ResourceServicesBase.cs" />
     <Compile Include="Services\PyroService.cs" />

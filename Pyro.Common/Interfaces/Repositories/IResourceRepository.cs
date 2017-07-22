@@ -15,9 +15,12 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri);
     IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId);
     IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection);
-    IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters);
-    IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber);
-    IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false);
+    IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirId, DtoSearchParameters DtoSearchParameters);
+    IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirId, string ResourceVersionNumber);
+    IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true);
+
+    string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId);
+
     int DeleteNonCurrentResourceIndexes();
     void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
     int GetTotalCurrentResourceCount();

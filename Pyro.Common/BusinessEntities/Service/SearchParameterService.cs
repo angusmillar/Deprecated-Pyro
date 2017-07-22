@@ -188,8 +188,11 @@ namespace Pyro.Common.BusinessEntities.Service
             string TargetResourceType = valueSplitArray[2].Trim();
             if (ModelInfo.IsKnownResource(TargetResourceType))
             {
-              ParseOk = false;
               SearchParameterInclude.SearchParameterTargetResourceType = ModelInfo.FhirTypeNameToFhirType(TargetResourceType).Value;
+            }
+            else
+            {
+              ParseOk = false;
               SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
               { RawParameter = $"{Key}={Value}", ReasonMessage = "The target Resource of the _includes parameter is not recognised." });
             }
@@ -210,7 +213,7 @@ namespace Pyro.Common.BusinessEntities.Service
                   {
                     ParseOk = false;
                     SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-                    { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{DtoServiceSearchParameterLight.Resource}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
+                    { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{SearchParameterInclude.SourceResourceType.GetLiteral()}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
                   }
                 }
                 SearchParameterInclude.SearchParameter = DtoServiceSearchParameterLight;
@@ -219,14 +222,14 @@ namespace Pyro.Common.BusinessEntities.Service
               {
                 ParseOk = false;
                 SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter type Reference, found type '{DtoServiceSearchParameterLight.Type.ToString()}'." });
+                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter of type Reference, found search parameter type of '{DtoServiceSearchParameterLight.Type.ToString()}'." });
               }
             }
             else
             {
               ParseOk = false;
               SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-              { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' search parameter '{SearchTerm}' is not valid for that Resource type." });
+              { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{SearchTerm}' is not a valid search parameter for the source Resource type." });
             }
           }
 

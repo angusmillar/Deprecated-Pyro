@@ -15,6 +15,7 @@ namespace Pyro.Common.BusinessEntities.Search
   {
     public FHIRAllTypes? ResourceTarget { get; set; }
     public List<IDtoSearchParameterBase> SearchParametersList { get; set; }
+    public List<SearchParameterInclude> IncludeList { get; set; }
     public List<DtoUnspportedSearchParameter> UnspportedSearchParameterList { get; set; }
     public List<Sort> SortList { get; set; }
     public int RequiredPageNumber { get; set; }
@@ -26,12 +27,30 @@ namespace Pyro.Common.BusinessEntities.Search
       string UrlString = RequestPrimaryServiceRoot;
       if (ResourceTarget.HasValue)
         UrlString = $"{UrlString}/{ResourceTarget.GetLiteral()}";
+      bool FirstParameter = true;
+      if ((SearchParametersList != null && SearchParametersList.Any()) || (IncludeList != null && IncludeList.Any()))
+      {
+        UrlString += "?";
+      }
+
       for (int i = 0; i < SearchParametersList.Count; i++)
       {
-        if (i == 0)
-          UrlString += $"/?{SearchParametersList[i].RawValue}";
+        if (FirstParameter)
+          UrlString += $"{SearchParametersList[i].RawValue}";
         else
           UrlString += $"&{UrlString}{SearchParametersList[i].RawValue}";
+        FirstParameter = false;
+      }
+      if (IncludeList != null)
+      {
+        for (int i = 0; i < IncludeList.Count; i++)
+        {
+          if (FirstParameter)
+            UrlString += $"{IncludeList[i].AsFormatedSearchParameter()}";
+          else
+            UrlString += $"&{IncludeList[i].AsFormatedSearchParameter()}";
+          FirstParameter = false;
+        }
       }
       try
       {
@@ -43,7 +62,7 @@ namespace Pyro.Common.BusinessEntities.Search
         return null;
       }
     }
-    public List<SearchParameterInclude> IncludeList { get; set; }
+
     public DtoSearchParameters()
     {
       this.SummaryType = null;

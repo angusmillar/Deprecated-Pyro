@@ -47,7 +47,7 @@ namespace Pyro.Test.IndexSetters
       Assert.AreEqual(10, Result.Count.Value);
       Assert.IsNull(Result.SummaryType);
       Assert.AreEqual(1, Result.Include.Count);
-      Assert.AreEqual("Patient:organization", Result.Include[0]);
+      Assert.AreEqual("Patient:organization", Result.Include[0].Item2);
     }
 
 

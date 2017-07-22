@@ -10,21 +10,55 @@ using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Interfaces.ITools;
+using Pyro.Common.Exceptions;
+using System.Net;
+using Hl7.Fhir.Utility;
+using Pyro.Common.BusinessEntities.Dto.Search;
 
 namespace Pyro.Engine.Services
 {
   public class ResourceServicesBase : CommonServices, IResourceServicesBase
   {
-    protected bool _TransactionStarted;
     protected IResourceRepository _ResourceRepository = null;
     protected readonly ICommonFactory ICommonFactory;
+    private readonly IRepositorySwitcher IRepositorySwitcher;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork, ICommonFactory ICommonFactory)
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory)
       : base(IUnitOfWork)
     {
       this.ICommonFactory = ICommonFactory;
+      this.IRepositorySwitcher = IRepositorySwitcher;
     }
+
+    public void SetCurrentResourceType(FHIRAllTypes ResourceType)
+    {
+      _CurrentResourceType = ResourceType;
+      _ResourceRepository = IRepositorySwitcher.GetRepository(_CurrentResourceType);
+    }
+
+    public void SetCurrentResourceType(ResourceType ResourceType)
+    {
+      SetCurrentResourceType(ResourceType.GetLiteral());
+    }
+
+    public void SetCurrentResourceType(string ResourceName)
+    {
+      Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
+      if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+      {
+        this.SetCurrentResourceType((FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName));
+      }
+      else
+      {
+        string ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
+        OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
+        throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
+      }
+    }
+
 
     protected FHIRAllTypes _CurrentResourceType = FHIRAllTypes.AuditEvent;
 
@@ -259,9 +293,77 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
+    private List<Common.BusinessEntities.Dto.DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<Common.BusinessEntities.Dto.DtoResource> SearchResourceList)
+    {
+      if (IncludeList == null)
+        throw new NullReferenceException("IncludeList cannot be null");
+
+      if (SearchResourceList == null)
+        throw new NullReferenceException("SearchResourceList cannot be null");
+
+      var IncludeResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+      HashSet<string> CacheResourceIDsAlreadyCollected = new HashSet<string>();
+      foreach (var Resource in SearchResourceList)
+      {
+        IncludeResourceList.Add(Resource);
+        foreach (var include in IncludeList)
+        {
+          if (Resource.ResourceType.Value == include.SourceResourceType)
+          {
+            SetCurrentResourceType(Resource.ResourceType.Value);
+            string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance(Resource.Id, include.SearchParameter.Id);
+            if (include.SearchParameterTargetResourceType.HasValue)
+            {
+              SetCurrentResourceType(include.SearchParameterTargetResourceType.Value);
+              foreach (string FhirId in FhirIdList)
+              {
+                //Don't source the same resource again from the Database if we already have it
+                if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
+                {
+                  IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
+                  var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
+                  DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
+                  IncludeResourceList.AddRange(DtoIncludeResourceList);
+                  CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
+                }
+              }
+            }
+            else
+            {
+              foreach (var SearchParameterResourceTarget in include.SearchParameter.TargetResourceTypeList)
+              {
+                SetCurrentResourceType(SearchParameterResourceTarget.ResourceType);
+                foreach (string FhirId in FhirIdList)
+                {
+                  //Don't source the same resource again from the Database if we already have it
+                  if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
+                  {
+                    IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
+                    var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
+                    DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
+                    IncludeResourceList.AddRange(DtoIncludeResourceList);
+                    CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return IncludeResourceList;
+    }
+
     public IResourceServiceOutcome GetResourcesBySearch(IDtoRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
+      Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
+
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
+
+      //Add any _include Resources
+      if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
+      {
+        DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+      }
 
       oPyroServiceOperationOutcome.ResourceResult = Support.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
                                                                                              Bundle.BundleType.Searchset,
@@ -269,7 +371,7 @@ namespace Pyro.Engine.Services
                                                                                              DatabaseOperationOutcome.SearchTotal,
                                                                                              DatabaseOperationOutcome.PagesTotal,
                                                                                              DatabaseOperationOutcome.PageRequested,
-                                                                                             SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString));
+                                                                                             SelfLink);
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
       oPyroServiceOperationOutcome.IsDeleted = null;

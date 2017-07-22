@@ -48,11 +48,22 @@ namespace Pyro.DataLayer.Repository
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
+
+    public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId)
+    {
+      var RefPredicate = IndexRefPredicateGenerator<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterId);
+      var IndexQuery = DbGetIndexAll<ResourceCurrentType, ResourceIndexType>(RefPredicate);
+      var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
+      return IndexResult;
+    }
+
+
     public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       SetNumberOfRecordsPerPage(DtoSearchParameters);
 
       var Predicate = PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters);
+
       int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
       var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
 
@@ -66,6 +77,7 @@ namespace Pyro.DataLayer.Repository
       {
         DtoResourceList = Query.Select(x => new DtoResource
         {
+          Id = x.Id,
           FhirId = x.FhirId,
           IsDeleted = x.IsDeleted,
           IsCurrent = true,
@@ -80,6 +92,7 @@ namespace Pyro.DataLayer.Repository
       {
         DtoResourceList = Query.Select(x => new DtoResource
         {
+          Id = x.Id,
           FhirId = x.FhirId,
           IsDeleted = x.IsDeleted,
           IsCurrent = true,
@@ -99,21 +112,29 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirResourceId, bool WithXml = false)
+
+    public IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
       {
-        DtoResource = DbGetWithXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirResourceId & x.IsCurrent == true);
+        if (IncludeDeleted)
+          DtoResource = DbGetWithXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true);
+        else
+          DtoResource = DbGetWithXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
       }
       else
       {
-        DtoResource = DbGetNoXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirResourceId & x.IsCurrent == true);
+        if (IncludeDeleted)
+          DtoResource = DbGetNoXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true);
+        else
+          DtoResource = DbGetNoXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
       }
       if (DtoResource != null)
       {
+        DtoResource.ResourceType = this.RepositoryResourceType;
         DatabaseOperationOutcome.ReturnedResourceList.Add(DtoResource);
       }
       return DatabaseOperationOutcome;
@@ -218,9 +239,9 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId)
+    public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirId)
     {
-      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirResourceId);
+      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);
       var NewResourceEntity = new ResourceCurrentType();
       IndexSettingSupport.SetHistoryResourceEntity(OldResourceEntity, NewResourceEntity);
       string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
@@ -278,12 +299,12 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public ResourceCurrentType LoadCurrentResourceEntity(string fhirResourceId)
+    public ResourceCurrentType LoadCurrentResourceEntity(string FhirId)
     {
       var IncludeList = new List<Expression<Func<ResourceCurrentType, object>>>();
       IncludeList.Add(x => x.IndexList);
 
-      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == fhirResourceId & x.IsCurrent == true, IncludeList);
+      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true, IncludeList);
       return ResourceEntity;
     }
 

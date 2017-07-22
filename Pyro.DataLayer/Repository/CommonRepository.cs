@@ -23,7 +23,7 @@ namespace Pyro.DataLayer.Repository
 {
   public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
   {
-    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     protected readonly ICommonFactory ICommonFactory;
     #region Constructor
     public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
@@ -33,6 +33,30 @@ namespace Pyro.DataLayer.Repository
       this.ICommonFactory = ICommonFactory;
     }
     #endregion
+
+
+
+    protected ExpressionStarter<ResourceIndexType> IndexRefPredicateGenerator<ResourceCurrentType, ResourceIndexType>(int ResourceId, int ServiceSearchParameterId)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    {
+      var Search = new ResourceSearch<ResourceCurrentType, ResourceIndexType>();
+      var Predicate = LinqKit.PredicateBuilder.New<ResourceIndexType>(true);
+
+      Predicate = Predicate.And(x =>
+        x.ServiceSearchParameterId == ServiceSearchParameterId &
+        x.ResourceId == ResourceId &
+        x.Resource.IsDeleted == false &
+        x.Resource.IsCurrent == true &
+        x.ReferenceUrl.IsServersPrimaryUrlRoot == true
+      );
+
+      //MainPredicate.Extend<ResourceIndexType>(MainPredicate, PredicateOperator.And);
+
+      return Predicate;
+    }
+
+
 
     //---- PredicateGenerator ---------------------------------------------------------------
     protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters)
@@ -447,6 +471,16 @@ namespace Pyro.DataLayer.Repository
         Xml = x.XmlBlob,
       }).FirstOrDefault();
     }
+
+    protected IQueryable<ResourceIndexType> DbGetIndexAll<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceIndexType, bool>> predicate)
+     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    {
+      IQueryable<ResourceIndexType> ResourceIndexEntity = null;
+      ResourceIndexEntity = IPyroDbContext.Set<ResourceIndexType>().AsExpandable().Where(predicate);
+      return ResourceIndexEntity;
+    }
+
 
     protected IQueryable<ResourceCurrentType> DbGetAll<ResourceCurrentType, ResourceIndexType>(Expression<Func<ResourceCurrentType, bool>> predicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>

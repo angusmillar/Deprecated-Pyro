@@ -23,16 +23,6 @@ namespace Pyro.Engine.Support
 
       //Paging           
       PagingSupport.SetBundlePagnation(FhirBundle, RequestUri.FhirRequestUri.OriginalString, PagesTotal, PageRequested, SearchPerformedUri);
-      //int LastPageNumber = PagingSupport.GetLastPageNumber(PagesTotal);
-      //FhirBundle.FirstLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetFirstPageNumber());
-      //FhirBundle.LastLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, LastPageNumber);
-      //Uri Next = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetNextPageNumber(PageRequested, PagesTotal));
-      //if (Next != null)
-      //  FhirBundle.NextLink = Next;
-
-      //FhirBundle.PreviousLink = PagingSupport.GetPageNavigationUri(RequestUri.FhirRequestUri.OriginalString, PagingSupport.GetPreviousPageNumber(PageRequested));
-      //if (SearchPerformedUri != null)
-      //  FhirBundle.SelfLink = SearchPerformedUri;
 
       foreach (DtoResource DtoResource in ResourceList)
       {
@@ -84,6 +74,8 @@ namespace Pyro.Engine.Support
         {
           oResEntry.Search = new Bundle.SearchComponent();
           oResEntry.Search.Mode = Bundle.SearchEntryMode.Match;
+          if (DtoResource is DtoIncludeResource)
+            oResEntry.Search.Mode = Bundle.SearchEntryMode.Include;
           oResEntry.Link = new List<Bundle.LinkComponent>();
         }
 

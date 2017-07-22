@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
+    <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="BusinessEntities\Dto\DtoSearchParameterDbInfo.cs" />
