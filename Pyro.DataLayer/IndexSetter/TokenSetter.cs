@@ -95,7 +95,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else
       {
-        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
       ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
       return ResourceIndexList;

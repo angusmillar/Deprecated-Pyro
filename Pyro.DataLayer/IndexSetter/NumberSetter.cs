@@ -37,6 +37,10 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetFhirDecimal<ResourceCurrentType, ResourceIndexType>(FhirDecimal, ResourceIndexList);
         }
+        else if (Poco.FhirValue is Range Range)
+        {
+          SetRange<ResourceCurrentType, ResourceIndexType>(Range, ResourceIndexList);
+        }
         else
         {
           throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
@@ -46,7 +50,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else
       {
-        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
     }
 
@@ -59,6 +63,32 @@ namespace Pyro.DataLayer.IndexSetter
         var ResourceIndex = new ResourceIndexType();
         ResourceIndex.Quantity = FhirDecimal.Value;
         ResourceIndexList.Add(ResourceIndex);
+      }
+    }
+
+    private static void SetRange<ResourceCurrentType, ResourceIndexType>(Range Range, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    {
+      if (Range.Low != null)
+      {
+        if (Range.Low.Value.HasValue)
+        {
+          var ResourceIndex = new ResourceIndexType();
+          ResourceIndex.Quantity = Range.Low.Value;
+          ResourceIndex.Comparator = Quantity.QuantityComparator.GreaterOrEqual;
+          ResourceIndexList.Add(ResourceIndex);
+        }
+      }
+      if (Range.High != null)
+      {
+        if (Range.High.Value.HasValue)
+        {
+          var ResourceIndex = new ResourceIndexType();
+          ResourceIndex.Quantity = Range.High.Value;
+          ResourceIndex.Comparator = Quantity.QuantityComparator.LessOrEqual;
+          ResourceIndexList.Add(ResourceIndex);
+        }
       }
     }
 

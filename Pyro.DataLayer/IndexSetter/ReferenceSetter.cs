@@ -49,6 +49,14 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetResource<ResourceCurrentType, ResourceIndexType>(Resource, ResourceIndexList);
         }
+        else if (Poco.FhirValue is Attachment Attachment)
+        {
+          SetUri<ResourceCurrentType, ResourceIndexType>(Attachment, ResourceIndexList);
+        }
+        else if (Poco.FhirValue is Identifier Identifier)
+        {
+          SetIdentifier<ResourceCurrentType, ResourceIndexType>(Identifier, ResourceIndexList);
+        }
         else
         {
           throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
@@ -58,7 +66,18 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else
       {
-        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+      }
+    }
+
+    private void SetIdentifier<ResourceCurrentType, ResourceIndexType>(Identifier Identifier, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    {
+      if (Identifier != null && !string.IsNullOrWhiteSpace(Identifier.System) && !string.IsNullOrWhiteSpace(Identifier.Value))
+      {
+        string TempUrl = $"{Identifier.System}/{Identifier.Value}";
+        SetReferance<ResourceCurrentType, ResourceIndexType>(TempUrl, ResourceIndexList);
       }
     }
 
@@ -87,6 +106,16 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetReferance<ResourceCurrentType, ResourceIndexType>(ResourceReference.Url.OriginalString, ResourceIndexList);
         }
+      }
+    }
+
+    private void SetUri<ResourceCurrentType, ResourceIndexType>(Attachment Attachment, List<ResourceIndexType> ResourceIndexList)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    {
+      if (Attachment != null && string.IsNullOrWhiteSpace(Attachment.Url))
+      {
+        SetReferance<ResourceCurrentType, ResourceIndexType>(Attachment.Url, ResourceIndexList);
       }
     }
 

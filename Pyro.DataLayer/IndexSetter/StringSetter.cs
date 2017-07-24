@@ -43,6 +43,10 @@ namespace Pyro.DataLayer.IndexSetter
         {
           SetAnnotation<ResourceCurrentType, ResourceIndexType>(Annotation, ResourceIndexList);
         }
+        else if (Poco.FhirValue is Base64Binary Base64Binary)
+        {
+          //No good purpose to index base64 content as a search index          
+        }
         else
         {
           throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
@@ -62,7 +66,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else
       {
-        throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
       ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
       return ResourceIndexList;
