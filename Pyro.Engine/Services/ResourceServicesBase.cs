@@ -147,6 +147,7 @@ namespace Pyro.Engine.Services
       Resource.Meta.LastUpdated = DateTimeOffset.Now;
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = null;
+
       if (CrudOperationType == RestEnum.CrudOperationType.Update)
       {
         DatabaseOperationOutcome = _ResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);

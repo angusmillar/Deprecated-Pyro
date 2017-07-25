@@ -197,6 +197,9 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("DtoFhirRequestUri can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
+      if (!ResourceProvidedMatchesEndpointItWasProvidedOn(RequestUri, Resource.ResourceType))
+        throw new FormatException($"Attempting to POST a Resource of type {Resource.ResourceType.GetLiteral()} on an endpoint for Resource Type {RequestUri.FhirRequestUri.ResourseName}, this is not allowed.");
+
       //RequestHeaders can been null
       if (!string.IsNullOrWhiteSpace(ForceId))
       {
@@ -307,6 +310,8 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
+      if (!ResourceProvidedMatchesEndpointItWasProvidedOn(RequestUri, Resource.ResourceType))
+        throw new FormatException($"Attempting to PUT a Resource of type {Resource.ResourceType.GetLiteral()} on an endpoint for Resource Type {RequestUri.FhirRequestUri.ResourseName}, this is not allowed.");
 
       IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
@@ -443,15 +448,18 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalPut(
       Resource Resource,
-      IDtoRequestUri FhirRequestUri,
+      IDtoRequestUri RequestUri,
       IDtoSearchParameterGeneric SearchParameterGeneric)
     {
       if (Resource == null)
         throw new NullReferenceException($"Resource can not be null.");
-      if (FhirRequestUri == null)
+      if (RequestUri == null)
         throw new NullReferenceException($"RequestUri can not be null.");
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
+      if (!ResourceProvidedMatchesEndpointItWasProvidedOn(RequestUri, Resource.ResourceType))
+        throw new FormatException($"Attempting to PUT a Resource of type {Resource.ResourceType.GetLiteral()} on an endpoint for Resource Type {RequestUri.FhirRequestUri.ResourseName}, this is not allowed.");
+
 
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = ICommonFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
@@ -473,7 +481,7 @@ namespace Pyro.Engine.Services
         //No resource found so do a normal Create, first clear any Resource Id that may 
         //be in the resource
         Resource.Id = string.Empty;
-        ServiceOperationOutcomeConditionalPut = this.Post(Resource, FhirRequestUri, SearchParameterGeneric, null, null);
+        ServiceOperationOutcomeConditionalPut = this.Post(Resource, RequestUri, SearchParameterGeneric, null, null);
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         //Don't set to true below as the POST above will set the bool based on it's own result
         //oServiceOperationOutcome.SuccessfulTransaction = true;
@@ -503,7 +511,7 @@ namespace Pyro.Engine.Services
 
         //A database resource has been found so update the new resource's version number based on the older resource              
         Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeSearch.ReturnedResourceList[0].Version);
-        ServiceOperationOutcomeConditionalPut = SetResource(Resource, FhirRequestUri, RestEnum.CrudOperationType.Update);
+        ServiceOperationOutcomeConditionalPut = SetResource(Resource, RequestUri, RestEnum.CrudOperationType.Update);
         ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = true;
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalPut;
@@ -641,6 +649,11 @@ namespace Pyro.Engine.Services
     public int GetTotalCurrentResourceCount()
     {
       return _ResourceRepository.GetTotalCurrentResourceCount();
+    }
+
+    private bool ResourceProvidedMatchesEndpointItWasProvidedOn(IDtoRequestUri requestUri, ResourceType resourceType)
+    {
+      return (requestUri.FhirRequestUri.ResourseName == resourceType.GetLiteral());
     }
 
   }
