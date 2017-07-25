@@ -52,7 +52,16 @@ namespace Pyro.Engine.Services
       }
       else
       {
-        string ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+        string ErrorMessage = string.Empty;
+        ResourceType = ModelInfo.GetTypeForFhirType(StringSupport.UppercaseFirst(ResourceName));
+        if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+        {
+          ErrorMessage = $"The Resource name given '{ResourceName}' must begin with a capital letter, e.g ({StringSupport.UppercaseFirst(ResourceName)})";
+        }
+        else
+        {
+          ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+        }
         var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
         OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
         throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
@@ -293,7 +302,7 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    private List<Common.BusinessEntities.Dto.DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<Common.BusinessEntities.Dto.DtoResource> SearchResourceList)
+    private List<Common.BusinessEntities.Dto.DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<Common.BusinessEntities.Dto.DtoResource> SearchResourceList, bool Recursive = false)
     {
       if (IncludeList == null)
         throw new NullReferenceException("IncludeList cannot be null");
@@ -302,47 +311,69 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("SearchResourceList cannot be null");
 
       var IncludeResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-      HashSet<string> CacheResourceIDsAlreadyCollected = new HashSet<string>();
+      HashSet<string> CacheResourceIDsAlreadyCollected = null;
+
+
+      IEnumerable<SearchParameterInclude> IncludeListToProcess = null;
+      if (Recursive)
+      {
+        IncludeListToProcess = IncludeList.Where(x => x.IsRecurse);
+      }
+      else
+      {
+        CacheResourceIDsAlreadyCollected = new HashSet<string>();
+        //Add al the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
+        SearchResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
+        IncludeListToProcess = IncludeList;
+      }
+
       foreach (var Resource in SearchResourceList)
       {
-        IncludeResourceList.Add(Resource);
-        foreach (var include in IncludeList)
+        //Only add when not recursive as this adds the source resource from initial search
+        if (!Recursive)
+          IncludeResourceList.Add(Resource);
+
+        //Now process each include
+        foreach (var include in IncludeListToProcess)
         {
           if (Resource.ResourceType.Value == include.SourceResourceType)
           {
             SetCurrentResourceType(Resource.ResourceType.Value);
-            string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance(Resource.Id, include.SearchParameter.Id);
+
+            //We only want to get the include target Resources
             if (include.SearchParameterTargetResourceType.HasValue)
             {
+              //Get the Search parameter Ids where the search parameter target list can contain the include's Resource target type
+              int[] IdArray = include.SearchParameterList.Where(z => z.TargetResourceTypeList.Any(c => c.ResourceType.GetLiteral() == include.SearchParameterTargetResourceType.Value.GetLiteral())).Select(x => x.Id).ToArray();
+              //Now only get the FhirId of the resources that have Search Index References that have these include target resource
+              string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, IdArray, include.SearchParameterTargetResourceType.Value.GetLiteral());
+              //Set the repository to the include's target resource in order to get the include resources
               SetCurrentResourceType(include.SearchParameterTargetResourceType.Value);
+              //Get each as long as it is not already gotten based on CacheResourceIDsAlreadyCollected list
               foreach (string FhirId in FhirIdList)
               {
-                //Don't source the same resource again from the Database if we already have it
-                if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
-                {
-                  IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
-                  var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
-                  DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
-                  IncludeResourceList.AddRange(DtoIncludeResourceList);
-                  CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
-                }
+                AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
               }
             }
             else
             {
-              foreach (var SearchParameterResourceTarget in include.SearchParameter.TargetResourceTypeList)
+              //There is no include target so try and get all
+              foreach (var IncludeItemSearchParameter in include.SearchParameterList)
               {
-                SetCurrentResourceType(SearchParameterResourceTarget.ResourceType);
-                foreach (string FhirId in FhirIdList)
+                foreach (var SearchParameterResourceTarget in IncludeItemSearchParameter.TargetResourceTypeList)
                 {
-                  //Don't source the same resource again from the Database if we already have it
-                  if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
+                  //Switch source resource repository to get reference FhirIds
+                  SetCurrentResourceType(Resource.ResourceType.Value);
+                  string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, new int[] { IncludeItemSearchParameter.Id }, SearchParameterResourceTarget.ResourceType.GetLiteral());
+                  if (FhirIdList.Count() > 0)
                   {
-                    IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
-                    var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
-                    DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
-                    IncludeResourceList.AddRange(DtoIncludeResourceList);
-                    CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
+                    //Switch to SearchParameterResourceTarget resource repository to get the include resource if found
+                    SetCurrentResourceType(SearchParameterResourceTarget.ResourceType);
+                    foreach (string FhirId in FhirIdList)
+                    {
+                      //Don't source the same resource again from the Database if we already have it
+                      AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
+                    }
                   }
                 }
               }
@@ -351,6 +382,19 @@ namespace Pyro.Engine.Services
         }
       }
       return IncludeResourceList;
+    }
+
+    private void AddIncludeResourceInstance(List<Common.BusinessEntities.Dto.DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, string FhirId)
+    {
+      //Don't source the same resource again from the Database if we already have it
+      if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
+      {
+        IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
+        var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
+        DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
+        IncludeResourceList.AddRange(DtoIncludeResourceList);
+        CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
+      }
     }
 
     public IResourceServiceOutcome GetResourcesBySearch(IDtoRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
