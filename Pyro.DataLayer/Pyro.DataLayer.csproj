@@ -124,9 +124,9 @@
     <Compile Include="Migrations\201706130828061_CaseSensativeFhirId.Designer.cs">
       <DependentUpon>201706130828061_CaseSensativeFhirId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707250201478_CodeMaxLengthBigger.cs" />
-    <Compile Include="Migrations\201707250201478_CodeMaxLengthBigger.Designer.cs">
-      <DependentUpon>201707250201478_CodeMaxLengthBigger.cs</DependentUpon>
+    <Compile Include="Migrations\201707250621340_CodeMax128.cs" />
+    <Compile Include="Migrations\201707250621340_CodeMax128.Designer.cs">
+      <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
@@ -181,8 +181,8 @@
     <EmbeddedResource Include="Migrations\201706130828061_CaseSensativeFhirId.resx">
       <DependentUpon>201706130828061_CaseSensativeFhirId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707250201478_CodeMaxLengthBigger.resx">
-      <DependentUpon>201707250201478_CodeMaxLengthBigger.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707250621340_CodeMax128.resx">
+      <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

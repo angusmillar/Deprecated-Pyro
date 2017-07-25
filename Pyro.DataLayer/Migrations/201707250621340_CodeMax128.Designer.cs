@@ -7,13 +7,13 @@ namespace Pyro.DataLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CodeMaxLengthBigger : IMigrationMetadata
+    public sealed partial class CodeMax128 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CodeMaxLengthBigger));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CodeMax128));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707250201478_CodeMaxLengthBigger"; }
+            get { return "201707250621340_CodeMax128"; }
         }
         
         string IMigrationMetadata.Source

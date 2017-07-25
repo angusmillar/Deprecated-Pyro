@@ -45,9 +45,8 @@ namespace Pyro.Common.Database
       public static byte QuantityPrecision { get { return 28; } }
       public static byte QuantityScale { get { return 14; } }
       public static string System { get { return "System"; } }
-      public static int SystemMaxLength { get { return 512; } }
+      public static int SystemMaxLength { get { return 450; } }
       public static string Code { get { return "Code"; } }
-      //This need to be extended beyond 50, maybe 128?
       public static int CodeMaxLength { get { return 128; } }
       public static string Unit { get { return "Unit"; } }
       public static int UnitMaxLength { get { return 64; } }

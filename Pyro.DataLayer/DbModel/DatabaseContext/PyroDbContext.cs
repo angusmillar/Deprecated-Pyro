@@ -11,7 +11,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       : base("PyroConnectionString")
     {
       //Below is only commented out for LinqPad Debug testing
-      //DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
+      DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
     }
 
     public DbContextTransaction BeginTransaction()
