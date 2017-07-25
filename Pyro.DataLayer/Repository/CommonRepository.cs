@@ -35,6 +35,42 @@ namespace Pyro.DataLayer.Repository
     #endregion
 
 
+    protected ExpressionStarter<ResourceIndexType> IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(int ResourceId, int[] ServiceSearchParameterIdArray, string ResourceName)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    {
+      var Search = new ResourceSearch<ResourceCurrentType, ResourceIndexType>();
+      var Predicate = LinqKit.PredicateBuilder.New<ResourceIndexType>(true);
+
+      Predicate = Predicate.And(x =>
+        ServiceSearchParameterIdArray.Contains(x.ServiceSearchParameterId) &
+        x.ReferenceResourceType == ResourceName &
+        x.ResourceId == ResourceId &
+        x.Resource.IsDeleted == false &
+        x.Resource.IsCurrent == true &
+        x.ReferenceUrl.IsServersPrimaryUrlRoot == true
+      );
+
+      return Predicate;
+    }
+
+    protected ExpressionStarter<ResourceIndexType> IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(int ResourceId, int[] ServiceSearchParameterIdArray)
+      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
+      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    {
+      var Search = new ResourceSearch<ResourceCurrentType, ResourceIndexType>();
+      var Predicate = LinqKit.PredicateBuilder.New<ResourceIndexType>(true);
+
+      Predicate = Predicate.And(x =>
+        ServiceSearchParameterIdArray.Contains(x.ServiceSearchParameterId) &
+        x.ResourceId == ResourceId &
+        x.Resource.IsDeleted == false &
+        x.Resource.IsCurrent == true &
+        x.ReferenceUrl.IsServersPrimaryUrlRoot == true
+      );
+
+      return Predicate;
+    }
 
     protected ExpressionStarter<ResourceIndexType> IndexRefPredicateGenerator<ResourceCurrentType, ResourceIndexType>(int ResourceId, int ServiceSearchParameterId)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
@@ -50,8 +86,6 @@ namespace Pyro.DataLayer.Repository
         x.Resource.IsCurrent == true &
         x.ReferenceUrl.IsServersPrimaryUrlRoot == true
       );
-
-      //MainPredicate.Extend<ResourceIndexType>(MainPredicate, PredicateOperator.And);
 
       return Predicate;
     }

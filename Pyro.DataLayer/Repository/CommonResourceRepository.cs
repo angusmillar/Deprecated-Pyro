@@ -49,6 +49,20 @@ namespace Pyro.DataLayer.Repository
     }
 
 
+    public string[] GetResourceFhirIdByResourceIdAndIndexReferance2(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "")
+    {
+      LinqKit.ExpressionStarter<ResourceIndexType> RefPredicate = null;
+      if (string.IsNullOrWhiteSpace(ResourceName))
+        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterIdArray);
+      else
+        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterIdArray, ResourceName);
+
+      var IndexQuery = DbGetIndexAll<ResourceCurrentType, ResourceIndexType>(RefPredicate);
+      var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
+      return IndexResult;
+    }
+
+
     public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId)
     {
       var RefPredicate = IndexRefPredicateGenerator<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterId);

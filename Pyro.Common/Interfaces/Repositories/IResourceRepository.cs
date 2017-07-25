@@ -20,6 +20,7 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true);
 
     string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId);
+    string[] GetResourceFhirIdByResourceIdAndIndexReferance2(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "");
 
     int DeleteNonCurrentResourceIndexes();
     void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);

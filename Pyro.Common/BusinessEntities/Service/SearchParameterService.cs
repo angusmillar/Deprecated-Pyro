@@ -186,15 +186,20 @@ namespace Pyro.Common.BusinessEntities.Service
           if (valueSplitArray.Count() > 2)
           {
             string TargetResourceType = valueSplitArray[2].Trim();
-            if (ModelInfo.IsKnownResource(TargetResourceType))
+            //checked we have a something if we don't then that is fine just a syntax error of the callers part 
+            //i.e _includes=Patient:subject:
+            if (!string.IsNullOrWhiteSpace(TargetResourceType))
             {
-              SearchParameterInclude.SearchParameterTargetResourceType = ModelInfo.FhirTypeNameToFhirType(TargetResourceType).Value;
-            }
-            else
-            {
-              ParseOk = false;
-              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-              { RawParameter = $"{Key}={Value}", ReasonMessage = "The target Resource of the _includes parameter is not recognised." });
+              if (ModelInfo.IsKnownResource(TargetResourceType))
+              {
+                SearchParameterInclude.SearchParameterTargetResourceType = ModelInfo.FhirTypeNameToFhirType(TargetResourceType).Value;
+              }
+              else
+              {
+                ParseOk = false;
+                SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+                { RawParameter = $"{Key}={Value}", ReasonMessage = "The target Resource of the _includes parameter is not recognised." });
+              }
             }
           }
 
@@ -202,34 +207,49 @@ namespace Pyro.Common.BusinessEntities.Service
           {
             string SearchTerm = valueSplitArray[1].Trim();
             List<DtoServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType.Resource, null, SearchParameterInclude.SourceResourceType.GetLiteral());
-            DtoServiceSearchParameterLight DtoServiceSearchParameterLight = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchTerm);
-            if (DtoServiceSearchParameterLight != null)
+            if (SearchTerm == "*")
             {
-              if (DtoServiceSearchParameterLight.Type == SearchParamType.Reference)
+              if (SearchParameterInclude.SearchParameterTargetResourceType != null)
               {
-                if (DtoServiceSearchParameterLight.TargetResourceTypeList != null && SearchParameterInclude.SearchParameterTargetResourceType.HasValue)
+                SearchParameterInclude.SearchParameterList = DtoSupportedSearchParametersList.Where(x => x.Type == SearchParamType.Reference && x.TargetResourceTypeList.Any(v => v.ResourceType.GetLiteral() == SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral())).ToList();
+              }
+              else
+              {
+                SearchParameterInclude.SearchParameterList = DtoSupportedSearchParametersList.Where(x => x.Type == SearchParamType.Reference).ToList();
+              }
+            }
+            else
+            {
+              DtoServiceSearchParameterLight DtoServiceSearchParameterLight = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchTerm);
+              if (DtoServiceSearchParameterLight != null)
+              {
+                if (DtoServiceSearchParameterLight.Type == SearchParamType.Reference)
                 {
-                  if (DtoServiceSearchParameterLight.TargetResourceTypeList.SingleOrDefault(x => x.ResourceType.GetLiteral() == SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()) == null)
+                  if (DtoServiceSearchParameterLight.TargetResourceTypeList != null && SearchParameterInclude.SearchParameterTargetResourceType.HasValue)
                   {
-                    ParseOk = false;
-                    SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-                    { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{SearchParameterInclude.SourceResourceType.GetLiteral()}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
+                    if (DtoServiceSearchParameterLight.TargetResourceTypeList.SingleOrDefault(x => x.ResourceType.GetLiteral() == SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()) == null)
+                    {
+                      ParseOk = false;
+                      SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+                      { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{SearchParameterInclude.SourceResourceType.GetLiteral()}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
+                    }
                   }
+                  SearchParameterInclude.SearchParameterList = new List<DtoServiceSearchParameterLight>();
+                  SearchParameterInclude.SearchParameterList.Add(DtoServiceSearchParameterLight);
                 }
-                SearchParameterInclude.SearchParameter = DtoServiceSearchParameterLight;
+                else
+                {
+                  ParseOk = false;
+                  SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
+                  { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter of type Reference, found search parameter type of '{DtoServiceSearchParameterLight.Type.ToString()}'." });
+                }
               }
               else
               {
                 ParseOk = false;
                 SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter of type Reference, found search parameter type of '{DtoServiceSearchParameterLight.Type.ToString()}'." });
+                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{SearchTerm}' is not a valid search parameter for the source Resource type." });
               }
-            }
-            else
-            {
-              ParseOk = false;
-              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new DtoUnspportedSearchParameter()
-              { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{SearchTerm}' is not a valid search parameter for the source Resource type." });
             }
           }
 

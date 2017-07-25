@@ -12,7 +12,7 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
   {
     private readonly string _RecurseName = "recurse";
     public FHIRAllTypes SourceResourceType { get; set; }
-    public DtoServiceSearchParameterLight SearchParameter { get; set; }
+    public List<DtoServiceSearchParameterLight> SearchParameterList { get; set; }
     public FHIRAllTypes? SearchParameterTargetResourceType { get; set; }
     public bool IsRecurse { get; set; }
     public string AsFormatedSearchParameter()
@@ -25,9 +25,13 @@ namespace Pyro.Common.BusinessEntities.Dto.Search
         result += $":{_RecurseName}";
       }
       result += $"={SourceResourceType.GetLiteral()}";
-      if (SearchParameter != null)
+      if (SearchParameterList != null && SearchParameterList.Count == 1)
       {
-        result += $":{SearchParameter.Name}";
+        result += $":{SearchParameterList[0].Name}";
+      }
+      if (SearchParameterList != null && SearchParameterList.Count > 1)
+      {
+        result += $":*";
       }
       if (SearchParameterTargetResourceType.HasValue)
       {
