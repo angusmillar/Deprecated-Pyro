@@ -291,22 +291,6 @@ namespace Pyro.DataLayer.Repository
         this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
         OldResourceEntity.IsCurrent = false;
 
-
-
-        //var ResourceHistoryEntity = new ResourceCurrentType();
-        //var ResourceEntity = this.LoadCurrentResourceEntity(ResourceId);
-        //string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(ResourceEntity.VersionId);
-        //IndexSettingSupport.SetHistoryResourceEntity(ResourceEntity, ResourceHistoryEntity);
-        //this.AddResourceHistoryEntityToResourceEntity(ResourceEntity, ResourceHistoryEntity);
-        //IndexSettingSupport.ResetResourceEntityBase(ResourceEntity);
-        //this.ResetResourceEntity(ResourceEntity);
-        //ResourceEntity.FhirId = ResourceId;
-        //ResourceEntity.IsDeleted = true;
-        //ResourceEntity.VersionId = NewDeletedResourceVersion;
-        //ResourceEntity.XmlBlob = string.Empty;
-        //ResourceEntity.LastUpdated = DateTimeOffset.Now;
-        //ResourceEntity.Method = Bundle.HTTPVerb.DELETE;
-
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       }
       this.Save();
