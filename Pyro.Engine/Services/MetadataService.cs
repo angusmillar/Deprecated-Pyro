@@ -138,7 +138,8 @@ namespace Pyro.Engine.Services
         ResourceComponent.SearchInclude = new List<string>() { "???", "??????" };
         ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
 
-        IList<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        List<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        DtoServiceSearchParameterHeavyList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
         {
