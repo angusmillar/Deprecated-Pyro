@@ -35,6 +35,11 @@ namespace Pyro.Common.BusinessEntities.FhirOperation
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.Validate, Scope = FhirOperationEnum.OperationScope.Resource });
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.Validate, Scope = FhirOperationEnum.OperationScope.Instance });
 
+        //$connectathon-answer (Base)
+        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ConnectathonAnswer, Scope = FhirOperationEnum.OperationScope.Base });
+
+
+
         return List;
       }
     }

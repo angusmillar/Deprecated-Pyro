@@ -40,6 +40,7 @@ namespace Pyro.Common.CompositionRoot
     IServerSearchParameterService CreateServerSearchParameterService();
     IServerResourceReportService CreateServerResourceReportService();
     IFhirValidateOperationService CreateFhirValidateOperationService();
+    IConnectathonAnswerService CreateConnectathonAnswerService();
 
     IFhirResourceInstanceOperationService CreateFhirResourceInstanceOperationService();
     IFhirBaseOperationService CreateFhirBaseOperationService();

@@ -126,6 +126,8 @@
     <Compile Include="BusinessEntities\Global\GlobalProperties.cs" />
     <Compile Include="BusinessEntities\Global\IGlobalProperties.cs" />
     <Compile Include="BusinessEntities\Service\BundleTransactionService.cs" />
+    <Compile Include="BusinessEntities\Service\ConnectathonAnswerService.cs" />
+    <Compile Include="BusinessEntities\Service\IConnectathonAnswerService.cs" />
     <Compile Include="BusinessEntities\Service\ISearchParameterService.cs" />
     <Compile Include="BusinessEntities\Service\ResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="BusinessEntities\UriSupport\DtoRequestUri.cs" />
@@ -230,6 +232,8 @@
     <Compile Include="ServiceSearchParameter\IServiceSearchParameterCache.cs" />
     <Compile Include="ServiceSearchParameter\ServiceSearchParameterCache.cs" />
     <Compile Include="Tools\ApplicationCacheSupport.cs" />
+    <Compile Include="Tools\Connectathon\QuestionnaireResponseChecker.cs" />
+    <Compile Include="Tools\Connectathon\QuestionnaireResults.cs" />
     <Compile Include="Tools\DateTimeIndex.cs" />
     <Compile Include="Tools\DateTimeSupport.cs" />
     <Compile Include="Tools\FhirDateSupport.cs" />

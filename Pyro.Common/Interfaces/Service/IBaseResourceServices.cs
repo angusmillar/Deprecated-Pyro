@@ -48,7 +48,7 @@ namespace Pyro.Common.Interfaces.Service
       IDtoRequestUri RequestUri,
       IDtoSearchParameterGeneric SearchParameterGeneric,
       IDtoRequestHeaders RequestHeaders,
-      string ForceId);
+      string ForceId = "");
 
     //Update
     // PUT: URL/FhirApi/Patient/5

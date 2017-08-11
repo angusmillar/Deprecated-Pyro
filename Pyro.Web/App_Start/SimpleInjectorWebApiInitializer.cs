@@ -123,6 +123,7 @@ namespace Pyro.Web.App_Start
       container.Register<IServerResourceReportService, ServerResourceReportService>(Lifestyle.Scoped);
       container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
       container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
+      container.Register<IConnectathonAnswerService, ConnectathonAnswerService>(Lifestyle.Scoped);
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);

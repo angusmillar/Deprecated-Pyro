@@ -141,5 +141,10 @@ namespace Pyro.Web.CompositionRoot
     {
       return Container.GetInstance<IHtmlGenerationSupport>();
     }
+
+    public IConnectathonAnswerService CreateConnectathonAnswerService()
+    {
+      return Container.GetInstance<IConnectathonAnswerService>();
+    }
   }
 }

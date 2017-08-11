@@ -29,6 +29,8 @@ namespace Pyro.Common.Enum
       ServerSearchParameterIndexReport,
       [EnumLiteral("server-resource-report")]
       ServerResourceReport,
+      [EnumLiteral("connectathon-answer")]
+      ConnectathonAnswer,
       [EnumLiteral(Hl7.Fhir.Rest.FhirClientOperations.Operation.VALIDATE_RESOURCE)]
       Validate
     }
@@ -42,6 +44,7 @@ namespace Pyro.Common.Enum
         {OperationType.ServerIndexesIndex.GetPyroLiteral(), OperationType.ServerIndexesIndex},
         {OperationType.ServerSearchParameterIndexReport.GetPyroLiteral(), OperationType.ServerSearchParameterIndexReport},
         {OperationType.ServerResourceReport.GetPyroLiteral(), OperationType.ServerResourceReport},
+        {OperationType.ConnectathonAnswer.GetPyroLiteral(), OperationType.ConnectathonAnswer},
         {OperationType.Validate.GetPyroLiteral(), OperationType.Validate},
       };
     }

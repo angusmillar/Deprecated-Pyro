@@ -100,6 +100,11 @@ namespace Pyro.Engine.Services
             IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
             return ServerSearchParameterService.ProcessIndex(RequestUri, SearchPrameterGeneric, Resource);
           }
+        case FhirOperationEnum.OperationType.ConnectathonAnswer:
+          {
+            IConnectathonAnswerService ConnectathonAnswerService = ICommonFactory.CreateConnectathonAnswerService();
+            return ConnectathonAnswerService.Process(RequestUri, SearchPrameterGeneric, Resource);
+          }
         case FhirOperationEnum.OperationType.ServerResourceReport:
           {
             IServerResourceReportService ServerResourceReportService = ICommonFactory.CreateServerResourceReportService();
