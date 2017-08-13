@@ -6,6 +6,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.Connectathon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,11 @@ namespace Pyro.Common.BusinessEntities.Service
                   ResourceServiceOutcome.ResourceResult = ParametersResult;
                   ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
                   ResourceServiceOutcome.SuccessfulTransaction = true;
+
+                  IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/AngusA1");
+                  var GetAnsweres = this.IResourceServices.GetRead("AngusA1", DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+
+                  QuestionnaireResults QuestionnaireResults = QuestionnaireResponseChecker.Check(GetAnsweres.ResourceResult as QuestionnaireResponse, QuestionnaireResponse);
                 }
                 else
                 {
