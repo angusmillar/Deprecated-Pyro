@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
@@ -14,7 +13,9 @@ using Pyro.Common.Interfaces.ITools;
 using Pyro.Common.Exceptions;
 using System.Net;
 using Hl7.Fhir.Utility;
-using Pyro.Common.BusinessEntities.Dto.Search;
+using Pyro.Common.Search;
+using Pyro.Common.Service;
+using Pyro.Common.Tools.Headers;
 
 namespace Pyro.Engine.Services
 {
@@ -115,7 +116,7 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    public IResourceServiceOutcome SetResource(Resource Resource, IDtoRequestUri RequestUri, RestEnum.CrudOperationType CrudOperationType)
+    public IResourceServiceOutcome SetResource(Resource Resource, IPyroRequestUri RequestUri, RestEnum.CrudOperationType CrudOperationType)
     {
       if (CrudOperationType == RestEnum.CrudOperationType.Update && (Resource.Meta == null || string.IsNullOrWhiteSpace(Resource.Meta.VersionId)))
         throw new ArgumentNullException("Internal Server Error:Resource's Version can not be null when CrudOperationType = Update");
@@ -188,7 +189,7 @@ namespace Pyro.Engine.Services
       return ServiceOperationOutcome;
     }
 
-    public IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IDtoRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
+    public IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IPyroRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceHistoryByFhirID(ResourceId, SearchParametersServiceOutcome.SearchParameters);
 
@@ -213,7 +214,7 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    public IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IDtoRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome)
+    public IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IPyroRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(ResourceId, Version);
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
@@ -242,7 +243,7 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    public IResourceServiceOutcome GetResourceInstance(string ResourceId, IDtoRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome, Common.Interfaces.Dto.Headers.IDtoRequestHeaders RequestHeaders = null)
+    public IResourceServiceOutcome GetResourceInstance(string ResourceId, IPyroRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome, IRequestHeader RequestHeaders = null)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(ResourceId, true);
 
@@ -398,7 +399,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome GetResourcesBySearch(IDtoRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
+    public IResourceServiceOutcome GetResourcesBySearch(IPyroRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 

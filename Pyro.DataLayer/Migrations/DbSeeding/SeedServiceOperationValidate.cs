@@ -7,7 +7,7 @@ using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.DbModel.Entity;
 using Pyro.Common.BusinessEntities.Dto;
 using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Global;
+using Pyro.Common.Global;
 
 namespace Pyro.DataLayer.Migrations.DbSeeding
 {

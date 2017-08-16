@@ -3,10 +3,10 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.ServiceRoot;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.DbModel.UnitOfWork;
@@ -72,7 +72,7 @@ namespace Pyro.DataLayer.Repository
     }
 
 
-    public IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false)
+    public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       SetNumberOfRecordsPerPage(DtoSearchParameters);
 
@@ -188,7 +188,7 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, DtoSearchParameters DtoSearchParameters)
+    public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, PyroSearchParameters DtoSearchParameters)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
@@ -224,7 +224,7 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome AddResource(Resource Resource, IDtoRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri)
     {
       var ResourceEntity = new ResourceCurrentType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);
@@ -237,7 +237,7 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri)
+    public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
       var NewResourceEntity = new ResourceCurrentType();
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
@@ -320,7 +320,7 @@ namespace Pyro.DataLayer.Repository
         return null;
     }
 
-    public void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri)
+    public void AddCurrentResourceIndex(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
     {
       int ChunkSize = 100;
       int ProgressCount = 0;
@@ -386,22 +386,22 @@ namespace Pyro.DataLayer.Repository
       //_Context.PatientIndex.RemoveRange(ResourceEntity.IndexList);
     }
 
-    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri)
+    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      IList<DtoServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
+      IList<ServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    public void AddResourceIndexes(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParmeters)
+    public void AddResourceIndexes(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParmeters)
     {
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    private void _PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IDtoRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParametersList)
+    private void _PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParametersList)
     {
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
-      foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
+      foreach (ServiceSearchParameterLight SearchParameter in SearchParametersList)
       {
         //Todo: Composite searchParameters are not supported as yet, need to do work to read 
         // the sub search parameters of the composite directly fro the SearchParameter resources.
@@ -484,7 +484,7 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
-    private void SetNumberOfRecordsPerPage(DtoSearchParameters DtoSearchParameters)
+    private void SetNumberOfRecordsPerPage(PyroSearchParameters DtoSearchParameters)
     {
       if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
       {

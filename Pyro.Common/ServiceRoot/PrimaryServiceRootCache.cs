@@ -1,4 +1,4 @@
-﻿using Pyro.Common.BusinessEntities.Global;
+﻿using Pyro.Common.Global;
 using Pyro.Common.Cache;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.ITools;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Search;
 
 namespace Pyro.Common.Interfaces.Repositories
 {
@@ -9,12 +9,12 @@ namespace Pyro.Common.Interfaces.Repositories
     IDtoRootUrlStore GetPrimaryRootUrlStore();
     IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
 
-    List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
-    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
-    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
-    DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
-    DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
+    List<ServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
+    List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
+    List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
+    ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
+    ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
     void DeleteServiceSearchParameters(int Id);
-    
+
   }
 }

@@ -2,7 +2,7 @@
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.CompositionRoot;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
+using Pyro.Common.Service;
 
 namespace Pyro.Web.Attributes
 {
@@ -48,7 +49,7 @@ namespace Pyro.Web.Attributes
           TimeSpan duration = stopwatch.Elapsed;
 
           ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
-          IDtoRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
+          IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
 
 
           //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)

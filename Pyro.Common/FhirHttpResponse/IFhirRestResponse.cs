@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Service;
 
 namespace Pyro.Common.FhirHttpResponse
 {

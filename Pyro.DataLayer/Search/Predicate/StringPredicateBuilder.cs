@@ -1,7 +1,7 @@
 ﻿using System;
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
@@ -10,11 +10,11 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
-      if (SearchItem is DtoSearchParameterString)
+      if (SearchItem is SearchParameterString)
       {
-        var SearchTypeString = SearchItem as DtoSearchParameterString;
+        var SearchTypeString = SearchItem as SearchParameterString;
         foreach (var SearchValue in SearchTypeString.ValueList)
         {
           if (!SearchTypeString.Modifier.HasValue)

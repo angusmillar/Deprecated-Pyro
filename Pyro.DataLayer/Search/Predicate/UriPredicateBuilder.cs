@@ -2,7 +2,7 @@
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.Tools;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
@@ -11,11 +11,11 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
-      if (SearchItem is DtoSearchParameterUri)
+      if (SearchItem is SearchParameterUri)
       {
-        var SearchTypeString = SearchItem as DtoSearchParameterUri;
+        var SearchTypeString = SearchItem as SearchParameterUri;
         foreach (var SearchValue in SearchTypeString.ValueList)
         {
           if (!SearchTypeString.Modifier.HasValue)

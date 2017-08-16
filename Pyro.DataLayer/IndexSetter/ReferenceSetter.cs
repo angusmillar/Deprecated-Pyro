@@ -2,13 +2,9 @@
 using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Search;
 using System.Collections.Generic;
-using System.Linq;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.Tools;
-using Pyro.Common.BusinessEntities.UriSupport;
-using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.DataLayer.Repository.Interfaces;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.CompositionRoot;
@@ -28,7 +24,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.ICommonFactory = ICommonFactory;
     }
 
-    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {
@@ -136,7 +132,7 @@ namespace Pyro.DataLayer.IndexSetter
       //Check the Uri is actual a Fhir resource reference         
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(UriString))
       {
-        IFhirRequestUri ReferanceUri = ICommonFactory.CreateFhirRequestUri();
+        IPyroFhirUri ReferanceUri = ICommonFactory.CreateFhirRequestUri();
         if (Uri.IsWellFormedUriString(UriString, UriKind.Relative))
         {
           if (ReferanceUri.Parse(UriString.Trim()))
@@ -167,7 +163,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetResourceIndentityElements<ResourceCurrentType, ResourceIndexType>(ResourceIndexType ResourceIndex, IFhirRequestUri FhirRequestUri)
+    private void SetResourceIndentityElements<ResourceCurrentType, ResourceIndexType>(ResourceIndexType ResourceIndex, IPyroFhirUri FhirRequestUri)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {

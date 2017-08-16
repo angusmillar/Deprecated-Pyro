@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Test.IndexSetters
@@ -17,10 +17,10 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string UrlSearchParametersString = "?family=Millar&given=Angus";
-      var DtoSearchParameterGeneric = new DtoSearchParameterGeneric();
+      var DtoSearchParameterGeneric = new SearchParameterGeneric();
 
       //Act
-      IDtoSearchParameterGeneric Result = DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
+      ISearchParameterGeneric Result = DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
 
       //Assert
       Assert.AreEqual(2, Result.ParameterList.Count);
@@ -35,10 +35,10 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string UrlSearchParametersString = "?_count=5&_count=10&family=Millar,Darmody1&family=Millar2&given=Angus&_include=Patient%3Aorganization";
-      var DtoSearchParameterGeneric = new DtoSearchParameterGeneric();
+      var DtoSearchParameterGeneric = new SearchParameterGeneric();
 
       //Act
-      IDtoSearchParameterGeneric Result = DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
+      ISearchParameterGeneric Result = DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
 
       //Assert
       Assert.AreEqual(3, Result.ParameterList.Count);

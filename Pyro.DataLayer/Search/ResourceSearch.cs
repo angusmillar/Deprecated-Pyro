@@ -289,7 +289,7 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResourceCurrentType, bool>>(E_InnerExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> TokenCollectionAnyEqualTo(int Id, string Code, string System, Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType TokenSearchType)
+    public Expression<Func<ResourceCurrentType, bool>> TokenCollectionAnyEqualTo(int Id, string Code, string System, Common.Search.SearchParameterTokenValue.TokenSearchType TokenSearchType)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
@@ -305,22 +305,22 @@ namespace Pyro.DataLayer.Search
       Expression E_InnerExpression = null;
       switch (TokenSearchType)
       {
-        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.None:
+        case Common.Search.SearchParameterTokenValue.TokenSearchType.None:
           throw new Exception("Server error: DtoSearchParameterTokenValue.TokenSearchType was set to None.");
-        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeOnly:
+        case Common.Search.SearchParameterTokenValue.TokenSearchType.MatchCodeOnly:
           E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeOnlyExpression(propertyReferenceCode, SearchValueReferenceCode);
           break;
-        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchSystemOnly:
+        case Common.Search.SearchParameterTokenValue.TokenSearchType.MatchSystemOnly:
           E_InnerExpression = ExpressionSupport.TokenExpression.MatchSystemOnlyExpression(propertyReferenceSystem, SearchValueReferenceSystem);
           break;
-        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem:
+        case Common.Search.SearchParameterTokenValue.TokenSearchType.MatchCodeAndSystem:
           E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeAndSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem, SearchValueReferenceSystem);
           break;
-        case Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem:
+        case Common.Search.SearchParameterTokenValue.TokenSearchType.MatchCodeWithNullSystem:
           E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeWithNullSystemExpression(propertyReferenceCode, SearchValueReferenceCode, propertyReferenceSystem);
           break;
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(TokenSearchType.ToString(), (int)TokenSearchType, typeof(Common.BusinessEntities.Search.DtoSearchParameterTokenValue.TokenSearchType));
+          throw new System.ComponentModel.InvalidEnumArgumentException(TokenSearchType.ToString(), (int)TokenSearchType, typeof(Common.Search.SearchParameterTokenValue.TokenSearchType));
       }
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, E_InnerExpression);

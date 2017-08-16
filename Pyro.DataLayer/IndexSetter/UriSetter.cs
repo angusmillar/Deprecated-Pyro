@@ -2,7 +2,7 @@
 using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Search;
 using Pyro.Common.Tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Pyro.DataLayer.IndexSetter
   public class UriSetter : IUriSetter
   {
     public UriSetter() { }
-    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
     {

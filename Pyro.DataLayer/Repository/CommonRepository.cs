@@ -1,7 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using LinqKit;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Repositories;
@@ -93,7 +93,7 @@ namespace Pyro.DataLayer.Repository
 
 
     //---- PredicateGenerator ---------------------------------------------------------------
-    protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters)
+    protected ExpressionStarter<ResourceCurrentType> PredicateGenerator<ResourceCurrentType, ResourceIndexType>(PyroSearchParameters DtoSearchParameters)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
@@ -107,7 +107,7 @@ namespace Pyro.DataLayer.Repository
       ExpressionStarter<ResourceCurrentType> NewPredicate = null;
 
 
-      foreach (DtoSearchParameterBase SearchItem in DtoSearchParameters.SearchParametersList)
+      foreach (SearchParameterBase SearchItem in DtoSearchParameters.SearchParametersList)
       {
         NewPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
         switch (SearchItem.Type)
@@ -117,9 +117,9 @@ namespace Pyro.DataLayer.Repository
             break;
           case SearchParamType.Number:
             {
-              if (SearchItem is DtoSearchParameterNumber)
+              if (SearchItem is SearchParameterNumber)
               {
-                var SearchTypeNumber = SearchItem as DtoSearchParameterNumber;
+                var SearchTypeNumber = SearchItem as SearchParameterNumber;
                 foreach (var SearchValue in SearchTypeNumber.ValueList)
                 {
                   if (SearchTypeNumber.Name != "page")
@@ -231,9 +231,9 @@ namespace Pyro.DataLayer.Repository
 
     //---- ServiceSearchParameters ---------------------------------------------------------------
 
-    public List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
+    public List<ServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
-      var ReturnList = new List<DtoServiceSearchParameterLight>();
+      var ReturnList = new List<ServiceSearchParameterLight>();
 
       var List = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
         .Select(x => new { x.Id, x.Name, x.Expression, x.Resource, x.Type, x.TargetResourceTypeList }).ToList();
@@ -241,7 +241,7 @@ namespace Pyro.DataLayer.Repository
       {
         foreach (var x in List)
         {
-          var Light = new DtoServiceSearchParameterLight();
+          var Light = new ServiceSearchParameterLight();
           Light.Id = x.Id;
           Light.Name = x.Name;
           Light.Expression = x.Expression;
@@ -260,9 +260,9 @@ namespace Pyro.DataLayer.Repository
       return ReturnList;
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
+    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
     {
-      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+      var ReturnList = new List<ServiceSearchParameterHeavy>();
 
       List<ServiceSearchParameter> ResourceServiceSearchParameterList;
       if (CustomOnly)
@@ -276,7 +276,7 @@ namespace Pyro.DataLayer.Repository
 
       foreach (var x in ResourceServiceSearchParameterList)
       {
-        var Heavy = new DtoServiceSearchParameterHeavy();
+        var Heavy = new ServiceSearchParameterHeavy();
         Heavy.Id = x.Id;
         Heavy.Name = x.Name;
         Heavy.Expression = x.Expression;
@@ -298,14 +298,14 @@ namespace Pyro.DataLayer.Repository
       return ReturnList;
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
-      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+      var ReturnList = new List<ServiceSearchParameterHeavy>();
 
       var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
       foreach (var x in ResourceServiceSearchParameterList)
       {
-        var Heavy = new DtoServiceSearchParameterHeavy();
+        var Heavy = new ServiceSearchParameterHeavy();
         Heavy.Id = x.Id;
         Heavy.Name = x.Name;
         Heavy.Expression = x.Expression;
@@ -327,14 +327,14 @@ namespace Pyro.DataLayer.Repository
       return ReturnList;
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
-      var ReturnList = new List<Pyro.Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy>();
+      var ReturnList = new List<ServiceSearchParameterHeavy>();
 
       var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Where(x => x.Resource == ResourceType).Include(x => x.TargetResourceTypeList).ToList();
       foreach (var x in ResourceServiceSearchParameterList)
       {
-        var Heavy = new DtoServiceSearchParameterHeavy();
+        var Heavy = new ServiceSearchParameterHeavy();
         Heavy.Id = x.Id;
         Heavy.Name = x.Name;
         Heavy.Expression = x.Expression;
@@ -357,7 +357,7 @@ namespace Pyro.DataLayer.Repository
 
     }
 
-    public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       if (ServiceSearchParameterHeavy == null)
         return null;
@@ -387,7 +387,7 @@ namespace Pyro.DataLayer.Repository
       return ServiceSearchParameterHeavy;
     }
 
-    public DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       if (ServiceSearchParameterHeavy == null)
         return null;
@@ -558,7 +558,7 @@ namespace Pyro.DataLayer.Repository
 
     }
 
-    private static void IdSearchParameterPredicateProcessing<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
+    private static void IdSearchParameterPredicateProcessing<ResourceCurrentType, ResourceIndexType>(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
     {
@@ -568,7 +568,7 @@ namespace Pyro.DataLayer.Repository
         ExpressionStarter<ResourceCurrentType> NewIdPredicate = null;
         foreach (var IdSearchParameter in IdSearchParamerterList)
         {
-          if (IdSearchParameter is DtoSearchParameterToken SearchTypeToken)
+          if (IdSearchParameter is SearchParameterToken SearchTypeToken)
           {
             NewIdPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
             foreach (var SearchValue in SearchTypeToken.ValueList)

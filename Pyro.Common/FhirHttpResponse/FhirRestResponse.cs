@@ -9,6 +9,7 @@ using Pyro.Common.Tools;
 using Pyro.Common.Exceptions;
 using Hl7.Fhir.Model;
 using Pyro.Common.Tools.FhirNarrative;
+using Pyro.Common.Service;
 
 namespace Pyro.Common.FhirHttpResponse
 {

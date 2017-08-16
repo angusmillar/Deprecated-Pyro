@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Pyro.Common.Service;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Enum;
-using Pyro.Common.BusinessEntities.Service;
-using Pyro.Common.BusinessEntities.FhirOperation;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.FhirOperation;
+using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.Search;
+using Pyro.Common.Tools.Headers;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
 
@@ -26,9 +23,9 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Process(
       string OperationName,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchPrameterGeneric,
-      IDtoRequestHeaders RequestHeaders,
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchPrameterGeneric,
+      IRequestHeader RequestHeaders,
       Resource Resource)
     {
       if (string.IsNullOrWhiteSpace(OperationName))
@@ -67,7 +64,7 @@ namespace Pyro.Engine.Services
       }
 
       var Op = OperationDic[OperationName];
-      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Base && x.Type == Op);
+      OperationClass OperationClass = OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Base && x.Type == Op);
       if (OperationClass == null)
       {
         string Message = $"The base operation named ${OperationName} is not supported by the server as a service base operation type.";

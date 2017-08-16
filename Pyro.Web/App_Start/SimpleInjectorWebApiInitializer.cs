@@ -8,23 +8,21 @@ namespace Pyro.Web.App_Start
   using Pyro.Engine.Services;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
+  using Pyro.Common.Service;
   using Pyro.DataLayer.DbModel.UnitOfWork;
   using Pyro.DataLayer.DbModel.DatabaseContext;
-  using Pyro.Common.BusinessEntities.Global;
+  using Pyro.Common.Global;
   using Pyro.Common.Interfaces.ITools;
   using Pyro.Common.Tools;
   using Pyro.Common.Logging;
   using Pyro.Common.ServiceRoot;
-  using Pyro.Common.Interfaces.Dto.Headers;
-  using Pyro.Common.BusinessEntities.Dto.Headers;
-  using Pyro.Common.Interfaces.UriSupport;
+  using Pyro.Common.Tools.Headers;
+  using Pyro.Common.Tools.UriSupport;
   using Pyro.Common.Interfaces.Dto;
-  using Pyro.Common.BusinessEntities.Search;
-  using Pyro.Common.BusinessEntities.Service;
+  using Pyro.Common.Search;
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools.FhirResourceValidation;
   using Hl7.Fhir.Specification.Source;
-  using System.Linq;
   using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
@@ -81,9 +79,9 @@ namespace Pyro.Web.App_Start
       //========================================================================================================
       //=================== Transient ==========================================================================            
       //========================================================================================================      
-      container.Register<IDtoRequestHeaders, DtoRequestHeaders>(Lifestyle.Transient);
-      container.Register<IFhirRequestUri, Pyro.Common.BusinessEntities.UriSupport.FhirRequestUri>(Lifestyle.Transient);
-      container.Register<IDtoRequestUri, Pyro.Common.BusinessEntities.UriSupport.DtoRequestUri>(Lifestyle.Transient);
+      container.Register<IRequestHeader, RequestHeader>(Lifestyle.Transient);
+      container.Register<IPyroFhirUri, PyroFhirUri>(Lifestyle.Transient);
+      container.Register<IPyroRequestUri, PyroRequestUri>(Lifestyle.Transient);
       container.Register<IDtoRootUrlStore, DtoRootUrlStore>(Lifestyle.Transient);
 
 
@@ -91,8 +89,8 @@ namespace Pyro.Web.App_Start
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
 
       container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
-      container.Register<IDtoSearchParameterGeneric, DtoSearchParameterGeneric>(Lifestyle.Transient);
-      container.Register<IDtoSearchParameterReferance, DtoSearchParameterReferance>(Lifestyle.Transient);
+      container.Register<ISearchParameterGeneric, SearchParameterGeneric>(Lifestyle.Transient);
+      container.Register<ISearchParameterReferance, SearchParameterReferance>(Lifestyle.Transient);
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
 
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.Repository;

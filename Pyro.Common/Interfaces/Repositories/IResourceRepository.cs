@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.BusinessEntities.Search;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Search;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Service;
 using Hl7.Fhir.Model;
 
@@ -10,12 +10,12 @@ namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IResourceRepository
   {
-    IDatabaseOperationOutcome GetResourceBySearch(DtoSearchParameters DtoSearchParameters, bool WithXml = false);
-    IDatabaseOperationOutcome AddResource(Resource Resource, IDtoRequestUri FhirRequestUri);
-    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IDtoRequestUri FhirRequestUri);
+    IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false);
+    IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri);
+    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri);
     IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId);
     IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection);
-    IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirId, DtoSearchParameters DtoSearchParameters);
+    IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirId, PyroSearchParameters DtoSearchParameters);
     IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirId, string ResourceVersionNumber);
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true);
 
@@ -23,7 +23,7 @@ namespace Pyro.Common.Interfaces.Repositories
     string[] GetResourceFhirIdByResourceIdAndIndexReferance2(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "");
 
     int DeleteNonCurrentResourceIndexes();
-    void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri);
+    void AddCurrentResourceIndex(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
     int GetTotalCurrentResourceCount();
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
   }

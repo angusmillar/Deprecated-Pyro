@@ -1,10 +1,10 @@
-﻿using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Service;
+﻿using Pyro.Common.Search;
+using Pyro.Common.Service;
 
 namespace Pyro.Common.Interfaces.Service
 {
   public interface IMetadataService
   {
-    IResourceServiceOutcome GetServersConformanceResource(IDtoSearchParameterGeneric SearchParameterGeneric);
+    IResourceServiceOutcome GetServersConformanceResource(ISearchParameterGeneric SearchParameterGeneric);
   }
 }

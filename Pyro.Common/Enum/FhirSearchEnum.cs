@@ -5,7 +5,7 @@ using Hl7.Fhir.Utility;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 
 namespace Pyro.Common.Enum
 {

@@ -6,15 +6,15 @@ using System.Xml;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.Service;
 using Hl7.Fhir.Introspection;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.ServiceRoot;
-using Pyro.Common.BusinessEntities.Global;
+using Pyro.Common.Global;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Service;
 
 namespace Pyro.Engine.Services
 {
@@ -33,7 +33,7 @@ namespace Pyro.Engine.Services
       this.ICommonFactory = ICommonFactory;
     }
 
-    public Common.Interfaces.Service.IResourceServiceOutcome GetServersConformanceResource(IDtoSearchParameterGeneric SearchParameterGeneric)
+    public IResourceServiceOutcome GetServersConformanceResource(ISearchParameterGeneric SearchParameterGeneric)
     {
       IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
@@ -138,7 +138,7 @@ namespace Pyro.Engine.Services
         ResourceComponent.SearchInclude = new List<string>() { "???", "??????" };
         ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
 
-        List<Common.BusinessEntities.Dto.DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
         DtoServiceSearchParameterHeavyList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)

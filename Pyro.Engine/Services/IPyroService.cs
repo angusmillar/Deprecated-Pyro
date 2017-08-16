@@ -2,6 +2,7 @@
 using System.Net.Http.Formatting;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.Service;
+using Pyro.Common.Service;
 
 namespace Pyro.Engine.Services
 {

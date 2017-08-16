@@ -1,7 +1,7 @@
 ﻿using System;
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
@@ -10,11 +10,11 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
       where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem)      
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)      
     {
-      if (SearchItem is DtoSearchParameterToken)
+      if (SearchItem is SearchParameterToken)
       {
-        var SearchTypeToken = SearchItem as DtoSearchParameterToken;
+        var SearchTypeToken = SearchItem as SearchParameterToken;
         foreach (var SearchValue in SearchTypeToken.ValueList)
         {
           if (!SearchTypeToken.Modifier.HasValue)
@@ -60,7 +60,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterToken SearchTypeToken, DtoSearchParameterTokenValue SearchValue)     
+    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterToken SearchTypeToken, SearchParameterTokenValue SearchValue)     
     {
       var Expression = Search.TokenCollectionAnyEqualTo(SearchTypeToken.Id, SearchValue.Code, SearchValue.System, SearchValue.SearchType);
       NewPredicate = NewPredicate.Or(Expression);

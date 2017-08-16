@@ -1,7 +1,7 @@
 ﻿using System;
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 using Pyro.Common.Tools;
 
@@ -11,11 +11,11 @@ namespace Pyro.DataLayer.Search.Predicate
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, DtoSearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)
+    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)
     {
-      if (SearchItem is DtoSearchParameterReferance)
+      if (SearchItem is SearchParameterReferance)
       {
-        var SearchTypeReference = SearchItem as DtoSearchParameterReferance;
+        var SearchTypeReference = SearchItem as SearchParameterReferance;
         if (SearchTypeReference.ChainedSearchParameter != null)
         {
           throw new NotImplementedException("Chained parameters have not been implemented for use on this server.");
@@ -83,7 +83,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static bool IsServiceUrlPrimary(Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore, DtoSearchParameterReferanceValue SearchValue)
+    private static bool IsServiceUrlPrimary(Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore, SearchParameterReferanceValue SearchValue)
     {
       if (!string.IsNullOrWhiteSpace(SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString))
       {

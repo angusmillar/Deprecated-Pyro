@@ -1,7 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using LinqKit;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 using Pyro.Common.Tools;
 using Pyro.DataLayer.DbModel.EntityBase;
 using System;
@@ -13,7 +13,7 @@ namespace Pyro.DataLayer.Search.Predicate
     where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
     where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
   {
-    public static void Build(DtoSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
+    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
     {    
       var LastUpdatedSearchParamerterList = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       if (LastUpdatedSearchParamerterList != null)
@@ -21,7 +21,7 @@ namespace Pyro.DataLayer.Search.Predicate
         ExpressionStarter<ResourceCurrentType> NewLastUpdatedPredicate = null;
         foreach (var LastUpdatedSearchParameter in LastUpdatedSearchParamerterList)
         {
-          if (LastUpdatedSearchParameter is DtoSearchParameterDateTime SearchTypeToken)
+          if (LastUpdatedSearchParameter is SearchParameterDateTime SearchTypeToken)
           {
             NewLastUpdatedPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
             foreach (var SearchValue in SearchTypeToken.ValueList)
@@ -80,7 +80,7 @@ namespace Pyro.DataLayer.Search.Predicate
       }
     }
 
-    private static ExpressionStarter<ResourceCurrentType> Equals(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewLastUpdatedPredicate, DtoSearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResourceCurrentType> Equals(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
     {
       var ExpressionLow = Search.LastUpdatedPropertyGreaterThanOrEqualTo(SearchValue.Value);
       var ExpressionHigh = Search.LastUpdatedPropertyLessThanOrEqualTo(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));

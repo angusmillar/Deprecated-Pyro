@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.DbModel.Entity;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Migrations.DbSeeding
@@ -43,11 +43,11 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
 
     public void Seed()
     {
-      IList<DtoServiceSearchParameter> DtoServiceSearchParameterList = Common.BusinessEntities.Dto.Search.ServiceSearchParameterFactory.FhirAPISearchParameters();
+      IList<DtoServiceSearchParameter> DtoServiceSearchParameterList = ServiceSearchParameterFactory.FhirAPISearchParameters();
       var LastUpdated = DateTimeOffset.Now;
       foreach (var SearchParameter in DtoServiceSearchParameterList)
       {
-        var ServiceSearchParameter = new ServiceSearchParameter()
+        var ServiceSearchParameter = new DbModel.Entity.ServiceSearchParameter()
         {
           Name = SearchParameter.Name,
           Description = SearchParameter.Description,

@@ -7,7 +7,7 @@ using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Exceptions;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 
@@ -15,7 +15,7 @@ namespace Pyro.Engine.Support
 {
   public static class FhirBundleSupport
   {
-    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IDtoRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested, Uri SearchPerformedUri = null)
+    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IPyroRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested, Uri SearchPerformedUri = null)
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
       FhirBundle.Type = BundleType;

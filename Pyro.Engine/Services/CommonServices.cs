@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Search;
 
 namespace Pyro.Engine.Services
 {
@@ -25,27 +25,27 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.SetPrimaryRootUrlStore(RootUrl);
     }
 
-    public List<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
+    public List<ServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersLightForResource(ResourceType);
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
+    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy(CustomOnly);
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
     }
 
-    public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
     }
 
-    public DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       return _UnitOfWork.CommonRepository.UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
     }

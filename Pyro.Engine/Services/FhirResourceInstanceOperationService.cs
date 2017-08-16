@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pyro.Common.Service;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Enum;
-using Pyro.Common.BusinessEntities.Service;
-using Pyro.Common.BusinessEntities.FhirOperation;
+using Pyro.Common.FhirOperation;
 using Hl7.Fhir.Model;
-using Pyro.Common.Interfaces.UriSupport;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.Search;
+using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Engine.Services
@@ -27,9 +27,9 @@ namespace Pyro.Engine.Services
     public IResourceServiceOutcome Process(
       string OperationName,
       Resource Resource,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric,
-      IDtoRequestHeaders RequestHeaders)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (string.IsNullOrWhiteSpace(OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
@@ -72,7 +72,7 @@ namespace Pyro.Engine.Services
       }
 
       var Op = OperationDic[OperationName];
-      OperationClass OperationClass = Common.BusinessEntities.FhirOperation.OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Instance && x.Type == Op);
+      OperationClass OperationClass = OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Instance && x.Type == Op);
       if (OperationClass == null)
       {
         string Message = $"The resource operation named ${OperationName} is not supported by the server as a resource instance service operation type.";

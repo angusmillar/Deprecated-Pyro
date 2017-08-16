@@ -1,5 +1,5 @@
 ﻿using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.Global;
+using Pyro.Common.Global;
 using Pyro.Web.Attributes;
 using Pyro.Web.Extensions;
 using Pyro.Web.Response;
@@ -9,6 +9,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 using Pyro.Common.FhirHttpResponse;
+using Pyro.Common.Service;
 
 namespace Pyro.Web.Controllers
 {

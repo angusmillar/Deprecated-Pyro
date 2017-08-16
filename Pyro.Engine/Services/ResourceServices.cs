@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using Pyro.Common.Service;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Search;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.BusinessEntities.Service;
 using Pyro.Common.Interfaces.ITools;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.Exceptions;
 using System.Net;
-using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Engine.Services
@@ -34,9 +34,9 @@ namespace Pyro.Engine.Services
     // Get: URL/Fhir/Patient/1
     public virtual IResourceServiceOutcome GetRead(
       string ResourceId,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric,
-      IDtoRequestHeaders RequestHeaders)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (string.IsNullOrWhiteSpace(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
@@ -77,8 +77,8 @@ namespace Pyro.Engine.Services
     // GET by Search
     // GET: URL//FhirApi/Patient?family=Smith&given=John            
     public virtual IResourceServiceOutcome GetSearch(
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (RequestUri == null)
         throw new NullReferenceException("FhirRequestUri can not be null.");
@@ -116,8 +116,8 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome GetHistory(
       string ResourceId,
       string VersionId,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (string.IsNullOrEmpty(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
@@ -188,9 +188,9 @@ namespace Pyro.Engine.Services
     // POST: URL/FhirApi/Patient
     public virtual IResourceServiceOutcome Post(
       Resource Resource,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric,
-      IDtoRequestHeaders RequestHeaders,
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders,
       string ForceId = "")
     {
       if (RequestUri == null)
@@ -226,7 +226,7 @@ namespace Pyro.Engine.Services
 
       if ((RequestHeaders != null) && (!string.IsNullOrWhiteSpace(RequestHeaders.IfNoneExist)))
       {
-        IDtoSearchParameterGeneric SearchParameterGenericIfNoneExist = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(RequestHeaders.IfNoneExist);
+        ISearchParameterGeneric SearchParameterGenericIfNoneExist = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(RequestHeaders.IfNoneExist);
         ISearchParameterService SearchServiceIfNoneExist = ICommonFactory.CreateSearchParameterService();
         ISearchParametersServiceOutcome SearchParametersServiceOutcomeIfNoneExist = SearchService.ProcessSearchParameters(SearchParameterGenericIfNoneExist, SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType, null);
         if (SearchParametersServiceOutcomeIfNoneExist.FhirOperationOutcome != null)
@@ -296,9 +296,9 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome Put(
       string ResourceId,
       Resource Resource,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric,
-      IDtoRequestHeaders RequestHeaders)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (string.IsNullOrWhiteSpace(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty.");
@@ -394,8 +394,8 @@ namespace Pyro.Engine.Services
     // DELETE: URL/FhirApi/Patient/5
     public virtual IResourceServiceOutcome Delete(
       string ResourceId,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (string.IsNullOrWhiteSpace(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty.");
@@ -448,8 +448,8 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalPut(
       Resource Resource,
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (Resource == null)
         throw new NullReferenceException($"Resource can not be null.");
@@ -535,8 +535,8 @@ namespace Pyro.Engine.Services
     //ConditionalDelete (Delete)
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalDelete(
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (RequestUri == null)
         throw new NullReferenceException($"RequestUri can not be null.");
@@ -596,8 +596,8 @@ namespace Pyro.Engine.Services
     //DeleteHistoryIndexes
     //DELETE: URL/FhirApi/Patient?$ClearHistoryIndexes
     public virtual IResourceServiceOutcome DeleteHistoryIndexes(
-      IDtoRequestUri RequestUri,
-      IDtoSearchParameterGeneric SearchParameterGeneric)
+      IPyroRequestUri RequestUri,
+      ISearchParameterGeneric SearchParameterGeneric)
     {
       if (RequestUri == null)
         throw new NullReferenceException($"RequestUri can not be null.");
@@ -636,7 +636,7 @@ namespace Pyro.Engine.Services
       return ServiceOutcome;
     }
 
-    public virtual void AddResourceIndexs(List<Common.BusinessEntities.Dto.DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IDtoRequestUri FhirRequestUri)
+    public virtual void AddResourceIndexs(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
     {
       _ResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
     }
@@ -651,7 +651,7 @@ namespace Pyro.Engine.Services
       return _ResourceRepository.GetTotalCurrentResourceCount();
     }
 
-    private bool ResourceProvidedMatchesEndpointItWasProvidedOn(IDtoRequestUri requestUri, ResourceType resourceType)
+    private bool ResourceProvidedMatchesEndpointItWasProvidedOn(IPyroRequestUri requestUri, ResourceType resourceType)
     {
       return (requestUri.FhirRequestUri.ResourseName == resourceType.GetLiteral());
     }

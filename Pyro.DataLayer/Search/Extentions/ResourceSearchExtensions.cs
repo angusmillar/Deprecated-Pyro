@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Pyro.Common.BusinessEntities.Search;
+using Pyro.Common.Search;
 
 namespace Pyro.DataLayer.Search.Extentions
 {
@@ -15,7 +15,7 @@ namespace Pyro.DataLayer.Search.Extentions
       return query.Skip(PagRequested * NumberOfRecordsPerPage).Take(NumberOfRecordsPerPage);
     }
 
-    public static IQueryable<T> Ordering<T>(this IQueryable<T> query, DtoSearchParameters DtoSearchParameters)
+    public static IQueryable<T> Ordering<T>(this IQueryable<T> query, PyroSearchParameters DtoSearchParameters)
     {
       throw new NotImplementedException();
       //foreach (var SortItem in DtoSearchParameters.SortList)

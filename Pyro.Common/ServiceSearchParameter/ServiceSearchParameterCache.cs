@@ -1,7 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.BusinessEntities.Global;
+using Pyro.Common.Search;
+using Pyro.Common.Global;
 using Pyro.Common.Cache;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.ITools;
@@ -22,9 +22,9 @@ namespace Pyro.Common.ServiceSearchParameter
       this.IApplicationCacheSupport = IApplicationCacheSupport;
     }
 
-    public List<DtoServiceSearchParameterLight> GetSearchParameterForResource(string ResourceType)
+    public List<ServiceSearchParameterLight> GetSearchParameterForResource(string ResourceType)
     {
-      var DtoServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
+      var DtoServiceSearchParameterLightList = new List<ServiceSearchParameterLight>();
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       if (!GlobalProperties.ApplicationCacheServicesActive)
       {

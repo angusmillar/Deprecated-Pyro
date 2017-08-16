@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Hl7.Fhir.Specification.Source;
-using Pyro.Common.BusinessEntities.Search;
-using Pyro.Common.BusinessEntities.Service;
+using Pyro.Common.Service;
+using Pyro.Common.Search;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Dto.Headers;
+using Pyro.Common.Tools.Headers;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.UriSupport;
+using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Tools.FhirResourceValidation;
 using Pyro.DataLayer.DbModel.UnitOfWork;
@@ -29,32 +29,32 @@ namespace Pyro.Web.CompositionRoot
       this.Container = Container;
     }
 
-    public IDtoRequestHeaders CreateDtoRequestHeaders()
+    public IRequestHeader CreateDtoRequestHeaders()
     {
-      return Container.GetInstance<IDtoRequestHeaders>();
+      return Container.GetInstance<IRequestHeader>();
     }
 
-    public IFhirRequestUri CreateFhirRequestUri()
+    public IPyroFhirUri CreateFhirRequestUri()
     {
-      return Container.GetInstance<IFhirRequestUri>();
+      return Container.GetInstance<IPyroFhirUri>();
     }
 
-    public IDtoRequestUri CreateDtoRequestUri()
+    public IPyroRequestUri CreateDtoRequestUri()
     {
-      return Container.GetInstance<IDtoRequestUri>();
+      return Container.GetInstance<IPyroRequestUri>();
     }
 
-    public IDtoRequestUri CreateDtoRequestUri(string RequestUri)
+    public IPyroRequestUri CreateDtoRequestUri(string RequestUri)
     {
-      IDtoRequestUri IDtoRequestUri = Container.GetInstance<IDtoRequestUri>();
+      IPyroRequestUri IDtoRequestUri = Container.GetInstance<IPyroRequestUri>();
       IDtoRequestUri.FhirRequestUri = CreateFhirRequestUri();
       IDtoRequestUri.FhirRequestUri.Parse(RequestUri);
       return IDtoRequestUri;
     }
 
-    public IDtoSearchParameterGeneric CreateDtoSearchParameterGeneric()
+    public ISearchParameterGeneric CreateDtoSearchParameterGeneric()
     {
-      return Container.GetInstance<IDtoSearchParameterGeneric>();
+      return Container.GetInstance<ISearchParameterGeneric>();
     }
 
     public IBundleTransactionService CreateBundleTransactionService()
@@ -112,9 +112,9 @@ namespace Pyro.Web.CompositionRoot
       return Container.GetInstance<ISearchParametersServiceOutcome>();
     }
 
-    public IDtoSearchParameterReferance CreateDtoSearchParameterReferance()
+    public ISearchParameterReferance CreateDtoSearchParameterReferance()
     {
-      return Container.GetInstance<IDtoSearchParameterReferance>();
+      return Container.GetInstance<ISearchParameterReferance>();
     }
 
     public List<IResourceResolver> CreateResourceResolverList()
