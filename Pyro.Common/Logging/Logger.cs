@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 
-namespace Pyro.Common.Tools
+namespace Pyro.Common.Logging
 {
   /// <summary>
   /// This is just a simple logger for when Dependency Injection is not possible

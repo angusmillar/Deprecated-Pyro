@@ -196,7 +196,7 @@ namespace Pyro.Engine.Services
       Uri SupportedSearchSelfLink = null;
       Uri.TryCreate(RequestUri.FhirRequestUri.OriginalString, UriKind.Absolute, out SupportedSearchSelfLink);
 
-      oPyroServiceOperationOutcome.ResourceResult = Support.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+      oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
                                                                                            Bundle.BundleType.History,
                                                                                            RequestUri,
                                                                                            DatabaseOperationOutcome.SearchTotal,
@@ -315,7 +315,6 @@ namespace Pyro.Engine.Services
       var IncludeResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
       HashSet<string> CacheResourceIDsAlreadyCollected = null;
 
-
       IEnumerable<SearchParameterInclude> IncludeListToProcess = null;
       if (Recursive)
       {
@@ -324,7 +323,7 @@ namespace Pyro.Engine.Services
       else
       {
         CacheResourceIDsAlreadyCollected = new HashSet<string>();
-        //Add al the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
+        //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
         SearchResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
         IncludeListToProcess = IncludeList;
       }
@@ -411,7 +410,7 @@ namespace Pyro.Engine.Services
         DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
       }
 
-      oPyroServiceOperationOutcome.ResourceResult = Support.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+      oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
                                                                                              Bundle.BundleType.Searchset,
                                                                                              RequestUri,
                                                                                              DatabaseOperationOutcome.SearchTotal,

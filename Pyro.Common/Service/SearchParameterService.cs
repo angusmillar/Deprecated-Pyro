@@ -98,7 +98,10 @@ namespace Pyro.Common.Service
       SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
 
       List<ServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceType);
-      ProcessIncludeSearchParameters(SearchParameterGeneric, SearchParametersServiceOutcome);
+
+      //Parse Include and RevInclude parameters
+      ProcessIncludeSearchParameters(SearchParameterGeneric.Include, SearchParametersServiceOutcome);
+      ProcessIncludeSearchParameters(SearchParameterGeneric.RevInclude, SearchParametersServiceOutcome);
 
       foreach (var Parameter in SearchParameterGeneric.ParameterList)
       {
@@ -147,16 +150,35 @@ namespace Pyro.Common.Service
       return SearchParametersServiceOutcome;
     }
 
-    private void ProcessIncludeSearchParameters(ISearchParameterGeneric SearchParameterGeneric, ISearchParametersServiceOutcome SearchParametersServiceOutcome)
+    private void ProcessIncludeSearchParameters(IList<Tuple<string, string>> IncludeList, ISearchParametersServiceOutcome SearchParametersServiceOutcome)
     {
-      if (SearchParameterGeneric.Include != null)
+      if (IncludeList != null)
       {
-        foreach (var Include in SearchParameterGeneric.Include)
+        foreach (var Include in IncludeList)
         {
           bool ParseOk = true;
-          var SearchParameterInclude = new SearchParameterInclude();
+
+          SearchParameterInclude SearchParameterInclude = null;
           var Key = Include.Item1;
           var KeySplitArray = Key.Split(':'); //_includes:recurse
+
+          if (KeySplitArray[0].ToLower() == Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE.ToLower())
+          {
+            SearchParameterInclude = new SearchParameterInclude(SearchParameterInclude.IncludeType.Include);
+          }
+          else if (KeySplitArray[0].ToLower() == Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE.ToLower())
+          {
+            SearchParameterInclude = new SearchParameterInclude(SearchParameterInclude.IncludeType.RevInclude);
+          }
+          else
+          {
+            ParseOk = false;
+            if (SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList == null)
+              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
+            SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
+            { RawParameter = $"{Key}", ReasonMessage = $"{Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE} or {Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE} parameter is not recognised." });
+          }
+
           SearchParameterInclude.IsRecurse = false;
           if (KeySplitArray.Count() > 1)
           {
@@ -256,9 +278,24 @@ namespace Pyro.Common.Service
           //All ok so add as valid include
           if (ParseOk)
           {
-            if (SearchParametersServiceOutcome.SearchParameters.IncludeList == null)
-              SearchParametersServiceOutcome.SearchParameters.IncludeList = new List<SearchParameterInclude>();
-            SearchParametersServiceOutcome.SearchParameters.IncludeList.Add(SearchParameterInclude);
+            if (SearchParameterInclude.Type == SearchParameterInclude.IncludeType.Include)
+            {
+              if (SearchParametersServiceOutcome.SearchParameters.IncludeList == null)
+                SearchParametersServiceOutcome.SearchParameters.IncludeList = new List<SearchParameterInclude>();
+              SearchParametersServiceOutcome.SearchParameters.IncludeList.Add(SearchParameterInclude);
+            }
+            else if (SearchParameterInclude.Type == SearchParameterInclude.IncludeType.RevInclude)
+            {
+              if (SearchParametersServiceOutcome.SearchParameters.RevIncludeList == null)
+                SearchParametersServiceOutcome.SearchParameters.RevIncludeList = new List<SearchParameterInclude>();
+              SearchParametersServiceOutcome.SearchParameters.RevIncludeList.Add(SearchParameterInclude);
+            }
+            else
+            {
+              ParseOk = false;
+              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
+              { RawParameter = $"{SearchParameterInclude.Type.ToString()}", ReasonMessage = $"The include parameter  Type {SearchParameterInclude.Type.ToString()} was unknown. This is an internal server error" });
+            }
           }
 
         }
@@ -279,7 +316,7 @@ namespace Pyro.Common.Service
         DtoSupportedServiceSearchParameterList.AddRange(ServiceSearchParameterFactory.BundleSearchParameters());
       }
 
-      //For Bundle URL Parameters e.g page, _sort
+      //For $Operation URL Parameters e.g profile, mode
       if ((SearchParameterServiceType & SearchParameterServiceType.Operation) == SearchParameterServiceType.Operation)
       {
         DtoSupportedServiceSearchParameterList.AddRange(ServiceSearchParameterFactory.OperationSearchParameters(OperationClass));

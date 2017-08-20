@@ -11,7 +11,7 @@ using Pyro.Common.Tools.UriSupport;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 
-namespace Pyro.Engine.Support
+namespace Pyro.Common.Tools.Bundles
 {
   public static class FhirBundleSupport
   {

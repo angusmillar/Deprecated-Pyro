@@ -1,25 +1,43 @@
-﻿using System;
+﻿using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hl7.Fhir.Model;
-using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.Search
 {
   public class SearchParameterInclude
   {
-    private readonly string _RecurseName = "recurse";
+    public enum IncludeType { Include, RevInclude };
+    public SearchParameterInclude(IncludeType IncludeType)
+    {
+      this.Type = IncludeType;
+    }
+    public IncludeType Type { get; private set; }
+    protected readonly string _RecurseName = "recurse";
     public FHIRAllTypes SourceResourceType { get; set; }
     public List<ServiceSearchParameterLight> SearchParameterList { get; set; }
     public FHIRAllTypes? SearchParameterTargetResourceType { get; set; }
     public bool IsRecurse { get; set; }
+
     public string AsFormatedSearchParameter()
     {
       //example:
-      //_include:recurse=SourceResourceType:SearchParameterTargetResourceType
-      string result = Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE;
+      //_include:recurse=SourceResourceType:SearchParameterTargetResourceType      
+      //_revinclude:recurse=SourceResourceType:SearchParameterTargetResourceType
+
+      string result = string.Empty;
+      if (Type == IncludeType.Include)
+      {
+        result = Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE;
+      }
+      else
+      {
+        result = Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE;
+      }
+
       if (IsRecurse)
       {
         result += $":{_RecurseName}";
@@ -39,5 +57,6 @@ namespace Pyro.Common.Search
       }
       return result;
     }
+
   }
 }

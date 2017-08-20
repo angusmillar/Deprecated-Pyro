@@ -109,16 +109,17 @@
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
+    <Compile Include="Search\SearchParameterInclude.cs" />
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />
     <Compile Include="Search\ServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
+    <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\Headers\RequestHeader.cs" />
     <Compile Include="Search\IServiceSearchParameterLight.cs" />
     <Compile Include="Search\SearchParameterGeneric.cs" />
     <Compile Include="Search\ISearchParameterBase.cs" />
     <Compile Include="Search\ISearchParameterReferance.cs" />
     <Compile Include="Search\ISearchParameterFactory.cs" />
-    <Compile Include="Search\SearchParameterInclude.cs" />
     <Compile Include="Search\ServiceSearchParameterFactory.cs" />
     <Compile Include="FhirOperation\OperationClass.cs" />
     <Compile Include="FhirOperation\OperationClassFactory.cs" />
@@ -251,7 +252,7 @@
     <Compile Include="Tools\HtmlSupport\IHtmlGenerationSupport.cs" />
     <Compile Include="Tools\IDateTimeIndex.cs" />
     <Compile Include="Interfaces\ITools\IRepositorySwitcher.cs" />
-    <Compile Include="Tools\Logger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Tools\PagingSupport.cs" />
     <Compile Include="Tools\ReflectionHelper.cs" />
     <Compile Include="Tools\RepositorySwitcher.cs">
