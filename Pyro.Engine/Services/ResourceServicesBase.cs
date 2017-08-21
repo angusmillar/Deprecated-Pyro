@@ -295,10 +295,7 @@ namespace Pyro.Engine.Services
       if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
       {
         DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
-        //DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
       }
-
-      //Note to self, Recursive means take the normal include resources and apply the recursive includes to them recursivly
 
       //Add any _Revinclude Resources
       if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.RevIncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)

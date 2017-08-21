@@ -17,7 +17,7 @@ namespace Pyro.Common.Service
   {
     private IResourceRepository IResourceRepository;
     private readonly IRepositorySwitcher IRepositorySwitcher;
-    private List<DtoResource> SourceResourceList;
+    private List<DtoResource> TotalResourceList;
 
     //Constructor for dependency injection
     public IncludeService(IRepositorySwitcher IRepositorySwitcher)
@@ -25,40 +25,49 @@ namespace Pyro.Common.Service
       this.IRepositorySwitcher = IRepositorySwitcher;
     }
 
-    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceResourceList, bool Recursive = false)
+    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList, bool Recursive = false)
     {
       if (IncludeList == null)
         throw new NullReferenceException("IncludeList cannot be null");
 
-      if (SourceResourceList == null)
+      if (SourceInputResourceList == null)
         throw new NullReferenceException("SearchResourceList cannot be null");
 
-      this.SourceResourceList = SourceResourceList;
+      this.TotalResourceList = new List<DtoResource>();
+      this.TotalResourceList.AddRange(SourceInputResourceList);
+
       var IncludeResourceList = new List<DtoResource>();
 
-      HashSet<string> CacheResourceIDsAlreadyCollected = null;
+      var CacheResourceIDsAlreadyCollected = new HashSet<string>();
 
-      IEnumerable<SearchParameterInclude> IncludeListToProcess = null;
-      if (Recursive)
+      var RecursiveIncludeList = IncludeList.Where(x => x.IsRecurse == true).ToList();
+
+      //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
+      this.TotalResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
+
+      //First Pass uses non-recursive includes and recursive includes      
+      IncludeResourceList = GetIncludes(IncludeList, this.TotalResourceList, CacheResourceIDsAlreadyCollected);
+      TotalResourceList.AddRange(IncludeResourceList);
+      //IncludeResourceList.Clear();
+
+      int CurrentIncludeCount = 0;
+      while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && RecursiveIncludeList.Count > 0)
       {
-        IncludeListToProcess = IncludeList.Where(x => x.IsRecurse);
+        CurrentIncludeCount = CacheResourceIDsAlreadyCollected.Count();
+        IncludeResourceList = GetIncludes(RecursiveIncludeList, IncludeResourceList, CacheResourceIDsAlreadyCollected);
+        TotalResourceList.AddRange(IncludeResourceList);
+        //IncludeResourceList.Clear();
       }
-      else
-      {
-        CacheResourceIDsAlreadyCollected = new HashSet<string>();
-        //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
-        SourceResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
-        IncludeListToProcess = IncludeList;
-      }
+      return TotalResourceList;
+    }
 
-      foreach (var Resource in SourceResourceList)
+    private List<DtoResource> GetIncludes(List<SearchParameterInclude> IncludeList, List<DtoResource> CurrentScourceResourceList, HashSet<string> CacheResourceIDsAlreadyCollected)
+    {
+      var ReturnResourceList = new List<DtoResource>();
+      foreach (var Resource in CurrentScourceResourceList)
       {
-        //Only add when not recursive as this adds the source resource from initial search
-        if (!Recursive)
-          IncludeResourceList.Add(Resource);
-
         //Now process each include
-        foreach (var include in IncludeListToProcess)
+        foreach (var include in IncludeList)
         {
           if (Resource.ResourceType.Value == include.SourceResourceType)
           {
@@ -78,7 +87,7 @@ namespace Pyro.Common.Service
               //Get each as long as it is not already gotten based on CacheResourceIDsAlreadyCollected list
               foreach (string FhirId in FhirIdList)
               {
-                AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
+                AddIncludeResourceInstance(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
               }
             }
             else
@@ -100,7 +109,7 @@ namespace Pyro.Common.Service
                     foreach (string FhirId in FhirIdList)
                     {
                       //Don't source the same resource again from the Database if we already have it
-                      AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
+                      AddIncludeResourceInstance(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
                     }
                   }
                 }
@@ -109,7 +118,7 @@ namespace Pyro.Common.Service
           }
         }
       }
-      return IncludeResourceList;
+      return ReturnResourceList;
     }
 
     private void AddIncludeResourceInstance(List<DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, string FhirId)

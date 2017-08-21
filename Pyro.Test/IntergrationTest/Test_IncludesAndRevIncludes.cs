@@ -75,8 +75,6 @@ namespace Pyro.Test.IntergrationTest
       OrganizationOne.Name = "OrganizationOne Testing Facility";
       OrganizationOneIdentifer = Guid.NewGuid().ToString();
       OrganizationOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
-
-
       Organization OrganizationOneResult = null;
       try
       {
@@ -126,8 +124,8 @@ namespace Pyro.Test.IntergrationTest
       ObsResourceTwo.Performer = new List<ResourceReference>() { new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneId}") };
       ObsResourceTwo.Related = new List<Observation.RelatedComponent>();
       var RelatedArtifact2 = new Observation.RelatedComponent();
-      ObsResourceTwo.Related.Add(RelatedArtifact2);
       RelatedArtifact2.Target = new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationThreeResourceId}");
+      ObsResourceTwo.Related.Add(RelatedArtifact2);
       Observation ObservationTwoResult = null;
       try
       {
@@ -151,8 +149,8 @@ namespace Pyro.Test.IntergrationTest
       ObsResourceOne.Performer = new List<ResourceReference>() { new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneId}") };
       ObsResourceOne.Related = new List<Observation.RelatedComponent>();
       var RelatedArtifact1 = new Observation.RelatedComponent();
-      ObsResourceOne.Related.Add(RelatedArtifact1);
       RelatedArtifact1.Target = new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationTwoResourceId}");
+      ObsResourceOne.Related.Add(RelatedArtifact1);
       Observation ObservationOneResult = null;
       try
       {
@@ -302,13 +300,16 @@ namespace Pyro.Test.IntergrationTest
         Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
       }
       Assert.NotNull(BundleResult, "Resource Search returned resource of null");
-      Assert.AreEqual(BundleResult.Entry.Count, 3, "BundleResult.Entry.Count should be 2, the Observation and the include Patient");
-      Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationOneResourceId, "Observation id incorrect.");
+      Assert.AreEqual(BundleResult.Entry.Count, 4, "BundleResult.Entry.Count should be 2, the primary Observation1 and the included Patient, Orginisation and Observation2 ");
+      Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationOneResourceId, "Observation1 id incorrect.");
       Assert.AreEqual(BundleResult.Entry[0].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
       Assert.AreEqual(BundleResult.Entry[1].Resource.Id, PatientResourceId, "Patient id incorrect.");
       Assert.AreEqual(BundleResult.Entry[1].Resource.ResourceType, ResourceType.Patient, "Incorrect Resource type should be Patient.");
       Assert.AreEqual(BundleResult.Entry[2].Resource.Id, OrganizationOneId, "Organization id incorrect.");
-      Assert.AreEqual(BundleResult.Entry[2].Resource.ResourceType, ResourceType.Organization, "Incorrect Resource type should be Patient.");
+      Assert.AreEqual(BundleResult.Entry[2].Resource.ResourceType, ResourceType.Organization, "Incorrect Resource type should be Organization.");
+      Assert.AreEqual(BundleResult.Entry[3].Resource.Id, ObservationTwoResourceId, "Observation2 id incorrect.");
+      Assert.AreEqual(BundleResult.Entry[3].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
+
     }
 
     [Test]
