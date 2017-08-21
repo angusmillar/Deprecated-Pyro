@@ -481,6 +481,7 @@ namespace Pyro.DataLayer.Repository
     {
       return IPyroDbContext.Set<ResourceCurrentType>().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
       {
+        Id = x.Id,
         IsCurrent = x.IsCurrent,
         FhirId = x.FhirId,
         IsDeleted = x.IsDeleted,
@@ -496,6 +497,7 @@ namespace Pyro.DataLayer.Repository
     {
       return IPyroDbContext.Set<ResourceCurrentType>().AsExpandable().Where(predicate).Select(x => new Pyro.Common.BusinessEntities.Dto.DtoResource
       {
+        Id = x.Id,
         IsCurrent = x.IsCurrent,
         FhirId = x.FhirId,
         IsDeleted = x.IsDeleted,
