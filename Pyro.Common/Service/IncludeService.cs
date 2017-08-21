@@ -17,7 +17,6 @@ namespace Pyro.Common.Service
   {
     private IResourceRepository IResourceRepository;
     private readonly IRepositorySwitcher IRepositorySwitcher;
-    private List<DtoResource> TotalResourceList;
 
     //Constructor for dependency injection
     public IncludeService(IRepositorySwitcher IRepositorySwitcher)
@@ -33,22 +32,19 @@ namespace Pyro.Common.Service
       if (SourceInputResourceList == null)
         throw new NullReferenceException("SearchResourceList cannot be null");
 
-      this.TotalResourceList = new List<DtoResource>();
-      this.TotalResourceList.AddRange(SourceInputResourceList);
+      var TotalResourceList = new List<DtoResource>();
+      TotalResourceList.AddRange(SourceInputResourceList);
 
       var IncludeResourceList = new List<DtoResource>();
-
       var CacheResourceIDsAlreadyCollected = new HashSet<string>();
-
       var RecursiveIncludeList = IncludeList.Where(x => x.IsRecurse == true).ToList();
 
       //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
-      this.TotalResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
+      TotalResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
 
       //First Pass uses non-recursive includes and recursive includes      
-      IncludeResourceList = GetIncludes(IncludeList, this.TotalResourceList, CacheResourceIDsAlreadyCollected);
+      IncludeResourceList = GetIncludes(IncludeList, TotalResourceList, CacheResourceIDsAlreadyCollected);
       TotalResourceList.AddRange(IncludeResourceList);
-      //IncludeResourceList.Clear();
 
       int CurrentIncludeCount = 0;
       while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && RecursiveIncludeList.Count > 0)
