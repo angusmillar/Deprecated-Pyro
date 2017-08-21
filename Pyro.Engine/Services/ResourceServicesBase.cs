@@ -21,54 +21,35 @@ namespace Pyro.Engine.Services
 {
   public class ResourceServicesBase : CommonServices, IResourceServicesBase
   {
-    protected IResourceRepository _ResourceRepository = null;
+    protected IResourceRepository IResourceRepository = null;
     protected readonly ICommonFactory ICommonFactory;
     private readonly IRepositorySwitcher IRepositorySwitcher;
+    private readonly IIncludeService IIncludeService;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory)
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, IIncludeService IIncludeService)
       : base(IUnitOfWork)
     {
       this.ICommonFactory = ICommonFactory;
       this.IRepositorySwitcher = IRepositorySwitcher;
+      this.IIncludeService = IIncludeService;
     }
 
     public void SetCurrentResourceType(FHIRAllTypes ResourceType)
     {
       _CurrentResourceType = ResourceType;
-      _ResourceRepository = IRepositorySwitcher.GetRepository(_CurrentResourceType);
+      IResourceRepository = IRepositorySwitcher.GetRepository(_CurrentResourceType);
     }
 
     public void SetCurrentResourceType(ResourceType ResourceType)
     {
-      SetCurrentResourceType(ResourceType.GetLiteral());
+      SetCurrentResourceType(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceType));
     }
 
     public void SetCurrentResourceType(string ResourceName)
     {
-      Type ResourceType = ModelInfo.GetTypeForFhirType(ResourceName);
-      if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-      {
-        this.SetCurrentResourceType((FHIRAllTypes)ModelInfo.FhirTypeNameToFhirType(ResourceName));
-      }
-      else
-      {
-        string ErrorMessage = string.Empty;
-        ResourceType = ModelInfo.GetTypeForFhirType(StringSupport.UppercaseFirst(ResourceName));
-        if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
-        {
-          ErrorMessage = $"The Resource name given '{ResourceName}' must begin with a capital letter, e.g ({StringSupport.UppercaseFirst(ResourceName)})";
-        }
-        else
-        {
-          ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
-        }
-        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
-        OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
-        throw new PyroException(HttpStatusCode.BadRequest, OpOutCome, ErrorMessage);
-      }
+      SetCurrentResourceType(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceName));
     }
-
 
     protected FHIRAllTypes _CurrentResourceType = FHIRAllTypes.AuditEvent;
 
@@ -86,7 +67,7 @@ namespace Pyro.Engine.Services
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
-        IDatabaseOperationOutcome DatabaseOperationOutcomeDelete = _ResourceRepository.UpdateResouceIdAsDeleted(ResourceIdCollection.First());
+        IDatabaseOperationOutcome DatabaseOperationOutcomeDelete = IResourceRepository.UpdateResouceIdAsDeleted(ResourceIdCollection.First());
         oPyroServiceOperationOutcome.ResourceResult = null;
         oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].FhirId;
         oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Received;
@@ -101,7 +82,7 @@ namespace Pyro.Engine.Services
       else if (ResourceIdCollection.Count > 1)
       {
         //Delete many resources that are not already deleted 
-        IDatabaseOperationOutcome DatabaseOperationOutcomeDeleteMany = _ResourceRepository.UpdateResouceIdColectionAsDeleted(ResourceIdCollection);
+        IDatabaseOperationOutcome DatabaseOperationOutcomeDeleteMany = IResourceRepository.UpdateResouceIdColectionAsDeleted(ResourceIdCollection);
       }
       //Nothing to delete at all or many were deleted.
       oPyroServiceOperationOutcome.ResourceResult = null;
@@ -151,11 +132,11 @@ namespace Pyro.Engine.Services
 
       if (CrudOperationType == RestEnum.CrudOperationType.Update)
       {
-        DatabaseOperationOutcome = _ResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);
+        DatabaseOperationOutcome = IResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);
       }
       else if (CrudOperationType == RestEnum.CrudOperationType.Create)
       {
-        DatabaseOperationOutcome = _ResourceRepository.AddResource(Resource, RequestUri);
+        DatabaseOperationOutcome = IResourceRepository.AddResource(Resource, RequestUri);
       }
 
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
@@ -191,7 +172,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IPyroRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceHistoryByFhirID(ResourceId, SearchParametersServiceOutcome.SearchParameters);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceHistoryByFhirID(ResourceId, SearchParametersServiceOutcome.SearchParameters);
 
       Uri SupportedSearchSelfLink = null;
       Uri.TryCreate(RequestUri.FhirRequestUri.OriginalString, UriKind.Absolute, out SupportedSearchSelfLink);
@@ -216,7 +197,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IPyroRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirIDAndVersionNumber(ResourceId, Version);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceByFhirIDAndVersionNumber(ResourceId, Version);
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
       {
         if (!DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
@@ -245,7 +226,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome GetResourceInstance(string ResourceId, IPyroRequestUri RequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome, IRequestHeader RequestHeaders = null)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceByFhirID(ResourceId, true);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceByFhirID(ResourceId, true);
 
       if (DatabaseOperationOutcome.ReturnedResourceList.Count == 1 && !DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
       {
@@ -304,110 +285,25 @@ namespace Pyro.Engine.Services
       return oPyroServiceOperationOutcome;
     }
 
-    private List<Common.BusinessEntities.Dto.DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<Common.BusinessEntities.Dto.DtoResource> SearchResourceList, bool Recursive = false)
-    {
-      if (IncludeList == null)
-        throw new NullReferenceException("IncludeList cannot be null");
-
-      if (SearchResourceList == null)
-        throw new NullReferenceException("SearchResourceList cannot be null");
-
-      var IncludeResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
-      HashSet<string> CacheResourceIDsAlreadyCollected = null;
-
-      IEnumerable<SearchParameterInclude> IncludeListToProcess = null;
-      if (Recursive)
-      {
-        IncludeListToProcess = IncludeList.Where(x => x.IsRecurse);
-      }
-      else
-      {
-        CacheResourceIDsAlreadyCollected = new HashSet<string>();
-        //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
-        SearchResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
-        IncludeListToProcess = IncludeList;
-      }
-
-      foreach (var Resource in SearchResourceList)
-      {
-        //Only add when not recursive as this adds the source resource from initial search
-        if (!Recursive)
-          IncludeResourceList.Add(Resource);
-
-        //Now process each include
-        foreach (var include in IncludeListToProcess)
-        {
-          if (Resource.ResourceType.Value == include.SourceResourceType)
-          {
-            SetCurrentResourceType(Resource.ResourceType.Value);
-
-            //We only want to get the include target Resources
-            if (include.SearchParameterTargetResourceType.HasValue)
-            {
-              //Get the Search parameter Ids where the search parameter target list can contain the include's Resource target type
-              int[] IdArray = include.SearchParameterList.Where(z => z.TargetResourceTypeList.Any(c => c.ResourceType.GetLiteral() == include.SearchParameterTargetResourceType.Value.GetLiteral())).Select(x => x.Id).ToArray();
-              //Now only get the FhirId of the resources that have Search Index References that have these include target resource
-              string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, IdArray, include.SearchParameterTargetResourceType.Value.GetLiteral());
-              //Set the repository to the include's target resource in order to get the include resources
-              SetCurrentResourceType(include.SearchParameterTargetResourceType.Value);
-              //Get each as long as it is not already gotten based on CacheResourceIDsAlreadyCollected list
-              foreach (string FhirId in FhirIdList)
-              {
-                AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
-              }
-            }
-            else
-            {
-              //There is no include target so try and get all
-              foreach (var IncludeItemSearchParameter in include.SearchParameterList)
-              {
-                foreach (var SearchParameterResourceTarget in IncludeItemSearchParameter.TargetResourceTypeList)
-                {
-                  //Switch source resource repository to get reference FhirIds
-                  SetCurrentResourceType(Resource.ResourceType.Value);
-                  string[] FhirIdList = _ResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, new int[] { IncludeItemSearchParameter.Id }, SearchParameterResourceTarget.ResourceType.GetLiteral());
-                  if (FhirIdList.Count() > 0)
-                  {
-                    //Switch to SearchParameterResourceTarget resource repository to get the include resource if found
-                    SetCurrentResourceType(SearchParameterResourceTarget.ResourceType);
-                    foreach (string FhirId in FhirIdList)
-                    {
-                      //Don't source the same resource again from the Database if we already have it
-                      AddIncludeResourceInstance(IncludeResourceList, CacheResourceIDsAlreadyCollected, FhirId);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      return IncludeResourceList;
-    }
-
-    private void AddIncludeResourceInstance(List<Common.BusinessEntities.Dto.DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, string FhirId)
-    {
-      //Don't source the same resource again from the Database if we already have it
-      if (!CacheResourceIDsAlreadyCollected.Contains($"{this._CurrentResourceType.GetLiteral()}-{FhirId}"))
-      {
-        IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = _ResourceRepository.GetResourceByFhirID(FhirId, true, false);
-        var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
-        DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
-        IncludeResourceList.AddRange(DtoIncludeResourceList);
-        CacheResourceIDsAlreadyCollected.Add($"{this._CurrentResourceType.GetLiteral()}-{FhirId}");
-      }
-    }
-
     public IResourceServiceOutcome GetResourcesBySearch(IPyroRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 
       //Add any _include Resources
       if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
       {
-        DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+        DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+        //DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+      }
+
+      //Note to self, Recursive means take the normal include resources and apply the recursive includes to them recursivly
+
+      //Add any _Revinclude Resources
+      if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.RevIncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
+      {
+        //DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
       }
 
       oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,

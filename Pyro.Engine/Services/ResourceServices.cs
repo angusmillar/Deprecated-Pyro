@@ -22,8 +22,8 @@ namespace Pyro.Engine.Services
   public class ResourceServices : ResourceServicesBase, IResourceServices
   {
     //Constructor for dependency injection
-    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory)
-      : base(IUnitOfWork, IRepositorySwitcher, ICommonFactory) { }
+    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, IIncludeService IncludeService)
+      : base(IUnitOfWork, IRepositorySwitcher, ICommonFactory, IncludeService) { }
 
     public DbContextTransaction BeginTransaction()
     {
@@ -237,7 +237,7 @@ namespace Pyro.Engine.Services
           return oServiceOperationOutcome;
         }
 
-        IDatabaseOperationOutcome DatabaseOperationOutcomeIfNoneExist = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeIfNoneExist.SearchParameters, false);
+        IDatabaseOperationOutcome DatabaseOperationOutcomeIfNoneExist = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeIfNoneExist.SearchParameters, false);
         if (DatabaseOperationOutcomeIfNoneExist.SearchTotal == 1)
         {
           //From FHIR Specification: One Match: The server ignore the post and returns 200 OK          
@@ -340,7 +340,7 @@ namespace Pyro.Engine.Services
       }
 
       //Check db for existence of this Resource 
-      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(ResourceId);
+      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = IResourceRepository.GetResourceByFhirID(ResourceId);
 
       if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
       {
@@ -416,7 +416,7 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = _ResourceRepository.GetResourceByFhirID(ResourceId, false);
+      IDatabaseOperationOutcome DatabaseOperationOutcomeGet = IResourceRepository.GetResourceByFhirID(ResourceId, false);
       if (DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1 &&
         DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
       {
@@ -475,7 +475,7 @@ namespace Pyro.Engine.Services
       }
       ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
 
-      IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
+      IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
       if (DatabaseOperationOutcomeSearch.ReturnedResourceList.Count == 0)
       {
         //No resource found so do a normal Create, first clear any Resource Id that may 
@@ -583,7 +583,7 @@ namespace Pyro.Engine.Services
         return ServiceOperationOutcomeConditionalDelete;
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = _ResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
+      IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
 
       //There are zero or many or one to be deleted, note that GetResourceBySearch never returns deleted resource.
       ICollection<string> ResourceIdsToBeDeleted = DatabaseOperationOutcomeSearch.ReturnedResourceList.Select(x => x.FhirId).ToArray();
@@ -617,7 +617,7 @@ namespace Pyro.Engine.Services
         return ServiceOutcome;
       }
 
-      int NumberOfIndexRowsDeleted = _ResourceRepository.DeleteNonCurrentResourceIndexes();
+      int NumberOfIndexRowsDeleted = IResourceRepository.DeleteNonCurrentResourceIndexes();
 
       ServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       ServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
@@ -638,17 +638,17 @@ namespace Pyro.Engine.Services
 
     public virtual void AddResourceIndexs(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
     {
-      _ResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
+      IResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
     }
 
     public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue()
     {
-      return _ResourceRepository.GetLastCurrentResourceLastUpdatedValue();
+      return IResourceRepository.GetLastCurrentResourceLastUpdatedValue();
     }
 
     public int GetTotalCurrentResourceCount()
     {
-      return _ResourceRepository.GetTotalCurrentResourceCount();
+      return IResourceRepository.GetTotalCurrentResourceCount();
     }
 
     private bool ResourceProvidedMatchesEndpointItWasProvidedOn(IPyroRequestUri requestUri, ResourceType resourceType)

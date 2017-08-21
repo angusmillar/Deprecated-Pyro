@@ -110,6 +110,7 @@ namespace Pyro.Web.App_Start
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
+      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
 
       //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);

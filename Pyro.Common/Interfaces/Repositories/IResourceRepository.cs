@@ -10,6 +10,7 @@ namespace Pyro.Common.Interfaces.Repositories
 {
   public interface IResourceRepository
   {
+    FHIRAllTypes RepositoryResourceType { get; }
     IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false);
     IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri);
     IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri);
