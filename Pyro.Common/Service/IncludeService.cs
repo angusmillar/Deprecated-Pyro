@@ -20,7 +20,7 @@ namespace Pyro.Common.Service
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly ICommonFactory ICommonFactory;
     private readonly ISearchParameterFactory ISearchParameterFactory;
-    private readonly int MaxRecursionDepth = 10;
+    private readonly int MaxRecursionDepth = 20;
 
     //Constructor for dependency injection
     public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory)
