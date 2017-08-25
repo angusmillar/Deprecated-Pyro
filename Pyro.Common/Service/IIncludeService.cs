@@ -6,6 +6,6 @@ namespace Pyro.Common.Service
 {
   public interface IIncludeService
   {
-    List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SearchResourceList, bool Recursive = false);
+    List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList);
   }
 }

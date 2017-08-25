@@ -379,12 +379,24 @@ namespace Pyro.Test.IntergrationTest
       {
         Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
       }
+      var ObsId = new HashSet<string>();
+      ObsId.Add(ObservationOneResourceId);
+      ObsId.Add(ObservationTwoResourceId);
+      ObsId.Add(ObservationThreeResourceId);
+
       Assert.NotNull(BundleResult, "Resource Search returned resource of null");
-      Assert.AreEqual(BundleResult.Entry.Count, 2, "BundleResult.Entry.Count should be 2, the Patient and the include Observation");
+      Assert.AreEqual(BundleResult.Entry.Count, 4, "BundleResult.Entry.Count should be 2, the Patient and the include Observation");
       Assert.AreEqual(BundleResult.Entry[0].Resource.Id, PatientResourceId, "Patient id incorrect.");
       Assert.AreEqual(BundleResult.Entry[0].Resource.ResourceType, ResourceType.Patient, "Incorrect Resource type should be Patient.");
-      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationOneResourceId, "Observation id incorrect.");
+      Assert.IsTrue(ObsId.Contains(BundleResult.Entry[1].Resource.Id));
+      //Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationOneResourceId, "Observation id incorrect.");
       Assert.AreEqual(BundleResult.Entry[1].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
+      Assert.IsTrue(ObsId.Contains(BundleResult.Entry[2].Resource.Id));
+      //Assert.AreEqual(BundleResult.Entry[2].Resource.Id, ObservationTwoResourceId, "Observation id incorrect.");
+      Assert.AreEqual(BundleResult.Entry[2].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
+      Assert.IsTrue(ObsId.Contains(BundleResult.Entry[1].Resource.Id));
+      //Assert.AreEqual(BundleResult.Entry[3].Resource.Id, ObservationThreeResourceId, "Observation id incorrect.");
+      Assert.AreEqual(BundleResult.Entry[3].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
     }
 
 

@@ -10,6 +10,7 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.Service
 {
@@ -17,14 +18,19 @@ namespace Pyro.Common.Service
   {
     private IResourceRepository IResourceRepository;
     private readonly IRepositorySwitcher IRepositorySwitcher;
+    private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterFactory ISearchParameterFactory;
+    private readonly int MaxRecursionDepth = 10;
 
     //Constructor for dependency injection
-    public IncludeService(IRepositorySwitcher IRepositorySwitcher)
+    public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
+      this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterFactory = ISearchParameterFactory;
     }
 
-    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList, bool Recursive = false)
+    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList)
     {
       if (IncludeList == null)
         throw new NullReferenceException("IncludeList cannot be null");
@@ -36,23 +42,31 @@ namespace Pyro.Common.Service
       TotalResourceList.AddRange(SourceInputResourceList);
 
       var IncludeResourceList = new List<DtoResource>();
+      var RecursiveIncludeList = new List<SearchParameterInclude>();
       var CacheResourceIDsAlreadyCollected = new HashSet<string>();
-      var RecursiveIncludeList = IncludeList.Where(x => x.IsRecurse == true).ToList();
+
+      RecursiveIncludeList = IncludeList.Where(x => x.IsRecurse == true).ToList();
 
       //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
       TotalResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
 
       //First Pass uses non-recursive includes and recursive includes      
-      IncludeResourceList = GetIncludes(IncludeList, TotalResourceList, CacheResourceIDsAlreadyCollected);
+      IncludeResourceList.AddRange(GetIncludes(IncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.Include).ToList(), TotalResourceList, CacheResourceIDsAlreadyCollected));
+      IncludeResourceList.AddRange(GetRevIncludes(IncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.RevInclude).ToList(), TotalResourceList, CacheResourceIDsAlreadyCollected));
+
       TotalResourceList.AddRange(IncludeResourceList);
 
       int CurrentIncludeCount = 0;
-      while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && RecursiveIncludeList.Count > 0)
+      int RecursionDepthCounter = 0;
+      var TempResourceList = new List<DtoResource>();
+      while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && RecursiveIncludeList.Count > 0 && RecursionDepthCounter < MaxRecursionDepth)
       {
         CurrentIncludeCount = CacheResourceIDsAlreadyCollected.Count();
-        IncludeResourceList = GetIncludes(RecursiveIncludeList, IncludeResourceList, CacheResourceIDsAlreadyCollected);
-        TotalResourceList.AddRange(IncludeResourceList);
-        //IncludeResourceList.Clear();
+        TempResourceList.Clear();
+        TempResourceList.AddRange(GetIncludes(RecursiveIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.Include).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
+        TempResourceList.AddRange(GetRevIncludes(RecursiveIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.RevInclude).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
+        TotalResourceList.AddRange(TempResourceList);
+        RecursionDepthCounter++;
       }
       return TotalResourceList;
     }
@@ -60,6 +74,12 @@ namespace Pyro.Common.Service
     private List<DtoResource> GetIncludes(List<SearchParameterInclude> IncludeList, List<DtoResource> CurrentScourceResourceList, HashSet<string> CacheResourceIDsAlreadyCollected)
     {
       var ReturnResourceList = new List<DtoResource>();
+      if (IncludeList == null || IncludeList.Count == 0)
+        return ReturnResourceList;
+
+      if (CurrentScourceResourceList == null || CurrentScourceResourceList.Count == 0)
+        return ReturnResourceList;
+
       foreach (var Resource in CurrentScourceResourceList)
       {
         //Now process each include
@@ -83,7 +103,7 @@ namespace Pyro.Common.Service
               //Get each as long as it is not already gotten based on CacheResourceIDsAlreadyCollected list
               foreach (string FhirId in FhirIdList)
               {
-                AddIncludeResourceInstance(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
+                AddIncludeResourceInstanceForIncludes(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
               }
             }
             else
@@ -105,7 +125,7 @@ namespace Pyro.Common.Service
                     foreach (string FhirId in FhirIdList)
                     {
                       //Don't source the same resource again from the Database if we already have it
-                      AddIncludeResourceInstance(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
+                      AddIncludeResourceInstanceForIncludes(ReturnResourceList, CacheResourceIDsAlreadyCollected, FhirId);
                     }
                   }
                 }
@@ -117,7 +137,87 @@ namespace Pyro.Common.Service
       return ReturnResourceList;
     }
 
-    private void AddIncludeResourceInstance(List<DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, string FhirId)
+    private List<DtoResource> GetRevIncludes(List<SearchParameterInclude> RevIncludeList, List<DtoResource> CurrentScourceResourceList, HashSet<string> CacheResourceIDsAlreadyCollected)
+    {
+      var ReturnResourceList = new List<DtoResource>();
+
+      if (RevIncludeList == null || RevIncludeList.Count == 0)
+        return ReturnResourceList;
+
+      if (CurrentScourceResourceList == null || CurrentScourceResourceList.Count == 0)
+        return ReturnResourceList;
+
+      foreach (var Resource in CurrentScourceResourceList)
+      {
+        //Now process each include
+        foreach (var RevInclude in RevIncludeList)
+        {
+          PyroSearchParameters SearchParameters = new PyroSearchParameters();
+          SearchParameters.SearchParametersList = new List<ISearchParameterBase>();
+
+          //Does the include have a target Resource type
+          if (RevInclude.SearchParameterTargetResourceType.HasValue)
+          {
+            //Is the target Resource type of the include == to the current Resource we are targeting
+            if (Resource.ResourceType.Value == RevInclude.SearchParameterTargetResourceType.Value)
+            {
+              IResourceRepository = IRepositorySwitcher.GetRepository(RevInclude.SourceResourceType);
+              foreach (ServiceSearchParameterLight p in RevInclude.SearchParameterList)
+              {
+                //Check the current search Parameter has a Target == to the Resource we are targeting
+                if (p.TargetResourceTypeList.Any(x => x.ResourceType.GetLiteral() == Resource.ResourceType.Value.GetLiteral()))
+                {
+                  //Construct the search parameter string
+                  var ParameterString = new Tuple<string, string>(p.Name, $"{RevInclude.SearchParameterTargetResourceType.GetLiteral()}/{Resource.FhirId}");
+                  ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(p, ParameterString);
+                  SearchParameters.SearchParametersList.Clear();
+                  SearchParameters.SearchParametersList.Add(SearchParam);
+                  //Get from the database and only add if we don't already have it
+                  AddIncludeResourceInstanceForRevIncludes(ReturnResourceList, CacheResourceIDsAlreadyCollected, SearchParameters);
+                }
+              }
+            }
+          }
+          else
+          {
+            foreach (ServiceSearchParameterLight p in RevInclude.SearchParameterList)
+            {
+              if (p.TargetResourceTypeList.Any(x => x.ResourceType.GetLiteral() == Resource.ResourceType.Value.GetLiteral()))
+              {
+                IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(p.Resource));
+                //Construct the search parameter string
+                var ParameterString = new Tuple<string, string>(p.Name, $"{Resource.ResourceType.Value.GetLiteral()}/{Resource.FhirId}");
+                ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(p, ParameterString);
+                SearchParameters.SearchParametersList.Clear();
+                SearchParameters.SearchParametersList.Add(SearchParam);
+                //Get from the database and only add if we don't already have it
+                AddIncludeResourceInstanceForRevIncludes(ReturnResourceList, CacheResourceIDsAlreadyCollected, SearchParameters);
+              }
+            }
+          }
+        }
+      }
+      return ReturnResourceList;
+    }
+
+    private void AddIncludeResourceInstanceForRevIncludes(List<DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, PyroSearchParameters SearchParameters)
+    {
+      //Don't source the same resource again from the Database if we already have it        
+      IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceBySearch(SearchParameters, true);
+      if (DatabaseOperationOutcomeIncludes.ReturnedResourceList != null)
+      {
+        foreach (var Resource in DatabaseOperationOutcomeIncludes.ReturnedResourceList)
+        {
+          if (!CacheResourceIDsAlreadyCollected.Contains($"{Resource.ResourceType.Value.GetLiteral()}-{Resource.FhirId}"))
+          {
+            IncludeResourceList.Add(Resource);
+            CacheResourceIDsAlreadyCollected.Add($"{Resource.ResourceType.Value.GetLiteral()}-{Resource.FhirId}");
+          }
+        }
+      }
+    }
+
+    private void AddIncludeResourceInstanceForIncludes(List<DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, string FhirId)
     {
       //Don't source the same resource again from the Database if we already have it        
       if (!CacheResourceIDsAlreadyCollected.Contains($"{IResourceRepository.RepositoryResourceType.GetLiteral()}-{FhirId}"))

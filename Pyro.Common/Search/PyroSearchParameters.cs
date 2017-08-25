@@ -16,7 +16,7 @@ namespace Pyro.Common.Search
     public FHIRAllTypes? ResourceTarget { get; set; }
     public List<ISearchParameterBase> SearchParametersList { get; set; }
     public List<SearchParameterInclude> IncludeList { get; set; }
-    public List<SearchParameterInclude> RevIncludeList { get; set; }
+    //public List<SearchParameterInclude> RevIncludeList { get; set; }
     public List<UnspportedSearchParameter> UnspportedSearchParameterList { get; set; }
     public List<Sort> SortList { get; set; }
     public int RequiredPageNumber { get; set; }

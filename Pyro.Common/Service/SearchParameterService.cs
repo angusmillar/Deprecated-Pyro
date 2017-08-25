@@ -278,24 +278,9 @@ namespace Pyro.Common.Service
           //All ok so add as valid include
           if (ParseOk)
           {
-            if (SearchParameterInclude.Type == SearchParameterInclude.IncludeType.Include)
-            {
-              if (SearchParametersServiceOutcome.SearchParameters.IncludeList == null)
-                SearchParametersServiceOutcome.SearchParameters.IncludeList = new List<SearchParameterInclude>();
-              SearchParametersServiceOutcome.SearchParameters.IncludeList.Add(SearchParameterInclude);
-            }
-            else if (SearchParameterInclude.Type == SearchParameterInclude.IncludeType.RevInclude)
-            {
-              if (SearchParametersServiceOutcome.SearchParameters.RevIncludeList == null)
-                SearchParametersServiceOutcome.SearchParameters.RevIncludeList = new List<SearchParameterInclude>();
-              SearchParametersServiceOutcome.SearchParameters.RevIncludeList.Add(SearchParameterInclude);
-            }
-            else
-            {
-              ParseOk = false;
-              SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-              { RawParameter = $"{SearchParameterInclude.Type.ToString()}", ReasonMessage = $"The include parameter  Type {SearchParameterInclude.Type.ToString()} was unknown. This is an internal server error" });
-            }
+            if (SearchParametersServiceOutcome.SearchParameters.IncludeList == null)
+              SearchParametersServiceOutcome.SearchParameters.IncludeList = new List<SearchParameterInclude>();
+            SearchParametersServiceOutcome.SearchParameters.IncludeList.Add(SearchParameterInclude);
           }
 
         }

@@ -291,16 +291,10 @@ namespace Pyro.Engine.Services
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 
-      //Add any _include Resources
+      //Add any _Revinclude Resources
       if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
       {
         DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
-      }
-
-      //Add any _Revinclude Resources
-      if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.RevIncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
-      {
-        //DatabaseOperationOutcome.ReturnedResourceList = ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
       }
 
       oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
