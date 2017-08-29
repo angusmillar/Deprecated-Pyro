@@ -26,12 +26,13 @@ using Pyro.Common.CompositionRoot;
 
 namespace Pyro.DataLayer.Repository
 {
-  public class CommonResourceRepository<ResourceCurrentType, ResourceIndexType> :
+  public class CommonResourceRepository<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
     CommonRepository,
-    ICommonResourceRepository<ResourceCurrentType, ResourceIndexType>,
+    ICommonResourceRepository<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>,
     IResourceRepository
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
     private readonly IIndexSetterFactory IIndexSetterFactory;
@@ -51,13 +52,13 @@ namespace Pyro.DataLayer.Repository
 
     public string[] GetResourceFhirIdByResourceIdAndIndexReferance2(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "")
     {
-      LinqKit.ExpressionStarter<ResourceIndexType> RefPredicate = null;
+      LinqKit.ExpressionStarter<ResourceIndexBaseType> RefPredicate = null;
       if (string.IsNullOrWhiteSpace(ResourceName))
-        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterIdArray);
+        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceId, SearchParameterIdArray);
       else
-        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterIdArray, ResourceName);
+        RefPredicate = IndexRefPredicateGenerator2<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceId, SearchParameterIdArray, ResourceName);
 
-      var IndexQuery = DbGetIndexAll<ResourceCurrentType, ResourceIndexType>(RefPredicate);
+      var IndexQuery = DbGetIndexAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(RefPredicate);
       var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
       return IndexResult;
     }
@@ -65,8 +66,8 @@ namespace Pyro.DataLayer.Repository
 
     public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId)
     {
-      var RefPredicate = IndexRefPredicateGenerator<ResourceCurrentType, ResourceIndexType>(ResourceId, SearchParameterId);
-      var IndexQuery = DbGetIndexAll<ResourceCurrentType, ResourceIndexType>(RefPredicate);
+      var RefPredicate = IndexRefPredicateGenerator<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceId, SearchParameterId);
+      var IndexQuery = DbGetIndexAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(RefPredicate);
       var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
       return IndexResult;
     }
@@ -76,10 +77,10 @@ namespace Pyro.DataLayer.Repository
     {
       SetNumberOfRecordsPerPage(DtoSearchParameters);
 
-      var Predicate = PredicateGenerator<ResourceCurrentType, ResourceIndexType>(DtoSearchParameters);
+      var Predicate = PredicateGenerator<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(DtoSearchParameters);
 
-      int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
-      var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
+      int TotalRecordCount = DbGetALLCount<ResourceCurrentBaseType>(Predicate);
+      var Query = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Predicate);
 
       //Todo: Sort not implemented just defaulting to last update order
       Query = Query.OrderBy(x => x.LastUpdated);
@@ -135,16 +136,16 @@ namespace Pyro.DataLayer.Repository
       if (WithXml)
       {
         if (IncludeDeleted)
-          DtoResource = DbGetWithXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true);
+          DtoResource = DbGetWithXML<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirId & x.IsCurrent == true);
         else
-          DtoResource = DbGetWithXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
+          DtoResource = DbGetWithXML<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
       }
       else
       {
         if (IncludeDeleted)
-          DtoResource = DbGetNoXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true);
+          DtoResource = DbGetNoXML<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirId & x.IsCurrent == true);
         else
-          DtoResource = DbGetNoXML<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
+          DtoResource = DbGetNoXML<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirId & x.IsCurrent == true & x.IsDeleted == false);
       }
       if (DtoResource != null)
       {
@@ -161,7 +162,7 @@ namespace Pyro.DataLayer.Repository
       if (!string.IsNullOrWhiteSpace(ResourceVersionNumber))
       {
         DatabaseOperationOutcome.SingleResourceRead = true;
-        var ResourceHistoryEntity = DbGet<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirResourceId && x.VersionId == ResourceVersionNumber);
+        var ResourceHistoryEntity = DbGet<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirResourceId && x.VersionId == ResourceVersionNumber);
         if (ResourceHistoryEntity != null)
         {
           DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceHistoryEntity, this.RepositoryResourceType));
@@ -171,10 +172,10 @@ namespace Pyro.DataLayer.Repository
       {
 
         DatabaseOperationOutcome.SingleResourceRead = false;
-        var Predicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>(true);
+        var Predicate = LinqKit.PredicateBuilder.New<ResourceCurrentBaseType>(true);
         Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
-        int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
-        var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
+        int TotalRecordCount = DbGetALLCount<ResourceCurrentBaseType>(Predicate);
+        var Query = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Predicate);
 
         //Todo: Sort not implemented just defaulting to last update order
         //Query = Query.OrderBy(x => x.lastUpdated);
@@ -195,14 +196,14 @@ namespace Pyro.DataLayer.Repository
 
       SetNumberOfRecordsPerPage(DtoSearchParameters);
 
-      var Predicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>(true);
+      var Predicate = LinqKit.PredicateBuilder.New<ResourceCurrentBaseType>(true);
       Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
 
       //Query for total count
-      int TotalRecordCount = DbGetALLCount<ResourceCurrentType>(Predicate);
+      int TotalRecordCount = DbGetALLCount<ResourceCurrentBaseType>(Predicate);
 
       //Paging set-up
-      var Query = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate);
+      var Query = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Predicate);
       Query = Query.OrderBy(x => x.LastUpdated);
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
       Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
@@ -226,11 +227,11 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      var ResourceEntity = new ResourceCurrentType();
+      var ResourceEntity = new ResourceCurrentBaseType();
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);
       this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
       ResourceEntity.IsCurrent = true;
-      this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(ResourceEntity);
+      this.DbAddEntity<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType));
@@ -239,13 +240,13 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      var NewResourceEntity = new ResourceCurrentType();
+      var NewResourceEntity = new ResourceCurrentBaseType();
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
       ResourceHistoryEntity.IsCurrent = false;
       IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT);
       this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
       NewResourceEntity.IsCurrent = true;
-      this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
+      this.DbAddEntity<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(NewResourceEntity);
       this.Save();
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
@@ -256,7 +257,7 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirId)
     {
       var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);
-      var NewResourceEntity = new ResourceCurrentType();
+      var NewResourceEntity = new ResourceCurrentBaseType();
       IndexSettingSupport.SetHistoryResourceEntity(OldResourceEntity, NewResourceEntity);
       string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
       NewResourceEntity.IsCurrent = true;
@@ -265,7 +266,7 @@ namespace Pyro.DataLayer.Repository
       NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
       NewResourceEntity.XmlBlob = string.Empty;
       NewResourceEntity.VersionId = NewDeletedResourceVersion;
-      this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
+      this.DbAddEntity<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(NewResourceEntity);
       OldResourceEntity.IsCurrent = false;
       this.Save();
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
@@ -279,7 +280,7 @@ namespace Pyro.DataLayer.Repository
       foreach (string ResourceId in ResourceIdCollection)
       {
         var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);
-        var NewResourceEntity = new ResourceCurrentType();
+        var NewResourceEntity = new ResourceCurrentBaseType();
         IndexSettingSupport.SetHistoryResourceEntity(OldResourceEntity, NewResourceEntity);
         string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
         NewResourceEntity.IsCurrent = true;
@@ -288,7 +289,7 @@ namespace Pyro.DataLayer.Repository
         NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
         NewResourceEntity.XmlBlob = string.Empty;
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
-        this.DbAddEntity<ResourceCurrentType, ResourceIndexType>(NewResourceEntity);
+        this.DbAddEntity<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(NewResourceEntity);
         OldResourceEntity.IsCurrent = false;
 
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
@@ -297,23 +298,23 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public ResourceCurrentType LoadCurrentResourceEntity(string FhirId)
+    public ResourceCurrentBaseType LoadCurrentResourceEntity(string FhirId)
     {
-      var IncludeList = new List<Expression<Func<ResourceCurrentType, object>>>();
+      var IncludeList = new List<Expression<Func<ResourceCurrentBaseType, object>>>();
       IncludeList.Add(x => x.IndexList);
 
-      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentType, ResourceIndexType>(x => x.FhirId == FhirId & x.IsCurrent == true, IncludeList);
+      var ResourceEntity = DbQueryEntityWithInclude<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.FhirId == FhirId & x.IsCurrent == true, IncludeList);
       return ResourceEntity;
     }
 
     public int GetTotalCurrentResourceCount()
     {
-      return DbGetALLCount<ResourceCurrentType>(x => x.IsCurrent == true);
+      return DbGetALLCount<ResourceCurrentBaseType>(x => x.IsCurrent == true);
     }
 
     public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue()
     {
-      var LastEntity = IPyroDbContext.Set<ResourceCurrentType>().Max(x => x.LastUpdated);
+      var LastEntity = IPyroDbContext.Set<ResourceCurrentBaseType>().Max(x => x.LastUpdated);
       if (LastEntity != null)
         return LastEntity;
       else
@@ -324,11 +325,11 @@ namespace Pyro.DataLayer.Repository
     {
       int ChunkSize = 100;
       int ProgressCount = 0;
-      var Count = DbGetAll<ResourceCurrentType, ResourceIndexType>(x => x.IsCurrent == true & x.IsDeleted == false).Count();
+      var Count = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.IsCurrent == true & x.IsDeleted == false).Count();
 
       while (Count > ProgressCount)
       {
-        var EntityList = DbGetAll<ResourceCurrentType, ResourceIndexType>(x => x.IsCurrent == true & x.IsDeleted == false)
+        var EntityList = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(x => x.IsCurrent == true & x.IsDeleted == false)
          .Include(x => x.IndexList)
          .OrderBy(x => x.Id)
          .Skip(ProgressCount)
@@ -342,19 +343,15 @@ namespace Pyro.DataLayer.Repository
         this.Save();
         ProgressCount = ProgressCount + ChunkSize;
       }
-
-
-
-
     }
 
     public int DeleteNonCurrentResourceIndexes()
     {
       int RowsRemovedCount = 0;
-      var IndexList = IPyroDbContext.Set<ResourceIndexType>()
+      var IndexList = IPyroDbContext.Set<ResourceIndexBaseType>()
         .Where(w => w.Resource.IsCurrent == false);
 
-      foreach (ResourceIndexType Index in IndexList)
+      foreach (ResourceIndexBaseType Index in IndexList)
       {
         RowsRemovedCount = RowsRemovedCount + 1;
         (IPyroDbContext as IObjectContextAdapter).ObjectContext.DeleteObject(Index);
@@ -367,9 +364,9 @@ namespace Pyro.DataLayer.Repository
       return RowsRemovedCount;
     }
 
-    public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceCurrentType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
+    public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResourceCurrentBaseType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
     {
-      var HistoryEntityList = DbGetAll<ResourceCurrentType, ResourceIndexType>(Predicate)
+      var HistoryEntityList = DbGetAll<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Predicate)
          .OrderByDescending(x => x.LastUpdated)
          .Skip(StartRecord)
          .Take(_NumberOfRecordsPerPage)
@@ -379,25 +376,25 @@ namespace Pyro.DataLayer.Repository
         HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
     }
 
-    public void ResetResourceEntity(ResourceCurrentType ResourceEntity)
+    public void ResetResourceEntity(ResourceCurrentBaseType ResourceEntity)
     {
       ResourceEntity.IndexList.Clear();
       throw new NotImplementedException("Does this line above work like the one below??");
       //_Context.PatientIndex.RemoveRange(ResourceEntity.IndexList);
     }
 
-    public void PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
+    public void PopulateResourceEntity(ResourceCurrentBaseType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
       IList<ServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    public void AddResourceIndexes(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParmeters)
+    public void AddResourceIndexes(ResourceCurrentBaseType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParmeters)
     {
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    private void _PopulateResourceEntity(ResourceCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParametersList)
+    private void _PopulateResourceEntity(ResourceCurrentBaseType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParametersList)
     {
       Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
@@ -427,34 +424,35 @@ namespace Pyro.DataLayer.Repository
             IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
             foreach (IElementNavigator oElement in ResultList)
             {
-              IList<ResourceIndexType> ResourceIndex = null;
+              IList<ResourceIndexBaseType> ResourceIndex = null;
+              IList<ResourceIndexStringType> ResourceIndexString = null;
               if (oElement != null)
               {
                 switch (SearchParameter.Type)
                 {
                   case SearchParamType.Number:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateINumberSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateINumberSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Date:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateDateTimeSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateDateTimeSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.String:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateStringSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndexString = IIndexSetterFactory.CreateStringSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Token:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateTokenSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateTokenSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Reference:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateReferenceSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateReferenceSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Composite:
@@ -463,12 +461,12 @@ namespace Pyro.DataLayer.Repository
                     }
                   case SearchParamType.Quantity:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateQuantitySetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateQuantitySetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Uri:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateUriSetter().Set<ResourceCurrentType, ResourceIndexType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateUriSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
                       break;
                     }
                   default:
@@ -476,7 +474,14 @@ namespace Pyro.DataLayer.Repository
                 }
 
                 if (ResourceIndex != null)
+                {
                   ResourceIndex.ToList().ForEach(x => ResourceEntity.IndexList.Add(x));
+                }
+
+                if (ResourceIndexString != null)
+                {
+                  ResourceIndexString.ToList().ForEach(x => ResourceEntity.IndexStringList.Add(x));
+                }
               }
             }
           }

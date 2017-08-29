@@ -4,9 +4,11 @@ using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
-  public interface IResourceIndexBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public interface IResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
+    IResourceIndexNewBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
     string Code { get; set; }
     string CodeHigh { get; set; }
@@ -21,11 +23,11 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     int? ReferenceServiceBaseUrlId { get; set; }
     ServiceBaseUrl ReferenceUrl { get; set; }
     string ReferenceVersionId { get; set; }
-    ResourceCurrentType Resource { get; set; }
-    int ResourceId { get; set; }
-    ServiceSearchParameter ServiceSearchParameter { get; set; }
-    int ServiceSearchParameterId { get; set; }
-    string String { get; set; }
+    //ResourceCurrentType Resource { get; set; }
+    //int ResourceId { get; set; }
+    //ServiceSearchParameter ServiceSearchParameter { get; set; }
+    //int ServiceSearchParameterId { get; set; }
+    //string String { get; set; }
     string System { get; set; }
     string SystemHigh { get; set; }
     string Unit { get; set; }

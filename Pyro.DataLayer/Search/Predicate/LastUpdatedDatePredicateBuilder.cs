@@ -9,21 +9,22 @@ using System.Linq;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class LastUpdatedDatePredicateBuilder<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public static class LastUpdatedDatePredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> MainPredicate)
-    {    
+    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> MainPredicate)
+    {
       var LastUpdatedSearchParamerterList = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       if (LastUpdatedSearchParamerterList != null)
       {
-        ExpressionStarter<ResourceCurrentType> NewLastUpdatedPredicate = null;
+        ExpressionStarter<ResourceCurrentBaseType> NewLastUpdatedPredicate = null;
         foreach (var LastUpdatedSearchParameter in LastUpdatedSearchParamerterList)
         {
           if (LastUpdatedSearchParameter is SearchParameterDateTime SearchTypeToken)
           {
-            NewLastUpdatedPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
+            NewLastUpdatedPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentBaseType>();
             foreach (var SearchValue in SearchTypeToken.ValueList)
             {
               if (!SearchTypeToken.Modifier.HasValue)
@@ -39,11 +40,11 @@ namespace Pyro.DataLayer.Search.Predicate
                     case SearchParameter.SearchComparator.Eq:
                       NewLastUpdatedPredicate = Equals(Search, NewLastUpdatedPredicate, SearchValue);
                       break;
-                    case SearchParameter.SearchComparator.Ne:                      
-                      throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter _lastUpdated.");                                            
+                    case SearchParameter.SearchComparator.Ne:
+                      throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter _lastUpdated.");
                     case SearchParameter.SearchComparator.Gt:
-                      var ExpressionGreaterThan = Search.LastUpdatedPropertyGreaterThan(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));                                            
-                      NewLastUpdatedPredicate = NewLastUpdatedPredicate.Or(ExpressionGreaterThan);                      
+                      var ExpressionGreaterThan = Search.LastUpdatedPropertyGreaterThan(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
+                      NewLastUpdatedPredicate = NewLastUpdatedPredicate.Or(ExpressionGreaterThan);
                       break;
                     case SearchParameter.SearchComparator.Lt:
                       var ExpressionLessThan = Search.LastUpdatedPropertyLessThan(SearchValue.Value);
@@ -51,7 +52,7 @@ namespace Pyro.DataLayer.Search.Predicate
                       break;
                     case SearchParameter.SearchComparator.Ge:
                       var ExpressionGreaterThanOrEqualTo = Search.LastUpdatedPropertyGreaterThanOrEqualTo(SearchValue.Value);
-                      NewLastUpdatedPredicate = NewLastUpdatedPredicate.Or(ExpressionGreaterThanOrEqualTo);                      
+                      NewLastUpdatedPredicate = NewLastUpdatedPredicate.Or(ExpressionGreaterThanOrEqualTo);
                       break;
                     case SearchParameter.SearchComparator.Le:
                       var ExpressionLessThanOrEqualTo = Search.LastUpdatedPropertyLessThanOrEqualTo(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
@@ -74,13 +75,13 @@ namespace Pyro.DataLayer.Search.Predicate
               }
             }
           }
-          MainPredicate.Extend<ResourceCurrentType>(NewLastUpdatedPredicate, PredicateOperator.And);
+          MainPredicate.Extend<ResourceCurrentBaseType>(NewLastUpdatedPredicate, PredicateOperator.And);
         }
         DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       }
     }
 
-    private static ExpressionStarter<ResourceCurrentType> Equals(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResourceCurrentBaseType> Equals(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
     {
       var ExpressionLow = Search.LastUpdatedPropertyGreaterThanOrEqualTo(SearchValue.Value);
       var ExpressionHigh = Search.LastUpdatedPropertyLessThanOrEqualTo(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));

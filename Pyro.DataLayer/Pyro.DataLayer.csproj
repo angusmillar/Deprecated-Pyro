@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbModel\DatabaseContextConfi\IndexStringContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ResourceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterTargetResourceConfig.cs" />
@@ -83,10 +84,14 @@
     <Compile Include="DbModel\EntityBase\IResourceBase.cs" />
     <Compile Include="DbModel\EntityBase\IResourceCurrentBase.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexBase.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexNewBase.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexString.cs" />
     <Compile Include="DbModel\EntityBase\ResourceCurrentBase.cs" />
     <Compile Include="DbModel\EntityBase\ModelBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexBase.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexNewBase.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexString.cs" />
     <Compile Include="DbModel\EntityGenerated\CommonResourceRepositoryTypeList.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>

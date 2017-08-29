@@ -1,33 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Data.Entity.Infrastructure.Annotations;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using Pyro.DataLayer.DbModel.EntityBase;
+﻿using Pyro.Common.Database;
 using Pyro.DataLayer.DbModel.Entity;
-using Pyro.Common.Database;
+using Pyro.DataLayer.DbModel.EntityBase;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class IndexContextConfig<ResourceCurrentType, ResourceIndexType> : EntityTypeConfiguration<ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public class IndexContextConfig<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> : EntityTypeConfiguration<ResourceIndexBaseType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
     public IndexContextConfig()
     {
 
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
 
-      Property(x => x.String).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength)
-        .IsOptional()
-        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_String") { IsUnique = false }));
+      //Property(x => x.String).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength)
+      //  .IsOptional()
+      //  .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+      //  new IndexAnnotation(new IndexAttribute("ix_String") { IsUnique = false }));
 
       Property(x => x.DateTimeOffsetLow)
         .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)

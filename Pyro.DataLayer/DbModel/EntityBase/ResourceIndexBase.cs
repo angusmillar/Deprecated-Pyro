@@ -8,16 +8,17 @@ using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
-  public abstract class ResourceIndexBase<ResourceCurrentType, ResourceIndexType> :
-    ModelBase,
-    IResourceIndexBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public abstract class ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
+    ResourceIndexNewBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>,
+    IResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public ServiceSearchParameter ServiceSearchParameter { get; set; }
-    public int ServiceSearchParameterId { get; set; }
+    //public ServiceSearchParameter ServiceSearchParameter { get; set; }
+    //public int ServiceSearchParameterId { get; set; }
 
-    public string String { get; set; }
+    // public string String { get; set; }
 
     public DateTimeOffset? DateTimeOffsetLow { get; set; }
     public DateTimeOffset? DateTimeOffsetHigh { get; set; }
@@ -42,7 +43,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public ServiceBaseUrl ReferenceUrl { get; set; }
     public int? ReferenceServiceBaseUrlId { get; set; }
 
-    public virtual ResourceCurrentType Resource { get; set; }
-    public int ResourceId { get; set; }
+    //public virtual ResourceCurrentBaseType Resource { get; set; }
+    //public int ResourceId { get; set; }
   }
 }

@@ -7,17 +7,18 @@ using Hl7.Fhir.Utility;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class NumberPredicateBuilder<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public static class NumberPredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResourceCurrentBaseType> Build(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterNumber)
       {
         var SearchTypeNumber = SearchItem as SearchParameterNumber;
         foreach (var SearchValue in SearchTypeNumber.ValueList)
-        {                    
+        {
           if (!SearchTypeNumber.Modifier.HasValue)
           {
             if (!SearchValue.Prefix.HasValue)
@@ -27,7 +28,7 @@ namespace Pyro.DataLayer.Search.Predicate
             else
             {
               switch (SearchValue.Prefix.Value)
-              {                
+              {
                 case SearchParameter.SearchComparator.Eq:
                   NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeNumber, SearchValue);
                   break;
@@ -60,7 +61,7 @@ namespace Pyro.DataLayer.Search.Predicate
           else
           {
             switch (SearchTypeNumber.Modifier.Value)
-            {             
+            {
               case SearchParameter.SearchModifierCode.Missing:
                 {
                   if (!SearchValue.Prefix.HasValue)
@@ -77,7 +78,7 @@ namespace Pyro.DataLayer.Search.Predicate
                   else
                   {
                     switch (SearchValue.Prefix)
-                    {                      
+                    {
                       case SearchParameter.SearchComparator.Eq:
                         throw new FormatException($"The search prefix: {SearchValue.Prefix.ToString()} is not supported for search parameter types of Number with a Modifier of: {SearchTypeNumber.Modifier.ToString()}.");
                       case SearchParameter.SearchComparator.Ne:
@@ -128,12 +129,12 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResourceCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)    
+    private static ExpressionStarter<ResourceCurrentBaseType> CollectionNotEqualToPredicate(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
     {
       var NotEqualToExpression = Search.NumberCollectionAllNotEqualTo(SearchTypeNumber.Id, Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), SearchValue.Value, Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale));
       var CollectionNotNull_Expression = Search.SearchParameterIdIsNotNull(SearchTypeNumber.Id);
 
-      ExpressionStarter<ResourceCurrentType> NewAndPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentType>();
+      ExpressionStarter<ResourceCurrentBaseType> NewAndPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentBaseType>();
       NewAndPredicate = NewAndPredicate.And(NotEqualToExpression);
       NewAndPredicate = NewAndPredicate.And(CollectionNotNull_Expression);
 
@@ -141,13 +142,13 @@ namespace Pyro.DataLayer.Search.Predicate
 
       return NewPredicate;
     }
-    
-    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)     
+
+    private static ExpressionStarter<ResourceCurrentBaseType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
     {
       var Expression = Search.NumberCollectionAnyEqualTo(SearchTypeNumber.Id, Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), SearchValue.Value, Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale));
       NewPredicate = NewPredicate.Or(Expression);
       return NewPredicate;
     }
-    
+
   }
 }

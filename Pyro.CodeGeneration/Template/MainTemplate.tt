@@ -40,12 +40,13 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
 <#   
   foreach(string ResourceName in MainModel.GetResourceNameList())
   {
-#>
-  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>, I<#=ResourceName#>Res { }
-  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex> { }
-  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndex { }
-  public interface I<#=ResourceName#>ResIndex : IResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex> { } 
-  
+#>  
+  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, I<#=ResourceName#>Res { }   
+  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }  
+  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, I<#=ResourceName#>ResIndex { }    
+  public interface I<#=ResourceName#>ResIndex : IResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }   
+  public partial class <#=ResourceName#>ResIndexString : ResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }  
+  public interface I<#=ResourceName#>ResIndexString : IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }
 <#
 }
 #>
@@ -76,7 +77,7 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
       foreach(string ResourceName in MainModel.GetResourceNameList())
       {
     #>
-      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>),       
+      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>),       
     <#
     }
     #>       
@@ -118,7 +119,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       get
       {      
-        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>(FHIRAllTypes.<#=ResourceName#>);     
+        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>(FHIRAllTypes.<#=ResourceName#>);     
       }
     }
 <#
@@ -199,8 +200,10 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
   foreach(string ResourceName in MainModel.GetResourceNameList())
   {
 #>
-      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>());            
-      Mb.Configurations.Add(new IndexContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());            
+      Mb.Configurations.Add(new IndexContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());
+      Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());
+
 <#
   }
 #>

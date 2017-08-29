@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
-  public interface IResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public interface IResourceIndexNewBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    ICollection<ResourceIndexBaseType> IndexList { get; set; }
-    ICollection<ResourceIndexStringType> IndexStringList { get; set; }
+    ResourceCurrentBaseType Resource { get; set; }
+    int ResourceId { get; set; }
+
+    ServiceSearchParameter ServiceSearchParameter { get; set; }
+    int ServiceSearchParameterId { get; set; }
   }
 }

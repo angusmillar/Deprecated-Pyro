@@ -21,6 +21,7 @@ namespace Pyro.Common.Database
       public static string XmlBlob { get { return "XmlBlob"; } }
       public static string Method { get { return "Method"; } }
       public static string IndexList { get { return "IndexList"; } }
+      public static string IndexStringList { get { return "IndexStringList"; } }
     }
 
     public static class BaseResourceIndexConstatnts

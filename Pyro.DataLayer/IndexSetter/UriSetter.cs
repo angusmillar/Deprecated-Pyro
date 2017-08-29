@@ -12,22 +12,23 @@ namespace Pyro.DataLayer.IndexSetter
   public class UriSetter : IUriSetter
   {
     public UriSetter() { }
-    public IList<ResourceIndexType> Set<ResourceCurrentType, ResourceIndexType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    public IList<ResourceIndexBaseType> Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
-      var ResourceIndexList = new List<ResourceIndexType>();
+      var ResourceIndexList = new List<ResourceIndexBaseType>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
       {
         if (Poco.FhirValue is FhirUri FhirUri)
         {
-          SetUri<ResourceCurrentType, ResourceIndexType>(FhirUri, ResourceIndexList);
+          SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri, ResourceIndexList);
         }
         else if (Poco.FhirValue is Oid Oid)
         {
-          SetOid<ResourceCurrentType, ResourceIndexType>(Oid, ResourceIndexList);
+          SetOid<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Oid, ResourceIndexList);
         }
         else
         {
@@ -42,24 +43,26 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetOid<ResourceCurrentType, ResourceIndexType>(Oid Oid, List<ResourceIndexType> ResourceIndexList)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    private void SetOid<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Oid Oid, List<ResourceIndexBaseType> ResourceIndexList)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       if (!string.IsNullOrWhiteSpace(Oid.Value))
       {
-        var ResourceIndex = new ResourceIndexType();
+        var ResourceIndex = new ResourceIndexBaseType();
         ResourceIndex.Uri = Oid.Value;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetUri<ResourceCurrentType, ResourceIndexType>(FhirUri FhirUri, List<ResourceIndexType> ResourceIndexList)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>, new()
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>, new()
+    private void SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
-        var ResourceIndex = new ResourceIndexType();
+        var ResourceIndex = new ResourceIndexBaseType();
         ResourceIndex.Uri = StringSupport.ToLowerFast(FhirUri.Value.StripHttp());
         ResourceIndexList.Add(ResourceIndex);
       }

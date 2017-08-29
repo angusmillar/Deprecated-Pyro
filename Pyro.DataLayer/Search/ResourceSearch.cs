@@ -11,16 +11,17 @@ using System.Reflection;
 
 namespace Pyro.DataLayer.Search
 {
-  public class ResourceSearch<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public class ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
 
-    public Expression<Func<ResourceCurrentType, bool>> StringCollectionAnyEqualTo(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> StringCollectionAnyEqualTo(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.Equals("héllo UPPER") & c.ServiceSearchParameterId == Id);      
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexStringType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -31,17 +32,17 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexStringType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexStringType, bool>>(IdAndExpression, InnerParameter);
 
-      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      MethodCallExpression MethodAnyCall = IndexStringListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> StringCollectionAnyStartsOrEndsWith(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> StringCollectionAnyStartsOrEndsWith(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.StartsWith("Mill") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexStringType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -58,17 +59,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, StartsWithOrEndsWithExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexStringType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexStringType, bool>>(IdAndExpression, InnerParameter);
 
-      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      MethodCallExpression MethodAnyCall = IndexStringListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> StringCollectionAnyContains(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> StringCollectionAnyContains(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.Contains("Mill") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexStringType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -80,62 +81,62 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodContainsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexStringType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexStringType, bool>>(IdAndExpression, InnerParameter);
 
-      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      MethodCallExpression MethodAnyCall = IndexStringListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
     ////---- _lastUpdated Property Expressions ------------------------------------------------------
 
-    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyGreaterThan(DateTimeOffset Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> LastUpdatedPropertyGreaterThan(DateTimeOffset Value)
     {
       //(x => x.birthdate_DateTimeOffset > TestDate);
-      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
-      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.GreaterThan(LastUpdatedProperty, constantReference);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(BinaryExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyGreaterThanOrEqualTo(DateTimeOffset Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> LastUpdatedPropertyGreaterThanOrEqualTo(DateTimeOffset Value)
     {
       //(x => x.birthdate_DateTimeOffset >= TestDate);
-      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
-      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.GreaterThanOrEqual(LastUpdatedProperty, constantReference);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(BinaryExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyLessThan(DateTimeOffset Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> LastUpdatedPropertyLessThan(DateTimeOffset Value)
     {
       //(x => x.birthdate_DateTimeOffset < TestDate);
-      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
-      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.LessThan(LastUpdatedProperty, constantReference);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(BinaryExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> LastUpdatedPropertyLessThanOrEqualTo(DateTimeOffset Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> LastUpdatedPropertyLessThanOrEqualTo(DateTimeOffset Value)
     {
       //(x => x.birthdate_DateTimeOffset <= TestDate);
-      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.LastUpdated;
-      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      MemberExpression LastUpdatedProperty = Expression.Property(MainParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
       var constantReference = Expression.Constant(Value, typeof(DateTimeOffset));
       var BinaryExpression = Expression.LessThanOrEqual(LastUpdatedProperty, constantReference);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(BinaryExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -150,16 +151,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, EqualToExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionAnyNotEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionAnyNotEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -174,16 +175,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, NotEqualToExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionGreaterThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionGreaterThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -198,16 +199,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, GreaterThanOrEqualToExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionGreaterThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionGreaterThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -222,16 +223,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, GreaterThanExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionLessThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionLessThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -246,16 +247,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, LessThanExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> DateTimePeriodCollectionLessThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResourceCurrentBaseType, bool>> DateTimePeriodCollectionLessThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -270,29 +271,29 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, LessThanOrEqualToExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> TokenMainAnyEqualTo(string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> TokenMainAnyEqualTo(string Code)
     {
-      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression MainParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.FhirId;
-      MemberExpression FhirIdProperty = Expression.Property(MainParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
+      MemberExpression FhirIdProperty = Expression.Property(MainParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
 
       ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
       Expression E_InnerExpression = ExpressionSupport.TokenExpression.MatchCodeOnlyExpression(FhirIdProperty, SearchValueReferenceCode);
 
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(E_InnerExpression, new[] { MainParameter });
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(E_InnerExpression, new[] { MainParameter });
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> TokenCollectionAnyEqualTo(int Id, string Code, string System, Common.Search.SearchParameterTokenValue.TokenSearchType TokenSearchType)
+    public Expression<Func<ResourceCurrentBaseType, bool>> TokenCollectionAnyEqualTo(int Id, string Code, string System, Common.Search.SearchParameterTokenValue.TokenSearchType TokenSearchType)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -325,29 +326,29 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, E_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
     ////---- Number Index Expressions ------------------------------------------------------
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAnyEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAnyEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber)
     {
       return NumberCollectionAllEqual(Id, LowNumber, MidNumber, HighNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Eq);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAllNotEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAllNotEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber)
     {
       return NumberCollectionAllEqual(Id, LowNumber, MidNumber, HighNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Ne);
     }
 
-    private Expression<Func<ResourceCurrentType, bool>> NumberCollectionAllEqual(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator SearchComparator)
+    private Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAllEqual(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator SearchComparator)
     {
       if (SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Eq || SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Ne)
       {
-        ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-        ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+        ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+        ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
         BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -370,10 +371,10 @@ namespace Pyro.DataLayer.Search
 
         var IdAndExpression = Expression.And(BinaryExpressionIdEquals, EqualToExpression);
 
-        Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+        Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
         MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-        return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+        return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
       }
       else
       {
@@ -381,35 +382,35 @@ namespace Pyro.DataLayer.Search
       }
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAnyGreaterThan(int Id, decimal MidNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAnyGreaterThan(int Id, decimal MidNumber)
     {
       return NumberCollectionComparator(Id, MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Gt);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAnyGreaterThanOrEqualTo(int Id, decimal MidNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAnyGreaterThanOrEqualTo(int Id, decimal MidNumber)
     {
       return NumberCollectionComparator(Id, MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Ge);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAnyLessThan(int Id, decimal MidNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAnyLessThan(int Id, decimal MidNumber)
     {
       return NumberCollectionComparator(Id, MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Lt);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> NumberCollectionAnyLessThanOrEqualTo(int Id, decimal MidNumber)
+    public Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionAnyLessThanOrEqualTo(int Id, decimal MidNumber)
     {
       return NumberCollectionComparator(Id, MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Le);
     }
 
-    private Expression<Func<ResourceCurrentType, bool>> NumberCollectionComparator(int Id, decimal MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator SearchComparator)
+    private Expression<Func<ResourceCurrentBaseType, bool>> NumberCollectionComparator(int Id, decimal MidNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator SearchComparator)
     {
       if (SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Gt ||
           SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Ge ||
           SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Lt ||
           SearchComparator == Hl7.Fhir.Model.SearchParameter.SearchComparator.Le)
       {
-        ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-        ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+        ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+        ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
         BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -439,10 +440,10 @@ namespace Pyro.DataLayer.Search
 
         var IdAndExpression = Expression.And(BinaryExpressionIdEquals, ComparatorExpression);
 
-        Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+        Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
         MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-        return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+        return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
       }
       else
       {
@@ -452,10 +453,10 @@ namespace Pyro.DataLayer.Search
 
     ////---- Quantity Index Expressions ------------------------------------------------------
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAnyEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAnyEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -479,16 +480,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAllNotEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAllNotEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -513,16 +514,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAnyGreaterThan(int Id, decimal MidNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAnyGreaterThan(int Id, decimal MidNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -544,16 +545,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAnyGreaterThanOrEqualTo(int Id, decimal MidNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAnyGreaterThanOrEqualTo(int Id, decimal MidNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -575,16 +576,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAnyLessThan(int Id, decimal MidNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAnyLessThan(int Id, decimal MidNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -606,16 +607,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> QuantityCollectionAnyLessThanOrEqualTo(int Id, decimal MidNumber, string System, string Code)
+    public Expression<Func<ResourceCurrentBaseType, bool>> QuantityCollectionAnyLessThanOrEqualTo(int Id, decimal MidNumber, string System, string Code)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -637,17 +638,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, Final_InnerExpression);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> UriCollectionAnyEqualTo(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> UriCollectionAnyEqualTo(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.StartsWith("Mill") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -659,17 +660,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> UriCollectionAnyContains(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> UriCollectionAnyContains(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.Contains("myserver.net.au/stu3/api/Patient/1") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -682,17 +683,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> UriCollectionAnyStartsWith(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> UriCollectionAnyStartsWith(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.StartsWith("myserver.net.au/stu3/api/Patient/1") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -705,17 +706,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> UriCollectionAnyEndsWith(int Id, string Value)
+    public Expression<Func<ResourceCurrentBaseType, bool>> UriCollectionAnyEndsWith(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.EndsWith("myserver.net.au/stu3/api/Patient/1") & c.ServiceSearchParameterId == Id);
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -728,16 +729,16 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, MethodEqualsCall);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByKey(int Id, int ServiceBaseUrlId, string ResourceType, string FhirId, string VersionId)
+    public Expression<Func<ResourceCurrentBaseType, bool>> ReferanceCollectionAnyEqualTo_ByKey(int Id, int ServiceBaseUrlId, string ResourceType, string FhirId, string VersionId)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -764,17 +765,17 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, BinaryExpression_Final);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
 
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByUrlString(int Id, string UrlString, string ResourceType, string FhirId, string VersionId)
+    public Expression<Func<ResourceCurrentBaseType, bool>> ReferanceCollectionAnyEqualTo_ByUrlString(int Id, string UrlString, string ResourceType, string FhirId, string VersionId)
     {
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
@@ -804,19 +805,19 @@ namespace Pyro.DataLayer.Search
 
       var IdAndExpression = Expression.And(BinaryExpressionIdEquals, BinaryExpression_Final);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(IdAndExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(IdAndExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> ReferanceCollectionIsNotNull(int Id)
+    public Expression<Func<ResourceCurrentBaseType, bool>> ReferanceCollectionIsNotNull(int Id)
     {
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id) == false);      
       return SearchParameterIdNull(Id, false);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> ReferanceCollectionIsNull(int Id)
+    public Expression<Func<ResourceCurrentBaseType, bool>> ReferanceCollectionIsNull(int Id)
     {
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id) == true);      
       return SearchParameterIdNull(Id, true);
@@ -836,40 +837,51 @@ namespace Pyro.DataLayer.Search
       return Expression.Equal(InnerPropertyId, InnerValueId);
     }
 
-    private MethodCallExpression IndexListAnyMethodCallExpression(ParameterExpression IndexListParameter, Expression<Func<ResourceIndexType, bool>> InnerFunction)
+    private MethodCallExpression IndexListAnyMethodCallExpression(ParameterExpression IndexListParameter, Expression<Func<ResourceIndexBaseType, bool>> InnerFunction)
     {
-      var type = typeof(ResourceCurrentType);
+      var type = typeof(ResourceCurrentBaseType);
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexList;
-      MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResourceCurrentType).GetProperty(DbPropertyName));
-      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ResourceIndexType));
+      MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ResourceIndexBaseType));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);
       return MethodAnyCall;
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> SearchParameterIdIsNotNull(int Id)
+    private MethodCallExpression IndexStringListAnyMethodCallExpression(ParameterExpression IndexListParameter, Expression<Func<ResourceIndexStringType, bool>> InnerFunction)
+    {
+      var type = typeof(ResourceCurrentBaseType);
+      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexStringList;
+      MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResourceCurrentBaseType).GetProperty(DbPropertyName));
+      MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ResourceIndexStringType));
+      MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);
+      return MethodAnyCall;
+    }
+
+
+    public Expression<Func<ResourceCurrentBaseType, bool>> SearchParameterIdIsNotNull(int Id)
     {
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count > 0);      
       return SearchParameterIdNull(Id, false);
     }
 
-    public Expression<Func<ResourceCurrentType, bool>> SearchParameterIsNull(int Id)
+    public Expression<Func<ResourceCurrentBaseType, bool>> SearchParameterIsNull(int Id)
     {
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id).Count == 0);      
       return SearchParameterIdNull(Id, true);
     }
 
-    private Expression<Func<ResourceCurrentType, bool>> SearchParameterIdNull(int Id, bool IsNull)
+    private Expression<Func<ResourceCurrentBaseType, bool>> SearchParameterIdNull(int Id, bool IsNull)
     {
       //IsNull = true
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id) == true);      
       //IsNull = false
       //(x => x.IndexList.Any(c => c.ServiceSearchParameterId == Id) == false);                  
-      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentType), "x");
-      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResourceCurrentBaseType), "x");
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResourceIndexBaseType), "c");
 
       BinaryExpression BinaryIdExpression = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      Expression<Func<ResourceIndexType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexType, bool>>(BinaryIdExpression, InnerParameter);
+      Expression<Func<ResourceIndexBaseType, bool>> InnerFunction = Expression.Lambda<Func<ResourceIndexBaseType, bool>>(BinaryIdExpression, InnerParameter);
 
       MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
 
@@ -885,7 +897,7 @@ namespace Pyro.DataLayer.Search
 
       BinaryExpression BinaryExpression = Expression.Equal(MethodAnyCall, constantReference);
 
-      return Expression.Lambda<Func<ResourceCurrentType, bool>>(BinaryExpression, IndexListParameter);
+      return Expression.Lambda<Func<ResourceCurrentBaseType, bool>>(BinaryExpression, IndexListParameter);
     }
   }
 

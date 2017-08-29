@@ -6,11 +6,12 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class TokenPredicateBuilder<ResourceCurrentType, ResourceIndexType>
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public static class TokenPredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)      
+    public static ExpressionStarter<ResourceCurrentBaseType> Build(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterToken)
       {
@@ -18,14 +19,14 @@ namespace Pyro.DataLayer.Search.Predicate
         foreach (var SearchValue in SearchTypeToken.ValueList)
         {
           if (!SearchTypeToken.Modifier.HasValue)
-          {            
-            NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeToken, SearchValue);            
+          {
+            NewPredicate = CollectionEqualToPredicate(Search, NewPredicate, SearchTypeToken, SearchValue);
           }
           else
           {
             switch (SearchTypeToken.Modifier)
-            {              
-              case SearchParameter.SearchModifierCode.Missing:                
+            {
+              case SearchParameter.SearchModifierCode.Missing:
                 if (SearchValue.IsMissing)
                 {
                   NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull(SearchTypeToken.Id));
@@ -33,7 +34,7 @@ namespace Pyro.DataLayer.Search.Predicate
                 else
                 {
                   NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull(SearchTypeToken.Id));
-                }                                
+                }
                 break;
               case SearchParameter.SearchModifierCode.Exact:
                 throw new FormatException($"The search modifier: {SearchTypeToken.Modifier.ToString()} is not supported for search parameter types of Token.");
@@ -60,7 +61,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResourceCurrentType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterToken SearchTypeToken, SearchParameterTokenValue SearchValue)     
+    private static ExpressionStarter<ResourceCurrentBaseType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterToken SearchTypeToken, SearchParameterTokenValue SearchValue)
     {
       var Expression = Search.TokenCollectionAnyEqualTo(SearchTypeToken.Id, SearchValue.Code, SearchValue.System, SearchValue.SearchType);
       NewPredicate = NewPredicate.Or(Expression);

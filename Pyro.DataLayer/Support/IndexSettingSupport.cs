@@ -17,9 +17,10 @@ namespace Pyro.DataLayer.Support
   public static class IndexSettingSupport
   {
 
-    private static void SetResourceBase<ResourceCurrentType, ResourceIndexType>(Resource Resource, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    private static void SetResourceBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Resource Resource, ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceCurrentBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       ResourceCurrentBase.IsDeleted = IsDeleted;
       ResourceCurrentBase.VersionId = Version;
@@ -54,23 +55,26 @@ namespace Pyro.DataLayer.Support
       return DtoResource;
     }
 
-    public static void SetResourceBaseAsDelete<ResourceCurrentType, ResourceHistoryType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    public static void SetResourceBaseAsDelete<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceCurrentBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       SetResourceBase(null, ResourceCurrentBase, FhirResourceId, Version, true, Method);
     }
 
-    public static void SetResourceBaseAddOrUpdate<ResourceCurrentType, ResourceIndexType>(Resource Resource, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    public static void SetResourceBaseAddOrUpdate<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Resource Resource, ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceCurrentBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       SetResourceBase(Resource, ResourceCurrentBase, null, Version, false, Method);
     }
 
-    public static void ResetResourceEntityBase<ResourceCurrentType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    public static void ResetResourceEntityBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceCurrentBase)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       ResourceCurrentBase.IsCurrent = false;
       ResourceCurrentBase.FhirId = null;
@@ -81,9 +85,10 @@ namespace Pyro.DataLayer.Support
       ResourceCurrentBase.XmlBlob = null;
     }
 
-    public static void SetHistoryResourceEntity<ResourceCurrentType, ResourceIndexType>(ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceCurrentBase, ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> ResourceHistoryBase)
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    public static void SetHistoryResourceEntity<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceCurrentBase, ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> ResourceHistoryBase)
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
     {
       ResourceHistoryBase.IsCurrent = false;
       ResourceHistoryBase.FhirId = ResourceCurrentBase.FhirId;

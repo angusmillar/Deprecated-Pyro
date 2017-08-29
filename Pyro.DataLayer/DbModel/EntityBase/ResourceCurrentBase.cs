@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
-  public abstract class ResourceCurrentBase<ResourceCurrentType, ResourceIndexType> :
+  public abstract class ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
     ResourceBase,
     IModelBase,
     IResourceBase,
-    IResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-    where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+    IResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public ICollection<ResourceIndexType> IndexList { get; set; }
+    public ICollection<ResourceIndexBaseType> IndexList { get; set; }
+    public ICollection<ResourceIndexStringType> IndexStringList { get; set; }
 
     public ResourceCurrentBase()
     {
-      this.IndexList = new HashSet<ResourceIndexType>();
+      this.IndexList = new HashSet<ResourceIndexBaseType>();
+      this.IndexStringList = new HashSet<ResourceIndexStringType>();
     }
   }
 }

@@ -6,11 +6,12 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class StringPredicateBuilder<ResourceCurrentType, ResourceIndexType>
-      where ResourceCurrentType : ResourceCurrentBase<ResourceCurrentType, ResourceIndexType>
-      where ResourceIndexType : ResourceIndexBase<ResourceCurrentType, ResourceIndexType>
+  public static class StringPredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
-    public static ExpressionStarter<ResourceCurrentType> Build(ResourceSearch<ResourceCurrentType, ResourceIndexType> Search, ExpressionStarter<ResourceCurrentType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResourceCurrentBaseType> Build(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterString)
       {
@@ -24,7 +25,7 @@ namespace Pyro.DataLayer.Search.Predicate
           else
           {
             switch (SearchTypeString.Modifier)
-            {            
+            {
               case SearchParameter.SearchModifierCode.Missing:
                 if (SearchValue.IsMissing)
                 {
@@ -37,9 +38,9 @@ namespace Pyro.DataLayer.Search.Predicate
                 break;
               case SearchParameter.SearchModifierCode.Exact:
                 NewPredicate = NewPredicate.Or(Search.StringCollectionAnyEqualTo(SearchTypeString.Id, SearchValue.Value));
-                break;                  
+                break;
               case SearchParameter.SearchModifierCode.Contains:
-                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.Id, SearchValue.Value));                
+                NewPredicate = NewPredicate.Or(Search.StringCollectionAnyContains(SearchTypeString.Id, SearchValue.Value));
                 break;
               case SearchParameter.SearchModifierCode.Text:
                 throw new FormatException($"The search modifier: {SearchTypeString.Modifier.ToString()} is not supported for search parameter types of string.");
