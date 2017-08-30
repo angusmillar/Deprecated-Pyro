@@ -133,6 +133,14 @@
     <Compile Include="Migrations\201707250621340_CodeMax128.Designer.cs">
       <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708292255593_StringIndexAdd.cs" />
+    <Compile Include="Migrations\201708292255593_StringIndexAdd.Designer.cs">
+      <DependentUpon>201708292255593_StringIndexAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708300021437_OldStringIndexDrop.cs" />
+    <Compile Include="Migrations\201708300021437_OldStringIndexDrop.Designer.cs">
+      <DependentUpon>201708300021437_OldStringIndexDrop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -188,6 +196,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707250621340_CodeMax128.resx">
       <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708292255593_StringIndexAdd.resx">
+      <DependentUpon>201708292255593_StringIndexAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708300021437_OldStringIndexDrop.resx">
+      <DependentUpon>201708300021437_OldStringIndexDrop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
