@@ -35,12 +35,12 @@ namespace Pyro.DataLayer.Repository
       where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
-    private readonly IIndexSetterFactory IIndexSetterFactory;
+    private readonly IIndexSetterFactory<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> IIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
 
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
-      IIndexSetterFactory IIndexSetterFactory,
+      IIndexSetterFactory<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
       ICommonFactory ICommonFactory)
       : base(Context, IPrimaryServiceRootCache, ICommonFactory)
@@ -432,27 +432,27 @@ namespace Pyro.DataLayer.Repository
                 {
                   case SearchParamType.Number:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateINumberSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateNumberSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Date:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateDateTimeSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.String:
                     {
-                      ResourceIndexString = IIndexSetterFactory.CreateStringSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndexString = IIndexSetterFactory.CreateStringSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Token:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateTokenSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Reference:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateReferenceSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateReferenceSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Composite:
@@ -461,12 +461,12 @@ namespace Pyro.DataLayer.Repository
                     }
                   case SearchParamType.Quantity:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateQuantitySetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateQuantitySetter().Set(oElement, SearchParameter);
                       break;
                     }
                   case SearchParamType.Uri:
                     {
-                      ResourceIndex = IIndexSetterFactory.CreateUriSetter().Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(oElement, SearchParameter);
+                      ResourceIndex = IIndexSetterFactory.CreateUriSetter().Set(oElement, SearchParameter);
                       break;
                     }
                   default:

@@ -21,7 +21,6 @@ namespace Pyro.Common.Tools.FhirNarrative
     {
       if (value.Text == null || string.IsNullOrWhiteSpace(value.Text.Div))
       {
-
         int IssueCounter = 0;
         foreach (var Issue in value.Issue)
         {

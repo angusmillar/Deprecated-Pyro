@@ -51,7 +51,8 @@ namespace Pyro.Common.Interfaces.Tools.HtmlSupport
       var RootDiv = new XElement(SectionBase.div);
       foreach (var item in _SectionList)
       {
-        RootDiv.Add(item.Generate());
+        if (item != null)
+          RootDiv.Add(item.Generate());
       }
       _SectionList.Clear();
       return RootDiv.ToString();
@@ -125,7 +126,8 @@ namespace Pyro.Common.Interfaces.Tools.HtmlSupport
         if (TableRow != null)
           oValuePair.ElementList.Add(TableRow);
 
-        SectionBaseList.Add(oValuePair);
+        if (oValuePair != null)
+          SectionBaseList.Add(oValuePair);
       }
 
       public static void AppendValuePairList(ICollection<SectionBase> SectionBaseList, string Desciption, string Value)
@@ -150,10 +152,9 @@ namespace Pyro.Common.Interfaces.Tools.HtmlSupport
         SectionBase SectionBase = SectionBaseList.LastOrDefault();
         if (SectionBase != null)
         {
-          if (SectionBase is ValuePair)
+          if (SectionBase is ValuePair oValuePair1)
           {
-            ValuePair oValuePair = SectionBase as ValuePair;
-            oValuePair.ElementList.Add(TableRow);
+            oValuePair1.ElementList.Add(TableRow);
           }
           else
           {
@@ -235,18 +236,17 @@ namespace Pyro.Common.Interfaces.Tools.HtmlSupport
         SectionBase SectionBase = SectionBaseList.LastOrDefault();
         if (SectionBase != null)
         {
-          if (SectionBase is Paragraph)
+          if (SectionBase is Paragraph oParagraph)
           {
-            Paragraph oParagraph = SectionBase as Paragraph;
             oParagraph._ParagraphCollction.Add(Para);
           }
           else
           {
             SectionBase.End();
-            Paragraph oParagraph = new Paragraph();
-            oParagraph._Header = null;
-            oParagraph._ParagraphCollction.Add(Para);
-            SectionBaseList.Add(oParagraph);
+            Paragraph oParagraph2 = new Paragraph();
+            oParagraph2._Header = null;
+            oParagraph2._ParagraphCollction.Add(Para);
+            SectionBaseList.Add(oParagraph2);
           }
         }
         else

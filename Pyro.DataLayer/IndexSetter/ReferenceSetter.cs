@@ -11,7 +11,11 @@ using Pyro.Common.CompositionRoot;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class ReferenceSetter : IReferenceSetter
+  public class ReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
+    IReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
     private readonly ICommonRepository ICommonRepository;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
@@ -24,10 +28,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.ICommonFactory = ICommonFactory;
     }
 
-    public IList<ResourceIndexBaseType> Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResourceIndexBaseType>();
       var ServiceSearchParameterId = SearchParameter.Id;
@@ -36,23 +37,23 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is FhirUri FhirUri)
         {
-          SetFhirUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri, ResourceIndexList);
+          SetFhirUri(FhirUri, ResourceIndexList);
         }
         else if (Poco.FhirValue is ResourceReference ResourceReference)
         {
-          SetResourcereference<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceReference, ResourceIndexList);
+          SetResourcereference(ResourceReference, ResourceIndexList);
         }
         else if (Poco.FhirValue is Resource Resource)
         {
-          SetResource<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Resource, ResourceIndexList);
+          SetResource(Resource, ResourceIndexList);
         }
         else if (Poco.FhirValue is Attachment Attachment)
         {
-          SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Attachment, ResourceIndexList);
+          SetUri(Attachment, ResourceIndexList);
         }
         else if (Poco.FhirValue is Identifier Identifier)
         {
-          SetIdentifier<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Identifier, ResourceIndexList);
+          SetIdentifier(Identifier, ResourceIndexList);
         }
         else
         {
@@ -67,22 +68,16 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetIdentifier<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Identifier Identifier, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetIdentifier(Identifier Identifier, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (Identifier != null && !string.IsNullOrWhiteSpace(Identifier.System) && !string.IsNullOrWhiteSpace(Identifier.Value))
       {
         string TempUrl = $"{Identifier.System}/{Identifier.Value}";
-        SetReferance<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(TempUrl, ResourceIndexList);
+        SetReferance(TempUrl, ResourceIndexList);
       }
     }
 
-    private static void SetResource<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Resource resource, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private static void SetResource(Resource resource, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (resource.ResourceType == ResourceType.Composition || resource.ResourceType == ResourceType.MessageHeader)
       {
@@ -94,47 +89,35 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetResourcereference<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceReference ResourceReference, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetResourcereference(ResourceReference ResourceReference, List<ResourceIndexBaseType> ResourceIndexList)
     {
       //Check the Uri is actual a Fhir resource reference 
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(ResourceReference.Reference))
       {
         if (!ResourceReference.IsContainedReference && ResourceReference.Url != null)
         {
-          SetReferance<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceReference.Url.OriginalString, ResourceIndexList);
+          SetReferance(ResourceReference.Url.OriginalString, ResourceIndexList);
         }
       }
     }
 
-    private void SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Attachment Attachment, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetUri(Attachment Attachment, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (Attachment != null && string.IsNullOrWhiteSpace(Attachment.Url))
       {
-        SetReferance<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Attachment.Url, ResourceIndexList);
+        SetReferance(Attachment.Url, ResourceIndexList);
       }
     }
 
-    private void SetFhirUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetFhirUri(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
-        SetReferance<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri.Value, ResourceIndexList);
+        SetReferance(FhirUri.Value, ResourceIndexList);
       }
     }
 
-    private void SetReferance<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(string UriString, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetReferance(string UriString, List<ResourceIndexBaseType> ResourceIndexList)
     {
       //Check the Uri is actual a Fhir resource reference         
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(UriString))
@@ -145,7 +128,7 @@ namespace Pyro.DataLayer.IndexSetter
           if (ReferanceUri.Parse(UriString.Trim()))
           {
             var ResourceIndex = new ResourceIndexBaseType();
-            SetResourceIndentityElements<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceIndex, ReferanceUri);
+            SetResourceIndentityElements(ResourceIndex, ReferanceUri);
             ResourceIndex.ReferenceServiceBaseUrlId = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
             ResourceIndexList.Add(ResourceIndex);
           }
@@ -155,7 +138,7 @@ namespace Pyro.DataLayer.IndexSetter
           if (ReferanceUri.Parse(UriString.Trim()))
           {
             var ResourceIndex = new ResourceIndexBaseType();
-            SetResourceIndentityElements<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceIndex, ReferanceUri);
+            SetResourceIndentityElements(ResourceIndex, ReferanceUri);
             if (ReferanceUri.IsRelativeToServer)
             {
               ResourceIndex.ReferenceServiceBaseUrlId = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
@@ -170,10 +153,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetResourceIndentityElements<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(ResourceIndexBaseType ResourceIndex, IPyroFhirUri FhirRequestUri)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetResourceIndentityElements(ResourceIndexBaseType ResourceIndex, IPyroFhirUri FhirRequestUri)
     {
       ResourceIndex.ReferenceResourceType = FhirRequestUri.ResourseName;
       ResourceIndex.ReferenceVersionId = FhirRequestUri.VersionId;

@@ -54,36 +54,27 @@ namespace Pyro.Web.App_Start
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
-      container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Singleton);
+      container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Transient);
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.Web.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
-      container.Register<IFhirResourceNarrative, FhirResourceNarrative>(Lifestyle.Singleton);
-      container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Singleton);
 
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
       container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);
 
-      //Singleton: Index Setters
-      container.Register<IIndexSetterFactory, Pyro.Web.CompositionRoot.IndexSetterFactory>(Lifestyle.Singleton);
-      container.Register<IReferenceSetter, ReferenceSetter>(Lifestyle.Scoped);
-      container.Register<INumberSetter, NumberSetter>(Lifestyle.Singleton);
-      container.Register<IDateTimeSetter, DateTimeSetter>(Lifestyle.Singleton);
-      container.Register<IQuantitySetter, QuantitySetter>(Lifestyle.Singleton);
-      container.Register<IStringSetter, StringSetter>(Lifestyle.Singleton);
-      container.Register<ITokenSetter, TokenSetter>(Lifestyle.Singleton);
-      container.Register<IUriSetter, UriSetter>(Lifestyle.Singleton);
-
 
       //========================================================================================================
       //=================== Transient ==========================================================================            
       //========================================================================================================      
+      container.Register<IFhirResourceNarrative, FhirResourceNarrative>(Lifestyle.Transient);
+      container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Transient);
+
       container.Register<IRequestHeader, RequestHeader>(Lifestyle.Transient);
       container.Register<IPyroFhirUri, PyroFhirUri>(Lifestyle.Transient);
       container.Register<IPyroRequestUri, PyroRequestUri>(Lifestyle.Transient);
       container.Register<IDtoRootUrlStore, DtoRootUrlStore>(Lifestyle.Transient);
-
+      container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Transient);
 
       container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
@@ -92,10 +83,18 @@ namespace Pyro.Web.App_Start
       container.Register<ISearchParameterGeneric, SearchParameterGeneric>(Lifestyle.Transient);
       container.Register<ISearchParameterReferance, SearchParameterReferance>(Lifestyle.Transient);
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
-
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
-
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
+
+      //Transient: Index Setters
+      container.RegisterConditional(typeof(IIndexSetterFactory<,,>), typeof(Pyro.Web.CompositionRoot.IndexSetterFactory<,,>), Lifestyle.Scoped, c => !c.Handled);
+      container.RegisterConditional(typeof(IReferenceSetter<,,>), typeof(ReferenceSetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(INumberSetter<,,>), typeof(NumberSetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDateTimeSetter<,,>), typeof(DateTimeSetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IQuantitySetter<,,>), typeof(QuantitySetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IStringSetter<,,>), typeof(StringSetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(ITokenSetter<,,>), typeof(TokenSetter<,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IUriSetter<,,>), typeof(UriSetter<,,>), c => !c.Handled);
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
@@ -108,7 +107,6 @@ namespace Pyro.Web.App_Start
       container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
-      container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
 

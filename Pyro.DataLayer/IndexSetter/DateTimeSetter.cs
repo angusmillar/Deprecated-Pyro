@@ -7,13 +7,14 @@ using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class DateTimeSetter : IDateTimeSetter
+  public class DateTimeSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
+    IDateTimeSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
     public DateTimeSetter() { }
-    public IList<ResourceIndexBaseType> Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResourceIndexBaseType>();
       int ServiceSearchParameterId = SearchParameter.Id;
@@ -22,27 +23,27 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is Date Date)
         {
-          SetDate<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Date, ResourceIndexList);
+          SetDate(Date, ResourceIndexList);
         }
         else if (Poco.FhirValue is Period Period)
         {
-          SetPeriod<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Period, ResourceIndexList);
+          SetPeriod(Period, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirDateTime FhirDateTime)
         {
-          SetDateTime<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirDateTime, ResourceIndexList);
+          SetDateTime(FhirDateTime, ResourceIndexList);
         }
         else if (Poco.FhirValue is FhirString FhirString)
         {
-          SetString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirString, ResourceIndexList);
+          SetString(FhirString, ResourceIndexList);
         }
         else if (Poco.FhirValue is Instant Instant)
         {
-          SetInstant<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Instant, ResourceIndexList);
+          SetInstant(Instant, ResourceIndexList);
         }
         else if (Poco.FhirValue is Timing Timing)
         {
-          SetTiming<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Timing, ResourceIndexList);
+          SetTiming(Timing, ResourceIndexList);
         }
         else
         {
@@ -57,10 +58,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetTiming<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Timing Timing, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetTiming(Timing Timing, List<ResourceIndexBaseType> ResourceIndexList)
     {
       var ResourceIndex = new ResourceIndexBaseType();
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Timing);
@@ -72,10 +70,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetInstant<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Instant Instant, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetInstant(Instant Instant, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (Instant.Value.HasValue)
       {
@@ -89,10 +84,7 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-    private void SetString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirString FhirString, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetString(FhirString FhirString, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (Hl7.Fhir.Model.Date.IsValidValue(FhirString.Value) || FhirDateTime.IsValidValue(FhirString.Value))
       {
@@ -105,10 +97,7 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-    private void SetDateTime<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirDateTime FhirDateTime, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetDateTime(FhirDateTime FhirDateTime, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (FhirDateTime.IsValidValue(FhirDateTime.Value))
       {
@@ -122,10 +111,7 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-    private void SetPeriod<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Period Period, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetPeriod(Period Period, List<ResourceIndexBaseType> ResourceIndexList)
     {
       var ResourceIndex = new ResourceIndexBaseType();
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Period);
@@ -136,10 +122,7 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetDate<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Date Date, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetDate(Date Date, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (Date.IsValidValue(Date.Value))
       {

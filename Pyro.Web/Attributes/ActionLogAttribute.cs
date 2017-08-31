@@ -15,6 +15,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
 using Pyro.Common.Service;
+using Pyro.Common.Logging;
 
 namespace Pyro.Web.Attributes
 {
@@ -23,7 +24,6 @@ namespace Pyro.Web.Attributes
     private string DateTimeKey = "ActionStartDateTime";
     private string StopwatchKey = "ActionStopwatch";
     static public string ResourceIdentityKey = "ResourceIdentity";
-
 
     public override void OnActionExecuting(HttpActionContext actionContext)
     {
@@ -202,6 +202,7 @@ namespace Pyro.Web.Attributes
             }
           }
 
+
           IHtmlGenerationSupport Narative = ICommonFactory.CreateFhirNarativeGenerationSupport();
           Narative.NewValuePairList("Time", string.Format("{0} ({1:f3} sec)", dtStart, duration.TotalSeconds));
           Narative.AppendValuePairList(actionExecutedContext.Request.Method.ToString(), string.Format("{0}", HttpUtility.HtmlEncode(baseUri == null ?
@@ -224,6 +225,7 @@ namespace Pyro.Web.Attributes
 
           // Add custom SQL-on-FHIR event data
           Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
+
 
           if (true)
           //if (FhirAppSettings.LogRequestData)
@@ -262,14 +264,16 @@ namespace Pyro.Web.Attributes
               Audit.Entity.Add(responseDataObj);
             }
           }
-          //Commit to Database
+
+          //Commit to Database          
           IResourceServiceOutcome ResourceServiceOutcome = (ResourceServices as IResourceServicesBase).SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
           Transaction.Commit();
         }
         catch (Exception Exec)
         {
           // TODO: This exception should be stored somewhere, registry?
-          System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
+          Logger.Log.Error(Exec, "ActionLogAttribute");
+          //System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
           Transaction.Rollback();
         }
 

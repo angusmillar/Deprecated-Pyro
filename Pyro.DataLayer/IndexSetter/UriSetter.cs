@@ -9,13 +9,14 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class UriSetter : IUriSetter
+  public class UriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
+    IUriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
   {
     public UriSetter() { }
-    public IList<ResourceIndexBaseType> Set<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResourceIndexBaseType>();
       var ServiceSearchParameterId = SearchParameter.Id;
@@ -24,11 +25,11 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Poco.FhirValue is FhirUri FhirUri)
         {
-          SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri, ResourceIndexList);
+          SetUri(FhirUri, ResourceIndexList);
         }
         else if (Poco.FhirValue is Oid Oid)
         {
-          SetOid<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Oid, ResourceIndexList);
+          SetOid(Oid, ResourceIndexList);
         }
         else
         {
@@ -43,10 +44,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetOid<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(Oid Oid, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetOid(Oid Oid, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Oid.Value))
       {
@@ -55,10 +53,7 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetUri<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+    private void SetUri(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
