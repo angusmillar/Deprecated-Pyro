@@ -2,7 +2,7 @@
 
 namespace Pyro.Common.Interfaces.Repositories
 {
-  public interface ICommonResourceRepository<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> : IResourceRepository
+  public interface ICommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> : IResourceRepository
   {
     FHIRAllTypes RepositoryResourceType { get; set; }
   }

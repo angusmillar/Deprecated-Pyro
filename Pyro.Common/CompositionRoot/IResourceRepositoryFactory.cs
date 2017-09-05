@@ -5,7 +5,7 @@ namespace Pyro.Common.CompositionRoot
 {
   public interface IResourceRepositoryFactory
   {
-    IResourceRepository Create<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FHIRAllTypes FHIRAllTypes);
+    IResourceRepository Create<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>(FHIRAllTypes FHIRAllTypes);
     IDtoCommonRepository CreateDtoCommonRepository();
   }
 }

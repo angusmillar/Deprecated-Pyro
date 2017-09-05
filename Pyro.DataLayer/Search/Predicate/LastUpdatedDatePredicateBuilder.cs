@@ -9,22 +9,27 @@ using System.Linq;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class LastUpdatedDatePredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public static class LastUpdatedDatePredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
-    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> MainPredicate)
+    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
       var LastUpdatedSearchParamerterList = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       if (LastUpdatedSearchParamerterList != null)
       {
-        ExpressionStarter<ResourceCurrentBaseType> NewLastUpdatedPredicate = null;
+        ExpressionStarter<ResCurrentType> NewLastUpdatedPredicate = null;
         foreach (var LastUpdatedSearchParameter in LastUpdatedSearchParamerterList)
         {
           if (LastUpdatedSearchParameter is SearchParameterDateTime SearchTypeToken)
           {
-            NewLastUpdatedPredicate = LinqKit.PredicateBuilder.New<ResourceCurrentBaseType>();
+            NewLastUpdatedPredicate = LinqKit.PredicateBuilder.New<ResCurrentType>();
             foreach (var SearchValue in SearchTypeToken.ValueList)
             {
               if (!SearchTypeToken.Modifier.HasValue)
@@ -75,13 +80,13 @@ namespace Pyro.DataLayer.Search.Predicate
               }
             }
           }
-          MainPredicate.Extend<ResourceCurrentBaseType>(NewLastUpdatedPredicate, PredicateOperator.And);
+          MainPredicate.Extend<ResCurrentType>(NewLastUpdatedPredicate, PredicateOperator.And);
         }
         DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       }
     }
 
-    private static ExpressionStarter<ResourceCurrentBaseType> Equals(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> Equals(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> Search, ExpressionStarter<ResCurrentType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
     {
       var ExpressionLow = Search.LastUpdatedPropertyGreaterThanOrEqualTo(SearchValue.Value);
       var ExpressionHigh = Search.LastUpdatedPropertyLessThanOrEqualTo(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));

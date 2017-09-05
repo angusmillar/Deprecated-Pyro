@@ -15,7 +15,7 @@ using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class IndexStringContextConfig<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> : EntityTypeConfiguration<ResIndexStringType>
+  public class IndexTokenContextConfig<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> : EntityTypeConfiguration<ResIndexTokenType>
     where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
@@ -25,25 +25,27 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
-    public IndexStringContextConfig()
+    public IndexTokenContextConfig()
     {
-
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
-
-      Property(x => x.String).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength)
-        //.IsOptional()
-        .IsRequired()
-        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_String") { IsUnique = false }));
-
+      Property(x => x.ResourceId).IsRequired();
       HasOptional<ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
       Property(x => x.ServiceSearchParameterId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
 
-      Property(x => x.ResourceId).IsRequired();
+      Property(x => x.Code)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
+        .IsOptional()
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
 
+      Property(x => x.System)
+        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .IsOptional()
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("ix_System") { IsUnique = false }));
     }
   }
 }

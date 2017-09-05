@@ -108,6 +108,7 @@
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
+    <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
     <Compile Include="Search\SearchParameterInclude.cs" />
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />

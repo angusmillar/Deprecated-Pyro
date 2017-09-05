@@ -9,16 +9,21 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class UriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
-    IUriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public class UriSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> :
+    IUriSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     public UriSetter() { }
-    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexUriType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResourceIndexBaseType>();
+      var ResourceIndexList = new List<ResIndexUriType>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
@@ -44,20 +49,20 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetOid(Oid Oid, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetOid(Oid Oid, List<ResIndexUriType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Oid.Value))
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexUriType();
         ResourceIndex.Uri = Oid.Value;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetUri(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetUri(FhirUri FhirUri, List<ResIndexUriType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexUriType();
         ResourceIndex.Uri = StringSupport.ToLowerFast(FhirUri.Value.StripHttp());
         ResourceIndexList.Add(ResourceIndex);
       }

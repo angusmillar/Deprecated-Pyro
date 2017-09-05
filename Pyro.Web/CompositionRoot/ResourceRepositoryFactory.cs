@@ -14,9 +14,9 @@ namespace Pyro.Web.CompositionRoot
       this.Container = Container;
     }
 
-    public IResourceRepository Create<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>(FHIRAllTypes FHIRAllTypes)
+    public IResourceRepository Create<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>(FHIRAllTypes FHIRAllTypes)
     {
-      var CommonResourceRepository = (ICommonResourceRepository<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>)Container.GetInstance(typeof(ICommonResourceRepository<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>));
+      var CommonResourceRepository = (ICommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>)Container.GetInstance(typeof(ICommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>));
       CommonResourceRepository.RepositoryResourceType = FHIRAllTypes;
       return CommonResourceRepository;
     }

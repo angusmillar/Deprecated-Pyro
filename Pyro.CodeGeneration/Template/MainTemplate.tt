@@ -41,12 +41,31 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
   foreach(string ResourceName in MainModel.GetResourceNameList())
   {
 #>  
-  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, I<#=ResourceName#>Res { }   
-  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }  
-  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, I<#=ResourceName#>ResIndex { }    
-  public interface I<#=ResourceName#>ResIndex : IResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }   
-  public partial class <#=ResourceName#>ResIndexString : ResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>, IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }  
-  public interface I<#=ResourceName#>ResIndexString : IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString> { }
+  //###### <#=ResourceName#> ##################################################################################
+  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>Res { }
+  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndex : ResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndex { }
+  public interface I<#=ResourceName#>ResIndex : IResourceIndexBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexDateTime : ResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexDateTime { }
+  public interface I<#=ResourceName#>ResIndexDateTime : IResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexQuantity : ResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexQuantity { }
+  public interface I<#=ResourceName#>ResIndexQuantity : IResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexReference : ResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexReference { }
+  public interface I<#=ResourceName#>ResIndexReference : IResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexUri : ResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexUri { }
+  public interface I<#=ResourceName#>ResIndexUri : IResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexToken : ResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexToken { }
+  public interface I<#=ResourceName#>ResIndexToken : IResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
+  public partial class <#=ResourceName#>ResIndexString : ResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>, I<#=ResourceName#>ResIndexString { }
+  public interface I<#=ResourceName#>ResIndexString : IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex> { }
+
 <#
 }
 #>
@@ -77,7 +96,7 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
       foreach(string ResourceName in MainModel.GetResourceNameList())
       {
     #>
-      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>),       
+      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>),             
     <#
     }
     #>       
@@ -93,16 +112,10 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
 
   manager.StartNewFile($"UnitOfWorkCodeGenerated.cs", "Pyro.DataLayer", "UnitOfWork");
 #>
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.DataLayer.Repository;
-using Pyro.DataLayer.DbModel.EntityGenerated;
 using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.DataLayer.DbModel.EntityGenerated;
+using System;
 
 //This file was code generated by Pyro.CodeGeneration.Template.MainTemplate.tt
 //Generation TimeStamp: <#=DateTimeNow#>
@@ -119,7 +132,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       get
       {      
-        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>(FHIRAllTypes.<#=ResourceName#>);     
+        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>(FHIRAllTypes.<#=ResourceName#>);             
       }
     }
 <#
@@ -199,11 +212,16 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 <#   
   foreach(string ResourceName in MainModel.GetResourceNameList())
   {
-#>
-      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());            
-      Mb.Configurations.Add(new IndexContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());
-      Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndex, <#=ResourceName#>ResIndexString>());
-
+#>      
+      // <#=ResourceName#>  
+      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexTokenContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexUriContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexReferenceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexQuantityContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
+      Mb.Configurations.Add(new IndexDateTimeContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime, <#=ResourceName#>ResIndex>());
 <#
   }
 #>

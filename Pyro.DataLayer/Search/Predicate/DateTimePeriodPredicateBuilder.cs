@@ -8,12 +8,17 @@ using Hl7.Fhir.Utility;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
-  public static class DateTimePeriodPredicateBuilder<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public static class DateTimePeriodPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+      where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
-    public static ExpressionStarter<ResourceCurrentBaseType> Build(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterDateTime)
       {
@@ -68,11 +73,11 @@ namespace Pyro.DataLayer.Search.Predicate
                 {
                   if (SearchValue.IsMissing)
                   {
-                    NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull(SearchTypeDateTime.Id));
+                    NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull<ResIndexDateTimeType>(SearchTypeDateTime.Id));
                   }
                   else
                   {
-                    NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull(SearchTypeDateTime.Id));
+                    NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull<ResIndexDateTimeType>(SearchTypeDateTime.Id));
                   }
                 }
                 else
@@ -129,7 +134,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResourceCurrentBaseType> CollectionEqualToPredicate(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterDateTime SearchTypeDateTime, SearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterDateTime SearchTypeDateTime, SearchParameterDateTimeValue SearchValue)
     {
       var Expression = Search.DateTimePeriodCollectionAnyEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
       NewPredicate = NewPredicate.Or(Expression);
@@ -137,10 +142,10 @@ namespace Pyro.DataLayer.Search.Predicate
 
     }
 
-    private static ExpressionStarter<ResourceCurrentBaseType> CollectionNotEqualToPredicate(ResourceSearch<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> Search, ExpressionStarter<ResourceCurrentBaseType> NewPredicate, SearchParameterDateTime SearchTypeDateTime, SearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterDateTime SearchTypeDateTime, SearchParameterDateTimeValue SearchValue)
     {
       var NotEqualToExpression = Search.DateTimePeriodCollectionAnyNotEqualTo(SearchTypeDateTime.Id, SearchValue.Value, FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));
-      var CollectionIsNullExpression = Search.SearchParameterIsNull(SearchTypeDateTime.Id);
+      var CollectionIsNullExpression = Search.SearchParameterIsNull<ResIndexDateTimeType>(SearchTypeDateTime.Id);
       NewPredicate = NewPredicate.Or(NotEqualToExpression);
       NewPredicate = NewPredicate.Or(CollectionIsNullExpression);
       return NewPredicate;

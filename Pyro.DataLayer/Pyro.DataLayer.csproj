@@ -66,6 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbModel\DatabaseContextConfi\IndexReferenceContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\IndexQuantityContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\IndexDateTimeContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\IndexUriContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\IndexTokenContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexStringContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ResourceContextConfig.cs" />
@@ -85,12 +90,22 @@
     <Compile Include="DbModel\EntityBase\IResourceCurrentBase.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexBase.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexNewBase.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexDateTime.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexReference.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexUri.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexToken.cs" />
+    <Compile Include="DbModel\EntityBase\IResourceIndexQuantity.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexString.cs" />
     <Compile Include="DbModel\EntityBase\ResourceCurrentBase.cs" />
     <Compile Include="DbModel\EntityBase\ModelBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceBase.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexBase.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexQuantity.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexNewBase.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexDateTime.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexReference.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexUri.cs" />
+    <Compile Include="DbModel\EntityBase\ResourceIndexToken.cs" />
     <Compile Include="DbModel\EntityBase\ResourceIndexString.cs" />
     <Compile Include="DbModel\EntityGenerated\CommonResourceRepositoryTypeList.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>

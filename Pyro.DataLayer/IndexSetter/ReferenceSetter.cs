@@ -11,11 +11,16 @@ using Pyro.Common.CompositionRoot;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class ReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
-    IReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public class ReferenceSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> :
+    IReferenceSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     private readonly ICommonRepository ICommonRepository;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
@@ -28,9 +33,9 @@ namespace Pyro.DataLayer.IndexSetter
       this.ICommonFactory = ICommonFactory;
     }
 
-    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexReferenceType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResourceIndexBaseType>();
+      var ResourceIndexList = new List<ResIndexReferenceType>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
@@ -68,7 +73,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetIdentifier(Identifier Identifier, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetIdentifier(Identifier Identifier, List<ResIndexReferenceType> ResourceIndexList)
     {
       if (Identifier != null && !string.IsNullOrWhiteSpace(Identifier.System) && !string.IsNullOrWhiteSpace(Identifier.Value))
       {
@@ -77,7 +82,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetResource(Resource resource, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetResource(Resource resource, List<ResIndexReferenceType> ResourceIndexList)
     {
       if (resource.ResourceType == ResourceType.Composition || resource.ResourceType == ResourceType.MessageHeader)
       {
@@ -89,7 +94,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetResourcereference(ResourceReference ResourceReference, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetResourcereference(ResourceReference ResourceReference, List<ResIndexReferenceType> ResourceIndexList)
     {
       //Check the Uri is actual a Fhir resource reference 
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(ResourceReference.Reference))
@@ -101,7 +106,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetUri(Attachment Attachment, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetUri(Attachment Attachment, List<ResIndexReferenceType> ResourceIndexList)
     {
       if (Attachment != null && string.IsNullOrWhiteSpace(Attachment.Url))
       {
@@ -109,7 +114,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetFhirUri(FhirUri FhirUri, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetFhirUri(FhirUri FhirUri, List<ResIndexReferenceType> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirUri.Value))
       {
@@ -117,7 +122,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetReferance(string UriString, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetReferance(string UriString, List<ResIndexReferenceType> ResourceIndexList)
     {
       //Check the Uri is actual a Fhir resource reference         
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(UriString))
@@ -127,7 +132,7 @@ namespace Pyro.DataLayer.IndexSetter
         {
           if (ReferanceUri.Parse(UriString.Trim()))
           {
-            var ResourceIndex = new ResourceIndexBaseType();
+            var ResourceIndex = new ResIndexReferenceType();
             SetResourceIndentityElements(ResourceIndex, ReferanceUri);
             ResourceIndex.ReferenceServiceBaseUrlId = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
             ResourceIndexList.Add(ResourceIndex);
@@ -137,7 +142,7 @@ namespace Pyro.DataLayer.IndexSetter
         {
           if (ReferanceUri.Parse(UriString.Trim()))
           {
-            var ResourceIndex = new ResourceIndexBaseType();
+            var ResourceIndex = new ResIndexReferenceType();
             SetResourceIndentityElements(ResourceIndex, ReferanceUri);
             if (ReferanceUri.IsRelativeToServer)
             {
@@ -153,7 +158,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetResourceIndentityElements(ResourceIndexBaseType ResourceIndex, IPyroFhirUri FhirRequestUri)
+    private void SetResourceIndentityElements(ResIndexReferenceType ResourceIndex, IPyroFhirUri FhirRequestUri)
     {
       ResourceIndex.ReferenceResourceType = FhirRequestUri.ResourseName;
       ResourceIndex.ReferenceVersionId = FhirRequestUri.VersionId;

@@ -4,11 +4,16 @@ using Pyro.DataLayer.DbModel.EntityBase;
 
 namespace Pyro.Web.CompositionRoot
 {
-  public class IndexSetterFactory<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
-      IIndexSetterFactory<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-      where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-      where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
+  public class IndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> :
+    IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
   {
     private readonly SimpleInjector.Container Container;
 
@@ -17,39 +22,39 @@ namespace Pyro.Web.CompositionRoot
       this.Container = Container;
     }
 
-    public IReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateReferenceSetter()
+    public IReferenceSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateReferenceSetter()
     {
-      return Container.GetInstance<IReferenceSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<IReferenceSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public INumberSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateNumberSetter()
+    public INumberSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateNumberSetter()
     {
-      return Container.GetInstance<INumberSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<INumberSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public IDateTimeSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateDateTimeSetter()
+    public IDateTimeSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateDateTimeSetter()
     {
-      return Container.GetInstance<IDateTimeSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<IDateTimeSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public IQuantitySetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateQuantitySetter()
+    public IQuantitySetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateQuantitySetter()
     {
-      return Container.GetInstance<IQuantitySetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<IQuantitySetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public IStringSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateStringSetter()
+    public IStringSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateStringSetter()
     {
-      return Container.GetInstance<IStringSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<IStringSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public ITokenSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateTokenSetter()
+    public ITokenSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateTokenSetter()
     {
-      return Container.GetInstance<ITokenSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<ITokenSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
 
-    public IUriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> CreateUriSetter()
+    public IUriSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> CreateUriSetter()
     {
-      return Container.GetInstance<IUriSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>>();
+      return Container.GetInstance<IUriSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>>();
     }
   }
 }

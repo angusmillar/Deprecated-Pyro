@@ -7,17 +7,22 @@ using System.Collections.Generic;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class QuantitySetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
-    IQuantitySetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public class QuantitySetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> :
+    IQuantitySetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     public QuantitySetter() { }
 
-    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexQuantityType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResourceIndexBaseType>();
+      var ResourceIndexList = new List<ResIndexQuantityType>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
@@ -55,14 +60,14 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetRange(Range Range, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetRange(Range Range, List<ResIndexQuantityType> ResourceIndexList)
     {
       //If either value is missing then their is no range as the Range data type uses SimpleQuantity 
       //which has no Comparator property. Therefore there is no such thing as >10 or <100, their must be to values
       // for examples 10 - 100. 
       if (Range.High.Value.HasValue && Range.Low.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Comparator = Range.Low.Comparator;
         ResourceIndex.Code = Range.Low.Code;
         ResourceIndex.System = Range.Low.System;
@@ -78,7 +83,7 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetPositionComponent(Location.PositionComponent PositionComponent, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetPositionComponent(Location.PositionComponent PositionComponent, List<ResIndexQuantityType> ResourceIndexList)
     {
       //The only Quantity for Location.PositionComponent is in the Location resource and it's use if a little odd.
       //You never actual store a 'near-distance' search parameter as an index but rather it is used in conjunction with the 
@@ -88,11 +93,11 @@ namespace Pyro.DataLayer.IndexSetter
       //Where we need to work out the distance say in km between 'near' [latitude]:[longitude] we have stored in the db index and the [latitude]:[longitude] given in the search url's 'near'.
       //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.     
     }
-    private void SetQuantity(Quantity Quantity, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetQuantity(Quantity Quantity, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (Quantity.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = Quantity.Value.Value;
         if (!string.IsNullOrWhiteSpace(Quantity.Code))
         {
@@ -129,11 +134,11 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetSimpleQuantity(SimpleQuantity SimpleQuantity, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetSimpleQuantity(SimpleQuantity SimpleQuantity, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (SimpleQuantity.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = SimpleQuantity.Value.Value;
         if (!string.IsNullOrWhiteSpace(SimpleQuantity.Code))
         {
@@ -171,11 +176,11 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetMoney(Money Money, List<ResourceIndexBaseType> ResourceIndexList)
+    private void SetMoney(Money Money, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (Money.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = Money.Value.Value;
         if (!string.IsNullOrWhiteSpace(Money.Code))
         {

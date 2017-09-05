@@ -8,17 +8,22 @@ using System.Linq;
 
 namespace Pyro.DataLayer.IndexSetter
 {
-  public class NumberSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType> :
-    INumberSetter<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceCurrentBaseType : ResourceCurrentBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
-    where ResourceIndexBaseType : ResourceIndexBase<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>, new()
-    where ResourceIndexStringType : ResourceIndexString<ResourceCurrentBaseType, ResourceIndexBaseType, ResourceIndexStringType>
+  public class NumberSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType> :
+    INumberSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>, new()
+    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
+    where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     public NumberSetter() { }
 
-    public IList<ResourceIndexBaseType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexQuantityType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResourceIndexBaseType>();
+      var ResourceIndexList = new List<ResIndexQuantityType>();
       int ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
@@ -56,23 +61,23 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetFhirDecimal(FhirDecimal FhirDecimal, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetFhirDecimal(FhirDecimal FhirDecimal, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (FhirDecimal.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = FhirDecimal.Value;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
 
-    private static void SetRange(Range Range, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetRange(Range Range, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (Range.Low != null)
       {
         if (Range.Low.Value.HasValue)
         {
-          var ResourceIndex = new ResourceIndexBaseType();
+          var ResourceIndex = new ResIndexQuantityType();
           ResourceIndex.Quantity = Range.Low.Value;
           ResourceIndex.Comparator = Quantity.QuantityComparator.GreaterOrEqual;
           ResourceIndexList.Add(ResourceIndex);
@@ -82,7 +87,7 @@ namespace Pyro.DataLayer.IndexSetter
       {
         if (Range.High.Value.HasValue)
         {
-          var ResourceIndex = new ResourceIndexBaseType();
+          var ResourceIndex = new ResIndexQuantityType();
           ResourceIndex.Quantity = Range.High.Value;
           ResourceIndex.Comparator = Quantity.QuantityComparator.LessOrEqual;
           ResourceIndexList.Add(ResourceIndex);
@@ -90,11 +95,11 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetDuration(Duration Duration, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetDuration(Duration Duration, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (Duration.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = (decimal)Duration.Value;
         if (Duration.Comparator.HasValue)
         {
@@ -108,25 +113,25 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private static void SetPositiveInt(PositiveInt PositiveInt, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetPositiveInt(PositiveInt PositiveInt, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (PositiveInt.Value.HasValue)
       {
         if (PositiveInt.Value < 0)
           throw new FormatException(string.Format("PositiveInt must be a positive value, value was : {0}", PositiveInt.Value.ToString()));
 
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = Convert.ToInt32(PositiveInt.Value);
         ResourceIndex.Comparator = null;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
 
-    private static void SetInteger(Integer Integer, List<ResourceIndexBaseType> ResourceIndexList)
+    private static void SetInteger(Integer Integer, List<ResIndexQuantityType> ResourceIndexList)
     {
       if (Integer.Value.HasValue)
       {
-        var ResourceIndex = new ResourceIndexBaseType();
+        var ResourceIndex = new ResIndexQuantityType();
         ResourceIndexList.Add(ResourceIndex);
         ResourceIndex.Quantity = Convert.ToInt32(Integer.Value);
         ResourceIndex.Comparator = null;
