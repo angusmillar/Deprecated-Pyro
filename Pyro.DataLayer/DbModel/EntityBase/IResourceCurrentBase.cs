@@ -17,6 +17,6 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     ICollection<ResIndexUriType> IndexUriList { get; set; }
     ICollection<ResIndexReferenceType> IndexReferenceList { get; set; }
     ICollection<ResIndexQuantityType> IndexQuantityList { get; set; }
-    ICollection<ResIndexDateTimeType> IndexDataTimeList { get; set; }
+    ICollection<ResIndexDateTimeType> IndexDateTimeList { get; set; }
   }
 }

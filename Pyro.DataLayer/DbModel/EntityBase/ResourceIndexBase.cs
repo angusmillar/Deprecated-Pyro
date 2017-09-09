@@ -20,6 +20,8 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
+    public virtual ResCurrentType Resource { get; set; }
+
     //public ServiceSearchParameter ServiceSearchParameter { get; set; }
     //public int ServiceSearchParameterId { get; set; }
 
@@ -48,7 +50,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public ServiceBaseUrl ReferenceUrl { get; set; }
     public int? ReferenceServiceBaseUrlId { get; set; }
 
-    //public virtual ResourceCurrentBaseType Resource { get; set; }
+
     //public int ResourceId { get; set; }
   }
 }

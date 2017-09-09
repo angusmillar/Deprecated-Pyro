@@ -12,7 +12,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
-    ResCurrentType Resource { get; set; }
+    //ResCurrentType Resource { get; set; }
     int ResourceId { get; set; }
 
     ServiceSearchParameter ServiceSearchParameter { get; set; }

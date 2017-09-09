@@ -22,7 +22,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public ServiceSearchParameter ServiceSearchParameter { get; set; }
     public int ServiceSearchParameterId { get; set; }
 
-    public virtual ResCurrentType Resource { get; set; }
+    //public virtual ResCurrentType Resource { get; set; }
     public int ResourceId { get; set; }
 
 

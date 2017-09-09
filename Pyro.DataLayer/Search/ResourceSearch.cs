@@ -864,7 +864,37 @@ namespace Pyro.DataLayer.Search
       where IndexType : ModelBase
     {
       var type = typeof(ResCurrentType);
-      string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexList;
+      //below is wrong need to reslve correct list because index list no longer exsists
+      string DbPropertyName = string.Empty;
+      if (typeof(IndexType) == typeof(ResIndexStringType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexStringList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexTokenType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexTokenList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexUriType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexUriList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexReferenceType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexReferenceList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexQuantityType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexQuantityList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexDateTimeType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexDateTimeList;
+      }
+      else
+      {
+        throw new Exception("Unknown type for resource index list. ");
+      }
+
       MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResCurrentType).GetProperty(DbPropertyName));
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(IndexType));
       MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);

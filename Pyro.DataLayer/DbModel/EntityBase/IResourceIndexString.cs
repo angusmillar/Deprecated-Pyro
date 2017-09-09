@@ -12,5 +12,6 @@
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     string String { get; set; }
+    ResCurrentType Resource { get; set; }
   }
 }

@@ -64,12 +64,14 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.XmlBlob).IsRequired();
       Property(x => x.Method).IsRequired();
-      HasMany(c => c.IndexDataTimeList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-      HasMany(c => c.IndexQuantityList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-      HasMany(c => c.IndexReferenceList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-      HasMany(c => c.IndexStringList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-      HasMany(c => c.IndexTokenList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-      HasMany(c => c.IndexUriList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
+
+      HasMany(a => a.IndexDateTimeList).WithOptional(g => g.Resource).HasForeignKey(m => m.ResourceId).WillCascadeOnDelete(true);
+      HasMany(b => b.IndexQuantityList).WithOptional(h => h.Resource).HasForeignKey(n => n.ResourceId).WillCascadeOnDelete(true);
+      HasMany(c => c.IndexReferenceList).WithOptional(i => i.Resource).HasForeignKey(q => q.ResourceId).WillCascadeOnDelete(true);
+      HasMany(d => d.IndexStringList).WithOptional(j => j.Resource).HasForeignKey(r => r.ResourceId).WillCascadeOnDelete(true);
+      HasMany(e => e.IndexTokenList).WithOptional(k => k.Resource).HasForeignKey(s => s.ResourceId).WillCascadeOnDelete(true);
+      HasMany(f => f.IndexUriList).WithOptional(l => l.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
+
       //HasMany(c => c.IndexList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
 
     }

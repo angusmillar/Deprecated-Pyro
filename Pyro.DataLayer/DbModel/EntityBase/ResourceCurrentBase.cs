@@ -28,7 +28,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
       this.IndexUriList = new HashSet<ResIndexUriType>();
       this.IndexReferenceList = new HashSet<ResIndexReferenceType>();
       this.IndexQuantityList = new HashSet<ResIndexQuantityType>();
-      this.IndexDataTimeList = new HashSet<ResIndexDateTimeType>();
+      this.IndexDateTimeList = new HashSet<ResIndexDateTimeType>();
     }
 
     public ICollection<ResIndexStringType> IndexStringList { get; set; }
@@ -36,6 +36,6 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public ICollection<ResIndexUriType> IndexUriList { get; set; }
     public ICollection<ResIndexReferenceType> IndexReferenceList { get; set; }
     public ICollection<ResIndexQuantityType> IndexQuantityList { get; set; }
-    public ICollection<ResIndexDateTimeType> IndexDataTimeList { get; set; }
+    public ICollection<ResIndexDateTimeType> IndexDateTimeList { get; set; }
   }
 }

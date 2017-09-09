@@ -308,7 +308,7 @@ namespace Pyro.DataLayer.Repository
     {
       var IncludeList = new List<Expression<Func<ResCurrentType, object>>>();
       IncludeList.Add(x => x.IndexQuantityList);
-      IncludeList.Add(x => x.IndexDataTimeList);
+      IncludeList.Add(x => x.IndexDateTimeList);
       IncludeList.Add(x => x.IndexReferenceList);
       IncludeList.Add(x => x.IndexStringList);
       IncludeList.Add(x => x.IndexTokenList);
@@ -341,7 +341,7 @@ namespace Pyro.DataLayer.Repository
       while (Count > ProgressCount)
       {
         var EntityList = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>(x => x.IsCurrent == true & x.IsDeleted == false)
-         .Include(x => x.IndexDataTimeList)
+         .Include(x => x.IndexDateTimeList)
          .Include(x => x.IndexQuantityList)
          .Include(x => x.IndexReferenceList)
          .Include(x => x.IndexStringList)
@@ -491,7 +491,7 @@ namespace Pyro.DataLayer.Repository
                     {
                       ICollection<ResIndexDateTimeType> ResourceIndexDateTime = IIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexDateTime != null)
-                        ResourceEntity.IndexDataTimeList.AddRange(ResourceIndexDateTime);
+                        ResourceEntity.IndexDateTimeList.AddRange(ResourceIndexDateTime);
                       break;
                     }
                   case SearchParamType.String:

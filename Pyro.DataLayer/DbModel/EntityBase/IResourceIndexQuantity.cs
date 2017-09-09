@@ -13,6 +13,8 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
+    ResCurrentType Resource { get; set; }
+
     //single Quantity or QuantityLow, can be null if we only have a QuantityHigh 
     Quantity.QuantityComparator? Comparator { get; set; }
     decimal? Quantity { get; set; }

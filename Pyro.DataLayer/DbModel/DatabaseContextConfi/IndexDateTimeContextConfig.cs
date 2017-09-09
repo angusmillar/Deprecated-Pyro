@@ -28,6 +28,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     public IndexDateTimeContextConfig()
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+
       Property(x => x.ResourceId).IsRequired();
       HasOptional<ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
       Property(x => x.ServiceSearchParameterId)

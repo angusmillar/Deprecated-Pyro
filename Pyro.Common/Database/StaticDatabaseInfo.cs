@@ -22,6 +22,12 @@ namespace Pyro.Common.Database
       public static string Method { get { return "Method"; } }
       public static string IndexList { get { return "IndexList"; } }
       public static string IndexStringList { get { return "IndexStringList"; } }
+      public static string IndexTokenList { get { return "IndexTokenList"; } }
+      public static string IndexUriList { get { return "IndexUriList"; } }
+      public static string IndexReferenceList { get { return "IndexReferenceList"; } }
+      public static string IndexQuantityList { get { return "IndexQuantityList"; } }
+      public static string IndexDateTimeList { get { return "IndexDateTimeList"; } }
+
     }
 
     public static class BaseResourceIndexConstatnts

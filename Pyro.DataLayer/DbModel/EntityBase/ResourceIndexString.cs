@@ -20,5 +20,6 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     where ResIndexBaseType : ResourceIndexBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType, ResIndexBaseType>
   {
     public string String { get; set; }
+    public virtual ResCurrentType Resource { get; set; }
   }
 }
