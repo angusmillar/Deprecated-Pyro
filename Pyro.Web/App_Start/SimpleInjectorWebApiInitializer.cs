@@ -87,14 +87,14 @@ namespace Pyro.Web.App_Start
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
       //Transient: Index Setters
-      container.RegisterConditional(typeof(IIndexSetterFactory<,,,,,,,>), typeof(Pyro.Web.CompositionRoot.IndexSetterFactory<,,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
-      container.RegisterConditional(typeof(IReferenceSetter<,,,,,,,>), typeof(ReferenceSetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(INumberSetter<,,,,,,,>), typeof(NumberSetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IDateTimeSetter<,,,,,,,>), typeof(DateTimeSetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IQuantitySetter<,,,,,,,>), typeof(QuantitySetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IStringSetter<,,,,,,,>), typeof(StringSetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(ITokenSetter<,,,,,,,>), typeof(TokenSetter<,,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IUriSetter<,,,,,,,>), typeof(UriSetter<,,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IIndexSetterFactory<,,,,,,>), typeof(Pyro.Web.CompositionRoot.IndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
+      container.RegisterConditional(typeof(IReferenceSetter<,,,,,,>), typeof(ReferenceSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(INumberSetter<,,,,,,>), typeof(NumberSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDateTimeSetter<,,,,,,>), typeof(DateTimeSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IQuantitySetter<,,,,,,>), typeof(QuantitySetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IStringSetter<,,,,,,>), typeof(StringSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(ITokenSetter<,,,,,,>), typeof(TokenSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IUriSetter<,,,,,,>), typeof(UriSetter<,,,,,,>), c => !c.Handled);
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
@@ -131,7 +131,7 @@ namespace Pyro.Web.App_Start
 
       //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
-      container.Register(typeof(ICommonResourceRepository<,,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
+      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
 
     }
