@@ -20,7 +20,7 @@ namespace Pyro.Common.Database
       public static string VersionId { get { return "VersionId"; } }
       public static string XmlBlob { get { return "XmlBlob"; } }
       public static string Method { get { return "Method"; } }
-      public static string IndexList { get { return "IndexList"; } }
+
       public static string IndexStringList { get { return "IndexStringList"; } }
       public static string IndexTokenList { get { return "IndexTokenList"; } }
       public static string IndexUriList { get { return "IndexUriList"; } }

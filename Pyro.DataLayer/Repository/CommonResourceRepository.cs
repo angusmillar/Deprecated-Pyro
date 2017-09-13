@@ -398,15 +398,6 @@ namespace Pyro.DataLayer.Repository
        .Where(w => w.Resource.IsCurrent == false);
       RowsRemovedCount = RowsRemovedCount + DeleteIndex(DateTimeIndexList, RowsRemovedCount);
 
-      //foreach (ResIndexStringType Index in IndexList)
-      //{
-      //  RowsRemovedCount = RowsRemovedCount + 1;
-      //  (IPyroDbContext as IObjectContextAdapter).ObjectContext.DeleteObject(Index);
-      //}
-      //Old Way
-      //var ListToRemove = _Context.Set<ResourceIndexType>().Where(x => x.Resource.IsCurrent == false).ToList();
-      //RowsRemovedCount = ListToRemove.Count;
-      //ListToRemove.ForEach(x => _Context.Set<ResourceIndexType>().Remove(x));
       this.Save();
       return RowsRemovedCount;
     }

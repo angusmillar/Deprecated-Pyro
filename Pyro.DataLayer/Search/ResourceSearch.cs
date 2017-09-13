@@ -19,7 +19,6 @@ namespace Pyro.DataLayer.Search
       where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-
   {
 
     public Expression<Func<ResCurrentType, bool>> StringCollectionAnyEqualTo(int Id, string Value)
@@ -850,50 +849,13 @@ namespace Pyro.DataLayer.Search
       return Expression.Equal(InnerPropertyId, InnerValueId);
     }
 
-    //private MethodCallExpression IndexListAnyMethodCallExpressionOld(ParameterExpression IndexListParameter, Expression<Func<ResourceIndexBaseType, bool>> InnerFunction)
-    //{
-    //  var type = typeof(ResCurrentType);
-    //  string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexList;
-    //  MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResCurrentType).GetProperty(DbPropertyName));
-    //  MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(ResourceIndexBaseType));
-    //  MethodCallExpression MethodAnyCall = Expression.Call(MethodAny, IndexListProperty, InnerFunction);
-    //  return MethodAnyCall;
-    //}
-
     private MethodCallExpression IndexListAnyMethodCallExpression<IndexType>(ParameterExpression IndexListParameter, Expression<Func<IndexType, bool>> InnerFunction)
       where IndexType : ModelBase
     {
       var type = typeof(ResCurrentType);
       //below is wrong need to reslve correct list because index list no longer exsists
       string DbPropertyName = string.Empty;
-      if (typeof(IndexType) == typeof(ResIndexStringType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexStringList;
-      }
-      else if (typeof(IndexType) == typeof(ResIndexTokenType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexTokenList;
-      }
-      else if (typeof(IndexType) == typeof(ResIndexUriType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexUriList;
-      }
-      else if (typeof(IndexType) == typeof(ResIndexReferenceType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexReferenceList;
-      }
-      else if (typeof(IndexType) == typeof(ResIndexQuantityType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexQuantityList;
-      }
-      else if (typeof(IndexType) == typeof(ResIndexDateTimeType))
-      {
-        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexDateTimeList;
-      }
-      else
-      {
-        throw new Exception("Unknown type for resource index list. ");
-      }
+      DbPropertyName = ResolveDbIndexListPropertyName<IndexType>();
 
       MemberExpression IndexListProperty = Expression.Property(IndexListParameter, typeof(ResCurrentType).GetProperty(DbPropertyName));
       MethodInfo MethodAny = typeof(Enumerable).GetMethods().Where(m => m.Name == "Any" && m.GetParameters().Length == 2).Single().MakeGenericMethod(typeof(IndexType));
@@ -944,6 +906,41 @@ namespace Pyro.DataLayer.Search
       BinaryExpression BinaryExpression = Expression.Equal(MethodAnyCall, constantReference);
 
       return Expression.Lambda<Func<ResCurrentType, bool>>(BinaryExpression, IndexListParameter);
+    }
+
+    private static string ResolveDbIndexListPropertyName<IndexType>() where IndexType : ModelBase
+    {
+      string DbPropertyName;
+      if (typeof(IndexType) == typeof(ResIndexStringType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexStringList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexTokenType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexTokenList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexUriType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexUriList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexReferenceType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexReferenceList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexQuantityType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexQuantityList;
+      }
+      else if (typeof(IndexType) == typeof(ResIndexDateTimeType))
+      {
+        DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.IndexDateTimeList;
+      }
+      else
+      {
+        throw new Exception("Unknown type for resource index list. ");
+      }
+
+      return DbPropertyName;
     }
   }
 

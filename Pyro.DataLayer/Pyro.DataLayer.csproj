@@ -157,6 +157,10 @@
     <Compile Include="Migrations\201709052306571_NewIndexesAdd.Designer.cs">
       <DependentUpon>201709052306571_NewIndexesAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709122345167_OldIndexesDrop.cs" />
+    <Compile Include="Migrations\201709122345167_OldIndexesDrop.Designer.cs">
+      <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -221,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709052306571_NewIndexesAdd.resx">
       <DependentUpon>201709052306571_NewIndexesAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709122345167_OldIndexesDrop.resx">
+      <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
