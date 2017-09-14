@@ -115,7 +115,8 @@ namespace Pyro.Engine.Services
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType ResourceType in ResourceTypeList)
       {
-        FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(ResourceType.GetLiteral());
+        string CurrentResourceString = ResourceType.GetLiteral();
+        FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(CurrentResourceString);
         var ResourceComponent = new CapabilityStatement.ResourceComponent();
         RestComponent.Resource.Add(ResourceComponent);
         ResourceComponent.Type = ResourceType;
@@ -138,7 +139,7 @@ namespace Pyro.Engine.Services
         ResourceComponent.ConditionalUpdate = true;
         ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
 
-        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == FhirType.Value.GetLiteral() || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
+        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
 
         //List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
         //DtoServiceSearchParameterHeavyForResourceList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
@@ -154,7 +155,17 @@ namespace Pyro.Engine.Services
             {
               if (IncludesList == null)
                 IncludesList = new List<string>();
-              IncludesList.Add($"{SupportedSearchParam.Resource}.{SupportedSearchParam.Name}");
+              if (SupportedSearchParam.TargetResourceTypeList.Count > 1)
+              {
+                foreach (var Target in SupportedSearchParam.TargetResourceTypeList)
+                {
+                  IncludesList.Add($"{SupportedSearchParam.Resource}:{SupportedSearchParam.Name}:{Target.ResourceType.GetLiteral()}");
+                }
+              }
+              else
+              {
+                IncludesList.Add($"{SupportedSearchParam.Resource}:{SupportedSearchParam.Name}");
+              }
             }
 
             CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
@@ -175,7 +186,14 @@ namespace Pyro.Engine.Services
         {
           if (RevIncludesList == null)
             RevIncludesList = new List<string>();
-          RevIncludesList.Add($"{Rev.Resource}.{Rev.Name}");
+          if (Rev.TargetResourceTypeList.Count > 1)
+          {
+            RevIncludesList.Add($"{Rev.Resource}:{Rev.Name}:{CurrentResourceString}");
+          }
+          else
+          {
+            RevIncludesList.Add($"{Rev.Resource}:{Rev.Name}");
+          }
         }
 
         ResourceComponent.SearchRevInclude = RevIncludesList;
