@@ -110,6 +110,8 @@ namespace Pyro.Engine.Services
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
+      List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavy(false);
+
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType ResourceType in ResourceTypeList)
       {
@@ -135,16 +137,26 @@ namespace Pyro.Engine.Services
         ResourceComponent.ConditionalRead = CapabilityStatement.ConditionalReadStatus.FullSupport;
         ResourceComponent.ConditionalUpdate = true;
         ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
-        ResourceComponent.SearchInclude = new List<string>() { "???", "??????" };
-        ResourceComponent.SearchRevInclude = new List<string>() { "???", "??????" };
 
-        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
-        DtoServiceSearchParameterHeavyList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
+        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == FhirType.Value.GetLiteral() || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
+
+        //List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
+        //DtoServiceSearchParameterHeavyForResourceList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
-        foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
+        List<string> IncludesList = null;
+        List<string> RevIncludesList = null;
+        foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyForResourceList)
         {
           if (SupportedSearchParam.IsIndexed && SupportedSearchParam.Status == PublicationStatus.Active)
           {
+            //Include (RevIncludes are below)
+            if (SupportedSearchParam.Type == SearchParamType.Reference)
+            {
+              if (IncludesList == null)
+                IncludesList = new List<string>();
+              IncludesList.Add($"{SupportedSearchParam.Resource}.{SupportedSearchParam.Name}");
+            }
+
             CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
             ResourceComponent.SearchParam.Add(SearchParamComponent);
 
@@ -155,6 +167,18 @@ namespace Pyro.Engine.Services
               SearchParamComponent.Documentation = SupportedSearchParam.Description;
           }
         }
+        ResourceComponent.SearchInclude = IncludesList;
+
+        //RevIncludes
+        var RevIncludeSearchParameterList = DtoServiceSearchParameterHeavyList.Where(x => x.Type == SearchParamType.Reference && x.TargetResourceTypeList.Any(c => c.ResourceType == ResourceType));
+        foreach (var Rev in RevIncludeSearchParameterList)
+        {
+          if (RevIncludesList == null)
+            RevIncludesList = new List<string>();
+          RevIncludesList.Add($"{Rev.Resource}.{Rev.Name}");
+        }
+
+        ResourceComponent.SearchRevInclude = RevIncludesList;
       }
       ConstructConformanceResourceNarrative(Conformance);
 
