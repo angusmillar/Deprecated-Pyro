@@ -18,16 +18,21 @@ namespace Pyro.Common.Service
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
     private readonly IGlobalProperties IGlobalProperties;
+    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+
     private string _OperationName = FhirOperationEnum.OperationType.ConnectathonAnswer.GetPyroLiteral();
     private readonly string _ParameterName = "answers";
     private readonly string _PrimaryQuestionnaireResponseAnswerResourceId = "AngusA1";
     private readonly string _QuestionnaireResourceId = "PerthQuestions";
 
-    public ConnectathonAnswerService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, IGlobalProperties IGlobalProperties)
+    public ConnectathonAnswerService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IGlobalProperties IGlobalProperties)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
       this.IGlobalProperties = IGlobalProperties;
+      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -39,7 +44,7 @@ namespace Pyro.Common.Service
       IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
       var IssueList = new List<OperationOutcome.IssueComponent>();
 
-      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
@@ -161,7 +166,7 @@ namespace Pyro.Common.Service
       var ResultList = new List<QuestionnaireResults>();
       //First get the Primary Answers
       IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric();
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
       var Answers = this.IResourceServices.GetRead(_PrimaryQuestionnaireResponseAnswerResourceId, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
 

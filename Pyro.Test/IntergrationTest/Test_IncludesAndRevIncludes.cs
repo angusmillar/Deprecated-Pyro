@@ -13,7 +13,7 @@ namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
   [Parallelizable(ParallelScope.None)]
-  [Category("A IntergrationTest Includes")]
+  [Category("IntergrationTest Includes")]
   class Test_IncludesAndRevIncludes
   {
     private System.IDisposable Server;

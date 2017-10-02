@@ -23,11 +23,12 @@ namespace Pyro.Engine.Services
   {
     protected IResourceRepository IResourceRepository = null;
     protected readonly ICommonFactory ICommonFactory;
+    protected readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IIncludeService IIncludeService;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, IIncludeService IIncludeService)
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService)
       : base(IUnitOfWork)
     {
       this.ICommonFactory = ICommonFactory;

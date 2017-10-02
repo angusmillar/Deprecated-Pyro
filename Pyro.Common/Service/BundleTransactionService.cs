@@ -21,16 +21,18 @@ namespace Pyro.Common.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
     private IPyroRequestUri _RequestUri { get; set; }
 
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
-    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory)
+    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
 
     public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri)
@@ -161,7 +163,7 @@ namespace Pyro.Common.Service
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(DeleteEntry));
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
@@ -222,7 +224,7 @@ namespace Pyro.Common.Service
       IPyroFhirUri ResourceIdToForce = ICommonFactory.CreateFhirRequestUri();
       ResourceIdToForce.Parse(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PostEntry.Request);
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
 
@@ -266,7 +268,7 @@ namespace Pyro.Common.Service
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PutEntry));
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PutEntry.Request);
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
@@ -317,7 +319,7 @@ namespace Pyro.Common.Service
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(GetEntry));
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(GetEntry.Request);
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)

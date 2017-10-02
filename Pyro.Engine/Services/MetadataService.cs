@@ -24,20 +24,22 @@ namespace Pyro.Engine.Services
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ICommonServices ICommonServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
 
-    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, ICommonFactory ICommonFactory)
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IGlobalProperties = IGlobalProperties;
       this.ICommonServices = ICommonServices;
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome GetServersConformanceResource(ISearchParameterGeneric SearchParameterGeneric)
     {
       IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
-      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {

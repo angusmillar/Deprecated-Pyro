@@ -11,11 +11,13 @@ namespace Pyro.Common.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
 
-    public ServerResourceReportService(IResourceServices IResourceServices, ICommonFactory ICommonFactory)
+    public ServerResourceReportService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome Process(ISearchParameterGeneric SearchParameterGeneric)
@@ -29,7 +31,7 @@ namespace Pyro.Common.Service
       {
         IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
-        ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+        ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
         ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
         if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
         {

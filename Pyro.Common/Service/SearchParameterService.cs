@@ -18,14 +18,13 @@ namespace Pyro.Common.Service
 {
   public class SearchParameterService : ISearchParameterService
   {
-    //private ISearchParametersServiceRequest _SearchParametersServiceRequest;
-    private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParametersServiceOutcomeFactory ISearchParametersServiceOutcomeFactory;
     private readonly ISearchParameterFactory ISearchParameterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
 
-    public SearchParameterService(ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory, IServiceSearchParameterCache IServiceSearchParameterCache)
+    public SearchParameterService(ISearchParametersServiceOutcomeFactory ISearchParametersServiceOutcomeFactory, ISearchParameterFactory ISearchParameterFactory, IServiceSearchParameterCache IServiceSearchParameterCache)
     {
-      this.ICommonFactory = ICommonFactory;
+      this.ISearchParametersServiceOutcomeFactory = ISearchParametersServiceOutcomeFactory;
       this.ISearchParameterFactory = ISearchParameterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
@@ -68,16 +67,15 @@ namespace Pyro.Common.Service
       return ProcessSearchParameters(SearchParameterGeneric, SearchParameterServiceType.Base | SearchParameterServiceType.Bundle, null, null);
     }
 
-
     public ISearchParametersServiceOutcome ProcessSearchParameters(
       ISearchParameterGeneric SearchParameterGeneric,
       SearchParameterServiceType SearchParameterServiceType,
       FHIRAllTypes? ResourceType,
       OperationClass OperationClass)
     {
-      //_SearchParametersServiceRequest = SearchParametersServiceRequest;
       if (SearchParameterServiceType == SearchParameterServiceType.None)
         throw new NullReferenceException("Server error: SearchParameterServiceType can not be 'None'.");
+
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("Server error: SearchParameterGeneric can not be null.");
 
@@ -90,7 +88,7 @@ namespace Pyro.Common.Service
         throw new NullReferenceException("Server error: OperationClass can not be null when enum SearchParameterServiceType is set to Operation.");
 
 
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ICommonFactory.CreateSearchParametersServiceOutcome();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ISearchParametersServiceOutcomeFactory.CreateSearchParametersServiceOutcome();
       SearchParametersServiceOutcome.SearchParameters = new PyroSearchParameters();
       SearchParametersServiceOutcome.SearchParameters.ResourceTarget = ResourceType;
       SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<ISearchParameterBase>();
@@ -286,7 +284,6 @@ namespace Pyro.Common.Service
         }
       }
     }
-
     private List<ServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, string ResourceType)
     {
       List<ServiceSearchParameterLight> DtoSupportedServiceSearchParameterList = new List<ServiceSearchParameterLight>();
@@ -315,7 +312,6 @@ namespace Pyro.Common.Service
 
       return DtoSupportedServiceSearchParameterList;
     }
-
     private List<ServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
     {
       string ResourceString = string.Empty;
@@ -323,8 +319,6 @@ namespace Pyro.Common.Service
         ResourceString = ResourceType.Value.GetLiteral();
       return GetSupportedSearchParameters(SearchParameterServiceType, OperationClass, ResourceString);
     }
-
-
     private bool IsSingularSearchParameter(ISearchParameterBase oSearchParameter, ISearchParametersServiceOutcome _SearchParametersServiceOutcome)
     {
       if (oSearchParameter.Name == "page")

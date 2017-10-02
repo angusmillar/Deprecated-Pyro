@@ -244,6 +244,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
+    <Compile Include="CompositionRoot\SearchParameterServiceFactory.cs" />
+    <Compile Include="CompositionRoot\SearchParameterReferanceFactory.cs" />
+    <Compile Include="CompositionRoot\SearchParameterGenericFactory.cs" />
+    <Compile Include="CompositionRoot\SearchParametersServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\IndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\CommonFactory.cs" />
     <Compile Include="CompositionRoot\ResourceRepositoryFactory.cs" />

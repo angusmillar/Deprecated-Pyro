@@ -16,10 +16,15 @@ namespace Pyro.Common.Search
     private readonly char _ParameterNameModifierDilimeter = ':';
     private string _RawSearchParameterAndValueString = string.Empty;
 
-    private readonly ICommonFactory ICommonFactory;
-    public SearchParameterFactory(ICommonFactory ICommonFactory)
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
+    private readonly ISearchParameterReferanceFactory ISearchParameterReferanceFactory;
+
+    public SearchParameterFactory(ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterReferanceFactory ISearchParameterReferanceFactory)
     {
-      this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
+      this.ISearchParameterReferanceFactory = ISearchParameterReferanceFactory;
     }
 
     public ISearchParameterBase CreateSearchParameter(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
@@ -47,12 +52,18 @@ namespace Pyro.Common.Search
         ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
-        var SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric();
+        var SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
-        var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split('.')[1], ParameterValue);
+
+
+        var x = ParameterName.Substring(ParameterName.IndexOf(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR) + 1, (ParameterName.Length - ParameterName.IndexOf(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR) - 1));
+
+        var ChainedSearchParam = new Tuple<string, string>(x, ParameterValue);
+        //var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR)[1], ParameterValue);
+
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
 
-        ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+        ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
         oSearchParameter.ChainedSearchParameter = SearchService.ProcessResourceSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value);
       }
       else
@@ -85,7 +96,7 @@ namespace Pyro.Common.Search
         case SearchParamType.Token:
           return new SearchParameterToken();
         case SearchParamType.Reference:
-          return ICommonFactory.CreateDtoSearchParameterReferance();
+          return ISearchParameterReferanceFactory.CreateDtoSearchParameterReferance();
         case SearchParamType.Composite:
           throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));
         case SearchParamType.Quantity:

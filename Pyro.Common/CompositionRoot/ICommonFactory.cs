@@ -17,10 +17,8 @@ namespace Pyro.Common.CompositionRoot
     IPyroFhirUri CreateFhirRequestUri();
     IPyroRequestUri CreateDtoRequestUri();
     IPyroRequestUri CreateDtoRequestUri(string RequestUri);
-    ISearchParameterGeneric CreateDtoSearchParameterGeneric();
-    ISearchParameterService CreateSearchParameterService();
-    ISearchParametersServiceOutcome CreateSearchParametersServiceOutcome();
-    ISearchParameterReferance CreateDtoSearchParameterReferance();
+    //ISearchParameterService CreateSearchParameterService();
+    //    ISearchParameterReferance CreateDtoSearchParameterReferance();
     IDtoRootUrlStore CreateDtoRootUrlStore();
     IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
     IResourceServiceOutcome CreateResourceServiceOutcome();

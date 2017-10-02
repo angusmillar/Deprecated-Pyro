@@ -52,11 +52,6 @@ namespace Pyro.Web.CompositionRoot
       return IDtoRequestUri;
     }
 
-    public ISearchParameterGeneric CreateDtoSearchParameterGeneric()
-    {
-      return Container.GetInstance<ISearchParameterGeneric>();
-    }
-
     public IBundleTransactionService CreateBundleTransactionService()
     {
       return Container.GetInstance<IBundleTransactionService>();
@@ -102,20 +97,15 @@ namespace Pyro.Web.CompositionRoot
       return Container.GetInstance<IFhirResourceOperationService>();
     }
 
-    public ISearchParameterService CreateSearchParameterService()
-    {
-      return Container.GetInstance<ISearchParameterService>();
-    }
+    //public ISearchParameterService CreateSearchParameterService()
+    //{
+    //  return Container.GetInstance<ISearchParameterService>();
+    //}
 
-    public ISearchParametersServiceOutcome CreateSearchParametersServiceOutcome()
-    {
-      return Container.GetInstance<ISearchParametersServiceOutcome>();
-    }
-
-    public ISearchParameterReferance CreateDtoSearchParameterReferance()
-    {
-      return Container.GetInstance<ISearchParameterReferance>();
-    }
+    //public ISearchParameterReferance CreateDtoSearchParameterReferance()
+    //{
+    //  return Container.GetInstance<ISearchParameterReferance>();
+    //}
 
     public List<IResourceResolver> CreateResourceResolverList()
     {

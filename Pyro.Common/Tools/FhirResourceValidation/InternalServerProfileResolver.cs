@@ -18,12 +18,14 @@ namespace Pyro.Common.Tools.FhirResourceValidation
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
-    public InternalServerProfileResolver(IResourceServices IResourceServices, ICommonFactory ICommonFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache)
+    public InternalServerProfileResolver(IResourceServices IResourceServices, ICommonFactory ICommonFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache, ISearchParameterGenericFactory ISearchParameterGenericFactory)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
     public Resource ResolveByCanonicalUri(string uri)
     {
@@ -31,7 +33,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       string PrimaryServiceRoot = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
       string RequestUriString = $"https://{PrimaryServiceRoot}/{ResourceType.StructureDefinition.GetLiteral()}/?url={uri}";
       IPyroRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric().Parse($"url={ uri}");
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse($"url={ uri}");
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestUri, SearchParameterGeneric);
       if (ResourceServiceOutcome.ResourceResult != null && (ResourceServiceOutcome.ResourceResult as Bundle).Entry.Count > 1)
       {
@@ -53,7 +55,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       string RequestUriString = System.IO.Path.Combine(PrimaryServiceRoot, uri);
       IRequestHeader DtoRequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
       IPyroRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
-      ISearchParameterGeneric SearchParameterGeneric = ICommonFactory.CreateDtoSearchParameterGeneric();
+      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(RequestUri.FhirRequestUri.ResourceId, RequestUri, SearchParameterGeneric, DtoRequestHeaders);
       return ResourceServiceOutcome.ResourceResult;
     }

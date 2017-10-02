@@ -18,12 +18,14 @@ namespace Pyro.Common.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private const string _ParameterName = "ResourceType";
 
-    public DeleteHistoryIndexesService(IResourceServices ResourceServices, ICommonFactory ICommonFactory)
+    public DeleteHistoryIndexesService(IResourceServices ResourceServices, ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IResourceServices = ResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome DeleteMany(
@@ -42,7 +44,7 @@ namespace Pyro.Common.Service
 
       IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
-      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {

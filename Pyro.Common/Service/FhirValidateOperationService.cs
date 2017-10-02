@@ -21,15 +21,18 @@ namespace Pyro.Common.Service
     IResourceServiceOutcome ResourceServiceOutcome;
 
     private readonly ICommonFactory ICommonFactory;
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IFhirValidationSupport IFhirValidationSupport;
 
     public FhirValidateOperationService(
       ICommonFactory ICommonFactory,
+      ISearchParameterServiceFactory ISearchParameterServiceFactory,
       IResourceServices IResourceServices,
       IFhirValidationSupport IFhirValidationSupport)
     {
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServices = IResourceServices;
       this.IFhirValidationSupport = IFhirValidationSupport;
     }
@@ -412,7 +415,7 @@ namespace Pyro.Common.Service
 
     private ISearchParametersServiceOutcome ParseUrlSearchParameters(ISearchParameterGeneric SearchParameterGeneric, FhirOperation.OperationClass OperationClass)
     {
-      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       return SearchService.ProcessOperationSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Operation, OperationClass);
     }
 

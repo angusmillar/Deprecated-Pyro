@@ -19,9 +19,12 @@ namespace Pyro.Engine.Services
   public class FhirResourceOperationService : IFhirResourceOperationService
   {
     private readonly ICommonFactory ICommonFactory;
-    public FhirResourceOperationService(ICommonFactory ICommonFactory)
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+
+    public FhirResourceOperationService(ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.ICommonFactory = ICommonFactory;
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -46,7 +49,7 @@ namespace Pyro.Engine.Services
 
       IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
-      ISearchParameterService SearchService = ICommonFactory.CreateSearchParameterService();
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchPrameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
