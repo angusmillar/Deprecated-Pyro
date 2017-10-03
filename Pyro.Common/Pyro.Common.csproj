@@ -108,11 +108,13 @@
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
+    <Compile Include="CompositionRoot\IPyroFhirUriFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterGenericFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterReferanceFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterServiceFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParametersServiceOutcomeFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
+    <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
     <Compile Include="Search\SearchParameterInclude.cs" />
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />

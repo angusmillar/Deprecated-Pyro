@@ -20,17 +20,17 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
     where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+
   {
     private readonly ICommonRepository ICommonRepository;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
-    private readonly ICommonFactory ICommonFactory;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
 
-    public ReferenceSetter(ICommonRepository ICommonRepository, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
+    public ReferenceSetter(ICommonRepository ICommonRepository, IPyroFhirUriFactory IPyroFhirUriFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
     {
       this.ICommonRepository = ICommonRepository;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
-      this.ICommonFactory = ICommonFactory;
     }
 
     public IList<ResIndexReferenceType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
@@ -127,7 +127,7 @@ namespace Pyro.DataLayer.IndexSetter
       //Check the Uri is actual a Fhir resource reference         
       if (Hl7.Fhir.Rest.HttpUtil.IsRestResourceIdentity(UriString))
       {
-        IPyroFhirUri ReferanceUri = ICommonFactory.CreateFhirRequestUri();
+        IPyroFhirUri ReferanceUri = IPyroFhirUriFactory.CreateFhirRequestUri();
         if (Uri.IsWellFormedUriString(UriString, UriKind.Relative))
         {
           if (ReferanceUri.Parse(UriString.Trim()))

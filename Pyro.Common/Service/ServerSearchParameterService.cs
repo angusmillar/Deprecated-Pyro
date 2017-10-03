@@ -19,16 +19,18 @@ namespace Pyro.Common.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly ICacheClear ICacheClear;
 
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
 
-    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ICacheClear = ICacheClear;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
@@ -223,7 +225,7 @@ namespace Pyro.Common.Service
           {
             if (Para.Value != null && Para.Value is ResourceReference Ref)
             {
-              IPyroFhirUri FhirUri = ICommonFactory.CreateFhirRequestUri();
+              IPyroFhirUri FhirUri = IPyroFhirUriFactory.CreateFhirRequestUri();
               if (FhirUri.Parse(Ref.Reference))
               {
                 if (FhirUri.IsRelativeToServer)

@@ -19,6 +19,15 @@ namespace Pyro.Common.Search
 
     public List<SearchParameterDateTimeValue> ValueList { get; set; }
 
+    public override object CloneDeep()
+    {
+      var Clone = new SearchParameterDateTime();
+      base.CloneDeep(Clone);
+      Clone.ValueList = new List<SearchParameterDateTimeValue>();
+      Clone.ValueList.AddRange(this.ValueList);
+      return Clone;
+    }
+
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<SearchParameterDateTimeValue>();

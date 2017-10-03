@@ -18,6 +18,16 @@ namespace Pyro.Common.Search
     #endregion
     public List<SearchParameterStringValue> ValueList { get; set; }
 
+    public override object CloneDeep()
+    {
+      var Clone = new SearchParameterString();
+      base.CloneDeep(Clone);
+      Clone.ValueList = new List<SearchParameterStringValue>();
+      Clone.ValueList.AddRange(this.ValueList);
+      return Clone;
+    }
+
+
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<SearchParameterStringValue>();

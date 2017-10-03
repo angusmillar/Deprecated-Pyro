@@ -10,16 +10,32 @@ namespace Pyro.Common.Search
 {
   public class SearchParameterReferance : SearchParameterBase, ISearchParameterReferance
   {
-    private readonly ICommonFactory ICommonFactory;
-    public SearchParameterReferance(ICommonFactory ICommonFactory)
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
+    public SearchParameterReferance(IPyroFhirUriFactory IPyroFhirUriFactory)
       : base()
     {
-      this.ICommonFactory = ICommonFactory;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.Type = Hl7.Fhir.Model.SearchParamType.Reference;
+      this.IsChained = false;
     }
 
     public List<SearchParameterReferanceValue> ValueList { get; set; }
+    public bool IsChained { get; set; }
     public IList<string> AllowedReferanceResourceList { get; set; }
+
+    public override object CloneDeep()
+    {
+      var Clone = new SearchParameterReferance(IPyroFhirUriFactory);
+      base.CloneDeep(Clone);
+      Clone.ValueList = new List<SearchParameterReferanceValue>();
+      Clone.ValueList.AddRange(this.ValueList);
+      Clone.IsChained = this.IsChained;
+      Clone.AllowedReferanceResourceList = new List<string>();
+      foreach (var x in this.AllowedReferanceResourceList)
+        Clone.AllowedReferanceResourceList.Add(x);
+
+      return Clone;
+    }
 
     public override bool TryParseValue(string Values)
     {
@@ -40,16 +56,16 @@ namespace Pyro.Common.Search
             return false;
           }
         }
-        else
+        else if (!this.IsChained) // If IsChained then there is no value to check
         {
-          IPyroFhirUri RequestUri = ICommonFactory.CreateFhirRequestUri();
+          IPyroFhirUri RequestUri = IPyroFhirUriFactory.CreateFhirRequestUri();
           if (RequestUri.Parse(Value.Trim()))
           {
             DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri;
           }
           else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
           {
-            IPyroFhirUri RequestUri2 = ICommonFactory.CreateFhirRequestUri();
+            IPyroFhirUri RequestUri2 = IPyroFhirUriFactory.CreateFhirRequestUri();
             if (RequestUri2.Parse($"{this.TypeModifierResource}/{Value.Trim()}"))
             {
               DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri2;
@@ -62,7 +78,7 @@ namespace Pyro.Common.Search
           }
           else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.AllowedReferanceResourceList.Count() == 1)
           {
-            IPyroFhirUri RequestUri3 = ICommonFactory.CreateFhirRequestUri();
+            IPyroFhirUri RequestUri3 = IPyroFhirUriFactory.CreateFhirRequestUri();
             if (RequestUri3.Parse($"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}"))
             {
               DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri3;
@@ -89,10 +105,11 @@ namespace Pyro.Common.Search
             this.ValueList.Add(DtoSearchParameterReferanceValue);
           }
         }
+
       }
       if (this.ValueList.Count() > 1)
         this.HasLogicalOrProperties = true;
-      if (this.ValueList.Count > 0)
+      if (this.IsChained || this.ValueList.Count > 0)
       {
         return true;
       }

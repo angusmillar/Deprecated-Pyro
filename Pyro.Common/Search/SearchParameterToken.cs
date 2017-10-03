@@ -2,6 +2,7 @@
 using System.Linq;
 using Pyro.Common.Enum;
 using Pyro.Common.BusinessEntities.Dto;
+using System;
 
 namespace Pyro.Common.Search
 {
@@ -20,6 +21,14 @@ namespace Pyro.Common.Search
 
     public List<SearchParameterTokenValue> ValueList { get; set; }
 
+    public override object CloneDeep()
+    {
+      var Clone = new SearchParameterToken();
+      base.CloneDeep(Clone);
+      Clone.ValueList = new List<SearchParameterTokenValue>();
+      Clone.ValueList.AddRange(this.ValueList);
+      return Clone;
+    }
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<SearchParameterTokenValue>();

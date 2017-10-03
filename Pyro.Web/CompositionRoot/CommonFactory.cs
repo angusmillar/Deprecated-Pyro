@@ -34,11 +34,6 @@ namespace Pyro.Web.CompositionRoot
       return Container.GetInstance<IRequestHeader>();
     }
 
-    public IPyroFhirUri CreateFhirRequestUri()
-    {
-      return Container.GetInstance<IPyroFhirUri>();
-    }
-
     public IPyroRequestUri CreateDtoRequestUri()
     {
       return Container.GetInstance<IPyroRequestUri>();
@@ -47,7 +42,7 @@ namespace Pyro.Web.CompositionRoot
     public IPyroRequestUri CreateDtoRequestUri(string RequestUri)
     {
       IPyroRequestUri IDtoRequestUri = Container.GetInstance<IPyroRequestUri>();
-      IDtoRequestUri.FhirRequestUri = CreateFhirRequestUri();
+      IDtoRequestUri.FhirRequestUri = Container.GetInstance<IPyroFhirUri>();
       IDtoRequestUri.FhirRequestUri.Parse(RequestUri);
       return IDtoRequestUri;
     }
@@ -96,16 +91,6 @@ namespace Pyro.Web.CompositionRoot
     {
       return Container.GetInstance<IFhirResourceOperationService>();
     }
-
-    //public ISearchParameterService CreateSearchParameterService()
-    //{
-    //  return Container.GetInstance<ISearchParameterService>();
-    //}
-
-    //public ISearchParameterReferance CreateDtoSearchParameterReferance()
-    //{
-    //  return Container.GetInstance<ISearchParameterReferance>();
-    //}
 
     public List<IResourceResolver> CreateResourceResolverList()
     {

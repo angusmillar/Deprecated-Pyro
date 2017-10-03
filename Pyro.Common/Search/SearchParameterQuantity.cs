@@ -29,6 +29,15 @@ namespace Pyro.Common.Search
 
     public List<SearchParameterQuantityValue> ValueList { get; set; }
 
+    public override object CloneDeep()
+    {
+      var Clone = new SearchParameterQuantity();
+      base.CloneDeep(Clone);
+      Clone.ValueList = new List<SearchParameterQuantityValue>();
+      Clone.ValueList.AddRange(this.ValueList);
+      return Clone;
+    }
+
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<SearchParameterQuantityValue>();

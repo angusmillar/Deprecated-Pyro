@@ -61,6 +61,8 @@ namespace Pyro.Web.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterGenericFactory, Pyro.Web.CompositionRoot.SearchParameterGenericFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterReferanceFactory, Pyro.Web.CompositionRoot.SearchParameterReferanceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.Web.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IPyroFhirUriFactory, Pyro.Web.CompositionRoot.PyroFhirUriFactory>(Lifestyle.Singleton);
+
 
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.Web.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
 

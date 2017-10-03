@@ -22,16 +22,19 @@ namespace Pyro.Common.Service
 
     private readonly ICommonFactory ICommonFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IFhirValidationSupport IFhirValidationSupport;
 
     public FhirValidateOperationService(
       ICommonFactory ICommonFactory,
+      IPyroFhirUriFactory IPyroFhirUriFactory,
       ISearchParameterServiceFactory ISearchParameterServiceFactory,
       IResourceServices IResourceServices,
       IFhirValidationSupport IFhirValidationSupport)
     {
       this.ICommonFactory = ICommonFactory;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServices = IResourceServices;
       this.IFhirValidationSupport = IFhirValidationSupport;
@@ -436,7 +439,7 @@ namespace Pyro.Common.Service
       }
       else if (!string.IsNullOrWhiteSpace(FromUrl.ProfileUri))
       {
-        FhirRequestUriFromUrl = ICommonFactory.CreateFhirRequestUri();
+        FhirRequestUriFromUrl = IPyroFhirUriFactory.CreateFhirRequestUri();
         if (FhirRequestUriFromUrl.Parse(FromUrl.ProfileUri))
         {
           ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromUrl;
@@ -451,7 +454,7 @@ namespace Pyro.Common.Service
       }
       else if (!string.IsNullOrWhiteSpace(FromParameters.ProfileUri))
       {
-        FhirRequestUriFromParameters = ICommonFactory.CreateFhirRequestUri();
+        FhirRequestUriFromParameters = IPyroFhirUriFactory.CreateFhirRequestUri();
         if (FhirRequestUriFromParameters.Parse(FromParameters.ProfileUri))
         {
           ReturnValidationOperationItems.FhirRequestUriProfileUri = FhirRequestUriFromParameters;

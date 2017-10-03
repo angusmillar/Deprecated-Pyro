@@ -6,6 +6,7 @@ namespace Pyro.Common.Search
   public interface ISearchParameterReferance : ISearchParameterBase
   {
     IList<string> AllowedReferanceResourceList { get; set; }
+    bool IsChained { get; set; }
     List<SearchParameterReferanceValue> ValueList { get; set; }
 
     //bool TryParseValue(string Values);

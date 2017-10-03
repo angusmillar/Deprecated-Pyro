@@ -244,6 +244,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
+    <Compile Include="CompositionRoot\PyroFhirUriFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterServiceFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterReferanceFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterGenericFactory.cs" />

@@ -7,6 +7,8 @@ using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Service;
+using Hl7.Fhir.Utility;
+using Hl7.Fhir.Rest;
 
 namespace Pyro.Common.Search
 {
@@ -27,7 +29,44 @@ namespace Pyro.Common.Search
       this.ISearchParameterReferanceFactory = ISearchParameterReferanceFactory;
     }
 
-    public ISearchParameterBase CreateSearchParameter(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
+    public ISearchParameterBase CreateSearchParameter(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, bool IsChainedReferance = false)
+    {
+
+      ISearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
+
+      string ParameterName = Parameter.Item1;
+      string ParameterValue = Parameter.Item2;
+      oSearchParameter.Id = DtoSupportedSearchParametersResource.Id;
+      oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
+      oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
+      oSearchParameter.TargetResourceTypeList = DtoSupportedSearchParametersResource.TargetResourceTypeList;
+      if (IsChainedReferance)
+        oSearchParameter.RawValue = ParameterName + SearchParams.SEARCH_CHAINSEPARATOR;
+      else
+        oSearchParameter.RawValue = ParameterName + _ParameterNameParameterValueDilimeter + ParameterValue;
+      _RawSearchParameterAndValueString = oSearchParameter.RawValue;
+      if (!ParseModifier(ParameterName, oSearchParameter))
+      {
+        oSearchParameter.IsValid = false;
+        oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
+      }
+
+      if (oSearchParameter.Type == SearchParamType.Reference)
+      {
+        (oSearchParameter as SearchParameterReferance).AllowedReferanceResourceList = ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oSearchParameter);
+        (oSearchParameter as SearchParameterReferance).IsChained = IsChainedReferance;
+      }
+
+      if (!oSearchParameter.TryParseValue(ParameterValue))
+      {
+        oSearchParameter.IsValid = false;
+      }
+
+      return oSearchParameter;
+    }
+
+    //Old Method for chaining, not in use
+    public ISearchParameterBase CreateSearchParameter_OLD(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
     {
 
       ISearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
@@ -46,25 +85,54 @@ namespace Pyro.Common.Search
         oSearchParameter.InvalidMessage = $"Unable to parse the given search parameter's Modifier: {ParameterName}', ";
       }
 
-      if (oSearchParameter.Modifier.HasValue &&
-        oSearchParameter.Modifier.Value == SearchParameter.SearchModifierCode.Type &&
-        !string.IsNullOrWhiteSpace(oSearchParameter.TypeModifierResource) &&
-        ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
+      if (ParameterName.Contains(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR))
       {
         //This is a resourceReferance with a Chained parameter, resolve that chained parameter to a search parameter here (is a recursive call).
         var SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
         SearchParameterGeneric.ParameterList = new List<Tuple<string, string>>();
 
-
         var x = ParameterName.Substring(ParameterName.IndexOf(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR) + 1, (ParameterName.Length - ParameterName.IndexOf(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR) - 1));
-
         var ChainedSearchParam = new Tuple<string, string>(x, ParameterValue);
-        //var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR)[1], ParameterValue);
 
         SearchParameterGeneric.ParameterList.Add(ChainedSearchParam);
 
+        FHIRAllTypes? TypeModifierResource = null;
+
+        if (oSearchParameter.Modifier.HasValue &&
+        oSearchParameter.Modifier.Value == SearchParameter.SearchModifierCode.Type &&
+        !string.IsNullOrWhiteSpace(oSearchParameter.TypeModifierResource))
+        {
+          //var ChainedSearchParam = new Tuple<string, string>(ParameterName.Split(Hl7.Fhir.Rest.SearchParams.SEARCH_CHAINSEPARATOR)[1], ParameterValue);
+          TypeModifierResource = ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value;
+        }
+        else
+        {
+          // If the chained reference has no Type modifier then their must be only one Target resource for the parameter!
+          // The FHIR spec does allow the server to try and resolve resources for many resource targets in this case. Yet, the server must 
+          // reject the search if Resource instances are returned across more then one of the types for the search parameter.
+          // This seams like a very fragile rule and would also be hard to implement given the current framework.
+          // Therefore I am making a design decision that if more that one target resource is available for the given search 
+          // parameter and the user does not specify which by supplying a Type modifier, then I will reject the search parameter.
+
+          if (oSearchParameter.TargetResourceTypeList != null && oSearchParameter.TargetResourceTypeList.Count == 1)
+          {
+            TypeModifierResource = ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TargetResourceTypeList[0].ResourceType.GetLiteral()).Value;
+          }
+          else
+          {
+            if (oSearchParameter.TargetResourceTypeList != null && oSearchParameter.TargetResourceTypeList.Count > 1)
+            {
+              oSearchParameter.IsValid = false;
+              oSearchParameter.InvalidMessage = $"The chained search parameter '{oSearchParameter.RawValue}' has no Type modifier specifying the target resource for the parameter and the parameter in use has many possible target resources. The search parameter must specify a target resource using the type modifier. For example '[base]/DiagnosticReport?subject:Patient.name=peter' where Patient is the Type modifier.";
+            }
+            else
+            {
+              throw new FormatException($"Server error: chained search parameter did not resolve to any target resource types. Parameter was: '{oSearchParameter.RawValue}' ");
+            }
+          }
+        }
         ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
-        oSearchParameter.ChainedSearchParameter = SearchService.ProcessResourceSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(oSearchParameter.TypeModifierResource).Value);
+        //oSearchParameter.ChainedSearchParameterList.Add(SearchService.ProcessResourceSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, TypeModifierResource.Value));
       }
       else
       {

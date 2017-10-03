@@ -14,11 +14,8 @@ namespace Pyro.Common.CompositionRoot
   {
     //Reused objects
     IRequestHeader CreateDtoRequestHeaders();
-    IPyroFhirUri CreateFhirRequestUri();
     IPyroRequestUri CreateDtoRequestUri();
     IPyroRequestUri CreateDtoRequestUri(string RequestUri);
-    //ISearchParameterService CreateSearchParameterService();
-    //    ISearchParameterReferance CreateDtoSearchParameterReferance();
     IDtoRootUrlStore CreateDtoRootUrlStore();
     IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
     IResourceServiceOutcome CreateResourceServiceOutcome();

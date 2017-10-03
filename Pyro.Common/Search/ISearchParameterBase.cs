@@ -2,13 +2,14 @@
 using Pyro.Common.BusinessEntities.Dto;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Service;
+using Pyro.Common.Interfaces.Clone;
+using System.Collections.Generic;
 
 namespace Pyro.Common.Search
 {
-  public interface ISearchParameterBase : IServiceSearchParameterLight
+  public interface ISearchParameterBase : IServiceSearchParameterLight, ICloneDeep
   {
-    ISearchParametersServiceOutcome ChainedSearchParameter { get; set; }
+    List<ISearchParameterBase> ChainedSearchParameterList { get; set; }
     bool HasLogicalOrProperties { get; set; }
     string InvalidMessage { get; set; }
     bool IsValid { get; set; }

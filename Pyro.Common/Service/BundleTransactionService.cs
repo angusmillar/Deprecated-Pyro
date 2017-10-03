@@ -21,6 +21,7 @@ namespace Pyro.Common.Service
   {
     private readonly IResourceServices IResourceServices;
     private readonly ICommonFactory ICommonFactory;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
     private IPyroRequestUri _RequestUri { get; set; }
@@ -28,10 +29,11 @@ namespace Pyro.Common.Service
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
-    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory)
+    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IPyroFhirUriFactory IPyroFhirUriFactory)
     {
       this.IResourceServices = IResourceServices;
       this.ICommonFactory = ICommonFactory;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
 
@@ -221,7 +223,7 @@ namespace Pyro.Common.Service
         return false;
       }
 
-      IPyroFhirUri ResourceIdToForce = ICommonFactory.CreateFhirRequestUri();
+      IPyroFhirUri ResourceIdToForce = IPyroFhirUriFactory.CreateFhirRequestUri();
       ResourceIdToForce.Parse(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PostEntry.Request);
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);

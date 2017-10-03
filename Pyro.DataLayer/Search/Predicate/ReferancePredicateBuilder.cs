@@ -15,14 +15,14 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-      
+
   {
     public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)
     {
       if (SearchItem is SearchParameterReferance)
       {
         var SearchTypeReference = SearchItem as SearchParameterReferance;
-        if (SearchTypeReference.ChainedSearchParameter != null)
+        if (SearchTypeReference.ChainedSearchParameterList != null && SearchTypeReference.ChainedSearchParameterList.Count > 0)
         {
           throw new NotImplementedException("Chained parameters have not been implemented for use on this server.");
         }
