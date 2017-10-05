@@ -26,14 +26,16 @@ namespace Pyro.Engine.Services
     protected readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IIncludeService IIncludeService;
+    private readonly IChainSearchingService IChainSearchingService;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService)
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService, IChainSearchingService IChainSearchingService)
       : base(IUnitOfWork)
     {
       this.ICommonFactory = ICommonFactory;
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IIncludeService = IIncludeService;
+      this.IChainSearchingService = IChainSearchingService;
     }
 
     public void SetCurrentResourceType(FHIRAllTypes ResourceType)
@@ -289,6 +291,11 @@ namespace Pyro.Engine.Services
     public IResourceServiceOutcome GetResourcesBySearch(IPyroRequestUri RequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome)
     {
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
+
+      foreach (SearchParameterReferance Chain in SearchParametersServiceOutcome.SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
+      {
+        IChainSearchingService.ResolveChain(Chain);
+      }
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 

@@ -24,8 +24,8 @@ namespace Pyro.Engine.Services
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
 
     //Constructor for dependency injection
-    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IncludeService, ISearchParameterServiceFactory ISearchParameterServiceFactory)
-      : base(IUnitOfWork, IRepositorySwitcher, ICommonFactory, ISearchParameterGenericFactory, IncludeService)
+    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IncludeService, IChainSearchingService IChainSearchingService, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+      : base(IUnitOfWork, IRepositorySwitcher, ICommonFactory, ISearchParameterGenericFactory, IncludeService, IChainSearchingService)
     {
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }

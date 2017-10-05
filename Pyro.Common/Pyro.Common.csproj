@@ -120,7 +120,9 @@
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />
     <Compile Include="Search\ServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
+    <Compile Include="Service\IChainSearchingService.cs" />
     <Compile Include="Service\IIncludeService.cs" />
+    <Compile Include="Service\ChainSearchingService.cs" />
     <Compile Include="Service\IncludeService.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\Headers\RequestHeader.cs" />

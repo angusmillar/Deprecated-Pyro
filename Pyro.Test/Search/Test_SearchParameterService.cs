@@ -160,7 +160,7 @@ namespace Pyro.Test.IndexSetters
       SearchParameterFactory SearchParameterFactory = new SearchParameterFactory(MokISearchParameterServiceFactory.Object, MokISearchParameterGenericFactory.Object, MokISearchParameterReferanceFactory.Object);
       // The SearchParameterService wraps the factory above and processes all search parameters for a single URL
       SearchParameterService SearchParameterService = new SearchParameterService(MokISearchParametersServiceOutcomeFactory.Object, SearchParameterFactory, MokIServiceSearchParameterCache.Object);
-      // A factor used by the SearchParameterService when processing chained parameters recusivly
+      // A factor used by the SearchParameterService when processing chained parameters recursively
       MokISearchParameterServiceFactory.Setup(x => x.CreateSearchParameterService()).Returns(SearchParameterService);
       //====================================================
 
