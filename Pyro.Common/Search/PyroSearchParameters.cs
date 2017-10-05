@@ -35,11 +35,29 @@ namespace Pyro.Common.Search
 
       for (int i = 0; i < SearchParametersList.Count; i++)
       {
-        if (FirstParameter)
-          UrlString += $"{SearchParametersList[i].RawValue}";
+        if (SearchParametersList[i] is SearchParameterReferance SearchParameterReferance && SearchParameterReferance.IsChained)
+        {
+          ////Chained parameters
+          string temp = SearchParameterReferance.RawValue;
+          foreach (var Chain in SearchParameterReferance.ChainedSearchParameterList)
+          {
+            temp += Chain.RawValue;
+          }
+          if (FirstParameter)
+            UrlString += $"{temp}";
+          else
+            UrlString += $"&{UrlString}{temp}";
+          FirstParameter = false;
+        }
         else
-          UrlString += $"&{UrlString}{SearchParametersList[i].RawValue}";
-        FirstParameter = false;
+        {
+          //Normal parameters
+          if (FirstParameter)
+            UrlString += $"{SearchParametersList[i].RawValue}";
+          else
+            UrlString += $"&{UrlString}{SearchParametersList[i].RawValue}";
+          FirstParameter = false;
+        }
       }
       if (IncludeList != null)
       {
