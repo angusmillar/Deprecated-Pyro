@@ -56,7 +56,7 @@ namespace Pyro.Engine.Services
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by FhirId
-      // GET URL/FhirApi/Patient/5    
+      // GET URL/FhirApi/Patient/5          
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
 

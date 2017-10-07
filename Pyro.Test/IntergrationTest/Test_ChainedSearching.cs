@@ -34,6 +34,12 @@ namespace Pyro.Test.IntergrationTest
 
     private string OrganizationOneIdentifer = string.Empty;
     private string OrganizationOneResourceId = string.Empty;
+    private string OrganizationOneName = "OrganizationOne Testing Facility";
+
+    private string EndpointOneIdentifer = string.Empty;
+    private string EndpointOneResourceId = string.Empty;
+    private string EndpointOneName = "AcmeEndpoint";
+
 
     [SetUp]
     public void Setup()
@@ -44,12 +50,48 @@ namespace Pyro.Test.IntergrationTest
       clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
 
       //This Set up creates an Observation linked to a Patient as the 'subject' and an Organization as the 'performer'
-      //Observation1
+      // Observation1
       //           --> Patient
-      //           --> Organization
+      //           --> Organization - > Endpoint
       //           --> Observation2
       //                           ----> Observation3
 
+      //Add a Endpoint resource 
+      Endpoint EndpointOne = new Endpoint();
+      EndpointOne.Name = EndpointOneName;
+      EndpointOneIdentifer = Guid.NewGuid().ToString();
+      EndpointOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointOneIdentifer));
+      Endpoint EndPointOneResult = null;
+      try
+      {
+        EndPointOneResult = clientFhir.Create(EndpointOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(EndPointOneResult, "Resource created but returned resource is null");
+      EndpointOneResourceId = EndPointOneResult.Id;
+
+      //Add a Organization resource by Update
+      Organization OrganizationOne = new Organization();
+      OrganizationOne.Name = OrganizationOneName;
+      OrganizationOneIdentifer = Guid.NewGuid().ToString();
+      OrganizationOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, OrganizationOneIdentifer));
+      OrganizationOne.Endpoint = new List<ResourceReference>() { new ResourceReference($"{ResourceType.Endpoint.GetLiteral()}/{EndpointOneResourceId}") };
+      Organization OrganizationOneResult = null;
+      try
+      {
+        OrganizationOneResult = clientFhir.Create(OrganizationOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(OrganizationOneResult, "Resource created but returned resource is null");
+      OrganizationOneResourceId = OrganizationOneResult.Id;
+
+      //Patient where Obs.performer -> Org.name 
       // Add a Patient to Link to a Observation below  ================================
 
       Patient PatientOne = new Patient();
@@ -58,7 +100,7 @@ namespace Pyro.Test.IntergrationTest
       PatientOneMRNIdentifer = Guid.NewGuid().ToString();
       PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
       PatientOne.Gender = AdministrativeGender.Unknown;
-
+      PatientOne.ManagingOrganization = new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneResourceId}");
       Patient PatientResult = null;
       try
       {
@@ -70,23 +112,6 @@ namespace Pyro.Test.IntergrationTest
       }
       Assert.NotNull(PatientResult, "Resource created but returned resource is null");
       PatientResourceId = PatientResult.Id;
-
-      //Add a Organization resource by Update
-      Organization OrganizationOne = new Organization();
-      OrganizationOne.Name = "OrganizationOne Testing Facility";
-      OrganizationOneIdentifer = Guid.NewGuid().ToString();
-      OrganizationOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, OrganizationOneIdentifer));
-      Organization OrganizationOneResult = null;
-      try
-      {
-        OrganizationOneResult = clientFhir.Create(OrganizationOne);
-      }
-      catch (Exception Exec)
-      {
-        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
-      }
-      Assert.NotNull(PatientResult, "Resource created but returned resource is null");
-      OrganizationOneResourceId = OrganizationOneResult.Id;
 
 
       //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test recursive includes
@@ -184,19 +209,75 @@ namespace Pyro.Test.IntergrationTest
       }
       Assert.NotNull(BundleResult, "Resource Search returned resource of null");
       Assert.AreEqual(BundleResult.Entry.Count, 3, "BundleResult.Entry.Count should be 3, Observation resources");
-
-      //Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationOneResourceId, "Observation id incorrect.");
-      //Assert.AreEqual(BundleResult.Entry[0].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
-      //Assert.AreEqual(BundleResult.Entry[1].Resource.Id, PatientResourceId, "Patient id incorrect.");
-      //Assert.AreEqual(BundleResult.Entry[1].Resource.ResourceType, ResourceType.Patient, "Incorrect Resource type should be Patient.");
+      Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationThreeResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationTwoResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[2].Resource.Id, ObservationOneResourceId, "Entry[0].Resource.Id not correct");
     }
+
+    [Test]
+    public void Test_Chain_X2()
+    {
+      //Get Observation resources where Patient family name is TestPatientChain 
+      //i.e subject.family=TestPatientChain ====================
+      Bundle BundleResult = null;
+      var SearchParam = new SearchParams();
+      try
+      {
+        SearchParam.Add("subject:Patient.organization.name", OrganizationOneName);
+        BundleResult = clientFhir.Search<Observation>(SearchParam);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+      Assert.NotNull(BundleResult, "Resource Search returned resource of null");
+      Assert.AreEqual(BundleResult.Entry.Count, 3, "BundleResult.Entry.Count should be 3, Observation resources");
+      Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationThreeResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationTwoResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[2].Resource.Id, ObservationOneResourceId, "Entry[0].Resource.Id not correct");
+    }
+
+    [Test]
+    public void Test_Chain_X3()
+    {
+      //Get Observation resources where Patient family name is TestPatientChain 
+      //i.e subject.family=TestPatientChain ====================
+      Bundle BundleResult = null;
+      var SearchParam = new SearchParams();
+      try
+      {
+        SearchParam.Add("subject:Patient.organization.endpoint.name", EndpointOneName);
+        BundleResult = clientFhir.Search<Observation>(SearchParam);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+      Assert.NotNull(BundleResult, "Resource Search returned resource of null");
+      Assert.AreEqual(BundleResult.Entry.Count, 3, "BundleResult.Entry.Count should be 3, Observation resources");
+      Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationThreeResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationTwoResourceId, "Entry[0].Resource.Id not correct");
+      Assert.AreEqual(BundleResult.Entry[2].Resource.Id, ObservationOneResourceId, "Entry[0].Resource.Id not correct");
+    }
+
 
     [TearDown]
     public void TearDown()
     {
       //--- Clean Up ---------------------------------------------------------
-      //Clean up by deleting all Test Patients
+      //Clean up by deleting all Test Endpoint
       SearchParams sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
+      try
+      {
+        clientFhir.Delete(ResourceType.Endpoint.GetLiteral(), sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource Endpoint: " + Exec.Message);
+      }
+
+      //Clean up by deleting all Test Patients
+      sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
       try
       {
         clientFhir.Delete(ResourceType.Patient.GetLiteral(), sp);

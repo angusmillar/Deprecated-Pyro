@@ -36,6 +36,7 @@ namespace Pyro.Engine.Services
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IIncludeService = IIncludeService;
       this.IChainSearchingService = IChainSearchingService;
+      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
 
     public void SetCurrentResourceType(FHIRAllTypes ResourceType)

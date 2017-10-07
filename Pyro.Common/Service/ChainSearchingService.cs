@@ -16,21 +16,16 @@ namespace Pyro.Common.Service
 {
   public class ChainSearchingService : IChainSearchingService
   {
-
     private readonly IRepositorySwitcher IRepositorySwitcher;
-    private readonly ICommonFactory ICommonFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
-    //private readonly ISearchParameterFactory ISearchParameterFactory;
 
     private IResourceRepository IResourceRepository;
 
     //Constructor for dependency injection
-    public ChainSearchingService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, IPyroFhirUriFactory IPyroFhirUriFactory)
+    public ChainSearchingService(IRepositorySwitcher IRepositorySwitcher, IPyroFhirUriFactory IPyroFhirUriFactory)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
-      this.ICommonFactory = ICommonFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
-      //this.ISearchParameterFactory = ISearchParameterFactory;
     }
 
     public void ResolveChain(ISearchParameterReferance SearchParameterReferance)
@@ -56,18 +51,25 @@ namespace Pyro.Common.Service
         {
           IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(SearchParameterBase.Resource));
           PyroSearchParameters SearchParameters = new PyroSearchParameters();
-          SetSearchParameterValueList(FhirIdList, SearchParameterBase);
+          //Not sure this resource name is correct or even always populated??
+          if (string.IsNullOrWhiteSpace(SearchParameterBase.TypeModifierResource))
+          {
+            SetSearchParameterValueList(FhirIdList, SearchParameterBase.TargetResourceTypeList[0].ResourceType.GetLiteral(), SearchParameterBase);
+          }
+          else
+          {
+            SetSearchParameterValueList(FhirIdList, SearchParameterBase.TypeModifierResource, SearchParameterBase);
+          }
           SearchParameters.SearchParametersList = new List<ISearchParameterBase>() { SearchParameterBase };
           IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters);
+          FhirIdList = DatabaseOperationOutcome.ReturnedResourceList.Select(x => x.FhirId);
         }
       }
-
-      SetSearchParameterValueList(FhirIdList, SearchParameterReferance);
-
-
+      //We use the resource type from the first in the list which was the last above because we Reversed the list in the foreach loop above.
+      SetSearchParameterValueList(FhirIdList, SearchParameterReferance.ChainedSearchParameterList[0].Resource, SearchParameterReferance);
     }
 
-    private void SetSearchParameterValueList(IEnumerable<string> FhirIdList, ISearchParameterBase SearchParameterBase)
+    private void SetSearchParameterValueList(IEnumerable<string> FhirIdList, string ReferanceResourceName, ISearchParameterBase SearchParameterBase)
     {
       if (SearchParameterBase is SearchParameterReferance Referance)
       {
@@ -76,7 +78,7 @@ namespace Pyro.Common.Service
         foreach (string FhirId in FhirIdList)
         {
           var FhirUri = IPyroFhirUriFactory.CreateFhirRequestUri();
-          if (FhirUri.Parse($"{Referance.ChainedSearchParameterList[0].Resource}/{FhirId}"))
+          if (FhirUri.Parse($"{ReferanceResourceName}/{FhirId}"))
           {
             Referance.ValueList.Add(new SearchParameterReferanceValue() { FhirRequestUri = FhirUri, IsMissing = false });
           }
