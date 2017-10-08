@@ -14,6 +14,8 @@ namespace Pyro.Common.Global
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
       _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();
       _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;
+      _NumberOfRecordsPerPageDefault = WebConfigProperties.NumberOfRecordsPerPageDefault();
+      _MaxNumberOfRecordsPerPage = WebConfigProperties.MaxNumberOfRecordsPerPage();
     }
 
     private string _ServiceRootUrl;
@@ -37,6 +39,24 @@ namespace Pyro.Common.Global
       get
       {
         return _ApplicationVersionInfo;
+      }
+    }
+
+    private int _NumberOfRecordsPerPageDefault;
+    public int NumberOfRecordsPerPageDefault
+    {
+      get
+      {
+        return _NumberOfRecordsPerPageDefault;
+      }
+    }
+
+    private int _MaxNumberOfRecordsPerPage;
+    public int MaxNumberOfRecordsPerPage
+    {
+      get
+      {
+        return _MaxNumberOfRecordsPerPage;
       }
     }
 

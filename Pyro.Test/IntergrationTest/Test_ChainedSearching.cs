@@ -57,14 +57,14 @@ namespace Pyro.Test.IntergrationTest
       //                           ----> Observation3
 
       //Add a Endpoint resource 
-      Endpoint EndpointOne = new Endpoint();
-      EndpointOne.Name = EndpointOneName;
+      Endpoint EndpointOnex = new Endpoint();
+      EndpointOnex.Name = EndpointOneName;
       EndpointOneIdentifer = Guid.NewGuid().ToString();
-      EndpointOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointOneIdentifer));
+      EndpointOnex.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointOneIdentifer));
       Endpoint EndPointOneResult = null;
       try
       {
-        EndPointOneResult = clientFhir.Create(EndpointOne);
+        EndPointOneResult = clientFhir.Create(EndpointOnex);
       }
       catch (Exception Exec)
       {
@@ -72,6 +72,26 @@ namespace Pyro.Test.IntergrationTest
       }
       Assert.NotNull(EndPointOneResult, "Resource created but returned resource is null");
       EndpointOneResourceId = EndPointOneResult.Id;
+
+      //Add a Endpoint resource 
+      Endpoint EndpointTwo = new Endpoint();
+      EndpointTwo.Name = EndpointOneName;
+      string EndpointTwoIdentifer = Guid.NewGuid().ToString();
+      EndpointTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointTwoIdentifer));
+      Endpoint EndPointTwoResult = null;
+      try
+      {
+        EndPointTwoResult = clientFhir.Create(EndpointTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(EndPointTwoResult, "Resource created but returned resource is null");
+      string EndpointTwoResourceId = EndPointTwoResult.Id;
+
+
+
 
       //Add a Organization resource by Update
       Organization OrganizationOne = new Organization();
@@ -217,8 +237,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_Chain_X2()
     {
-      //Get Observation resources where Patient family name is TestPatientChain 
-      //i.e subject.family=TestPatientChain ====================
+      //Get Observation resources where Patient's ManagingOrginisation's name = OrganizationOneName      
       Bundle BundleResult = null;
       var SearchParam = new SearchParams();
       try
@@ -240,8 +259,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_Chain_X3()
     {
-      //Get Observation resources where Patient family name is TestPatientChain 
-      //i.e subject.family=TestPatientChain ====================
+      //Get Observation resources where Patient's ManagingOrginisation's Endpoint name = EndpointOneName            
       Bundle BundleResult = null;
       var SearchParam = new SearchParams();
       try
@@ -258,6 +276,27 @@ namespace Pyro.Test.IntergrationTest
       Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationThreeResourceId, "Entry[0].Resource.Id not correct");
       Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationTwoResourceId, "Entry[0].Resource.Id not correct");
       Assert.AreEqual(BundleResult.Entry[2].Resource.Id, ObservationOneResourceId, "Entry[0].Resource.Id not correct");
+    }
+
+    [Test]
+    public void Test_Chain_X3_NegativeTest()
+    {
+      //Get Observation resources where Patient's ManagingOrginisation's Endpoint name = XXXX which will fail
+      //Also search on identifier which is true yet due to the above failing we are to get zero resource returned      
+      Bundle BundleResult = null;
+      var SearchParam = new SearchParams();
+      try
+      {
+        SearchParam.Add("subject:Patient.organization.endpoint.name", "XXXX");
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|{ObservationOneIdentifer}");
+        BundleResult = clientFhir.Search<Observation>(SearchParam);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+      Assert.NotNull(BundleResult, "Resource Search returned resource of null");
+      Assert.AreEqual(BundleResult.Entry.Count, 0, "BundleResult.Entry.Count should be 0, Observation resources");
     }
 
 

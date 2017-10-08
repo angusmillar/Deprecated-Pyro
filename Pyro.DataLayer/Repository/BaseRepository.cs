@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using Hl7.Fhir.Model;
 using Pyro.Common.Exceptions;
 using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Global;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 
 namespace Pyro.DataLayer.Repository
@@ -13,14 +14,18 @@ namespace Pyro.DataLayer.Repository
   public class BaseRepository : IBaseRepository
   {
     internal IPyroDbContext IPyroDbContext = null;
+    private readonly IGlobalProperties IGlobalProperties;
 
-    public BaseRepository(IPyroDbContext IPyroDbContext)
+    public BaseRepository(IPyroDbContext IPyroDbContext, IGlobalProperties IGlobalProperties)
     {
       this.IPyroDbContext = IPyroDbContext;
+      this.IGlobalProperties = IGlobalProperties;
+      _NumberOfRecordsPerPage = IGlobalProperties.NumberOfRecordsPerPageDefault;
+      _MaxNumberOfRecordsPerPage = IGlobalProperties.MaxNumberOfRecordsPerPage;
     }
 
-    protected int _NumberOfRecordsPerPage = 10;
-    protected int _MaxNumberOfRecordsPerPage = 100;
+    protected int _NumberOfRecordsPerPage;
+    protected int _MaxNumberOfRecordsPerPage;
 
     /// <summary>
     /// Save method.

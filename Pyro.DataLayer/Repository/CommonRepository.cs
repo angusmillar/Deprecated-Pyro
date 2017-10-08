@@ -18,6 +18,7 @@ using Hl7.Fhir.Utility;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Global;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -26,8 +27,8 @@ namespace Pyro.DataLayer.Repository
     protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     protected readonly ICommonFactory ICommonFactory;
     #region Constructor
-    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
-      : base(IPyroDbContext)
+    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory, IGlobalProperties IGlobalProperties)
+      : base(IPyroDbContext, IGlobalProperties)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.ICommonFactory = ICommonFactory;
@@ -35,7 +36,9 @@ namespace Pyro.DataLayer.Repository
     #endregion
 
 
-    protected ExpressionStarter<ResIndexReferenceType> IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(int ResourceId, int[] ServiceSearchParameterIdArray, string ResourceName)
+    protected ExpressionStarter<ResIndexReferenceType>
+      IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
+      (int ResourceId, int[] ServiceSearchParameterIdArray, string ResourceName)
     where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
@@ -58,7 +61,9 @@ namespace Pyro.DataLayer.Repository
       return Predicate;
     }
 
-    protected ExpressionStarter<ResIndexReferenceType> IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(int ResourceId, int[] ServiceSearchParameterIdArray)
+    protected ExpressionStarter<ResIndexReferenceType>
+      IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
+      (int ResourceId, int[] ServiceSearchParameterIdArray)
     where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>

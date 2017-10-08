@@ -24,6 +24,7 @@ using System.Linq.Expressions;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Global;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -47,15 +48,16 @@ namespace Pyro.DataLayer.Repository
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      ICommonFactory ICommonFactory)
-      : base(Context, IPrimaryServiceRootCache, ICommonFactory)
+      ICommonFactory ICommonFactory,
+      IGlobalProperties IGlobalProperties)
+      : base(Context, IPrimaryServiceRootCache, ICommonFactory, IGlobalProperties)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
 
-    public string[] GetResourceFhirIdByResourceIdAndIndexReferance2(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "")
+    public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "")
     {
       LinqKit.ExpressionStarter<ResIndexReferenceType> RefPredicate = null;
       if (string.IsNullOrWhiteSpace(ResourceName))
@@ -68,16 +70,6 @@ namespace Pyro.DataLayer.Repository
       return IndexResult;
     }
 
-
-    //public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int SearchParameterId)
-    //{
-    //  var RefPredicate = IndexRefPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceId, SearchParameterId);
-    //  var IndexQuery = DbGetIndexAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(RefPredicate);
-    //  var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
-    //  return IndexResult;
-    //}
-
-
     public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       SetNumberOfRecordsPerPage(DtoSearchParameters);
@@ -88,7 +80,10 @@ namespace Pyro.DataLayer.Repository
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
 
       //Todo: Sort not implemented just defaulting to last update order
-      Query = Query.OrderBy(x => x.LastUpdated);
+      //Which way to order, touchstone tests failing for history due to wrong way, have changed to Descending to see if they pass 
+      //Query = Query.OrderBy(x => x.LastUpdated);
+      Query = Query.OrderByDescending(x => x.LastUpdated);
+
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
 
       Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
@@ -131,7 +126,6 @@ namespace Pyro.DataLayer.Repository
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
-
 
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true)
     {
@@ -533,7 +527,7 @@ namespace Pyro.DataLayer.Repository
     {
       if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
       {
-        if (DtoSearchParameters.CountOfRecordsRequested.Value < _MaxNumberOfRecordsPerPage)
+        if (DtoSearchParameters.CountOfRecordsRequested.Value <= _MaxNumberOfRecordsPerPage)
         {
           _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
         }

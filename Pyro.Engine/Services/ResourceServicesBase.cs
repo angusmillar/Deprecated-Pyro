@@ -293,11 +293,12 @@ namespace Pyro.Engine.Services
     {
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 
+      //Resolve any chained search parameters
       foreach (SearchParameterReferance Chain in SearchParametersServiceOutcome.SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
       {
         IChainSearchingService.ResolveChain(Chain);
       }
-
+      //Todo: if the chain retunes no matches the we should not hit the database again!! 
       IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 
       //Add any _Revinclude Resources

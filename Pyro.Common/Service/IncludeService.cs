@@ -96,7 +96,7 @@ namespace Pyro.Common.Service
               //Get the Search parameter Ids where the search parameter target list can contain the include's Resource target type
               int[] IdArray = include.SearchParameterList.Where(z => z.TargetResourceTypeList.Any(c => c.ResourceType.GetLiteral() == include.SearchParameterTargetResourceType.Value.GetLiteral())).Select(x => x.Id).ToArray();
               //Now only get the FhirId of the resources that have Search Index References that have these include target resource
-              string[] FhirIdList = IResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, IdArray, include.SearchParameterTargetResourceType.Value.GetLiteral());
+              string[] FhirIdList = IResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance(Resource.Id, IdArray, include.SearchParameterTargetResourceType.Value.GetLiteral());
               //Set the repository to the include's target resource in order to get the include resources
               IResourceRepository = IRepositorySwitcher.GetRepository(include.SearchParameterTargetResourceType.Value);
               //SetCurrentResourceType(include.SearchParameterTargetResourceType.Value);
@@ -116,7 +116,7 @@ namespace Pyro.Common.Service
                   //Switch source resource repository to get reference FhirIds
                   IResourceRepository = IRepositorySwitcher.GetRepository(Resource.ResourceType.Value);
                   //SetCurrentResourceType(Resource.ResourceType.Value);
-                  string[] FhirIdList = IResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance2(Resource.Id, new int[] { IncludeItemSearchParameter.Id }, SearchParameterResourceTarget.ResourceType.GetLiteral());
+                  string[] FhirIdList = IResourceRepository.GetResourceFhirIdByResourceIdAndIndexReferance(Resource.Id, new int[] { IncludeItemSearchParameter.Id }, SearchParameterResourceTarget.ResourceType.GetLiteral());
                   if (FhirIdList.Count() > 0)
                   {
                     //Switch to SearchParameterResourceTarget resource repository to get the include resource if found
