@@ -16,7 +16,7 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+
   {
     public QuantitySetter() { }
 
@@ -68,17 +68,15 @@ namespace Pyro.DataLayer.IndexSetter
       if (Range.High.Value.HasValue && Range.Low.Value.HasValue)
       {
         var ResourceIndex = new ResIndexQuantityType();
-        ResourceIndex.Comparator = Range.Low.Comparator;
-        ResourceIndex.Code = Range.Low.Code;
-        ResourceIndex.System = Range.Low.System;
-        ResourceIndex.Quantity = Range.Low.Value.Value;
-        ResourceIndex.Unit = Range.Low.Unit;
+        //Set the low end of range
+        MainQuantitySetter(Range.Low, ResourceIndex);
 
+        //Set the High end of range Manually        
+        ResourceIndex.QuantityHigh = Range.High.Value;
+        ResourceIndex.CodeHigh = string.IsNullOrWhiteSpace(Range.High.Code) ? null : Range.High.Code;
+        ResourceIndex.SystemHigh = string.IsNullOrWhiteSpace(Range.High.System) ? null : Range.High.System;
         ResourceIndex.ComparatorHigh = Range.High.Comparator;
-        ResourceIndex.CodeHigh = Range.High.Code;
-        ResourceIndex.SystemHigh = Range.High.System;
-        ResourceIndex.QuantityHigh = Range.High.Value.Value;
-        ResourceIndex.UnitHigh = Range.High.Unit;
+        ResourceIndex.UnitHigh = string.IsNullOrWhiteSpace(Range.High.Unit) ? null : Range.High.Unit;
 
         ResourceIndexList.Add(ResourceIndex);
       }
@@ -95,127 +93,31 @@ namespace Pyro.DataLayer.IndexSetter
     }
     private void SetQuantity(Quantity Quantity, List<ResIndexQuantityType> ResourceIndexList)
     {
-      if (Quantity.Value.HasValue)
-      {
-        var ResourceIndex = new ResIndexQuantityType();
-        ResourceIndex.Quantity = Quantity.Value.Value;
-        if (!string.IsNullOrWhiteSpace(Quantity.Code))
-        {
-          ResourceIndex.Code = Quantity.Code;
-        }
-        else
-        {
-          ResourceIndex.Code = null;
-        }
-        if (!string.IsNullOrWhiteSpace(Quantity.System))
-        {
-          ResourceIndex.System = Quantity.System;
-        }
-        else
-        {
-          ResourceIndex.System = null;
-        }
-        if (Quantity.Comparator.HasValue)
-        {
-          ResourceIndex.Comparator = Quantity.Comparator.Value;
-        }
-        else
-        {
-          ResourceIndex.Comparator = null;
-        }
-        if (!string.IsNullOrWhiteSpace(Quantity.Unit))
-        {
-          ResourceIndex.Unit = Quantity.Unit;
-        }
-        else
-        {
-          ResourceIndex.Unit = null;
-        }
-        ResourceIndexList.Add(ResourceIndex);
-      }
+      var ResourceIndex = new ResIndexQuantityType();
+      MainQuantitySetter(Quantity, ResourceIndex);
+      ResourceIndexList.Add(ResourceIndex);
     }
     private void SetSimpleQuantity(SimpleQuantity SimpleQuantity, List<ResIndexQuantityType> ResourceIndexList)
     {
-      if (SimpleQuantity.Value.HasValue)
-      {
-        var ResourceIndex = new ResIndexQuantityType();
-        ResourceIndex.Quantity = SimpleQuantity.Value.Value;
-        if (!string.IsNullOrWhiteSpace(SimpleQuantity.Code))
-        {
-          ResourceIndex.Code = SimpleQuantity.Code;
-        }
-        else
-        {
-          ResourceIndex.Code = null;
-        }
-        if (!string.IsNullOrWhiteSpace(SimpleQuantity.System))
-        {
-          ResourceIndex.System = SimpleQuantity.System;
-        }
-        else
-        {
-          ResourceIndex.System = null;
-        }
-        //Note: Simple Quantity should not have a Comparator but the FHIR API allows it so will record in on is found.
-        if (SimpleQuantity.Comparator.HasValue)
-        {
-          ResourceIndex.Comparator = SimpleQuantity.Comparator.Value;
-        }
-        else
-        {
-          ResourceIndex.Comparator = null;
-        }
-        if (!string.IsNullOrWhiteSpace(SimpleQuantity.Unit))
-        {
-          ResourceIndex.Unit = SimpleQuantity.Unit;
-        }
-        else
-        {
-          ResourceIndex.Unit = null;
-        }
-        ResourceIndexList.Add(ResourceIndex);
-      }
+      var ResourceIndex = new ResIndexQuantityType();
+      MainQuantitySetter(SimpleQuantity, ResourceIndex);
+      ResourceIndexList.Add(ResourceIndex);
     }
+
     private void SetMoney(Money Money, List<ResIndexQuantityType> ResourceIndexList)
     {
-      if (Money.Value.HasValue)
-      {
-        var ResourceIndex = new ResIndexQuantityType();
-        ResourceIndex.Quantity = Money.Value.Value;
-        if (!string.IsNullOrWhiteSpace(Money.Code))
-        {
-          ResourceIndex.Code = Money.Code;
-        }
-        else
-        {
-          ResourceIndex.Code = null;
-        }
-        if (!string.IsNullOrWhiteSpace(Money.System))
-        {
-          ResourceIndex.System = Money.System;
-        }
-        else
-        {
-          ResourceIndex.System = null;
-        }
-        if (Money.Comparator.HasValue)
-        {
-          ResourceIndex.Comparator = Money.Comparator.Value;
-        }
-        else
-        {
-          ResourceIndex.Comparator = null;
-        }
-        if (!string.IsNullOrWhiteSpace(Money.Unit))
-        {
-          ResourceIndex.Unit = Money.Unit;
-        }
-        else
-        {
-          ResourceIndex.Unit = null;
-        }
-        ResourceIndexList.Add(ResourceIndex);
-      }
+      var ResourceIndex = new ResIndexQuantityType();
+      MainQuantitySetter(Money, ResourceIndex);
+      ResourceIndexList.Add(ResourceIndex);
+    }
+
+    private void MainQuantitySetter(Quantity Quantity, ResIndexQuantityType ResourceIndex)
+    {
+      ResourceIndex.Quantity = Quantity.Value;
+      ResourceIndex.Code = string.IsNullOrWhiteSpace(Quantity.Code) ? null : Quantity.Code;
+      ResourceIndex.System = string.IsNullOrWhiteSpace(Quantity.System) ? null : Quantity.System;
+      ResourceIndex.Comparator = Quantity.Comparator;
+      ResourceIndex.Unit = string.IsNullOrWhiteSpace(Quantity.Unit) ? null : Quantity.Unit;
     }
 
   }
