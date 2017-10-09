@@ -91,6 +91,14 @@ namespace Pyro.DataLayer.IndexSetter
         //The first resource in the bundle, if the bundle type is "document" - this is a composition, and this parameter provides access to searches its contents
         //and
         //The first resource in the bundle, if the bundle type is "message" - this is a message header, and this parameter provides access to search its contents
+
+        //So the intent is that search parameter 'composition' and 'message' are to work like chain parameters yet the chain reaches into the 
+        //first resource of the bundle which should be a Composition  Resource or and MessageHeader resource.
+        //Yet, unlike chaining where the reference points to the endpoint for that Resource type, here the reference points to the first entry of the bundle endpoint.
+        // It almost feels like we should index at the bundle endpoint all the search parameters for both the Composition  and MessageHeader resources.
+        //Or maybe we do special processing on Bundle commits were we pull out the first resource and store it at the appropriate 
+        //endpoint yet hind it from access, then provide a reference index type at the bundle endpoint that chains to these 
+        //hidden resources
       }
     }
 
