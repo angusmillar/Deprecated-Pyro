@@ -56,18 +56,45 @@ namespace Pyro.DataLayer.Repository
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
-
+    //Used for _include and _Revinclude
     public string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "")
     {
       LinqKit.ExpressionStarter<ResIndexReferenceType> RefPredicate = null;
       if (string.IsNullOrWhiteSpace(ResourceName))
-        RefPredicate = IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceId, SearchParameterIdArray);
+        RefPredicate = IndexRefPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceId, SearchParameterIdArray);
       else
-        RefPredicate = IndexRefPredicateGenerator2<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceId, SearchParameterIdArray, ResourceName);
+        RefPredicate = IndexRefPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceId, SearchParameterIdArray, ResourceName);
 
       var IndexQuery = DbGetIndexAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(RefPredicate);
       var IndexResult = IndexQuery.Select(x => x.ReferenceFhirId).ToArray();
       return IndexResult;
+    }
+
+    //Used for Chain Reference Searching
+    public string[] GetResourceFhirIdByReferanceIndex(IEnumerable<string> FhirIdArray, string ResourceName, int SearchParameterIdArray)
+    {
+      LinqKit.ExpressionStarter<ResCurrentType> ResCurrentTypePredicate = null;
+
+      ResCurrentTypePredicate = ResourceCurrentPredicateGeneratorByRefereneNoPaging<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(FhirIdArray, ResourceName, SearchParameterIdArray);
+
+      var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResCurrentTypePredicate);
+
+      var Result = Query.Select(x => x.FhirId).ToArray();
+      return Result;
+    }
+
+    //Used for Primary Chain Searching
+    public string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters)
+    {
+      var Predicate = PredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters);
+
+      int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
+      var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
+
+      var DtoResourceList = new List<DtoResource>();
+
+      string[] FhirIdResultArray = Query.Select(x => x.FhirId).ToArray();
+      return FhirIdResultArray;
     }
 
     public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
@@ -79,10 +106,8 @@ namespace Pyro.DataLayer.Repository
       int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
 
-      //Todo: Sort not implemented just defaulting to last update order
-      //Which way to order, touchstone tests failing for history due to wrong way, have changed to Descending to see if they pass 
-      //Query = Query.OrderBy(x => x.LastUpdated);
-      Query = Query.OrderByDescending(x => x.LastUpdated);
+      //Todo: Sort not implemented just defaulting to last update order      
+      Query = Query.OrderBy(x => x.LastUpdated);
 
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
 
@@ -203,7 +228,11 @@ namespace Pyro.DataLayer.Repository
 
       //Paging set-up
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
-      Query = Query.OrderBy(x => x.LastUpdated);
+
+      //Which way to order, touchstone tests failing for history due to wrong way, have changed to Descending to see if they pass 
+      //Query = Query.OrderBy(x => x.LastUpdated);
+      Query = Query.OrderByDescending(x => x.LastUpdated);
+
       int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
       Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
       int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
@@ -407,13 +436,6 @@ namespace Pyro.DataLayer.Repository
       if (HistoryEntityList != null)
         HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
     }
-
-    //public void ResetResourceEntity(ResCurrentType ResourceEntity)
-    //{
-    //  ResourceEntity.IndexList.Clear();
-    //  throw new NotImplementedException("Does this line above work like the one below??");
-    //  //_Context.PatientIndex.RemoveRange(ResourceEntity.IndexList);
-    //}
 
     public void PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {

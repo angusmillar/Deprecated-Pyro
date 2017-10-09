@@ -293,27 +293,47 @@ namespace Pyro.Engine.Services
     {
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 
+      bool ChainTargetFound = true;
       //Resolve any chained search parameters
       foreach (SearchParameterReferance Chain in SearchParametersServiceOutcome.SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
       {
-        IChainSearchingService.ResolveChain(Chain);
+        ChainTargetFound = IChainSearchingService.ResolveChain(Chain);
+        if (!ChainTargetFound)
+          break;
       }
-      //Todo: if the chain retunes no matches the we should not hit the database again!! 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 
-      //Add any _Revinclude Resources
-      if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
+      //If any chain Search parameter exists and resolves to no target ChainTargetFound = false and the whole search resolves to no resources
+      //therefore no need to continue hitting the database for the other search parameters. 
+      if (ChainTargetFound)
       {
-        DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
-      }
+        IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcome.SearchParameters, true);
 
-      oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+        //Add any _Revinclude Resources
+        if (SearchParametersServiceOutcome.SearchParameters != null && SearchParametersServiceOutcome.SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
+        {
+          DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParametersServiceOutcome.SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+        }
+
+        oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+                                                                                               Bundle.BundleType.Searchset,
+                                                                                               RequestUri,
+                                                                                               DatabaseOperationOutcome.SearchTotal,
+                                                                                               DatabaseOperationOutcome.PagesTotal,
+                                                                                               DatabaseOperationOutcome.PageRequested,
+                                                                                               SelfLink);
+      }
+      else
+      {
+        //There was a chain search parameter which resolved to no resources so return empty search bundle.
+        oPyroServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(new List<Common.BusinessEntities.Dto.DtoResource>(),
                                                                                              Bundle.BundleType.Searchset,
                                                                                              RequestUri,
-                                                                                             DatabaseOperationOutcome.SearchTotal,
-                                                                                             DatabaseOperationOutcome.PagesTotal,
-                                                                                             DatabaseOperationOutcome.PageRequested,
+                                                                                             0, //SearchTotal
+                                                                                             0, //PagesTotal
+                                                                                             SearchParametersServiceOutcome.SearchParameters.RequiredPageNumber,
                                                                                              SelfLink);
+      }
+
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
       oPyroServiceOperationOutcome.IsDeleted = null;

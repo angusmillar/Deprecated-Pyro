@@ -28,12 +28,13 @@ namespace Pyro.Common.Service
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
     }
 
-    public void ResolveChain(ISearchParameterReferance SearchParameterReferance)
+    public bool ResolveChain(ISearchParameterReferance SearchParameterReferance)
     {
+      bool ChainTargetFound = true;
       if (!SearchParameterReferance.IsChained)
         throw new Exception("Server Error: SearchParameterReferance.IsChained must be true for ChainSearchingService.");
 
-      IEnumerable<string> FhirIdList = new List<string>();
+      IEnumerable<string> FhirIdList = null;
       //Work through each chain parameter in reverse
       bool PrimarySearchPerfomed = false;
       foreach (ISearchParameterBase SearchParameterBase in SearchParameterReferance.ChainedSearchParameterList.Reverse<ISearchParameterBase>())
@@ -43,30 +44,41 @@ namespace Pyro.Common.Service
           IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(SearchParameterBase.Resource));
           PyroSearchParameters SearchParameters = new PyroSearchParameters();
           SearchParameters.SearchParametersList = new List<ISearchParameterBase>() { SearchParameterBase };
-          IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters);
-          FhirIdList = DatabaseOperationOutcome.ReturnedResourceList.Select(x => x.FhirId);
+          FhirIdList = IResourceRepository.GetResourceFhirIdBySearchNoPaging(SearchParameters);
           PrimarySearchPerfomed = true;
+          if (FhirIdList.Count() == 0)
+          {
+            ChainTargetFound = false;
+            break;
+          }
+
         }
         else
         {
           IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(SearchParameterBase.Resource));
-          PyroSearchParameters SearchParameters = new PyroSearchParameters();
-          //Not sure this resource name is correct or even always populated??
+          string ReferenceResourceTargetName = string.Empty;
           if (string.IsNullOrWhiteSpace(SearchParameterBase.TypeModifierResource))
           {
-            SetSearchParameterValueList(FhirIdList, SearchParameterBase.TargetResourceTypeList[0].ResourceType.GetLiteral(), SearchParameterBase);
+            ReferenceResourceTargetName = SearchParameterBase.TargetResourceTypeList[0].ResourceType.GetLiteral();
           }
           else
           {
-            SetSearchParameterValueList(FhirIdList, SearchParameterBase.TypeModifierResource, SearchParameterBase);
+            ReferenceResourceTargetName = SearchParameterBase.TypeModifierResource;
           }
-          SearchParameters.SearchParametersList = new List<ISearchParameterBase>() { SearchParameterBase };
-          IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters);
-          FhirIdList = DatabaseOperationOutcome.ReturnedResourceList.Select(x => x.FhirId);
+          FhirIdList = IResourceRepository.GetResourceFhirIdByReferanceIndex(FhirIdList, ReferenceResourceTargetName, SearchParameterBase.Id);
+          if (FhirIdList.Count() == 0)
+          {
+            ChainTargetFound = false;
+            break;
+          }
         }
       }
-      //We use the resource type from the first in the list which was the last above because we Reversed the list in the foreach loop above.
-      SetSearchParameterValueList(FhirIdList, SearchParameterReferance.ChainedSearchParameterList[0].Resource, SearchParameterReferance);
+      if (ChainTargetFound)
+      {
+        //We use the resource type from the first in the list which was the last above because we Reversed the list in the for each loop above.
+        SetSearchParameterValueList(FhirIdList, SearchParameterReferance.ChainedSearchParameterList[0].Resource, SearchParameterReferance);
+      }
+      return ChainTargetFound;
     }
 
     private void SetSearchParameterValueList(IEnumerable<string> FhirIdList, string ReferanceResourceName, ISearchParameterBase SearchParameterBase)

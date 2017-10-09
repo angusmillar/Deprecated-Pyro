@@ -281,7 +281,7 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_Chain_X3_NegativeTest()
     {
-      //Get Observation resources where Patient's ManagingOrginisation's Endpoint name = XXXX which will fail
+      //Get Observation resources where Patient's ManagingOrginisation's Endpoint name = XXXX which intentionally fails
       //Also search on identifier which is true yet due to the above failing we are to get zero resource returned      
       Bundle BundleResult = null;
       var SearchParam = new SearchParams();

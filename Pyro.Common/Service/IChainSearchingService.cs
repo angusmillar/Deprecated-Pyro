@@ -4,6 +4,6 @@ namespace Pyro.Common.Service
 {
   public interface IChainSearchingService
   {
-    void ResolveChain(ISearchParameterReferance SearchParameterReferance);
+    bool ResolveChain(ISearchParameterReferance SearchParameterReferance);
   }
 }
