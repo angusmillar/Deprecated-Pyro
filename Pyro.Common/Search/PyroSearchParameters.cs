@@ -55,7 +55,7 @@ namespace Pyro.Common.Search
           if (FirstParameter)
             UrlString += $"{SearchParametersList[i].RawValue}";
           else
-            UrlString += $"&{UrlString}{SearchParametersList[i].RawValue}";
+            UrlString += $"&{SearchParametersList[i].RawValue}";
           FirstParameter = false;
         }
       }
