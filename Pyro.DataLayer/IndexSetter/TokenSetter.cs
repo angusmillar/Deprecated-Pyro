@@ -17,7 +17,7 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+
   {
     public TokenSetter() { }
     public IList<ResIndexTokenType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
@@ -150,14 +150,25 @@ namespace Pyro.DataLayer.IndexSetter
     }
     private void SetQuantity(Quantity Quantity, List<ResIndexTokenType> ResourceIndexList)
     {
-      if (Quantity.Value.HasValue)
+      if (Quantity.Value.HasValue && !string.IsNullOrWhiteSpace(Quantity.Unit))
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = Convert.ToString(Quantity.Value.Value);
-        if (!string.IsNullOrWhiteSpace(Quantity.Unit))
-        {
-          ResourceIndex.System = Quantity.Unit.Trim();
-        }
+        ResourceIndex.System = Quantity.Unit.Trim();
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (Quantity.Value.HasValue)
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = Convert.ToString(Quantity.Value.Value);
+        ResourceIndex.System = null;
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (!string.IsNullOrWhiteSpace(Quantity.Unit))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = null;
+        ResourceIndex.System = Quantity.Unit.Trim();
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -173,14 +184,25 @@ namespace Pyro.DataLayer.IndexSetter
     }
     private void SetIdentifier(Identifier Identifier, List<ResIndexTokenType> ResourceIndexList)
     {
-      if (!string.IsNullOrWhiteSpace(Identifier.Value))
+      if (!string.IsNullOrWhiteSpace(Identifier.Value) && !string.IsNullOrWhiteSpace(Identifier.System))
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = Identifier.Value.Trim();
-        if (!string.IsNullOrWhiteSpace(Identifier.System))
-        {
-          ResourceIndex.System = Identifier.System.Trim();
-        }
+        ResourceIndex.System = Identifier.System.Trim();
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (!string.IsNullOrWhiteSpace(Identifier.Value))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = Identifier.Value.Trim();
+        ResourceIndex.System = null;
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (!string.IsNullOrWhiteSpace(Identifier.System))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = null;
+        ResourceIndex.System = Identifier.System.Trim();
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -229,27 +251,46 @@ namespace Pyro.DataLayer.IndexSetter
     }
     private void SetContactPoint(ContactPoint ContactPoint, List<ResIndexTokenType> ResourceIndexList)
     {
-      if (!string.IsNullOrWhiteSpace(ContactPoint.Value))
+      if (!string.IsNullOrWhiteSpace(ContactPoint.Value) && (ContactPoint.System != null))
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = ContactPoint.Value.Trim();
-        if (ContactPoint.System != null)
-        {
-          ResourceIndex.System = ContactPoint.System.GetLiteral();
-        }
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndex.System = ContactPoint.System.GetLiteral();
+      }
+      else if (!string.IsNullOrWhiteSpace(ContactPoint.Value))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = ContactPoint.Value.Trim();
+        ResourceIndex.System = null;
+      }
+      if (ContactPoint.System != null)
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = null;
+        ResourceIndex.System = ContactPoint.System.GetLiteral();
       }
     }
     private void SetCoding(Coding Coding, List<ResIndexTokenType> ResourceIndexList)
     {
-      if (!string.IsNullOrWhiteSpace(Coding.Code))
+      if (!string.IsNullOrWhiteSpace(Coding.Code) && !string.IsNullOrWhiteSpace(Coding.System))
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = Coding.Code.Trim();
-        if (!string.IsNullOrWhiteSpace(Coding.System))
-        {
-          ResourceIndex.System = Coding.System.Trim();
-        }
+        ResourceIndex.System = Coding.System.Trim();
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (!string.IsNullOrWhiteSpace(Coding.Code))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = Coding.Code.Trim();
+        ResourceIndex.System = null;
+        ResourceIndexList.Add(ResourceIndex);
+      }
+      else if (!string.IsNullOrWhiteSpace(Coding.System))
+      {
+        var ResourceIndex = new ResIndexTokenType();
+        ResourceIndex.Code = null;
+        ResourceIndex.System = Coding.System.Trim();
         ResourceIndexList.Add(ResourceIndex);
       }
     }
