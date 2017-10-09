@@ -17,7 +17,7 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+
   {
     public NumberSetter() { }
 
@@ -67,6 +67,7 @@ namespace Pyro.DataLayer.IndexSetter
       {
         var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = FhirDecimal.Value;
+        ResourceIndex.Comparator = null;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -101,14 +102,7 @@ namespace Pyro.DataLayer.IndexSetter
       {
         var ResourceIndex = new ResIndexQuantityType();
         ResourceIndex.Quantity = (decimal)Duration.Value;
-        if (Duration.Comparator.HasValue)
-        {
-          ResourceIndex.Comparator = Duration.Comparator.Value;
-        }
-        else
-        {
-          ResourceIndex.Comparator = null;
-        }
+        ResourceIndex.Comparator = Duration.Comparator;
         ResourceIndexList.Add(ResourceIndex);
       }
     }
