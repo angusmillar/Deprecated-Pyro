@@ -26,14 +26,21 @@ namespace Pyro.Common.Tools
       else
       {
         string ErrorMessage = string.Empty;
-        ResourceType = ModelInfo.GetTypeForFhirType(StringSupport.UppercaseFirst(ResourceName));
-        if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+        if (ResourceName == "_history")
         {
-          ErrorMessage = $"The Resource name given '{ResourceName}' must begin with a capital letter, e.g ({StringSupport.UppercaseFirst(ResourceName)})";
+          ErrorMessage = $"This server has not implemented the Whole System Interaction of history. Instance level history is implemented, for example 'fhir/Patient/1/_history'";
         }
         else
         {
-          ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+          ResourceType = ModelInfo.GetTypeForFhirType(StringSupport.UppercaseFirst(ResourceName));
+          if (ResourceType != null && ModelInfo.IsKnownResource(ResourceType))
+          {
+            ErrorMessage = $"The Resource name given '{ResourceName}' must begin with a capital letter, e.g ({StringSupport.UppercaseFirst(ResourceName)})";
+          }
+          else
+          {
+            ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}.";
+          }
         }
         var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Invalid, ErrorMessage);
         OpOutCome.Issue[0].Details = new CodeableConcept("http://hl7.org/fhir/operation-outcome", "MSG_UNKNOWN_TYPE", String.Format("Resource Type '{0}' not recognised", ResourceName));
