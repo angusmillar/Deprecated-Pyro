@@ -88,10 +88,11 @@ namespace Pyro.DataLayer.Repository
     {
       var Predicate = PredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters);
 
-      int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
 
-      var DtoResourceList = new List<DtoResource>();
+      //Was just testing the query looked correct
+      //var Query2 = Query.Select(x => x.FhirId);
+      //string[] FhirIdResultArray = Query2.ToArray();
 
       string[] FhirIdResultArray = Query.Select(x => x.FhirId).ToArray();
       return FhirIdResultArray;
