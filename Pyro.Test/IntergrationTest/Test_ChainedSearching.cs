@@ -57,21 +57,26 @@ namespace Pyro.Test.IntergrationTest
       //                           ----> Observation3
 
       //Add a Endpoint resource 
-      Endpoint EndpointOnex = new Endpoint();
-      EndpointOnex.Name = EndpointOneName;
-      EndpointOneIdentifer = Guid.NewGuid().ToString();
-      EndpointOnex.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointOneIdentifer));
-      Endpoint EndPointOneResult = null;
-      try
+      //Loop only here for load testing
+      for (int i = 0; i < 1; i++)
       {
-        EndPointOneResult = clientFhir.Create(EndpointOnex);
+        Endpoint EndpointOnex = new Endpoint();
+        EndpointOnex.Name = EndpointOneName;
+        EndpointOneIdentifer = Guid.NewGuid().ToString();
+        EndpointOnex.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, EndpointOneIdentifer));
+        Endpoint EndPointOneResult = null;
+        try
+        {
+          EndPointOneResult = clientFhir.Create(EndpointOnex);
+        }
+        catch (Exception Exec)
+        {
+          Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+        }
+        Assert.NotNull(EndPointOneResult, "Resource created but returned resource is null");
+        EndpointOneResourceId = EndPointOneResult.Id;
+
       }
-      catch (Exception Exec)
-      {
-        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
-      }
-      Assert.NotNull(EndPointOneResult, "Resource created but returned resource is null");
-      EndpointOneResourceId = EndPointOneResult.Id;
 
       //Add a Endpoint resource 
       Endpoint EndpointTwo = new Endpoint();
