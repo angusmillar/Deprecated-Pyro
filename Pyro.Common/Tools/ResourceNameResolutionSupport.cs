@@ -26,9 +26,13 @@ namespace Pyro.Common.Tools
       else
       {
         string ErrorMessage = string.Empty;
-        if (ResourceName == "_history")
+        if (ResourceName.ToLower() == "_history")
         {
-          ErrorMessage = $"This server has not implemented the Whole System Interaction of history. Instance level history is implemented, for example 'fhir/Patient/1/_history'";
+          ErrorMessage = $"This server has not implemented the Whole System Interaction of history. Instance level history is implemented, for example '[base]/Patient/1/_history'";
+        }
+        else if (ResourceName.ToLower() == "conformance")
+        {
+          ErrorMessage = $"The Resource name given '{ResourceName}' is not a Resource supported by the .net FHIR API Version: {ModelInfo.Version}. Perhaps you wish to find the server's conformance statement Resource named 'CapabilityStatement' which can be obtained from the endpoint '[base]/metadata' ";
         }
         else
         {
