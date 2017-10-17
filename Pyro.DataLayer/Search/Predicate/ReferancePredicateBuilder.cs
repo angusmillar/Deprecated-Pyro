@@ -23,9 +23,9 @@ namespace Pyro.DataLayer.Search.Predicate
       if (SearchItem is SearchParameterReferance SearchTypeReference)
       {
         //Improved Query when searching for FhirIds for the same Resource type and search parameter yet different FhirIds.
-        //It creates a SQL 'IN' cause instead of many 'OR' statements and should be more efficient.
-        //It does not handle modifiers, they will fall back to the normal logic below
+        //It creates a SQL 'IN' cause instead of many 'OR' statements and should be more efficient.        
         //Heavily used in chain searching where we traverse many References. 
+        //The 'Type' modifier is already resolved when the search parameter is parsed, so the SearchValue.FhirRequestUri.ResourseName is the correct Resource name at this stage
         if (SearchTypeReference.ValueList.Count > 1 && SearchTypeReference.ValueList.TrueForAll(x =>
                                                                                                 x.FhirRequestUri.IsRelativeToServer &&
                                                                                                 x.FhirRequestUri.ResourseName == SearchTypeReference.ValueList[0].FhirRequestUri.ResourseName &&
@@ -70,6 +70,7 @@ namespace Pyro.DataLayer.Search.Predicate
               case SearchParameter.SearchModifierCode.Text:
                 throw new FormatException($"The search modifier: {SearchTypeReference.Modifier.ToString()} is not supported for search parameter types of Reference.");
               case SearchParameter.SearchModifierCode.Type:
+                //The 'Type' modifier is already resolved when the search parameter is parsed, so the SearchValue.FhirRequestUri.ResourseName is the correct Resource name at this stage
                 if (IsServiceUrlPrimary(PrimaryRootUrlStore, SearchValue))
                 {
                   NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchValue.FhirRequestUri.ResourseName, SearchValue.FhirRequestUri.ResourceId, SearchValue.FhirRequestUri.VersionId));
