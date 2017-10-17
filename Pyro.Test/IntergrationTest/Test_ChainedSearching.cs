@@ -118,26 +118,28 @@ namespace Pyro.Test.IntergrationTest
 
       //Patient where Obs.performer -> Org.name 
       // Add a Patient to Link to a Observation below  ================================
-
-      Patient PatientOne = new Patient();
-      PatientOne.Name.Add(HumanName.ForFamily(PatientOneFamily).WithGiven("Test"));
-      PatientOne.BirthDateElement = new Date("1979-09-30");
-      PatientOneMRNIdentifer = Guid.NewGuid().ToString();
-      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
-      PatientOne.Gender = AdministrativeGender.Unknown;
-      PatientOne.ManagingOrganization = new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneResourceId}");
-      Patient PatientResult = null;
-      try
+      //Loop only here for load testing debugging
+      for (int i = 0; i < 10; i++)
       {
-        PatientResult = clientFhir.Create(PatientOne);
+        Patient PatientOne = new Patient();
+        PatientOne.Name.Add(HumanName.ForFamily(PatientOneFamily).WithGiven("Test"));
+        PatientOne.BirthDateElement = new Date("1979-09-30");
+        PatientOneMRNIdentifer = Guid.NewGuid().ToString();
+        PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
+        PatientOne.Gender = AdministrativeGender.Unknown;
+        PatientOne.ManagingOrganization = new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneResourceId}");
+        Patient PatientResult = null;
+        try
+        {
+          PatientResult = clientFhir.Create(PatientOne);
+        }
+        catch (Exception Exec)
+        {
+          Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+        }
+        Assert.NotNull(PatientResult, "Resource created but returned resource is null");
+        PatientResourceId = PatientResult.Id;
       }
-      catch (Exception Exec)
-      {
-        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
-      }
-      Assert.NotNull(PatientResult, "Resource created but returned resource is null");
-      PatientResourceId = PatientResult.Id;
-
 
       //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test recursive includes
 
@@ -322,6 +324,17 @@ namespace Pyro.Test.IntergrationTest
 
       //Clean up by deleting all Test Patients
       sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
+      try
+      {
+        clientFhir.Delete(ResourceType.Patient.GetLiteral(), sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on conditional delete of resource Patient: " + Exec.Message);
+      }
+
+      //Clean up by deleting all Test Patients family
+      sp = new SearchParams().Where($"family={PatientOneFamily}");
       try
       {
         clientFhir.Delete(ResourceType.Patient.GetLiteral(), sp);

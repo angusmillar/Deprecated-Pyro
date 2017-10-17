@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LinqKit;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.Search;
@@ -21,6 +22,20 @@ namespace Pyro.DataLayer.Search.Predicate
     {
       if (SearchItem is SearchParameterReferance SearchTypeReference)
       {
+        //Improved Query when searching for FhirIds for the same Resource type and search parameter yet different FhirIds.
+        //It creates a SQL 'IN' cause instead of many 'OR' statements and should be more efficient.
+        //It does not handle modifiers, they will fall back to the normal logic below
+        //Heavily used in chain searching where we traverse many References. 
+        if (!SearchTypeReference.Modifier.HasValue && SearchTypeReference.ValueList.Count > 1 && SearchTypeReference.ValueList.TrueForAll(x =>
+                                                                                                x.FhirRequestUri.IsRelativeToServer &&
+                                                                                                x.FhirRequestUri.ResourseName == SearchTypeReference.ValueList[0].FhirRequestUri.ResourseName &&
+                                                                                                string.IsNullOrWhiteSpace(x.FhirRequestUri.VersionId)))
+        {
+          string[] ReferenceFhirIdArray = SearchTypeReference.ValueList.Select(x => x.FhirRequestUri.ResourceId).ToArray();
+          NewPredicate = NewPredicate.Or(Search.ReferanceCollectionAnyEqualTo_ByKey_Many_FhirIds(SearchTypeReference.Id, PrimaryRootUrlStore.Id, SearchTypeReference.ValueList[0].FhirRequestUri.ResourseName, ReferenceFhirIdArray, SearchTypeReference.ValueList[0].FhirRequestUri.VersionId));
+          return NewPredicate;
+        }
+
         foreach (var SearchValue in SearchTypeReference.ValueList)
         {
           if (!SearchTypeReference.Modifier.HasValue)

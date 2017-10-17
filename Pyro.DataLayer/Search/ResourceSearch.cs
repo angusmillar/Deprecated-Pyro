@@ -784,6 +784,49 @@ namespace Pyro.DataLayer.Search
 
     }
 
+
+    public Expression<Func<ResCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByKey_Many_FhirIds(int Id, int ServiceBaseUrlId, string ResourceType, string[] FhirIdArray, string VersionId)
+    {
+      ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexReferenceType), "c");
+      ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+      BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+      MemberExpression propertyReferenceServiceBaseUrlId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceServiceBaseUrlId);
+      MemberExpression propertyReferenceResourceType = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceResourceType);
+      MemberExpression propertyReferenceFhirId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceFhirId);
+      MemberExpression propertyReferenceVersionId = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceVersionId);
+
+      ConstantExpression SearchValueReferenceServiceBaseUrlId = Expression.Constant(ServiceBaseUrlId, typeof(int?));
+      ConstantExpression SearchValueReferenceResourceType = Expression.Constant(ResourceType, typeof(string));
+
+
+      ConstantExpression SearchValueReferenceVersionId = Expression.Constant(VersionId, typeof(string));
+
+      //FhirIdArray.Contains(y.ReferenceFhirId)
+      Expression<Func<ResIndexReferenceType, bool>> ReferenceFhirIdContainsExpression = ContainsFhirID<ResIndexReferenceType>(InnerParameter, FhirIdArray);
+
+
+
+      //Build Inner Expression
+      Expression BinaryExpression_Final = ExpressionSupport.ReferanceExpression.EqualTo_ByURLStoreKey_ReferenceFhirIdContains_Expression(
+        propertyReferenceServiceBaseUrlId,
+        propertyReferenceResourceType,
+        propertyReferenceVersionId,
+        SearchValueReferenceServiceBaseUrlId,
+        SearchValueReferenceResourceType,
+        ReferenceFhirIdContainsExpression,
+        SearchValueReferenceVersionId);
+
+      var IdAndExpression = Expression.And(BinaryExpressionIdEquals, BinaryExpression_Final);
+
+      Expression<Func<ResIndexReferenceType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexReferenceType, bool>>(IdAndExpression, InnerParameter);
+
+      MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+      return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+
+    }
+
     public Expression<Func<ResCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByUrlString(int Id, string UrlString, string ResourceType, string FhirId, string VersionId)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexReferenceType), "c");
@@ -849,10 +892,20 @@ namespace Pyro.DataLayer.Search
       return Expression.Equal(InnerPropertyId, InnerValueId);
     }
 
-    private MethodCallExpression IndexListAnyMethodCallExpression<IndexType>(ParameterExpression IndexListParameter, Expression<Func<IndexType, bool>> InnerFunction)
-      where IndexType : ModelBase
+    private Expression<Func<ResIndexReferenceType, bool>> ContainsFhirID<ResIndexReferenceType>(ParameterExpression Param, string[] FhirIdArray)
     {
-      var type = typeof(ResCurrentType);
+      //FhirIdArray.Contains(c.ReferenceFhirId)
+      MethodInfo methodInfo = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) });
+      var list = Expression.Constant(FhirIdArray.ToList());
+      var value = Expression.Property(Param, StaticDatabaseInfo.BaseResourceIndexConstatnts.ReferenceFhirId);
+      var body = Expression.Call(list, methodInfo, value);
+      return Expression.Lambda<Func<ResIndexReferenceType, bool>>(body, Param);
+    }
+
+    private MethodCallExpression IndexListAnyMethodCallExpression<IndexType>(ParameterExpression IndexListParameter, Expression<Func<IndexType, bool>> InnerFunction)
+        where IndexType : ModelBase
+    {
+      //var type = typeof(ResCurrentType);
       //below is wrong need to reslve correct list because index list no longer exsists
       string DbPropertyName = string.Empty;
       DbPropertyName = ResolveDbIndexListPropertyName<IndexType>();
