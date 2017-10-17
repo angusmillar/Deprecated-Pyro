@@ -26,7 +26,7 @@ namespace Pyro.DataLayer.Search.Predicate
         //It creates a SQL 'IN' cause instead of many 'OR' statements and should be more efficient.
         //It does not handle modifiers, they will fall back to the normal logic below
         //Heavily used in chain searching where we traverse many References. 
-        if (!SearchTypeReference.Modifier.HasValue && SearchTypeReference.ValueList.Count > 1 && SearchTypeReference.ValueList.TrueForAll(x =>
+        if (SearchTypeReference.ValueList.Count > 1 && SearchTypeReference.ValueList.TrueForAll(x =>
                                                                                                 x.FhirRequestUri.IsRelativeToServer &&
                                                                                                 x.FhirRequestUri.ResourseName == SearchTypeReference.ValueList[0].FhirRequestUri.ResourseName &&
                                                                                                 string.IsNullOrWhiteSpace(x.FhirRequestUri.VersionId)))
