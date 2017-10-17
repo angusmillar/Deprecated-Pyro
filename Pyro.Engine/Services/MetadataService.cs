@@ -49,17 +49,18 @@ namespace Pyro.Engine.Services
         return ServiceOperationOutcome;
       }
       var Conformance = new CapabilityStatement();
-
-      string ApplicationReleaseDate = "2017-05-01T10:00:00+10:00";
+      var ApplicationReleaseDate = new DateTimeOffset(2017, 10, 17, 6, 00, 00, new TimeSpan(8, 0, 0));
       string ServerName = "Pyro Server";
 
       Conformance.Id = "metadata";
       Conformance.Url = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url + @"/metadata";
       Conformance.Version = IGlobalProperties.ApplicationVersionInfo;
+      Conformance.Meta = new Meta();
+      Conformance.Meta.LastUpdated = ApplicationReleaseDate;
       Conformance.Name = ServerName;
       Conformance.Status = PublicationStatus.Active;
       Conformance.Experimental = true;
-      Conformance.Date = ApplicationReleaseDate;
+      Conformance.Date = ApplicationReleaseDate.ToString();
       Conformance.Publisher = "PyroHealth.net";
 
       var Contact = new ContactDetail();
@@ -80,7 +81,7 @@ namespace Pyro.Engine.Services
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
       Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;
-      Conformance.Software.ReleaseDate = ApplicationReleaseDate;
+      Conformance.Software.ReleaseDate = ApplicationReleaseDate.ToString();
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = ServerName;
@@ -205,7 +206,7 @@ namespace Pyro.Engine.Services
       IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
-      //ServiceOperationOutcome.LastModified = DateTimeOffset.Parse(ApplicationReleaseDate);
+      ServiceOperationOutcome.LastModified = Conformance.Meta.LastUpdated;
       ServiceOperationOutcome.OperationType = Common.Enum.RestEnum.CrudOperationType.Read;
       ServiceOperationOutcome.IsDeleted = false;
       ServiceOperationOutcome.RequestUri = null;
