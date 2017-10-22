@@ -106,8 +106,8 @@ namespace Pyro.Web.App_Start
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
-      container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
+      container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<IServiceNegotiator, ServiceNegotiator>(Lifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);

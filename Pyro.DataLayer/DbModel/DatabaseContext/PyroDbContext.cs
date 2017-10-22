@@ -14,20 +14,20 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
     }
 
-    public DbContextTransaction BeginTransaction()
-    {
-      return base.Database.BeginTransaction();
-    }
+    //public DbContextTransaction BeginTransaction()
+    //{
+    //  return base.Database.BeginTransaction();
+    //}
 
-    public new int SaveChanges()
-    {
-      return base.SaveChanges();
-    }
+    //public new int SaveChanges()
+    //{
+    //  return base.SaveChanges();
+    //}
 
-    public new void Dispose()
-    {
-      base.Dispose();
-    }
+    //public new void Dispose()
+    //{
+    //  base.Dispose();
+    //}
 
     public new System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity)
     {

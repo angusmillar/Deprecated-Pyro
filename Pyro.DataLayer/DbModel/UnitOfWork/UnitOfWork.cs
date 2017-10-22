@@ -24,7 +24,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       try
       {
-        return _context.BeginTransaction();
+        return _context.Database.BeginTransaction();
       }
       catch (Exception Exec)
       {

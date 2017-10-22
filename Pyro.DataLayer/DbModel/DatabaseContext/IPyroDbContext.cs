@@ -6,7 +6,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 {
   public partial interface IPyroDbContext
   {
-    DbContextTransaction BeginTransaction();
+    //DbContextTransaction BeginTransaction();
+    Database Database { get; }
     int SaveChanges();
     void Dispose();
     DbSet<TEntity> Set<TEntity>() where TEntity : class;
