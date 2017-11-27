@@ -29,6 +29,7 @@ namespace Pyro.Web
 
         Console.WriteLine("-------------------------- Request -------------------------------");
         Console.WriteLine("");
+        Console.WriteLine($"Received : {DateTimeOffset.Now.ToString()}");
         Console.WriteLine($"Method   : {HttpMethod}");
         Console.WriteLine($"Request  : {RequestRoot}");
         if (!string.IsNullOrWhiteSpace(QueryString))
