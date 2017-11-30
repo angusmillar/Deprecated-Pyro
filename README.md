@@ -8,23 +8,15 @@ See the offical specification page here: http://hl7.org/fhir/STU3/index.html
 
 This server implements the following elements: 
 
-..* All Resources Types
-
-..* All Resources search parameters (except for composite parameters)
-
-..* Chained parameters
-
-..* _includes & _revinclude
-
-..* Custom Search parameters
-
-..* History
-
-..* Conditional Create, Conditional Update, Conditional Read, Conditional Delete  
-
-..* Operation: Validate a resource
-
-..* Bundle Transaction
+* All Resources Types
+* All Resources search parameters (except for composite parameters)
+* Chained parameters
+* _includes & _revinclude
+* Custom Search parameters
+* History
+* Conditional Create, Conditional Update, Conditional Read, Conditional Delete  
+* Operation: Validate a resource
+* Bundle Transaction
 
 
 
