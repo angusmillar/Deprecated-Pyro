@@ -10,19 +10,19 @@ Visual Studio 2017
 SQL Server 2016 Management Studio Express 64 Bit
 
 ## How do I get this solution up and running ##
-There are two key project for ruunnig the server, as follows:
+There are two key projects for ruunnig the server, as follows:
 
 **Pyro.ConsoleServer**
 The Pyro.ConsoleServer will run the server in console mode and is primary used for development. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way, you just don’t get to see a pretty webpage.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
 
-Pyro.ConsoleServer\App_Data\Connectons.config
+`Pyro.ConsoleServer\App_Data\Connectons.config`
 
 Just change the ‘connectionString’ element to meet your database.
 
 You will also need to set the ‘ServiceBaseURL’ property in the file:
 
-Pyro.ConsoleServer\App_Data\ PyroApp.config
+`Pyro.ConsoleServer\App_Data\ PyroApp.config`
 
 Below is the documentation of this property:
 Command: ServiceBaseURL
@@ -33,10 +33,10 @@ Changing this setting here not perform that update.
 **Pyro.Web**
 The Pyro.Web will run the server in IIS Express and launch the browser to show the simple landing page website. This is primarily used for when the server is deployed in production so that we have some sort of landing page for visitors to see. This website will not be developed further as I am working on a separate front end project independent to this solution based in javascript and React.
 Before you run this project you will need to change the connection string for the Pyro.Web. This can be found in the file:
-Pyro.Web\App_Data\ Connectons.config
+`Pyro.Web\App_Data\ Connectons.config`
 Just change the ‘connectionString’ element to meet your data base.
 You will also need to set the ‘ServiceBaseURL’ property in the file (See doco above in Pyro.ConsoleServer for this property)
-Pyro.Web \App_Data\ PyroApp.config 
+`Pyro.Web \App_Data\ PyroApp.config`
 
 Both project when first run will create a Database at the given ConnectionString.
 This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/test/stu3/fhir/Patient to tigger this to occur.
@@ -45,7 +45,7 @@ Be patient as this first call will be slow as it must create all the database ta
 **Logging***
 The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
 You may need to check this directory is valid in your enviroment or chnage the loging directory which can be done in the file:
-Pyro.Web\NLog.config (Just search for LogFilePath)
+`Pyro.Web\NLog.config` (Just search for LogFilePath)
 
 
 ## Important parts ##
