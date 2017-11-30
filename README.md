@@ -2,7 +2,23 @@
 
 ## Pyro FHIR Server ##
 
-This is a FHIR server. 
+This is a FHIR server implmenting FHIR STU-3.0.1
+
+See the offical specification page here: http://hl7.org/fhir/STU3/index.html
+
+This server implements the following elements: 
+
+..* All Resources Types 
+..* All Resources search parameters (except for composite parameters)
+..* Chained parameters
+..* _includes & _revinclude
+..* Custom Search parameters
+..* History
+..* Conditional Create, Conditional Update, Conditional Read, Conditional Delete  
+..* Operation: Validate a resource
+..* Bundle Transaction
+
+
 
 ## Requirements ##
 
@@ -50,7 +66,6 @@ This will actualy only occur when the first call is made to the FHIR API. So you
 Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
 
 **Logging**
-
 The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
 You may need to check this directory is valid in your enviroment or change the loging directory which can be done in the file:
 
