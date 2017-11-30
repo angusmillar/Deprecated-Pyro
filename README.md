@@ -12,11 +12,15 @@ This server implements the following elements:
 
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
+* RestFul CRUD
 * Chained parameters
 * _includes & _revinclude
 * Custom Search parameters
 * History
-* Conditional Create, Conditional Update, Conditional Read, Conditional Delete  
+* Conditional Create
+* Conditional Update 
+* Conditional Read 
+* Conditional Delete  
 * Operation: Validate a resource
 * Bundle Transaction
 
