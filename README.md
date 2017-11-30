@@ -5,9 +5,11 @@
 This is a FHIR server implmenting FHIR STU-3.0.1
 
 See the offical specification page here: http://hl7.org/fhir/STU3/index.html
+
 See the production Pyro Server instance running here: https://pyrohealth.net/
 
 This server implements the following elements: 
+
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
 * Chained parameters
