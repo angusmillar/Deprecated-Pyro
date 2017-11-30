@@ -13,7 +13,7 @@ SQL Server 2016 Management Studio Express 64 Bit
 ## How do I get this solution up and running ##
 There are two key projects for ruunnig the server, as follows:
 
-**Pyro.ConsoleServer**
+**Pyro.ConsoleServer (Project)**
 The Pyro.ConsoleServer will run the server in console mode and is primary used for development. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way, you just don’t get to see a pretty webpage.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
 
@@ -28,11 +28,13 @@ You will also need to set the ‘ServiceBaseURL’ property in the file:
 Below is the documentation of this property:
 
 **Command:** ServiceBaseURL
+
 **Value:** URL String
+
 **Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to also be updated and recommitted. 
 Changing this setting here not perform that update.
 
-**Pyro.Web**
+**Pyro.Web (Project)**
 The Pyro.Web will run the server in IIS Express and launch the browser to show the simple landing page website. This is primarily used for when the server is deployed in production so that we have some sort of landing page for visitors to see. This website will not be developed further as I am working on a separate front end project independent to this solution based in javascript and React.
 Before you run this project you will need to change the connection string for the Pyro.Web. This can be found in the file:
 `Pyro.Web\App_Data\ Connectons.config`
