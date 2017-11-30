@@ -7,6 +7,7 @@ This is a FHIR server.
 ## Requirements ##
 
 Visual Studio 2017
+
 SQL Server 2016 Management Studio Express 64 Bit
 
 ## How do I get this solution up and running ##
@@ -25,9 +26,10 @@ You will also need to set the ‘ServiceBaseURL’ property in the file:
 `Pyro.ConsoleServer\App_Data\ PyroApp.config`
 
 Below is the documentation of this property:
-Command: ServiceBaseURL
-Value: URL String
-Description: This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to also be updated and recommitted. 
+
+**Command:** ServiceBaseURL
+**Value:** URL String
+**Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to also be updated and recommitted. 
 Changing this setting here not perform that update.
 
 **Pyro.Web**
