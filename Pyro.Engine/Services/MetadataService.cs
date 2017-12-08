@@ -51,10 +51,11 @@ namespace Pyro.Engine.Services
       var Conformance = new CapabilityStatement();
       var ApplicationReleaseDate = new DateTimeOffset(2017, 10, 17, 6, 00, 00, new TimeSpan(8, 0, 0));
       string ServerName = "Pyro Server";
+      string Https = "https://";
 
       Conformance.Id = "metadata";
-      Conformance.Url = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url + @"/metadata";
-      Conformance.Version = IGlobalProperties.ApplicationVersionInfo;
+      Conformance.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url}/metadata";
+      Conformance.Version = $"V{IGlobalProperties.ApplicationVersionInfo}";
       Conformance.Meta = new Meta();
       Conformance.Meta.LastUpdated = ApplicationReleaseDate;
       Conformance.Name = ServerName;
@@ -73,21 +74,21 @@ namespace Pyro.Engine.Services
       var Australia = new CodeableConcept("urn:iso:std:iso:3166", "AU", "Australia");
       Conformance.Jurisdiction = new List<CodeableConcept>() { Australia };
 
-      Conformance.Purpose = new Markdown("Reference implementation of a FHIR Server");
+      Conformance.Purpose = new Markdown("FHIR Server reference implementation");
 
-      Conformance.Copyright = new Markdown("PyroHealth.net");
+      Conformance.Copyright = new Markdown("Copyright: PyroHealth.net");
       Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Instance;
 
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
-      Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;
+      Conformance.Software.Version = $"V{IGlobalProperties.ApplicationVersionInfo}";
       Conformance.Software.ReleaseDate = ApplicationReleaseDate.ToString();
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = ServerName;
-      Conformance.Implementation.Url = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url;
+      Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url}";
 
-      Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
+      Conformance.FhirVersion = $"V{Hl7.Fhir.Model.ModelInfo.Version}";
       Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
 
       var ContentFormatList = new List<string>();
@@ -101,7 +102,7 @@ namespace Pyro.Engine.Services
       var RestComponent = new CapabilityStatement.RestComponent();
       Conformance.Rest.Add(RestComponent);
       RestComponent.Mode = CapabilityStatement.RestfulCapabilityMode.Server;
-      RestComponent.Documentation = "STU3 V3.0.0 FHIR Server";
+      RestComponent.Documentation = $"STU{Hl7.Fhir.Model.ModelInfo.Version.Split('.')[0]} V{Hl7.Fhir.Model.ModelInfo.Version} FHIR Server";
       RestComponent.Security = new CapabilityStatement.SecurityComponent();
       RestComponent.Security.Description = "No Security has been implemented, server if publicly open";
 
