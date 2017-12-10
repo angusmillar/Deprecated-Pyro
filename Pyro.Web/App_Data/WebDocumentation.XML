@@ -496,13 +496,13 @@
             <param name="resource">Batch Transaction bundle</param>
             <returns>Status Code 200 (OK) and a Batch Transaction response bundle or an OperationOutcome resource if an error has been encountered. The Transaction response bundle will inform how each resource was actioned within the entry.response elements.</returns>
         </member>
-        <member name="M:Pyro.Web.Controllers.FhirController.Metadata">
+        <member name="M:Pyro.Web.Controllers.FhirController.GetMetadata">
             <summary>
             Get the FHIR CapabilityStatement Resource for this Server.
             </summary>
             <returns>CapabilityStatement Resource</returns>
         </member>
-        <member name="M:Pyro.Web.Controllers.FhirController.Get(System.String,System.String)">
+        <member name="M:Pyro.Web.Controllers.FhirController.GetId(System.String,System.String)">
             <summary>
             Get a Resource by the Resource name and the id of the required resource instance.
             For example:
@@ -512,16 +512,7 @@
             <param name="id">The FHIR Resource's id</param>
             <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
         </member>
-        <member name="M:Pyro.Web.Controllers.FhirController.Search(System.String)">
-            <summary>
-            Search for a FHIR resource using the Resources defined search parameters.
-            For example: 
-            http://SomeServer.net/fhirapi/Patient?family=Smith&amp;given=John
-            </summary>
-            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
-            <returns>Returns a bundle containing all resource that match the search criteria.</returns>
-        </member>
-        <member name="M:Pyro.Web.Controllers.FhirController.Get(System.String,System.String,System.String)">
+        <member name="M:Pyro.Web.Controllers.FhirController.GetHistory(System.String,System.String,System.String)">
             <summary>
             Get a Resource's entire history or an given history instance for the Resource by its version id (vid)
             For example: 
@@ -531,6 +522,26 @@
             <param name="id">The FHIR Resource's id</param>
             <param name="vid">The version id if requesting a single version instance, leave empty if you require the entire history for the resource instance.</param>
             <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
+        </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.GetCompartment(System.String,System.String,System.String)">
+            <summary>
+            Get a ResourceList by the Resource id's compartment 
+            For example:
+            http://SomeServer.net/fhirapi/Patient/5/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+            </summary>
+            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+            <param name="id">The FHIR Resource's id</param>
+            <param name="Compartment">The name of a FHIR Resource, for example 'Condition'</param>
+            <returns>Returns a bundle containing all resources in the Compartment. If search parameters are given then the returned resource are filtered to this search criteria.</returns>       
+        </member>
+        <member name="M:Pyro.Web.Controllers.FhirController.GetSearch(System.String)">
+            <summary>
+            Search for a FHIR resource using the Resources defined search parameters.
+            For example: 
+            http://SomeServer.net/fhirapi/Patient?family=Smith&amp;given=John
+            </summary>
+            <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+            <returns>Returns a bundle containing all resources that match the search criteria.</returns>
         </member>
         <member name="M:Pyro.Web.Controllers.FhirController.Post(System.String,Hl7.Fhir.Model.Resource)">
             <summary>

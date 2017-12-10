@@ -23,6 +23,8 @@ namespace Pyro.Common.Tools.UriSupport
       Uri TempUri = null;
       if (Uri.TryCreate(this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig(), UriKind.RelativeOrAbsolute, out TempUri))
       {
+        string RegexResourceDilimeter = "|";
+        _FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
         this.PrimaryServiceRootServers = TempUri;
       }
       else
@@ -40,10 +42,12 @@ namespace Pyro.Common.Tools.UriSupport
     private const string _uuidName = "uuid";
     private const string _HttpName = "http";
     private const string _HttpsName = "https";
+    private string _FhirResourceRegexPattern;
 
     public string ParseErrorMessage { get; set; }
     public bool ErrorInParseing { get; set; }
     public string ResourseName { get; set; }
+    public string CompartmentalisedResourseName { get; set; }
     public string ResourceId { get; set; }
     public string VersionId { get; set; }
     public string OperationName { get; set; }
@@ -65,6 +69,7 @@ namespace Pyro.Common.Tools.UriSupport
     public bool IsContained { get; set; }
     public bool IsMetaData { get; set; }
     public bool IsHistoryReferance { get; set; }
+    public bool IsCompartment { get; set; }
     public Uri UriPrimaryServiceRoot
     {
       get
@@ -79,6 +84,7 @@ namespace Pyro.Common.Tools.UriSupport
     public Uri PrimaryServiceRootServers { get; set; }
     public bool Parse(string RequestUri)
     {
+      this.IsCompartment = false;
       ParseErrorMessage = string.Empty;
       ErrorInParseing = false;
       return ProcessRequestUri(System.Net.WebUtility.UrlDecode(RequestUri));
@@ -153,14 +159,14 @@ namespace Pyro.Common.Tools.UriSupport
         //a segment that matches to the FHIR Resource name. Once found we can determine the remote root and return the 
         // relative part.
         this.IsRelativeToServer = false;
-        string FhirResourceRegexPattern = string.Empty;
-        string RegexResourceDilimeter = "|";
-        FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+        //string FhirResourceRegexPattern = string.Empty;
+        //string RegexResourceDilimeter = "|";
+        //FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
         string RemotePrimaryServiceRoot = string.Empty;
         var PathSplit = RequestUri.Split('#')[0].Split('/');
         foreach (string Segment in PathSplit)
         {
-          if (Regex.IsMatch(Segment, FhirResourceRegexPattern))
+          if (IsResourceTypeString(Segment))
           {
             //Resource segment found 
             break;
@@ -255,11 +261,8 @@ namespace Pyro.Common.Tools.UriSupport
         }
         else
         {
-          //This is a Resource referance
-          string FhirResourceRegexPattern = string.Empty;
-          string RegexResourceDilimeter = "|";
-          FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
-          if (Regex.IsMatch(Segment, FhirResourceRegexPattern))
+          //This is a Resource referance          
+          if (IsResourceTypeString(Segment))
           {
             this.ResourseName = Segment;
             Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
@@ -271,6 +274,22 @@ namespace Pyro.Common.Tools.UriSupport
             ErrorInParseing = true;
             return string.Empty;
           }
+
+          //string FhirResourceRegexPattern = string.Empty;
+          //string RegexResourceDilimeter = "|";
+          //FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+          //if (Regex.IsMatch(Segment, FhirResourceRegexPattern))
+          //{
+          //  this.ResourseName = Segment;
+          //  Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
+          //  return RemoveStartsWithSlash(Remainder);
+          //}
+          //else
+          //{
+          //  ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
+          //  ErrorInParseing = true;
+          //  return string.Empty;
+          //}
         }
       }
       ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath} in URL {this.OriginalString}";
@@ -347,6 +366,14 @@ namespace Pyro.Common.Tools.UriSupport
               Remainder = RemoveStartsWithSlash(Remainder.Substring(this.VersionId.Count(), Remainder.Count() - this.VersionId.Count()));
               return Remainder;
             }
+            else if (IsResourceTypeString(Segment))
+            {
+              //Is this a Compartment reference e.g ([base]/Patient/[id]/Condition?code:in=http://hspc.org/ValueSet/acute-concerns)
+              this.CompartmentalisedResourseName = Segment;
+              this.IsCompartment = true;
+              Remainder = RemoveStartsWithSlash(Remainder.Substring(this.CompartmentalisedResourseName.Count(), Remainder.Count() - this.CompartmentalisedResourseName.Count()));
+              return Remainder;
+            }
           }
         }
         return Remainder;
@@ -358,22 +385,17 @@ namespace Pyro.Common.Tools.UriSupport
         value = value.TrimStart('/');
       return value;
     }
-
-    //public static bool TryParse(string PrimaryServiceRoot, string RequestUri, out IFhirRequestUri Value, out string ErrorMessage)
-    //{
-    //  var item = new FhirRequestUri(PrimaryServiceRoot, RequestUri);
-    //  if (item._ErrorInParseing)
-    //  {
-    //    Value = null;
-    //    ErrorMessage = item._ParseErrorMessage;
-    //    return false;
-    //  }
-    //  else
-    //  {
-    //    Value = item;
-    //    ErrorMessage = null;
-    //    return true;
-    //  }
-    //}
+    private bool IsResourceTypeString(string value)
+    {
+      //This is a valid Resource Type string     
+      if (Regex.IsMatch(value, _FhirResourceRegexPattern))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
   }
 }

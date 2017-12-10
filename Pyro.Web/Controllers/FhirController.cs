@@ -59,7 +59,7 @@ namespace Pyro.Web.Controllers
     /// <returns>CapabilityStatement Resource</returns>
     [HttpGet, Route("metadata")]
     [ActionLog]
-    public HttpResponseMessage Metadata()
+    public HttpResponseMessage GetMetadata()
     {
       string BaseRequestUri = this.CalculateBaseURI("metadata");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Metadata(BaseRequestUri, Request);
@@ -78,28 +78,10 @@ namespace Pyro.Web.Controllers
     /// <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}")]
     [ActionLog]
-    public HttpResponseMessage Get(string ResourceName, string id)
+    public HttpResponseMessage GetId(string ResourceName, string id)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
-      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
-    }
-
-    //Search
-    // GET: URL//FhirApi/Patient?family=Smith&given=John
-    /// <summary>
-    /// Search for a FHIR resource using the Resources defined search parameters.
-    /// For example: 
-    /// http://SomeServer.net/fhirapi/Patient?family=Smith&amp;given=John
-    /// </summary>
-    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
-    /// <returns>Returns a bundle containing all resource that match the search criteria.</returns>
-    [HttpGet, Route("{ResourceName}")]
-    [ActionLog]
-    public HttpResponseMessage Search(string ResourceName)
-    {
-      string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Search(BaseRequestUri, Request, ResourceName);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -117,10 +99,49 @@ namespace Pyro.Web.Controllers
     /// <returns>Returns the single FHIR Resource identified by the id and the vid (Version Number) or returns the entire history for the resource instance as a history bundle if vid is empty or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}/_history/{vid?}")]
     [ActionLog]
-    public HttpResponseMessage Get(string ResourceName, string id, string vid = "")
+    public HttpResponseMessage GetHistory(string ResourceName, string id, string vid = "")
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.GetHistory(BaseRequestUri, Request, ResourceName, id, vid);
+      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+    }
+
+    // Get By Compartment
+    // GET URL/FhirApi/Patient/5/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+    /// <summary>
+    /// Get a ResourceList by the Resource id's compartment 
+    /// For example:
+    /// http://SomeServer.net/fhirapi/Patient/5/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+    /// </summary>
+    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+    /// <param name="id">The FHIR Resource's id</param>
+    /// <param name="Compartment">The name of a FHIR Resource, for example 'Condition'</param>
+    /// <returns>Returns a bundle containing all resources in the Compartment. If search parameters are given then the returned resource are filtered to this search criteria.</returns>       
+    [HttpGet, Route("{ResourceName}/{id}/{Compartment}")]
+    [ActionLog]
+    public HttpResponseMessage GetCompartment(string ResourceName, string id, string Compartment)
+    {
+      throw new System.NotImplementedException("Compartment requests are not implemented on this server as yet.");
+      //string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
+      //IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
+      //return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+    }
+
+    //Search
+    // GET: URL//FhirApi/Patient?family=Smith&given=John
+    /// <summary>
+    /// Search for a FHIR resource using the Resources defined search parameters.
+    /// For example: 
+    /// http://SomeServer.net/fhirapi/Patient?family=Smith&amp;given=John
+    /// </summary>
+    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
+    /// <returns>Returns a bundle containing all resources that match the search criteria.</returns>
+    [HttpGet, Route("{ResourceName}")]
+    [ActionLog]
+    public HttpResponseMessage GetSearch(string ResourceName)
+    {
+      string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Search(BaseRequestUri, Request, ResourceName);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 

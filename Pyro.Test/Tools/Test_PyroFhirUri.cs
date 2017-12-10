@@ -399,5 +399,58 @@ namespace Pyro.Test.Tools
     }
 
 
+
+    [Test]
+    public void Test_BasicCompartment()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhirapi/Patient/10/Condition
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      string Request = HttpsPrimaryServiceRootLocal + "/Patient/10/Condition";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, "Patient");
+      Assert.AreEqual(Result.ResourceId, "10");
+      Assert.IsTrue(Result.IsCompartment);
+      Assert.AreEqual(Result.CompartmentalisedResourseName, "Condition");
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, false);
+      Assert.AreEqual(Result.OperationType, null);
+      Assert.AreEqual(Result.OperationName, null);
+    }
+
+    [Test]
+    public void Test_Compartment_With_SearchParameters()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhirapi/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      string Request = HttpsPrimaryServiceRootLocal + "/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, "Patient");
+      Assert.AreEqual(Result.ResourceId, "10");
+      Assert.IsTrue(Result.IsCompartment);
+      Assert.AreEqual(Result.CompartmentalisedResourseName, "Condition");
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, false);
+      Assert.AreEqual(Result.OperationType, null);
+      Assert.AreEqual(Result.OperationName, null);
+      Assert.AreEqual(Result.Query, "code:in=http://hspc.org/ValueSet/acute-concerns");
+    }
+
+
   }
 }
