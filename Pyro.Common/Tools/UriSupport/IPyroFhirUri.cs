@@ -20,6 +20,7 @@ namespace Pyro.Common.Tools.UriSupport
     string Query { get; }
     string ResourceId { get; }
     string ResourseName { get; }
+    string CompartmentalisedResourseName { get; }
     string Urn { get; }
     UrnType? UrnType { get; }
     string VersionId { get; }
