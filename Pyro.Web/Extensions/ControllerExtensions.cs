@@ -16,14 +16,28 @@ namespace Pyro.Web.Extensions
     public static string CalculateBaseURI(this System.Web.Http.ApiController me, string Mask)
     {
       System.Uri ri = me.ControllerContext.Request.RequestUri;
-
-      string baseUri = System.String.Format("{0}://{1}{2}{3}{4}",
+      if (!String.IsNullOrWhiteSpace(Mask))
+      {
+        string baseUri = System.String.Format("{0}://{1}{2}{3}{4}",
           ri.Scheme,
           ri.Host,
           ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
           me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
           me.ControllerContext.RouteData.Route.RouteTemplate.Substring(0, me.ControllerContext.RouteData.Route.RouteTemplate.LastIndexOf(Mask)));
-      return baseUri.TrimEnd('/');
+        return baseUri.TrimEnd('/');
+      }
+      else
+      {
+        //If the Mask is empty string then no need to strip off the end path
+        string baseUri = System.String.Format("{0}://{1}{2}{3}{4}",
+          ri.Scheme,
+          ri.Host,
+          ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
+          me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
+          me.ControllerContext.RouteData.Route.RouteTemplate);
+        return baseUri.TrimEnd('/');
+      }
+
     }
   }
 }
