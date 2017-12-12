@@ -7,28 +7,22 @@ namespace Pyro.Web.Extensions
 {
   public static class ControllerTools
   {
-    public static string CalculateBaseURI(this System.Web.Http.ApiController me, string resourceName)
+    /// <summary>
+    /// This will return the portion of the URL to the left of the Mask token given.
+    /// </summary>
+    /// <param name="me">The Controller instance</param>
+    /// <param name="Mask">The portion of the path directly after the service root base URL</param>
+    /// <returns></returns>
+    public static string CalculateBaseURI(this System.Web.Http.ApiController me, string Mask)
     {
       System.Uri ri = me.ControllerContext.Request.RequestUri;
-      if (resourceName == "metadata" || resourceName == "${operation}")
-      {
-        return System.String.Format("{0}://{1}{2}{3}{4}",
-            ri.Scheme,
-            ri.Host,
-            ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
-            me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
-            me.ControllerContext.RouteData.Route.RouteTemplate.Replace("/metadata", "").Replace("/${operation}", ""));
-      }
 
-      if (me.ControllerContext.RouteData.Route.RouteTemplate.Contains("{ResourceName}"))
-        resourceName = "{ResourceName}";
       string baseUri = System.String.Format("{0}://{1}{2}{3}{4}",
           ri.Scheme,
           ri.Host,
           ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
           me.ControllerContext.RequestContext.VirtualPathRoot.TrimEnd('/') + '/',
-          me.ControllerContext.RouteData.Route.RouteTemplate.Substring(0, me.ControllerContext.RouteData.Route.RouteTemplate.LastIndexOf(resourceName)));
-
+          me.ControllerContext.RouteData.Route.RouteTemplate.Substring(0, me.ControllerContext.RouteData.Route.RouteTemplate.LastIndexOf(Mask)));
       return baseUri.TrimEnd('/');
     }
   }
