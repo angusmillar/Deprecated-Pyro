@@ -13,7 +13,7 @@ using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class ServiceBaseUrlContextConfig : EntityTypeConfiguration<ServiceBaseUrl>
+  public class ServiceBaseUrlContextConfig : EntityTypeConfiguration<_ServiceBaseUrl>
   {
     public ServiceBaseUrlContextConfig()
     {

@@ -69,14 +69,14 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_DiagnosticReportSubject.Resource = "DiagnosticReport";
       var oTargetResourceTypeListDiagnosticReport = new List<IServiceSearchParameterTargetResource>();
       oTargetResourceTypeListDiagnosticReport.Add(
-        new ServiceSearchParameterTargetResource()
+        new _ServiceSearchParameterTargetResource()
         {
           Id = 11,
           ResourceType = ResourceType.Patient,
           ServiceSearchParameter = null,
           ServiceSearchParameterId = 111
         });
-      oTargetResourceTypeListDiagnosticReport.Add(new ServiceSearchParameterTargetResource()
+      oTargetResourceTypeListDiagnosticReport.Add(new _ServiceSearchParameterTargetResource()
       {
         Id = 111,
         ResourceType = ResourceType.Location,
@@ -106,7 +106,7 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_PatientOrganization.Name = "organization";
       ServiceSearchParameterLight_PatientOrganization.Resource = "Patient";
       var oTargetResourceTypeListOrganization = new List<IServiceSearchParameterTargetResource>();
-      oTargetResourceTypeListOrganization.Add(new ServiceSearchParameterTargetResource() { Id = 22, ResourceType = ResourceType.Organization, ServiceSearchParameter = null, ServiceSearchParameterId = 222 });
+      oTargetResourceTypeListOrganization.Add(new _ServiceSearchParameterTargetResource() { Id = 22, ResourceType = ResourceType.Organization, ServiceSearchParameter = null, ServiceSearchParameterId = 222 });
       ServiceSearchParameterLight_PatientOrganization.TargetResourceTypeList = oTargetResourceTypeListOrganization;
       ServiceSearchParameterLight_PatientOrganization.Type = SearchParamType.Reference;
       PatientServiceSearchParameterLightList.Add(ServiceSearchParameterLight_PatientOrganization);
@@ -130,8 +130,8 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_OrganizationEndpoint.Name = "endpoint";
       ServiceSearchParameterLight_OrganizationEndpoint.Resource = "Organization";
       var oTargetResourceTypeListEndpoint = new List<IServiceSearchParameterTargetResource>();
-      oTargetResourceTypeListEndpoint.Add(new ServiceSearchParameterTargetResource() { Id = 33, ResourceType = ResourceType.Endpoint, ServiceSearchParameter = null, ServiceSearchParameterId = 333 });
-      oTargetResourceTypeListEndpoint.Add(new ServiceSearchParameterTargetResource() { Id = 32, ResourceType = ResourceType.Location, ServiceSearchParameter = null, ServiceSearchParameterId = 332 });
+      oTargetResourceTypeListEndpoint.Add(new _ServiceSearchParameterTargetResource() { Id = 33, ResourceType = ResourceType.Endpoint, ServiceSearchParameter = null, ServiceSearchParameterId = 333 });
+      oTargetResourceTypeListEndpoint.Add(new _ServiceSearchParameterTargetResource() { Id = 32, ResourceType = ResourceType.Location, ServiceSearchParameter = null, ServiceSearchParameterId = 332 });
       ServiceSearchParameterLight_OrganizationEndpoint.TargetResourceTypeList = oTargetResourceTypeListEndpoint;
       ServiceSearchParameterLight_OrganizationEndpoint.Type = SearchParamType.Reference;
       OrganizationServiceSearchParameterLightList.Add(ServiceSearchParameterLight_OrganizationEndpoint);

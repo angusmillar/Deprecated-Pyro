@@ -36,7 +36,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_String") { IsUnique = false }));
 
-      HasOptional<ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
+      HasOptional<_ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
       Property(x => x.ServiceSearchParameterId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,

@@ -29,7 +29,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     {
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.ResourceId).IsRequired();
-      HasOptional<ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
+      HasOptional<_ServiceSearchParameter>(x => x.ServiceSearchParameter).WithMany().HasForeignKey(x => x.ServiceSearchParameterId);
       Property(x => x.ServiceSearchParameterId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
@@ -53,7 +53,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .IsOptional();
 
       HasOptional(x => x.ReferenceUrl);
-      HasOptional<ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);
+      HasOptional<_ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);
       Property(x => x.ReferenceServiceBaseUrlId)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,

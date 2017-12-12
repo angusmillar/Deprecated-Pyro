@@ -645,5 +645,13 @@
             <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>    
             <returns></returns>
         </member>
+        <member name="M:Pyro.Web.Extensions.ControllerTools.CalculateBaseURI(System.Web.Http.ApiController,System.String)">
+            <summary>
+            This will return the portion of the URL to the left of the Mask token given.
+            </summary>
+            <param name="me">The Controller instance</param>
+            <param name="Mask">The portion of the path directly after the service root base URL</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

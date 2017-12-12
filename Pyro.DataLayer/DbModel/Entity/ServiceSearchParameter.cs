@@ -12,7 +12,7 @@ namespace Pyro.DataLayer.DbModel.Entity
   /// <summary>
   /// This class is a one-to-one match to the FHIR API SearchParamDefinition yet some have been excluded, commented out below
   /// </summary>
-  public class ServiceSearchParameter : ModelBase
+  public class _ServiceSearchParameter : ModelBase
   {
     public string Resource { get; set; }
     public string Name { get; set; }
@@ -26,11 +26,11 @@ namespace Pyro.DataLayer.DbModel.Entity
     public DateTimeOffset LastUpdated { get; set; }
     public string SearchParameterResourceId { get; set; }
     public string SearchParameterResourceVersion { get; set; }
-    public ICollection<ServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public ICollection<_ServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
 
-    public ServiceSearchParameter()
+    public _ServiceSearchParameter()
     {
-      this.TargetResourceTypeList = new HashSet<ServiceSearchParameterTargetResource>();
+      this.TargetResourceTypeList = new HashSet<_ServiceSearchParameterTargetResource>();
     }
 
     /// <summary>

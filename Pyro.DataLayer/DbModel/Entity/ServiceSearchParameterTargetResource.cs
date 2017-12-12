@@ -13,9 +13,9 @@ namespace Pyro.DataLayer.DbModel.Entity
   /// This class is a one-to-one match to the FHIR API SearchParamDefinition's 'Target'
   /// which is the ResourceType list for Reference type search parameters
   /// </summary>
-  public class ServiceSearchParameterTargetResource : ModelBase, IServiceSearchParameterTargetResource
+  public class _ServiceSearchParameterTargetResource : ModelBase, IServiceSearchParameterTargetResource
   {
-    public virtual ServiceSearchParameter ServiceSearchParameter { get; set; }
+    public virtual _ServiceSearchParameter ServiceSearchParameter { get; set; }
     public int ServiceSearchParameterId { get; set; }
 
     public ResourceType ResourceType { get; set; }

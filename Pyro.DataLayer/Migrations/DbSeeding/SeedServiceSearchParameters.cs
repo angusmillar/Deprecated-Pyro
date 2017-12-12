@@ -47,7 +47,7 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
       var LastUpdated = DateTimeOffset.Now;
       foreach (var SearchParameter in DtoServiceSearchParameterList)
       {
-        var ServiceSearchParameter = new DbModel.Entity.ServiceSearchParameter()
+        var ServiceSearchParameter = new DbModel.Entity._ServiceSearchParameter()
         {
           Name = SearchParameter.Name,
           Description = SearchParameter.Description,
@@ -62,9 +62,9 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
         };
         if (SearchParameter.TargetResourceTypeList != null && SearchParameter.TargetResourceTypeList.Count > 0)
         {
-          ServiceSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+          ServiceSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
           foreach (var ResourceTypeTarget in SearchParameter.TargetResourceTypeList)
-            ServiceSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = ResourceTypeTarget.ResourceType });
+            ServiceSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = ResourceTypeTarget.ResourceType });
         }
         _Context.ServiceSearchParameter.Add(ServiceSearchParameter);
       }

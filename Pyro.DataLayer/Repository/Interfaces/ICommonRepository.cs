@@ -5,6 +5,6 @@ namespace Pyro.DataLayer.Repository.Interfaces
 {
   public interface ICommonRepository
   {
-    ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl);
+    _ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl);
   }
 }

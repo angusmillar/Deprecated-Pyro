@@ -15,7 +15,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     //ResCurrentType Resource { get; set; }
     int ResourceId { get; set; }
 
-    ServiceSearchParameter ServiceSearchParameter { get; set; }
+    _ServiceSearchParameter ServiceSearchParameter { get; set; }
     int ServiceSearchParameterId { get; set; }
   }
 }

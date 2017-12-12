@@ -180,22 +180,22 @@ namespace Pyro.DataLayer.Repository
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
     {
       RootUrl = StringSupport.ToLowerFast(RootUrl.StripHttp());
-      ServiceBaseUrl ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
+      _ServiceBaseUrl ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
       {
         ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;
       }
-      ServiceBaseUrl ExsistingNonPrimaryRootURL = this.GetPyro_RootUrlStore(RootUrl);
+      _ServiceBaseUrl ExsistingNonPrimaryRootURL = this.GetPyro_RootUrlStore(RootUrl);
       if (ExsistingNonPrimaryRootURL != null)
       {
         ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;
       }
       else
       {
-        ServiceBaseUrl Pyro_RootUrlStore = new ServiceBaseUrl();
+        _ServiceBaseUrl Pyro_RootUrlStore = new _ServiceBaseUrl();
         Pyro_RootUrlStore.IsServersPrimaryUrlRoot = true;
         Pyro_RootUrlStore.Url = RootUrl;
-        IPyroDbContext.Set<ServiceBaseUrl>().Add(Pyro_RootUrlStore);
+        IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
       }
       this.Save();
       return this.GetPrimaryRootUrlStore();
@@ -204,7 +204,7 @@ namespace Pyro.DataLayer.Repository
     public IDtoRootUrlStore GetPrimaryRootUrlStore()
     {
       IDtoRootUrlStore DtoRootUrlStore = null;
-      ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
+      _ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
       if (oServiceBaseUrl != null)
       {
         DtoRootUrlStore = ICommonFactory.CreateDtoRootUrlStore();
@@ -220,16 +220,16 @@ namespace Pyro.DataLayer.Repository
     /// </summary>
     /// <param name="UrlString"></param>
     /// <returns></returns>
-    public ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
+    public _ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
     {
       ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
-      ServiceBaseUrl Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
+      _ServiceBaseUrl Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
       if (Pyro_RootUrlStore == null)
       {
-        Pyro_RootUrlStore = new ServiceBaseUrl();
+        Pyro_RootUrlStore = new _ServiceBaseUrl();
         Pyro_RootUrlStore.IsServersPrimaryUrlRoot = false;
         Pyro_RootUrlStore.Url = ServiceRootUrl;
-        Pyro_RootUrlStore = IPyroDbContext.Set<ServiceBaseUrl>().Add(Pyro_RootUrlStore);
+        Pyro_RootUrlStore = IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
         this.Save();
         return Pyro_RootUrlStore;
       }
@@ -239,12 +239,12 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
-    protected ServiceBaseUrl GetPrimaryPyro_RootUrlStore()
+    protected _ServiceBaseUrl GetPrimaryPyro_RootUrlStore()
     {
       return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
     }
 
-    protected ServiceBaseUrl GetPyro_RootUrlStore(string ServiceRootUrl)
+    protected _ServiceBaseUrl GetPyro_RootUrlStore(string ServiceRootUrl)
     {
       ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
       return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl);
@@ -285,7 +285,7 @@ namespace Pyro.DataLayer.Repository
     {
       var ReturnList = new List<ServiceSearchParameterHeavy>();
 
-      List<ServiceSearchParameter> ResourceServiceSearchParameterList;
+      List<_ServiceSearchParameter> ResourceServiceSearchParameterList;
       if (CustomOnly)
       {
         ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.SearchParameterResourceId != null).ToList();
@@ -383,7 +383,7 @@ namespace Pyro.DataLayer.Repository
       if (ServiceSearchParameterHeavy == null)
         return null;
 
-      var DbSearchParameter = new ServiceSearchParameter();
+      var DbSearchParameter = new _ServiceSearchParameter();
       DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
       DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
       DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
@@ -398,11 +398,11 @@ namespace Pyro.DataLayer.Repository
       DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
       if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
       {
-        DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+        DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
         foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
-          DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+          DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
       }
-      ServiceSearchParameter value = AddServiceSearchParameters(DbSearchParameter);
+      _ServiceSearchParameter value = AddServiceSearchParameters(DbSearchParameter);
       ServiceSearchParameterHeavy.Id = value.Id;
       this.Save();
       return ServiceSearchParameterHeavy;
@@ -413,7 +413,7 @@ namespace Pyro.DataLayer.Repository
       if (ServiceSearchParameterHeavy == null)
         return null;
 
-      var DbSearchParameter = new ServiceSearchParameter();
+      var DbSearchParameter = new _ServiceSearchParameter();
       DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
       DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
       DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
@@ -428,11 +428,11 @@ namespace Pyro.DataLayer.Repository
       DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
       if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
       {
-        DbSearchParameter.TargetResourceTypeList = new List<ServiceSearchParameterTargetResource>();
+        DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
         foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
-          DbSearchParameter.TargetResourceTypeList.Add(new ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+          DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
       }
-      ServiceSearchParameter value = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
+      _ServiceSearchParameter value = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
       ServiceSearchParameterHeavy.Id = value.Id;
       return ServiceSearchParameterHeavy;
     }
@@ -447,19 +447,19 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
-    protected ServiceSearchParameter AddServiceSearchParameters(ServiceSearchParameter ServiceSearchParameter)
+    protected _ServiceSearchParameter AddServiceSearchParameters(_ServiceSearchParameter ServiceSearchParameter)
     {
-      ServiceSearchParameter = IPyroDbContext.Set<ServiceSearchParameter>().Add(ServiceSearchParameter);
+      ServiceSearchParameter = IPyroDbContext.Set<_ServiceSearchParameter>().Add(ServiceSearchParameter);
       this.Save();
       return ServiceSearchParameter;
     }
 
-    protected ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
+    protected _ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
     {
       return IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
     }
 
-    protected ServiceSearchParameter UpdateServiceSearchParameters(int Id, ServiceSearchParameter SearchParameter)
+    protected _ServiceSearchParameter UpdateServiceSearchParameters(int Id, _ServiceSearchParameter SearchParameter)
     {
       var DbSearchParameter = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
       DbSearchParameter.Description = SearchParameter.Description;
@@ -480,7 +480,7 @@ namespace Pyro.DataLayer.Repository
       return DbSearchParameter;
     }
 
-    protected List<ServiceSearchParameter> GetAllServiceSearchParameters()
+    protected List<_ServiceSearchParameter> GetAllServiceSearchParameters()
     {
       return IPyroDbContext.ServiceSearchParameter.ToList();
     }

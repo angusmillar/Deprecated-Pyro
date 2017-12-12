@@ -161,6 +161,10 @@
     <Compile Include="Migrations\201709122345167_OldIndexesDrop.Designer.cs">
       <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712120810582_RenameServiceTables.cs" />
+    <Compile Include="Migrations\201712120810582_RenameServiceTables.Designer.cs">
+      <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -228,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709122345167_OldIndexesDrop.resx">
       <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712120810582_RenameServiceTables.resx">
+      <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

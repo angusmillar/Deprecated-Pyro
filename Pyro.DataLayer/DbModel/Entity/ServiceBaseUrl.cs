@@ -7,12 +7,12 @@ using Pyro.DataLayer.DbModel.EntityBase;
 
 namespace Pyro.DataLayer.DbModel.Entity
 {
-  public class ServiceBaseUrl : ModelBase
-  {    
+  public class _ServiceBaseUrl : ModelBase
+  {
     public string Url { get; set; }
     public bool IsServersPrimaryUrlRoot { get; set; }
 
-    public ServiceBaseUrl()
+    public _ServiceBaseUrl()
     {
     }
   }

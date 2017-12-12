@@ -12,7 +12,7 @@ using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class ServiceSearchParameterTargetResourceConfig : EntityTypeConfiguration<ServiceSearchParameterTargetResource>
+  public class ServiceSearchParameterTargetResourceConfig : EntityTypeConfiguration<_ServiceSearchParameterTargetResource>
   {
     public ServiceSearchParameterTargetResourceConfig()
     {

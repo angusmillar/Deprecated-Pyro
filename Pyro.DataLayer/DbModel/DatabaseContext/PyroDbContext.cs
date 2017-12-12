@@ -39,9 +39,9 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       return base.Set<TEntity>();
     }
 
-    public DbSet<ServiceBaseUrl> ServiceBaseUrl { get; set; }
+    public DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
 
-    public DbSet<ServiceSearchParameter> ServiceSearchParameter { get; set; }
+    public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
 
   }
 }

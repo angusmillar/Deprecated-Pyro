@@ -46,7 +46,7 @@ namespace Pyro.Web.Controllers
     [ActionLog]
     public HttpResponseMessage Base([FromBody] FhirModel.Resource resource)
     {
-      string BaseRequestUri = this.CalculateBaseURI("metadata");
+      string BaseRequestUri = this.CalculateBaseURI("");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Base(BaseRequestUri, Request, resource);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }

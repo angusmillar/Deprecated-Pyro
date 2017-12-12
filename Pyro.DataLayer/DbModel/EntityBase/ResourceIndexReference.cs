@@ -24,7 +24,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public string ReferenceFhirId { get; set; }
     public string ReferenceResourceType { get; set; }
     public int? ReferenceServiceBaseUrlId { get; set; }
-    public ServiceBaseUrl ReferenceUrl { get; set; }
+    public _ServiceBaseUrl ReferenceUrl { get; set; }
     public string ReferenceVersionId { get; set; }
   }
 }

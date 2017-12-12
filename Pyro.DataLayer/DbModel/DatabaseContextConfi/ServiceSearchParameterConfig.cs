@@ -15,7 +15,7 @@ using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class ServiceSearchParameterConfig : EntityTypeConfiguration<ServiceSearchParameter>
+  public class ServiceSearchParameterConfig : EntityTypeConfiguration<_ServiceSearchParameter>
   {
     public ServiceSearchParameterConfig()
     {
