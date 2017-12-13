@@ -69,10 +69,10 @@ namespace Pyro.Common.Tools
     public static Uri GetPageNavigationUri(string RequestUriString, int? NewPageNumber)
     {
       //examples
-      //http://localhost:8888/test/stu3/fhir/StructureDefinition
-      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?page=1
-      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?url=http://blabla.com/something&page=1
-      //http://localhost:8888/test/stu3/fhir/StructureDefinition/?url=http://blabla.com/something&page=1&xyz=bla
+      //http://localhost:8888/fhir/StructureDefinition
+      //http://localhost:8888/fhir/StructureDefinition/?page=1
+      //http://localhost:8888/fhir/StructureDefinition/?url=http://blabla.com/something&page=1
+      //http://localhost:8888/fhir/StructureDefinition/?url=http://blabla.com/something&page=1&xyz=bla
 
       //If the page number is null then we don't need a link as we are currently at the end or the beginning
       if (!NewPageNumber.HasValue)

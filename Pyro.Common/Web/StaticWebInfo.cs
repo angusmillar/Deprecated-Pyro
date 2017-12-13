@@ -8,7 +8,7 @@ namespace Pyro.Common.Web
 {
   public static class StaticWebInfo
   {
-    public const string ServiceRoute = "test/stu3/fhir";
+    public const string ServiceRoute = "fhir";
     public const string TestingPort = "8888";
   }
 }

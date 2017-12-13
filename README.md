@@ -66,7 +66,7 @@ You will also need to set the ‘ServiceBaseURL’ property in the file (See doco ab
 `Pyro.Web \App_Data\ PyroApp.config`
 
 Both projects when first run will create a database at the given ConnectionString.
-This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/test/stu3/fhir/Patient to tigger this to occur.
+This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to tigger this to occur.
 Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
 
 **Logging**

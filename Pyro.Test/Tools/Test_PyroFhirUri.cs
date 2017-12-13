@@ -14,8 +14,8 @@ namespace Pyro.Test.Tools
   [Category("Tool: PyroFhirUri")]
   class Test_PyroFhirUri
   {
-    private string PrimaryServiceRootLocal = "http://localhost:8888/test/stu3/fhir";
-    private string PrimaryServiceRootWeb = "http://pyrohealth.net/test/stu3/fhir";
+    private string PrimaryServiceRootLocal = "http://localhost:8888/fhir";
+    private string PrimaryServiceRootWeb = "http://pyrohealth.net/fhir";
     private string PrimaryServiceRootRemote = "http://SomeOther/one/two/three/fhir";
     private Moq.Mock<IPrimaryServiceRootCache> MokPrimaryServiceRootCache = null;
 
@@ -38,7 +38,7 @@ namespace Pyro.Test.Tools
     {
       //Arrange
       // URl : Http://localhost:50579/fhirapi/Organization/1
-      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
       SetServiceRootMok(HttpsPrimaryServiceRootLocal);
       string Request = HttpsPrimaryServiceRootLocal + "/Patient/10";
 
@@ -405,7 +405,7 @@ namespace Pyro.Test.Tools
     {
       //Arrange
       // URl : Http://localhost:50579/fhirapi/Patient/10/Condition
-      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
       SetServiceRootMok(HttpsPrimaryServiceRootLocal);
       string Request = HttpsPrimaryServiceRootLocal + "/Patient/10/Condition";
 
@@ -430,7 +430,7 @@ namespace Pyro.Test.Tools
     {
       //Arrange
       // URl : Http://localhost:50579/fhirapi/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
-      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/test/stu3/fhir";
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
       SetServiceRootMok(HttpsPrimaryServiceRootLocal);
       string Request = HttpsPrimaryServiceRootLocal + "/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns";
 

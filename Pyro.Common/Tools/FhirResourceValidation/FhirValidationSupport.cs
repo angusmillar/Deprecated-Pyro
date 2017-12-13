@@ -53,7 +53,7 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       //MultiResolver.AddSource(new InternalServerProfileResolver());
 
       //for Debugging look somewhere?
-      //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://localhost:50579/test/stu3/fhir")));
+      //MultiResolver.AddSource(new WebResolver(id => new FhirClient("http://localhost:50579/fhir")));
 
       // Prepare the artefact resolvers (cache to reduce complexity)
       ResourceResolver = new CachedResolver(MultiResolver);
