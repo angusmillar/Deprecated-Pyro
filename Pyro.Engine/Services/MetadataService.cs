@@ -66,7 +66,14 @@ namespace Pyro.Engine.Services
 
       var Contact = new ContactDetail();
       Contact.Name = "Angus Millar";
-      Contact.Telecom = new List<ContactPoint>() { new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0418059995") };
+      Contact.Telecom = new List<ContactPoint>();
+      var PhoneContactPoint = new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0481059995");
+      Contact.Telecom.Add(PhoneContactPoint);
+      var EmailContactPoint = new ContactPoint(ContactPoint.ContactPointSystem.Email, ContactPoint.ContactPointUse.Home, "angusbmillar@gmail.com");
+      EmailContactPoint.Rank = 1;
+      EmailContactPoint.Period = new Period();
+      EmailContactPoint.Period.StartElement = new FhirDateTime(new DateTimeOffset(2017, 12, 22, 8, 00, 00, new TimeSpan(8, 00, 00)));
+      Contact.Telecom.Add(EmailContactPoint);
       Conformance.Contact = new List<ContactDetail>() { Contact };
 
       Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
