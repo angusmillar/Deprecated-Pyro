@@ -22,7 +22,8 @@ namespace Pyro.Common.Tools
       }
       else
       {
-        BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
+        if (BaseURLPath.EndsWith("/"))
+          BaseURLPath = BaseURLPath.Substring(0, BaseURLPath.LastIndexOf('/'));
         return new Uri(String.Format("{0}/{1}", BaseURLPath, FhirId));
       }
     }

@@ -226,7 +226,7 @@ namespace Pyro.Web.Attributes
           // Add custom SQL-on-FHIR event data
           Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
 
-
+          //ToDo: Need to set these in Global Properties!!
           if (true)
           //if (FhirAppSettings.LogRequestData)
           {
