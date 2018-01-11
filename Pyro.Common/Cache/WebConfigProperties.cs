@@ -35,6 +35,35 @@ namespace Pyro.Common.Cache
       }
     }
 
+    public static bool FhirAuditEventLogRequestData()
+    {
+      try
+      {
+        string FhirAuditEventLogRequestData = ConfigurationManager.AppSettings["FhirAuditEventLogRequestData"].ToString();
+        return StringSupport.StringToBoolean(FhirAuditEventLogRequestData);
+      }
+      catch (NullReferenceException)
+      {
+        //if not set in file then default to true;
+        return true;
+      }
+    }
+
+    public static bool FhirAuditEventLogResponseData()
+    {
+      try
+      {
+        string FhirAuditEventLogResponseData = ConfigurationManager.AppSettings["FhirAuditEventLogResponseData"].ToString();
+        return StringSupport.StringToBoolean(FhirAuditEventLogResponseData);
+      }
+      catch (NullReferenceException)
+      {
+        //if not set in file then default to true;
+        return true;
+      }
+    }
+
+
     /// <summary>
     /// This setting sets the default number of Resource returned for one page of search results. 
     /// i.e The number of resource returned in a search bundle. 

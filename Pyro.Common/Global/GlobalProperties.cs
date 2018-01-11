@@ -16,6 +16,8 @@ namespace Pyro.Common.Global
       _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;
       _NumberOfRecordsPerPageDefault = WebConfigProperties.NumberOfRecordsPerPageDefault();
       _MaxNumberOfRecordsPerPage = WebConfigProperties.MaxNumberOfRecordsPerPage();
+      _FhirAuditEventLogRequestData = WebConfigProperties.FhirAuditEventLogRequestData();
+      _FhirAuditEventLogResponseData = WebConfigProperties.FhirAuditEventLogResponseData();
     }
 
     private string _ServiceRootUrl;
@@ -57,6 +59,24 @@ namespace Pyro.Common.Global
       get
       {
         return _MaxNumberOfRecordsPerPage;
+      }
+    }
+
+    private bool _FhirAuditEventLogRequestData;
+    public bool FhirAuditEventLogRequestData
+    {
+      get
+      {
+        return _FhirAuditEventLogRequestData;
+      }
+    }
+
+    private bool _FhirAuditEventLogResponseData;
+    public bool FhirAuditEventLogResponseData
+    {
+      get
+      {
+        return _FhirAuditEventLogResponseData;
       }
     }
 

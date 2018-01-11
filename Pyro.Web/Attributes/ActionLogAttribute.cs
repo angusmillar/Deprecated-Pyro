@@ -16,6 +16,7 @@ using System.Web.Http.Filters;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
 using Pyro.Common.Service;
 using Pyro.Common.Logging;
+using Pyro.Common.Global;
 
 namespace Pyro.Web.Attributes
 {
@@ -37,23 +38,20 @@ namespace Pyro.Web.Attributes
       var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
       var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
+      var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
 
       using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
       {
         try
         {
-          DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
-          // TimeSpan duration = (DateTime.Now - dtStart);
+          DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];          
           System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
           stopwatch.Stop();
           TimeSpan duration = stopwatch.Elapsed;
 
           ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
           IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
-
-
-          //IDtoRequestUri DtoRequestUri = Services.PrimaryServiceRootFactory.Create2(oService as ICommonServices,)
-
+          
           // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
           var owinContext = actionExecutedContext.Request.GetOwinContext();
 
@@ -223,12 +221,10 @@ namespace Pyro.Web.Attributes
           Audit.Text = new Narrative();
           Audit.Text.Div = Narative.Generate();
 
-          // Add custom SQL-on-FHIR event data
-          Audit.AddExtension("http://healthconnex.com.au/sof/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
-
-          //ToDo: Need to set these in Global Properties!!
-          if (true)
-          //if (FhirAppSettings.LogRequestData)
+          // Add custom PyroHealth event data
+          Audit.AddExtension("http://pyrohealth.net/extention/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
+          
+          if (IGlobalProperties.FhirAuditEventLogRequestData)          
           {
             var requestDataObj = new AuditEvent.EntityComponent();
             requestDataObj.Identifier = new Identifier(null, "RequestData");
@@ -246,8 +242,7 @@ namespace Pyro.Web.Attributes
             }
           }
 
-          if (true)
-          //if (FhirAppSettings.LogResponseData)
+          if (IGlobalProperties.FhirAuditEventLogResponseData)         
           {
             var responseDataObj = new AuditEvent.EntityComponent();
             responseDataObj.Identifier = new Identifier(null, "ResponseData");
@@ -270,10 +265,8 @@ namespace Pyro.Web.Attributes
           Transaction.Commit();
         }
         catch (Exception Exec)
-        {
-          // TODO: This exception should be stored somewhere, registry?
-          Logger.Log.Error(Exec, "ActionLogAttribute");
-          //System.Diagnostics.Trace.WriteLine("ActionLogAttribute.cs :" + Exec.Message);
+        {          
+          Logger.Log.Error(Exec, "ActionLogAttribute");          
           Transaction.Rollback();
         }
 

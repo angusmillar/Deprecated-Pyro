@@ -7,5 +7,7 @@
     string ApplicationVersionInfo { get; }
     int NumberOfRecordsPerPageDefault { get; }
     int MaxNumberOfRecordsPerPage { get; }
+    bool FhirAuditEventLogRequestData { get; }
+    bool FhirAuditEventLogResponseData { get; }
   }
 }
