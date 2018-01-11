@@ -4,6 +4,6 @@ namespace Pyro.Common.Interfaces.Repositories
 {
   public interface ICommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> : IResourceRepository
   {
-    FHIRAllTypes RepositoryResourceType { get; set; }
+    new FHIRAllTypes RepositoryResourceType { get; set; }
   }
 }

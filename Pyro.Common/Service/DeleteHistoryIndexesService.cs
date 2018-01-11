@@ -98,9 +98,11 @@ namespace Pyro.Common.Service
         {
           if (_ResourceList.Count > 0)
           {
-            Parameters ParametersResult = new Parameters();
-            //ParametersResult.Id = ParametersResource.Id + "-Response";
-            ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
+            Parameters ParametersResult = new Parameters
+            {
+              //ParametersResult.Id = ParametersResource.Id + "-Response";
+              Parameter = new List<Parameters.ParameterComponent>()
+            };
 
             foreach (string ResourceName in _ResourceList)
             {

@@ -133,8 +133,7 @@ namespace Pyro.Web.Attributes
             Audit.Agent[0].Name = owinContext.Authentication.User.Identity.Name;
 
             // read additional details from the identity claims
-            var ci = owinContext.Authentication.User.Identity as System.Security.Claims.ClaimsIdentity;
-            if (ci != null)
+            if (owinContext.Authentication.User.Identity is System.Security.Claims.ClaimsIdentity ci)
             {
               var claim = ci.Claims.Where(c => c.Type == "name").FirstOrDefault();
               if (claim != null)
@@ -144,8 +143,10 @@ namespace Pyro.Web.Attributes
                 Audit.Agent[0].AltId = claim.Value;
               if (ci.Claims.Any(c => c.Type == "author_only_access" && c.Value == "true"))
               {
-                Audit.Agent[0].Role = new List<CodeableConcept>();
-                Audit.Agent[0].Role.Add(new CodeableConcept(null, "author_only_access"));
+                Audit.Agent[0].Role = new List<CodeableConcept>
+                {
+                  new CodeableConcept(null, "author_only_access")
+                };
               }
             }
           }
@@ -156,9 +157,11 @@ namespace Pyro.Web.Attributes
             Type = AuditEvent.AuditEventAgentNetworkType.N2
           };
 
-          Audit.Source = new AuditEvent.SourceComponent();
-          Audit.Source.Site = "Cloud";
-          Audit.Source.Identifier = new Identifier(null, actionExecutedContext.Request.RequestUri.GetLeftPart(UriPartial.Authority));
+          Audit.Source = new AuditEvent.SourceComponent
+          {
+            Site = "Cloud",
+            Identifier = new Identifier(null, actionExecutedContext.Request.RequestUri.GetLeftPart(UriPartial.Authority))
+          };
           Audit.Source.Type.Add(new Coding() { System = "http://hl7.org/fhir/ValueSet/audit-source-type", Code = "3", Display = "Web Server" });
 
           if (route.Values.ContainsKey("ResourceName") && route.Values.ContainsKey("id"))
@@ -166,13 +169,15 @@ namespace Pyro.Web.Attributes
             string relativeUri = String.Format("{0}/{1}", route.Values["ResourceName"] as string, route.Values["id"] as string);
             if (route.Values.ContainsKey("vid"))
               relativeUri += "/_history/" + route.Values["vid"] as string;
-            Audit.Entity = new List<AuditEvent.EntityComponent>();
-            Audit.Entity.Add(new AuditEvent.EntityComponent()
+            Audit.Entity = new List<AuditEvent.EntityComponent>
             {
-              Name = actionExecutedContext.Request.RequestUri.ToString(),
-              Reference = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
-              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
-            });
+              new AuditEvent.EntityComponent()
+              {
+                Name = actionExecutedContext.Request.RequestUri.ToString(),
+                Reference = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
+                Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
+              }
+            };
             if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
             {
               string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
@@ -182,15 +187,17 @@ namespace Pyro.Web.Attributes
           }
           else
           {
-            Audit.Entity = new List<AuditEvent.EntityComponent>();
-            Audit.Entity.Add(new AuditEvent.EntityComponent()
+            Audit.Entity = new List<AuditEvent.EntityComponent>
             {
-              Name = actionExecutedContext.Request.RequestUri.ToString(),
-              Description = baseUri == null ?
+              new AuditEvent.EntityComponent()
+              {
+                Name = actionExecutedContext.Request.RequestUri.ToString(),
+                Description = baseUri == null ?
                                 owinContext.Request.Uri.OriginalString
                                 : owinContext.Request.Uri.OriginalString.Replace(baseUri, ""),
-              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
-            });
+                Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
+              }
+            };
 
             if (actionExecutedContext.Request.Properties.ContainsKey(Attributes.ActionLogAttribute.ResourceIdentityKey))
             {
@@ -218,20 +225,24 @@ namespace Pyro.Web.Attributes
             Audit.OutcomeDesc = actionExecutedContext.Exception.Message;
             Narative.AppendValuePairList("Error", actionExecutedContext.Exception.Message);
           }
-          Audit.Text = new Narrative();
-          Audit.Text.Div = Narative.Generate();
+          Audit.Text = new Narrative
+          {
+            Div = Narative.Generate()
+          };
 
           // Add custom PyroHealth event data
           Audit.AddExtension("http://pyrohealth.net/extention/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
           
           if (IGlobalProperties.FhirAuditEventLogRequestData)          
           {
-            var requestDataObj = new AuditEvent.EntityComponent();
-            requestDataObj.Identifier = new Identifier(null, "RequestData");
-            requestDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
-            requestDataObj.Description = "Orginial Request Data";
-            requestDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" };
-            requestDataObj.Detail = new List<AuditEvent.DetailComponent>();
+            var requestDataObj = new AuditEvent.EntityComponent
+            {
+              Identifier = new Identifier(null, "RequestData"),
+              Name = actionExecutedContext.Request.RequestUri.ToString(),
+              Description = "Orginial Request Data",
+              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" },
+              Detail = new List<AuditEvent.DetailComponent>()
+            };
             var DetailComponent = new AuditEvent.DetailComponent();
             requestDataObj.Detail.Add(DetailComponent);
             string RequestData = GetRequestData(actionExecutedContext);
@@ -244,12 +255,14 @@ namespace Pyro.Web.Attributes
 
           if (IGlobalProperties.FhirAuditEventLogResponseData)         
           {
-            var responseDataObj = new AuditEvent.EntityComponent();
-            responseDataObj.Identifier = new Identifier(null, "ResponseData");
-            responseDataObj.Name = actionExecutedContext.Request.RequestUri.ToString();
-            responseDataObj.Description = "Orginial Response Data";
-            responseDataObj.Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" };
-            responseDataObj.Detail = new List<AuditEvent.DetailComponent>();
+            var responseDataObj = new AuditEvent.EntityComponent
+            {
+              Identifier = new Identifier(null, "ResponseData"),
+              Name = actionExecutedContext.Request.RequestUri.ToString(),
+              Description = "Orginial Response Data",
+              Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" },
+              Detail = new List<AuditEvent.DetailComponent>()
+            };
             var DetailComponent = new AuditEvent.DetailComponent();
             responseDataObj.Detail.Add(DetailComponent);
             string ResponseData = GetResponseData(actionExecutedContext);
@@ -318,12 +331,11 @@ namespace Pyro.Web.Attributes
 
     private int GetEntityId(Microsoft.Owin.IOwinContext owinContext, HttpActionExecutedContext actionExecutedContext)
     {
-      int id = 0;
 
       var split = owinContext.Request.Uri.AbsolutePath.Split('/').ToList();
 
       string x = !String.IsNullOrEmpty(split.Last()) ? split.Last() : split[split.Count - 2];
-      Int32.TryParse(x, out id);
+      Int32.TryParse(x, out int id);
 
       if (id == 0)
       {

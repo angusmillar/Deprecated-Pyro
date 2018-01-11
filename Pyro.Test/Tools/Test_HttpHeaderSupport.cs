@@ -115,8 +115,10 @@ namespace Pyro.Test.IndexSetters
       string RequestUriString = "https://someserver.com/thing/fhir/Patient";
       var RequestUri = new Uri(RequestUriString);
 
-      var client = new HttpClient();
-      client.BaseAddress = new Uri(RequestUriString);
+      var client = new HttpClient
+      {
+        BaseAddress = new Uri(RequestUriString)
+      };
       client.DefaultRequestHeaders.Accept.Clear();
       client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
       HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, RequestUriString);
@@ -284,8 +286,6 @@ namespace Pyro.Test.IndexSetters
 
       //Assert
       Assert.AreEqual(Result, ExpectedResult);
-
-
     }
 
     [Test]
@@ -302,8 +302,6 @@ namespace Pyro.Test.IndexSetters
 
       //Assert
       Assert.AreEqual(Result, Expected);
-
-
     }
 
     [Test]
@@ -311,15 +309,12 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string HttpDate = "Thux, 11 Jan 2018 03:40:00 GMT";
-
       
       //Act
       DateTimeOffset? Result = Pyro.Common.Tools.HttpHeaderSupport.ParseHttpDate(HttpDate);
 
       //Assert
       Assert.IsNull(Result);
-
-
     }
   }
 }

@@ -20,8 +20,7 @@ namespace Pyro.Common.Tools.UriSupport
     public PyroFhirUri(IPrimaryServiceRootCache IPrimaryServiceRootCache)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
-      Uri TempUri = null;
-      if (Uri.TryCreate(this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig(), UriKind.RelativeOrAbsolute, out TempUri))
+      if (Uri.TryCreate(this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig(), UriKind.RelativeOrAbsolute, out Uri TempUri))
       {
         string RegexResourceDilimeter = "|";
         _FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);

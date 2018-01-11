@@ -804,7 +804,7 @@ namespace Pyro.DataLayer.Search
       ConstantExpression SearchValueReferenceVersionId = Expression.Constant(VersionId, typeof(string));
 
       //FhirIdArray.Contains(y.ReferenceFhirId)
-      Expression<Func<ResIndexReferenceType, bool>> ReferenceFhirIdContainsExpression = ContainsFhirID<ResIndexReferenceType>(InnerParameter, FhirIdArray);
+      Expression<Func<ResIndexReferenceType, bool>> ReferenceFhirIdContainsExpression = ContainsFhirID(InnerParameter, FhirIdArray);
 
 
 
@@ -892,7 +892,7 @@ namespace Pyro.DataLayer.Search
       return Expression.Equal(InnerPropertyId, InnerValueId);
     }
 
-    private Expression<Func<ResIndexReferenceType, bool>> ContainsFhirID<ResIndexReferenceType>(ParameterExpression Param, string[] FhirIdArray)
+    private Expression<Func<ResIndexReferenceType, bool>> ContainsFhirID(ParameterExpression Param, string[] FhirIdArray)
     {
       //FhirIdArray.Contains(c.ReferenceFhirId)
       MethodInfo methodInfo = typeof(List<string>).GetMethod("Contains", new Type[] { typeof(string) });
