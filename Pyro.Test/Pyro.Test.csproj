@@ -124,7 +124,6 @@
     <Compile Include="Search\Test_DtoSearchParameterGeneric.cs" />
     <Compile Include="Tools\Test_DateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
-    <Compile Include="Tools\Test_FhirDateSupport.cs" />
     <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
     <Compile Include="Tools\Test_HttpHeaderSupport.cs" />
     <Compile Include="Tools\Test_PyroFhirUri.cs" />

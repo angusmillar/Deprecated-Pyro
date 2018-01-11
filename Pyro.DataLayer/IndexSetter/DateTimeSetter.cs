@@ -66,7 +66,7 @@ namespace Pyro.DataLayer.IndexSetter
     private void SetTiming(Timing Timing, List<ResIndexDateTimeType> ResourceIndexList)
     {
       var ResourceIndex = new ResIndexDateTimeType();
-      Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Timing);
+      Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Timing);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
         ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
@@ -80,7 +80,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (Instant.Value.HasValue)
       {
         var ResourceIndex = new ResIndexDateTimeType();
-        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Instant);
+        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Instant);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
           ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
@@ -107,7 +107,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (FhirDateTime.IsValidValue(FhirDateTime.Value))
       {
         var ResourceIndex = new ResIndexDateTimeType();
-        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(FhirDateTime);
+        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(FhirDateTime);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
           ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
@@ -119,7 +119,7 @@ namespace Pyro.DataLayer.IndexSetter
     private void SetPeriod(Period Period, List<ResIndexDateTimeType> ResourceIndexList)
     {
       var ResourceIndex = new ResIndexDateTimeType();
-      Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Period);
+      Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Period);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
         ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
@@ -132,7 +132,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (Date.IsValidValue(Date.Value))
       {
         var ResourceIndex = new ResIndexDateTimeType();
-        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeSupport.GetDateTimeIndex(Date);
+        Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Date);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
           ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;

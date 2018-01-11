@@ -20,7 +20,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 12, 31, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -36,7 +36,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 28, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -53,7 +53,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -69,7 +69,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 999, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -86,7 +86,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 5, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -103,7 +103,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 23, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -120,7 +120,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 223, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(FhirDate);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -137,7 +137,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Period);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -155,7 +155,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset? ExpectedHigh = null;
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Period);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -173,7 +173,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0));
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Period);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -190,7 +190,7 @@ namespace Pyro.Test.IndexSetters
       DateTimeOffset? ExpectedHigh = null;
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Period);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -218,7 +218,7 @@ namespace Pyro.Test.IndexSetters
       Timing.Repeat.DurationUnit = Timing.UnitsOfTime.Min;
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Timing);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Timing);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -241,7 +241,7 @@ namespace Pyro.Test.IndexSetters
       Timing.EventElement.Add(EventStart2);
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Timing);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Timing);
 
       //Assert
       Assert.AreEqual(ExpectedLow, Result.Low);
@@ -264,7 +264,7 @@ namespace Pyro.Test.IndexSetters
       Timing.Repeat.DurationUnit = Timing.UnitsOfTime.Min;
 
       //Act
-      DateTimeIndex Result = DateTimeSupport.GetDateTimeIndex(Timing);
+      DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Timing);
 
       //Assert
       Assert.IsNull(Result.Low);

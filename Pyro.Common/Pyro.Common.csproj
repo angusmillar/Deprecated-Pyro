@@ -245,8 +245,7 @@
     <Compile Include="Tools\Connectathon\QuestionnaireResponseChecker.cs" />
     <Compile Include="Tools\Connectathon\QuestionnaireResults.cs" />
     <Compile Include="Tools\DateTimeIndex.cs" />
-    <Compile Include="Tools\DateTimeSupport.cs" />
-    <Compile Include="Tools\FhirDateSupport.cs" />
+    <Compile Include="Tools\DateTimeIndexSupport.cs" />
     <Compile Include="Tools\FhirDateTimeSupport.cs" />
     <Compile Include="Tools\HtmlSupport\HtmlGenerationSupport.cs" />
     <Compile Include="Tools\FhirOperationOutcomeSupport.cs" />

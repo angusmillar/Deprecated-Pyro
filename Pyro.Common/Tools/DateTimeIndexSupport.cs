@@ -10,7 +10,7 @@ using Hl7.Fhir.Support;
 
 namespace Pyro.Common.Tools
 {
-  public static class DateTimeSupport
+  public static class DateTimeIndexSupport
   {
     public static DateTimeIndex GetDateTimeIndex(Date value)
     {
