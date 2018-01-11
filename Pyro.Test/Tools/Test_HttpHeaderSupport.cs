@@ -114,13 +114,13 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       string RequestUriString = "https://someserver.com/thing/fhir/Patient";
       var RequestUri = new Uri(RequestUriString);
-      
+
       var client = new HttpClient();
       client.BaseAddress = new Uri(RequestUriString);
-      client.DefaultRequestHeaders.Accept.Clear();      
+      client.DefaultRequestHeaders.Accept.Clear();
       client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
       HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, RequestUriString);
-      
+
       //Act
       bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsAcceptMediaTypeSetInRequest(req);
 
@@ -142,8 +142,8 @@ namespace Pyro.Test.IndexSetters
         "application/xml",
         "application/xml fhir",
       };
-      
-      foreach(string MediaType in MediaTypeList)
+
+      foreach (string MediaType in MediaTypeList)
       {
         //Act
         string Result = Pyro.Common.Tools.HttpHeaderSupport.GetFhirMediaTypeString(MediaType);
@@ -151,7 +151,7 @@ namespace Pyro.Test.IndexSetters
         //Assert
         Assert.AreEqual(Result, Expected);
       }
-      
+
     }
 
     [Test]
@@ -164,7 +164,7 @@ namespace Pyro.Test.IndexSetters
         "application/fhir json",
         "text/json",
         "application/json",
-        "application/json fhir",        
+        "application/json fhir",
       };
 
       foreach (string MediaType in MediaTypeList)
@@ -175,6 +175,150 @@ namespace Pyro.Test.IndexSetters
         //Assert
         Assert.AreEqual(Result, Expected);
       }
+    }
+
+    [Test]
+    public void Test_IsModifiedOrNoneMatch_DiffModifiedDate_IsModified()
+    {
+      //Arrange
+      bool ExpectedResult = true;
+      // ifNoneMatch is the resource version numbner
+      string ifNoneMatch = "5";
+      // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
+      string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
+      // resourceVersionNumber is the version number of the resource from the server's database
+      string resourceVersionNumber = "5";
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset lastModified = DateTimeOffset.Parse("Thu, 11 Jan 2018 03:50:00 GMT", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsModifiedOrNoneMatch(ifNoneMatch, ifModifiedSince, resourceVersionNumber, lastModified);
+
+      //Assert
+      Assert.AreEqual(Result, ExpectedResult);
+
+
+    }
+
+    [Test]
+    public void Test_IsModifiedOrNoneMatch_DiffModifiedDate_IsNotModified()
+    {
+      //Arrange
+      bool ExpectedResult = false;
+      // ifNoneMatch is the resource version numbner
+      string ifNoneMatch = "5";
+      // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
+      string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
+      // resourceVersionNumber is the version number of the resource from the server's database
+      string resourceVersionNumber = "5";
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset lastModified = DateTimeOffset.Parse("Thu, 11 Jan 2018 03:30:00 GMT", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsModifiedOrNoneMatch(ifNoneMatch, ifModifiedSince, resourceVersionNumber, lastModified);
+
+      //Assert
+      Assert.AreEqual(Result, ExpectedResult);
+
+
+    }
+
+    [Test]
+    public void Test_IsModifiedOrNoneMatch_DiffVersion_IsModified()
+    {
+      //Arrange
+      bool ExpectedResult = true;
+      // ifNoneMatch is the resource version numbner
+      string ifNoneMatch = "5";
+      // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
+      string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
+      // resourceVersionNumber is the version number of the resource from the server's database
+      string resourceVersionNumber = "6";
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset lastModified = DateTimeOffset.Parse("Thu, 11 Jan 2018 03:40:00 GMT", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsModifiedOrNoneMatch(ifNoneMatch, ifModifiedSince, resourceVersionNumber, lastModified);
+
+      //Assert
+      Assert.AreEqual(Result, ExpectedResult);
+    }
+
+    [Test]
+    public void Test_IsModifiedOrNoneMatch_SameVersion_IsNotModified()
+    {
+      //Arrange
+      bool ExpectedResult = false;
+      // ifNoneMatch is the resource version numbner
+      string ifNoneMatch = "6";
+      // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
+      string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
+      // resourceVersionNumber is the version number of the resource from the server's database
+      string resourceVersionNumber = "6";
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset lastModified = DateTimeOffset.Parse("Thu, 11 Jan 2018 03:40:00 GMT", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsModifiedOrNoneMatch(ifNoneMatch, ifModifiedSince, resourceVersionNumber, lastModified);
+
+      //Assert
+      Assert.AreEqual(Result, ExpectedResult);
+    }
+
+    [Test]
+    public void Test_IsModifiedOrNoneMatch_DiffVersion_IsModified2()
+    {
+      //Arrange
+      bool ExpectedResult = true;
+      // ifNoneMatch is the resource version numbner
+      string ifNoneMatch = "6";
+      // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
+      string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
+      // resourceVersionNumber is the version number of the resource from the server's database
+      string resourceVersionNumber = "7";
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset lastModified = DateTimeOffset.Parse("Thu, 11 Jan 2018 03:40:00 GMT", System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      bool Result = Pyro.Common.Tools.HttpHeaderSupport.IsModifiedOrNoneMatch(ifNoneMatch, ifModifiedSince, resourceVersionNumber, lastModified);
+
+      //Assert
+      Assert.AreEqual(Result, ExpectedResult);
+
+
+    }
+
+    [Test]
+    public void Test_ParseHttpDate_OK()
+    {
+      //Arrange
+      string HttpDate = "Thu, 11 Jan 2018 03:40:00 GMT";
+     
+      // lastModified is the dateTime stamp of the resource from the server's database
+      DateTimeOffset Expected = DateTimeOffset.Parse(HttpDate, System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat, System.Globalization.DateTimeStyles.AssumeUniversal);
+
+      //Act
+      DateTimeOffset? Result = Pyro.Common.Tools.HttpHeaderSupport.ParseHttpDate(HttpDate);
+
+      //Assert
+      Assert.AreEqual(Result, Expected);
+
+
+    }
+
+    [Test]
+    public void Test_ParseHttpDate_NotOK()
+    {
+      //Arrange
+      string HttpDate = "Thux, 11 Jan 2018 03:40:00 GMT";
+
+      
+      //Act
+      DateTimeOffset? Result = Pyro.Common.Tools.HttpHeaderSupport.ParseHttpDate(HttpDate);
+
+      //Assert
+      Assert.IsNull(Result);
+
 
     }
   }
