@@ -43,8 +43,10 @@ namespace Pyro.Common.FhirHttpResponse
           if (Formater != null)
           {
             FhirMediaTypeFormatter = Formater;
-            Response = new HttpResponseMessage(HttpStatusCode);
-            Response.Content = new ObjectContent(typeof(Resource), Resource, Formater);
+            Response = new HttpResponseMessage(HttpStatusCode)
+            {
+              Content = new ObjectContent(typeof(Resource), Resource, Formater)
+            };
           }
           else
           {
@@ -115,12 +117,16 @@ namespace Pyro.Common.FhirHttpResponse
         else
         {
 
-          var oIssueComponent = new OperationOutcome.IssueComponent();
-          oIssueComponent.Severity = OperationOutcome.IssueSeverity.Fatal;
-          oIssueComponent.Code = OperationOutcome.IssueType.Exception;
-          oIssueComponent.Diagnostics = "Internal Error. FhirRestResponse contains no FHIR Resource or Id.";
-          var oOperationOutcome = new OperationOutcome();
-          oOperationOutcome.Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent };
+          var oIssueComponent = new OperationOutcome.IssueComponent
+          {
+            Severity = OperationOutcome.IssueSeverity.Fatal,
+            Code = OperationOutcome.IssueType.Exception,
+            Diagnostics = "Internal Error. FhirRestResponse contains no FHIR Resource or Id."
+          };
+          var oOperationOutcome = new OperationOutcome
+          {
+            Issue = new List<OperationOutcome.IssueComponent>() { oIssueComponent }
+          };
           throw new PyroException(HttpStatusCode.InternalServerError, oOperationOutcome, "Internal Error. FhirRestResponse contains no FHIR Resource or Id.");
         }
       }
@@ -185,10 +191,12 @@ namespace Pyro.Common.FhirHttpResponse
         }
         else
         {
-          var OpOutComeIssueComp = new OperationOutcome.IssueComponent();
-          OpOutComeIssueComp.Severity = OperationOutcome.IssueSeverity.Fatal;
-          OpOutComeIssueComp.Code = OperationOutcome.IssueType.Exception;
-          OpOutComeIssueComp.Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug.";
+          var OpOutComeIssueComp = new OperationOutcome.IssueComponent
+          {
+            Severity = OperationOutcome.IssueSeverity.Fatal,
+            Code = OperationOutcome.IssueType.Exception,
+            Diagnostics = "Internal Server Error: An unexpected HttpStatusCode has been encountered with a null resource to return. This is most likely a server bug."
+          };
           var OpOutCome = new OperationOutcome();
           OpOutCome.Issue.Add(OpOutComeIssueComp);
           FhirOperationOutcomeSupport.EscapeOperationOutComeContent(OpOutCome);
