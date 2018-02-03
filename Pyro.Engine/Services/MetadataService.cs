@@ -92,14 +92,14 @@ namespace Pyro.Engine.Services
 
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
-      Conformance.Software.Version = $"V{IGlobalProperties.ApplicationVersionInfo}";
+      Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;  //To align with FHIR version only use number no prefix of 'V'
       Conformance.Software.ReleaseDate = ApplicationReleaseDate.ToString();
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = $"{ServerName} is an implementation of a FHIR server supporting V{Hl7.Fhir.Model.ModelInfo.Version} of the specification. This instance is a publicly available testing server and its resource may be cleared at any time.";
       Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url}";
 
-      Conformance.FhirVersion = $"V{Hl7.Fhir.Model.ModelInfo.Version}";
+      Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version; //Must be formated as just the number '3.0.1' as touchstone does not like the V3.0.1
       Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
 
       var ContentFormatList = new List<string>();
