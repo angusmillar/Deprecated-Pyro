@@ -39,19 +39,21 @@ namespace Pyro.Web.Attributes
       var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
+      //var ILog = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ILog)) as ILog;
 
       using (DbContextTransaction Transaction = ResourceServices.BeginTransaction())
       {
         try
         {
-          DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];          
+
+          DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
           System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
           stopwatch.Stop();
           TimeSpan duration = stopwatch.Elapsed;
 
           ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
           IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
-          
+
           // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
           var owinContext = actionExecutedContext.Request.GetOwinContext();
 
@@ -232,8 +234,8 @@ namespace Pyro.Web.Attributes
 
           // Add custom PyroHealth event data
           Audit.AddExtension("http://pyrohealth.net/extention/AuditEvent/TimeTaken", new FhirDecimal((decimal)duration.TotalMilliseconds));
-          
-          if (IGlobalProperties.FhirAuditEventLogRequestData)          
+
+          if (IGlobalProperties.FhirAuditEventLogRequestData)
           {
             var requestDataObj = new AuditEvent.EntityComponent
             {
@@ -252,8 +254,8 @@ namespace Pyro.Web.Attributes
               Audit.Entity.Add(requestDataObj);
             }
           }
-
-          if (IGlobalProperties.FhirAuditEventLogResponseData)         
+          
+          if (IGlobalProperties.FhirAuditEventLogResponseData)
           {
             var responseDataObj = new AuditEvent.EntityComponent
             {
@@ -273,17 +275,39 @@ namespace Pyro.Web.Attributes
             }
           }
 
+          //Will only log if Debug logging is enabled. 
+          DebugLogRequestResource(actionExecutedContext);
+
+
           //Commit to Database          
           IResourceServiceOutcome ResourceServiceOutcome = (ResourceServices as IResourceServicesBase).SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
           Transaction.Commit();
         }
         catch (Exception Exec)
-        {          
-          Logger.Log.Error(Exec, "ActionLogAttribute");          
+        {
+          Logger.Log.Error(Exec, "ActionLogAttribute");
           Transaction.Rollback();
         }
 
         base.OnActionExecuted(actionExecutedContext);
+      }
+    }
+
+    private void DebugLogRequestResource(HttpActionExecutedContext context)
+    {
+      if (Logger.Log.IsDebugEnabled)
+      {
+        if (context.ActionContext.ActionArguments.Keys.Count > 0)
+        {
+          if (context.ActionContext.ActionArguments.ContainsKey("resource"))
+          {
+            if (context.ActionContext.ActionArguments["resource"] is Resource FhirResource)
+            {
+              string XmlFHIRResource = Common.Tools.FhirResourceSerializationSupport.SerializeToXml(FhirResource);
+              Logger.Log.Debug($"{System.Environment.NewLine}{XmlFHIRResource}{System.Environment.NewLine}");
+            }
+          }
+        }
       }
     }
 
@@ -292,7 +316,7 @@ namespace Pyro.Web.Attributes
       string result = null;
 
       if (context.ActionContext.ActionArguments.Keys.Count > 0)
-      {
+      {        
         result = Newtonsoft.Json.JsonConvert.SerializeObject(context.ActionContext.ActionArguments);
       }
       return result;
