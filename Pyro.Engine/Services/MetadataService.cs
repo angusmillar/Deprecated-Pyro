@@ -61,7 +61,7 @@ namespace Pyro.Engine.Services
       Conformance.Name = ServerName;
       Conformance.Status = PublicationStatus.Active;
       Conformance.Experimental = true;
-      Conformance.Date = (new FhirDateTime(ApplicationReleaseDate)).Value; //This date is formted incorrctly needs to be FHIR format
+      Conformance.Date = (new FhirDateTime(ApplicationReleaseDate)).Value;
       Conformance.Publisher = "PyroHealth.net";
 
       var Contact = new ContactDetail();
@@ -93,7 +93,7 @@ namespace Pyro.Engine.Services
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
       Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;  //To align with FHIR version only use number no prefix of 'V'
-      Conformance.Software.ReleaseDate = (new FhirDateTime(ApplicationReleaseDate)).Value; //This date is formted incorrctly needs to be FHIR format
+      Conformance.Software.ReleaseDate = (new FhirDateTime(ApplicationReleaseDate)).Value; 
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = $"{ServerName} is an implementation of a FHIR server supporting V{Hl7.Fhir.Model.ModelInfo.Version} of the specification. This instance is a publicly available testing server and its resource may be cleared at any time.";
