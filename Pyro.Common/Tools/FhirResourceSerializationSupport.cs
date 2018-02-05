@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Pyro.Common.Exceptions;
@@ -17,6 +18,20 @@ namespace Pyro.Common.Tools
       catch (Exception oExec)
       {
         string Message = string.Format("DeSerialisation of a XML to FHIR Resource failed with the following message: {0}", oExec.Message);
+        OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
+      }
+    }
+
+    public static string SerializeToXml(Resource Resource)
+    {
+      try
+      {
+        return FhirSerializer.SerializeResourceToXml(Resource, Hl7.Fhir.Rest.SummaryType.False);                
+      }
+      catch (Exception oExec)
+      {
+        string Message = string.Format("Serialisation of Resource to XML failed with the following message: {0}", oExec.Message);
         OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
         throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
       }
