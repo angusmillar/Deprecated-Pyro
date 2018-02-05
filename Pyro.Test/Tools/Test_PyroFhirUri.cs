@@ -15,7 +15,8 @@ namespace Pyro.Test.Tools
   class Test_PyroFhirUri
   {
     private string PrimaryServiceRootLocal = "http://localhost:8888/fhir";
-    private string PrimaryServiceRootWeb = "http://pyrohealth.net/fhir";
+    //private string PrimaryServiceRootWeb = "http://pyrohealth.net/fhir";
+    private string PrimaryServiceRootWeb = "https://stu3.test.pyrohealth.net/fhir";
     private string PrimaryServiceRootRemote = "http://SomeOther/one/two/three/fhir";
     private Moq.Mock<IPrimaryServiceRootCache> MokPrimaryServiceRootCache = null;
 
