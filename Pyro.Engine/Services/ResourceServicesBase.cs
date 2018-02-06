@@ -112,9 +112,9 @@ namespace Pyro.Engine.Services
 
       IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
-      //Assign GUID as FHIR id;
-      if (string.IsNullOrWhiteSpace(Resource.Id))
-        Resource.Id = Guid.NewGuid().ToString();
+      //Assign new GUID as FHIR id if not already assigned 
+      if (string.IsNullOrWhiteSpace(Resource.Id))        
+        Resource.Id = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid();
 
       string ResourceVersionNumber = string.Empty;
       if (Resource.Meta == null)

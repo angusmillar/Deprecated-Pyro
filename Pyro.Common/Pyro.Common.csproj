@@ -125,6 +125,7 @@
     <Compile Include="Service\ChainSearchingService.cs" />
     <Compile Include="Service\IncludeService.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
+    <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\Headers\RequestHeader.cs" />
     <Compile Include="Search\IServiceSearchParameterLight.cs" />
     <Compile Include="Search\SearchParameterGeneric.cs" />

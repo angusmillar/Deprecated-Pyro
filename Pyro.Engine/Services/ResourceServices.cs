@@ -209,8 +209,7 @@ namespace Pyro.Engine.Services
       if (!string.IsNullOrWhiteSpace(ForceId))
       {
         //The id must be a valid GUID and is later validated as one.
-        Guid TempGuid;
-        if (!Guid.TryParseExact(ForceId, "D", out TempGuid))
+        if (!Common.Tools.FhirGuid.FhirGuid.IsFhirGuid(ForceId))        
         {
           throw new FormatException($"The 'ForceId' used by the server in a POST (add) request must be a valid GUID. Value given was: {ForceId}");
         }
