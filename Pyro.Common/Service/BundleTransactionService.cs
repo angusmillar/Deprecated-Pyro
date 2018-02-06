@@ -224,7 +224,20 @@ namespace Pyro.Common.Service
       }
 
       IPyroFhirUri ResourceIdToForce = IPyroFhirUriFactory.CreateFhirRequestUri();
-      ResourceIdToForce.Parse(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
+      if (String.IsNullOrEmpty(PostEntry.FullUrl))
+      {
+        //Assgin a new GUID as there is not FullURL GUID to lookup from refererancing 
+        ResourceIdToForce.Parse($"{PostEntry.Resource.TypeName}/{Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()}");
+      }
+      else
+      {
+        //Use the new Resource id that we assigned when updating all referances by looking it up in the GetUUIDfromFullURL dic
+        ResourceIdToForce.Parse(OldNewResourceReferanceMap[GetUUIDfromFullURL(PostEntry.FullUrl)]);
+      }
+      //Remove the Resource Id in the resource as this is a POST and no id should be present in the resource, we do force the new id given this is a transaction operation 
+      if (!String.IsNullOrEmpty(PostEntry.Resource.Id))
+        PostEntry.Resource.Id = String.Empty;
+
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PostEntry.Request);
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
@@ -372,8 +385,18 @@ namespace Pyro.Common.Service
 
     private string ConstructRequestUrl(Bundle.EntryComponent Entry)
     {
-      return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString}/{Entry.Request.Url}";
-      //return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.Scheme}://{_RequestUri.PrimaryRootUrlStore.RootUri}/{Entry.Request.Url}";
+      //The FHIR spec examples show the Request.url without a leading slash '/', yet the Synthia data adds a leading slash.
+      //We remove it here is it is seen.
+      string RequestUrl = String.Empty;
+      if (Entry.Request.Url.StartsWith(@"/"))
+      {
+        RequestUrl = Entry.Request.Url.Substring(1, Entry.Request.Url.Length - 1);
+      }
+      else
+      {
+        RequestUrl = Entry.Request.Url;
+      }
+      return $"{_RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString}/{RequestUrl}";      
     }
 
     private string CreateFullUrl(IResourceServiceOutcome ResourceServiceOutcome)
@@ -399,10 +422,13 @@ namespace Pyro.Common.Service
       //First assign a new GUID id for all FullUrls
       foreach (var PostEntry in PostEntryList)
       {
-        string NewId = Guid.NewGuid().ToString();
-        string ResourceName = PostEntry.Resource.ResourceType.ToString();
-        string FullUrlUUID = GetUUIDfromFullURL(PostEntry.FullUrl);
-        OldNewResourceReferanceMap.Add(FullUrlUUID, $"{ResourceName}/{NewId}");
+        if (!string.IsNullOrEmpty(PostEntry.FullUrl))
+        {
+          string NewId = Guid.NewGuid().ToString();
+          string ResourceName = PostEntry.Resource.ResourceType.ToString();
+          string FullUrlUUID = GetUUIDfromFullURL(PostEntry.FullUrl);
+          OldNewResourceReferanceMap.Add(FullUrlUUID, $"{ResourceName}/{NewId}");
+        }       
       }
 
       //Then roll through all POST and PUT entries updating referances     
