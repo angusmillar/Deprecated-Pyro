@@ -266,7 +266,7 @@ namespace Pyro.Common.Service
           PostEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
         }
         PostEntry.Response.Status = $"{((int)ResourceServiceOutcome.HttpStatusCode).ToString()} {ResourceServiceOutcome.HttpStatusCode.ToString()}";
-        PostEntry.Response.Location = ResourceServiceOutcome.RequestUri.OriginalString;
+        PostEntry.Response.Location = FormatResponseLocation(ResourceServiceOutcome.RequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
         return true;
       }
       else
@@ -316,7 +316,7 @@ namespace Pyro.Common.Service
         {
           PutEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           PutEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          PutEntry.Response.Location = EntryRequestUri.FhirRequestUri.OriginalString;
+          PutEntry.Response.Location = FormatResponseLocation(EntryRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
         }
         return true;
       }
@@ -329,7 +329,8 @@ namespace Pyro.Common.Service
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
       }
-    }
+    }   
+
     private bool GetProcessing(Bundle.EntryComponent GetEntry)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(GetEntry));
@@ -368,7 +369,7 @@ namespace Pyro.Common.Service
           GetEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
             GetEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          GetEntry.Response.Location = EntryRequestUri.FhirRequestUri.OriginalString;
+          GetEntry.Response.Location = FormatResponseLocation(EntryRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
         }
         return true;
       }
@@ -414,6 +415,11 @@ namespace Pyro.Common.Service
     {
       string Message = $"Issue found with the bundel entry identified by the FullURL: {FullURL}";
       OperationOutcome NewOp = FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational, Message, op);
+    }
+
+    private string FormatResponseLocation(string originalString, string FhirResourceId, string ResourceVersionNumber)
+    {
+      return $"{originalString}/{FhirResourceId}/_history/{ResourceVersionNumber}";
     }
 
     private void AssignResourceIdsAndUpdateReferances(IEnumerable<Bundle.EntryComponent> PostEntryList, IEnumerable<Bundle.EntryComponent> PutEntryList)
