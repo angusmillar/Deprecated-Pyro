@@ -497,7 +497,7 @@ namespace Pyro.Engine.Services
         {
           if (DatabaseOperationOutcomeSearch.ReturnedResourceList[0].FhirId != Resource.Id)
           {
-            string Message = "The single Resource located by the search has a different Resource Id to that which was found in the Resource given. Either, remove the Id from the Resource given or re-evaluate the search parameters.";
+            string Message = "The single Resource located by the conditional PUT search has a different Resource Id to that which was found in the Resource given. Either, remove the Id from the Resource given or re-evaluate the search parameters.";
             ServiceOperationOutcomeConditionalPut.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.BusinessRule, Message);
             ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.BadRequest;
             ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
