@@ -83,13 +83,18 @@ namespace Pyro.DataLayer.IndexSetter
     }
     private void SetPositionComponent(Location.PositionComponent PositionComponent, List<ResIndexQuantityType> ResourceIndexList)
     {
-      //The only Quantity for Location.PositionComponent is in the Location resource and it's use if a little odd.
+      //The only Quantity for Location.PositionComponent is in the Location resource and it's use is a little odd.
       //You never actual store a 'near-distance' search parameter as an index but rather it is used in conjunction with the 
       //'near' search parameter. 
       //for instance the search would be like this:
       //GET [base]/Location?near=-83.694810:42.256500&near-distance=11.20||km...
       //Where we need to work out the distance say in km between 'near' [latitude]:[longitude] we have stored in the db index and the [latitude]:[longitude] given in the search url's 'near'.
-      //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.     
+      //If that distance is less then or equal to the  'near-distance' given in the search Url (11.20km here) then return the resource.   
+      //Update: Talked to Brian Pos and I can see I do need to store this as it's own index. SQL has a geography datatype which needs to be used
+      //See ref: https://docs.microsoft.com/en-us/sql/t-sql/spatial-geography/spatial-types-geography
+      // I also have some of Brians code as an example in NOTES, search for 'Brian's FHIR position longitude latitude code' in FHIR notebook
+      //I think this will have to be a special case, maybe not a noraml Pyro FHIR token index but another, or maybe add it to the Token index yet it will be null 99% of time. 
+      //More thinking required. At present the server never indexes this so the search never finds it. Not greate!
     }
     private void SetQuantity(Quantity Quantity, List<ResIndexQuantityType> ResourceIndexList)
     {
