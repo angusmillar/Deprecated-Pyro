@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Web", "Pyro.Web\Pyro.Web.csproj", "{25051945-A08F-4E51-A7DC-C6190624A93F}"
 EndProject
@@ -26,6 +26,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.DataLayer", "Pyro.DataLayer\Pyro.DataLayer.csproj", "{ED443624-3BCA-44A2-AD32-CEA9CD47E9A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.CodeGeneration", "Pyro.CodeGeneration\Pyro.CodeGeneration.csproj", "{55EAF68B-2788-45A0-BECF-38DA3D7944C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart", "Pyro.Smart\Pyro.Smart.csproj", "{AFDCDF8C-9233-446D-88AF-4F3374A1A309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart_Test", "Pyro.Smart_Test\Pyro.Smart_Test.csproj", "{64830BF7-9CAF-4793-9F1E-D4AACAB61355}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,8 +65,19 @@ Global
 		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55EAF68B-2788-45A0-BECF-38DA3D7944C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35EEE734-96B0-4E94-A546-425719B5A35F}
 	EndGlobalSection
 EndGlobal
