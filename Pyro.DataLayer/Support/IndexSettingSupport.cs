@@ -33,7 +33,12 @@ namespace Pyro.DataLayer.Support
       if (!IsDeleted)
       {
         ResourceCurrentBase.FhirId = Resource.Id;
-        ResourceCurrentBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
+        Hl7.Fhir.Serialization.FhirXmlSerializer FhirXmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
+        ResourceCurrentBase.XmlBlob = FhirXmlSerializer.SerializeToString(Resource);
+
+        //Now obsolete in FHIR .NET API
+        //ResourceCurrentBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
+
         ResourceCurrentBase.LastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
       }
       else

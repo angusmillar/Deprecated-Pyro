@@ -97,7 +97,11 @@ namespace Pyro.Common.Formatters
               Summary = AnnotationSummary;
           }
 
-          FhirSerializer.SerializeResource(Resource, jsonwriter, Summary);
+          FhirJsonSerializer FhirJsonSerializer = new FhirJsonSerializer();
+          FhirJsonSerializer.Serialize(Resource, jsonwriter, Summary);
+
+          //Now obsolete in FHIR .NET API
+          //FhirSerializer.SerializeResource(Resource, jsonwriter, Summary);
         }
       }
       writer.Flush();

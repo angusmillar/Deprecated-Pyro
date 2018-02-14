@@ -25,7 +25,7 @@ namespace Pyro.DataLayer.IndexSetter
       var ResourceIndexList = new List<ResIndexQuantityType>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
-      if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
+      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
       {
         if (Poco.FhirValue is Money Money)
         {

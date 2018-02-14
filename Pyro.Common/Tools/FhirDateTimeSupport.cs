@@ -26,7 +26,7 @@ namespace Pyro.Common.Tools
 
     public bool IsValid
     {
-      get { return _IsValid; }      
+      get { return _IsValid; }
     }
 
     public FhirDateTimeSupport(string Value)
@@ -34,235 +34,437 @@ namespace Pyro.Common.Tools
       _IsValid = Parse(Value);
     }
 
+    //private bool Parse1(string FhirDateTime)
+    //{
+    //  if (string.IsNullOrWhiteSpace(FhirDateTime))
+    //    throw new NullReferenceException("Fhir DateTime cannot be null of empty string.");
+
+
+    //  //DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
+    //  if (FhirDateTime.Length > 29 && FhirDateTime.Length < 34)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.ffffzzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Tick;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 29)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.FFFzzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 28)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.FFzzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 27)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.Fzzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 25)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:sszzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Sec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 24)
+    //  {
+    //    //1974-12-25T14:35:45.123Z
+    //    //"yyyy-MM-ddTHH:mm:ss.FFFK"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Sec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 23)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.FFF"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == MilliSecDelimiter)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.FF"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == HourMinSecDelimiter)
+    //  {
+    //    //"yyyy-MM-ddTHH:mmzzz"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(CorrectByAddingSecondsToHourMinDateTimeWithNoSeconds(FhirDateTime));
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.HourMin;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 21)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss.F"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.MilliSec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 20)
+    //  {
+
+    //    //1974-12-25T14:35:45Z
+    //    //"yyyy-MM-ddTHH:mm:ssK"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Sec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 19)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm:ss"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Sec;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 16)
+    //  {
+    //    //"yyyy-MM-ddTHH:mm"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(CorrectByAddingSecondsToHourMinDateTimeWithNoSeconds(FhirDateTime));
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.HourMin;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 10)
+    //  {
+    //    //"yyyy-MM-dd"       
+    //    DateTimeOffset? Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+
+    //    Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime;
+    //    if (Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(FhirDateTime, out PartialDateTime))
+    //    {
+    //      DateTime DateTime;
+    //      if (DateTime.TryParseExact(FhirDateTime, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.AssumeLocal, out DateTime))
+    //      {
+    //        //var LocalTimeOffSet = DateTimeOffset.Now.Offset;
+    //        var LocalTimeOffSet = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
+    //        DateTimeOffset final = new DateTimeOffset(DateTime, TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow)).ToUniversalTime();
+
+    //      }
+    //    }
+
+
+    //    if (Result.HasValue)
+    //    {
+    //      var LocalTimeOffSet = DateTimeOffset.Now.Offset;
+    //      DateTimeOffset Low = Result.Value.Subtract(LocalTimeOffSet);
+    //      this.Precision = DateTimePrecision.Day;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 7)
+    //  {
+    //    //"yyyy-MM"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      var LocalTimeOffSet = DateTimeOffset.Now.Offset;
+    //      DateTimeOffset Low = Result.Value.Subtract(LocalTimeOffSet);
+
+    //      this.Precision = DateTimePrecision.Month;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  else if (FhirDateTime.Length == 4)
+    //  {
+    //    //"yyyy"
+    //    var Result = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(FhirDateTime);
+    //    if (Result.HasValue)
+    //    {
+    //      this.Precision = DateTimePrecision.Year;
+    //      this.Value = Result.Value;
+    //      return true;
+    //    }
+    //  }
+    //  this.Value = null;
+    //  return false;
+    //}
+
     private bool Parse(string FhirDateTime)
-    {      
+    {
       if (string.IsNullOrWhiteSpace(FhirDateTime))
         throw new NullReferenceException("Fhir DateTime cannot be null of empty string.");
 
+      string OrginalFhirDateString = FhirDateTime;
+      int OrginalFhirDateTimeLength = FhirDateTime.Length;
+      FhirDateTime = CorrectByAddingSecondsToHourMinDateTimeWithNoSeconds(FhirDateTime);
+      if (!Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(FhirDateTime, out Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime))
+        return false;
 
-      DateTimeOffset TempDateTimeOffset = DateTimeOffset.MinValue;
-      if (FhirDateTime.Length > 29 && FhirDateTime.Length < 34)
+
+      if (OrginalFhirDateTimeLength > 29 && OrginalFhirDateTimeLength < 34)
       {
         //"yyyy-MM-ddTHH:mm:ss.ffffzzz"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Tick;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy-MM-ddTHH:mm:ss.ffffzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Tick, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 29)
+      else if (OrginalFhirDateTimeLength == 29)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFFzzz"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }              
+        string Format = "yyyy-MM-ddTHH:mm:ss.FFFzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 28)
+      else if (OrginalFhirDateTimeLength == 28)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFzzz"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss.FFzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 27)
+      else if (OrginalFhirDateTimeLength == 27)
       {
         //"yyyy-MM-ddTHH:mm:ss.Fzzz"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss.Fzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 25)
+      else if (OrginalFhirDateTimeLength == 25)
       {
         //"yyyy-MM-ddTHH:mm:sszzz"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Sec;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy-MM-ddTHH:mm:sszzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Sec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 24)
+      else if (OrginalFhirDateTimeLength == 24)
       {
         //1974-12-25T14:35:45.123Z
         //"yyyy-MM-ddTHH:mm:ss.FFFK"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Sec;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy-MM-ddTHH:mm:ss.FFFK";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Sec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 23)
+      else if (OrginalFhirDateTimeLength == 23)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFF"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss.FFF";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == MilliSecDelimiter)
+      else if (OrginalFhirDateTimeLength == 22 && OrginalFhirDateString.Substring(19, 1) == MilliSecDelimiter)
       {
         //"yyyy-MM-ddTHH:mm:ss.FF"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss.FF";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == HourMinSecDelimiter)
+      else if (OrginalFhirDateTimeLength == 22 && OrginalFhirDateString.Substring(19, 1) == HourMinSecDelimiter)
       {
+        //It was orginaly this "yyyy-MM-ddTHH:mmzzz", yet we have added the seconds on to make it valid so it is now "yyyy-MM-ddTHH:mm:sszzz" for parsing
         //"yyyy-MM-ddTHH:mmzzz"
-        var Result = ConvertToDateTimeOffSet(AddSecondsToHourMinDateTime(FhirDateTime));
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.HourMin;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:sszzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.HourMin, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 21)
+      else if (OrginalFhirDateTimeLength == 21)
       {
         //"yyyy-MM-ddTHH:mm:ss.F"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.MilliSec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss.F";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 20)
+      else if (OrginalFhirDateTimeLength == 20)
       {
-
         //1974-12-25T14:35:45Z
         //"yyyy-MM-ddTHH:mm:ssK"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Sec;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy-MM-ddTHH:mm:ssK";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Sec, Format, true);
+        return true;
       }
-      else if (FhirDateTime.Length == 19)
+      else if (OrginalFhirDateTimeLength == 19)
       {
         //"yyyy-MM-ddTHH:mm:ss"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Sec;
-          this.Value = Result.Value;
-          return true;
-        }        
+        string Format = "yyyy-MM-ddTHH:mm:ss";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Sec, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 16)
+      else if (OrginalFhirDateTimeLength == 16)
       {
-        //"yyyy-MM-ddTHH:mm"
-        var Result = ConvertToDateTimeOffSet(AddSecondsToHourMinDateTime(FhirDateTime));
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.HourMin;
-          this.Value = Result.Value;
-          return true;
-        }
+        //It was orginaly this "yyyy-MM-ddTHH:mm", yet we have added the seconds on to make it valid so it is now "yyyy-MM-ddTHH:mm:ss" for parsing
+        string Format = "yyyy-MM-ddTHH:mm:ss";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.HourMin, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 10)
+      else if (OrginalFhirDateTimeLength == 10)
       {
-        //"yyyy-MM-dd"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Day;
-          this.Value = Result.Value;
-          return true;
-        }        
+        //"yyyy-MM-dd"    
+        string Format = "yyyy-MM-dd";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Day, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 7)
+      else if (OrginalFhirDateTimeLength == 7)
       {
         //"yyyy-MM"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Month;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy-MM";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Month, Format, false);
+        return true;
       }
-      else if (FhirDateTime.Length == 4)
+      else if (OrginalFhirDateTimeLength == 4)
       {
         //"yyyy"
-        var Result = ConvertToDateTimeOffSet(FhirDateTime);
-        if (Result.HasValue)
-        {
-          this.Precision = DateTimePrecision.Year;
-          this.Value = Result.Value;
-          return true;
-        }
+        string Format = "yyyy";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Year, Format, false);
+        return true;
       }
-      this.Value = null;
-      return false;
+      else
+      {
+        throw new FormatException($"Unable to parse datetime using FHIR format rules. Value was {FhirDateTime}, no format could be determined.");
+      }
     }
 
-    private string AddSecondsToHourMinDateTime(string FhirDateTime)
+    private string CorrectByAddingSecondsToHourMinDateTimeWithNoSeconds(string FhirDateTime)
     {
+      //Correct dateTimes that have no seconds yet do have Hours and Minitues
       //2017-04-28T18:29+10:00      
       //2017-04-28T18:29
       string SecondsToAdd = "00";
       var Split = FhirDateTime.Split(HourMinSecDelimiter.ToCharArray());
       string New = string.Empty;
       string Temp = string.Empty;
-      if (FhirDateTime.Length > 16)
+      if ((FhirDateTime.Length == 22 && FhirDateTime.Substring(19, 1) == HourMinSecDelimiter) || (FhirDateTime.Length == 16))
       {
-        //Value has a timezone
-        if (Split[1].Contains(MinusTimeZoneDelimiter))
+        if (FhirDateTime.Length > 16)
         {
-          Temp = $"{Split[1].Split(MinusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{MinusTimeZoneDelimiter}{Split[1].Split(MinusTimeZoneDelimiter)[1]}";
+          //"yyyy-MM-ddTHH:mm" convert to "yyyy-MM-ddTHH:mm:ss"
+          //Value has a timezone
+          if (Split[1].Contains(MinusTimeZoneDelimiter))
+          {
+            Temp = $"{Split[1].Split(MinusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{MinusTimeZoneDelimiter}{Split[1].Split(MinusTimeZoneDelimiter)[1]}";
+          }
+          else if (Split[1].Contains(PlusTimeZoneDelimiter))
+          {
+            Temp = $"{Split[1].Split(PlusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{PlusTimeZoneDelimiter}{Split[1].Split(PlusTimeZoneDelimiter)[1]}";
+          }
+          return $"{Split[0]}{HourMinSecDelimiter}{Temp}{HourMinSecDelimiter}{Split[2]}";
         }
-        else if (Split[1].Contains(PlusTimeZoneDelimiter))
+        else 
         {
-          Temp = $"{Split[1].Split(PlusTimeZoneDelimiter)[0]}{HourMinSecDelimiter}{SecondsToAdd}{PlusTimeZoneDelimiter}{Split[1].Split(PlusTimeZoneDelimiter)[1]}";
-        }
-        New = $"{Split[0]}{HourMinSecDelimiter}{Temp}{HourMinSecDelimiter}{Split[2]}"; 
+          //"yyyy-MM-ddTHH:mmzzz" convert to "yyyy-MM-ddTHH:mm:sszzz"
+          return $"{Split[0]}{HourMinSecDelimiter}{Split[1]}{HourMinSecDelimiter}{SecondsToAdd}";
+        }        
       }
       else
       {
-        New = $"{Split[0]}{HourMinSecDelimiter}{Split[1]}{HourMinSecDelimiter}{SecondsToAdd}";
-      }
-      return New;
+        return FhirDateTime;
+      }      
     }
 
-    private DateTimeOffset? ConvertToDateTimeOffSet(string Value)
+    private void ParseDateTimeToUniversalTime(string item, DateTimePrecision DateTimePrecision, string format, bool HasTimeZone)
+    {
+      if (HasTimeZone)
+      {
+        //As we have timezone info in the string we can parse stright to DateTimeOffset and then to UniversalTime
+        if (DateTimeOffset.TryParseExact(item, format, null, System.Globalization.DateTimeStyles.None, out DateTimeOffset DateTimeOffsetFinal))
+        {
+          this.Precision = DateTimePrecision;
+          this.Value = DateTimeOffsetFinal.ToUniversalTime();
+        }
+        else
+        {
+          throw new NullReferenceException($"Error parsing datetime with time zone info. Value was {item}, format in use {format}, the DateTime precision detected was {DateTimePrecision.ToString()}");
+        }
+      }
+      else
+      {
+        //As we have no timezone info we must first parse to DateTime, then set as local timezone before converting to UniversalTime
+        if (DateTime.TryParseExact(item, format, null, System.Globalization.DateTimeStyles.None, out DateTime DateTimeOut))
+        {
+          DateTimeOffset DateTimeOffsetFinal = new DateTimeOffset(DateTimeOut, TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow));
+          this.Precision = DateTimePrecision;
+          this.Value = DateTimeOffsetFinal.ToUniversalTime();
+        }
+        else
+        {
+          throw new NullReferenceException($"Error parsing datetime wiht no time zone info. Value was {item}, format in use {format}, the DateTime precision detected was {DateTimePrecision.ToString()}");
+        }
+      }
+    }
+
+    public static DateTimeOffset? ConvertToDateTimeOffSetLow(string FhirDateTimeString)
     {
       Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime;
-      if (Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(Value, out PartialDateTime))
+      if (Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(FhirDateTimeString, out PartialDateTime))
       {
-        return PartialDateTime.ToUniversalTime().ToLocalTime();
+        //var LocalTimeOffSet = DateTimeOffset.Now.Offset;
+        //Convert to DateTimeOffset, which is done by caling ToUniversalTime(), yet this converts to UniversalTime
+        // So we then set the timezone to the local timezone, which converts the time value to plus that timezone
+        // So then subtract that timezone hours from the final result 
+        //Now we have the original timezone and correct time.
+        //DateTimeOffset Low = PartialDateTime.ToUniversalTime().ToOffset(LocalTimeOffSet).Subtract(LocalTimeOffSet);
+        DateTimeOffset Low = PartialDateTime.ToUniversalTime();
+        return Low;
+        //return PartialDateTime.ToUniversalTime().ToLocalTime();
       }
       else
       {
         return null;
-      }      
+      }
     }
 
     public static DateTimeOffset CalculateHighDateTimeForRange(DateTimeOffset LowValue, DateTimePrecision Precision)

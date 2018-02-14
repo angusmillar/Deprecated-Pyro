@@ -185,7 +185,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       bool ExpectedResult = true;
       // ifNoneMatch is the resource version numbner
-      string ifNoneMatch = "5";
+      string ifNoneMatch = HttpHeaderSupport.GetETagString("5");
       // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
       string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
       // resourceVersionNumber is the version number of the resource from the server's database
@@ -208,7 +208,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       bool ExpectedResult = false;
       // ifNoneMatch is the resource version numbner
-      string ifNoneMatch = "5";
+      string ifNoneMatch = HttpHeaderSupport.GetETagString("5");
       // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
       string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
       // resourceVersionNumber is the version number of the resource from the server's database
@@ -231,7 +231,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       bool ExpectedResult = true;
       // ifNoneMatch is the resource version numbner
-      string ifNoneMatch = "5";
+      string ifNoneMatch = HttpHeaderSupport.GetETagString("5");
       // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
       string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
       // resourceVersionNumber is the version number of the resource from the server's database
@@ -252,7 +252,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       bool ExpectedResult = false;
       // ifNoneMatch is the resource version numbner
-      string ifNoneMatch = "6";
+      string ifNoneMatch = HttpHeaderSupport.GetETagString("6");
       // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
       string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
       // resourceVersionNumber is the version number of the resource from the server's database
@@ -273,7 +273,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       bool ExpectedResult = true;
       // ifNoneMatch is the resource version numbner
-      string ifNoneMatch = "6";
+      string ifNoneMatch = HttpHeaderSupport.GetETagString("6"); ;
       // ifModifiedSince is a date time point in time to see if the resource has ben modified after this point in time
       string ifModifiedSince = "Thu, 11 Jan 2018 03:40:00 GMT";
       // resourceVersionNumber is the version number of the resource from the server's database

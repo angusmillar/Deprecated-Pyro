@@ -281,20 +281,16 @@ namespace Pyro.Test.IntergrationTest
       }
       catch (FhirOperationException ExecOp)
       {
-        Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
-      }
-      catch (Exception Exec)
-      {
-        //The FHIR API client can not handle the return HTTP status of 304 NotModified.
-        string FHIRApiReports = "Server returned a status code 'NotModified', which is not supported by the FhirClient";
-        Assert.AreEqual(FHIRApiReports, Exec.Message, "This was a bug in the FHIR API Client that may now be fixed if you are seeing this message.");
-      }
+        //Catch the error and check it is a 304 http status.
+        Assert.True(true, "FhirOperationException should be thrown on resource Read: " + ExecOp.Message);
+        Assert.IsTrue(ExecOp.Status.IsRedirection());
+      }      
 
       PatientTwo = null;
       PatientOneModified = PatientOneModified.Value.AddMinutes(-1);
       try
       {
-        //Resource has not changed so should return a 304 Not Modified
+        //If-Modified-Since has been pushed back 1 min so we should get a resource back this time
         PatientTwo = clientFhir.Read<Patient>($"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.NotNull(PatientTwo, "Not Resource returned when 1 min subtracted from last-modified on Conditional Read.");
         //reset the PatientOneModified
@@ -303,14 +299,14 @@ namespace Pyro.Test.IntergrationTest
       catch (FhirOperationException ExecOp)
       {
         Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
+        Assert.IsTrue(ExecOp.Status.IsRedirection());        
       }
 
       PatientTwo = null;
       PatientOneVersion = "xxxxx";
       try
       {
-        //Resource has not changed so should return a 304 Not Modified
-        //PatientTwo = clientFhir.Refresh<Patient>(PatientTwo, PatientTwo.Meta.VersionId, PatientTwo.VersionId)
+        //If-None-Match version has been set to not match so we should get a resource back this time
         PatientTwo = clientFhir.Read<Patient>($"{StaticTestData.FhirEndpoint()}/Patient/{PatientOneId}", PatientOneVersion, PatientOneModified);
         Assert.NotNull(PatientTwo, "Not Resource returned when Resource Version did not match active resource Version on Conditional Read.");
       }

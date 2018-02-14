@@ -7,7 +7,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
-  [Category("Tools")]
+  [Category("Tools DateTimeSupport")]
   class Test_DateTimeSupport
   {
     private int TimeZoneTestRunningWithin = 8;
@@ -16,8 +16,8 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       var FhirDate = new Date("1974");
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 01, 01, 00, 00, 00, 0, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 12, 31, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 01, 01, 00, 00, 00, 0, new TimeSpan(TimeZoneTestRunningWithin, 0, 0)).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 12, 31, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -32,8 +32,8 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       var FhirDate = new Date("1974-02");
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 00, 00, 00, 0, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 28, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 00, 00, 00, 0, new TimeSpan(TimeZoneTestRunningWithin, 0, 0)).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 28, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -48,16 +48,17 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       var FhirDate = new Date("1974-02-01");
+      var LocalTimeZone = DateTimeOffset.Now.Offset;
 
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 00, 00, 00, 0, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 23, 59, 59, 999, new TimeSpan(TimeZoneTestRunningWithin, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 00, 00, 00, 0, LocalTimeZone).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 23, 59, 59, 999,LocalTimeZone).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
 
       //Assert
-      Assert.AreEqual(ExpectedLow, Result.Low);
-      Assert.AreEqual(ExpectedHigh, Result.High);
+      Assert.AreEqual(ExpectedLow, Result.Low, "ExpectedLow");
+      Assert.AreEqual(ExpectedHigh, Result.High, "ExpectedHigh");
     }
 
     [Test]
@@ -65,8 +66,8 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       var FhirDate = new FhirDateTime("1974-02-01T12:38:10+10:00");
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 0, new TimeSpan(10, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 999, new TimeSpan(10, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 0, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 999, new TimeSpan(10, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -82,8 +83,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var FhirDate = new Instant(new DateTimeOffset(1974, 02, 01, 12, 38, 10, 4, new TimeSpan(10, 0, 0)));
 
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 4, new TimeSpan(10, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 5, new TimeSpan(10, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 4, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 5, new TimeSpan(10, 0, 0)).AddTicks(-1).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -99,8 +100,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var FhirDate = new Instant(new DateTimeOffset(1974, 02, 01, 12, 38, 10, 22, new TimeSpan(10, 0, 0)));
 
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 22, new TimeSpan(10, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 23, new TimeSpan(10, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 22, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 23, new TimeSpan(10, 0, 0)).AddTicks(-1).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -116,8 +117,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var FhirDate = new Instant(new DateTimeOffset(1974, 02, 01, 12, 38, 10, 222, new TimeSpan(10, 0, 0)));
 
-      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 222, new TimeSpan(10, 0, 0));
-      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 223, new TimeSpan(10, 0, 0));
+      DateTimeOffset ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 222, new TimeSpan(10, 0, 0)).ToUniversalTime(); ;
+      DateTimeOffset ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 223, new TimeSpan(10, 0, 0)).AddTicks(-1).ToUniversalTime(); ;
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(FhirDate);
@@ -133,8 +134,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Period = new Period(new FhirDateTime("1974-02-01T12:38:10+10:00"), new FhirDateTime("1974-02-01T12:38:20+10:00"));
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, new TimeSpan(10, 0, 0));
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0));
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
@@ -151,7 +152,7 @@ namespace Pyro.Test.IndexSetters
       var Period = new Period();
       Period.StartElement = new FhirDateTime("1974-02-01T12:38:10+10:00");
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, new TimeSpan(10, 0, 0));
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, new TimeSpan(10, 0, 0)).ToUniversalTime();
       DateTimeOffset? ExpectedHigh = null;
 
       //Act
@@ -170,7 +171,7 @@ namespace Pyro.Test.IndexSetters
       Period.EndElement = new FhirDateTime("1974-02-01T12:38:20+10:00");
 
       DateTimeOffset? ExpectedLow = null;
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0));
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
@@ -203,8 +204,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Timing = new Timing();
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00));
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00));
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
 
       Timing.EventElement = new System.Collections.Generic.List<FhirDateTime>();
       var EventStart1 = new FhirDateTime(new DateTimeOffset(1974, 12, 26, 11, 00, 00, new TimeSpan(-5, 00, 00)));
@@ -231,7 +232,7 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Timing = new Timing();
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00));
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
 
       Timing.EventElement = new System.Collections.Generic.List<FhirDateTime>();
       var EventStart1 = new FhirDateTime(new DateTimeOffset(1974, 12, 26, 11, 00, 00, new TimeSpan(-5, 00, 00)));
@@ -254,8 +255,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Timing = new Timing();
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00));
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00));
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
 
       Timing.EventElement = new System.Collections.Generic.List<FhirDateTime>();
 

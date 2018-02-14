@@ -7,7 +7,7 @@ using NUnit.Framework.Constraints;
 namespace Pyro.Test.IndexSetters
 {
   [TestFixture]
-  [Category("Tools")]
+  [Category("Tools FhirDateTimeSupport")]
   class Test_FhirDateTimeSupport
   {
     [Test]
@@ -79,7 +79,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-12-25T12:35";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)).ToUniversalTime();
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
@@ -95,7 +95,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-12-25T12:35-04:00";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4, 0, 0));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 12, 25, 12, 35, 0, new TimeSpan(-4, 0, 0)).ToUniversalTime();
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
@@ -144,7 +144,7 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string FhirDateTime = "1974-09";
-      DateTimeOffset Expected = new DateTimeOffset(1974, 9, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now));
+      DateTimeOffset Expected = new DateTimeOffset(1974, 9, 1, 0, 0, 0, TimeZoneInfo.Local.GetUtcOffset(DateTime.Now)).ToUniversalTime();
 
       //Act
       FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
@@ -230,5 +230,26 @@ namespace Pyro.Test.IndexSetters
       Assert.IsFalse(Result.Value.HasValue);
       Assert.IsFalse(Result.IsValid);
     }
+
+
+
+
+    //[Test]
+    //public void Test_Now()
+    //{
+    //  //Arrange
+    //  string FhirDateTime = "1974-12-25T12:35-03:00";
+    //  var LocalTimeZone = DateTimeOffset.Now.Offset;
+    //  DateTimeOffset Expected = new DateTimeOffset(1974, 1, 1, 00, 00, 0, LocalTimeZone).ToUniversalTime();
+
+    //  //Act
+    //  FhirDateTimeSupport Result = new FhirDateTimeSupport(FhirDateTime);
+
+    //  //Assert
+    //  Assert.AreEqual(Expected, Result.Value);
+    //  Assert.IsTrue(Result.Value.HasValue);
+    //  Assert.IsTrue(Result.IsValid);
+    //}
+
   }
 }

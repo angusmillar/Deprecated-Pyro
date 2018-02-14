@@ -25,7 +25,10 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       this.ICommonFactory = ICommonFactory;
 
       // Ensure the FHIR extensions are registered
-      Hl7.Fhir.FhirPath.PocoNavigatorExtensions.PrepareFhirSymbolTableFunctions();
+      Hl7.Fhir.FhirPath.ElementNavFhirExtensions.PrepareFhirSymbolTableFunctions();
+
+      // Ensure the FHIR extensions are registered
+      //Hl7.Fhir.FhirPath.PocoNavigatorExtensions.PrepareFhirSymbolTableFunctions();
 
       var MultiResolver = new MultiResolver();
 

@@ -29,7 +29,7 @@ namespace Pyro.Common.Tools
     }
 
     /// <summary>
-    /// Expects a value e.g ("5") and returns an Etag string e.g(W/"3141") 
+    /// Expects a value e.g ("5") and returns an Etag string e.g(W/"5") 
     /// </summary>
     /// <param name="Version"></param>
     /// <returns></returns>
@@ -63,6 +63,17 @@ namespace Pyro.Common.Tools
         return TempEtag;
       }
       throw new FormatException("ETag is not formated correctly, string was: " + ETag);
+    }
+
+    /// <summary>
+    /// Expects a Etag string e.g(W/"3141") and returns 3214 as a string
+    /// </summary>
+    /// <param name="ETag"></param>
+    /// <returns>EntityTagHeaderValue</returns>
+    public static string GetETagValueFromETagString(string ETag)
+    {
+      EntityTagHeaderValue TempEtag = HttpHeaderSupport.GetETagEntityTagHeaderValueFromETagString(ETag);
+      return TempEtag.Tag.Trim(new Char[] { '\"' });      
     }
 
     /// <summary>
@@ -115,7 +126,7 @@ namespace Pyro.Common.Tools
     {
       if (!string.IsNullOrWhiteSpace(ifNoneMatch))
       {
-        if (resourceVersionNumber != ifNoneMatch.Trim())
+        if (resourceVersionNumber != HttpHeaderSupport.GetETagValueFromETagString(ifNoneMatch.Trim()))
         {
           return true;
         }

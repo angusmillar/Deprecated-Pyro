@@ -451,7 +451,7 @@ namespace Pyro.DataLayer.Repository
 
     private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParametersList)
     {
-      Hl7.Fhir.FhirPath.PocoNavigator Navigator = new Hl7.Fhir.FhirPath.PocoNavigator(Resource);
+      Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (ServiceSearchParameterLight SearchParameter in SearchParametersList)
       {
@@ -476,7 +476,10 @@ namespace Pyro.DataLayer.Repository
               Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
 
-            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
+            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, new EvaluationContext(Navigator));
+            //Upgrade of FHRI .NET API 
+            //IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
+
             foreach (IElementNavigator oElement in ResultList)
             {
               if (oElement != null)

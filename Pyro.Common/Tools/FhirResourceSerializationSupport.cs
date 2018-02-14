@@ -27,7 +27,11 @@ namespace Pyro.Common.Tools
     {
       try
       {
-        return FhirSerializer.SerializeResourceToXml(Resource, Hl7.Fhir.Rest.SummaryType.False);                
+        FhirXmlSerializer FhirXmlSerializer = new FhirXmlSerializer();
+        return FhirXmlSerializer.SerializeToString(Resource, Hl7.Fhir.Rest.SummaryType.False);
+
+        //Now obsolete in FHIR .NET API
+        //return FhirSerializer.SerializeResourceToXml(Resource, Hl7.Fhir.Rest.SummaryType.False);                
       }
       catch (Exception oExec)
       {

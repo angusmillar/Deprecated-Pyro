@@ -94,7 +94,12 @@ namespace Pyro.Common.Formatters
             if (SummaryTypeAnnotationList.FirstOrDefault() is SummaryType AnnotationSummary)
               Summary = AnnotationSummary;
           }
-          FhirSerializer.SerializeResource(Resource, writer, Summary);
+
+          FhirXmlSerializer FhirXmlSerializer = new FhirXmlSerializer();
+          FhirXmlSerializer.Serialize(Resource, writer, Summary);
+          
+          //Now obsolete in FHRI .NET API
+          //FhirSerializer.SerializeResource(Resource, writer, Summary);
         }
         writer.Flush();
         return System.Threading.Tasks.Task.CompletedTask;

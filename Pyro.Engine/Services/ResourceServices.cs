@@ -348,10 +348,11 @@ namespace Pyro.Engine.Services
 
       if (DatabaseOperationOutcomeGet.ReturnedResourceList != null && DatabaseOperationOutcomeGet.ReturnedResourceList.Count == 1)
       {
+        
         if (!string.IsNullOrWhiteSpace(RequestHeaders.IfMatch) &&
-          (RequestHeaders.IfMatch != DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version))
+          (HttpHeaderSupport.GetETagValueFromETagString(RequestHeaders.IfMatch) != DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version))
         {
-          string Message = $"Version aware update conflict error. HTTP Header 'If-Match' used. The version intended to be updated was: '{RequestHeaders.IfMatch}' the current version found on the server was: '{DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version}'.";
+          string Message = $"Version aware update conflict error. HTTP Header 'If-Match' used. The version intended to be updated was: '{HttpHeaderSupport.GetETagValueFromETagString(RequestHeaders.IfMatch)}' the current version found on the server was: '{DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version}'.";
           oServiceOperationOutcome.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Conflict, Message);
           oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Update;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Conflict;
@@ -359,7 +360,7 @@ namespace Pyro.Engine.Services
         }
         else
         {
-          //The resource has been found so update its version number based on the older resource              
+          //The resource has been found, and if provided If-match matched, so update its version number based on the older resource              
           Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
 
           oServiceOperationOutcome = SetResource(Resource, RequestUri, RestEnum.CrudOperationType.Update);

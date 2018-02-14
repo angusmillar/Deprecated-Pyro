@@ -13,13 +13,13 @@ namespace Pyro.Common.Tools
   public static class DateTimeIndexSupport
   {
     public static DateTimeIndex GetDateTimeIndex(Date value)
-    {
+    {      
       PartialDateTime? PartialDateTimeType = value.ToPartialDateTime();
-      return ParsePartialDateTime(PartialDateTimeType);     
+      return ParsePartialDateTime(PartialDateTimeType);
     }
 
     public static DateTimeIndex GetDateTimeIndex(FhirDateTime value)
-    {
+    {      
       PartialDateTime? PartialDateTimeType = value.ToPartialDateTime();
       return ParsePartialDateTime(PartialDateTimeType);
     }
@@ -57,7 +57,7 @@ namespace Pyro.Common.Tools
     {
       var DateTimeIndex = new DateTimeIndex();
       if (Timing.Event != null)
-      {        
+      {
         DateTimeIndex.Low = ResolveTargetEventDateTime(Timing, true);
         if (DateTimeIndex.Low != DateTimeOffset.MaxValue)
         {
@@ -71,56 +71,113 @@ namespace Pyro.Common.Tools
 
           if (TargetDuration > decimal.Zero && TargetUnitsOfTime.HasValue)
           {
-            DateTimeIndex.High = AddDurationTimeToEvent(ResolveTargetEventDateTime(Timing, false), TargetDuration, TargetUnitsOfTime);            
+            DateTimeIndex.High = AddDurationTimeToEvent(ResolveTargetEventDateTime(Timing, false), TargetDuration, TargetUnitsOfTime);
           }
           else
           {
             DateTimeIndex.High = null;
-          }          
+          }
         }
         else
         {
           DateTimeIndex.Low = null;
         }
       }
-      return DateTimeIndex;      
+      return DateTimeIndex;
     }
-    
+
+
+    //  FhirDateTimeSupport FhirDateTimeSupport = new FhirDateTimeSupport(PartialDateTimeType.Value.ToString());
+
+    //    if (FhirDateTimeSupport.IsValid)
+    //    {
+    //      FhirDateTimeSupport.Value
+    //}
+
     private static DateTimeIndex ParsePartialDateTime(PartialDateTime? PartialDateTimeType)
     {
+      FhirDateTimeSupport FhirDateTimeSupport = new FhirDateTimeSupport(PartialDateTimeType.Value.ToString());
+      if (FhirDateTimeSupport.IsValid)
+      {
+        DateTimeOffset? Low = FhirDateTimeSupport.Value;
+        DateTimeOffset High = DateTimeOffset.MaxValue;
+
+        switch (FhirDateTimeSupport.Precision)
+        {
+          case FhirDateTimeSupport.DateTimePrecision.Year:
+            High = Low.Value.AddYears(1).AddMilliseconds(-1);
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.Month:
+            High = Low.Value.AddMonths(1).AddMilliseconds(-1);
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.Day:
+            High = Low.Value.AddDays(1).AddMilliseconds(-1);
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.HourMin:
+            High = Low.Value.AddSeconds(1).AddMilliseconds(-1);
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.Sec:
+            High = Low.Value.AddMilliseconds(999);
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.MilliSec:
+            High = Low.Value.AddMilliseconds(1).AddTicks(-1);            
+            break;
+          case FhirDateTimeSupport.DateTimePrecision.Tick:
+            High = Low.Value.AddTicks(1);
+            break;
+          default:
+            break;
+        }
+        return new DateTimeIndex(Low.Value, High);       
+      }
+      return null;
+    }
+
+    private static DateTimeIndex ParsePartialDateTimeOLD(PartialDateTime? PartialDateTimeType)
+    {
       //2012-12-01T12:00:00+01:00
-      DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();
+      //DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();
+      //Get the localTime offset (+8:00 is Perth Australia, will always be relevent to the server location, Sydney +10:00 for PyroHealth.net)
+      // var LocalTimeOffSet = DateTimeOffset.Now.Offset;
+      //Convert to DateTimeOffset, which is done by caling ToUniversalTime(), yet this converts to UniversalTime
+      // So we then set the timezone to the local timezone, which converts the time value to plus that timezone
+      // So then subtract that timezone hours from the final result 
+      //Now we have the original timezone and correct time.
+      //DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToOffset(LocalTimeOffSet).Subtract(LocalTimeOffSet);
+
+      DateTimeOffset? Low = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(PartialDateTimeType.Value.ToString());
 
       DateTimeOffset High = DateTimeOffset.MaxValue;
-      if (PartialDateTimeType != null)
+      if (Low.HasValue)
       {
         int DateCharCount = PartialDateTimeType.Value.ToString().Count();
         if (DateCharCount == 4)
         {
-          High = Low.AddYears(1).AddMilliseconds(-1);
+          High = Low.Value.AddYears(1).AddMilliseconds(-1);
         }
         else if (DateCharCount == 7)
         {
-          High = Low.AddMonths(1).AddMilliseconds(-1);
+          High = Low.Value.AddMonths(1).AddMilliseconds(-1);
         }
         else if (DateCharCount == 10)
         {
-          High = Low.AddDays(1).AddMilliseconds(-1);
-        }        
+          High = Low.Value.AddDays(1).AddMilliseconds(-1);
+        }
         else if (DateCharCount == 25)
         {
-          High = Low.AddSeconds(1).AddMilliseconds(-1);
+          High = Low.Value.AddSeconds(1).AddMilliseconds(-1);
         }
         else if (DateCharCount == 27 || DateCharCount == 28 || DateCharCount == 29)
         {
-          High = Low.AddMilliseconds(1);
+          High = Low.Value.AddMilliseconds(1);
         }
         else if (DateCharCount > 29)
-        {          
-          High = Low.AddTicks(1);
-        }    
+        {
+          High = Low.Value.AddTicks(1);
+        }
+        return new DateTimeIndex(Low.Value, High);
       }
-      return new DateTimeIndex(Low, High);
+      return null;
     }
 
     //Check all DateTime values in the list and find the earliest value.        
@@ -138,7 +195,7 @@ namespace Pyro.Common.Tools
         {
           if (FhirDateTime.IsValidValue(EventDateTime.Value))
           {
-            PartialDateTime? PartialDateTimeType = EventDateTime.ToPartialDateTime();            
+            PartialDateTime? PartialDateTimeType = EventDateTime.ToPartialDateTime();
             if (PartialDateTimeType.HasValue)
             {
               DateTimeOffset DateTimeOffSetValue = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();

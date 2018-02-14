@@ -24,8 +24,9 @@ namespace Pyro.DataLayer.IndexSetter
       var ResourceIndexList = new List<ResIndexDateTimeType>();
       int ServiceSearchParameterId = SearchParameter.Id;
 
-      if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
-      {
+      //if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
+      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+        {
         if (Poco.FhirValue is Date Date)
         {
           SetDate(Date, ResourceIndexList);

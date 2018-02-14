@@ -31,7 +31,8 @@ namespace Pyro.Common.Enum
       ServerResourceReport,
       [EnumLiteral("connectathon-answer")]
       ConnectathonAnswer,
-      [EnumLiteral(Hl7.Fhir.Rest.FhirClientOperations.Operation.VALIDATE_RESOURCE)]
+      //[EnumLiteral(Hl7.Fhir.Rest.FhirClientOperations.Operation.VALIDATE_RESOURCE)]
+      [EnumLiteral(Hl7.Fhir.Rest.RestOperation.VALIDATE_RESOURCE)]
       Validate
     }
 
