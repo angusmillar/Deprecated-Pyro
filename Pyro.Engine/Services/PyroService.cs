@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Web.Http;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Extentions;
@@ -198,7 +196,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, FormDataCollection FormDataCollection)
+    public IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, IEnumerable<Tuple<string, string>> FormParameterList)
     {
       using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
       {
@@ -208,7 +206,7 @@ namespace Pyro.Engine.Services
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
           IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
           IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
-          ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(SearchParams.FromUriParamList(FormDataCollection.GetAsTupleCollection()));
+          ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(SearchParams.FromUriParamList(FormParameterList));
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(DtoRequestUri, SearchParameterGeneric);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
           Transaction.Commit();

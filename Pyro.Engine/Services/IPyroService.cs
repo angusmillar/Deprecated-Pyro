@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
-using System.Net.Http.Formatting;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+//using System.Net.Http.Formatting;
 using Hl7.Fhir.Model;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Service;
@@ -18,7 +20,7 @@ namespace Pyro.Engine.Services
     IResourceServiceOutcome GetHistory(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id, string vid = "");
     IResourceServiceOutcome Metadata(string BaseRequestUri, HttpRequestMessage Request);
     IResourceServiceOutcome Post(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource);
-    IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, FormDataCollection FormDataCollection);
+    IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, IEnumerable<Tuple<string, string>> FormParameterList);
     IResourceServiceOutcome Put(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id, Resource resource);
     IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource, string FhirId);
     IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource);

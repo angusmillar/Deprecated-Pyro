@@ -1,8 +1,6 @@
-﻿using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Global;
+﻿using Pyro.Common.Global;
 using Pyro.Web.Attributes;
 using Pyro.Web.Extensions;
-using Pyro.Web.Response;
 using Pyro.Engine.Services;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -10,6 +8,9 @@ using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 using Pyro.Common.FhirHttpResponse;
 using Pyro.Common.Service;
+using Pyro.Common.Extentions;
+using System.Collections.Generic;
+using System;
 
 namespace Pyro.Web.Controllers
 {
@@ -178,8 +179,8 @@ namespace Pyro.Web.Controllers
     [ActionLog]
     public HttpResponseMessage PostFormSearch(string ResourceName, [FromBody] FormDataCollection FormDataCollection)
     {
-      string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.PostFormSearch(BaseRequestUri, Request, ResourceName, FormDataCollection);
+      string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");      
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.PostFormSearch(BaseRequestUri, Request, ResourceName, FormDataCollection.GetAsTupleCollection());
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
