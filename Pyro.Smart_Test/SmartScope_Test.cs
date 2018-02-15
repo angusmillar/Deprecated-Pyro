@@ -2,14 +2,14 @@
 using NUnit.Framework;
 using Pyro.Smart.Scopes;
 using Hl7.Fhir.Model;
-using NUnit.Framework.Constraints;
+//using NUnit.Framework.Constraints;
 
 namespace Pyro.Smart_Test
 {
   [TestFixture]
   [Category("Scopes")]
-  class Test_Scopes
-  {    
+  class SmartScope_Test
+  {
     [Test]
     public void TestUserEntity()
     {

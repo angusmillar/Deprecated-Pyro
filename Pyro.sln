@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.CodeGeneration", "Pyro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart", "Pyro.Smart\Pyro.Smart.csproj", "{AFDCDF8C-9233-446D-88AF-4F3374A1A309}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart_Test", "Pyro.Smart_Test\Pyro.Smart_Test.csproj", "{64830BF7-9CAF-4793-9F1E-D4AACAB61355}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart_Test", "Pyro.Smart_Test\Pyro.Smart_Test.csproj", "{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +69,10 @@ Global
 		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFDCDF8C-9233-446D-88AF-4F3374A1A309}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64830BF7-9CAF-4793-9F1E-D4AACAB61355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
