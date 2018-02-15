@@ -292,7 +292,9 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
-    <Content Include="App_Data\PyroApp.config" />
+    <Content Include="App_Data\PyroApp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Connectons.config" />
     <Content Include="Areas\FhirClientPage\Views\web.config" />
     <Content Include="Areas\FhirClientPage\Views\_ViewStart.cshtml" />
@@ -472,7 +474,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49582</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50579/</IISUrl>
+          <IISUrl>http://localhost:50888/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
