@@ -9,8 +9,6 @@ using FhirModel = Hl7.Fhir.Model;
 using Pyro.Common.FhirHttpResponse;
 using Pyro.Common.Service;
 using Pyro.Common.Extentions;
-using System.Collections.Generic;
-using System;
 
 namespace Pyro.Web.Controllers
 {
