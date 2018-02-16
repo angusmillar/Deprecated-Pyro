@@ -1,10 +1,10 @@
 ﻿using Microsoft.Owin;
 
-[assembly: OwinStartup(typeof(Pyro.Web.Startup))]
+[assembly: OwinStartup(typeof(Pyro.WebApi.Startup))]
 
 namespace Pyro.ConsoleServer
 {
-  public partial class StartupConsole : Pyro.Web.Startup
+  public partial class StartupConsole : Pyro.WebApi.Startup
   {
     public override void RegisterAllAreas()
     {

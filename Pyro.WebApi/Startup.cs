@@ -27,7 +27,7 @@ namespace Pyro.WebApi
         string RequestRoot = $"{environment.Request.Uri.Scheme}://{environment.Request.Uri.Authority}{environment.Request.Uri.AbsolutePath}";
         IHeaderDictionary HeaderDic = environment.Request.Headers;
 
-        Console.WriteLine("-------------------------- Request -------------------------------");
+        Console.WriteLine("----------------------------------- Request -----------------------------------");        
         Console.WriteLine("");
         Console.WriteLine($"Received : {DateTimeOffset.Now.ToString()}");
         Console.WriteLine($"Method   : {HttpMethod}");
@@ -35,19 +35,19 @@ namespace Pyro.WebApi
         if (!string.IsNullOrWhiteSpace(QueryString))
           Console.WriteLine($"Query    : {QueryString}");
         Console.WriteLine("");
-        Console.WriteLine($"------------------------- Headers -------------------------------");
+        Console.WriteLine("----------------------------------- Headers -----------------------------------");        
         Console.WriteLine("");
         foreach (var Head in HeaderDic)
         {
           Console.WriteLine($"{Head.Key.PadRight(16, ' ')}: {string.Join(",", Head.Value)}");
         }
         Console.WriteLine("");
-        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("-------------------------------------------------------------------------------");
         Console.WriteLine("");
-        await next();
-        Console.WriteLine("-------------------------- Response -------------------------------");
+        await next();        
+        Console.WriteLine("----------------------------------- Response ----------------------------------");
         Console.WriteLine($"Response : {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
-        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("-------------------------------------------------------------------------------");
       });
 
       HttpConfiguration = new HttpConfiguration();

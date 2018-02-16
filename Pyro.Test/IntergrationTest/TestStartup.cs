@@ -1,4 +1,4 @@
-﻿using Pyro.Web;
+﻿using Pyro.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Web.Routing;
 
 namespace Pyro.Test.IntergrationTest
 {
-  public class TestStartup : Pyro.Web.Startup
+  public class TestStartup : Pyro.WebApi.Startup
   {
     public override void RegisterRoutes()
     {
@@ -18,8 +18,8 @@ namespace Pyro.Test.IntergrationTest
       //route issue.
       //Now we just check if any have been registered and if so don't do it again.
       //This only happen on integration test cases
-      if (this._RouteCollection.Count == 0)
-        RouteConfig.RegisterRoutes(this._RouteCollection);
+      //if (this._RouteCollection.Count == 0)
+      //  RouteConfig.RegisterRoutes(this._RouteCollection);
     }
     //Need this empty to not RegisterAllAreas, we only do that on Pyro.Web
     public override void RegisterAllAreas() { }

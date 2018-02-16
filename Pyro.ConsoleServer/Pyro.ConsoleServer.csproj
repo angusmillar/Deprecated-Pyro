@@ -102,9 +102,9 @@
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
       <Name>Pyro.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pyro.Web\Pyro.Web.csproj">
-      <Project>{25051945-a08f-4e51-a7dc-c6190624a93f}</Project>
-      <Name>Pyro.Web</Name>
+    <ProjectReference Include="..\Pyro.WebApi\Pyro.WebApi.csproj">
+      <Project>{77a13dad-7097-4a6c-ad52-613f8816cc82}</Project>
+      <Name>Pyro.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
