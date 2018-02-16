@@ -281,9 +281,7 @@
     <None Include="app.config" />
     <None Include="Interfaces\Repositories\MainTemplate.txt4" />
     <None Include="packages.config" />
-    <None Include="specification.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="specification.zip" />
     <None Include="Tools\MainTemplate.txt4" />
   </ItemGroup>
   <ItemGroup>

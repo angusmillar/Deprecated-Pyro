@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart", "Pyro.Smart\Py
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart_Test", "Pyro.Smart_Test\Pyro.Smart_Test.csproj", "{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.WebApi", "Pyro.WebApi\Pyro.WebApi.csproj", "{77A13DAD-7097-4A6C-AD52-613F8816CC82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A13DAD-7097-4A6C-AD52-613F8816CC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A13DAD-7097-4A6C-AD52-613F8816CC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A13DAD-7097-4A6C-AD52-613F8816CC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A13DAD-7097-4A6C-AD52-613F8816CC82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
