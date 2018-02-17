@@ -50,11 +50,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Specification.STU3, Version=0.93.4.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Specification.STU3.0.93.4\lib\net45\Hl7.Fhir.Specification.STU3.dll</HintPath>
-    </Reference>
     <Reference Include="Hl7.Fhir.STU3.Core, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.STU3.Specification, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Specification.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Specification.dll</HintPath>
     </Reference>
     <Reference Include="Hl7.Fhir.Support, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.Support.0.94.0\lib\net45\Hl7.Fhir.Support.dll</HintPath>
@@ -186,9 +186,6 @@
     <Content Include="App_Data\PyroApp.config" />
     <Content Include="NLog.config" />
     <None Include="packages.config" />
-    <Content Include="specification.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Properties\PublishProfiles\PyroWebApiPublishFolder.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
