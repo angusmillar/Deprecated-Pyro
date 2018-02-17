@@ -35,7 +35,7 @@ There are two key projects for ruunnig the server, as follows:
 
 **Pyro.ConsoleServer (Project)**
 
-The Pyro.ConsoleServer will run the server in console mode and is primary used for development. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way, you just don’t get to see a pretty webpage.
+The Pyro.ConsoleServer will run the server in console mode and is the primary way to use the server if in a development enviroment. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
 
 `Pyro.ConsoleServer\App_Data\Connectons.config`
