@@ -83,8 +83,7 @@ You may need to check this directory is valid in your enviroment or change the l
 `Pyro.WebApi\NLog.config` (Just search for LogFilePath)
 
 
-## Important parts ##
-Project Description:
+## Full Solution Project Description ##
 
 **Pyro.CodeGeneration (Project)**
 
@@ -96,7 +95,7 @@ This will update the the key classes in the `Pyro.DataLayer` & `Pyro.Common` pro
 the new fhir-net-api and FHIR release bringing in any new FHIR resources and base standard search 
 parameters.
 
-Before running the T4 template `MainTemplate.tt` you will need to manually update the Assembly 
+Before running the T4 template `MainTemplate.tt` you will need to manually update the static Assembly 
 references within this file to point to the new packages as updated by Nuget package manager. 
 Below are examples of the four references discussed: 
 
@@ -115,7 +114,7 @@ You may need to delete all contents in the sub T4 file `MainTemplate.cs` if you 
 Note that no database upgrades have been implemented for this type of modification so post this process you will need 
 to delete the database which will be recreated as the first call is made to the FHIR endpoint.
 
-Please note: You don't need to do this just to get the server running this is only for future purposes when a new FHIR release is available'
+Please note: You don't need to do this just to get the server running this is only for future development purposes when a new FHIR release is available'
 
 **Pyro.Common (Project)**
 
@@ -123,7 +122,7 @@ This project holds all common cross cutting code used by the entire solution.
 
 **Pyro.ConsoleServer (Project)**
 
-This project allows the server to be started up in a console window as is used for debugging.
+This project allows the server to be started up in a console window and is te primary way to run the server in a development enviroment.
 This is the project to set as start-up when running in Visual Studio.
 
 **Pyro.DataLayer (Project)**
@@ -140,15 +139,16 @@ This project houses all unit tests and integration tests.
 
 **Pyro.WebApi (Project)**
 
-This is the project run in IIS to host the Pyro Server.
+This is the project used when hosting in a production IIS instance. 
+It is this project that you publish from for your production instance.
 
 **Pyro.Smart (Project)**
 
-This is the project implments SMART (SMART on FHIR) elements
+This project implments SMART (SMART on FHIR) elements. Currently under development and not used by the server as yet.
 
 **Pyro.Smart_Test (Project)**
 
-This is the project with test cases for the  Pyro.Smart project (SMART on FHIR) elements
+This project is the test cases for the  Pyro.Smart project (SMART on FHIR) elements
 
 
 ## Repo owner or admin ##
