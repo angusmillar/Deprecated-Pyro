@@ -73,7 +73,8 @@ You will also need to set the ‘ServiceBaseURL’ property in the file (See doco ab
 Both projects Pyro.WebApi and Pyro.ConsoleServer when first run will create a database at the given ConnectionString.
 This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to tigger this to occur.
 Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
-In general you would only use Pyro.Console in your development enviroment and configure its connectionstrings and ServiceBaseURL to suit. You would then only configure the Pyro.WebApi connectionstrings and ServiceBaseURL to be for your production instance ready for deployment. 
+
+In general, you would only use Pyro.Console in your development enviroment and configure its connectionstrings and ServiceBaseURL to suit. You would then only configure the Pyro.WebApi connectionstrings and ServiceBaseURL to be for your production instance ready for deployment. 
 
 **Logging**
 The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
