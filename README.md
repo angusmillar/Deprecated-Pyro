@@ -44,7 +44,7 @@ Just change the ‘connectionString’ element to meet your database.
 
 You will also need to set the ‘ServiceBaseURL’ property in the file:
 
-`Pyro.ConsoleServer\App_Data\ PyroApp.config`
+`Pyro.ConsoleServer\App_Data\PyroApp.config`
 
 Below is the documentation of this property:
 
@@ -52,8 +52,8 @@ Below is the documentation of this property:
 
 **Value:** URL String
 
-**Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to also be updated and recommitted. 
-Changing this setting here not perform that update.
+**Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
+Simply changing the setting here does not initate the updating of all these referances.
 
 **Pyro.WebApi (Project)**
 
@@ -61,7 +61,7 @@ The Pyro.WebApi will run the server in IIS Express. This is primarily used for w
 
 There is a seperate independent javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: https://bitbucket.org/angusmillar/pyro-web.
 
-Before you run this solution's Pyro.WebApi project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
+Before you run the Pyro.WebApi project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
@@ -70,9 +70,10 @@ You will also need to set the ‘ServiceBaseURL’ property in the file (See doco ab
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
-Both projects when first run will create a database at the given ConnectionString.
+Both projects Pyro.WebApi and Pyro.ConsoleServer when first run will create a database at the given ConnectionString.
 This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to tigger this to occur.
 Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
+In general you would only use Pyro.Console in your development enviroment and configure its connectionstrings and ServiceBaseURL to suit. You would then only configure the Pyro.WebApi connectionstrings and ServiceBaseURL to be for your production instance ready for deployment. 
 
 **Logging**
 The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
