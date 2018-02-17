@@ -65,8 +65,8 @@ Before you run the Pyro.WebApi project you will need to change the connection st
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
-Just change the `connectionString` element to meet your database.
-You will also need to set the `ServiceBaseURL` property in the file (See doco above in Pyro.ConsoleServer for this property)
+Just change the ConnectionString element to meet your database.
+You will also need to set the ServiceBaseURL property in the file (See doco above in Pyro.ConsoleServer for this property)
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
