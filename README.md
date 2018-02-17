@@ -31,7 +31,7 @@ Visual Studio 2017
 SQL Server 2016 Management Studio Express 64 Bit
 
 ## How do I get this solution up and running ##
-There are two key projects for ruunnig the server, as follows:
+There are two key projects you will need to understand to simply run the server in your development enviroment and production enviroment. The are as follows:
 
 **Pyro.ConsoleServer (Project)**
 
@@ -59,7 +59,7 @@ Simply changing the setting here does not initate the updating of all these refe
 
 The Pyro.WebApi will run the server in IIS Express. This is primarily used for when the server is deployed in production in a production IIS instance. It does not provide any webpage only the FHIR API endpoints hosted in IIS. 
 
-There is a seperate independent javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: https://bitbucket.org/angusmillar/pyro-web.
+There is a seperate independent javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: [PyroWeb WebSite](https://bitbucket.org/angusmillar/pyro-web) .
 
 Before you run the Pyro.WebApi project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
 
