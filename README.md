@@ -35,14 +35,14 @@ There are two key projects you will need to understand to simply run the server 
 
 **Development Enviroment: Pyro.ConsoleServer (Project)**
 
-The Pyro.ConsoleServer will run the server in console mode and is the primary way to use the server if in a development enviroment. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
+The Pyro.ConsoleServer will run the server in console mode and is the primary way to use the server if in a development enviroment. Its quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
 
 `Pyro.ConsoleServer\App_Data\Connectons.config`
 
-Just change the ‘connectionString’ element to meet your database.
+Just change the `connectionString` element to meet your database.
 
-You will also need to set the ‘ServiceBaseURL’ property in the file:
+You will also need to set the `ServiceBaseURL` property in the file:
 
 `Pyro.ConsoleServer\App_Data\PyroApp.config`
 
@@ -65,8 +65,8 @@ Before you run the Pyro.WebApi project you will need to change the connection st
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
-Just change the ConnectionString element to meet your database.
-You will also need to set the ServiceBaseURL property in the file (See doco above in Pyro.ConsoleServer for this property)
+Just change the `ConnectionString` element to meet your database.
+You will also need to set the `ServiceBaseURL` property in the file (See doco above in Pyro.ConsoleServer for this property)
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
