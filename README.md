@@ -34,6 +34,7 @@ SQL Server 2016 Management Studio Express 64 Bit
 There are two key projects for ruunnig the server, as follows:
 
 **Pyro.ConsoleServer (Project)**
+
 The Pyro.ConsoleServer will run the server in console mode and is primary used for development. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way, you just don’t get to see a pretty webpage.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
 
@@ -54,16 +55,18 @@ Below is the documentation of this property:
 **Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to also be updated and recommitted. 
 Changing this setting here not perform that update.
 
-**Pyro.Web (Project)**
-The Pyro.Web will run the server in IIS Express and launch the browser to show the simple landing page website. This is primarily used for when the server is deployed in production so that we have some sort of landing page for visitors to see. This website will not be developed further as I am working on a separate front end project independent to this solution based in javascript and React.
-Before you run this project you will need to change the connection string for the Pyro.Web. This can be found in the file:
+**Pyro.WebApi (Project)**
 
-`Pyro.Web\App_Data\ Connectons.config`
+The Pyro.WebApi will run the server in IIS Express. This is primarily used for when the server is deployed in production in a production IIS instance. It does not provide any webpage only the FHIR API endpoints hosted in IIS. 
+There is a seperate independent javascript React SPA website project that provide a website landing page for the Pyro Server found here: https://bitbucket.org/angusmillar/pyro-web.
+Before you run this project Pyro.WebApi you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
+
+`Pyro.WebApi\App_Data\Connectons.config`
 
 Just change the ‘connectionString’ element to meet your database.
 You will also need to set the ‘ServiceBaseURL’ property in the file (See doco above in Pyro.ConsoleServer for this property)
 
-`Pyro.Web \App_Data\ PyroApp.config`
+`Pyro.WebApi\App_Data\PyroApp.config`
 
 Both projects when first run will create a database at the given ConnectionString.
 This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to tigger this to occur.
@@ -73,13 +76,14 @@ Be patient as this first call will be slow as it must create all the database ta
 The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
 You may need to check this directory is valid in your enviroment or change the loging directory which can be done in the file:
 
-`Pyro.Web\NLog.config` (Just search for LogFilePath)
+`Pyro.WebApi\NLog.config` (Just search for LogFilePath)
 
 
 ## Important parts ##
 Project Description:
 
-*Pyro.CodeGeneration*
+**Pyro.CodeGeneration (Project)**
+
 When a new version of the FHIR is released (e.g STU3 to STU4) and the external fhir-net-api package 
 updated and loaded (use Nuget package manager) you can then run the T4 tempate located in this project 
 at `Pyro.CodeGeneration.Template.MainTemplate.tt`. 
@@ -109,24 +113,39 @@ to delete the database which will be recreated as the first call is made to the 
 
 Please note: You don't need to do this just to get the server running this is only for future purposes when a new FHIR release is available'
 
-*Pyro.Common*
+**Pyro.Common (Project)**
+
 This project holds all common cross cutting code used by the entire solution.
 
-*Pyro.ConsoleServer*
+**Pyro.ConsoleServer (Project)**
+
 This project allows the server to be started up in a console window as is used for debugging.
 This is the project to set as start-up when running in Visual Studio.
 
-*Pyro.DataLayer*
+**Pyro.DataLayer (Project)**
+
 This is the data layer project which handles all database access
 
-*Pyro.Engine*
+**Pyro.Engine (Project)**
+
 This is the bussiness logic layer
 
-*Pyro.Test*
+**Pyro.Test (Project)**
+
 This project houses all unit tests and integration tests.
 
-*Pyro.Web*
+**Pyro.WebApi (Project)**
+
 This is the project run in IIS to host the Pyro Server.
+
+**Pyro.Smart (Project)**
+
+This is the project implments SMART (SMART on FHIR) elements
+
+**Pyro.Smart_Test (Project)**
+
+This is the project with test cases for the  Pyro.Smart project (SMART on FHIR) elements
+
 
 ## Repo owner or admin ##
 
