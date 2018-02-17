@@ -31,9 +31,9 @@ Visual Studio 2017
 SQL Server 2016 Management Studio Express 64 Bit
 
 ## How do I get this solution up and running ##
-There are two key projects you will need to understand to simply run the server in your development enviroment and production enviroment. The are as follows:
+There are two key projects you will need to understand to simply run the server in your development enviroment and production enviroment. They are as follows:
 
-**Pyro.ConsoleServer (Project)**
+**Development Enviroment: Pyro.ConsoleServer (Project)**
 
 The Pyro.ConsoleServer will run the server in console mode and is the primary way to use the server if in a development enviroment. It’s quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
 Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
@@ -55,7 +55,7 @@ Below is the documentation of this property:
 **Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
 Simply changing the setting here does not initate the updating of all these referances.
 
-**Pyro.WebApi (Project)**
+**Production Enviroment: Pyro.WebApi (Project)**
 
 The Pyro.WebApi will run the server in IIS Express. This is primarily used for when the server is deployed in production in a production IIS instance. It does not provide any webpage only the FHIR API endpoints hosted in IIS. 
 
