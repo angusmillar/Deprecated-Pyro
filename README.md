@@ -58,8 +58,10 @@ Changing this setting here not perform that update.
 **Pyro.WebApi (Project)**
 
 The Pyro.WebApi will run the server in IIS Express. This is primarily used for when the server is deployed in production in a production IIS instance. It does not provide any webpage only the FHIR API endpoints hosted in IIS. 
-There is a seperate independent javascript React SPA website project that provide a website landing page for the Pyro Server found here: https://bitbucket.org/angusmillar/pyro-web.
-Before you run this project Pyro.WebApi you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
+
+There is a seperate independent javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: https://bitbucket.org/angusmillar/pyro-web.
+
+Before you run this solution's Pyro.WebApi project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
