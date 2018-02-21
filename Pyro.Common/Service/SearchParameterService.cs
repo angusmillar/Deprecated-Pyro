@@ -103,7 +103,7 @@ namespace Pyro.Common.Service
       _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<ISearchParameterBase>();
       _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
       _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
-
+      
       //Parse Include and RevInclude parameters
       ProcessIncludeSearchParameters(SearchParameterGeneric.Include);
       ProcessIncludeSearchParameters(SearchParameterGeneric.RevInclude);
@@ -374,10 +374,11 @@ namespace Pyro.Common.Service
           else
           {
             ParseOk = false;
-            if (_SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList == null)
-              _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
             _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-            { RawParameter = $"{Key}", ReasonMessage = $"{Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE} or {Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE} parameter is not recognised." });
+            {
+              RawParameter = $"{Key}",
+              ReasonMessage = $"{Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_INCLUDE} or {Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE} parameter is not recognised."
+            });
           }
 
           SearchParameterInclude.IsRecurse = false;
@@ -399,11 +400,11 @@ namespace Pyro.Common.Service
           else
           {
             ParseOk = false;
-            if (_SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList == null)
-              _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
             _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-            { RawParameter = $"{Key}={Value}", ReasonMessage = "The source Resource of the _includes parameter is not recognised." });
-
+            {
+              RawParameter = $"{Key}={Value}",
+              ReasonMessage = "The source Resource of the _includes parameter is not recognised."
+            });
           }
 
           if (valueSplitArray.Count() > 2)
@@ -421,7 +422,10 @@ namespace Pyro.Common.Service
               {
                 ParseOk = false;
                 _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-                { RawParameter = $"{Key}={Value}", ReasonMessage = "The target Resource of the _includes parameter is not recognised." });
+                {
+                  RawParameter = $"{Key}={Value}",
+                  ReasonMessage = "The target Resource of the _includes parameter is not recognised."
+                });
               }
             }
           }
@@ -454,7 +458,10 @@ namespace Pyro.Common.Service
                     {
                       ParseOk = false;
                       _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-                      { RawParameter = $"{Key}={Value}", ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{SearchParameterInclude.SourceResourceType.GetLiteral()}' Resource's search parameter {DtoServiceSearchParameterLight.Name}." });
+                      {
+                        RawParameter = $"{Key}={Value}",
+                        ReasonMessage = $"The target Resource '{SearchParameterInclude.SearchParameterTargetResourceType.Value.GetLiteral()}' of the _includes parameter is not recognised for the source '{SearchParameterInclude.SourceResourceType.GetLiteral()}' Resource's search parameter {DtoServiceSearchParameterLight.Name}."
+                      });
                     }
                   }
                   SearchParameterInclude.SearchParameterList = new List<ServiceSearchParameterLight>();
@@ -464,14 +471,20 @@ namespace Pyro.Common.Service
                 {
                   ParseOk = false;
                   _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-                  { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter of type Reference, found search parameter type of '{DtoServiceSearchParameterLight.Type.ToString()}'." });
+                  {
+                    RawParameter = $"{Key}={Value}",
+                    ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{DtoServiceSearchParameterLight.Name}' of the _includes parameter is not of search parameter of type Reference, found search parameter type of '{DtoServiceSearchParameterLight.Type.ToString()}'."
+                  });
                 }
               }
               else
               {
                 ParseOk = false;
                 _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(new UnspportedSearchParameter()
-                { RawParameter = $"{Key}={Value}", ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{SearchTerm}' is not a valid search parameter for the source Resource type." });
+                {
+                  RawParameter = $"{Key}={Value}",
+                  ReasonMessage = $"The source Resource '{SearchParameterInclude.SourceResourceType.GetLiteral()}' search parameter '{SearchTerm}' is not a valid search parameter for the source Resource type."
+                });
               }
             }
           }
@@ -633,7 +646,6 @@ namespace Pyro.Common.Service
         DtoUnspportedSearchParameter.RawParameter = $"{oInboundSearchParameter.RawValue}";
       return DtoUnspportedSearchParameter;
     }
-
     private bool CheckModifierTypeResourceValidForSearchParameter(string ModifierTypeResource, List<IServiceSearchParameterTargetResource> TargetResourceTypeList)
     {
       if (TargetResourceTypeList == null)
