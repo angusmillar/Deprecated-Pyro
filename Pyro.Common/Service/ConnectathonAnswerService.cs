@@ -175,8 +175,8 @@ namespace Pyro.Common.Service
         //Now get the Attendee's answers
         string SearchQuery = $"questionnaire=Questionnaire/{_QuestionnaireResourceId}";
         DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}?{SearchQuery}");
-        SearchParameterGeneric = SearchParameterGeneric.Parse(SearchQuery);
-        var AttendeeAnswers = this.IResourceServices.GetSearch(DtoRequestUri, SearchParameterGeneric);
+        SearchParameterGeneric = SearchParameterGeneric.Parse(SearchQuery);        
+        var AttendeeAnswers = this.IResourceServices.GetSearch(DtoRequestUri, SearchParameterGeneric, RequestHeaders);
         if (AttendeeAnswers.SuccessfulTransaction && AttendeeAnswers.ResourceResult != null && AttendeeAnswers.ResourceResult is Bundle AttendeeAnswersBundle)
         {
 

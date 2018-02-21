@@ -7,6 +7,7 @@ namespace Pyro.Common.Service
   public interface ISearchParametersServiceOutcome
   {
     OperationOutcome FhirOperationOutcome { get; set; }
+    OperationOutcome FhirOperationOutcomeUnsupportedParameters { get; set; }    
     HttpStatusCode HttpStatusCode { get; set; }
     PyroSearchParameters SearchParameters { get; set; }
   }

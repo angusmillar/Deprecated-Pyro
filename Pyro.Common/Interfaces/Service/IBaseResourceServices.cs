@@ -31,7 +31,8 @@ namespace Pyro.Common.Interfaces.Service
     // GET: URL/FhirApi/Patient/5    
     IResourceServiceOutcome GetSearch(
       IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric);
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders);
 
     //History
     // GET: URL/FhirApi/Patient/5/_history    

@@ -25,7 +25,7 @@ namespace Pyro.Common.Service
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
     private IPyroRequestUri _RequestUri { get; set; }
-
+    private IRequestHeader _RequestHeader { get; set; }
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
@@ -37,7 +37,7 @@ namespace Pyro.Common.Service
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
 
-    public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri)
+    public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri, IRequestHeader RequestHeaders)
     {
       if (IResourceServices == null)
       {
@@ -47,11 +47,9 @@ namespace Pyro.Common.Service
       {
         throw new ArgumentNullException("Resource can not be null.");
       }
-      if (RequestUri == null)
-      {
-        throw new ArgumentNullException("RequestUri  can not be null.");
-      }
-      _RequestUri = RequestUri;
+
+      _RequestHeader = RequestHeaders ?? throw new ArgumentNullException("RequestHeaders can not be null.");
+      _RequestUri = RequestUri ?? throw new ArgumentNullException("RequestUri can not be null.");
 
 
       _ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
@@ -107,21 +105,21 @@ namespace Pyro.Common.Service
         try
         {
           //DELETE Processing
-          foreach (var DeleteEntry in DeleteEntries)
+          for (int i = 0; i < DeleteEntries.Count(); i++)
           {
-            if (!DeleteProcessing(DeleteEntry))
+            if (!DeleteProcessing(DeleteEntries.ElementAt(i), i))
             {
               return _ServiceOperationOutcome;
             }
           }
-
+          
           //Assign new id's for POSTs and then update all POST and PUT entrie referances          
           AssignResourceIdsAndUpdateReferances(POSTEntries, PUTEntries);
 
           //POST Processing        
-          foreach (var PostEntry in POSTEntries)
+          for (int i = 0; i < POSTEntries.Count(); i++)
           {
-            if (!PostProcessing(PostEntry))
+            if (!PostProcessing(POSTEntries.ElementAt(i), i))
             {
               _ServiceOperationOutcome.SuccessfulTransaction = false;
               return _ServiceOperationOutcome;
@@ -129,9 +127,9 @@ namespace Pyro.Common.Service
           }
 
           //PUT Processing        
-          foreach (var PutEntry in PUTEntries)
+          for (int i = 0; i < PUTEntries.Count(); i++)
           {
-            if (!PutProcessing(PutEntry))
+            if (!PutProcessing(PUTEntries.ElementAt(i), i))
             {
               _ServiceOperationOutcome.SuccessfulTransaction = false;
               return _ServiceOperationOutcome;
@@ -139,15 +137,15 @@ namespace Pyro.Common.Service
           }
 
           //GET Processing        
-          foreach (var GetEntry in GETEntries)
+          for (int i = 0; i < GETEntries.Count(); i++)
           {
-            if (!GetProcessing(GetEntry))
+            if (!GetProcessing(GETEntries.ElementAt(i), i))
             {
               _ServiceOperationOutcome.SuccessfulTransaction = false;
               return _ServiceOperationOutcome;
             }
           }
-
+          
           _ServiceOperationOutcome.ResourceResult = bundle;
           _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
           _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -162,7 +160,7 @@ namespace Pyro.Common.Service
       return _ServiceOperationOutcome;
     }
 
-    private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry)
+    private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(DeleteEntry));
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
@@ -204,13 +202,13 @@ namespace Pyro.Common.Service
       {
         if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is OperationOutcome Op)
         {
-          IdentifieBatchEntityToClient(Op, DeleteEntry.FullUrl);
+          IdentifieBatchEntityToClient(Op, DeleteEntry.FullUrl, "DELETE", DeleteEntryIndex);
         }
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
       }
     }
-    private bool PostProcessing(Bundle.EntryComponent PostEntry)
+    private bool PostProcessing(Bundle.EntryComponent PostEntry, int PostEntryIndex)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PostEntry));
       if (EntryRequestUri.FhirRequestUri.IsOperation)
@@ -273,13 +271,13 @@ namespace Pyro.Common.Service
       {
         if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is OperationOutcome Op)
         {
-          IdentifieBatchEntityToClient(Op, PostEntry.FullUrl);
+          IdentifieBatchEntityToClient(Op, PostEntry.FullUrl, "POST", PostEntryIndex);
         }
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
       }
     }
-    private bool PutProcessing(Bundle.EntryComponent PutEntry)
+    private bool PutProcessing(Bundle.EntryComponent PutEntry, int PutEntryIndex)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PutEntry));
       IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PutEntry.Request);
@@ -324,27 +322,28 @@ namespace Pyro.Common.Service
       {
         if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is OperationOutcome Op)
         {
-          IdentifieBatchEntityToClient(Op, PutEntry.FullUrl);
+          IdentifieBatchEntityToClient(Op, PutEntry.FullUrl, "PUT", PutEntryIndex);
         }
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
       }
     }   
 
-    private bool GetProcessing(Bundle.EntryComponent GetEntry)
+    private bool GetProcessing(Bundle.EntryComponent GetEntry, int GetEntryIndex)
     {
       IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(GetEntry));
-      IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(GetEntry.Request);
+      IRequestHeader GetRequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(GetEntry.Request);
+      GetRequestHeaders.Handling = _RequestHeader.Handling;
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.GetSearch(EntryRequestUri, SearchParameterGeneric);
+        ResourceServiceOutcome = IResourceServices.GetSearch(EntryRequestUri, SearchParameterGeneric, GetRequestHeaders);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.GetRead(EntryRequestUri.FhirRequestUri.ResourceId, _RequestUri, SearchParameterGeneric, RequestHeaders);
+        ResourceServiceOutcome = IResourceServices.GetRead(EntryRequestUri.FhirRequestUri.ResourceId, _RequestUri, SearchParameterGeneric, GetRequestHeaders);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -377,7 +376,7 @@ namespace Pyro.Common.Service
       {
         if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is OperationOutcome Op)
         {
-          IdentifieBatchEntityToClient(Op, GetEntry.FullUrl);
+          IdentifieBatchEntityToClient(Op, GetEntry.FullUrl, "GET", GetEntryIndex);
         }
         _ServiceOperationOutcome = ResourceServiceOutcome;
         return false;
@@ -411,9 +410,18 @@ namespace Pyro.Common.Service
       return null;
     }
 
-    private void IdentifieBatchEntityToClient(OperationOutcome op, string FullURL)
+    private void IdentifieBatchEntityToClient(OperationOutcome op, string FullURL, string OperationType, int EntityIndexInType)
     {
-      string Message = $"Issue found with the bundel entry identified by the FullURL: {FullURL}";
+      EntityIndexInType = EntityIndexInType + 1;
+      string Message = string.Empty;
+      if (String.IsNullOrWhiteSpace(FullURL))
+      {
+        Message = $"The Issue/s were found in the {EntityIndexInType.Ordinal()} {OperationType} bundel entry";
+      }
+      else
+      {
+        Message = $"The Issue/s were found in the bundel entry identified by the FullURL: {FullURL}";
+      }      
       OperationOutcome NewOp = FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Information, OperationOutcome.IssueType.Informational, Message, op);
     }
 

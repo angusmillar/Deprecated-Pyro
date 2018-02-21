@@ -14,11 +14,13 @@ namespace Pyro.Common.Tools.Headers
     private const string _IfModifiedSinceHeader = "If-Modified-Since";
     private const string _IfNoneMatchHeader = "If-None-Match";
     private const string _IfMatchHeader = "If-Match";
+    private const string _HandlingHeader = "handling";
 
     public string IfNoneExist { get; set; }
     public string IfModifiedSince { get; set; }
     public string IfNoneMatch { get; set; }
     public string IfMatch { get; set; }
+    public string Handling { get; set; }
 
     public RequestHeader() { }
     public IRequestHeader Parse(Bundle.RequestComponent RequestComponent)
@@ -62,6 +64,10 @@ namespace Pyro.Common.Tools.Headers
       IEnumerable<string> IfMatchHeader;
       if (HttpRequestHeaders.TryGetValues(_IfMatchHeader, out IfMatchHeader))
         this.IfMatch = IfMatchHeader.FirstOrDefault();
+
+      IEnumerable<string> HandlingHeader;
+      if (HttpRequestHeaders.TryGetValues(_HandlingHeader, out HandlingHeader))
+        this.Handling = HandlingHeader.FirstOrDefault();
 
       return this;
     }

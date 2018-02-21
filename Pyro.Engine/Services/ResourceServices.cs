@@ -83,13 +83,17 @@ namespace Pyro.Engine.Services
     // GET: URL//FhirApi/Patient?family=Smith&given=John            
     public virtual IResourceServiceOutcome GetSearch(
       IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric)
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (RequestUri == null)
         throw new NullReferenceException("FhirRequestUri can not be null.");
 
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
+
+      if (RequestHeaders == null)
+        throw new NullReferenceException("RequestHeaders can not be null.");
 
       IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
@@ -102,6 +106,14 @@ namespace Pyro.Engine.Services
       {
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
         oServiceOperationOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
+        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        return oServiceOperationOutcome;
+      }
+      //If header Handling=strict then return search parameter errors if there are any
+      if (RequestHeaders.Handling != null && RequestHeaders.Handling.ToLower() == "strict" && SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      {
+        oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcomeUnsupportedParameters;
+        oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }

@@ -143,6 +143,7 @@
     <Compile Include="Service\FhirValidateOperationService.cs" />
     <Compile Include="Service\IConnectathonAnswerService.cs" />
     <Compile Include="Service\ISearchParameterService.cs" />
+    <Compile Include="Tools\IntegerExtensions.cs" />
     <Compile Include="Tools\ResourceNameResolutionSupport.cs" />
     <Compile Include="Tools\UriSupport\PyroRequestUri.cs" />
     <Compile Include="Tools\UriSupport\PyroFhirUri.cs" />

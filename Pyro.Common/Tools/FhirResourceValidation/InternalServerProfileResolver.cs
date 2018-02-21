@@ -34,7 +34,8 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       string RequestUriString = $"https://{PrimaryServiceRoot}/{ResourceType.StructureDefinition.GetLiteral()}/?url={uri}";
       IPyroRequestUri RequestUri = ICommonFactory.CreateDtoRequestUri(RequestUriString);
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse($"url={ uri}");
-      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestUri, SearchParameterGeneric);
+      IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestUri, SearchParameterGeneric, RequestHeaders);
       if (ResourceServiceOutcome.ResourceResult != null && (ResourceServiceOutcome.ResourceResult as Bundle).Entry.Count > 1)
       {
         throw new System.Exception($"More than a single {ResourceType.StructureDefinition.GetLiteral()} instance was found with the Canonical Uri of {uri} at the endpoint {PrimaryServiceRoot + "/" + ResourceType.StructureDefinition.GetLiteral()}.");
