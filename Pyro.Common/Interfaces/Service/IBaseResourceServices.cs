@@ -72,14 +72,16 @@ namespace Pyro.Common.Interfaces.Service
     // DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     IResourceServiceOutcome ConditionalDelete(
       IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric);
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders);
 
     //Conditional Update
     /// PUT: URL/FhirApi/Patient?given=angus
     IResourceServiceOutcome ConditionalPut(
       Resource Resource,
       IPyroRequestUri FhirRequestUri,
-      ISearchParameterGeneric SearchParameterGeneric);
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders);
 
     //DeleteHistoryIndexes
     // POST: URL/FhirAPI/Patient/$delete-history-indexes

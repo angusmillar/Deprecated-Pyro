@@ -240,6 +240,15 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }
 
+      //If header Handling=strict then return search parameter errors if there are any
+      if (RequestHeaders.Handling != null && RequestHeaders.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeBase.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      {
+        oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcomeBase.FhirOperationOutcomeUnsupportedParameters;
+        oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
+        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
+        return oServiceOperationOutcome;
+      }
+
       if ((RequestHeaders != null) && (!string.IsNullOrWhiteSpace(RequestHeaders.IfNoneExist)))
       {
         ISearchParameterGeneric SearchParameterGenericIfNoneExist = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(RequestHeaders.IfNoneExist);
@@ -466,7 +475,8 @@ namespace Pyro.Engine.Services
     public virtual IResourceServiceOutcome ConditionalPut(
       Resource Resource,
       IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric)
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (Resource == null)
         throw new NullReferenceException($"Resource can not be null.");
@@ -476,7 +486,8 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
       if (!ResourceProvidedMatchesEndpointItWasProvidedOn(RequestUri, Resource.ResourceType))
         throw new FormatException($"Attempting to PUT a Resource of type {Resource.ResourceType.GetLiteral()} on an endpoint for Resource Type {RequestUri.FhirRequestUri.ResourseName}, this is not allowed.");
-
+      if (RequestHeaders == null)
+        throw new NullReferenceException("RequestHeaders can not be null.");
 
       IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = ICommonFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
@@ -490,6 +501,16 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalPut;
       }
+
+      //If header Handling=strict then return search parameter errors if there are any
+      if (RequestHeaders.Handling != null && RequestHeaders.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      {
+        ServiceOperationOutcomeConditionalPut.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
+        ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.Forbidden;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+        return ServiceOperationOutcomeConditionalPut;
+      }
+
       ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
 
       IDatabaseOperationOutcome DatabaseOperationOutcomeSearch = IResourceRepository.GetResourceBySearch(SearchParametersServiceOutcomeAll.SearchParameters, false);
@@ -553,7 +574,8 @@ namespace Pyro.Engine.Services
     //DELETE: URL/FhirApi/Patient?identifier=12345&family=millar&given=angus 
     public virtual IResourceServiceOutcome ConditionalDelete(
       IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric)
+      ISearchParameterGeneric SearchParameterGeneric,
+      IRequestHeader RequestHeaders)
     {
       if (RequestUri == null)
         throw new NullReferenceException($"RequestUri can not be null.");
@@ -569,11 +591,21 @@ namespace Pyro.Engine.Services
       ISearchParameterService SearchServiceAll = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchServiceAll.ProcessResourceSearchParameters(SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, _CurrentResourceType);
 
+      //If any syntax erros in Search parameters
       if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
       {
         ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcome;
         ServiceOperationOutcomeConditionalDelete.HttpStatusCode = SearchParametersServiceOutcomeAll.HttpStatusCode;
         ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
+        return ServiceOperationOutcomeConditionalDelete;
+      }
+      
+      //If header Handling=strict then return search parameter errors if there are any
+      if (RequestHeaders.Handling != null && RequestHeaders.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      {
+        ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
+        ServiceOperationOutcomeConditionalDelete.HttpStatusCode = HttpStatusCode.Forbidden;
+        ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalDelete;
       }
 

@@ -284,8 +284,9 @@ namespace Pyro.Engine.Services
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
           IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
           ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalPut(resource, DtoRequestUri, SearchParameterGeneric);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalPut(resource, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -309,8 +310,9 @@ namespace Pyro.Engine.Services
           IResourceServices.SetCurrentResourceType(ResourceName);
           IDtoRootUrlStore DtoRootUrlStore = IRequestServiceRootValidate.Validate(BaseRequestUri);
           IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(Request.RequestUri.OriginalString);
+          IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(Request.Headers);
           ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalDelete(DtoRequestUri, SearchParameterGeneric);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalDelete(DtoRequestUri, SearchParameterGeneric, RequestHeaders);
           ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;

@@ -168,7 +168,7 @@ namespace Pyro.Common.Service
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.ConditionalDelete(EntryRequestUri, SearchParameterGeneric);
+        ResourceServiceOutcome = IResourceServices.ConditionalDelete(EntryRequestUri, SearchParameterGeneric, _RequestHeader);
       }
       else
       {
@@ -286,7 +286,7 @@ namespace Pyro.Common.Service
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.ConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric);
+        ResourceServiceOutcome = IResourceServices.ConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, _RequestHeader);
       }
       else
       {

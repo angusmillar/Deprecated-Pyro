@@ -154,6 +154,11 @@ namespace Pyro.Engine.Services
         ResourceComponent.ConditionalUpdate = true;
         ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
 
+        var ReferenceHandlingPolicyList = new List<CapabilityStatement.ReferenceHandlingPolicy?>();
+        ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Literal);
+        ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Local);
+        ResourceComponent.ReferencePolicy = ReferenceHandlingPolicyList;
+        
         List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
 
         //List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
