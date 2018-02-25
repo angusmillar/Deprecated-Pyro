@@ -34,6 +34,8 @@ namespace Pyro.Common.FhirOperation
         //$connectathon-answer (Base)
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ConnectathonAnswer, Scope = FhirOperationEnum.OperationScope.Base });
 
+        //$x-IHISearchOrValidate (Resource)
+        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.xIHISearchOrValidate, Scope = FhirOperationEnum.OperationScope.Resource });
 
 
         return List;

@@ -104,6 +104,8 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="ADHA\Api\IhiRequestData.cs" />
+    <Compile Include="ADHA\Api\IhiSearchValidateConfig.cs" />
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
@@ -121,7 +123,9 @@
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />
     <Compile Include="Search\ServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
+    <Compile Include="Service\IHISearchOrValidateOperationService.cs" />
     <Compile Include="Service\IChainSearchingService.cs" />
+    <Compile Include="Service\IIHISearchOrValidateOperationService.cs" />
     <Compile Include="Service\IIncludeService.cs" />
     <Compile Include="Service\ChainSearchingService.cs" />
     <Compile Include="Service\IncludeService.cs" />
@@ -286,6 +290,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\UriSupport\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PyroAdha\Pyro.ADHA\Pyro.ADHA.csproj">
+      <Project>{ee18f634-a299-4506-ab24-e11bd7c6630e}</Project>
+      <Name>Pyro.ADHA</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

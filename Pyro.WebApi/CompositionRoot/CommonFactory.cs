@@ -122,5 +122,13 @@ namespace Pyro.WebApi.CompositionRoot
     {
       return Container.GetInstance<IConnectathonAnswerService>();
     }
+
+    public IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService()
+    {
+      return Container.GetInstance<IIHISearchOrValidateOperationService>();
+    }
+
+
+    
   }
 }

@@ -30,10 +30,12 @@ namespace Pyro.Common.Enum
       [EnumLiteral("server-resource-report")]
       ServerResourceReport,
       [EnumLiteral("connectathon-answer")]
-      ConnectathonAnswer,
-      //[EnumLiteral(Hl7.Fhir.Rest.FhirClientOperations.Operation.VALIDATE_RESOURCE)]
+      ConnectathonAnswer,      
       [EnumLiteral(Hl7.Fhir.Rest.RestOperation.VALIDATE_RESOURCE)]
-      Validate
+      Validate,
+      [EnumLiteral("x-IHISearchOrValidate")]
+      xIHISearchOrValidate,
+
     }
 
     public static Dictionary<string, OperationType> GetOperationTypeByString()
@@ -47,6 +49,7 @@ namespace Pyro.Common.Enum
         {OperationType.ServerResourceReport.GetPyroLiteral(), OperationType.ServerResourceReport},
         {OperationType.ConnectathonAnswer.GetPyroLiteral(), OperationType.ConnectathonAnswer},
         {OperationType.Validate.GetPyroLiteral(), OperationType.Validate},
+        {OperationType.xIHISearchOrValidate.GetPyroLiteral(), OperationType.xIHISearchOrValidate},
       };
     }
 

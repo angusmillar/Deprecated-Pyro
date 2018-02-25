@@ -94,6 +94,11 @@ namespace Pyro.Engine.Services
             IFhirValidateOperationService FhirValidateOperationService = ICommonFactory.CreateFhirValidateOperationService();
             return FhirValidateOperationService.ValidateResource(OperationClass, Resource, RequestUri, SearchPrameterGeneric, RequestHeaders);
           }
+        case FhirOperationEnum.OperationType.xIHISearchOrValidate:
+          {
+            IIHISearchOrValidateOperationService IHISearchOrValidateOperationService = ICommonFactory.CreateIHISearchOrValidateOperationService();
+            return IHISearchOrValidateOperationService.IHISearchOrValidate(OperationClass, Resource, RequestUri, SearchPrameterGeneric, RequestHeaders);
+          }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));
       }

@@ -62,6 +62,8 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterReferanceFactory, Pyro.WebApi.CompositionRoot.SearchParameterReferanceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IPyroFhirUriFactory, Pyro.WebApi.CompositionRoot.PyroFhirUriFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Singleton);
+      container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Singleton);
 
 
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.WebApi.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
@@ -129,6 +131,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
       container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
       container.Register<IConnectathonAnswerService, ConnectathonAnswerService>(Lifestyle.Scoped);
+      container.Register<IIHISearchOrValidateOperationService, IHISearchOrValidateOperationService>(Lifestyle.Scoped);      
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
