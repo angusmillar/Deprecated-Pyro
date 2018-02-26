@@ -38,6 +38,13 @@ namespace Pyro.Common.Tools
       return new string(a);
     }
 
+    public static string RemoveWhitespace(string text)
+    {
+      return new string(text.ToCharArray()
+          .Where(c => !Char.IsWhiteSpace(c))
+          .ToArray());
+    }
+
     public static int GetScaleFromDecimal(string value)
     {
       const string DecimalPoint = ".";
