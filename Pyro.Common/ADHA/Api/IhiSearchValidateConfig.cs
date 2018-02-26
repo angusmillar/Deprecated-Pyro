@@ -19,8 +19,9 @@ namespace Pyro.Common.ADHA.Api
       this.ProductName = GlobalProperties.HIServiceProductName;
       this.ProductVersion = GlobalProperties.HIServiceProductVersion;
       this.VendorId = GlobalProperties.HIServiceVendorId;
-      this.VendorIdQualifier = GlobalProperties.HIServiceVendorIdQualifier;
+      this.VendorIdQualifier = GlobalProperties.HIServiceVendorIdQualifier;      
     }
+    
     public string CertificateSerialNumber { get; set; }
     public string HiServiceEndpoint { get; set; }
     public string ProductName { get; set; }

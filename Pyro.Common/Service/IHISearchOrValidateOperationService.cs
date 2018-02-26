@@ -12,6 +12,7 @@ using Pyro.Common.Tools.Headers;
 using Pyro.Common.Tools;
 using Pyro.Common.ADHA.Api;
 using Pyro.ADHA.Api;
+using Pyro.Common.Global;
 
 namespace Pyro.Common.Service
 {
@@ -27,6 +28,7 @@ namespace Pyro.Common.Service
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IResourceServices IResourceServices;
+    private readonly IGlobalProperties GlobalProperties;
     private readonly IHiServiceApi HiServiceApi;
 
     public IHISearchOrValidateOperationService(
@@ -34,12 +36,14 @@ namespace Pyro.Common.Service
       IPyroFhirUriFactory IPyroFhirUriFactory,
       ISearchParameterServiceFactory ISearchParameterServiceFactory,
       IResourceServices IResourceServices,
+      IGlobalProperties GlobalProperties,
       IHiServiceApi IHiServiceApi)
     {
       this.ICommonFactory = ICommonFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
-      this.IResourceServices = IResourceServices;      
+      this.IResourceServices = IResourceServices;
+      this.GlobalProperties = GlobalProperties;
       this.HiServiceApi = IHiServiceApi;
     }
 
@@ -67,6 +71,15 @@ namespace Pyro.Common.Service
 
       ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
 
+      if (!GlobalProperties.HIServiceConnectivityActive)
+      {
+        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
+        $"HI Service connectivity is disabled on this server instance, please contact you system administrator if it is required.");
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        ResourceServiceOutcome.SuccessfulTransaction = true;
+        return ResourceServiceOutcome;
+      }
+
       if (ResourceType.Patient.GetLiteral() != RequestUri.FhirRequestUri.ResourseName)      
       {
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
@@ -74,7 +87,6 @@ namespace Pyro.Common.Service
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         ResourceServiceOutcome.SuccessfulTransaction = true;
         return ResourceServiceOutcome;
-
       }
 
       if (Resource.ResourceType != ResourceType.Parameters)
