@@ -108,7 +108,7 @@ namespace Pyro.Common.Cache
     public static int MaxNumberOfRecordsPerPage()
     {
       const int AbsoluteMaxNumberOfRecordsPerPage = 5000;
-      const int SystemDefaultMaxNumberOfRecordsPerPage = 1000;
+      const int SystemDefaultMaxNumberOfRecordsPerPage = 500;
       try
       {
         string MaxNumberOfRecordsPerPageString = ConfigurationManager.AppSettings["MaxNumberOfRecordsPerPage"].ToString();
@@ -131,6 +131,128 @@ namespace Pyro.Common.Cache
         return SystemDefaultMaxNumberOfRecordsPerPage;
       }
     }
+
+    /// <summary>
+    /// Enable the HI Service Connectivity
+    /// Default: False
+    /// </summary>
+    /// <returns></returns>
+    public static bool HIServiceConnectivityActive()
+    {
+      try
+      {
+        string CacheServicesActive = ConfigurationManager.AppSettings["HIServiceConnectivityActive"].ToString();
+        return StringSupport.StringToBoolean(CacheServicesActive);
+      }
+      catch (NullReferenceException)
+      {
+        //if not set in file then default to false;
+        return false;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service Certificate serial number from the windows certificate manager's personal store for the active user
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceCertificateSerialNumber()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceCertificateSerialNumber"].ToString();        
+      }
+      catch (NullReferenceException)
+      {        
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service Endpoint where the HI Service is found
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceEndpoint()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceEndpoint"].ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service ProductName as registered with and provided by Medicare for the HI Service connection
+    /// This would most likely be something like 'PyroServer' or the product name that was accredited for HI Service connectivity
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceProductName()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceProductName"].ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service ProductVersion as registered with and provided by Medicare for the HI Service connection
+    /// This would be version of the PyroServer or at least the version that was accredited for HI Service connectivity
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceProductVersion()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceProductVersion"].ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service VendorId as registered with and provided by Medicare for the HI Service connection
+    /// This would be an id for the client using the Pyro Service for there HI Serevice connectivity
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceVendorId()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceVendorId"].ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The HI Service VendorIdQualifier as registered with and provided by Medicare for the HI Service connection
+    /// This would be a IdQualifier for the client using the Pyro Service for there HI Serevice connectivity
+    /// It will most likley be 'http://ns.electronichealth.net.au/id/hi/vendorid/1.0'
+    /// </summary>
+    /// <returns></returns>
+    public static string HIServiceVendorIdQualifier()
+    {
+      try
+      {
+        return ConfigurationManager.AppSettings["HIServiceVendorIdQualifier"].ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return string.Empty;
+      }
+    }
+
+
 
   }
 }

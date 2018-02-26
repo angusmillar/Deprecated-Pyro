@@ -13,15 +13,13 @@ namespace Pyro.Common.ADHA.Api
     private readonly IGlobalProperties GlobalProperties;
     public IhiSearchValidateConfig(IGlobalProperties GlobalProperties)
     {
-      this.GlobalProperties = GlobalProperties;
-      string test = GlobalProperties.ApplicationVersionInfo;
-
-      this.CertificateSerialNumber = "063c23";
-      this.HiServiceEndpoint = "https://www5.medicareaustralia.gov.au/cert/soap/services/";
-      this.ProductName = "NEHTA HIPS";
-      this.ProductVersion = "6.1";
-      this.VendorId = "HIPS0001";
-      this.VendorIdQualifier = "http://ns.electronichealth.net.au/id/hi/vendorid/1.0";
+      this.GlobalProperties = GlobalProperties;      
+      this.CertificateSerialNumber = GlobalProperties.HIServiceCertificateSerialNumber;
+      this.HiServiceEndpoint = GlobalProperties.HIServiceEndpoint;
+      this.ProductName = GlobalProperties.HIServiceProductName;
+      this.ProductVersion = GlobalProperties.HIServiceProductVersion;
+      this.VendorId = GlobalProperties.HIServiceVendorId;
+      this.VendorIdQualifier = GlobalProperties.HIServiceVendorIdQualifier;
     }
     public string CertificateSerialNumber { get; set; }
     public string HiServiceEndpoint { get; set; }

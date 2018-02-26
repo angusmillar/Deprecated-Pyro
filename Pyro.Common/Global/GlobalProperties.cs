@@ -12,12 +12,24 @@ namespace Pyro.Common.Global
     public GlobalProperties()
     {
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
+
       _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();
+
       _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;
+
       _NumberOfRecordsPerPageDefault = WebConfigProperties.NumberOfRecordsPerPageDefault();
       _MaxNumberOfRecordsPerPage = WebConfigProperties.MaxNumberOfRecordsPerPage();
+
       _FhirAuditEventLogRequestData = WebConfigProperties.FhirAuditEventLogRequestData();
       _FhirAuditEventLogResponseData = WebConfigProperties.FhirAuditEventLogResponseData();
+
+      _HIServiceCertificateSerialNumber = WebConfigProperties.HIServiceCertificateSerialNumber();
+      _HIServiceConnectivityActive = WebConfigProperties.HIServiceConnectivityActive();
+      _HIServiceEndpoint = WebConfigProperties.HIServiceEndpoint();
+      _HIServiceProductName = WebConfigProperties.HIServiceProductName();
+      _HIServiceProductVersion = WebConfigProperties.HIServiceProductVersion();
+      _HIServiceVendorId = WebConfigProperties.HIServiceVendorId();
+      _HIServiceVendorIdQualifier = WebConfigProperties.HIServiceVendorIdQualifier();      
     }
 
     private string _ServiceRootUrl;
@@ -80,6 +92,69 @@ namespace Pyro.Common.Global
       }
     }
 
+    private bool _HIServiceConnectivityActive;
+    public bool HIServiceConnectivityActive
+    {
+      get
+      {
+        return _HIServiceConnectivityActive;
+      }
+    }
+
+    private string _HIServiceCertificateSerialNumber;
+    public string HIServiceCertificateSerialNumber
+    {
+      get
+      {
+        return _HIServiceCertificateSerialNumber;
+      }
+    }
+
+    private string _HIServiceEndpoint;
+    public string HIServiceEndpoint
+    {
+      get
+      {
+        return _HIServiceEndpoint;
+      }
+    }
+
+    private string _HIServiceProductName;
+    public string HIServiceProductName
+    {
+      get
+      {
+        return _HIServiceProductName;
+      }
+    }
+
+    private string _HIServiceProductVersion;
+    public string HIServiceProductVersion
+    {
+      get
+      {
+        return _HIServiceProductVersion;
+      }
+    }
+
+    private string _HIServiceVendorId;
+    public string HIServiceVendorId
+    {
+      get
+      {
+        return _HIServiceVendorId;
+      }
+    }
+
+    private string _HIServiceVendorIdQualifier;
+    public string HIServiceVendorIdQualifier
+    {
+      get
+      {
+        return _HIServiceVendorIdQualifier;
+      }
+    }
+    
   }
 
 
