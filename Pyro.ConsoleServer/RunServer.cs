@@ -19,24 +19,50 @@ namespace Pyro.ConsoleServer
       string uri = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";
       string line = new String('=', 79);
       string PyroImage = PyroTextIMage();
+      bool StopServer = false;
       using (WebApp.Start<StartupConsole>(uri))
       {
-        Console.WriteLine(PyroImage);        
-        Console.WriteLine("");        
-        Console.WriteLine("Endpoint: " + FhirEndpoint);
-        Console.WriteLine("");
-        Console.WriteLine("(Hit any key to stop the server)");        
-        Console.ReadKey();
-        Console.WriteLine(line);
-        Console.WriteLine("Server Stopping");
-        Console.WriteLine(line);
-        Console.WriteLine(PyroImage);
+        while (!StopServer)
+        {
+          Console.WriteLine(PyroImage);
+          Console.WriteLine("");
+          Console.WriteLine("Endpoint: " + FhirEndpoint);
+          Console.WriteLine("");
+          Console.WriteLine("(Hit any key to stop the server)");
+          Console.ReadKey();
+          Console.Clear();
+          Console.WriteLine("Are you sure you want to stop the server? ");
+          Console.WriteLine("");
+          Console.WriteLine("Hit [Enter] for Yes or any key for No.");
+          Console.WriteLine("");
+          ConsoleKeyInfo info = Console.ReadKey();
+          if (info.Key == ConsoleKey.Enter)
+          {
+            StopServer = true;
+            Console.WriteLine("Server is Stopping, Bye!");            
+            Console.WriteLine("");
+            Console.Clear();
+            Console.WriteLine(PyroImage);
+            Console.WriteLine("Server Stopping in:");
+            Console.Write("..3");
+            System.Threading.Thread.Sleep(500);
+            Console.Write("..2");
+            System.Threading.Thread.Sleep(500);
+            Console.Write("..1");
+            System.Threading.Thread.Sleep(500);
+            Console.WriteLine("........Bye!");
+          }
+          else
+          {
+            Console.Clear();
+          }
+        }                
       }
     }
 
     private static string PyroTextIMage()
     {
-      StringBuilder sb = new StringBuilder();   
+      StringBuilder sb = new StringBuilder();
       sb.AppendLine("                                 `:+syhhhhys+:`");
       sb.AppendLine(" PYRO FHIR Server              .odNNNNNNNNNNNNNNdo.");
       sb.AppendLine("                             `+++oshNNNNNNNmhso+++.");
