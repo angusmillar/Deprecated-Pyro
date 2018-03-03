@@ -15,24 +15,28 @@ namespace Pyro.Common.Service
 {
   public class ConnectathonAnswerService : IConnectathonAnswerService
   {
-    private readonly IResourceServices IResourceServices;
-    private readonly ICommonFactory ICommonFactory;
+    private readonly IResourceServices IResourceServices;    
+    private readonly IRequestHeaderFactory IRequestHeaderFactory;
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
 
     private string _OperationName = FhirOperationEnum.OperationType.ConnectathonAnswer.GetPyroLiteral();
     private readonly string _ParameterName = "answers";
     private readonly string _PrimaryQuestionnaireResponseAnswerResourceId = "AngusA1";
     private readonly string _QuestionnaireResourceId = "PerthQuestions";
 
-    public ConnectathonAnswerService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IGlobalProperties IGlobalProperties)
+    public ConnectathonAnswerService(IResourceServices IResourceServices, IRequestHeaderFactory IRequestHeaderFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IGlobalProperties IGlobalProperties, IPyroRequestUriFactory IPyroRequestUriFactory)
     {
-      this.IResourceServices = IResourceServices;
-      this.ICommonFactory = ICommonFactory;
+      this.IResourceServices = IResourceServices;      
+      this.IRequestHeaderFactory = IRequestHeaderFactory;
       this.IGlobalProperties = IGlobalProperties;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -41,7 +45,7 @@ namespace Pyro.Common.Service
           Resource Resource)
     {
 
-      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       var IssueList = new List<OperationOutcome.IssueComponent>();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
@@ -70,16 +74,18 @@ namespace Pyro.Common.Service
                   QuestionnaireResponse.Meta.Tag = new List<Coding>();
                 QuestionnaireResponse.Meta.Tag.Add(new Coding("https://pyrohealth.net/fhir/CodeSystem/connectathon-answer", "hidden"));
 
-                var RequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
+                var RequestHeaders = IRequestHeaderFactory.CreateRequestHeader();
                 this.IResourceServices.SetCurrentResourceType(FHIRAllTypes.QuestionnaireResponse);
                 if (QuestionnaireResponse.Id == null || string.IsNullOrWhiteSpace(QuestionnaireResponse.Id))
                 {
-                  IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}");
+                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}");
                   ResourceServiceOutcome = this.IResourceServices.Post(QuestionnaireResponse, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
                 }
                 else
                 {
-                  IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{QuestionnaireResponse.Id}");
+                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{QuestionnaireResponse.Id}");
                   ResourceServiceOutcome = this.IResourceServices.Put(QuestionnaireResponse.Id, QuestionnaireResponse, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
                 }
                 if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -98,7 +104,8 @@ namespace Pyro.Common.Service
                   ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
                   ResourceServiceOutcome.SuccessfulTransaction = true;
 
-                  IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
+                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
                   var Answers = this.IResourceServices.GetRead("AngusA1", DtoRequestUri, SearchParameterGeneric, RequestHeaders);
 
                   QuestionnaireResults QuestionnaireResults = QuestionnaireResponseChecker.Check(Answers.ResourceResult as QuestionnaireResponse, QuestionnaireResponse);
@@ -165,16 +172,18 @@ namespace Pyro.Common.Service
     {
       var ResultList = new List<QuestionnaireResults>();
       //First get the Primary Answers
-      IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
+      IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      DtoRequestUri.FhirRequestUri.Parse($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
-      IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders();
+      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader();
       var Answers = this.IResourceServices.GetRead(_PrimaryQuestionnaireResponseAnswerResourceId, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
 
       if (Answers.SuccessfulTransaction && Answers.ResourceResult != null && Answers.ResourceResult is QuestionnaireResponse QuestionnaireResponseAnswers)
       {
         //Now get the Attendee's answers
         string SearchQuery = $"questionnaire=Questionnaire/{_QuestionnaireResourceId}";
-        DtoRequestUri = ICommonFactory.CreateDtoRequestUri($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}?{SearchQuery}");
+        DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+        DtoRequestUri.FhirRequestUri.Parse($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}?{SearchQuery}");
         SearchParameterGeneric = SearchParameterGeneric.Parse(SearchQuery);        
         var AttendeeAnswers = this.IResourceServices.GetSearch(DtoRequestUri, SearchParameterGeneric, RequestHeaders);
         if (AttendeeAnswers.SuccessfulTransaction && AttendeeAnswers.ResourceResult != null && AttendeeAnswers.ResourceResult is Bundle AttendeeAnswersBundle)

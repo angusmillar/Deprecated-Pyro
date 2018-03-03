@@ -12,7 +12,7 @@ using Hl7.Fhir.Rest;
 namespace Pyro.Test.IntergrationTest
 {
   [TestFixture]
-  [Parallelizable(ParallelScope.Children)]
+  [Parallelizable(ParallelScope.None)]
   [Category("IntergrationTest")]
   class Test_ConditionalRequests
   {
@@ -27,10 +27,25 @@ namespace Pyro.Test.IntergrationTest
     [TearDown]
     public void TearDown()
     {
+      //Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      //clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      ////Clean up by deleting all resources created while also testing Conditional Delete many
+      //SearchParams sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
+      //try
+      //{
+      //  clientFhir.Delete("Patient", sp);
+      //}
+      //catch (Exception Exec)
+      //{
+      //  Assert.True(false, "Exception thrown on conditional delete of resource G: " + Exec.Message);
+      //}
+
       Server.Dispose();
     }
 
     [Test]
+    [NonParallelizable]
     public void Test_ConditionalUpdate()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
@@ -68,7 +83,7 @@ namespace Pyro.Test.IntergrationTest
       p3a.Name.Add(HumanName.ForFamily("Dole").WithGiven("Bob"));
       p3a.BirthDateElement = new Date("1957-01-12");
       p3a.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, "1"));
-      SearchParams sp = new SearchParams().Where("name=Dole").Where("birthDate=1957-01");
+      SearchParams sp = new SearchParams().Where("name=Dole").Where("birthdate=1957-01");
       var r3a = clientFhir.Update(p3a, sp);
 
       Assert.AreEqual(TestPat3, r3a.Id, "pat3 should have been updated (not a new one created)");
@@ -114,7 +129,15 @@ namespace Pyro.Test.IntergrationTest
       sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|2");
       Patient r4 = null;
 
-      r4 = clientFhir.Update(p4, sp);
+      try
+      {
+        r4 = clientFhir.Update(p4, sp);
+      }
+      catch (FhirOperationException ex)
+      {
+        Assert.True(false, "Update p4 failed" + ex.Message);
+      }
+
 
       //Clean up by deleting all resources created while also testing Conditional Delete many
       sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
@@ -130,6 +153,7 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
+    [NonParallelizable]
     public void Test_ConditionalCreate()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
@@ -240,6 +264,7 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
+    [NonParallelizable]
     public void Test_ConditionalRead()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
@@ -284,7 +309,7 @@ namespace Pyro.Test.IntergrationTest
         //Catch the error and check it is a 304 http status.
         Assert.True(true, "FhirOperationException should be thrown on resource Read: " + ExecOp.Message);
         Assert.IsTrue(ExecOp.Status.IsRedirection());
-      }      
+      }
 
       PatientTwo = null;
       PatientOneModified = PatientOneModified.Value.AddMinutes(-1);
@@ -299,7 +324,7 @@ namespace Pyro.Test.IntergrationTest
       catch (FhirOperationException ExecOp)
       {
         Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
-        Assert.IsTrue(ExecOp.Status.IsRedirection());        
+        Assert.IsTrue(ExecOp.Status.IsRedirection());
       }
 
       PatientTwo = null;
@@ -330,6 +355,7 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
+    [NonParallelizable]
     public void Test_PUT_IfMatch()
     {
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);

@@ -17,31 +17,35 @@ using Pyro.Common.Global;
 namespace Pyro.Common.Service
 {
   public class IHISearchOrValidateOperationService : IIHISearchOrValidateOperationService
-  {    
-    List<OperationOutcome.IssueComponent> IssueList = null;    
+  {
+    List<OperationOutcome.IssueComponent> IssueList = null;
     IResourceServiceOutcome ResourceServiceOutcome;
     const string MedicareNumberFhirSystem = "http://ns.electronichealth.net.au/id/medicare-number";
     const string DVANumberFhirSystem = "http://ns.electronichealth.net.au/id/dva";
-    const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";    
-
-    private readonly ICommonFactory ICommonFactory;
-    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
+    private enum IdentiferType { IHI, Medicare, DVA }
+    
+    private readonly IRequestHeaderFactory IRequestHeaderFactory;
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;    
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
+    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IHiServiceApi HiServiceApi;
 
     public IHISearchOrValidateOperationService(
-      ICommonFactory ICommonFactory,
-      IPyroFhirUriFactory IPyroFhirUriFactory,
-      ISearchParameterServiceFactory ISearchParameterServiceFactory,
+      IRequestHeaderFactory IRequestHeaderFactory,
+      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
+      IPyroFhirUriFactory IPyroFhirUriFactory,      
       IResourceServices IResourceServices,
       IGlobalProperties GlobalProperties,
-      IHiServiceApi IHiServiceApi)
-    {
-      this.ICommonFactory = ICommonFactory;
+      IHiServiceApi IHiServiceApi,
+      IPyroRequestUriFactory IPyroRequestUriFactory)
+    {      
+      this.IRequestHeaderFactory = IRequestHeaderFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
-      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IPyroRequestUriFactory = IPyroRequestUriFactory;      
       this.IResourceServices = IResourceServices;
       this.GlobalProperties = GlobalProperties;
       this.HiServiceApi = IHiServiceApi;
@@ -69,7 +73,7 @@ namespace Pyro.Common.Service
       if (HiServiceApi == null)
         throw new NullReferenceException("HiServiceApi cannot be null.");
 
-      ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       if (!GlobalProperties.HIServiceConnectivityActive)
       {
@@ -80,7 +84,7 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      if (ResourceType.Patient.GetLiteral() != RequestUri.FhirRequestUri.ResourseName)      
+      if (ResourceType.Patient.GetLiteral() != RequestUri.FhirRequestUri.ResourseName)
       {
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
         $"The server operation x-IHISearchOrValidate is only supported on the {ResourceType.Patient.GetLiteral()} resource endpoint and not on the {RequestUri.FhirRequestUri.ResourseName} resource endpoint.");
@@ -99,10 +103,10 @@ namespace Pyro.Common.Service
       }
 
       //Parse the parameter resource and populate the IhiRequestData object or error and return OperationOutcome
-      IhiRequestData IhiRequestData = new IhiRequestData();
+      List<IhiRequestData> IhiRequestDataList = new List<IhiRequestData>();
       IssueList = new List<OperationOutcome.IssueComponent>();
       Parameters RequestParameters = Resource as Parameters;
-      if (!ParseInboundParameterResource(RequestParameters, IhiRequestData))
+      if (!GenerateCollectionOfIhiRequestData(RequestParameters, IhiRequestDataList))
       {
         ResourceServiceOutcome.ResourceResult = ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList);
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
@@ -110,16 +114,62 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-
-
-      ////Make the call to HI Service, return any error as operation outcome or return the parameter resource wiht the results
-      IIhiSearchValidateOutcome HiServiceOutCome = null;
+      ////Make the call to HI Service, return any error as operation outcome or return the parameter resource with the results if success
+      List<IIhiSearchValidateOutcome> HiServiceOutComeList = new List<IIhiSearchValidateOutcome>();
+      bool IsHIServiceFoundIHI = false;
+      bool IsHIServiceError = false;
       try
       {
-        HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);
-        if (HiServiceOutCome.SuccessfulQuery)
+        foreach(IhiRequestData IhiRequestData in IhiRequestDataList)
         {
-          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutCome);
+          IsHIServiceFoundIHI = false;
+          IsHIServiceError = false;
+          var HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);      
+          //Did a HI Error error occur?
+          IsHIServiceError = !HiServiceOutCome.SuccessfulQuery;
+          //Did we get an IHI Idneifier?
+          IsHIServiceFoundIHI = !String.IsNullOrWhiteSpace(HiServiceOutCome.ResponseData.IHINumber);
+          HiServiceOutComeList.Add(HiServiceOutCome);
+          if (IsHIServiceFoundIHI)
+            break;
+
+        }
+
+        List<string> SoapRequestBinaryResourceIdList = new List<string>();
+        List<string> SoapResponseBinaryResourceIdList = new List<string>();
+        if (HiServiceOutComeList.Count() > 0)
+        {
+          foreach (var Call in HiServiceOutComeList)
+          {
+            IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
+            IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
+            if (!String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapRequestMessageId))
+            {
+              string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(Call.QueryMetadata.SoapRequestMessageId);
+              IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+              BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+              Binary SoapBinaryResource = GenerateSoapBinaryResource(Call.QueryMetadata.SoapRequest, BinaryResourceId);
+              IResourceServiceOutcome BinaryPutOutcome = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+              //need to handle this operation failing
+              SoapRequestBinaryResourceIdList.Add(BinaryPutOutcome.FhirResourceId);
+            }
+
+            if (!String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapResponseMessageId))
+            {
+              string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(Call.QueryMetadata.SoapRequestMessageId);
+              IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+              BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+              Binary SoapBinaryResource = GenerateSoapBinaryResource(Call.QueryMetadata.SoapResponse, BinaryResourceId);
+              IResourceServiceOutcome BinaryPutOutcome = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+              //need to handle this operation failing
+              SoapResponseBinaryResourceIdList.Add(BinaryPutOutcome.FhirResourceId);
+            }
+          }
+          //log all the soap requests, HI Conformance states all errors must be logged
+        }
+        if (IsHIServiceFoundIHI)
+        {
+          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutComeList.Last());
 
           ResourceServiceOutcome.ResourceResult = ResponseParametersResource;
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
@@ -132,14 +182,14 @@ namespace Pyro.Common.Service
         {
           //Some error from the HI Service libaray
           ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception,
-          $"Error returned from the HI Service call atempt: {HiServiceOutCome.QueryMetadata.ErrorMessge}");
+          $"Error returned from the HI Service call atempt: {HiServiceOutComeList.Last().QueryMetadata.ErrorMessge}");
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.SuccessfulTransaction = true;
           return ResourceServiceOutcome;
         }
-        
+
       }
-      catch(Exception exec)
+      catch (Exception exec)
       {
         //Some uncaught exception
         string Message = $"Internal Server error in calling the HI Service, exception was throw. Message: {exec.Message}";
@@ -147,10 +197,18 @@ namespace Pyro.Common.Service
         throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message, exec);
       }
 
+    }
 
-      ////Note: Need to create the Web.config properties for the HI Service Config as they as statis set at present
-
-    
+    private static string StripUrnUuidPrefixFromSoapMessageId(string SoapMesageId)
+    {
+      if (SoapMesageId.StartsWith("urn:uuid:"))
+      {
+        return SoapMesageId.Split(':')[2];
+      }
+      else
+      {
+        return SoapMesageId;
+      }      
     }
 
     private Parameters GenerateReturnParametersResource(Parameters RequestParameters, IIhiSearchValidateOutcome IhiServiceOutCome)
@@ -163,6 +221,13 @@ namespace Pyro.Common.Service
       ResponsePatientResourceParameter.Name = "ResponsePatient";
       ResponsePatientResourceParameter.Resource = GenerateResponsePatientResource(IhiServiceOutCome);
       RequestParameters.Parameter.Add(ResponsePatientResourceParameter);
+
+      var SoapRequestAuditParameter = new Parameters.ParameterComponent();
+      SoapRequestAuditParameter.Name = "SoapRequestAudit";
+      SoapRequestAuditParameter.Part = new List<Parameters.ParameterComponent>();
+      RequestParameters.Parameter.Add(SoapRequestAuditParameter);
+
+
 
       var SoapRequestMessageId = new Parameters.ParameterComponent();
       SoapRequestMessageId.Name = "SoapRequestMessageId";
@@ -219,7 +284,7 @@ namespace Pyro.Common.Service
         }
         ResponsePatient.Name.Add(HumanName);
       }
-      
+
       //Sex
       if (!Char.IsWhiteSpace(ihiServiceOutCome.ResponseData.SexChar))
       {
@@ -301,7 +366,7 @@ namespace Pyro.Common.Service
 
         Identifier DVAIdentifier = new Identifier();
         ResponsePatient.Identifier.Add(DVAIdentifier);
-        DVAIdentifier.Value = ihiServiceOutCome.ResponseData.DVANumber;        
+        DVAIdentifier.Value = ihiServiceOutCome.ResponseData.DVANumber;
         DVAIdentifier.System = DVANumberFhirSystem;
         DVAIdentifier.Type = new CodeableConcept();
         DVAIdentifier.Type.Coding = new List<Coding>();
@@ -315,180 +380,231 @@ namespace Pyro.Common.Service
       return ResponsePatient;
     }
 
-    private bool ParseInboundParameterResource(Parameters ParametersResource, IhiRequestData IhiRequestData)
+    private bool GenerateCollectionOfIhiRequestData(Parameters ParametersResource, List<IhiRequestData> IhiRequestDataList)
     {
-      const string UserIdParameter = "UserId";
-      const string UserIdQualifierParameter = "UserIdQualifier";
-      const string ReturnSoapRequestAndResponseParameter = "ReturnSoapRequestAndResponseData";
-      const string RequestPatientParameter = "RequestPatient";
+      IhiRequestDataCollection ModelIhiRequestCollection = new IhiRequestDataCollection();
 
-      var UserId = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, UserIdParameter, StringComparison.CurrentCultureIgnoreCase));
-      var UserIdQualifier = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, UserIdQualifierParameter, StringComparison.CurrentCultureIgnoreCase));
-      var ReturnSoapRequestAndResponse = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, ReturnSoapRequestAndResponseParameter, StringComparison.CurrentCultureIgnoreCase));
-      var RequestPatient = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, RequestPatientParameter, StringComparison.CurrentCultureIgnoreCase));
+      List<IhiRequestData> FirstQuerySetIhiRequestDataList = new List<IhiRequestData>();
+      List<IhiRequestData> SecondQuerySetIhiRequestDataList = new List<IhiRequestData>();
+      List<IhiRequestData> ThirdQuerySetIhiRequestDataList = new List<IhiRequestData>();
 
-
-      if (UserId != null && UserId.Value is FhirString UserIdValue)
+      if (ParseRequestPatientResource(ParametersResource, ModelIhiRequestCollection))
       {
-        IhiRequestData.UserId = UserIdValue.Value;
-      }
-      else
-      {
-        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {UserIdParameter} with a value of type valueString."));
-      }
-
-      if (UserIdQualifier != null && UserIdQualifier.Value is FhirUri UserIdQualifierValue)
-      {
-        IhiRequestData.UserIdQualifier = UserIdQualifierValue.Value;
-      }
-      else
-      {
-        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {UserIdQualifierParameter} with a value of type valueUri."));
-      }
-
-      if (ReturnSoapRequestAndResponse != null && ReturnSoapRequestAndResponse.Value is FhirBoolean ReturnSoapRequestAndResponseValue)
-      {
-        IhiRequestData.ReturnSoapRequestAndResponseData = ReturnSoapRequestAndResponseValue.Value.Value;
-      }
-      else
-      {
-        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {ReturnSoapRequestAndResponseParameter} with a value of type valueBoolean."));
-      }
-
-      if (RequestPatient != null && RequestPatient.Resource is Patient RequestPatientResource)
-      {
-        //Name
-        if (RequestPatientResource.Name != null && RequestPatientResource.Name.Count == 1)
+        //Generate a IhiRequestData for each seperate HI Service call required in the apropirate order that they should be executed.
+        //IHI Identifer search first, then Medicare, then DVA, then 
+        var HumanNamesContainingFaimlyNames = ModelIhiRequestCollection.HumanNameList.Select(x => String.IsNullOrWhiteSpace(x.Family));
+        if (HumanNamesContainingFaimlyNames == null)
         {
-          //Family Name
-          if (!String.IsNullOrWhiteSpace(RequestPatientResource.Name[0].Family))
-          {
-            IhiRequestData.Family = RequestPatientResource.Name[0].Family;
-          }
-          else
-          {
-            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains no Family name. A single Family name is mandatory for the Hi Service IHI call."));
-          }
-
-          //Given Name
-          if (RequestPatientResource.Name[0].Given.Count() == 1)
-          {
-            IhiRequestData.Given = RequestPatientResource.Name[0].Given.ElementAt(0);
-          }
-          else if (RequestPatientResource.Name[0].Given.Count() > 1)
-          {
-            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains many Given names. A single Given name in optional for the Hi Service IHI call."));
-          }          
+          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
+            $"The supplied {ResourceType.Patient.GetLiteral()} resource has not Family name in any of the HumanName elements. Family name is mandatory for the HI Service IHI call"));
+          return false;
         }
         else
         {
-          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must only have a single name element not many, found {RequestPatientResource.Name.Count.ToString()} name elements."));
-        }
+          if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.IHINumber))
+          {
+            foreach (var Name in ModelIhiRequestCollection.HumanNameList)
+            {
+              if (Name.Given != null || Name.Given.Count() == 0)
+              {
+                if (Name.Given.Count() == 1)
+                {
+                  //IHI Number Try only given name 
+                  IhiRequestData IhiRequestData1 = new IhiRequestData();
+                  IhiRequestData1.IHINumber = ModelIhiRequestCollection.IHINumber;
+                  IhiRequestData1.SexChar = ModelIhiRequestCollection.SexChar;
+                  IhiRequestData1.Dob = ModelIhiRequestCollection.Dob;
+                  IhiRequestData1.Family = Name.Family;
+                  IhiRequestData1.Given = Name.Given.ElementAt(0);
+                  FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+                }
+                else
+                {
+                  foreach (var Given in Name.Given)
+                  {
+                    //IHI Number Try each given name 
+                    IhiRequestData IhiRequestData2 = new IhiRequestData();
+                    IhiRequestData2.IHINumber = ModelIhiRequestCollection.IHINumber;
+                    IhiRequestData2.SexChar = ModelIhiRequestCollection.SexChar;
+                    IhiRequestData2.Dob = ModelIhiRequestCollection.Dob;
+                    IhiRequestData2.Family = Name.Family;
+                    IhiRequestData2.Given = Given; ;
+                    SecondQuerySetIhiRequestDataList.Add(IhiRequestData2);
+                  }
+                  //IHI Number Concatenate all given names into one given name with spaces 'Angus Brian'
+                  IhiRequestData IhiRequestData3 = new IhiRequestData();
+                  IhiRequestData3.IHINumber = ModelIhiRequestCollection.IHINumber;
+                  IhiRequestData3.SexChar = ModelIhiRequestCollection.SexChar;
+                  IhiRequestData3.Dob = ModelIhiRequestCollection.Dob;
+                  IhiRequestData3.Family = Name.Family;
+                  IhiRequestData3.Given = Name.Given.Aggregate((current, next) => current + " " + next);
+                  ThirdQuerySetIhiRequestDataList.Add(IhiRequestData3);
 
-        //Dob
-        if (RequestPatientResource.BirthDateElement != null)
-        {
-          DateTime TempDateTime;
-          if (DateTime.TryParse(RequestPatientResource.BirthDateElement.Value, out TempDateTime))
-          {
-            IhiRequestData.Dob = TempDateTime.Date;
+                }
+              }
+              else
+              {
+                //IHI Number Try with no given name 
+                IhiRequestData IhiRequestData1 = new IhiRequestData();
+                IhiRequestData1.IHINumber = ModelIhiRequestCollection.IHINumber;
+                IhiRequestData1.SexChar = ModelIhiRequestCollection.SexChar;
+                IhiRequestData1.Dob = ModelIhiRequestCollection.Dob;
+                IhiRequestData1.Family = Name.Family;
+                IhiRequestData1.Given = Name.Given.ElementAt(0);
+                FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+              }
+            }
           }
-          else
-          {
-            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource DateofBirth element was not able to be parsed to a Date. Date of Birth is mandatory for the HI Service IHI call"));
-          }          
-        }
-        else
-        {
-          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a DateofBirth element not. Date of Birth is mandatory for the HI Service IHI call"));
-        }
 
-        //Sex
-        if (RequestPatientResource.Gender.HasValue)
-        {
-          IhiRequestData.SexChar = AdministrativeGenderToSexChar(RequestPatientResource.Gender.Value);                    
-        }
-        else
-        {
-          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a AdministrativeGender (Sex) of (Male, Female, Other or Unknown). This is mapped to the Hi Service sex concept as follows: Male:Male, Female:Female, Other:Intersex or Indeterminate and Unknown:Not stated/inadequately described. Sex is mandatory for the HI Service IHI call"));
-        }
+          if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareNumber))
+          {
+            foreach (var Name in ModelIhiRequestCollection.HumanNameList)
+            {
+              if (Name.Given != null || Name.Given.Count() == 0)
+              {
+                if (Name.Given.Count() == 1)
+                {
+                  if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareIRN))
+                  {
+                    //Medicare Try only name with IRN
+                    IhiRequestData IhiRequestData1 = new IhiRequestData();
+                    SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData1);                   
+                    IhiRequestData1.Family = Name.Family;
+                    IhiRequestData1.Given = Name.Given.ElementAt(0);
+                    FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+                  }
 
-        //Identifier
-        if (RequestPatientResource.Identifier != null)
-        {
-          Identifier MedicareNumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, MedicareNumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
-          Identifier DVANumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, DVANumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
-          Identifier IHINumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, IHINumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
+                  //Medicare Try only name without IRN
+                  IhiRequestData IhiRequestData11 = new IhiRequestData();
+                  SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData11);
+                  IhiRequestData11.Family = Name.Family;
+                  IhiRequestData11.Given = Name.Given.ElementAt(0);
+                  SecondQuerySetIhiRequestDataList.Add(IhiRequestData11);
+                }
+                else
+                {
+                  foreach (var Given in Name.Given)
+                  {
+                    if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareIRN))
+                    {
+                      //Try each name alone with IRN
+                      IhiRequestData IhiRequestData2 = new IhiRequestData();
+                      IhiRequestData2.MedicareNumber = ModelIhiRequestCollection.MedicareNumber;
+                      IhiRequestData2.MedicareIRN = ModelIhiRequestCollection.MedicareIRN;
+                      IhiRequestData2.SexChar = ModelIhiRequestCollection.SexChar;
+                      IhiRequestData2.Dob = ModelIhiRequestCollection.Dob;
+                      IhiRequestData2.Family = Name.Family;
+                      IhiRequestData2.Given = Given; ;
+                      FirstQuerySetIhiRequestDataList.Add(IhiRequestData2);
+                    }
+                    //Try each name alone without IRN
+                    IhiRequestData IhiRequestData1 = new IhiRequestData();
+                    SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData1);
+                    IhiRequestData1.Family = Name.Family;
+                    IhiRequestData1.Given = Name.Given.ElementAt(0);
+                    SecondQuerySetIhiRequestDataList.Add(IhiRequestData1);
+                  }
+                  if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareIRN))
+                  {
+                    //Medicare Concatenate all given names into one given name with spaces 'Angus Brian' with IRN
+                    IhiRequestData IhiRequestData3 = new IhiRequestData();
+                    SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData3);
+                    IhiRequestData3.Family = Name.Family;
+                    IhiRequestData3.Given = Name.Given.Aggregate((current, next) => current + " " + next);
+                    ThirdQuerySetIhiRequestDataList.Add(IhiRequestData3);
+                  }
 
-          
-          if ((MedicareNumberElement != null && DVANumberElement != null && IHINumberElement != null) ||
-            (MedicareNumberElement != null && DVANumberElement != null) ||
-            (MedicareNumberElement != null && IHINumberElement != null) ||
-            (DVANumberElement != null && IHINumberElement != null))
-          {
-            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains many identifiers. Only a single identifier of either a Medicare Number, DVA Number or IHI Number is allowed for the Hi Service IHI search."));
-          }
-          else if (MedicareNumberElement == null && DVANumberElement == null && IHINumberElement == null) 
-          {
-            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains no Medicare Number, DVA Number or IHI Number, the Hi Service IHI search requires one and only one of these identifers."));
-          }
-          else if (MedicareNumberElement != null)
-          {
-            //Medicare
-            string WholeMedicareNumber = StringSupport.RemoveWhitespace(MedicareNumberElement.Value);
-            if (WholeMedicareNumber.Count() == 10)
-              IhiRequestData.MedicareNumber = MedicareNumberElement.Value;
-            else if (WholeMedicareNumber.Count() == 11)
-            {
-              IhiRequestData.MedicareNumber = WholeMedicareNumber.Substring(0, 10);
-              IhiRequestData.MedicareIRN = WholeMedicareNumber.Substring(10, 1);
-            }
-            else
-            {
-              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a Medicare Number yet it's length is not correct. The Medicare number must be either 10-digits long or 11-digits long where the 11th digit is the Medicare IRN number. Found length of {WholeMedicareNumber.Count().ToString()}"));
-            }
-          }
-          else if (DVANumberElement != null)
-          {
-            //DVA Number
-            string WholeDVANumber = StringSupport.RemoveWhitespace(DVANumberElement.Value);
-            //dvaFileNumber (Page 21 of tech-sis-hi-06-ihi-inquiry-search-via-b2b-v10-0.pdf)
-            //xsd:token Min length: 2Max length: 9
-            if (WholeDVANumber.Count() > 1 || WholeDVANumber.Count() < 10)
-            {
-              IhiRequestData.DVANumber = WholeDVANumber;
-            }
-            else
-            {
-              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a DVA Number yet it's length is not correct. The DVA number must be betweeen 2 and 9 charaters long for the Hi Service call. Found length of {WholeDVANumber.Count().ToString()}"));
+                  //Medicare Concatenate all given names into one given name with spaces 'Angus Brian' without IRN
+                  IhiRequestData IhiRequestData4 = new IhiRequestData();
+                  SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData4);
+                  IhiRequestData4.Family = Name.Family;
+                  IhiRequestData4.Given = Name.Given.Aggregate((current, next) => current + " " + next);
+                  ThirdQuerySetIhiRequestDataList.Add(IhiRequestData4);
+                }
+              }
+              else
+              {
+                //Medicare Try no given name with IRN
+                if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareIRN))
+                {
+                  //Medicare Try each name alone with IRN
+                  IhiRequestData IhiRequestData2 = new IhiRequestData();
+                  SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData2);
+                  IhiRequestData2.Family = Name.Family;
+                  //IhiRequestData2.Given = Given; ;
+                  FirstQuerySetIhiRequestDataList.Add(IhiRequestData2);
+                }
+
+                //Medicare Try no given anme with IRN
+                IhiRequestData IhiRequestData1 = new IhiRequestData();
+                SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData1);
+                IhiRequestData1.Family = Name.Family;
+                //IhiRequestData1.Given = Name.Given.ElementAt(0);
+                FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+              }
             }
           }
-          else if (IHINumberElement != null)
+
+          if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.DVANumber))
           {
-            //IHI Number
-            string WholeIHINumber = StringSupport.RemoveWhitespace(IHINumberElement.Value);           
-            if (WholeIHINumber.Count() == 16)
+            foreach (var Name in ModelIhiRequestCollection.HumanNameList)
             {
-              IhiRequestData.DVANumber = WholeIHINumber;
+              if (Name.Given != null || Name.Given.Count() == 0)
+              {
+                if (Name.Given.Count() == 1)
+                {
+                  //DVA Try only given name 
+                  IhiRequestData IhiRequestData1 = new IhiRequestData();
+                  SetRequestDataFromModel(IdentiferType.DVA, ModelIhiRequestCollection, IhiRequestData1);
+                  IhiRequestData1.Family = Name.Family;
+                  IhiRequestData1.Given = Name.Given.ElementAt(0);
+                  FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+                }
+                else
+                {
+                  foreach (var Given in Name.Given)
+                  {
+                    //DVA Try each given name 
+                    IhiRequestData IhiRequestData2 = new IhiRequestData();
+                    SetRequestDataFromModel(IdentiferType.DVA, ModelIhiRequestCollection, IhiRequestData2);
+                    IhiRequestData2.Family = Name.Family;
+                    IhiRequestData2.Given = Given; ;
+                    FirstQuerySetIhiRequestDataList.Add(IhiRequestData2);
+                  }
+                  //DVA Concatenate all given names into one given name with spaces 'Angus Brian'
+                  IhiRequestData IhiRequestData3 = new IhiRequestData();
+                  SetRequestDataFromModel(IdentiferType.DVA, ModelIhiRequestCollection, IhiRequestData3);
+                  IhiRequestData3.Family = Name.Family;
+                  IhiRequestData3.Given = Name.Given.Aggregate((current, next) => current + " " + next);
+                  SecondQuerySetIhiRequestDataList.Add(IhiRequestData3);
+                }
+              }
+              else
+              {
+                //DVA Try with no given name 
+                IhiRequestData IhiRequestData1 = new IhiRequestData();
+                SetRequestDataFromModel(IdentiferType.DVA, ModelIhiRequestCollection, IhiRequestData1);
+                IhiRequestData1.Family = Name.Family;
+                //IhiRequestData1.Given = Name.Given.ElementAt(0);
+                FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
+              }
             }
-            else
-            {
-              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a IHI Number yet it's length is not correct. The IHI number must be 16 digits long for the Hi Service call. Found length of {WholeIHINumber.Count().ToString()}"));
-            }
-          }        
-        }
-        else 
-        {
-          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains no identifiers. A single identifier of either a Medicare Number, DVA Number or IHI Number is required for the Hi Service IHI search."));
+          }
+
+          IhiRequestDataList.AddRange(FirstQuerySetIhiRequestDataList);
+          IhiRequestDataList.AddRange(SecondQuerySetIhiRequestDataList);
+          IhiRequestDataList.AddRange(ThirdQuerySetIhiRequestDataList);
+          return true;
         }
       }
       else
       {
-        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {RequestPatientParameter} with a value of type resource containing a {ResourceType.Patient.GetLiteral()} resource."));
+        return false;
       }
 
-      return (IssueList.Count() == 0);
-        
+
+
+
       ////The User Id , does not need to be registered with Medicare
       //IhiRequestData.UserId = "BobSmith";
       ////The User Id Qualifier, does not need to be registered with Medicare
@@ -507,18 +623,204 @@ namespace Pyro.Common.Service
       //IhiRequestData.SexChar = 'F';
     }
 
+    private void SetRequestDataFromModel(IdentiferType identiferType, IhiRequestDataCollection IhiRequestDataCollection, IhiRequestData IhiRequestData)
+    {
+      switch (identiferType)
+      {
+        case IdentiferType.IHI:
+          {
+            IhiRequestData.IHINumber = IhiRequestDataCollection.IHINumber;                        
+          }
+          break;
+        case IdentiferType.Medicare:
+          {
+            IhiRequestData.MedicareNumber = IhiRequestDataCollection.MedicareNumber;
+            IhiRequestData.MedicareIRN = IhiRequestDataCollection.MedicareIRN;            
+          }
+          break;
+        case IdentiferType.DVA:
+          {
+            IhiRequestData.DVANumber = IhiRequestDataCollection.DVANumber;           
+          }
+          break;
+        default:
+          break;
+      }
+
+      IhiRequestData.UserId = IhiRequestDataCollection.UserId;
+      IhiRequestData.UserIdQualifier = IhiRequestDataCollection.UserIdQualifier;
+      IhiRequestData.SexChar = IhiRequestDataCollection.SexChar;
+      IhiRequestData.Dob = IhiRequestDataCollection.Dob;
+      //IhiRequestData1.Family = Name.Family;
+      //IhiRequestData1.Given = Name.Given.ElementAt(0);
+    }
+
+    private bool ParseRequestPatientResource(Parameters ParametersResource, IhiRequestDataCollection ModelIhiRequestCollection)
+    {
+      const string UserIdParameter = "UserId";
+      const string UserIdQualifierParameter = "UserIdQualifier";
+      const string ReturnSoapRequestAndResponseParameter = "ReturnSoapRequestAndResponseData";
+      const string RequestPatientParameter = "RequestPatient";
+
+      var UserId = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, UserIdParameter, StringComparison.CurrentCultureIgnoreCase));
+      var UserIdQualifier = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, UserIdQualifierParameter, StringComparison.CurrentCultureIgnoreCase));
+      var ReturnSoapRequestAndResponse = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, ReturnSoapRequestAndResponseParameter, StringComparison.CurrentCultureIgnoreCase));
+      var RequestPatient = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, RequestPatientParameter, StringComparison.CurrentCultureIgnoreCase));
+      List<HumanName> HumanNameList = new List<HumanName>();
+
+      if (UserId != null && UserId.Value is FhirString UserIdValue)
+      {
+        ModelIhiRequestCollection.UserId = UserIdValue.Value;
+      }
+      else
+      {
+        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {UserIdParameter} with a value of type valueString."));
+      }
+
+      if (UserIdQualifier != null && UserIdQualifier.Value is FhirUri UserIdQualifierValue)
+      {
+        ModelIhiRequestCollection.UserIdQualifier = UserIdQualifierValue.Value;
+      }
+      else
+      {
+        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {UserIdQualifierParameter} with a value of type valueUri."));
+      }
+
+      if (ReturnSoapRequestAndResponse != null && ReturnSoapRequestAndResponse.Value is FhirBoolean ReturnSoapRequestAndResponseValue)
+      {
+        ModelIhiRequestCollection.ReturnSoapRequestAndResponseData = ReturnSoapRequestAndResponseValue.Value.Value;
+      }
+      else
+      {
+        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {ReturnSoapRequestAndResponseParameter} with a value of type valueBoolean."));
+      }
+
+      if (RequestPatient != null && RequestPatient.Resource is Patient RequestPatientResource)
+      {
+        //HumanName
+        if (RequestPatientResource.Name != null)
+        {
+          foreach (var Name in RequestPatientResource.Name)
+          {
+            ModelIhiRequestCollection.HumanNameList = RequestPatientResource.Name;
+          }
+        }
+        else
+        {
+          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must only have a single name element not many, found {RequestPatientResource.Name.Count.ToString()} name elements."));
+        }
+
+        //Dob
+        if (RequestPatientResource.BirthDateElement != null)
+        {
+          DateTime TempDateTime;
+          if (DateTime.TryParse(RequestPatientResource.BirthDateElement.Value, out TempDateTime))
+          {
+            ModelIhiRequestCollection.Dob = TempDateTime.Date;
+          }
+          else
+          {
+            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource DateofBirth element was not able to be parsed to a Date. Date of Birth is mandatory for the HI Service IHI call"));
+          }
+        }
+        else
+        {
+          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a DateofBirth element not. Date of Birth is mandatory for the HI Service IHI call"));
+        }
+
+        //Sex
+        if (RequestPatientResource.Gender.HasValue)
+        {
+          ModelIhiRequestCollection.SexChar = AdministrativeGenderToSexChar(RequestPatientResource.Gender.Value);
+        }
+        else
+        {
+          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a AdministrativeGender (Sex) of (Male, Female, Other or Unknown). This is mapped to the Hi Service sex concept as follows: Male:Male, Female:Female, Other:Intersex or Indeterminate and Unknown:Not stated/inadequately described. Sex is mandatory for the HI Service IHI call"));
+        }
+
+        //Identifier
+        if (RequestPatientResource.Identifier != null)
+        {
+          Identifier MedicareNumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, MedicareNumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
+          Identifier DVANumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, DVANumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
+          Identifier IHINumberElement = RequestPatientResource.Identifier.SingleOrDefault(x => String.Equals(x.System, IHINumberFhirSystem, StringComparison.CurrentCultureIgnoreCase));
+
+          if (MedicareNumberElement == null && DVANumberElement == null && IHINumberElement == null)
+          {
+            IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains no Medicare Number, DVA Number or IHI Number, the Hi Service IHI search requires one and only one of these identifers."));
+          }
+          else if (MedicareNumberElement != null)
+          {
+            //Medicare
+            string WholeMedicareNumber = StringSupport.RemoveWhitespace(MedicareNumberElement.Value);
+            if (WholeMedicareNumber.Count() == 10)
+              ModelIhiRequestCollection.MedicareNumber = MedicareNumberElement.Value;
+            else if (WholeMedicareNumber.Count() == 11)
+            {
+              ModelIhiRequestCollection.MedicareNumber = WholeMedicareNumber.Substring(0, 10);
+              ModelIhiRequestCollection.MedicareIRN = WholeMedicareNumber.Substring(10, 1);
+            }
+            else
+            {
+              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a Medicare Number yet it's length is not correct. The Medicare number must be either 10-digits long or 11-digits long where the 11th digit is the Medicare IRN number. Found length of {WholeMedicareNumber.Count().ToString()}"));
+            }
+          }
+          else if (DVANumberElement != null)
+          {
+            //DVA Number
+            string WholeDVANumber = StringSupport.RemoveWhitespace(DVANumberElement.Value);
+            //dvaFileNumber (Page 21 of tech-sis-hi-06-ihi-inquiry-search-via-b2b-v10-0.pdf)
+            //xsd:token Min length: 2Max length: 9
+            if (WholeDVANumber.Count() > 1 || WholeDVANumber.Count() < 10)
+            {
+              ModelIhiRequestCollection.DVANumber = WholeDVANumber;
+            }
+            else
+            {
+              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a DVA Number yet it's length is not correct. The DVA number must be betweeen 2 and 9 charaters long for the Hi Service call. Found length of {WholeDVANumber.Count().ToString()}"));
+            }
+          }
+          else if (IHINumberElement != null)
+          {
+            //IHI Number
+            string WholeIHINumber = StringSupport.RemoveWhitespace(IHINumberElement.Value);
+            if (WholeIHINumber.Count() == 16)
+            {
+              ModelIhiRequestCollection.DVANumber = WholeIHINumber;
+            }
+            else
+            {
+              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains a IHI Number yet it's length is not correct. The IHI number must be 16 digits long for the Hi Service call. Found length of {WholeIHINumber.Count().ToString()}"));
+            }
+
+          }
+        }
+        else
+        {
+          IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"The supplied {ResourceType.Patient.GetLiteral()} resource contains no identifiers. A single identifier of either a Medicare Number, DVA Number or IHI Number is required for the Hi Service IHI search."));
+        }
+
+      }
+      else
+      {
+        IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required, $"Must supply a parameter of name: {RequestPatientParameter} with a value of type resource containing a {ResourceType.Patient.GetLiteral()} resource."));
+      }
+
+      return (IssueList.Count() == 0);
+    }
+
     private char AdministrativeGenderToSexChar(AdministrativeGender AdministrativeGender)
     {
       switch (AdministrativeGender)
       {
         case AdministrativeGender.Female:
-          return 'F';          
+          return 'F';
         case AdministrativeGender.Male:
-          return 'M';         
+          return 'M';
         case AdministrativeGender.Other:
-          return 'I';          
+          return 'I';
         case AdministrativeGender.Unknown:
-          return 'N';          
+          return 'N';
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException("AdministrativeGender", (int)AdministrativeGender, typeof(AdministrativeGender));
       }
@@ -528,11 +830,11 @@ namespace Pyro.Common.Service
     {
       switch (SexChar)
       {
-        case 'F' :
+        case 'F':
           return AdministrativeGender.Female;
-        case 'M' :
+        case 'M':
           return AdministrativeGender.Male;
-        case 'I' :
+        case 'I':
           return AdministrativeGender.Other;
         case 'N':
           return AdministrativeGender.Unknown;
@@ -540,7 +842,6 @@ namespace Pyro.Common.Service
           throw new System.ArgumentException($"Server Error: Unknown SexChar from HI Service call, SexChar was {SexChar.ToString()}");
       }
     }
-
 
   }
 }

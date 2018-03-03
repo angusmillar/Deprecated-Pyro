@@ -57,17 +57,21 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Transient);
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, Pyro.WebApi.CompositionRoot.CommonFactory>(Lifestyle.Singleton);
-      container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IDtoRootUrlStoreFactory, Pyro.WebApi.CompositionRoot.DtoRootUrlStoreFactory>(Lifestyle.Singleton);            
+      container.Register<Pyro.Common.CompositionRoot.IDatabaseOperationOutcomeFactory, Pyro.WebApi.CompositionRoot.DatabaseOperationOutcomeFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IPyroFhirUriFactory, Pyro.WebApi.CompositionRoot.PyroFhirUriFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IRequestHeaderFactory, Pyro.WebApi.CompositionRoot.RequestHeaderFactory>(Lifestyle.Singleton);      
+      container.Register<Pyro.Common.CompositionRoot.IPyroRequestUriFactory, Pyro.WebApi.CompositionRoot.PyroRequestUriFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.WebApi.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IResourceServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.ResourceServiceOutcomeFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterGenericFactory, Pyro.WebApi.CompositionRoot.SearchParameterGenericFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterReferanceFactory, Pyro.WebApi.CompositionRoot.SearchParameterReferanceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
-      container.Register<Pyro.Common.CompositionRoot.IPyroFhirUriFactory, Pyro.WebApi.CompositionRoot.PyroFhirUriFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
+     
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Singleton);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Singleton);
-
-
-      container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.WebApi.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
-
+    
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
       container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);
@@ -79,10 +83,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirResourceNarrative, FhirResourceNarrative>(Lifestyle.Transient);
       container.Register<IHtmlGenerationSupport, HtmlGenerationSupport>(Lifestyle.Transient);
 
+      container.Register<IDtoRootUrlStore, DtoRootUrlStore>(Lifestyle.Transient);
       container.Register<IRequestHeader, RequestHeader>(Lifestyle.Transient);
       container.Register<IPyroFhirUri, PyroFhirUri>(Lifestyle.Transient);
-      container.Register<IPyroRequestUri, PyroRequestUri>(Lifestyle.Transient);
-      container.Register<IDtoRootUrlStore, DtoRootUrlStore>(Lifestyle.Transient);
+      container.Register<IPyroRequestUri, PyroRequestUri>(Lifestyle.Transient);      
       container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Transient);
 
       container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
@@ -95,7 +99,9 @@ namespace Pyro.WebApi.App_Start
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
-      //Transient: Index Setters
+      //========================================================================================================
+      //=================== Scoped =============================================================================            
+      //========================================================================================================
       container.RegisterConditional(typeof(IIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.IndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
       container.RegisterConditional(typeof(IReferenceSetter<,,,,,,>), typeof(ReferenceSetter<,,,,,,>), c => !c.Handled);
       container.RegisterConditional(typeof(INumberSetter<,,,,,,>), typeof(NumberSetter<,,,,,,>), c => !c.Handled);
@@ -105,9 +111,7 @@ namespace Pyro.WebApi.App_Start
       container.RegisterConditional(typeof(ITokenSetter<,,,,,,>), typeof(TokenSetter<,,,,,,>), c => !c.Handled);
       container.RegisterConditional(typeof(IUriSetter<,,,,,,>), typeof(UriSetter<,,,,,,>), c => !c.Handled);
 
-      //========================================================================================================
-      //=================== Scoped =============================================================================            
-      //========================================================================================================
+
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
@@ -119,7 +123,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<IChainSearchingService, ChainSearchingService>(Lifestyle.Scoped);
-
+      
       //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);

@@ -3,18 +3,18 @@ using Pyro.Common.Tools.UriSupport;
 
 namespace Pyro.WebApi.CompositionRoot
 {
-  public class PyroFhirUriFactory : IPyroFhirUriFactory
+  public class PyroRequestUriFactory : IPyroRequestUriFactory
   {
     private readonly SimpleInjector.Container Container;
 
-    public PyroFhirUriFactory(SimpleInjector.Container Container)
+    public PyroRequestUriFactory(SimpleInjector.Container Container)
     {
       this.Container = Container;
     }
 
-    public IPyroFhirUri CreateFhirRequestUri()
+    public IPyroRequestUri CreateFhirRequestUri()
     {
-      return Container.GetInstance<IPyroFhirUri>();
+      return Container.GetInstance<IPyroRequestUri>();
     }
   }
 }

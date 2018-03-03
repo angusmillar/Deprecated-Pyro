@@ -19,21 +19,22 @@ namespace Pyro.Common.Service
     List<OperationOutcome.IssueComponent> IssueList = null;
     string FormatMimeType = string.Empty;
     IResourceServiceOutcome ResourceServiceOutcome;
-
-    private readonly ICommonFactory ICommonFactory;
+    
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IFhirValidationSupport IFhirValidationSupport;
 
     public FhirValidateOperationService(
-      ICommonFactory ICommonFactory,
+      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
       IPyroFhirUriFactory IPyroFhirUriFactory,
       ISearchParameterServiceFactory ISearchParameterServiceFactory,
       IResourceServices IResourceServices,
       IFhirValidationSupport IFhirValidationSupport)
     {
-      this.ICommonFactory = ICommonFactory;
+      //this.ICommonFactory = ICommonFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServices = IResourceServices;
@@ -65,7 +66,7 @@ namespace Pyro.Common.Service
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
-      ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
       FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
@@ -167,7 +168,7 @@ namespace Pyro.Common.Service
 
       IssueList = new List<OperationOutcome.IssueComponent>();
 
-      ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
@@ -533,7 +534,7 @@ namespace Pyro.Common.Service
 
     private IResourceServiceOutcome FinalResourceServiceOutcome(List<OperationOutcome.IssueComponent> IssueList)
     {
-      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       //Success is based on the IssueComponent's Severity where True if 
       //Severity = null, or not IssueSeverity.Information or IssueSeverity.Warning 

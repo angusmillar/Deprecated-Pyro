@@ -25,6 +25,7 @@ using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Global;
+using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -43,17 +44,20 @@ namespace Pyro.DataLayer.Repository
     public FHIRAllTypes RepositoryResourceType { get; set; }
     private readonly IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
+    private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
 
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      ICommonFactory ICommonFactory,
+      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
+      IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory,
       IGlobalProperties IGlobalProperties)
-      : base(Context, IPrimaryServiceRootCache, ICommonFactory, IGlobalProperties)
+      : base(Context, IPrimaryServiceRootCache, IDtoRootUrlStoreFactory, IGlobalProperties)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
+      this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
     }
 
     //Used for _include and _Revinclude
@@ -144,7 +148,7 @@ namespace Pyro.DataLayer.Repository
         }).ToList();
       }
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
       DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
@@ -155,7 +159,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
       if (WithXml)
@@ -182,7 +186,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceByFhirIDAndVersionNumber(string FhirResourceId, string ResourceVersionNumber)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
 
       if (!string.IsNullOrWhiteSpace(ResourceVersionNumber))
       {
@@ -216,7 +220,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirResourceId, PyroSearchParameters DtoSearchParameters)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
 
       SetNumberOfRecordsPerPage(DtoSearchParameters);
@@ -261,7 +265,7 @@ namespace Pyro.DataLayer.Repository
       this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
       ResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceEntity);
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
@@ -277,7 +281,7 @@ namespace Pyro.DataLayer.Repository
       NewResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(NewResourceEntity);
       this.Save();
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
@@ -298,14 +302,14 @@ namespace Pyro.DataLayer.Repository
       this.DbAddEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(NewResourceEntity);
       OldResourceEntity.IsCurrent = false;
       this.Save();
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       return DatabaseOperationOutcome;
     }
 
     public IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       foreach (string ResourceId in ResourceIdCollection)
       {
         var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);

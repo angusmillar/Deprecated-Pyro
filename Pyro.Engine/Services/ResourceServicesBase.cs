@@ -22,17 +22,17 @@ namespace Pyro.Engine.Services
   public class ResourceServicesBase : CommonServices, IResourceServicesBase
   {
     protected IResourceRepository IResourceRepository = null;
-    protected readonly ICommonFactory ICommonFactory;
+    protected readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     protected readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IIncludeService IIncludeService;
     private readonly IChainSearchingService IChainSearchingService;
 
     //Constructor for dependency injection
-    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService, IChainSearchingService IChainSearchingService)
+    public ResourceServicesBase(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService, IChainSearchingService IChainSearchingService)
       : base(IUnitOfWork)
-    {
-      this.ICommonFactory = ICommonFactory;
+    {      
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IIncludeService = IIncludeService;
       this.IChainSearchingService = IChainSearchingService;
@@ -67,7 +67,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
-      IResourceServiceOutcome oPyroServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oPyroServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
@@ -110,7 +110,7 @@ namespace Pyro.Engine.Services
       if (CrudOperationType == RestEnum.CrudOperationType.Update && string.IsNullOrWhiteSpace(Resource.Id))
         throw new ArgumentNullException("Internal Server Error: Resource Id must be populated for CrudOperationType = Update");
 
-      IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       //Assign new GUID as FHIR id if not already assigned 
       if (string.IsNullOrWhiteSpace(Resource.Id))        

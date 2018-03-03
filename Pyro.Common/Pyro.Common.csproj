@@ -104,6 +104,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="ADHA\Api\IhiRequestDataCollection.cs" />
     <Compile Include="ADHA\Api\IhiRequestData.cs" />
     <Compile Include="ADHA\Api\IhiSearchValidateConfig.cs" />
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
@@ -111,7 +112,12 @@
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
+    <Compile Include="CompositionRoot\IDatabaseOperationOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot\IDtoRootUrlStoreFactory.cs" />
     <Compile Include="CompositionRoot\IPyroFhirUriFactory.cs" />
+    <Compile Include="CompositionRoot\IPyroRequestUriFactory.cs" />
+    <Compile Include="CompositionRoot\IRequestHeaderFactory.cs" />
+    <Compile Include="CompositionRoot\IResourceServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterGenericFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterReferanceFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterServiceFactory.cs" />

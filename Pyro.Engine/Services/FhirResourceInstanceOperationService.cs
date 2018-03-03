@@ -20,11 +20,13 @@ namespace Pyro.Engine.Services
   {
     private readonly ICommonFactory ICommonFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
 
-    public FhirResourceInstanceOperationService(ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public FhirResourceInstanceOperationService(ICommonFactory ICommonFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.ICommonFactory = ICommonFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -51,7 +53,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);

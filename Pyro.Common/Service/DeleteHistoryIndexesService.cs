@@ -16,15 +16,15 @@ namespace Pyro.Common.Service
 {
   public class DeleteHistoryIndexesService : IDeleteHistoryIndexesService
   {
-    private readonly IResourceServices IResourceServices;
-    private readonly ICommonFactory ICommonFactory;
+    private readonly IResourceServices IResourceServices;    
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private const string _ParameterName = "ResourceType";
 
-    public DeleteHistoryIndexesService(IResourceServices ResourceServices, ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public DeleteHistoryIndexesService(IResourceServices ResourceServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
-      this.IResourceServices = ResourceServices;
-      this.ICommonFactory = ICommonFactory;
+      this.IResourceServices = ResourceServices;      
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
@@ -42,7 +42,7 @@ namespace Pyro.Common.Service
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
 
-      IResourceServiceOutcome ResourceServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);

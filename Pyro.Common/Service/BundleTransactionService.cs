@@ -19,9 +19,11 @@ namespace Pyro.Common.Service
 {
   public class BundleTransactionService : IBundleTransactionService
   {
-    private readonly IResourceServices IResourceServices;
-    private readonly ICommonFactory ICommonFactory;
+    private readonly IResourceServices IResourceServices;    
+    private readonly IRequestHeaderFactory IRequestHeaderFactory;
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
+    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
     private IPyroRequestUri _RequestUri { get; set; }
@@ -29,12 +31,14 @@ namespace Pyro.Common.Service
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
-    public BundleTransactionService(IResourceServices IResourceServices, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IPyroFhirUriFactory IPyroFhirUriFactory)
+    public BundleTransactionService(IResourceServices IResourceServices, IRequestHeaderFactory IRequestHeaderFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IPyroFhirUriFactory IPyroFhirUriFactory, IPyroRequestUriFactory IPyroRequestUriFactory)
     {
-      this.IResourceServices = IResourceServices;
-      this.ICommonFactory = ICommonFactory;
+      this.IResourceServices = IResourceServices;      
+      this.IRequestHeaderFactory = IRequestHeaderFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
+      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
     }
 
     public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri, IRequestHeader RequestHeaders)
@@ -51,8 +55,7 @@ namespace Pyro.Common.Service
       _RequestHeader = RequestHeaders ?? throw new ArgumentNullException("RequestHeaders can not be null.");
       _RequestUri = RequestUri ?? throw new ArgumentNullException("RequestUri can not be null.");
 
-
-      _ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      _ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       Bundle bundle = Resource as Bundle;
 
@@ -162,7 +165,8 @@ namespace Pyro.Common.Service
 
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(DeleteEntry));
+      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(DeleteEntry));
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
@@ -210,7 +214,8 @@ namespace Pyro.Common.Service
     }
     private bool PostProcessing(Bundle.EntryComponent PostEntry, int PostEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PostEntry));
+      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(PostEntry));
       if (EntryRequestUri.FhirRequestUri.IsOperation)
       {
         var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{EntryRequestUri.FhirRequestUri.OperationName}'.";
@@ -236,7 +241,7 @@ namespace Pyro.Common.Service
       if (!String.IsNullOrEmpty(PostEntry.Resource.Id))
         PostEntry.Resource.Id = String.Empty;
 
-      IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PostEntry.Request);
+      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(PostEntry.Request);
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
@@ -279,8 +284,9 @@ namespace Pyro.Common.Service
     }
     private bool PutProcessing(Bundle.EntryComponent PutEntry, int PutEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(PutEntry));
-      IRequestHeader RequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(PutEntry.Request);
+      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(PutEntry));
+      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(PutEntry.Request);
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
@@ -331,8 +337,9 @@ namespace Pyro.Common.Service
 
     private bool GetProcessing(Bundle.EntryComponent GetEntry, int GetEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = ICommonFactory.CreateDtoRequestUri(ConstructRequestUrl(GetEntry));
-      IRequestHeader GetRequestHeaders = ICommonFactory.CreateDtoRequestHeaders().Parse(GetEntry.Request);
+      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(GetEntry));
+      IRequestHeader GetRequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(GetEntry.Request);
       GetRequestHeaders.Handling = _RequestHeader.Handling;
       ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
       IResourceServiceOutcome ResourceServiceOutcome = null;

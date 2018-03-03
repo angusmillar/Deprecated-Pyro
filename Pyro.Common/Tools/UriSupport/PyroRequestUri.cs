@@ -13,9 +13,10 @@ namespace Pyro.Common.Tools.UriSupport
   {
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
 
-    public PyroRequestUri(IPrimaryServiceRootCache IPrimaryServiceRootCache)
+    public PyroRequestUri(IPrimaryServiceRootCache IPrimaryServiceRootCache, IPyroFhirUri IPyroFhirUri)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      this.FhirRequestUri = IPyroFhirUri;
     }
 
     public IDtoRootUrlStore PrimaryRootUrlStore

@@ -23,21 +23,24 @@ namespace Pyro.Engine.Services
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ICommonServices ICommonServices;
-    private readonly ICommonFactory ICommonFactory;
+    
+    private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
 
-    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, ICommonFactory ICommonFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IGlobalProperties = IGlobalProperties;
       this.ICommonServices = ICommonServices;
-      this.ICommonFactory = ICommonFactory;
+      this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;      
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
     }
 
     public IResourceServiceOutcome GetServersConformanceResource(ISearchParameterGeneric SearchParameterGeneric)
     {
-      IResourceServiceOutcome ServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -220,7 +223,7 @@ namespace Pyro.Engine.Services
       }
       ConstructConformanceResourceNarrative(Conformance);
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = ICommonFactory.CreateDatabaseOperationOutcome();
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       ServiceOperationOutcome.FhirResourceId = Conformance.Id;
       ServiceOperationOutcome.ResourceVersionNumber = Conformance.Version;
       ServiceOperationOutcome.LastModified = Conformance.Meta.LastUpdated;

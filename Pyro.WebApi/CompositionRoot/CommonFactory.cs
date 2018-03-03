@@ -30,23 +30,24 @@ namespace Pyro.WebApi.CompositionRoot
       this.Container = Container;
     }
 
-    public IRequestHeader CreateDtoRequestHeaders()
-    {
-      return Container.GetInstance<IRequestHeader>();
-    }
+    //public IRequestHeader CreateDtoRequestHeaders()
+    //{
+    //  return Container.GetInstance<IRequestHeader>();
+    //}
 
-    public IPyroRequestUri CreateDtoRequestUri()
-    {
-      return Container.GetInstance<IPyroRequestUri>();
-    }
+    //public IPyroRequestUri CreateDtoRequestUri()
+    //{
+    //  return Container.GetInstance<IPyroRequestUri>();
+    //}
 
-    public IPyroRequestUri CreateDtoRequestUri(string RequestUri)
-    {
-      IPyroRequestUri IDtoRequestUri = Container.GetInstance<IPyroRequestUri>();
-      IDtoRequestUri.FhirRequestUri = Container.GetInstance<IPyroFhirUri>();
-      IDtoRequestUri.FhirRequestUri.Parse(RequestUri);
-      return IDtoRequestUri;
-    }
+    //public IPyroRequestUri CreateDtoRequestUri()
+    //{
+    //  return Container.GetInstance<IPyroRequestUri>();
+    //  //IPyroRequestUri IDtoRequestUri = Container.GetInstance<IPyroRequestUri>();
+    //  //IDtoRequestUri.FhirRequestUri = Container.GetInstance<IPyroFhirUri>();
+    //  //IDtoRequestUri.FhirRequestUri.Parse(RequestUri);
+    //  //return IDtoRequestUri;
+    //}
 
     public IBundleTransactionService CreateBundleTransactionService()
     {
@@ -98,20 +99,20 @@ namespace Pyro.WebApi.CompositionRoot
       return Container.GetAllInstances<IResourceResolver>().ToList();
     }
 
-    public IDtoRootUrlStore CreateDtoRootUrlStore()
-    {
-      return Container.GetInstance<IDtoRootUrlStore>();
-    }
+    //public IDtoRootUrlStore CreateDtoRootUrlStore()
+    //{
+    //  return Container.GetInstance<IDtoRootUrlStore>();
+    //}
 
-    public IDatabaseOperationOutcome CreateDatabaseOperationOutcome()
-    {
-      return Container.GetInstance<IDatabaseOperationOutcome>();
-    }
+    //public IDatabaseOperationOutcome CreateDatabaseOperationOutcome()
+    //{
+    //  return Container.GetInstance<IDatabaseOperationOutcome>();
+    //}
 
-    public IResourceServiceOutcome CreateResourceServiceOutcome()
-    {
-      return Container.GetInstance<IResourceServiceOutcome>();
-    }
+    //public IResourceServiceOutcome CreateResourceServiceOutcome()
+    //{
+    //  return Container.GetInstance<IResourceServiceOutcome>();
+    //}
 
     public IHtmlGenerationSupport CreateFhirNarativeGenerationSupport()
     {

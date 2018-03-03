@@ -38,6 +38,7 @@ namespace Pyro.WebApi.Attributes
       var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
       var ResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
+      var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
       //var ILog = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ILog)) as ILog;
 
@@ -52,8 +53,10 @@ namespace Pyro.WebApi.Attributes
           TimeSpan duration = stopwatch.Elapsed;
 
           ResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
-          IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
-
+          //IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
+          IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+          DtoRequestUri.FhirRequestUri.Parse(actionExecutedContext.Request.RequestUri.OriginalString);
+          
           // use owin context so we can self host (i.e. avoid System.Web.HttpContext.Current)
           var owinContext = actionExecutedContext.Request.GetOwinContext();
 

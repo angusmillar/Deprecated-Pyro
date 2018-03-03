@@ -22,10 +22,10 @@ namespace Pyro.Engine.Services
   public class ResourceServices : ResourceServicesBase, IResourceServices
   {
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
-
+    
     //Constructor for dependency injection
-    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IncludeService, IChainSearchingService IChainSearchingService, ISearchParameterServiceFactory ISearchParameterServiceFactory)
-      : base(IUnitOfWork, IRepositorySwitcher, ICommonFactory, ISearchParameterGenericFactory, IncludeService, IChainSearchingService)
+    public ResourceServices(IUnitOfWork IUnitOfWork, IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IncludeService, IChainSearchingService IChainSearchingService, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+      : base(IUnitOfWork, IRepositorySwitcher, IResourceServiceOutcomeFactory, ISearchParameterGenericFactory, IncludeService, IChainSearchingService)
     {
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
@@ -52,7 +52,7 @@ namespace Pyro.Engine.Services
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by FhirId
@@ -95,7 +95,7 @@ namespace Pyro.Engine.Services
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       // GET by Search
@@ -144,7 +144,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
 
       if (string.IsNullOrWhiteSpace(VersionId))
@@ -227,7 +227,7 @@ namespace Pyro.Engine.Services
         }
       }
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeBase = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -338,7 +338,7 @@ namespace Pyro.Engine.Services
       if (!ResourceProvidedMatchesEndpointItWasProvidedOn(RequestUri, Resource.ResourceType))
         throw new FormatException($"Attempting to PUT a Resource of type {Resource.ResourceType.GetLiteral()} on an endpoint for Resource Type {RequestUri.FhirRequestUri.ResourseName}, this is not allowed.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -430,7 +430,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
-      IResourceServiceOutcome oServiceOperationOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
@@ -489,7 +489,7 @@ namespace Pyro.Engine.Services
       if (RequestHeaders == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
 
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalPut = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John                        
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
@@ -519,7 +519,7 @@ namespace Pyro.Engine.Services
         //No resource found so do a normal Create, first clear any Resource Id that may 
         //be in the resource
         Resource.Id = string.Empty;
-        ServiceOperationOutcomeConditionalPut = this.Post(Resource, RequestUri, SearchParameterGeneric, null, null);
+        ServiceOperationOutcomeConditionalPut = this.Post(Resource, RequestUri, SearchParameterGeneric, RequestHeaders, null);
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         //Don't set to true below as the POST above will set the bool based on it's own result
         //oServiceOperationOutcome.SuccessfulTransaction = true;
@@ -582,7 +582,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
 
-      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOperationOutcomeConditionalDelete = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
 
       ISearchParameterService SearchServiceBase = ISearchParameterServiceFactory.CreateSearchParameterService();
@@ -653,7 +653,7 @@ namespace Pyro.Engine.Services
       if (SearchParameterGeneric == null)
         throw new NullReferenceException($"SearchParameterGenericcan not be null.");
 
-      IResourceServiceOutcome ServiceOutcome = ICommonFactory.CreateResourceServiceOutcome();
+      IResourceServiceOutcome ServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       // GET: URL//FhirApi/Patient?family=Smith&given=John          
 
       ISearchParameterService SearchServiceBase = ISearchParameterServiceFactory.CreateSearchParameterService();

@@ -25,13 +25,13 @@ namespace Pyro.DataLayer.Repository
   public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
   {
     protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
-    protected readonly ICommonFactory ICommonFactory;
+    protected readonly IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory;
     #region Constructor
-    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory, IGlobalProperties IGlobalProperties)
+    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory, IGlobalProperties IGlobalProperties)
       : base(IPyroDbContext, IGlobalProperties)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
-      this.ICommonFactory = ICommonFactory;
+      this.IDtoRootUrlStoreFactory = IDtoRootUrlStoreFactory;
     }
     #endregion
 
@@ -207,7 +207,7 @@ namespace Pyro.DataLayer.Repository
       _ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
       if (oServiceBaseUrl != null)
       {
-        DtoRootUrlStore = ICommonFactory.CreateDtoRootUrlStore();
+        DtoRootUrlStore = IDtoRootUrlStoreFactory.CreateDtoRootUrlStore();
         DtoRootUrlStore.Id = oServiceBaseUrl.Id;
         DtoRootUrlStore.Url = oServiceBaseUrl.Url;
         DtoRootUrlStore.IsServersPrimaryUrlRoot = oServiceBaseUrl.IsServersPrimaryUrlRoot;

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Pyro.Test.IntergrationTest;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.Tools.UriSupport;
+using Pyro.Test.CommonTestSetup;
 using Hl7.Fhir.Utility;
 
 namespace Pyro.Test.IndexSetters
@@ -22,23 +23,8 @@ namespace Pyro.Test.IndexSetters
   class Test_SearchParameterService
   {
     private SearchParameterReferance GetMokedSearchParameterReferance()
-    {
-      string ServiceRootUrlString = StaticTestData.FhirEndpoint();
-      Moq.Mock<IDtoRootUrlStore> MokIDtoRootUrlStore = new Moq.Mock<IDtoRootUrlStore>();
-      MokIDtoRootUrlStore.Setup(x => x.Id).Returns(1);
-      MokIDtoRootUrlStore.Setup(x => x.IsServersPrimaryUrlRoot).Returns(true);
-      MokIDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(ServiceRootUrlString));
-      MokIDtoRootUrlStore.Setup(x => x.Url).Returns(ServiceRootUrlString);
-
-      Moq.Mock<IPrimaryServiceRootCache> MokIPrimaryServiceRootCache = new Moq.Mock<IPrimaryServiceRootCache>();
-      MokIPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromDatabase()).Returns(MokIDtoRootUrlStore.Object);
-      MokIPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromWebConfig()).Returns(ServiceRootUrlString);
-
-      Moq.Mock<IPyroFhirUriFactory> MokIPyroFhirUriFactory = new Moq.Mock<IPyroFhirUriFactory>();
-
-      MokIPyroFhirUriFactory.Setup(x => x.CreateFhirRequestUri()).Returns(new PyroFhirUri(MokIPrimaryServiceRootCache.Object));
-
-      return new SearchParameterReferance(MokIPyroFhirUriFactory.Object);
+    {     
+      return new SearchParameterReferance(TestSetupMocks.GetIPyroFhirUriFactory());
     }
 
     [Test]
