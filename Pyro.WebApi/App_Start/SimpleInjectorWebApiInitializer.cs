@@ -68,9 +68,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterReferanceFactory, Pyro.WebApi.CompositionRoot.SearchParameterReferanceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
-     
-      container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Singleton);
-      container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Singleton);
+      container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
     
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
@@ -123,7 +121,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<IChainSearchingService, ChainSearchingService>(Lifestyle.Scoped);
-      
+      container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
+      container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
+
+
       //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
