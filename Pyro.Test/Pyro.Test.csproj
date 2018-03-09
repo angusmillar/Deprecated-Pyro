@@ -162,6 +162,10 @@
       <Project>{ed443624-3bca-44a2-ad32-cea9cd47e9a7}</Project>
       <Name>Pyro.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
+      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
+      <Name>Pyro.Identifiers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyro.WebApi\Pyro.WebApi.csproj">
       <Project>{77a13dad-7097-4a6c-ad52-613f8816cc82}</Project>
       <Name>Pyro.WebApi</Name>

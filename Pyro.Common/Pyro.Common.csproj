@@ -302,6 +302,10 @@
       <Project>{e6f613e6-7245-4d83-9ed3-d316dc66d0de}</Project>
       <Name>Pyro.ADHA</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
+      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
+      <Name>Pyro.Identifiers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

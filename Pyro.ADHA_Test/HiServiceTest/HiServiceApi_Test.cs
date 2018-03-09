@@ -2,6 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pyro.ADHA.Api;
 
+/// <summary>
+/// Please note that these tests all marked as 'ADHA HiServiceApi' will only run if you have HI Service connectivity
+/// which requires a HI Service x509 certificate to be installed 
+/// Without this they will fail.
+/// </summary>
 namespace Nehta.TestHiService
 {
   [TestClass]

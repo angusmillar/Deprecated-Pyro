@@ -18,6 +18,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools.UriSupport;
+using Pyro.Identifiers.Australian.MedicareNumber;
 
 namespace Pyro.Test.HiServiceIHI
 {
@@ -146,11 +147,12 @@ namespace Pyro.Test.HiServiceIHI
       IGlobalProperties IGlobalProperties = CommonTestSetup.TestSetupMocks.GetIGlobalProperties();
       IHiServiceApi IHiServiceApi = GetMokIHiServiceApi();
       IPyroRequestUriFactory IPyroRequestUriFactory = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory();
+      IMedicareNumberParser IMedicareNumberParser = new MedicareNumberParser();
 
       IHISearchOrValidateOperationService IHISearchOrValidateOperationService = new IHISearchOrValidateOperationService(
         IRequestHeaderFactory,
         IResourceServiceOutcomeFactory,
-        IPyroFhirUriFactory, IResourceServices, IGlobalProperties, IHiServiceApi, IPyroRequestUriFactory);
+        IPyroFhirUriFactory, IResourceServices, IGlobalProperties, IHiServiceApi, IMedicareNumberParser, IPyroRequestUriFactory);
 
       OperationClass OperationClass = new OperationClass()
       {

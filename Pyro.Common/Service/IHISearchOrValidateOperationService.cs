@@ -13,6 +13,8 @@ using Pyro.Common.Tools;
 using Pyro.Common.ADHA.Api;
 using Pyro.ADHA.Api;
 using Pyro.Common.Global;
+using Pyro.Identifiers.Australian.MedicareNumber;
+
 
 namespace Pyro.Common.Service
 {
@@ -24,6 +26,7 @@ namespace Pyro.Common.Service
     const string DVANumberFhirSystem = "http://ns.electronichealth.net.au/id/dva";
     const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
     private enum IdentiferType { IHI, Medicare, DVA }
+    private bool ReturnSoapBinaryResourcesToFHIRCaller = false;
 
     private readonly IRequestHeaderFactory IRequestHeaderFactory;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
@@ -32,6 +35,7 @@ namespace Pyro.Common.Service
     private readonly IResourceServices IResourceServices;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IHiServiceApi HiServiceApi;
+    private readonly IMedicareNumberParser IMedicareNumberParser;
 
     public IHISearchOrValidateOperationService(
       IRequestHeaderFactory IRequestHeaderFactory,
@@ -40,6 +44,7 @@ namespace Pyro.Common.Service
       IResourceServices IResourceServices,
       IGlobalProperties GlobalProperties,
       IHiServiceApi IHiServiceApi,
+      IMedicareNumberParser IMedicareNumberParser,
       IPyroRequestUriFactory IPyroRequestUriFactory)
     {
       this.IRequestHeaderFactory = IRequestHeaderFactory;
@@ -48,6 +53,7 @@ namespace Pyro.Common.Service
       this.IPyroRequestUriFactory = IPyroRequestUriFactory;
       this.IResourceServices = IResourceServices;
       this.GlobalProperties = GlobalProperties;
+      this.IMedicareNumberParser = IMedicareNumberParser;
       this.HiServiceApi = IHiServiceApi;
     }
 
@@ -260,7 +266,7 @@ namespace Pyro.Common.Service
         RequestSoapBinaryResourceReferenceParameter.Name = "RequestSoapBinaryResourceReference";
         RequestSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
 
-        if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+        if (ReturnSoapBinaryResourcesToFHIRCaller)
         {
           var RequestSoapBinaryResourceParameter = new Parameters.ParameterComponent();
           HiServiceCallAuditParameter.Part.Add(RequestSoapBinaryResourceParameter);
@@ -278,7 +284,7 @@ namespace Pyro.Common.Service
         ResponseSoapBinaryResourceReferenceParameter.Name = "ResponseSoapBinaryResourceReference";
         ResponseSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapResponseBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapResponseBinary.FhirResourceId}");
 
-        if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+        if (ReturnSoapBinaryResourcesToFHIRCaller)
         {
           var ResponseSoapBinaryResourceReferenceParameterx = new Parameters.ParameterComponent();
           HiServiceCallAuditParameter.Part.Add(ResponseSoapBinaryResourceReferenceParameterx);
@@ -341,6 +347,9 @@ namespace Pyro.Common.Service
         ResponsePatient.Identifier.Add(IhiIdentifier);
         IhiIdentifier.Value = ihiServiceOutCome.ResponseData.IHINumber;
         IhiIdentifier.System = IHINumberFhirSystem;
+        var Start = DateTimeOffset.Now;
+        //Set the re-validation period based on web config period
+        IhiIdentifier.Period = new Period(new FhirDateTime(Start), new FhirDateTime(Start.AddDays(GlobalProperties.HIServiceIHIValidationPeriodDays)));
         IhiIdentifier.Type = new CodeableConcept();
         IhiIdentifier.Type.Coding = new List<Coding>();
         IhiIdentifier.Type.Text = "IHI";
@@ -404,7 +413,7 @@ namespace Pyro.Common.Service
         DVAIdentifier.System = DVANumberFhirSystem;
         DVAIdentifier.Type = new CodeableConcept();
         DVAIdentifier.Type.Coding = new List<Coding>();
-        DVAIdentifier.Type.Text = "Department of Veterans' Affairs Number";
+        DVAIdentifier.Type.Text = "DVA Number";
         Coding DVATypeCoding = new Coding();
         DVAIdentifier.Type.Coding.Add(DVATypeCoding);
         DVATypeCoding.System = "http://hl7.org.au/fhir/v2/0203";
@@ -484,6 +493,14 @@ namespace Pyro.Common.Service
 
           if (!String.IsNullOrWhiteSpace(ModelIhiRequestCollection.MedicareNumber))
           {
+            //check Medicare Number is valid format
+            IMedicareNumber MedicareNumber;
+            if (!IMedicareNumberParser.TryParse(ModelIhiRequestCollection.MedicareNumber + ModelIhiRequestCollection.MedicareIRN, out MedicareNumber))            
+            {
+              IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
+              $"The supplied {ResourceType.Patient.GetLiteral()} resource has an Austrlian Medicare Number that is incorrectly formated. Number was {ModelIhiRequestCollection.MedicareNumber}{ModelIhiRequestCollection.MedicareIRN}"));
+              return false;
+            }
             foreach (var Name in ModelIhiRequestCollection.HumanNameList)
             {
               if (Name.Given != null || Name.Given.Count() == 0)
@@ -712,7 +729,12 @@ namespace Pyro.Common.Service
 
       if (ReturnSoapRequestAndResponse != null && ReturnSoapRequestAndResponse.Value is FhirBoolean ReturnSoapRequestAndResponseValue)
       {
-        ModelIhiRequestCollection.ReturnSoapRequestAndResponseData = ReturnSoapRequestAndResponseValue.Value.Value;
+        //Here we must set ModelIhiRequestCollection.ReturnSoapRequestAndResponseData to true so that the HI Service retuns the 
+        //soap audit data, but we set the ReturnSoapBinaryResourcesToFHIRCaller to the parameter provided becasue in
+        //controls sending that data back to the caller. Regardless of true or false we still want the soap data back from the HI Service 
+        //call so it can be logged in Binary resources.
+        ReturnSoapBinaryResourcesToFHIRCaller = ReturnSoapRequestAndResponseValue.Value.Value;
+        ModelIhiRequestCollection.ReturnSoapRequestAndResponseData = true;
       }
       else
       {
@@ -810,7 +832,7 @@ namespace Pyro.Common.Service
             string WholeIHINumber = StringSupport.RemoveWhitespace(IHINumberElement.Value);
             if (WholeIHINumber.Count() == 16)
             {
-              ModelIhiRequestCollection.DVANumber = WholeIHINumber;
+              ModelIhiRequestCollection.IHINumber = WholeIHINumber;
             }
             else
             {
