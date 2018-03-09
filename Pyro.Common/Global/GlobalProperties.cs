@@ -29,7 +29,8 @@ namespace Pyro.Common.Global
       _HIServiceProductName = WebConfigProperties.HIServiceProductName();
       _HIServiceProductVersion = WebConfigProperties.HIServiceProductVersion();
       _HIServiceVendorId = WebConfigProperties.HIServiceVendorId();
-      _HIServiceVendorIdQualifier = WebConfigProperties.HIServiceVendorIdQualifier();      
+      _HIServiceVendorIdQualifier = WebConfigProperties.HIServiceVendorIdQualifier();
+      _HIServiceIHIValidationPeriodDays = WebConfigProperties.HIServiceIHIValidationPeriodDays();
     }
 
     private string _ServiceRootUrl;
@@ -152,6 +153,15 @@ namespace Pyro.Common.Global
       get
       {
         return _HIServiceVendorIdQualifier;
+      }
+    }
+
+    private int _HIServiceIHIValidationPeriodDays;
+    public int HIServiceIHIValidationPeriodDays
+    {
+      get
+      {
+        return _HIServiceIHIValidationPeriodDays;
       }
     }
     

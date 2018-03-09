@@ -252,6 +252,31 @@ namespace Pyro.Common.Cache
       }
     }
 
+    public static int HIServiceIHIValidationPeriodDays()
+    {
+      int SystemDefaultHIServiceIHIValidationPeriodDays = 1;
+      try
+      {
+        string HIServiceIHIValidationPeriodDaysString = ConfigurationManager.AppSettings["HIServiceIHIValidationPeriodDays"].ToString();
+        int Value;
+        if (int.TryParse(HIServiceIHIValidationPeriodDaysString, out Value))
+        {
+          return Value;
+        }
+        else
+        {
+          return SystemDefaultHIServiceIHIValidationPeriodDays;
+        }
+      }
+      catch (NullReferenceException)
+      {
+        //if not set in file then default;
+        return SystemDefaultHIServiceIHIValidationPeriodDays;
+      }
+    }
+
+
+    
 
 
   }

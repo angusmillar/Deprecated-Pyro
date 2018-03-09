@@ -21,6 +21,8 @@
     string HIServiceProductVersion { get; }
     string HIServiceVendorId { get; }
     string HIServiceVendorIdQualifier { get; }
+    int HIServiceIHIValidationPeriodDays { get; }
+    
 
 
   }
