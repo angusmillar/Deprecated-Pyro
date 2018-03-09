@@ -98,10 +98,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PyroAdha\Pyro.ADHA\Pyro.ADHA.csproj">
-      <Project>{ee18f634-a299-4506-ab24-e11bd7c6630e}</Project>
-      <Name>Pyro.ADHA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
       <Name>Pyro.Common</Name>

@@ -298,8 +298,8 @@
     <Folder Include="Interfaces\UriSupport\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PyroAdha\Pyro.ADHA\Pyro.ADHA.csproj">
-      <Project>{ee18f634-a299-4506-ab24-e11bd7c6630e}</Project>
+    <ProjectReference Include="..\Pyro.ADHA\Pyro.ADHA.csproj">
+      <Project>{e6f613e6-7245-4d83-9ed3-d316dc66d0de}</Project>
       <Name>Pyro.ADHA</Name>
     </ProjectReference>
   </ItemGroup>
