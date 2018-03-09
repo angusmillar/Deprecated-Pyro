@@ -24,9 +24,9 @@ namespace Pyro.Common.Service
     const string DVANumberFhirSystem = "http://ns.electronichealth.net.au/id/dva";
     const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
     private enum IdentiferType { IHI, Medicare, DVA }
-    
+
     private readonly IRequestHeaderFactory IRequestHeaderFactory;
-    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;    
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
     private readonly IResourceServices IResourceServices;
@@ -36,16 +36,16 @@ namespace Pyro.Common.Service
     public IHISearchOrValidateOperationService(
       IRequestHeaderFactory IRequestHeaderFactory,
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
-      IPyroFhirUriFactory IPyroFhirUriFactory,      
+      IPyroFhirUriFactory IPyroFhirUriFactory,
       IResourceServices IResourceServices,
       IGlobalProperties GlobalProperties,
       IHiServiceApi IHiServiceApi,
       IPyroRequestUriFactory IPyroRequestUriFactory)
-    {      
+    {
       this.IRequestHeaderFactory = IRequestHeaderFactory;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
-      this.IPyroRequestUriFactory = IPyroRequestUriFactory;      
+      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
       this.IResourceServices = IResourceServices;
       this.GlobalProperties = GlobalProperties;
       this.HiServiceApi = IHiServiceApi;
@@ -115,61 +115,56 @@ namespace Pyro.Common.Service
       }
 
       ////Make the call to HI Service, return any error as operation outcome or return the parameter resource with the results if success
-      List<IIhiSearchValidateOutcome> HiServiceOutComeList = new List<IIhiSearchValidateOutcome>();
+      IIhiSearchValidateOutcome HiServiceOutCome = null;
       bool IsHIServiceFoundIHI = false;
       bool IsHIServiceError = false;
       try
       {
-        foreach(IhiRequestData IhiRequestData in IhiRequestDataList)
+        foreach (IhiRequestData IhiRequestData in IhiRequestDataList)
         {
           IsHIServiceFoundIHI = false;
           IsHIServiceError = false;
-          var HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);      
+          HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);
           //Did a HI Error error occur?
           IsHIServiceError = !HiServiceOutCome.SuccessfulQuery;
           //Did we get an IHI Idneifier?
           IsHIServiceFoundIHI = !String.IsNullOrWhiteSpace(HiServiceOutCome.ResponseData.IHINumber);
-          HiServiceOutComeList.Add(HiServiceOutCome);
-          if (IsHIServiceFoundIHI)
+          if (IsHIServiceFoundIHI || IsHIServiceError)
             break;
-
         }
 
-        List<string> SoapRequestBinaryResourceIdList = new List<string>();
-        List<string> SoapResponseBinaryResourceIdList = new List<string>();
-        if (HiServiceOutComeList.Count() > 0)
-        {
-          foreach (var Call in HiServiceOutComeList)
-          {
-            IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
-            IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
-            if (!String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapRequestMessageId))
-            {
-              string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(Call.QueryMetadata.SoapRequestMessageId);
-              IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-              BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
-              Binary SoapBinaryResource = GenerateSoapBinaryResource(Call.QueryMetadata.SoapRequest, BinaryResourceId);
-              IResourceServiceOutcome BinaryPutOutcome = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
-              //need to handle this operation failing
-              SoapRequestBinaryResourceIdList.Add(BinaryPutOutcome.FhirResourceId);
-            }
-
-            if (!String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(Call.QueryMetadata.SoapResponseMessageId))
-            {
-              string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(Call.QueryMetadata.SoapRequestMessageId);
-              IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-              BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
-              Binary SoapBinaryResource = GenerateSoapBinaryResource(Call.QueryMetadata.SoapResponse, BinaryResourceId);
-              IResourceServiceOutcome BinaryPutOutcome = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
-              //need to handle this operation failing
-              SoapResponseBinaryResourceIdList.Add(BinaryPutOutcome.FhirResourceId);
-            }
-          }
-          //log all the soap requests, HI Conformance states all errors must be logged
-        }
         if (IsHIServiceFoundIHI)
         {
-          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutComeList.Last());
+          IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary = null;
+          IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary = null;
+
+          IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
+          IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
+          if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequestMessageId))
+          {
+            string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(HiServiceOutCome.QueryMetadata.SoapRequestMessageId);
+            IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+            BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+            Binary SoapBinaryResource = GenerateSoapBinaryResource(HiServiceOutCome.QueryMetadata.SoapRequest, BinaryResourceId);
+            ResourceServiceOutcomeSoapRequestBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+            //need to handle this operation failing
+            //SoapRequestBinaryResourceReferance = new FhirUri($"{BinaryPutOutcome.ResourceResult.TypeName}/{BinaryPutOutcome.FhirResourceId}");            
+          }
+
+          if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponseMessageId))
+          {
+            string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(HiServiceOutCome.QueryMetadata.SoapRequestMessageId);
+            IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+            BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+            Binary SoapBinaryResource = GenerateSoapBinaryResource(HiServiceOutCome.QueryMetadata.SoapResponse, BinaryResourceId);
+            ResourceServiceOutcomeSoapResponseBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+            //need to handle this operation failing
+            //SoapResponseBinaryResourceReferance = new FhirUri($"{BinaryPutOutcome.ResourceResult.TypeName}/{BinaryPutOutcome.FhirResourceId}");            
+          }
+
+          //log all the soap requests, HI Conformance states all errors must be logged
+
+          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutCome, ResourceServiceOutcomeSoapRequestBinary, ResourceServiceOutcomeSoapResponseBinary);
 
           ResourceServiceOutcome.ResourceResult = ResponseParametersResource;
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
@@ -178,14 +173,24 @@ namespace Pyro.Common.Service
           ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
           return ResourceServiceOutcome;
         }
-        else
+        else if (IsHIServiceError)
         {
           //Some error from the HI Service libaray
           ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception,
-          $"Error returned from the HI Service call atempt: {HiServiceOutComeList.Last().QueryMetadata.ErrorMessge}");
+          $"Error returned from the HI Service call atempt: {HiServiceOutCome.QueryMetadata.ErrorMessge}");
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.SuccessfulTransaction = true;
           return ResourceServiceOutcome;
+        }
+        else if (!IsHIServiceFoundIHI)
+        {
+          return null;
+          //No Error but also no IHI found
+        }
+        else
+        {
+          //shoudl not happen??
+          return null;
         }
 
       }
@@ -196,7 +201,6 @@ namespace Pyro.Common.Service
         var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
         throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message, exec);
       }
-
     }
 
     private static string StripUrnUuidPrefixFromSoapMessageId(string SoapMesageId)
@@ -208,52 +212,82 @@ namespace Pyro.Common.Service
       else
       {
         return SoapMesageId;
-      }      
+      }
     }
 
-    private Parameters GenerateReturnParametersResource(Parameters RequestParameters, IIhiSearchValidateOutcome IhiServiceOutCome)
+    private Parameters GenerateReturnParametersResource(
+      Parameters RequestParameters, IIhiSearchValidateOutcome IhiServiceOutCome,
+      IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary, IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary)
     {
       //we will use the request parameters to create the response
       RequestParameters.Meta = new Meta();
       RequestParameters.Meta.LastUpdated = DateTimeOffset.Now;
 
-      var ResponsePatientResourceParameter = new Parameters.ParameterComponent();
-      ResponsePatientResourceParameter.Name = "ResponsePatient";
-      ResponsePatientResourceParameter.Resource = GenerateResponsePatientResource(IhiServiceOutCome);
-      RequestParameters.Parameter.Add(ResponsePatientResourceParameter);
+      var HiServiceResponseParameter = new Parameters.ParameterComponent();
+      HiServiceResponseParameter.Name = "HiServiceResponse";
+      HiServiceResponseParameter.Part = new List<Parameters.ParameterComponent>();
+      RequestParameters.Parameter.Add(HiServiceResponseParameter);
 
-      var SoapRequestAuditParameter = new Parameters.ParameterComponent();
-      SoapRequestAuditParameter.Name = "SoapRequestAudit";
-      SoapRequestAuditParameter.Part = new List<Parameters.ParameterComponent>();
-      RequestParameters.Parameter.Add(SoapRequestAuditParameter);
+      var SuccessParameter = new Parameters.ParameterComponent();
+      SuccessParameter.Name = "Success";
+      SuccessParameter.Value = new FhirBoolean(IhiServiceOutCome.SuccessfulQuery);
+      HiServiceResponseParameter.Part.Add(SuccessParameter);
 
-
-
-      var SoapRequestMessageId = new Parameters.ParameterComponent();
-      SoapRequestMessageId.Name = "SoapRequestMessageId";
-      SoapRequestMessageId.Value = new FhirString(IhiServiceOutCome.QueryMetadata.SoapRequestMessageId);
-      RequestParameters.Parameter.Add(SoapRequestMessageId);
-
-      if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+      if (!IhiServiceOutCome.SuccessfulQuery)
       {
-        var SoapRequest = new Parameters.ParameterComponent();
-        SoapRequest.Name = "SoapRequest";
-        SoapRequest.Resource = GenerateSoapBinaryResource(IhiServiceOutCome.QueryMetadata.SoapRequest, IhiServiceOutCome.QueryMetadata.SoapRequestMessageId);
-        RequestParameters.Parameter.Add(SoapRequest);
+        var ResponsePatientResourceParameter = new Parameters.ParameterComponent();
+        ResponsePatientResourceParameter.Name = "ResponseErrorMessage";
+        ResponsePatientResourceParameter.Value = new FhirString(IhiServiceOutCome.QueryMetadata.ErrorMessge);
+        HiServiceResponseParameter.Part.Add(ResponsePatientResourceParameter);
+      }
+      else
+      {
+        var ResponsePatientResourceParameter = new Parameters.ParameterComponent();
+        ResponsePatientResourceParameter.Name = "ResponsePatient";
+        ResponsePatientResourceParameter.Resource = GenerateResponsePatientResource(IhiServiceOutCome);
+        HiServiceResponseParameter.Part.Add(ResponsePatientResourceParameter);
       }
 
-      var SoapResponseMessageId = new Parameters.ParameterComponent();
-      SoapResponseMessageId.Name = "SoapResponseMessageId";
-      SoapResponseMessageId.Value = new FhirString(IhiServiceOutCome.QueryMetadata.SoapResponseMessageId);
-      RequestParameters.Parameter.Add(SoapResponseMessageId);
+      var HiServiceCallAuditParameter = new Parameters.ParameterComponent();
+      HiServiceCallAuditParameter.Name = "HiServiceCallAudit";
+      HiServiceCallAuditParameter.Part = new List<Parameters.ParameterComponent>();
+      HiServiceResponseParameter.Part.Add(HiServiceCallAuditParameter);
 
-      if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+      if (ResourceServiceOutcomeSoapRequestBinary != null && ResourceServiceOutcomeSoapRequestBinary.SuccessfulTransaction)
       {
-        var SoapResponse = new Parameters.ParameterComponent();
-        SoapResponse.Name = "SoapResponse";
-        SoapResponse.Resource = GenerateSoapBinaryResource(IhiServiceOutCome.QueryMetadata.SoapResponse, IhiServiceOutCome.QueryMetadata.SoapResponseMessageId);
-        RequestParameters.Parameter.Add(SoapResponse);
+        var RequestSoapBinaryResourceReferenceParameter = new Parameters.ParameterComponent();
+        HiServiceCallAuditParameter.Part.Add(RequestSoapBinaryResourceReferenceParameter);
+        RequestSoapBinaryResourceReferenceParameter.Name = "RequestSoapBinaryResourceReference";
+        RequestSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
+
+        if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+        {
+          var RequestSoapBinaryResourceParameter = new Parameters.ParameterComponent();
+          HiServiceCallAuditParameter.Part.Add(RequestSoapBinaryResourceParameter);
+          RequestSoapBinaryResourceParameter.Name = "RequestSoapBinaryResource";
+          RequestSoapBinaryResourceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
+          RequestSoapBinaryResourceParameter.Resource = ResourceServiceOutcomeSoapRequestBinary.ResourceResult;
+        }
+
       }
+
+      if (ResourceServiceOutcomeSoapResponseBinary != null && ResourceServiceOutcomeSoapResponseBinary.SuccessfulTransaction)
+      {
+        var ResponseSoapBinaryResourceReferenceParameter = new Parameters.ParameterComponent();
+        HiServiceCallAuditParameter.Part.Add(ResponseSoapBinaryResourceReferenceParameter);
+        ResponseSoapBinaryResourceReferenceParameter.Name = "ResponseSoapBinaryResourceReference";
+        ResponseSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapResponseBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapResponseBinary.FhirResourceId}");
+
+        if (IhiServiceOutCome.RequestData.ReturnSoapRequestAndResponseData)
+        {
+          var ResponseSoapBinaryResourceReferenceParameterx = new Parameters.ParameterComponent();
+          HiServiceCallAuditParameter.Part.Add(ResponseSoapBinaryResourceReferenceParameterx);
+          ResponseSoapBinaryResourceReferenceParameterx.Name = "ResponseSoapBinaryResource";
+          ResponseSoapBinaryResourceReferenceParameterx.Resource = ResourceServiceOutcomeSoapResponseBinary.ResourceResult;
+        }
+      }
+
+
       return RequestParameters;
     }
 
@@ -388,6 +422,7 @@ namespace Pyro.Common.Service
       List<IhiRequestData> SecondQuerySetIhiRequestDataList = new List<IhiRequestData>();
       List<IhiRequestData> ThirdQuerySetIhiRequestDataList = new List<IhiRequestData>();
 
+
       if (ParseRequestPatientResource(ParametersResource, ModelIhiRequestCollection))
       {
         //Generate a IhiRequestData for each seperate HI Service call required in the apropirate order that they should be executed.
@@ -411,9 +446,7 @@ namespace Pyro.Common.Service
                 {
                   //IHI Number Try only given name 
                   IhiRequestData IhiRequestData1 = new IhiRequestData();
-                  IhiRequestData1.IHINumber = ModelIhiRequestCollection.IHINumber;
-                  IhiRequestData1.SexChar = ModelIhiRequestCollection.SexChar;
-                  IhiRequestData1.Dob = ModelIhiRequestCollection.Dob;
+                  SetRequestDataFromModel(IdentiferType.IHI, ModelIhiRequestCollection, IhiRequestData1);
                   IhiRequestData1.Family = Name.Family;
                   IhiRequestData1.Given = Name.Given.ElementAt(0);
                   FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
@@ -424,31 +457,24 @@ namespace Pyro.Common.Service
                   {
                     //IHI Number Try each given name 
                     IhiRequestData IhiRequestData2 = new IhiRequestData();
-                    IhiRequestData2.IHINumber = ModelIhiRequestCollection.IHINumber;
-                    IhiRequestData2.SexChar = ModelIhiRequestCollection.SexChar;
-                    IhiRequestData2.Dob = ModelIhiRequestCollection.Dob;
+                    SetRequestDataFromModel(IdentiferType.IHI, ModelIhiRequestCollection, IhiRequestData2);
                     IhiRequestData2.Family = Name.Family;
                     IhiRequestData2.Given = Given; ;
                     SecondQuerySetIhiRequestDataList.Add(IhiRequestData2);
                   }
                   //IHI Number Concatenate all given names into one given name with spaces 'Angus Brian'
                   IhiRequestData IhiRequestData3 = new IhiRequestData();
-                  IhiRequestData3.IHINumber = ModelIhiRequestCollection.IHINumber;
-                  IhiRequestData3.SexChar = ModelIhiRequestCollection.SexChar;
-                  IhiRequestData3.Dob = ModelIhiRequestCollection.Dob;
+                  SetRequestDataFromModel(IdentiferType.IHI, ModelIhiRequestCollection, IhiRequestData3);
                   IhiRequestData3.Family = Name.Family;
                   IhiRequestData3.Given = Name.Given.Aggregate((current, next) => current + " " + next);
                   ThirdQuerySetIhiRequestDataList.Add(IhiRequestData3);
-
                 }
               }
               else
               {
                 //IHI Number Try with no given name 
                 IhiRequestData IhiRequestData1 = new IhiRequestData();
-                IhiRequestData1.IHINumber = ModelIhiRequestCollection.IHINumber;
-                IhiRequestData1.SexChar = ModelIhiRequestCollection.SexChar;
-                IhiRequestData1.Dob = ModelIhiRequestCollection.Dob;
+                SetRequestDataFromModel(IdentiferType.IHI, ModelIhiRequestCollection, IhiRequestData1);
                 IhiRequestData1.Family = Name.Family;
                 IhiRequestData1.Given = Name.Given.ElementAt(0);
                 FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
@@ -468,7 +494,7 @@ namespace Pyro.Common.Service
                   {
                     //Medicare Try only name with IRN
                     IhiRequestData IhiRequestData1 = new IhiRequestData();
-                    SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData1);                   
+                    SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData1);
                     IhiRequestData1.Family = Name.Family;
                     IhiRequestData1.Given = Name.Given.ElementAt(0);
                     FirstQuerySetIhiRequestDataList.Add(IhiRequestData1);
@@ -489,10 +515,7 @@ namespace Pyro.Common.Service
                     {
                       //Try each name alone with IRN
                       IhiRequestData IhiRequestData2 = new IhiRequestData();
-                      IhiRequestData2.MedicareNumber = ModelIhiRequestCollection.MedicareNumber;
-                      IhiRequestData2.MedicareIRN = ModelIhiRequestCollection.MedicareIRN;
-                      IhiRequestData2.SexChar = ModelIhiRequestCollection.SexChar;
-                      IhiRequestData2.Dob = ModelIhiRequestCollection.Dob;
+                      SetRequestDataFromModel(IdentiferType.Medicare, ModelIhiRequestCollection, IhiRequestData2);
                       IhiRequestData2.Family = Name.Family;
                       IhiRequestData2.Given = Given; ;
                       FirstQuerySetIhiRequestDataList.Add(IhiRequestData2);
@@ -629,18 +652,18 @@ namespace Pyro.Common.Service
       {
         case IdentiferType.IHI:
           {
-            IhiRequestData.IHINumber = IhiRequestDataCollection.IHINumber;                        
+            IhiRequestData.IHINumber = IhiRequestDataCollection.IHINumber;
           }
           break;
         case IdentiferType.Medicare:
           {
             IhiRequestData.MedicareNumber = IhiRequestDataCollection.MedicareNumber;
-            IhiRequestData.MedicareIRN = IhiRequestDataCollection.MedicareIRN;            
+            IhiRequestData.MedicareIRN = IhiRequestDataCollection.MedicareIRN;
           }
           break;
         case IdentiferType.DVA:
           {
-            IhiRequestData.DVANumber = IhiRequestDataCollection.DVANumber;           
+            IhiRequestData.DVANumber = IhiRequestDataCollection.DVANumber;
           }
           break;
         default:
@@ -651,6 +674,7 @@ namespace Pyro.Common.Service
       IhiRequestData.UserIdQualifier = IhiRequestDataCollection.UserIdQualifier;
       IhiRequestData.SexChar = IhiRequestDataCollection.SexChar;
       IhiRequestData.Dob = IhiRequestDataCollection.Dob;
+      IhiRequestData.ReturnSoapRequestAndResponseData = IhiRequestDataCollection.ReturnSoapRequestAndResponseData;
       //IhiRequestData1.Family = Name.Family;
       //IhiRequestData1.Given = Name.Given.ElementAt(0);
     }

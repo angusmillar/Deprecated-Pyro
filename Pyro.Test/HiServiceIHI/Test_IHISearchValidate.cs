@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using NUnit.Framework.Constraints;
 using NUnit.Framework;
+using Moq;
 using Pyro.ADHA.Api;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.FhirOperation;
@@ -16,6 +17,7 @@ using Pyro.Test.IntergrationTest;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
+using Pyro.Common.Tools.UriSupport;
 
 namespace Pyro.Test.HiServiceIHI
 {
@@ -23,36 +25,53 @@ namespace Pyro.Test.HiServiceIHI
   [Category("Hi Service Tests")]
   public class Test_IHISearchValidate
   {
+    private string UrnUuidPrefix = "urn:uuid:";
+    private string SoapRequestId = Guid.NewGuid().ToString(); //Not scoped to be a FHIR GUID as it comes from the HI Service
+    private string SoapResponseId = Guid.NewGuid().ToString(); //Not scoped to be a FHIR GUID as it comes from the HI Service
+
+    private string HiPatientFamily = "MARCELLE";
+    private string HiPatientGiven = "JUANITA";
+    private char HiPatientSexChar = 'F';
+    private DateTime HiPatientDob = new DateTime(1982, 01, 24);
+    private string HiPatientMedicareNumber = "2950156481";
+    private string HiPatientIHINumber = "1234567890123456"; //Not a real IHI but fine for mock testing 
+    private string HiPatientIHIRecordStatus = "Verified"; 
+    private string HiPatientIHIStatus = "Active";
 
 
+    /// <summary>
+    /// Setup the HIServiceAPI mock and the response it will reply with
+    /// </summary>
+    /// <returns></returns>
     private IHiServiceApi GetMokIHiServiceApi()
     {
+
       Moq.Mock<IIhiQueryMetadata> MokIIhiQueryMetadata = new Moq.Mock<IIhiQueryMetadata>();
-      MokIIhiQueryMetadata.Setup(x => x.ErrorMessge).Returns("Dummy Error Message");
-      MokIIhiQueryMetadata.Setup(x => x.SoapRequest).Returns("SoapRequest");
-      MokIIhiQueryMetadata.Setup(x => x.SoapRequestMessageId).Returns("1");
-      MokIIhiQueryMetadata.Setup(x => x.SoapResponseMessageId).Returns("2");
-      MokIIhiQueryMetadata.Setup(x => x.SoapResponse).Returns("SoapResponse");
+      MokIIhiQueryMetadata.Setup(x => x.ErrorMessge).Returns(string.Empty);
+      MokIIhiQueryMetadata.Setup(x => x.SoapRequest).Returns("SoapRequestData");
+      MokIIhiQueryMetadata.Setup(x => x.SoapRequestMessageId).Returns($"{UrnUuidPrefix}{SoapRequestId}");
+      MokIIhiQueryMetadata.Setup(x => x.SoapResponseMessageId).Returns($"{UrnUuidPrefix}{SoapResponseId}");
+      MokIIhiQueryMetadata.Setup(x => x.SoapResponse).Returns("SoapResponseData");
 
       Moq.Mock<IIhiRequestData> MokIIhiRequestData = new Moq.Mock<IIhiRequestData>();
       MokIIhiRequestData.Setup(x => x.Dob).Returns(new DateTime(1973, 09, 30));
-      MokIIhiRequestData.Setup(x => x.SexChar).Returns('F');
-      MokIIhiRequestData.Setup(x => x.Family).Returns("Millar");
-      MokIIhiRequestData.Setup(x => x.Given).Returns("Angus");
+      MokIIhiRequestData.Setup(x => x.SexChar).Returns(HiPatientSexChar);
+      MokIIhiRequestData.Setup(x => x.Family).Returns(HiPatientFamily);
+      MokIIhiRequestData.Setup(x => x.Given).Returns(HiPatientGiven);
       MokIIhiRequestData.Setup(x => x.DVANumber).Returns(string.Empty);
-      MokIIhiRequestData.Setup(x => x.MedicareNumber).Returns("1234567890");
-      MokIIhiRequestData.Setup(x => x.IHINumber).Returns("1234567890123456");
-
+      MokIIhiRequestData.Setup(x => x.MedicareNumber).Returns(HiPatientMedicareNumber);
+      MokIIhiRequestData.Setup(x => x.IHINumber).Returns(HiPatientIHINumber);
+      
       Moq.Mock<IIhiResponseData> MokIIhiResponseData = new Moq.Mock<IIhiResponseData>();
       MokIIhiResponseData.Setup(x => x.Dob).Returns(new DateTime(1973, 09, 30));
-      MokIIhiResponseData.Setup(x => x.SexChar).Returns('F');
-      MokIIhiResponseData.Setup(x => x.Family).Returns("Millar");
-      MokIIhiResponseData.Setup(x => x.Given).Returns("Angus");
+      MokIIhiResponseData.Setup(x => x.SexChar).Returns(HiPatientSexChar);
+      MokIIhiResponseData.Setup(x => x.Family).Returns(HiPatientFamily);
+      MokIIhiResponseData.Setup(x => x.Given).Returns(HiPatientGiven);
       MokIIhiResponseData.Setup(x => x.DVANumber).Returns(string.Empty);
-      MokIIhiResponseData.Setup(x => x.MedicareNumber).Returns("1234567890");
-      MokIIhiResponseData.Setup(x => x.IHINumber).Returns("1234567890123456");
-      MokIIhiResponseData.Setup(x => x.IHIRecordStatus).Returns("Verified");
-      MokIIhiResponseData.Setup(x => x.IHIStatus).Returns("Active");
+      MokIIhiResponseData.Setup(x => x.MedicareNumber).Returns(HiPatientMedicareNumber);
+      MokIIhiResponseData.Setup(x => x.IHINumber).Returns(HiPatientIHINumber);
+      MokIIhiResponseData.Setup(x => x.IHIRecordStatus).Returns(HiPatientIHIRecordStatus);
+      MokIIhiResponseData.Setup(x => x.IHIStatus).Returns(HiPatientIHIStatus);
 
       Moq.Mock<IIhiSearchValidateOutcome> MokIIhiSearchValidateOutcome = new Moq.Mock<IIhiSearchValidateOutcome>();
       MokIIhiSearchValidateOutcome.Setup(x => x.QueryMetadata).Returns(MokIIhiQueryMetadata.Object);
@@ -66,18 +85,57 @@ namespace Pyro.Test.HiServiceIHI
       return MokIHiServiceApi.Object;
     }
 
+    /// <summary>
+    /// Setup the mocked pyro ResourceService which mocks the response from the Pyro database when commiting the 
+    /// SoapRequest and SoapResponse FHIR Binary resources 
+    /// </summary>
+    /// <returns></returns>
     private IResourceServices GetIResourceServices()
     {
-      Moq.Mock<IResourceServiceOutcome> MokIResourceServiceOutcome = new Moq.Mock<IResourceServiceOutcome>();
-      MokIResourceServiceOutcome.Setup(x => x.FhirResourceId).Returns("1234");
+      var FhirRequestUriForBinaryRequestPut = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri().FhirRequestUri = new Pyro.Common.Tools.UriSupport.PyroFhirUri(CommonTestSetup.TestSetupMocks.GetIPrimaryServiceRootCache());
+      FhirRequestUriForBinaryRequestPut.Parse($"{StaticTestData.FhirEndpoint()}/{ResourceType.Binary.GetLiteral()}/{SoapRequestId}");
 
-      Moq.Mock<IResourceServices> MokIResourceServices = new Moq.Mock<IResourceServices>();
-      MokIResourceServices.SetReturnsDefault<IResourceServiceOutcome>(MokIResourceServiceOutcome.Object);
+      Mock<IResourceServiceOutcome> MokIResourceServiceOutcomeOne = new Mock<IResourceServiceOutcome>();
+      MokIResourceServiceOutcomeOne.Setup(x => x.FhirResourceId).Returns(SoapRequestId);
+      MokIResourceServiceOutcomeOne.Setup(x => x.FormatMimeType).Returns((string)null);
+      MokIResourceServiceOutcomeOne.Setup(x => x.HttpStatusCode).Returns(System.Net.HttpStatusCode.Created);
+      MokIResourceServiceOutcomeOne.Setup(x => x.IsDeleted).Returns(false);
+      MokIResourceServiceOutcomeOne.Setup(x => x.LastModified).Returns(DateTimeOffset.Now);
+      MokIResourceServiceOutcomeOne.Setup(x => x.OperationType).Returns(RestEnum.CrudOperationType.Create);
+      MokIResourceServiceOutcomeOne.Setup(x => x.RequestUri).Returns(FhirRequestUriForBinaryRequestPut);
+      MokIResourceServiceOutcomeOne.Setup(x => x.ResourceResult).Returns(new Binary());
+      MokIResourceServiceOutcomeOne.Setup(x => x.ResourceVersionNumber).Returns("1");
+      MokIResourceServiceOutcomeOne.Setup(x => x.SuccessfulTransaction).Returns(true);
+      MokIResourceServiceOutcomeOne.Setup(x => x.SummaryType).Returns((Hl7.Fhir.Rest.SummaryType?)null);
+
+      var FhirRequestUriForBinaryResponsePut = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri().FhirRequestUri = new Pyro.Common.Tools.UriSupport.PyroFhirUri(CommonTestSetup.TestSetupMocks.GetIPrimaryServiceRootCache());
+      FhirRequestUriForBinaryRequestPut.Parse($"{StaticTestData.FhirEndpoint()}/{ResourceType.Binary.GetLiteral()}/{SoapResponseId}");
+
+      Mock<IResourceServiceOutcome> MokIResourceServiceOutcomeTwo = new Mock<IResourceServiceOutcome>();
+      MokIResourceServiceOutcomeTwo.Setup(x => x.FhirResourceId).Returns(SoapResponseId);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.FormatMimeType).Returns((string)null);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.HttpStatusCode).Returns(System.Net.HttpStatusCode.Created);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.IsDeleted).Returns(false);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.LastModified).Returns(DateTimeOffset.Now);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.OperationType).Returns(RestEnum.CrudOperationType.Create);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.RequestUri).Returns(FhirRequestUriForBinaryResponsePut);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.ResourceResult).Returns(new Binary());
+      MokIResourceServiceOutcomeTwo.Setup(x => x.ResourceVersionNumber).Returns("1");
+      MokIResourceServiceOutcomeTwo.Setup(x => x.SuccessfulTransaction).Returns(true);
+      MokIResourceServiceOutcomeTwo.Setup(x => x.SummaryType).Returns((Hl7.Fhir.Rest.SummaryType?)null);
+
+      Mock<IResourceServices> MokIResourceServices = new Mock<IResourceServices>();
+      MokIResourceServices.SetupSequence(x => x.Put(It.IsAny<string>(), It.IsAny<Binary>(), It.IsAny<IPyroRequestUri>(), It.IsAny<Common.Search.ISearchParameterGeneric>(), It.IsAny<IRequestHeader>()))
+        .Returns(MokIResourceServiceOutcomeOne.Object)
+        .Returns(MokIResourceServiceOutcomeTwo.Object);
+      MokIResourceServices.SetReturnsDefault<IResourceServiceOutcome>(MokIResourceServiceOutcomeOne.Object);
       return MokIResourceServices.Object;
     }
 
 
-
+    /// <summary>
+    /// A Positive test performing a HI Service IHI lookup based on a Medicare number and a single Patient name 
+    /// </summary>
     [Test]
     public void Test_HISearchMedicareNumber()
     {
@@ -99,12 +157,33 @@ namespace Pyro.Test.HiServiceIHI
         Scope = Common.Enum.FhirOperationEnum.OperationScope.Resource,
         Type = Common.Enum.FhirOperationEnum.OperationType.xIHISearchOrValidate
       };
+
       var SearchParameterGeneric = new Common.Search.SearchParameterGeneric();
 
       var PyroRequestUri = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri();
       PyroRequestUri.FhirRequestUri = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri().FhirRequestUri = new Pyro.Common.Tools.UriSupport.PyroFhirUri(CommonTestSetup.TestSetupMocks.GetIPrimaryServiceRootCache());
       PyroRequestUri.FhirRequestUri.Parse($"{StaticTestData.FhirEndpoint()}/{ResourceType.Patient.GetLiteral()}/{Common.Enum.FhirOperationEnum.OperationType.xIHISearchOrValidate.GetPyroLiteral()}");
 
+      Parameters ParametersResource = GenerateRequestParametersResource();
+
+      IResourceServiceOutcome ResourceServiceOutcome = IHISearchOrValidateOperationService.IHISearchOrValidate(
+        OperationClass,
+        ParametersResource,
+        PyroRequestUri,
+        SearchParameterGeneric,
+        CommonTestSetup.TestSetupMocks.GetIRequestHeaderFactory().CreateRequestHeader()
+        );
+
+      Assert.NotNull(ResourceServiceOutcome.ResourceResult);
+      Assert.AreEqual(ResourceType.Parameters.GetLiteral(), ResourceServiceOutcome.ResourceResult.TypeName);
+    }
+
+    /// <summary>
+    /// Generate the FHIR Operation Parameter Resource for the HI Service operation call
+    /// </summary>
+    /// <returns></returns>
+    private Parameters GenerateRequestParametersResource()
+    {
       var ParametersResource = new Parameters();
 
       ParametersResource.Parameter = new List<Parameters.ParameterComponent>();
@@ -128,43 +207,35 @@ namespace Pyro.Test.HiServiceIHI
       RequestPatientParam.Name = "RequestPatient";
       RequestPatientParam.Resource = GetRequestPatientResource();
       ParametersResource.Parameter.Add(RequestPatientParam);
-
-
-      IResourceServiceOutcome ResourceServiceOutcome = IHISearchOrValidateOperationService.IHISearchOrValidate(
-        OperationClass,
-        ParametersResource,
-        PyroRequestUri,
-        SearchParameterGeneric,
-        CommonTestSetup.TestSetupMocks.GetIRequestHeaderFactory().CreateRequestHeader()
-        );
-
-      
-      Assert.NotNull(ResourceServiceOutcome.ResourceResult);
-      Assert.AreEqual(ResourceType.Parameters.GetLiteral(), ResourceServiceOutcome.ResourceResult.TypeName);
+      return ParametersResource;
     }
 
+    /// <summary>
+    /// The Patient FHIR Resource used for the Request to the HI Service FHIR Operation
+    /// </summary>
+    /// <returns></returns>
     private Patient GetRequestPatientResource()
     {
       Patient Pat = new Patient();
       //Name
       Pat.Name = new List<HumanName>();
       HumanName HumanName = new HumanName();
-      HumanName.Family = "MARCELLE";
-      HumanName.Given = new List<string>() { "JUANITA" };
+      HumanName.Family = HiPatientFamily;
+      HumanName.Given = new List<string>() { HiPatientGiven };
       Pat.Name.Add(HumanName);
 
       //Sex
       Pat.Gender = AdministrativeGender.Female;
 
       //Dob
-      Pat.BirthDateElement = new Date(1982, 01, 24);
+      Pat.BirthDateElement = new Date(HiPatientDob.Year, HiPatientDob.Month, HiPatientDob.Day);
 
 
       Pat.Identifier = new List<Identifier>();
 
       Identifier MedicareIdentifier = new Identifier();
       Pat.Identifier.Add(MedicareIdentifier);
-      MedicareIdentifier.Value = "2950156481";
+      MedicareIdentifier.Value = HiPatientMedicareNumber;
       MedicareIdentifier.System = "http://ns.electronichealth.net.au/id/medicare-number";
       MedicareIdentifier.Type = new CodeableConcept();
       MedicareIdentifier.Type.Coding = new List<Coding>();
