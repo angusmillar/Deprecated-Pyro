@@ -171,27 +171,15 @@ namespace Pyro.Common.Service
           // We found a IHI number from HI Service so store the Soap as 
           // Binary resources and form the response
           IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary = null;
-          IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary = null;
-
-          
+          IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary = null;          
           if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequestMessageId))
           {
-            ResourceServiceOutcomeSoapRequestBinary = CommitBinaryResourceForSoapLogging(RequestUri, SearchParameterGeneric, HiServiceOutCome);
+            ResourceServiceOutcomeSoapRequestBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapRequestMessageId, HiServiceOutCome.QueryMetadata.SoapRequest, RequestUri, SearchParameterGeneric, HiServiceOutCome);
           }
 
           if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponseMessageId))
           {
-            string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(HiServiceOutCome.QueryMetadata.SoapRequestMessageId);
-            IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-            BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
-            Binary SoapBinaryResource = GenerateSoapBinaryResource(HiServiceOutCome.QueryMetadata.SoapResponse, BinaryResourceId);
-            ResourceServiceOutcomeSoapResponseBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
-            if (!ResourceServiceOutcomeSoapRequestBinary.SuccessfulTransaction)
-            {
-              string Message = $"Internal Server error in trying to commit a Binary resource to log a HI Service Soap response.";
-              var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
-              throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
-            }
+            ResourceServiceOutcomeSoapResponseBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapResponseMessageId, HiServiceOutCome.QueryMetadata.SoapResponse, RequestUri, SearchParameterGeneric, HiServiceOutCome);          
           }
 
           //log all the soap requests, HI Conformance states all errors must be logged
@@ -213,39 +201,7 @@ namespace Pyro.Common.Service
         throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message, exec);
       }
     }
-
-    private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, IIhiSearchValidateOutcome HiServiceOutCome)
-    {
-      IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;
-      IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
-      IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
-      string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(SoapMessageId);
-      IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
-      Binary SoapBinaryResource = GenerateSoapBinaryResource(SoapData, BinaryResourceId);
-      ResourceServiceOutcomeSoapBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
-      if (!ResourceServiceOutcomeSoapBinary.SuccessfulTransaction)
-      {
-        string Message = $"Internal Server error in trying to commit a Binary resource to log a HI Service Soap Message Id: {SoapMessageId}";
-        var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
-        throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
-      }
-
-      return ResourceServiceOutcomeSoapBinary;
-    }
-
-    private static string StripUrnUuidPrefixFromSoapMessageId(string SoapMesageId)
-    {
-      if (SoapMesageId.StartsWith("urn:uuid:"))
-      {
-        return SoapMesageId.Split(':')[2];
-      }
-      else
-      {
-        return SoapMesageId;
-      }
-    }
-
+   
     private Parameters GenerateReturnParametersResource(
       Parameters RequestParameters, IIhiSearchValidateOutcome IhiServiceOutCome,
       IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary, IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary)
@@ -368,133 +324,7 @@ namespace Pyro.Common.Service
 
 
       return RequestParameters;
-    }
-
-    private Binary GenerateSoapBinaryResource(string SoapXml, string SoapMessageId)
-    {
-      Binary SoapBinary = new Binary();
-      SoapBinary.Id = SoapMessageId;
-      SoapBinary.ContentType = "application/soap+xml";
-      SoapBinary.Content = System.Text.Encoding.UTF8.GetBytes(SoapXml);
-      return SoapBinary;
-    }
-
-    private Resource GenerateResponsePatientResource(IIhiSearchValidateOutcome ihiServiceOutCome)
-    {
-      Patient ResponsePatient = new Patient();
-      //Name
-      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Family) || !String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Given))
-      {
-        ResponsePatient.Name = new List<HumanName>();
-        HumanName HumanName = new HumanName();
-        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Family))
-        {
-          HumanName.Family = ihiServiceOutCome.ResponseData.Family;
-        }
-        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Given))
-        {
-          HumanName.Given = new List<string>() { ihiServiceOutCome.ResponseData.Given };
-        }
-        ResponsePatient.Name.Add(HumanName);
-      }
-
-      //Sex
-      if (!Char.IsWhiteSpace(ihiServiceOutCome.ResponseData.SexChar))
-      {
-        ResponsePatient.Gender = SexCharToAdministrativeGender(ihiServiceOutCome.ResponseData.SexChar);
-      }
-
-      //Dob
-      if (ihiServiceOutCome.ResponseData.Dob.HasValue)
-      {
-        ResponsePatient.BirthDateElement = new Date(ihiServiceOutCome.ResponseData.Dob.Value.Year, ihiServiceOutCome.ResponseData.Dob.Value.Month, ihiServiceOutCome.ResponseData.Dob.Value.Day);
-      }
-
-      //IHI
-      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHINumber))
-      {
-        if (ResponsePatient.Identifier == null)
-          ResponsePatient.Identifier = new List<Identifier>();
-
-        Identifier IhiIdentifier = new Identifier();
-        ResponsePatient.Identifier.Add(IhiIdentifier);
-        IhiIdentifier.Value = ihiServiceOutCome.ResponseData.IHINumber;
-        IhiIdentifier.System = IHINumberFhirSystem;
-        var Start = DateTimeOffset.Now;
-        //Set the re-validation period based on web config period
-        IhiIdentifier.Period = new Period(new FhirDateTime(Start), new FhirDateTime(Start.AddDays(GlobalProperties.HIServiceIHIValidationPeriodDays)));
-        IhiIdentifier.Type = new CodeableConcept();
-        IhiIdentifier.Type.Coding = new List<Coding>();
-        IhiIdentifier.Type.Text = "IHI";
-        Coding IhiTypeCoding = new Coding();
-        IhiIdentifier.Type.Coding.Add(IhiTypeCoding);
-        IhiTypeCoding.System = "http://hl7.org.au/fhir/v2/0203";
-        IhiTypeCoding.Code = "NI";
-        IhiTypeCoding.Display = "National unique individual identifier";
-
-        //IHI Status
-        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIStatus))
-        {
-          Coding IhiStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-status/1.0.0", ihiServiceOutCome.ResponseData.IHIStatus, ihiServiceOutCome.ResponseData.IHIStatus);
-          IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-status", IhiStatusCoding, false);
-        }
-
-        //IHI Record Status
-        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIRecordStatus))
-        {
-          Coding IhiRecordStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-record-status/1.0.0", ihiServiceOutCome.ResponseData.IHIRecordStatus, ihiServiceOutCome.ResponseData.IHIRecordStatus);
-          IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-record-status", IhiRecordStatusCoding, false);
-        }
-      }
-
-      //Medicare
-      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.MedicareNumber))
-      {
-        if (ResponsePatient.Identifier == null)
-          ResponsePatient.Identifier = new List<Identifier>();
-
-        Identifier MedicareIdentifier = new Identifier();
-        ResponsePatient.Identifier.Add(MedicareIdentifier);
-        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.MedicareIRN))
-        {
-          MedicareIdentifier.Value = ihiServiceOutCome.ResponseData.MedicareNumber + ihiServiceOutCome.ResponseData.MedicareIRN;
-        }
-        else
-        {
-          MedicareIdentifier.Value = ihiServiceOutCome.ResponseData.MedicareNumber;
-        }
-        MedicareIdentifier.System = MedicareNumberFhirSystem;
-        MedicareIdentifier.Type = new CodeableConcept();
-        MedicareIdentifier.Type.Coding = new List<Coding>();
-        MedicareIdentifier.Type.Text = "Medicare Number";
-        Coding MedicareTypeCoding = new Coding();
-        MedicareIdentifier.Type.Coding.Add(MedicareTypeCoding);
-        MedicareTypeCoding.System = "http://hl7.org/fhir/v2/0203";
-        MedicareTypeCoding.Code = "MC";
-        MedicareTypeCoding.Display = "Patient's Medicare Number";
-      }
-
-      //DVA
-      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.DVANumber))
-      {
-        if (ResponsePatient.Identifier == null)
-          ResponsePatient.Identifier = new List<Identifier>();
-
-        Identifier DVAIdentifier = new Identifier();
-        ResponsePatient.Identifier.Add(DVAIdentifier);
-        DVAIdentifier.Value = ihiServiceOutCome.ResponseData.DVANumber;
-        DVAIdentifier.System = DVANumberFhirSystem;
-        DVAIdentifier.Type = new CodeableConcept();
-        DVAIdentifier.Type.Coding = new List<Coding>();
-        DVAIdentifier.Type.Text = "DVA Number";
-        Coding DVATypeCoding = new Coding();
-        DVAIdentifier.Type.Coding.Add(DVATypeCoding);
-        DVATypeCoding.System = "http://hl7.org.au/fhir/v2/0203";
-        DVATypeCoding.Code = "DVA";
-        DVATypeCoding.Display = "DVA Number";
-      }
-      return ResponsePatient;
-    }
+    }    
 
     private bool GetIhiRequestDataList(Parameters ParametersResource, List<IhiRequestData> ihiRequestDataList)
     {
@@ -635,7 +465,6 @@ namespace Pyro.Common.Service
 
       return ProcessRequestList(ihiRequestDataList, ModelRequest, HumanNameList, NameUseList, IHIList, MedicareList, DVAByList);
     }
-
 
     private bool ProcessRequestList(List<IhiRequestData> ihiRequestDataList, IhiRequestData ModelRequest, IEnumerable<HumanName> HumanNameList, List<HumanName.NameUse?> NameUseList,
       IEnumerable<Identifier> IHIList, IEnumerable<Identifier> MedicareList, IEnumerable<Identifier> DVAByList)
@@ -918,8 +747,8 @@ namespace Pyro.Common.Service
     }
 
     /// <summary>
-    /// If a Date is given then only identifiers that are valid for that date, or have no period set
-    /// If no date then returns all identifiers of the TargetSystem regardless of period
+    /// If a Date is given then only HumanNames that are valid for that date, or have no period set
+    /// If no date then returns all HumanNames of the NameUseList type regardless of period
     /// </summary>
     /// <param name="InputHumanNameList"></param>
     /// <param name="TargetSystem"></param>
@@ -943,6 +772,163 @@ namespace Pyro.Common.Service
             (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value)
           );
       }
+    }
+
+    private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, IIhiSearchValidateOutcome HiServiceOutCome)
+    {
+      IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;
+      IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
+      IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
+      string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(SoapMessageId);
+      IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+      Binary SoapBinaryResource = GenerateSoapBinaryResource(SoapData, BinaryResourceId);
+      ResourceServiceOutcomeSoapBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+      if (!ResourceServiceOutcomeSoapBinary.SuccessfulTransaction)
+      {
+        string Message = $"Internal Server error in trying to commit a Binary resource to log a HI Service Soap Message Id: {SoapMessageId}";
+        var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
+        throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
+      }
+      return ResourceServiceOutcomeSoapBinary;
+    }
+
+    private Binary GenerateSoapBinaryResource(string SoapXml, string SoapMessageId)
+    {
+      Binary SoapBinary = new Binary();
+      SoapBinary.Id = SoapMessageId;
+      SoapBinary.ContentType = "application/soap+xml";
+      SoapBinary.Content = System.Text.Encoding.UTF8.GetBytes(SoapXml);
+      return SoapBinary;
+    }
+
+    private static string StripUrnUuidPrefixFromSoapMessageId(string SoapMesageId)
+    {
+      if (SoapMesageId.StartsWith("urn:uuid:"))
+      {
+        return SoapMesageId.Split(':')[2];
+      }
+      else
+      {
+        return SoapMesageId;
+      }
+    }
+
+    private Resource GenerateResponsePatientResource(IIhiSearchValidateOutcome ihiServiceOutCome)
+    {
+      Patient ResponsePatient = new Patient();
+      //Name
+      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Family) || !String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Given))
+      {
+        ResponsePatient.Name = new List<HumanName>();
+        HumanName HumanName = new HumanName();
+        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Family))
+        {
+          HumanName.Family = ihiServiceOutCome.ResponseData.Family;
+        }
+        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.Given))
+        {
+          HumanName.Given = new List<string>() { ihiServiceOutCome.ResponseData.Given };
+        }
+        ResponsePatient.Name.Add(HumanName);
+      }
+
+      //Sex
+      if (!Char.IsWhiteSpace(ihiServiceOutCome.ResponseData.SexChar))
+      {
+        ResponsePatient.Gender = SexCharToAdministrativeGender(ihiServiceOutCome.ResponseData.SexChar);
+      }
+
+      //Dob
+      if (ihiServiceOutCome.ResponseData.Dob.HasValue)
+      {
+        ResponsePatient.BirthDateElement = new Date(ihiServiceOutCome.ResponseData.Dob.Value.Year, ihiServiceOutCome.ResponseData.Dob.Value.Month, ihiServiceOutCome.ResponseData.Dob.Value.Day);
+      }
+
+      //IHI
+      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHINumber))
+      {
+        if (ResponsePatient.Identifier == null)
+          ResponsePatient.Identifier = new List<Identifier>();
+
+        Identifier IhiIdentifier = new Identifier();
+        ResponsePatient.Identifier.Add(IhiIdentifier);
+        IhiIdentifier.Value = ihiServiceOutCome.ResponseData.IHINumber;
+        IhiIdentifier.System = IHINumberFhirSystem;
+        var Start = DateTimeOffset.Now;
+        //Set the re-validation period based on web config period
+        IhiIdentifier.Period = new Period(new FhirDateTime(Start), new FhirDateTime(Start.AddDays(GlobalProperties.HIServiceIHIValidationPeriodDays)));
+        IhiIdentifier.Type = new CodeableConcept();
+        IhiIdentifier.Type.Coding = new List<Coding>();
+        IhiIdentifier.Type.Text = "IHI";
+        Coding IhiTypeCoding = new Coding();
+        IhiIdentifier.Type.Coding.Add(IhiTypeCoding);
+        IhiTypeCoding.System = "http://hl7.org.au/fhir/v2/0203";
+        IhiTypeCoding.Code = "NI";
+        IhiTypeCoding.Display = "National unique individual identifier";
+
+        //IHI Status
+        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIStatus))
+        {
+          Coding IhiStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-status/1.0.0", ihiServiceOutCome.ResponseData.IHIStatus, ihiServiceOutCome.ResponseData.IHIStatus);
+          IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-status", IhiStatusCoding, false);
+        }
+
+        //IHI Record Status
+        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIRecordStatus))
+        {
+          Coding IhiRecordStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-record-status/1.0.0", ihiServiceOutCome.ResponseData.IHIRecordStatus, ihiServiceOutCome.ResponseData.IHIRecordStatus);
+          IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-record-status", IhiRecordStatusCoding, false);
+        }
+      }
+
+      //Medicare
+      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.MedicareNumber))
+      {
+        if (ResponsePatient.Identifier == null)
+          ResponsePatient.Identifier = new List<Identifier>();
+
+        Identifier MedicareIdentifier = new Identifier();
+        ResponsePatient.Identifier.Add(MedicareIdentifier);
+        if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.MedicareIRN))
+        {
+          MedicareIdentifier.Value = ihiServiceOutCome.ResponseData.MedicareNumber + ihiServiceOutCome.ResponseData.MedicareIRN;
+        }
+        else
+        {
+          MedicareIdentifier.Value = ihiServiceOutCome.ResponseData.MedicareNumber;
+        }
+        MedicareIdentifier.System = MedicareNumberFhirSystem;
+        MedicareIdentifier.Type = new CodeableConcept();
+        MedicareIdentifier.Type.Coding = new List<Coding>();
+        MedicareIdentifier.Type.Text = "Medicare Number";
+        Coding MedicareTypeCoding = new Coding();
+        MedicareIdentifier.Type.Coding.Add(MedicareTypeCoding);
+        MedicareTypeCoding.System = "http://hl7.org/fhir/v2/0203";
+        MedicareTypeCoding.Code = "MC";
+        MedicareTypeCoding.Display = "Patient's Medicare Number";
+      }
+
+      //DVA
+      if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.DVANumber))
+      {
+        if (ResponsePatient.Identifier == null)
+          ResponsePatient.Identifier = new List<Identifier>();
+
+        Identifier DVAIdentifier = new Identifier();
+        ResponsePatient.Identifier.Add(DVAIdentifier);
+        DVAIdentifier.Value = ihiServiceOutCome.ResponseData.DVANumber;
+        DVAIdentifier.System = DVANumberFhirSystem;
+        DVAIdentifier.Type = new CodeableConcept();
+        DVAIdentifier.Type.Coding = new List<Coding>();
+        DVAIdentifier.Type.Text = "DVA Number";
+        Coding DVATypeCoding = new Coding();
+        DVAIdentifier.Type.Coding.Add(DVATypeCoding);
+        DVATypeCoding.System = "http://hl7.org.au/fhir/v2/0203";
+        DVATypeCoding.Code = "DVA";
+        DVATypeCoding.Display = "DVA Number";
+      }
+      return ResponsePatient;
     }
 
     private char AdministrativeGenderToSexChar(AdministrativeGender AdministrativeGender)
