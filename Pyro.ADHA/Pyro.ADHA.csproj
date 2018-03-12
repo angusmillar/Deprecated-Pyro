@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\HiServiceApi.cs" />
+    <Compile Include="Api\HiServiceMessage.cs" />
     <Compile Include="Api\IhiDemographicsBase.cs" />
     <Compile Include="Api\IhiQueryMetadata.cs" />
     <Compile Include="Api\IhiRequestData.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Api\IhiSearchValidateConfig.cs" />
     <Compile Include="Api\IhiSearchValidateOutcome.cs" />
     <Compile Include="Api\IHiServiceApi.cs" />
+    <Compile Include="Api\IHiServiceMessage.cs" />
     <Compile Include="Api\IIhiQueryMetadata.cs" />
     <Compile Include="Api\IIhiRequestData.cs" />
     <Compile Include="Api\IIhiResponseData.cs" />
