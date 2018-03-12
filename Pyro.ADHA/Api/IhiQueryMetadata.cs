@@ -8,14 +8,8 @@ namespace Pyro.ADHA.Api
 {
   public class IhiQueryMetadata : IIhiQueryMetadata
   {
-    public IhiQueryMetadata()
-    {
-      this.ServiceMessage = new List<IHiServiceMessage>();
-    }
-
     public string ErrorMessge { get; set; }
-    public List<IHiServiceMessage> ServiceMessage { get; set; }
-
+    
     public string SoapRequestMessageId { get; set; }
     public string SoapRequest { get; set; }
 

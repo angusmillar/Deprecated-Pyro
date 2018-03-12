@@ -21,7 +21,6 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 
 namespace Pyro.ADHA.Api
 {
@@ -144,11 +143,11 @@ namespace Pyro.ADHA.Api
             null,
             signingCert,
             tlsCert);
-
-        searchIHIResponse ihiResponse = null;
+        
         try
         {
-          // Invokes the query based on type                  
+          // Invokes the query based on type        
+          searchIHIResponse ihiResponse = null;
           if (RequestHasIHINumber || (RequestHasDvaNumber && RequestHasMedicareNumber))
           {
             ihiResponse = client.BasicSearch(request);
@@ -165,7 +164,7 @@ namespace Pyro.ADHA.Api
           }
 
           SetResponseDataToReturnData(IhiSearchValidateOutcome, ihiResponse);
-          SetSoapRequestAndResponseData(IhiSearchValidateOutcome, client, ihiResponse);
+          SetSoapRequestAndResponseData(IhiSearchValidateOutcome, client);
           IhiSearchValidateOutcome.SuccessfulQuery = true;
         }
         catch (FaultException fex)
@@ -191,7 +190,7 @@ namespace Pyro.ADHA.Api
           // If an error is encountered, client.LastSoapResponse often provides a more
           // detailed description of the error.
           IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = Exec.Message;
-          SetSoapRequestAndResponseData(IhiSearchValidateOutcome, client, ihiResponse);
+          SetSoapRequestAndResponseData(IhiSearchValidateOutcome, client);
         }
         finally
         {
@@ -309,23 +308,8 @@ namespace Pyro.ADHA.Api
       }
     }
 
-    private void SetSoapRequestAndResponseData(IhiSearchValidateOutcome IhiSearchValidateOutcome, ConsumerSearchIHIClient client, searchIHIResponse ihiResponse)
+    private void SetSoapRequestAndResponseData(IhiSearchValidateOutcome IhiSearchValidateOutcome, ConsumerSearchIHIClient client)
     {
-      if (ihiResponse != null && ihiResponse.searchIHIResult != null && ihiResponse.searchIHIResult.serviceMessages != null)
-      {
-        ServiceMessagesType ServiceMessage = ihiResponse.searchIHIResult.serviceMessages;        
-        foreach (var Msg in ServiceMessage.serviceMessage)
-        {
-          HiServiceMessage HiServiceMessage = new HiServiceMessage();
-          if (!String.IsNullOrWhiteSpace(Msg.code))
-            HiServiceMessage.Code = Msg.code;
-          if (!String.IsNullOrWhiteSpace(Msg.reason))
-            HiServiceMessage.Reason = Msg.reason;          
-            HiServiceMessage.SeverityType = GetSeverityTypeString(Msg.severity);
-          IhiSearchValidateOutcome.QueryMetadata.ServiceMessage.Add(HiServiceMessage);
-        }        
-      }
-
       if (client.SoapMessages != null)
       {
         if (!String.IsNullOrWhiteSpace(client.SoapMessages.SoapRequestMessageId))
@@ -587,24 +571,6 @@ namespace Pyro.ADHA.Api
           throw new System.ComponentModel.InvalidEnumArgumentException($"Internal error: Unkown SexType retuned by HI Service of : {SexType.ToString()}");
       }
     }
-
-    private string GetSeverityTypeString(SeverityType SeverityType)
-    {
-      switch (SeverityType)
-      {
-        case SeverityType.Fatal:
-          return "Fatal";
-        case SeverityType.Error:
-          return "Error";
-        case SeverityType.Warning:
-          return "Warning";
-        case SeverityType.Informational:
-          return "Informational";          
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(SeverityType.ToString(), (int)SeverityType, typeof(SeverityType));
-      }
-    }
-      
     private string RemoveWhitespace(string input)
     {
       return new string(input.ToCharArray()

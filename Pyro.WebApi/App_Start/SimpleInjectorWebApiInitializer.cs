@@ -69,9 +69,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
-
+    
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
       container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);

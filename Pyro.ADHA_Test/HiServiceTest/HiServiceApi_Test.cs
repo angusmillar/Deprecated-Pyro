@@ -338,51 +338,8 @@ namespace Nehta.TestHiService
       Assert.IsNull(IhiSearchValidateOutcome.ResponseData.MedicareNumber);
       Assert.IsNull(IhiSearchValidateOutcome.ResponseData.MedicareIRN);
       Assert.IsNull(IhiSearchValidateOutcome.ResponseData.DVANumber);
-    }
-
-    [TestMethod]
-    public void MedicareNumberSearch_IncorrectDobTest()
-    {
-      //Setup a IHI Search or Validation Request object
-      IhiRequestData IhiRequestData = new IhiRequestData();
-
-      //The User Id , does not need to be registered with Medicare
-      IhiRequestData.UserId = "BobSmith";
-      //The User Id Qualifier, does not need to be registered with Medicare
-      IhiRequestData.UserIdQualifier = "http://ns.yourcompany.com.au/id/yoursoftware/userid/1.0";
-      //If True the Soap Request and Response XML data will be returned for each call
-      //A conformant Hi Service system must keep an audit trail of this data for 7 years
-      IhiRequestData.ReturnSoapRequestAndResponseData = true;
-
-      IhiRequestData.Dob = new DateTime(1982, 01, 01);
-      //IhiRequestDemographics.DVANumber = "";
-      IhiRequestData.Family = "MARCELLE";
-      IhiRequestData.Given = "JUANITA";
-      //IhiRequestDemographics.IHINumber = "1234567890123456";
-      //IhiRequestDemographics.MedicareIRN = "1";
-      IhiRequestData.MedicareNumber = "2950156481";
-      IhiRequestData.SexChar = 'F';
-
-      //Make the call using the API Service providing the Request Object, an Outcome object will be returned with the results
-      IIhiSearchValidateOutcome IhiSearchValidateOutcome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);
 
 
-
-      Assert.IsTrue(IhiSearchValidateOutcome.SuccessfulQuery);
-      Assert.IsNotNull(IhiSearchValidateOutcome.QueryMetadata.ServiceMessage);
-      Assert.AreEqual(1, IhiSearchValidateOutcome.QueryMetadata.ServiceMessage.Count);
-      Assert.AreEqual("01439", IhiSearchValidateOutcome.QueryMetadata.ServiceMessage[0].Code);
-      Assert.AreEqual("Informational", IhiSearchValidateOutcome.QueryMetadata.ServiceMessage[0].SeverityType);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.IHINumber);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.IHIRecordStatus);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.IHIStatus);
-      Assert.AreEqual('F', IhiSearchValidateOutcome.ResponseData.SexChar);
-      //Assert.AreEqual(new DateTime(1982, 01, 24), IhiSearchValidateOutcome.ResponseData.Dob);
-      Assert.IsNull( IhiSearchValidateOutcome.ResponseData.Family);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.Given);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.MedicareNumber);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.MedicareIRN);
-      Assert.IsNull(IhiSearchValidateOutcome.ResponseData.DVANumber);
     }
 
   }
