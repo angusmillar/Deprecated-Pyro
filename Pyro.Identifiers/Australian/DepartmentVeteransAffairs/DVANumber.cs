@@ -33,7 +33,7 @@ namespace Pyro.Identifiers.Australian.DepartmentVeteransAffairs
     /// <summary>
     /// The FileNumber concept is the WarCode + Number
     /// </summary>
-    public string FileNumber { get { return this.WarCode + this.Number; } }
+    public string FileNumber { get { return (this.WarCode + this.Number).Trim(); } }
 
     /// <summary>
     /// 9th character is the Segment Link (an alpha) which represent
@@ -56,6 +56,9 @@ namespace Pyro.Identifiers.Australian.DepartmentVeteransAffairs
     /// </summary>
     public string Value { get; internal set; }
 
-
+    /// <summary>
+    /// The complete DVA Number Formated for display
+    /// </summary>
+    public string ValueFormated { get; internal set; }
   }
 }

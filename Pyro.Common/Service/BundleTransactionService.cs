@@ -14,6 +14,7 @@ using Hl7.Fhir.Model;
 using Pyro.Common.Extentions;
 using Pyro.Common.Exceptions;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Common.Service
 {
@@ -25,13 +26,14 @@ namespace Pyro.Common.Service
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
+    private readonly IRequestMetaFactory IRequestMetaFactory;
 
     private IPyroRequestUri _RequestUri { get; set; }
     private IRequestHeader _RequestHeader { get; set; }
     private IResourceServiceOutcome _ServiceOperationOutcome;
     private Dictionary<string, string> OldNewResourceReferanceMap;
 
-    public BundleTransactionService(IResourceServices IResourceServices, IRequestHeaderFactory IRequestHeaderFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IPyroFhirUriFactory IPyroFhirUriFactory, IPyroRequestUriFactory IPyroRequestUriFactory)
+    public BundleTransactionService(IResourceServices IResourceServices, IRequestHeaderFactory IRequestHeaderFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IPyroFhirUriFactory IPyroFhirUriFactory, IPyroRequestUriFactory IPyroRequestUriFactory, IRequestMetaFactory IRequestMetaFactory)
     {
       this.IResourceServices = IResourceServices;      
       this.IRequestHeaderFactory = IRequestHeaderFactory;
@@ -39,6 +41,7 @@ namespace Pyro.Common.Service
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
       this.IPyroRequestUriFactory = IPyroRequestUriFactory;
+      this.IRequestMetaFactory = IRequestMetaFactory;
     }
 
     public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri, IRequestHeader RequestHeaders)
@@ -165,18 +168,18 @@ namespace Pyro.Common.Service
 
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(DeleteEntry));
-      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
-      IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
+      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(DeleteEntry.Request);
+      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      if (SearchParameterGeneric.ParameterList.Count > 0)
+      
+      if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.ConditionalDelete(EntryRequestUri, SearchParameterGeneric, _RequestHeader);
+        ResourceServiceOutcome = IResourceServices.ConditionalDelete(RequestMeta);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.Delete(EntryRequestUri.FhirRequestUri.ResourceId, EntryRequestUri, SearchParameterGeneric);
+        ResourceServiceOutcome = IResourceServices.Delete(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -214,11 +217,10 @@ namespace Pyro.Common.Service
     }
     private bool PostProcessing(Bundle.EntryComponent PostEntry, int PostEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(PostEntry));
-      if (EntryRequestUri.FhirRequestUri.IsOperation)
+    IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PostEntry.Request);
+      if (RequestMeta.PyroRequestUri.FhirRequestUri.IsOperation)
       {
-        var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{EntryRequestUri.FhirRequestUri.OperationName}'.";
+        var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{RequestMeta.PyroRequestUri.FhirRequestUri.OperationName}'.";
         var OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Invalid, Message);
         _ServiceOperationOutcome.ResourceResult = OpOutcome;
         _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Forbidden;
@@ -241,10 +243,9 @@ namespace Pyro.Common.Service
       if (!String.IsNullOrEmpty(PostEntry.Resource.Id))
         PostEntry.Resource.Id = String.Empty;
 
-      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(PostEntry.Request);
-      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
-      IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
-      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders, ResourceIdToForce.ResourceId);
+      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, RequestMeta, ResourceIdToForce.ResourceId);
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
       {
@@ -283,20 +284,18 @@ namespace Pyro.Common.Service
       }
     }
     private bool PutProcessing(Bundle.EntryComponent PutEntry, int PutEntryIndex)
-    {
-      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(PutEntry));
-      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(PutEntry.Request);
-      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
-      IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
+    {      
+      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PutEntry.Request);
+      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      if (SearchParameterGeneric.ParameterList.Count > 0)
+      if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.ConditionalPut(PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, _RequestHeader);
+        ResourceServiceOutcome = IResourceServices.ConditionalPut(PutEntry.Resource, RequestMeta);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.Put(EntryRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, EntryRequestUri, SearchParameterGeneric, RequestHeaders);
+        ResourceServiceOutcome = IResourceServices.Put(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, PutEntry.Resource, RequestMeta);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -320,7 +319,7 @@ namespace Pyro.Common.Service
         {
           PutEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           PutEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          PutEntry.Response.Location = FormatResponseLocation(EntryRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
+          PutEntry.Response.Location = FormatResponseLocation(RequestMeta.PyroRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
         }
         return true;
       }
@@ -337,20 +336,19 @@ namespace Pyro.Common.Service
 
     private bool GetProcessing(Bundle.EntryComponent GetEntry, int GetEntryIndex)
     {
-      IPyroRequestUri EntryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      EntryRequestUri.FhirRequestUri.Parse(ConstructRequestUrl(GetEntry));
-      IRequestHeader GetRequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(GetEntry.Request);
-      GetRequestHeaders.Handling = _RequestHeader.Handling;
-      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(EntryRequestUri.FhirRequestUri.Query);
+      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
+      RequestMeta.Set(GetEntry.Request);
+      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+
       IResourceServiceOutcome ResourceServiceOutcome = null;
-      IResourceServices.SetCurrentResourceType(EntryRequestUri.FhirRequestUri.ResourseName);
-      if (SearchParameterGeneric.ParameterList.Count > 0)
+      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+      if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
-        ResourceServiceOutcome = IResourceServices.GetSearch(EntryRequestUri, SearchParameterGeneric, GetRequestHeaders);
+        ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.GetRead(EntryRequestUri.FhirRequestUri.ResourceId, _RequestUri, SearchParameterGeneric, GetRequestHeaders);
+        ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -375,7 +373,7 @@ namespace Pyro.Common.Service
           GetEntry.Response.Etag = HttpHeaderSupport.GetEntityTagHeaderValueFromVersion(ResourceServiceOutcome.ResourceVersionNumber).ToString();
           if (ResourceServiceOutcome.IsDeleted.HasValue && !ResourceServiceOutcome.IsDeleted.Value)
             GetEntry.Response.LastModified = ResourceServiceOutcome.LastModified;
-          GetEntry.Response.Location = FormatResponseLocation(EntryRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
+          GetEntry.Response.Location = FormatResponseLocation(RequestMeta.PyroRequestUri.FhirRequestUri.OriginalString, ResourceServiceOutcome.FhirResourceId, ResourceServiceOutcome.ResourceVersionNumber);
         }
         return true;
       }

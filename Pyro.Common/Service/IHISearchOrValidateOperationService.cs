@@ -17,6 +17,7 @@ using Pyro.Identifiers.Australian.MedicareNumber;
 using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
 using System.Text;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Common.Service
 {
@@ -29,60 +30,51 @@ namespace Pyro.Common.Service
     const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
     private enum IdentiferType { IHI, Medicare, DVA }
     private bool ReturnSoapBinaryResourcesToFHIRCaller = false;
-
-    private readonly IRequestHeaderFactory IRequestHeaderFactory;
-    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
-    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
-    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
+    
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;        
     private readonly IResourceServices IResourceServices;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IHiServiceApi HiServiceApi;
+    private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IMedicareNumberParser IMedicareNumberParser;
     private readonly IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser;
     private readonly IDVANumberParser IDVANumberParser;
 
-    public IHISearchOrValidateOperationService(
-      IRequestHeaderFactory IRequestHeaderFactory,
-      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
-      IPyroFhirUriFactory IPyroFhirUriFactory,
+    public IHISearchOrValidateOperationService(     
+      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,      
       IResourceServices IResourceServices,
       IGlobalProperties GlobalProperties,
-      IHiServiceApi IHiServiceApi,
+      IHiServiceApi IHiServiceApi,      
+      IRequestMetaFactory IRequestMetaFactory,
       IMedicareNumberParser IMedicareNumberParser,
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser,
-      IDVANumberParser IDVANumberParser,
-      IPyroRequestUriFactory IPyroRequestUriFactory)
-    {
-      this.IRequestHeaderFactory = IRequestHeaderFactory;
-      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
-      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
-      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
+      IDVANumberParser IDVANumberParser)
+    {      
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;            
       this.IResourceServices = IResourceServices;
       this.GlobalProperties = GlobalProperties;
+      this.IRequestMetaFactory = IRequestMetaFactory;
       this.IMedicareNumberParser = IMedicareNumberParser;
       this.IDVANumberParser = IDVANumberParser;
       this.IIndividualHealthcareIdentifierParser = IIndividualHealthcareIdentifierParser;
       this.HiServiceApi = IHiServiceApi;
     }
 
-    public IResourceServiceOutcome IHISearchOrValidate(
-      OperationClass OperationClass,
-      Resource Resource,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric,
-      IRequestHeader RequestHeaders)
+    public IResourceServiceOutcome IHISearchOrValidate(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta)
     {
       if (OperationClass == null)
         throw new NullReferenceException("OperationClass cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (RequestUri == null)
-        throw new NullReferenceException("RequestUri cannot be null.");
-      if (RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
-      if (SearchParameterGeneric == null)
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta cannot be null.");
+      if (RequestMeta.PyroRequestUri== null)
+        throw new NullReferenceException("RequestUri cannot be null.");
+      if (RequestMeta.RequestHeader == null)
+        throw new NullReferenceException("RequestHeaders cannot be null.");
+      if (RequestMeta.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
       if (HiServiceApi == null)
         throw new NullReferenceException("HiServiceApi cannot be null.");
@@ -98,10 +90,10 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      if (ResourceType.Patient.GetLiteral() != RequestUri.FhirRequestUri.ResourseName)
+      if (ResourceType.Patient.GetLiteral() != RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName)
       {
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
-        $"The server operation x-IHISearchOrValidate is only supported on the {ResourceType.Patient.GetLiteral()} resource endpoint and not on the {RequestUri.FhirRequestUri.ResourseName} resource endpoint.");
+        $"The server operation x-IHISearchOrValidate is only supported on the {ResourceType.Patient.GetLiteral()} resource endpoint and not on the {RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName} resource endpoint.");
         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
         ResourceServiceOutcome.SuccessfulTransaction = true;
         return ResourceServiceOutcome;
@@ -174,12 +166,12 @@ namespace Pyro.Common.Service
           IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary = null;          
           if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequestMessageId))
           {
-            ResourceServiceOutcomeSoapRequestBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapRequestMessageId, HiServiceOutCome.QueryMetadata.SoapRequest, RequestUri, SearchParameterGeneric, HiServiceOutCome);
+            ResourceServiceOutcomeSoapRequestBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapRequestMessageId, HiServiceOutCome.QueryMetadata.SoapRequest, RequestMeta.PyroRequestUri, HiServiceOutCome);
           }
 
           if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponseMessageId))
           {
-            ResourceServiceOutcomeSoapResponseBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapResponseMessageId, HiServiceOutCome.QueryMetadata.SoapResponse, RequestUri, SearchParameterGeneric, HiServiceOutCome);          
+            ResourceServiceOutcomeSoapResponseBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapResponseMessageId, HiServiceOutCome.QueryMetadata.SoapResponse, RequestMeta.PyroRequestUri, HiServiceOutCome);          
           }
 
           //log all the soap requests, HI Conformance states all errors must be logged
@@ -321,7 +313,6 @@ namespace Pyro.Common.Service
           ResponseSoapBinaryResourceReferenceParameterx.Resource = ResourceServiceOutcomeSoapResponseBinary.ResourceResult;
         }
       }
-
 
       return RequestParameters;
     }    
@@ -502,7 +493,7 @@ namespace Pyro.Common.Service
               else
               {
                 IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
-                $"The supplied IndividualHealthcareIdentifier (IHI) Number value is not correctly formatted according to Individual Healthcare Identifier rules. Value was {IndividualHealthcareIdentifier.Value}. Correct the value or remove it from the Patient resource request."));
+                $"The supplied IndividualHealthcareIdentifier (IHI) Number value is not correctly formatted according to Individual Healthcare Identifier rules. Value was {IHI.Value}. Correct the value or remove it from the Patient resource request."));
                 return false;
               }
             }
@@ -597,7 +588,7 @@ namespace Pyro.Common.Service
               else
               {
                 IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
-                $"The supplied DVA Number value is not correctly formatted according to DVA Number rules. Value was {DVANumber.Value}. Correct the value or remove it from the Patient resource request."));
+                $"The supplied DVA Number value is not correctly formatted according to DVA Number rules. Value was {DVA.Value}. Correct the value or remove it from the Patient resource request."));
                 return false;
               }
             }
@@ -650,7 +641,7 @@ namespace Pyro.Common.Service
             else
             {
               IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
-              $"The supplied Individual Healthcare Identifier (IHI) number value is not correctly formatted according to Individual Healthcare Identifier rules. Value was {IndividualHealthcareIdentifier.Value}. Correct the value or remove it from the Patient resource request."));
+              $"The supplied Individual Healthcare Identifier (IHI) number value is not correctly formatted according to Individual Healthcare Identifier rules. Value was {IHI.Value}. Correct the value or remove it from the Patient resource request."));
               return false;
             }
           }
@@ -707,7 +698,7 @@ namespace Pyro.Common.Service
             else
             {
               IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
-              $"The supplied DVA number value is not correctly formatted according to DVA Number rules. Value was {DVANumber.Value}. Correct the value or remove it from the Patient resource request."));
+              $"The supplied DVA number value is not correctly formatted according to DVA Number rules. Value was {DVA.Value}. Correct the value or remove it from the Patient resource request."));
               return false;
             }
           }
@@ -774,16 +765,15 @@ namespace Pyro.Common.Service
       }
     }
 
-    private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, IIhiSearchValidateOutcome HiServiceOutCome)
+    private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, IIhiSearchValidateOutcome HiServiceOutCome)
     {
       IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;
       IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
-      IRequestHeader BinaryHeaders = IRequestHeaderFactory.CreateRequestHeader();
       string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(SoapMessageId);
-      IPyroRequestUri BinaryRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      BinaryRequestUri.FhirRequestUri.Parse($"{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");
+      IRequestMeta RequestMetaPut = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");      
       Binary SoapBinaryResource = GenerateSoapBinaryResource(SoapData, BinaryResourceId);
-      ResourceServiceOutcomeSoapBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, BinaryRequestUri, SearchParameterGeneric, BinaryHeaders);
+
+      ResourceServiceOutcomeSoapBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, RequestMetaPut);
       if (!ResourceServiceOutcomeSoapBinary.SuccessfulTransaction)
       {
         string Message = $"Internal Server error in trying to commit a Binary resource to log a HI Service Soap Message Id: {SoapMessageId}";

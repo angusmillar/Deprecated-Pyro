@@ -12,6 +12,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Engine.Services
 {
@@ -32,31 +33,31 @@ namespace Pyro.Engine.Services
     public IResourceServiceOutcome Process(
       string OperationName,
       Resource Resource,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric,
-      IRequestHeader RequestHeaders)
+      IRequestMeta RequestMeta)
     {
       if (string.IsNullOrWhiteSpace(OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (RequestUri == null)
-        throw new NullReferenceException("RequestUri cannot be null.");
-      if (RequestUri.FhirRequestUri == null)
-        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri cannot be null.");
-      if (string.IsNullOrWhiteSpace(RequestUri.FhirRequestUri.ResourceId))
-        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri.ResourceId cannot be null or empty.");
-      if (RequestHeaders == null)
+      if(RequestMeta == null)
+        throw new NullReferenceException("RequestMeta cannot be null.");
+      if (RequestMeta.RequestHeader == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
+      if (RequestMeta.SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      if (RequestMeta.PyroRequestUri == null)
+        throw new NullReferenceException("RequestUri cannot be null.");
+      if (RequestMeta.PyroRequestUri.FhirRequestUri == null)
+        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri cannot be null.");
+      if (string.IsNullOrWhiteSpace(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId))
+        throw new NullReferenceException("ServiceRequest.RequestUri.FhirRequestUri.ResourceId cannot be null or empty.");    
       if (ICommonFactory == null)
         throw new NullReferenceException("ICommonFactory cannot be null.");
-      if (SearchParameterGeneric == null)
-        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(RequestMeta.SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
@@ -93,7 +94,7 @@ namespace Pyro.Engine.Services
         case FhirOperationEnum.OperationType.Validate:
           {
             IFhirValidateOperationService FhirValidateOperationService = ICommonFactory.CreateFhirValidateOperationService();
-            return FhirValidateOperationService.ValidateResourceInstance(OperationClass, Resource, RequestUri, SearchParameterGeneric, RequestHeaders);
+            return FhirValidateOperationService.ValidateResourceInstance(OperationClass, Resource, RequestMeta);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

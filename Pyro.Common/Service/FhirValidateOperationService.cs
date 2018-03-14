@@ -10,6 +10,7 @@ using Pyro.Common.Search;
 using Pyro.Common.FhirOperation;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.Tools.FhirResourceValidation;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Common.Service
 {
@@ -25,13 +26,15 @@ namespace Pyro.Common.Service
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IFhirValidationSupport IFhirValidationSupport;
+    private readonly IRequestMetaFactory IRequestMetaFactory;
 
     public FhirValidateOperationService(
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
       IPyroFhirUriFactory IPyroFhirUriFactory,
       ISearchParameterServiceFactory ISearchParameterServiceFactory,
       IResourceServices IResourceServices,
-      IFhirValidationSupport IFhirValidationSupport)
+      IFhirValidationSupport IFhirValidationSupport,
+      IRequestMetaFactory IRequestMetaFactory)
     {
       //this.ICommonFactory = ICommonFactory;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -39,27 +42,25 @@ namespace Pyro.Common.Service
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServices = IResourceServices;
       this.IFhirValidationSupport = IFhirValidationSupport;
+      this.IRequestMetaFactory = IRequestMetaFactory;
     }
 
-    public IResourceServiceOutcome ValidateResource(
-      OperationClass OperationClass,
-      Resource Resource,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric,
-      IRequestHeader RequestHeaders)
+    public IResourceServiceOutcome ValidateResource(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta)
     {
       if (OperationClass == null)
         throw new NullReferenceException("OperationClass cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (RequestUri == null)
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta cannot be null.");
+      if (RequestMeta.PyroRequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
-      if (RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
-      if (IResourceServices == null)
-        throw new NullReferenceException("ResourceServices cannot be null.");
-      if (SearchParameterGeneric == null)
+      if (RequestMeta.RequestHeader == null)
+        throw new NullReferenceException("RequestHeader cannot be null.");
+      if (RequestMeta.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      if (IResourceServices == null)
+        throw new NullReferenceException("ResourceServices cannot be null."); 
       if (IFhirValidationSupport == null)
         throw new NullReferenceException("IFhirValidationSupport cannot be null.");
 
@@ -68,7 +69,7 @@ namespace Pyro.Common.Service
 
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(RequestMeta.SearchParameterGeneric, OperationClass);
       FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
@@ -106,7 +107,7 @@ namespace Pyro.Common.Service
       }
       else if (FinalValidationOperationItems.ResourceToValidate != null)
       {
-        if (!CheckResourceEndpointMatchesResourceToBeValidated(FinalValidationOperationItems.ResourceToValidate.ResourceType, RequestUri))
+        if (!CheckResourceEndpointMatchesResourceToBeValidated(FinalValidationOperationItems.ResourceToValidate.ResourceType, RequestMeta.PyroRequestUri))
         {
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -114,17 +115,17 @@ namespace Pyro.Common.Service
         if (FinalValidationOperationItems.FhirRequestUriProfileUri != null)
         {
           OperationOutcome ProfileValidationOpOutCome = PerformValidation(FinalValidationOperationItems);
-          PerformModeValidation(ProfileValidationOpOutCome, FinalValidationOperationItems, RequestUri, SearchParameterGeneric, RequestHeaders);
+          PerformModeValidation(ProfileValidationOpOutCome, FinalValidationOperationItems, RequestMeta);
           IssueList.AddRange(ProfileValidationOpOutCome.Issue);
           return FinalResourceServiceOutcome(IssueList);
         }
         else
         {
           OperationOutcome ModeValidationOpOutCome = new OperationOutcome();
-          PerformModeValidation(ModeValidationOpOutCome, FinalValidationOperationItems, RequestUri, SearchParameterGeneric, RequestHeaders);
+          PerformModeValidation(ModeValidationOpOutCome, FinalValidationOperationItems, RequestMeta);
           // There is no profile given to validate against. 
           var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
-          $"The Resource provided for validation '{FinalValidationOperationItems.ResourceToValidate.ResourceType.GetLiteral()}' must match the resource endpoint in the URL '{RequestUri.FhirRequestUri.ResourseName}'");
+          $"The Resource provided for validation '{FinalValidationOperationItems.ResourceToValidate.ResourceType.GetLiteral()}' must match the resource endpoint in the URL '{RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName}'");
           IssueList.AddRange(OpOutCome.Issue);
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -141,27 +142,25 @@ namespace Pyro.Common.Service
     public IResourceServiceOutcome ValidateResourceInstance(
       OperationClass OperationClass,
       Resource Resource,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric,
-      IRequestHeader RequestHeaders)
+      IRequestMeta RequestMeta)
     {
       if (OperationClass == null)
         throw new NullReferenceException("OperationClass cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (RequestUri == null)
-        throw new NullReferenceException("RequestUri cannot be null.");
-      if (RequestHeaders == null)
-        throw new NullReferenceException("RequestHeaders cannot be null.");
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
-      if (SearchParameterGeneric == null)
-        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-      if (RequestUri == null)
-        throw new NullReferenceException("_ResourceOpServiceRequest.RequestUri cannot be null");
-      if (RequestUri.FhirRequestUri == null)
-        throw new NullReferenceException("_ResourceOpServiceRequest.RequestUri.FhirRequestUri cannot be null");
-      if (string.IsNullOrWhiteSpace(RequestUri.FhirRequestUri.ResourceId))
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta cannot be null.");
+      if (RequestMeta.PyroRequestUri == null)
+        throw new NullReferenceException("PyroRequestUri cannot be null.");
+      if (RequestMeta.RequestHeader == null)
+        throw new NullReferenceException("RequestHeader cannot be null.");     
+      if (RequestMeta.SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric cannot be null.");      
+      if (RequestMeta.PyroRequestUri.FhirRequestUri == null)
+        throw new NullReferenceException("(RequestUri.FhirRequestUri cannot be null");
+      if (string.IsNullOrWhiteSpace(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId))
         throw new NullReferenceException("Resource Id endpoint must be used for ValidateResourceInstance.");
       if (IFhirValidationSupport == null)
         throw new NullReferenceException("IFhirValidationSupport cannot be null.");
@@ -170,7 +169,7 @@ namespace Pyro.Common.Service
 
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(SearchParameterGeneric, OperationClass);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = ParseUrlSearchParameters(RequestMeta.SearchParameterGeneric, OperationClass);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
@@ -201,7 +200,7 @@ namespace Pyro.Common.Service
 
       if (FinalValidationOperationItems.ResourceToValidate != null)
       {
-        if (!CheckResourceEndpointMatchesResourceToBeValidated(FinalValidationOperationItems.ResourceToValidate.ResourceType, RequestUri))
+        if (!CheckResourceEndpointMatchesResourceToBeValidated(FinalValidationOperationItems.ResourceToValidate.ResourceType, RequestMeta.PyroRequestUri))
         {
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -209,7 +208,7 @@ namespace Pyro.Common.Service
         if (FinalValidationOperationItems.FhirRequestUriProfileUri != null)
         {
           OperationOutcome ProfileValidationOpOutCome = PerformValidation(FinalValidationOperationItems);
-          PerformModeValidation(ProfileValidationOpOutCome, FinalValidationOperationItems, RequestUri, SearchParameterGeneric, RequestHeaders);
+          PerformModeValidation(ProfileValidationOpOutCome, FinalValidationOperationItems, RequestMeta);
           IssueList.AddRange(ProfileValidationOpOutCome.Issue);
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -217,7 +216,7 @@ namespace Pyro.Common.Service
         {
           // There is no profile given to validate against. 
           var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported,
-          $"The Resource provided for validation '{FinalValidationOperationItems.ResourceToValidate.ResourceType.GetLiteral()}' must match the resource endpoint in the URL '{RequestUri.FhirRequestUri.ResourseName}'");
+          $"The Resource provided for validation '{FinalValidationOperationItems.ResourceToValidate.ResourceType.GetLiteral()}' must match the resource endpoint in the URL '{RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName}'");
           IssueList.AddRange(OpOutCome.Issue);
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -234,7 +233,7 @@ namespace Pyro.Common.Service
         else if (FinalValidationOperationItems.ValidationMode == ResourceValidationModeType.Delete)
         {
           OperationOutcome OpOutCome = new OperationOutcome();
-          PerformModeValidation(OpOutCome, FinalValidationOperationItems, RequestUri, SearchParameterGeneric, RequestHeaders);
+          PerformModeValidation(OpOutCome, FinalValidationOperationItems, RequestMeta);
           IssueList.AddRange(OpOutCome.Issue);
           return FinalResourceServiceOutcome(IssueList);
         }
@@ -300,10 +299,7 @@ namespace Pyro.Common.Service
       return ValidationOperationItems;
     }
 
-    private void PerformModeValidation(OperationOutcome ModeValidationOpOutCome, ValidationOperationItems ValidationOperationItems,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchParameterGeneric,
-      IRequestHeader RequestHeaders)
+    private void PerformModeValidation(OperationOutcome ModeValidationOpOutCome, ValidationOperationItems ValidationOperationItems, IRequestMeta RequestMeta)
     {
       if (ValidationOperationItems.ValidationMode == ResourceValidationModeType.Create)
       {
@@ -333,13 +329,14 @@ namespace Pyro.Common.Service
       else if (ValidationOperationItems.ValidationMode == ResourceValidationModeType.Delete)
       {
         var ResourceIdToDelete = string.Empty;
-
-        if (RequestUri != null
-          && RequestUri.FhirRequestUri != null
-          && !string.IsNullOrWhiteSpace(RequestUri.FhirRequestUri.ResourceId))
+        
+        if (RequestMeta.PyroRequestUri != null
+          && RequestMeta.PyroRequestUri.FhirRequestUri != null
+          && !string.IsNullOrWhiteSpace(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId))
         {
-          ResourceIdToDelete = RequestUri.FhirRequestUri.ResourceId;
-          var result = IResourceServices.GetRead(ResourceIdToDelete, RequestUri, SearchParameterGeneric, RequestHeaders);
+          IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+          IRequestMeta RequestMetaGetRead = IRequestMetaFactory.CreateRequestMeta().Set($"{RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName}/{RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId}");          
+          var result = IResourceServices.GetRead(RequestMetaGetRead.PyroRequestUri.FhirRequestUri.ResourceId, RequestMetaGetRead);
           if (result.ResourceResult != null)
           {
             if (result.IsDeleted.HasValue && result.IsDeleted.Value)
@@ -546,20 +543,22 @@ namespace Pyro.Common.Service
         ResourceServiceOutcome.ResourceResult = AllOkOperationOutcome();
         ResourceServiceOutcome.ResourceResult.Id = "allok";
       }
-      if (IssueList.Any(x => x.Success == false))
-      {
-        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-        ResourceServiceOutcome.SuccessfulTransaction = false;
-        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList); ;
-        ResourceServiceOutcome.ResourceResult.Id = "validationfail";
-      }
       else
       {
-        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-        ResourceServiceOutcome.SuccessfulTransaction = true;
-        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList); ;
-        ResourceServiceOutcome.ResourceResult.Id = "validationfail";
+        if (IssueList.Any(x => x.Success == false))
+        {          
+          
+          ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList); ;
+          ResourceServiceOutcome.ResourceResult.Id = "validationfail";
+        }
+        else
+        {                    
+          ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList); ;
+          ResourceServiceOutcome.ResourceResult.Id = "InformationOrWarning";
+        }
       }
+      ResourceServiceOutcome.SuccessfulTransaction = true;
+      ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
       ResourceServiceOutcome.FormatMimeType = FormatMimeType;
       return ResourceServiceOutcome;

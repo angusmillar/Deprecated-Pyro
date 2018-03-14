@@ -12,6 +12,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.Tools.Headers;
 using Hl7.Fhir.Model;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Engine.Services
 {
@@ -29,30 +30,27 @@ namespace Pyro.Engine.Services
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
-    public IResourceServiceOutcome Process(
-      string OperationName,
-      IPyroRequestUri RequestUri,
-      ISearchParameterGeneric SearchPrameterGeneric,
-      IRequestHeader RequestHeaders,
-      Resource Resource)
+    public IResourceServiceOutcome Process(string OperationName, Resource Resource, IRequestMeta RequestMeta)
     {
       if (string.IsNullOrWhiteSpace(OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
-      if (RequestUri == null)
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta cannot be null.");
+      if (RequestMeta.PyroRequestUri== null)
         throw new NullReferenceException("RequestUri cannot be null.");
-      if (RequestHeaders == null)
+      if (RequestMeta.RequestHeader == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
       if (ICommonFactory == null)
         throw new NullReferenceException("ICommonFactory cannot be null.");
-      if (SearchPrameterGeneric == null)
+      if (RequestMeta.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchPrameterGeneric);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(RequestMeta.SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
@@ -89,17 +87,17 @@ namespace Pyro.Engine.Services
         case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
           {
             IDeleteHistoryIndexesService DeleteManyHistoryIndexesService = ICommonFactory.CreateDeleteHistoryIndexesService();
-            return DeleteManyHistoryIndexesService.DeleteSingle(RequestUri, SearchPrameterGeneric);
+            return DeleteManyHistoryIndexesService.DeleteSingle(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric);
           }
         case FhirOperationEnum.OperationType.Validate:
           {
             IFhirValidateOperationService FhirValidateOperationService = ICommonFactory.CreateFhirValidateOperationService();
-            return FhirValidateOperationService.ValidateResource(OperationClass, Resource, RequestUri, SearchPrameterGeneric, RequestHeaders);
+            return FhirValidateOperationService.ValidateResource(OperationClass, Resource, RequestMeta);
           }
         case FhirOperationEnum.OperationType.xIHISearchOrValidate:
           {
             IIHISearchOrValidateOperationService IHISearchOrValidateOperationService = ICommonFactory.CreateIHISearchOrValidateOperationService();
-            return IHISearchOrValidateOperationService.IHISearchOrValidate(OperationClass, Resource, RequestUri, SearchPrameterGeneric, RequestHeaders);
+            return IHISearchOrValidateOperationService.IHISearchOrValidate(OperationClass, Resource, RequestMeta);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

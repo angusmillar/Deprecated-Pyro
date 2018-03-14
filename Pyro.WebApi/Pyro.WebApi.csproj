@@ -183,6 +183,7 @@
     <Compile Include="CompositionRoot\PyroFhirUriFactory.cs" />
     <Compile Include="CompositionRoot\ResourceRepositoryFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterGenericFactory.cs" />
+    <Compile Include="CompositionRoot\RequestMetaFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterReferanceFactory.cs" />
     <Compile Include="CompositionRoot\SearchParameterServiceFactory.cs" />
     <Compile Include="CompositionRoot\SearchParametersServiceOutcomeFactory.cs" />

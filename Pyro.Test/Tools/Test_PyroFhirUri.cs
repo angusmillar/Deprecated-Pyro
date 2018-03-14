@@ -57,6 +57,31 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.OperationName, null);
     }
 
+    [Test]
+    public void Test_BasicLocalGuidResourceId()
+    {
+      //Arrange
+      // URl : http://localhost:8888/fhir/Binary/d20cf99e-1e97-4ca8-b856-824f4ca15448
+      string HttpsPrimaryServiceRootLocal = "http://localhost:8888/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      //string Request = HttpsPrimaryServiceRootLocal + "/Binary/d20cf99e-1e97-4ca8-b856-824f4ca15448";
+      string Request = "http://localhost:8888/fhir/Binary/489effed-92c1-4ce0-a74e-c9ea13626c7d";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, "Binary");
+      Assert.AreEqual(Result.ResourceId, "489effed-92c1-4ce0-a74e-c9ea13626c7d");
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, false);
+      Assert.AreEqual(Result.OperationType, null);
+      Assert.AreEqual(Result.OperationName, null);
+    }
+
+    
 
     [Test]
     public void Test_BasicWeb()

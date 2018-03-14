@@ -117,6 +117,7 @@
     <Compile Include="CompositionRoot\IPyroFhirUriFactory.cs" />
     <Compile Include="CompositionRoot\IPyroRequestUriFactory.cs" />
     <Compile Include="CompositionRoot\IRequestHeaderFactory.cs" />
+    <Compile Include="CompositionRoot\IRequestMetaFactory.cs" />
     <Compile Include="CompositionRoot\IResourceServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterGenericFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterReferanceFactory.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="CompositionRoot\ISearchParametersServiceOutcomeFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
+    <Compile Include="RequestMetadata\IRequestMeta.cs" />
+    <Compile Include="RequestMetadata\RequestMeta.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
     <Compile Include="Search\SearchParameterInclude.cs" />
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />

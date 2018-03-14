@@ -21,6 +21,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Identifiers.Australian.MedicareNumber;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
 using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Test.HiServiceIHI
 {
@@ -48,6 +49,9 @@ namespace Pyro.Test.HiServiceIHI
     /// <returns></returns>
     private IHiServiceApi GetMokIHiServiceApi()
     {
+      //Mock<IHiServiceMessage> MokIHiServiceMessage = new Mock<IHiServiceMessage>();
+      //MokIHiServiceMessage.Setup(x => x.Code).Returns("");
+      //MokIHiServiceMessage.Setup(x => x.).Returns("");
 
       Moq.Mock<IIhiQueryMetadata> MokIIhiQueryMetadata = new Moq.Mock<IIhiQueryMetadata>();
       MokIIhiQueryMetadata.Setup(x => x.ErrorMessge).Returns(string.Empty);
@@ -55,6 +59,7 @@ namespace Pyro.Test.HiServiceIHI
       MokIIhiQueryMetadata.Setup(x => x.SoapRequestMessageId).Returns($"{UrnUuidPrefix}{SoapRequestId}");
       MokIIhiQueryMetadata.Setup(x => x.SoapResponseMessageId).Returns($"{UrnUuidPrefix}{SoapResponseId}");
       MokIIhiQueryMetadata.Setup(x => x.SoapResponse).Returns("SoapResponseData");
+      MokIIhiQueryMetadata.Setup(x => x.ServiceMessage).Returns(new List<IHiServiceMessage>());
 
       Moq.Mock<IIhiRequestData> MokIIhiRequestData = new Moq.Mock<IIhiRequestData>();
       MokIIhiRequestData.Setup(x => x.Dob).Returns(new DateTime(1973, 09, 30));
@@ -128,7 +133,7 @@ namespace Pyro.Test.HiServiceIHI
       MokIResourceServiceOutcomeTwo.Setup(x => x.SummaryType).Returns((Hl7.Fhir.Rest.SummaryType?)null);
 
       Mock<IResourceServices> MokIResourceServices = new Mock<IResourceServices>();
-      MokIResourceServices.SetupSequence(x => x.Put(It.IsAny<string>(), It.IsAny<Binary>(), It.IsAny<IPyroRequestUri>(), It.IsAny<Common.Search.ISearchParameterGeneric>(), It.IsAny<IRequestHeader>()))
+      MokIResourceServices.SetupSequence(x => x.Put(It.IsAny<string>(), It.IsAny<Binary>(), It.IsAny<IRequestMeta>()))
         .Returns(MokIResourceServiceOutcomeOne.Object)
         .Returns(MokIResourceServiceOutcomeTwo.Object);
       MokIResourceServices.SetReturnsDefault<IResourceServiceOutcome>(MokIResourceServiceOutcomeOne.Object);
@@ -141,23 +146,26 @@ namespace Pyro.Test.HiServiceIHI
     /// </summary>
     [Test]
     public void Test_HISearchMedicareNumber()
-    {
-      IRequestHeaderFactory IRequestHeaderFactory = CommonTestSetup.TestSetupMocks.GetIRequestHeaderFactory();
+    {      
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory = CommonTestSetup.TestSetupMocks.GetIResourceServiceOutcomeFactory();
       IPyroFhirUriFactory IPyroFhirUriFactory = CommonTestSetup.TestSetupMocks.GetIPyroFhirUriFactory();
       IResourceServices IResourceServices = GetIResourceServices();
       IGlobalProperties IGlobalProperties = CommonTestSetup.TestSetupMocks.GetIGlobalProperties();
-      IHiServiceApi IHiServiceApi = GetMokIHiServiceApi();
-      IPyroRequestUriFactory IPyroRequestUriFactory = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory();
+      IHiServiceApi IHiServiceApi = GetMokIHiServiceApi();      
       IMedicareNumberParser IMedicareNumberParser = new MedicareNumberParser();
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser = new IndividualHealthcareIdentifierParser();
       IDVANumberParser IDVANumberParser = new DVANumberParser();
+      IRequestMetaFactory RequestMetaFactory = CommonTestSetup.TestSetupMocks.GetIRequestMetaFactory();
 
-
-      IHISearchOrValidateOperationService IHISearchOrValidateOperationService = new IHISearchOrValidateOperationService(
-        IRequestHeaderFactory,
+      IHISearchOrValidateOperationService IHISearchOrValidateOperationService = new IHISearchOrValidateOperationService(        
         IResourceServiceOutcomeFactory,
-        IPyroFhirUriFactory, IResourceServices, IGlobalProperties, IHiServiceApi, IMedicareNumberParser, IIndividualHealthcareIdentifierParser, IDVANumberParser, IPyroRequestUriFactory);
+        IResourceServices, 
+        IGlobalProperties, 
+        IHiServiceApi,         
+        RequestMetaFactory,
+        IMedicareNumberParser,
+        IIndividualHealthcareIdentifierParser, 
+        IDVANumberParser);
 
       OperationClass OperationClass = new OperationClass()
       {
@@ -165,20 +173,22 @@ namespace Pyro.Test.HiServiceIHI
         Type = Common.Enum.FhirOperationEnum.OperationType.xIHISearchOrValidate
       };
 
-      var SearchParameterGeneric = new Common.Search.SearchParameterGeneric();
+      //var SearchParameterGeneric = new Common.Search.SearchParameterGeneric();
 
       var PyroRequestUri = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri();
       PyroRequestUri.FhirRequestUri = CommonTestSetup.TestSetupMocks.GetIPyroRequestUriFactory().CreateFhirRequestUri().FhirRequestUri = new Pyro.Common.Tools.UriSupport.PyroFhirUri(CommonTestSetup.TestSetupMocks.GetIPrimaryServiceRootCache());
       PyroRequestUri.FhirRequestUri.Parse($"{StaticTestData.FhirEndpoint()}/{ResourceType.Patient.GetLiteral()}/{Common.Enum.FhirOperationEnum.OperationType.xIHISearchOrValidate.GetPyroLiteral()}");
+      IRequestMeta RequestMeta = RequestMetaFactory.CreateRequestMeta();
+      RequestMeta.PyroRequestUri = PyroRequestUri;
+      RequestMeta.RequestHeader = CommonTestSetup.TestSetupMocks.GetIRequestHeaderFactory().CreateRequestHeader();
+      RequestMeta.SearchParameterGeneric = CommonTestSetup.TestSetupMocks.GetISearchParameterGenericFactory().CreateDtoSearchParameterGeneric();
 
       Parameters ParametersResource = GenerateRequestParametersResource();
 
       IResourceServiceOutcome ResourceServiceOutcome = IHISearchOrValidateOperationService.IHISearchOrValidate(
         OperationClass,
         ParametersResource,
-        PyroRequestUri,
-        SearchParameterGeneric,
-        CommonTestSetup.TestSetupMocks.GetIRequestHeaderFactory().CreateRequestHeader()
+        RequestMeta
         );
 
       Assert.NotNull(ResourceServiceOutcome.ResourceResult);

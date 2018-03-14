@@ -20,6 +20,7 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Common.Tools.UriSupport;
   using Pyro.Common.Interfaces.Dto;
   using Pyro.Common.Search;
+  using Pyro.Common.RequestMetadata;
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools.FhirResourceValidation;
   using Hl7.Fhir.Specification.Source;
@@ -62,6 +63,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.IPyroFhirUriFactory, Pyro.WebApi.CompositionRoot.PyroFhirUriFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IRequestHeaderFactory, Pyro.WebApi.CompositionRoot.RequestHeaderFactory>(Lifestyle.Singleton);      
       container.Register<Pyro.Common.CompositionRoot.IPyroRequestUriFactory, Pyro.WebApi.CompositionRoot.PyroRequestUriFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IRequestMetaFactory, Pyro.WebApi.CompositionRoot.RequestMetaFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceRepositoryFactory, Pyro.WebApi.CompositionRoot.ResourceRepositoryFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.ResourceServiceOutcomeFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterGenericFactory, Pyro.WebApi.CompositionRoot.SearchParameterGenericFactory>(Lifestyle.Singleton);
@@ -88,7 +90,8 @@ namespace Pyro.WebApi.App_Start
       container.Register<IPyroFhirUri, PyroFhirUri>(Lifestyle.Transient);
       container.Register<IPyroRequestUri, PyroRequestUri>(Lifestyle.Transient);      
       container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Transient);
-
+      container.Register<IRequestMeta, RequestMeta>(Lifestyle.Transient);
+       
       container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
 

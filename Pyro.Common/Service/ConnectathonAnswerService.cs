@@ -10,33 +10,28 @@ using Pyro.Common.Tools.Connectathon;
 using System;
 using System.Collections.Generic;
 using Pyro.Common.Tools.Headers;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Common.Service
 {
   public class ConnectathonAnswerService : IConnectathonAnswerService
   {
-    private readonly IResourceServices IResourceServices;    
-    private readonly IRequestHeaderFactory IRequestHeaderFactory;
-    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
-    private readonly IGlobalProperties IGlobalProperties;
-    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
-    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
-    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
+    private readonly IResourceServices IResourceServices;        
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;    
+    private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;    
+    private readonly IRequestMetaFactory IRequestMetaFactory;
 
     private string _OperationName = FhirOperationEnum.OperationType.ConnectathonAnswer.GetPyroLiteral();
     private readonly string _ParameterName = "answers";
     private readonly string _PrimaryQuestionnaireResponseAnswerResourceId = "AngusA1";
     private readonly string _QuestionnaireResourceId = "PerthQuestions";
 
-    public ConnectathonAnswerService(IResourceServices IResourceServices, IRequestHeaderFactory IRequestHeaderFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IGlobalProperties IGlobalProperties, IPyroRequestUriFactory IPyroRequestUriFactory)
+    public ConnectathonAnswerService(IResourceServices IResourceServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IRequestMetaFactory IRequestMetaFactory)
     {
-      this.IResourceServices = IResourceServices;      
-      this.IRequestHeaderFactory = IRequestHeaderFactory;
-      this.IGlobalProperties = IGlobalProperties;
-      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
-      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
-      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
+      this.IResourceServices = IResourceServices;                
+      this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;    
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
+      this.IRequestMetaFactory = IRequestMetaFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -73,20 +68,17 @@ namespace Pyro.Common.Service
                 if (QuestionnaireResponse.Meta.Tag == null)
                   QuestionnaireResponse.Meta.Tag = new List<Coding>();
                 QuestionnaireResponse.Meta.Tag.Add(new Coding("https://pyrohealth.net/fhir/CodeSystem/connectathon-answer", "hidden"));
-
-                var RequestHeaders = IRequestHeaderFactory.CreateRequestHeader();
+                
                 this.IResourceServices.SetCurrentResourceType(FHIRAllTypes.QuestionnaireResponse);
                 if (QuestionnaireResponse.Id == null || string.IsNullOrWhiteSpace(QuestionnaireResponse.Id))
                 {
-                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}");
-                  ResourceServiceOutcome = this.IResourceServices.Post(QuestionnaireResponse, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+                  IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}");                                    
+                  ResourceServiceOutcome = this.IResourceServices.Post(QuestionnaireResponse, RequestMeta);
                 }
                 else
                 {
-                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{QuestionnaireResponse.Id}");
-                  ResourceServiceOutcome = this.IResourceServices.Put(QuestionnaireResponse.Id, QuestionnaireResponse, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+                  IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}/{QuestionnaireResponse.Id}");
+                  ResourceServiceOutcome = this.IResourceServices.Put(QuestionnaireResponse.Id, QuestionnaireResponse, RequestMeta);
                 }
                 if (ResourceServiceOutcome.SuccessfulTransaction)
                 {
@@ -104,9 +96,8 @@ namespace Pyro.Common.Service
                   ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
                   ResourceServiceOutcome.SuccessfulTransaction = true;
 
-                  IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-                  DtoRequestUri.FhirRequestUri.Parse($"https://{RequestUri.PrimaryRootUrlStore.Url}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
-                  var Answers = this.IResourceServices.GetRead("AngusA1", DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+                  IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}/{_PrimaryQuestionnaireResponseAnswerResourceId}");                  
+                  var Answers = this.IResourceServices.GetRead("AngusA1", RequestMeta);
 
                   QuestionnaireResults QuestionnaireResults = QuestionnaireResponseChecker.Check(Answers.ResourceResult as QuestionnaireResponse, QuestionnaireResponse);
                 }
@@ -171,21 +162,16 @@ namespace Pyro.Common.Service
     public List<QuestionnaireResults> ProcessAttendeeResults()
     {
       var ResultList = new List<QuestionnaireResults>();
-      //First get the Primary Answers
-      IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      DtoRequestUri.FhirRequestUri.Parse($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}/{_PrimaryQuestionnaireResponseAnswerResourceId}");
-      ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric();
-      IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader();
-      var Answers = this.IResourceServices.GetRead(_PrimaryQuestionnaireResponseAnswerResourceId, DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+      //First get the Primary Answers      
+      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}/{_PrimaryQuestionnaireResponseAnswerResourceId}");            
+      var Answers = this.IResourceServices.GetRead(_PrimaryQuestionnaireResponseAnswerResourceId, RequestMeta);
 
       if (Answers.SuccessfulTransaction && Answers.ResourceResult != null && Answers.ResourceResult is QuestionnaireResponse QuestionnaireResponseAnswers)
       {
         //Now get the Attendee's answers
         string SearchQuery = $"questionnaire=Questionnaire/{_QuestionnaireResourceId}";
-        DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-        DtoRequestUri.FhirRequestUri.Parse($"{IGlobalProperties.ServiceRootUrl}/{FHIRAllTypes.QuestionnaireResponse}?{SearchQuery}");
-        SearchParameterGeneric = SearchParameterGeneric.Parse(SearchQuery);        
-        var AttendeeAnswers = this.IResourceServices.GetSearch(DtoRequestUri, SearchParameterGeneric, RequestHeaders);
+        IRequestMeta RequestMetaQuestionnaireResource = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}?{SearchQuery}");        
+        var AttendeeAnswers = this.IResourceServices.GetSearch(RequestMetaQuestionnaireResource);
         if (AttendeeAnswers.SuccessfulTransaction && AttendeeAnswers.ResourceResult != null && AttendeeAnswers.ResourceResult is Bundle AttendeeAnswersBundle)
         {
 
