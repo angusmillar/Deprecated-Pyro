@@ -554,7 +554,7 @@ namespace Pyro.Common.Service
         else
         {                    
           ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Generate(IssueList); ;
-          ResourceServiceOutcome.ResourceResult.Id = "InformationOrWarning";
+          ResourceServiceOutcome.ResourceResult.Id = "informationOrWarning";
         }
       }
       ResourceServiceOutcome.SuccessfulTransaction = true;
