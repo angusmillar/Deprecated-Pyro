@@ -368,24 +368,24 @@ namespace Pyro.ADHA.Api
           {
             var From = foundCerts[0].NotBefore.ToString("yyyy-MM-ddTHH:mm");
             var To = foundCerts[0].NotAfter.ToString("yyyy-MM-ddTHH:mm");
-            IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"A single certificate could be found in the Personal store for the account in use with the serial {findValue}. Yet, this certificate is expiried with the date range From: {From}, To: {To}. Review the systems certificates as they seem to be expired.";
+            IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"A single certificate could be found in the store named '{storeName.ToString()}' and the store location of '{storeLocation.ToString()}' for the account in use by the IIS Application pool with the serial {findValue}. Yet, this certificate is expiried with the date range From: {From}, To: {To}. Review the systems certificates as they seem to be expired.";
             return null;
           }
         }
         if (foundCerts.Count > 1)
         {
-          IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"More than one certificate could be found in the Personal store for the account in use with the serial {findValue}. Yet, all appear to be expiried. Review the systems certificates as they seem to be expired.";
+          IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"More than one certificate could be found in the store named '{storeName.ToString()}' and the store location of '{storeLocation.ToString()}' for the account in use by the IIS Application pool with the serial {findValue}. Yet, all appear to be expiried. Review the systems certificates as they seem to be expired.";
           return null;
         }
 
-        IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"The certificate could not be found in the Personal store for the account in use with the serial number: {findValue}";
+        IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"The certificate could not be found in the store named '{storeName.ToString()}' and the store location of '{storeLocation.ToString()}' for the account in use by the IIS Application pool with the serial {findValue}.";
         return null;
       }
 
       // Check if more than one certificate was found with the criteria
       if (foundCerts.Count > 1)
       {
-        IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"More than one certificate found in the Personal store for the account in use with the serial number: {findValue}";
+        IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = $"More than one certificate found in the store named '{storeName.ToString()}' and the store location of '{storeLocation.ToString()}' for the account in use by the IIS Application pool with the serial {findValue}.";
         return null;
       }
         
