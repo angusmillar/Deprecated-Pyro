@@ -88,8 +88,9 @@ namespace Pyro.ADHA.Api
       SetRequestDataForQuery(IhiSearchValidateOutcome, request);
 
       // Obtain the certificate by serial number
+      string CertSerial = RemoveWhitespace(IhiSearchValidateConfig.CertificateSerialNumber);
       X509Certificate2 tlsCert = GetCertificate(
-          RemoveWhitespace(IhiSearchValidateConfig.CertificateSerialNumber), //The serial number is commonly seen with spaces "06 3c 23' yet we don't want then in this call.
+          IhiSearchValidateConfig.CertificateSerialNumber, //The serial number is commonly seen with spaces "06 3c 23' yet we don't want then in this call.
           X509FindType.FindBySerialNumber,
           StoreName.My,
           StoreLocation.LocalMachine,
