@@ -92,7 +92,7 @@ namespace Pyro.ADHA.Api
           RemoveWhitespace(IhiSearchValidateConfig.CertificateSerialNumber), //The serial number is commonly seen with spaces "06 3c 23' yet we don't want then in this call.
           X509FindType.FindBySerialNumber,
           StoreName.My,
-          StoreLocation.CurrentUser,
+          StoreLocation.LocalMachine,
           true
           );
 
