@@ -44,19 +44,17 @@ namespace Pyro.Common.Service
       this.IRequestMetaFactory = IRequestMetaFactory;
     }
 
-    public IResourceServiceOutcome Transact(Resource Resource, IPyroRequestUri RequestUri, IRequestHeader RequestHeaders)
+    public IResourceServiceOutcome Transact(Resource Resource, IRequestMeta RequestMeta)
     {
-      if (IResourceServices == null)
-      {
-        throw new ArgumentNullException("IResourceServices can not be null.");
-      }
-      if (Resource == null)
-      {
-        throw new ArgumentNullException("Resource can not be null.");
-      }
-
-      _RequestHeader = RequestHeaders ?? throw new ArgumentNullException("RequestHeaders can not be null.");
-      _RequestUri = RequestUri ?? throw new ArgumentNullException("RequestUri can not be null.");
+      if (IResourceServices == null)      
+        throw new ArgumentNullException("IResourceServices can not be null.");      
+      if (Resource == null)      
+        throw new ArgumentNullException("Resource can not be null.");      
+      if (RequestMeta == null)      
+        throw new ArgumentNullException("RequestMeta can not be null.");
+      
+      _RequestHeader = RequestMeta.RequestHeader ?? throw new ArgumentNullException("RequestHeaders can not be null.");
+      _RequestUri = RequestMeta.PyroRequestUri ?? throw new ArgumentNullException("RequestUri can not be null.");
 
       _ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       _ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;

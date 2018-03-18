@@ -15,6 +15,7 @@ using Pyro.Common.ServiceRoot;
 using Pyro.Common.Global;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Service;
+using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Engine.Services
 {
@@ -38,12 +39,16 @@ namespace Pyro.Engine.Services
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
     }
 
-    public IResourceServiceOutcome GetServersConformanceResource(ISearchParameterGeneric SearchParameterGeneric)
+    public IResourceServiceOutcome GetServersConformanceResource(IRequestMeta RequestMeta)
     {
-      IResourceServiceOutcome ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta can not be null.");
+      if (RequestMeta.SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric can not be null.");
 
+      IResourceServiceOutcome ServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(SearchParameterGeneric);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(RequestMeta.SearchParameterGeneric);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         ServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;

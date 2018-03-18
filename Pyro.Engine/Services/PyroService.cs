@@ -27,28 +27,19 @@ namespace Pyro.Engine.Services
   {
     private IResourceServices IResourceServices;
     private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
-    private readonly ICommonFactory ICommonFactory;
-    private readonly IRequestHeaderFactory IRequestHeaderFactory;
-    private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
-    private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
+    private readonly ICommonFactory ICommonFactory;    
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly ILog ILog;
 
     public PyroService(IResourceServices IResourceServices,
       IRequestServiceRootValidate IRequestServiceRootValidate,
-      ICommonFactory ICommonFactory,
-      IRequestHeaderFactory IRequestHeaderFactory,
-      ISearchParameterGenericFactory ISearchParameterGenericFactory,
-      IPyroRequestUriFactory IPyroRequestUriFactory,
+      ICommonFactory ICommonFactory,            
       IRequestMetaFactory IRequestMetaFactory,
       ILog ILog)
     {
       this.IResourceServices = IResourceServices;
       this.IRequestServiceRootValidate = IRequestServiceRootValidate;
-      this.ICommonFactory = ICommonFactory;
-      this.IRequestHeaderFactory = IRequestHeaderFactory;
-      this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
-      this.IPyroRequestUriFactory = IPyroRequestUriFactory;
+      this.ICommonFactory = ICommonFactory;      
       this.IRequestMetaFactory = IRequestMetaFactory;
       this.ILog = ILog;
     }
@@ -60,13 +51,10 @@ namespace Pyro.Engine.Services
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();          
-          DtoRequestUri.FhirRequestUri.Parse(Request.RequestUri.OriginalString);
-          IRequestHeader RequestHeaders = IRequestHeaderFactory.CreateRequestHeader().Parse(Request.Headers);
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IBundleTransactionService BundleTransactionService = ICommonFactory.CreateBundleTransactionService();
-          IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact(resource, DtoRequestUri, RequestHeaders);
-          ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
-          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
+          IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact(resource, RequestMeta);          
+          ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
             Transaction.Commit();
           else
@@ -90,10 +78,10 @@ namespace Pyro.Engine.Services
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          ISearchParameterGeneric SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(Request.GetSearchParams());
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);         
           IMetadataService MetadataService = ICommonFactory.CreateMetadataService();
-          IResourceServiceOutcome ResourceServiceOutcome = MetadataService.GetServersConformanceResource(SearchParameterGeneric);
-          ResourceServiceOutcome.SummaryType = SearchParameterGeneric.SummaryType;
+          IResourceServiceOutcome ResourceServiceOutcome = MetadataService.GetServersConformanceResource(RequestMeta);
+          ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
         }
