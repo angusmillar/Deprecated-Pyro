@@ -14,17 +14,17 @@ namespace Pyro.Common.Tools.Headers
     private const string _IfModifiedSinceHeader = "If-Modified-Since";
     private const string _IfNoneMatchHeader = "If-None-Match";
     private const string _IfMatchHeader = "If-Match";
-    private const string _HandlingHeader = "handling";
+    private const string _PreferHeader = "prefer";
     
     public string IfNoneExist { get; set; }
     public string IfModifiedSince { get; set; }
     public string IfNoneMatch { get; set; }
     public string IfMatch { get; set; }
-    public IPreferHeader PreferHeader { get; set; }
+    public IPreferHeader Prefer { get; set; }
     
     public RequestHeader()
     {
-      this.PreferHeader = new PreferHeader();
+      this.Prefer = new PreferHeader();
     }
 
     public IRequestHeader Parse(Bundle.RequestComponent RequestComponent)
@@ -71,9 +71,9 @@ namespace Pyro.Common.Tools.Headers
       if (HttpRequestHeaders.TryGetValues(_IfMatchHeader, out IfMatchHeader))
         this.IfMatch = IfMatchHeader.FirstOrDefault();
 
-      IEnumerable<string> HandlingHeader;
-      if (HttpRequestHeaders.TryGetValues(_HandlingHeader, out HandlingHeader))
-        this.PreferHeader.Set(HandlingHeader.FirstOrDefault());
+      IEnumerable<string> PreferHeader;
+      if (HttpRequestHeaders.TryGetValues(_PreferHeader, out PreferHeader))
+        this.Prefer.Set(PreferHeader.FirstOrDefault());
             
       return this;
     }
