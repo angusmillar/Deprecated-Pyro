@@ -12,31 +12,14 @@ namespace Pyro.Common.CompositionRoot
 {
   public interface ICommonFactory
   {
-    //Reused objects
-    //IRequestHeader CreateDtoRequestHeaders();
-    //IPyroRequestUri CreateDtoRequestUri();
-    //IPyroRequestUri CreateDtoRequestUri();
-    //IDtoRootUrlStore CreateDtoRootUrlStore();
-    //IDatabaseOperationOutcome CreateDatabaseOperationOutcome();
-    //IResourceServiceOutcome CreateResourceServiceOutcome();
-    IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();
-
-    //Services
-    IBundleTransactionService CreateBundleTransactionService();
-    IMetadataService CreateMetadataService();
-    IDeleteHistoryIndexesService CreateDeleteHistoryIndexesService();
-    IServerSearchParameterService CreateServerSearchParameterService();
+    
+    IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();    
+    IDeleteHistoryIndexesService CreateDeleteHistoryIndexesService();    
     IServerResourceReportService CreateServerResourceReportService();
     IFhirValidateOperationService CreateFhirValidateOperationService();
     IConnectathonAnswerService CreateConnectathonAnswerService();
-    IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService();
-    IFhirResourceInstanceOperationService CreateFhirResourceInstanceOperationService();
-    IFhirBaseOperationService CreateFhirBaseOperationService();
-    IFhirResourceOperationService CreateFhirResourceOperationService();
-
-    List<IResourceResolver> CreateResourceResolverList();
-
-
-
+    IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService();    
+    IList<IResourceResolver> CreateResourceResolverList();
+    
   }
 }

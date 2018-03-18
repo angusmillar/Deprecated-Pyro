@@ -18,12 +18,14 @@ namespace Pyro.Engine.Services
     private readonly ICommonFactory ICommonFactory;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IServerSearchParameterServiceFactory IServerSearchParameterServiceFactory;
 
-    public FhirBaseOperationService(ICommonFactory ICommonFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public FhirBaseOperationService(ICommonFactory ICommonFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServerSearchParameterServiceFactory IServerSearchParameterServiceFactory)
     {
       this.ICommonFactory = ICommonFactory;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IServerSearchParameterServiceFactory = IServerSearchParameterServiceFactory;
     }
 
     public IResourceServiceOutcome Process(
@@ -83,18 +85,18 @@ namespace Pyro.Engine.Services
             return DeleteManyHistoryIndexesService.DeleteMany(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerIndexesSet:
-          {
-            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+          {            
+            IServerSearchParameterService ServerSearchParameterService = IServerSearchParameterServiceFactory.CreateServerSearchParameterService();
             return ServerSearchParameterService.ProcessSet(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerSearchParameterIndexReport:
           {
-            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+            IServerSearchParameterService ServerSearchParameterService = IServerSearchParameterServiceFactory.CreateServerSearchParameterService();
             return ServerSearchParameterService.ProcessReport(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ServerIndexesIndex:
           {
-            IServerSearchParameterService ServerSearchParameterService = ICommonFactory.CreateServerSearchParameterService();
+            IServerSearchParameterService ServerSearchParameterService = IServerSearchParameterServiceFactory.CreateServerSearchParameterService();
             return ServerSearchParameterService.ProcessIndex(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
           }
         case FhirOperationEnum.OperationType.ConnectathonAnswer:

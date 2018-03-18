@@ -174,10 +174,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="CompositionRoot\CommonFactory.cs" />
+    <Compile Include="CompositionRoot\FhirResourceOperationServiceFactory.cs" />
     <Compile Include="CompositionRoot\RequestHeaderFactory.cs" />
     <Compile Include="CompositionRoot\IndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\DatabaseOperationOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\DtoRootUrlStoreFactory.cs" />
+    <Compile Include="CompositionRoot\MetadataServiceFactory.cs" />
+    <Compile Include="CompositionRoot\BundleTransactionServiceFactory.cs" />
+    <Compile Include="CompositionRoot\FhirBaseOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\FhirResourceInstanceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\ServerSearchParameterServiceFactory.cs" />
     <Compile Include="CompositionRoot\ResourceServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\PyroRequestUriFactory.cs" />
     <Compile Include="CompositionRoot\PyroFhirUriFactory.cs" />

@@ -70,6 +70,13 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterReferanceFactory, Pyro.WebApi.CompositionRoot.SearchParameterReferanceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.SearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, Pyro.WebApi.CompositionRoot.SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IMetadataServiceFactory, Pyro.WebApi.CompositionRoot.MetadataServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IBundleTransactionServiceFactory, Pyro.WebApi.CompositionRoot.BundleTransactionServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IFhirBaseOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirBaseOperationServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
+      
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);

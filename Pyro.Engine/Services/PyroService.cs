@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Pyro.Common.Extentions;
 using Pyro.Common.Service;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Tools.UriSupport;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Tools.Headers;
 using System.Data.Entity;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Logging;
 using Pyro.Common.Exceptions;
-using Pyro.Common.Search;
-using Pyro.Engine.Interfaces;
 using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Engine.Services
@@ -26,33 +17,45 @@ namespace Pyro.Engine.Services
   public class PyroService : IPyroService
   {
     private IResourceServices IResourceServices;
-    private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
-    private readonly ICommonFactory ICommonFactory;    
+    private readonly IRequestServiceRootValidate IRequestServiceRootValidate;    
+    private readonly IMetadataServiceFactory IMetadataServiceFactory;
+    private readonly IBundleTransactionServiceFactory IBundleTransactionServiceFactory;
+    private readonly IFhirBaseOperationServiceFactory IFhirBaseOperationServiceFactory;
+    private readonly IFhirResourceInstanceOperationServiceFactory IFhirResourceInstanceOperationServiceFactory;
+    private readonly IFhirResourceOperationServiceFactory IFhirResourceOperationServiceFactory;
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly ILog ILog;
 
     public PyroService(IResourceServices IResourceServices,
-      IRequestServiceRootValidate IRequestServiceRootValidate,
-      ICommonFactory ICommonFactory,            
+      IRequestServiceRootValidate IRequestServiceRootValidate,      
+      IMetadataServiceFactory IMetadataServiceFactory,
+      IBundleTransactionServiceFactory IBundleTransactionServiceFactory,
+      IFhirBaseOperationServiceFactory IFhirBaseOperationServiceFactory,
+      IFhirResourceInstanceOperationServiceFactory IFhirResourceInstanceOperationServiceFactory,
+      IFhirResourceOperationServiceFactory IFhirResourceOperationServiceFactory,
       IRequestMetaFactory IRequestMetaFactory,
       ILog ILog)
     {
       this.IResourceServices = IResourceServices;
-      this.IRequestServiceRootValidate = IRequestServiceRootValidate;
-      this.ICommonFactory = ICommonFactory;      
+      this.IRequestServiceRootValidate = IRequestServiceRootValidate;     
+      this.IMetadataServiceFactory = IMetadataServiceFactory;
+      this.IBundleTransactionServiceFactory = IBundleTransactionServiceFactory;
+      this.IFhirBaseOperationServiceFactory = IFhirBaseOperationServiceFactory;
+      this.IFhirResourceInstanceOperationServiceFactory = IFhirResourceInstanceOperationServiceFactory;
+      this.IFhirResourceOperationServiceFactory = IFhirResourceOperationServiceFactory;
       this.IRequestMetaFactory = IRequestMetaFactory;
       this.ILog = ILog;
     }
 
     public IResourceServiceOutcome Base(string BaseRequestUri, HttpRequestMessage Request, Resource resource)
-    {
+    {      
       using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IBundleTransactionService BundleTransactionService = ICommonFactory.CreateBundleTransactionService();
+          IBundleTransactionService BundleTransactionService = IBundleTransactionServiceFactory.CreateBundleTransactionService();
           IResourceServiceOutcome ResourceServiceOutcome = BundleTransactionService.Transact(resource, RequestMeta);          
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -78,8 +81,8 @@ namespace Pyro.Engine.Services
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);         
-          IMetadataService MetadataService = ICommonFactory.CreateMetadataService();
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
+          IMetadataService MetadataService = IMetadataServiceFactory.CreateMetadataService();
           IResourceServiceOutcome ResourceServiceOutcome = MetadataService.GetServersConformanceResource(RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
@@ -318,7 +321,7 @@ namespace Pyro.Engine.Services
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);         
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);         
-          IFhirBaseOperationService FhirBaseOperationService = ICommonFactory.CreateFhirBaseOperationService();
+          IFhirBaseOperationService FhirBaseOperationService = IFhirBaseOperationServiceFactory.CreateFhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = FhirBaseOperationService.Process(operation, Resource, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -346,7 +349,7 @@ namespace Pyro.Engine.Services
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
-          IFhirBaseOperationService FhirBaseOperationService = ICommonFactory.CreateFhirBaseOperationService();
+          IFhirBaseOperationService FhirBaseOperationService = IFhirBaseOperationServiceFactory.CreateFhirBaseOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = FhirBaseOperationService.Process(OperationName, null, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -375,7 +378,7 @@ namespace Pyro.Engine.Services
           IResourceServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IFhirResourceOperationService FhirResourceOperationService = ICommonFactory.CreateFhirResourceOperationService();
+          IFhirResourceOperationService FhirResourceOperationService = IFhirResourceOperationServiceFactory.CreateFhirResourceOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = FhirResourceOperationService.Process(operation, Resource, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -404,7 +407,7 @@ namespace Pyro.Engine.Services
           IResourceServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IFhirResourceInstanceOperationService FhirResourceInstanceOperationService = ICommonFactory.CreateFhirResourceInstanceOperationService();
+          IFhirResourceInstanceOperationService FhirResourceInstanceOperationService = IFhirResourceInstanceOperationServiceFactory.CreateFhirResourceInstanceOperationService();
           IResourceServiceOutcome ResourceServiceOutcome = FhirResourceInstanceOperationService.Process(operation, Resource, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
