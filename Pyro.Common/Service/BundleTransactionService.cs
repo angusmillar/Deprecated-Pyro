@@ -169,7 +169,7 @@ namespace Pyro.Common.Service
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(DeleteEntry.Request);
-      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+      RequestMeta.RequestHeader.PreferHeader = _RequestHeader.PreferHeader;
       IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       
@@ -286,7 +286,7 @@ namespace Pyro.Common.Service
     private bool PutProcessing(Bundle.EntryComponent PutEntry, int PutEntryIndex)
     {      
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PutEntry.Request);
-      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+      RequestMeta.RequestHeader.PreferHeader = _RequestHeader.PreferHeader;
       IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
@@ -338,7 +338,7 @@ namespace Pyro.Common.Service
     {
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
       RequestMeta.Set(GetEntry.Request);
-      RequestMeta.RequestHeader.Handling = _RequestHeader.Handling;
+      RequestMeta.RequestHeader.PreferHeader = _RequestHeader.PreferHeader;
 
       IResourceServiceOutcome ResourceServiceOutcome = null;
       IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);

@@ -33,7 +33,7 @@ namespace Pyro.Engine.Services
 
     public DbContextTransaction BeginTransaction()
     {
-      return _UnitOfWork.BeginTransaction();
+      return _UnitOfWork.BeginTransaction();      
     }
 
     //GET Read   
@@ -109,7 +109,7 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }
       //If header Handling=strict then return search parameter errors if there are any
-      if (RequestMeta.RequestHeader.Handling != null && RequestMeta.RequestHeader.Handling.ToLower() == "strict" && SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      if (RequestMeta.RequestHeader.PreferHeader != null && RequestMeta.RequestHeader.PreferHeader.IsHandlingStrict && SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Count > 0)
       {
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcomeUnsupportedParameters;
         oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
@@ -236,7 +236,7 @@ namespace Pyro.Engine.Services
       }
 
       //If header Handling=strict then return search parameter errors if there are any
-      if (RequestMeta.RequestHeader.Handling != null && RequestMeta.RequestHeader.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeBase.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      if (RequestMeta.RequestHeader.PreferHeader != null && RequestMeta.RequestHeader.PreferHeader.IsHandlingStrict && SearchParametersServiceOutcomeBase.SearchParameters.UnspportedSearchParameterList.Count > 0)
       {
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcomeBase.FhirOperationOutcomeUnsupportedParameters;
         oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
@@ -494,7 +494,7 @@ namespace Pyro.Engine.Services
       }
 
       //If header Handling=strict then return search parameter errors if there are any
-      if (RequestMeta.RequestHeader.Handling != null && RequestMeta.RequestHeader.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      if (RequestMeta.RequestHeader.PreferHeader != null && RequestMeta.RequestHeader.PreferHeader.IsHandlingStrict && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
       {
         ServiceOperationOutcomeConditionalPut.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
         ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.Forbidden;
@@ -593,7 +593,7 @@ namespace Pyro.Engine.Services
       }
       
       //If header Handling=strict then return search parameter errors if there are any
-      if (RequestMeta.RequestHeader.Handling != null && RequestMeta.RequestHeader.Handling.ToLower() == "strict" && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      if (RequestMeta.RequestHeader.PreferHeader != null && RequestMeta.RequestHeader.PreferHeader.IsHandlingStrict && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
       {
         ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
         ServiceOperationOutcomeConditionalDelete.HttpStatusCode = HttpStatusCode.Forbidden;

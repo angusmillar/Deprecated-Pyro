@@ -15,16 +15,21 @@ namespace Pyro.Common.Tools.Headers
     private const string _IfNoneMatchHeader = "If-None-Match";
     private const string _IfMatchHeader = "If-Match";
     private const string _HandlingHeader = "handling";
-
+    
     public string IfNoneExist { get; set; }
     public string IfModifiedSince { get; set; }
     public string IfNoneMatch { get; set; }
     public string IfMatch { get; set; }
-    public string Handling { get; set; }
+    public IPreferHeader PreferHeader { get; set; }
+    
+    public RequestHeader()
+    {
+      this.PreferHeader = new PreferHeader();
+    }
 
-    public RequestHeader() { }
     public IRequestHeader Parse(Bundle.RequestComponent RequestComponent)
     {
+      
       if (!string.IsNullOrWhiteSpace(RequestComponent.IfNoneExist))
       {
         this.IfNoneExist = RequestComponent.IfNoneExist;
@@ -47,6 +52,7 @@ namespace Pyro.Common.Tools.Headers
       }
       return this;
     }
+
     public IRequestHeader Parse(System.Net.Http.Headers.HttpRequestHeaders HttpRequestHeaders)
     {
       IEnumerable<string> IfNoneExist;
@@ -67,10 +73,11 @@ namespace Pyro.Common.Tools.Headers
 
       IEnumerable<string> HandlingHeader;
       if (HttpRequestHeaders.TryGetValues(_HandlingHeader, out HandlingHeader))
-        this.Handling = HandlingHeader.FirstOrDefault();
-
+        this.PreferHeader.Set(HandlingHeader.FirstOrDefault());
+            
       return this;
     }
+
     public string ParseVersionHeader(string VersionMatch)
     {
       //Example: W/"2"
