@@ -17,7 +17,8 @@ namespace Pyro.Common.Service
 {
   public class ServerSearchParameterService : IServerSearchParameterService
   {
-    private readonly IResourceServices IResourceServices;    
+    private readonly IResourceServices IResourceServices;
+    private readonly ICommonServices ICommonServices;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
@@ -26,9 +27,10 @@ namespace Pyro.Common.Service
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
 
-    public ServerSearchParameterService(IResourceServices IResourceServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
-      this.IResourceServices = IResourceServices;      
+      this.IResourceServices = IResourceServices;
+      this.ICommonServices = ICommonServices;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ICacheClear = ICacheClear;
@@ -61,7 +63,7 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      List<ServiceSearchParameterHeavy> DbSearchParameterList = IResourceServices.GetServiceSearchParametersHeavy(true);
+      List<ServiceSearchParameterHeavy> DbSearchParameterList = ICommonServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList, RequestUri);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -92,7 +94,7 @@ namespace Pyro.Common.Service
           {
             foreach (var Del3 in Del2.Value)
             {
-              IResourceServices.DeleteServiceSearchParameters(Del3.Id);
+              ICommonServices.DeleteServiceSearchParameters(Del3.Id);
             }
           }
         }
@@ -104,7 +106,7 @@ namespace Pyro.Common.Service
           {
             foreach (var Create3 in Create2.Value)
             {
-              Create3.Id = IResourceServices.AddServiceSearchParametersHeavy(Create3).Id;
+              Create3.Id = ICommonServices.AddServiceSearchParametersHeavy(Create3).Id;
             }
           }
         }
@@ -237,7 +239,7 @@ namespace Pyro.Common.Service
                       if (!FhirUri.IsOperation)
                       {
                         var ResourceServiceOutcomeGetSearchParameterResource = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
-                        ResourceServiceOutcomeGetSearchParameterResource = (IResourceServices as IResourceServicesBase).GetResourceInstance(FhirUri.ResourceId, RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
+                        ResourceServiceOutcomeGetSearchParameterResource = IResourceServices.GetResourceInstance(FhirUri.ResourceId, RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
                           TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
@@ -249,9 +251,9 @@ namespace Pyro.Common.Service
 
                             foreach (var Item in List)
                             {
-                              var DbSearchParamListForResource = IResourceServices.GetServiceSearchParametersHeavyForResource(Item.Resource);
+                              var DbSearchParamListForResource = ICommonServices.GetServiceSearchParametersHeavyForResource(Item.Resource);
                               if (Item.Resource != ResourceType.Resource.GetLiteral())
-                                DbSearchParamListForResource.AddRange(IResourceServices.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+                                DbSearchParamListForResource.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
 
                               var CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
                               if (CodeAlreadyIndexed != null)
@@ -279,7 +281,7 @@ namespace Pyro.Common.Service
                             }
                             //Add the new SearchParameterIndex to the database
                             foreach (var Item in List)
-                              IResourceServices.AddServiceSearchParametersHeavy(Item);
+                              ICommonServices.AddServiceSearchParametersHeavy(Item);
                           }
                           else
                           {
@@ -420,7 +422,7 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      List<ServiceSearchParameterHeavy> DbSearchParameterList = IResourceServices.GetServiceSearchParametersHeavy(true);
+      List<ServiceSearchParameterHeavy> DbSearchParameterList = ICommonServices.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList, RequestUri);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -544,7 +546,7 @@ namespace Pyro.Common.Service
           foreach (var Updated2 in Updated.Value)
           {
             Updated2.IsIndexed = true;
-            IResourceServices.UpdateServiceSearchParametersHeavy(Updated2);
+            ICommonServices.UpdateServiceSearchParametersHeavy(Updated2);
           }
         }
       }
@@ -559,7 +561,7 @@ namespace Pyro.Common.Service
           {
             Updated2.New.Id = Updated2.Old.Id;
             Updated2.New.IsIndexed = Updated2.Old.IsIndexed;
-            IResourceServices.UpdateServiceSearchParametersHeavy(Updated2.New);
+            ICommonServices.UpdateServiceSearchParametersHeavy(Updated2.New);
           }
         }
       }
@@ -576,7 +578,7 @@ namespace Pyro.Common.Service
       {
         var CurrentParameter = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
         var FirstInstance = OldList.FirstOrDefault();
-        CurrentParameter = (IResourceServices as IResourceServicesBase).GetResourceInstance(FirstInstance.SearchParameterResourceId, RequestUri, CurrentParameter);
+        CurrentParameter = IResourceServices.GetResourceInstance(FirstInstance.SearchParameterResourceId, RequestUri, CurrentParameter);
         CompairisonResult Result;
         if (CurrentParameter.ResourceVersionNumber != FirstInstance.SearchParameterResourceVersion)
         {

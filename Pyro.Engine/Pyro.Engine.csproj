@@ -97,7 +97,6 @@
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
-    <Compile Include="Services\ResourceServicesBase.cs" />
     <Compile Include="Services\PyroService.cs" />
   </ItemGroup>
   <ItemGroup>

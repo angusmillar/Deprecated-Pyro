@@ -11,7 +11,7 @@ namespace Pyro.WebApi.Services
       this.Container = Container;
     }
 
-    public T Create<T>() where T : ICommonServices
+    public T Create<T>() where T : IResourceServices
     {
       return (T)Container.GetInstance(typeof(T));
     }

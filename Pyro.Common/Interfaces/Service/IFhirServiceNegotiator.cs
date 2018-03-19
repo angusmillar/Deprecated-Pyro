@@ -18,6 +18,6 @@ namespace Pyro.Common.Interfaces.Service
 
   public interface IServiceNegotiator
   {
-    T Create<T>() where T : ICommonServices;
+    T Create<T>() where T : IResourceServices;
   }
 }

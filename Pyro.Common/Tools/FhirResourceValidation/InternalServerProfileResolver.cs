@@ -43,10 +43,9 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       }
     }
     public Resource ResolveByUri(string uri)
-    {
-      IResourceServices.SetCurrentResourceType(FHIRAllTypes.StructureDefinition);
+    {      
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.StructureDefinition.GetLiteral()}/{uri}");      
-      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(ResourceType.StructureDefinition, RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
       return ResourceServiceOutcome.ResourceResult;
     }
   }

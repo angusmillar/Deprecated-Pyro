@@ -11,12 +11,14 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.Logging;
 using Pyro.Common.Exceptions;
 using Pyro.Common.RequestMetadata;
+using Pyro.Common.Interfaces.Repositories;
 
 namespace Pyro.Engine.Services
 {
   public class PyroService : IPyroService
   {
-    private IResourceServices IResourceServices;
+    private readonly IUnitOfWork IUnitOfWork;
+    private readonly IResourceServices IResourceApiServices;
     private readonly IRequestServiceRootValidate IRequestServiceRootValidate;    
     private readonly IMetadataServiceFactory IMetadataServiceFactory;
     private readonly IBundleTransactionServiceFactory IBundleTransactionServiceFactory;
@@ -26,7 +28,8 @@ namespace Pyro.Engine.Services
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly ILog ILog;
 
-    public PyroService(IResourceServices IResourceServices,
+    public PyroService(IUnitOfWork IUnitOfWork,
+      IResourceServices IResourceApiServices,
       IRequestServiceRootValidate IRequestServiceRootValidate,      
       IMetadataServiceFactory IMetadataServiceFactory,
       IBundleTransactionServiceFactory IBundleTransactionServiceFactory,
@@ -36,7 +39,8 @@ namespace Pyro.Engine.Services
       IRequestMetaFactory IRequestMetaFactory,
       ILog ILog)
     {
-      this.IResourceServices = IResourceServices;
+      this.IUnitOfWork = IUnitOfWork;
+      this.IResourceApiServices = IResourceApiServices;
       this.IRequestServiceRootValidate = IRequestServiceRootValidate;     
       this.IMetadataServiceFactory = IMetadataServiceFactory;
       this.IBundleTransactionServiceFactory = IBundleTransactionServiceFactory;
@@ -49,7 +53,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Base(string BaseRequestUri, HttpRequestMessage Request, Resource resource)
     {      
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
@@ -76,7 +80,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Metadata(string BaseRequestUri, HttpRequestMessage Request)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
@@ -100,14 +104,15 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Get(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IRequestServiceRootValidate.Validate(BaseRequestUri);          
+          ResourceType Resource = Common.Tools.ResourceNameResolutionSupport.GetResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(id, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetRead(Resource, id, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -124,14 +129,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome GetHistory(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id, string vid = "")
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetHistory(id, vid, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetHistory(id, vid, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -148,14 +153,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Search(string BaseRequestUri, HttpRequestMessage Request, string ResourceName)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetSearch(RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -172,14 +177,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Post(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(resource, RequestMeta, string.Empty);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.Post(resource, RequestMeta, string.Empty);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -196,13 +201,13 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, IEnumerable<Tuple<string, string>> FormParameterList)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IResourceServices.SetCurrentResourceType(ResourceName);          
+          IResourceApiServices.SetCurrentResourceType(ResourceName);          
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request, SearchParams.FromUriParamList(FormParameterList));
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetSearch(RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -219,14 +224,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Put(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id, Resource resource)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Put(id, resource, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.Put(id, resource, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -243,14 +248,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome ConditionalPut(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalPut(resource, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.ConditionalPut(resource, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -267,14 +272,14 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome Delete(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Delete(id, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.Delete(id, RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -291,14 +296,14 @@ namespace Pyro.Engine.Services
     
     public IResourceServiceOutcome ConditionalDelete(string BaseRequestUri, HttpRequestMessage Request, string ResourceName)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.ConditionalDelete(RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.ConditionalDelete(RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
@@ -315,7 +320,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome BaseOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
@@ -343,7 +348,7 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
@@ -371,11 +376,11 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IFhirResourceOperationService FhirResourceOperationService = IFhirResourceOperationServiceFactory.CreateFhirResourceOperationService();
@@ -400,11 +405,11 @@ namespace Pyro.Engine.Services
 
     public IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource, string FhirId)
     {
-      using (DbContextTransaction Transaction = IResourceServices.BeginTransaction())
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
-          IResourceServices.SetCurrentResourceType(ResourceName);
+          //IResourceApiServices.SetCurrentResourceType(ResourceName);
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IFhirResourceInstanceOperationService FhirResourceInstanceOperationService = IFhirResourceInstanceOperationServiceFactory.CreateFhirResourceInstanceOperationService();

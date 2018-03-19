@@ -340,13 +340,14 @@ namespace Pyro.Common.Service
 
       IResourceServiceOutcome ResourceServiceOutcome = null;
       IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+      ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
       if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
         ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
+        ResourceServiceOutcome = IResourceServices.GetRead(ResourceType, RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)

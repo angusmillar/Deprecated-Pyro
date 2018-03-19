@@ -7,22 +7,22 @@ using Pyro.Common.Search;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.Service;
 using Pyro.Common.RequestMetadata;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.Interfaces.Service
 {
-  public interface IResourceServices : ICommonServices
+  public interface IResourceServices
   {
-    DbContextTransaction BeginTransaction();
+    //DbContextTransaction BeginTransaction();
 
     FHIRAllTypes ServiceResourceType { get; }
-
     void SetCurrentResourceType(FHIRAllTypes ResourceType);
     void SetCurrentResourceType(string ResourceName);
     void SetCurrentResourceType(ResourceType ResourceType);
 
     //Read
     // GET: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome GetRead(string ResourceId, IRequestMeta RequestMeta);
+    IResourceServiceOutcome GetRead(ResourceType ResourceType, string ResourceId, IRequestMeta RequestMeta);
 
     //Search
     // GET: URL/FhirApi/Patient/5    
@@ -56,6 +56,14 @@ namespace Pyro.Common.Interfaces.Service
     //DeleteHistoryIndexes
     // POST: URL/FhirAPI/Patient/$delete-history-indexes
     IResourceServiceOutcome DeleteHistoryIndexes(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric);
+
+
+    IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IPyroRequestUri FhirRequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome);
+    IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IPyroRequestUri FhirRequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome);
+    IResourceServiceOutcome GetResourceInstance(string ResourceId, IPyroRequestUri FhirRequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome, IRequestHeader RequestHeaders = null);
+    IResourceServiceOutcome GetResourcesBySearch(IPyroRequestUri FhirRequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome);
+    IResourceServiceOutcome SetResource(Resource Resource, IPyroRequestUri FhirRequestUri, RestEnum.CrudOperationType CrudOperationType);
+    IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection);
 
     //Add the given ServiceSearchParameterLight to the current resource instance
     void AddResourceIndexs(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);

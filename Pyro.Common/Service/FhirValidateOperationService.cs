@@ -335,8 +335,9 @@ namespace Pyro.Common.Service
           && !string.IsNullOrWhiteSpace(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId))
         {
           IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+          ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
           IRequestMeta RequestMetaGetRead = IRequestMetaFactory.CreateRequestMeta().Set($"{RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName}/{RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId}");          
-          var result = IResourceServices.GetRead(RequestMetaGetRead.PyroRequestUri.FhirRequestUri.ResourceId, RequestMetaGetRead);
+          var result = IResourceServices.GetRead(ResourceType, RequestMetaGetRead.PyroRequestUri.FhirRequestUri.ResourceId, RequestMetaGetRead);
           if (result.ResourceResult != null)
           {
             if (result.IsDeleted.HasValue && result.IsDeleted.Value)

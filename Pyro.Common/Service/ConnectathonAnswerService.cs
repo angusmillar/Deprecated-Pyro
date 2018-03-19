@@ -97,7 +97,7 @@ namespace Pyro.Common.Service
                   ResourceServiceOutcome.SuccessfulTransaction = true;
 
                   IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}/{_PrimaryQuestionnaireResponseAnswerResourceId}");                  
-                  var Answers = this.IResourceServices.GetRead("AngusA1", RequestMeta);
+                  var Answers = this.IResourceServices.GetRead(ResourceType.QuestionnaireResponse, "AngusA1", RequestMeta);
 
                   QuestionnaireResults QuestionnaireResults = QuestionnaireResponseChecker.Check(Answers.ResourceResult as QuestionnaireResponse, QuestionnaireResponse);
                 }
@@ -164,7 +164,7 @@ namespace Pyro.Common.Service
       var ResultList = new List<QuestionnaireResults>();
       //First get the Primary Answers      
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.QuestionnaireResponse.GetLiteral()}/{_PrimaryQuestionnaireResponseAnswerResourceId}");            
-      var Answers = this.IResourceServices.GetRead(_PrimaryQuestionnaireResponseAnswerResourceId, RequestMeta);
+      var Answers = this.IResourceServices.GetRead(ResourceType.QuestionnaireResponse, _PrimaryQuestionnaireResponseAnswerResourceId, RequestMeta);
 
       if (Answers.SuccessfulTransaction && Answers.ResourceResult != null && Answers.ResourceResult is QuestionnaireResponse QuestionnaireResponseAnswers)
       {

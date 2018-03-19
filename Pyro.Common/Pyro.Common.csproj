@@ -232,7 +232,6 @@
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
     <Compile Include="Service\IBundleTransactionService.cs" />
-    <Compile Include="Interfaces\Service\IResourceServicesBase.cs" />
     <Compile Include="Service\ISearchParametersServiceOutcome.cs" />
     <Compile Include="Service\SearchParametersServiceOutcome.cs" />
     <Compile Include="Service\SearchParameterService.cs" />
@@ -254,7 +253,7 @@
     <Compile Include="Interfaces\Service\ICommonServices.cs" />
     <Compile Include="Interfaces\Service\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
-    <Compile Include="Interfaces\Service\IBaseResourceServices.cs" />
+    <Compile Include="Interfaces\Service\IResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Logging\ILog.cs" />
     <Compile Include="Logging\Log.cs" />
