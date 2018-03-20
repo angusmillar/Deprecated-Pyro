@@ -167,8 +167,7 @@ namespace Pyro.Common.Service
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(DeleteEntry.Request);
-      RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
-      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+      RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;      
       IResourceServiceOutcome ResourceServiceOutcome = null;
       
       if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
@@ -240,9 +239,7 @@ namespace Pyro.Common.Service
       //Remove the Resource Id in the resource as this is a POST and no id should be present in the resource, we do force the new id given this is a transaction operation 
       if (!String.IsNullOrEmpty(PostEntry.Resource.Id))
         PostEntry.Resource.Id = String.Empty;
-
-      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
-
+      
       IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(PostEntry.Resource, RequestMeta, ResourceIdToForce.ResourceId);
 
       if (ResourceServiceOutcome.SuccessfulTransaction)
@@ -284,8 +281,7 @@ namespace Pyro.Common.Service
     private bool PutProcessing(Bundle.EntryComponent PutEntry, int PutEntryIndex)
     {      
       IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PutEntry.Request);
-      RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
-      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+      RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;      
       IResourceServiceOutcome ResourceServiceOutcome = null;
       if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
@@ -338,16 +334,14 @@ namespace Pyro.Common.Service
       RequestMeta.Set(GetEntry.Request);
       RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
 
-      IResourceServiceOutcome ResourceServiceOutcome = null;
-      IResourceServices.SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
-      ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourseName);
+      IResourceServiceOutcome ResourceServiceOutcome = null;                  
       if (RequestMeta.SearchParameterGeneric.ParameterList.Count > 0)
       {
         ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
       }
       else
       {
-        ResourceServiceOutcome = IResourceServices.GetRead(ResourceType, RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
+        ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
       }
 
       if (ResourceServiceOutcome.SuccessfulTransaction)

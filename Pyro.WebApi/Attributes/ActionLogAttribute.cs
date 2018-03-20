@@ -37,7 +37,8 @@ namespace Pyro.WebApi.Attributes
     public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
     {
       var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
-      var IUnitOfWork = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IUnitOfWork)) as IUnitOfWork;      
+      var IUnitOfWork = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IUnitOfWork)) as IUnitOfWork;
+      var IRequestMetaFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IRequestMetaFactory)) as IRequestMetaFactory;
       var IResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
@@ -53,9 +54,7 @@ namespace Pyro.WebApi.Attributes
           System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
           stopwatch.Stop();
           TimeSpan duration = stopwatch.Elapsed;
-
-          IResourceServices.SetCurrentResourceType(FHIRAllTypes.AuditEvent);
-          //IPyroRequestUri DtoRequestUri = ICommonFactory.CreateDtoRequestUri(actionExecutedContext.Request.RequestUri.OriginalString);
+         
           IPyroRequestUri DtoRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
           DtoRequestUri.FhirRequestUri.Parse(actionExecutedContext.Request.RequestUri.OriginalString);
           
@@ -285,7 +284,9 @@ namespace Pyro.WebApi.Attributes
 
 
           //Commit to Database          
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
+          Pyro.Common.RequestMetadata.IRequestMeta IRequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.AuditEvent}");
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(Audit, IRequestMeta);
+          //IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
           Transaction.Commit();
         }
         catch (Exception Exec)

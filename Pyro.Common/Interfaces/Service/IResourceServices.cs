@@ -13,16 +13,9 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServices
   {
-    //DbContextTransaction BeginTransaction();
-
-    FHIRAllTypes ServiceResourceType { get; }
-    void SetCurrentResourceType(FHIRAllTypes ResourceType);
-    void SetCurrentResourceType(string ResourceName);
-    void SetCurrentResourceType(ResourceType ResourceType);
-
     //Read
     // GET: URL/FhirApi/Patient/5    
-    IResourceServiceOutcome GetRead(ResourceType ResourceType, string ResourceId, IRequestMeta RequestMeta);
+    IResourceServiceOutcome GetRead(string ResourceId, IRequestMeta RequestMeta);
 
     //Search
     // GET: URL/FhirApi/Patient/5    
@@ -55,22 +48,16 @@ namespace Pyro.Common.Interfaces.Service
 
     //DeleteHistoryIndexes
     // POST: URL/FhirAPI/Patient/$delete-history-indexes
-    IResourceServiceOutcome DeleteHistoryIndexes(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric);
-
-
-    IResourceServiceOutcome GetResourceHistoryInFull(string ResourceId, IPyroRequestUri FhirRequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome);
-    IResourceServiceOutcome GetResourceHistoryInstance(string ResourceId, string Version, IPyroRequestUri FhirRequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome);
-    IResourceServiceOutcome GetResourceInstance(string ResourceId, IPyroRequestUri FhirRequestUri, IResourceServiceOutcome oPyroServiceOperationOutcome, IRequestHeader RequestHeaders = null);
-    IResourceServiceOutcome GetResourcesBySearch(IPyroRequestUri FhirRequestUri, ISearchParametersServiceOutcome SearchParametersServiceOutcome, IResourceServiceOutcome oPyroServiceOperationOutcome);
-    IResourceServiceOutcome SetResource(Resource Resource, IPyroRequestUri FhirRequestUri, RestEnum.CrudOperationType CrudOperationType);
-    IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection);
-
+    IResourceServiceOutcome DeleteHistoryIndexes(IRequestMeta RequestMeta);
+    
     //Add the given ServiceSearchParameterLight to the current resource instance
-    void AddResourceIndexs(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
+    void AddResourceIndexs(ResourceType ResourceType, List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
+    
+    //Get the dateTime that the last instance of this ResourceType was Added, Updated, Deleted in the server
+    DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType);
 
-    DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
-
-    int GetTotalCurrentResourceCount();
+    //Get the Total count of this ResourceType in the server, only Current not History resources
+    int GetTotalCurrentResourceCount(ResourceType ResourceType);
 
   }
 

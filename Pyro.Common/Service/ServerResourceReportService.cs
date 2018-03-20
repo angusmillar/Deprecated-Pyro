@@ -50,8 +50,8 @@ namespace Pyro.Common.Service
           ResourceReportParameter.Part = new List<Parameters.ParameterComponent>();
           ReturnParametersResource.Parameter.Add(ResourceReportParameter);
 
-          IResourceServices.SetCurrentResourceType(ResourceName);
-          int TotalCount = IResourceServices.GetTotalCurrentResourceCount();
+          ResourceType CurrentResourceType =  Pyro.Common.Tools.ResourceNameResolutionSupport.GetResourceType(ResourceName);
+          int TotalCount = IResourceServices.GetTotalCurrentResourceCount(CurrentResourceType);
 
           var TotalCountParameter = new Parameters.ParameterComponent();
           TotalCountParameter.Name = $"TotalCount";
@@ -60,7 +60,7 @@ namespace Pyro.Common.Service
 
           if (TotalCount > 0)
           {
-            DateTimeOffset? LastUpdated = IResourceServices.GetLastCurrentResourceLastUpdatedValue();
+            DateTimeOffset? LastUpdated = IResourceServices.GetLastCurrentResourceLastUpdatedValue(CurrentResourceType);
             if (LastUpdated.HasValue)
             {
               var LastUpdatedParameter = new Parameters.ParameterComponent();

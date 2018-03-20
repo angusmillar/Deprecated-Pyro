@@ -9,6 +9,7 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
+using Pyro.Common.RequestMetadata;
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Cache;
@@ -18,6 +19,7 @@ namespace Pyro.Common.Service
   public class ServerSearchParameterService : IServerSearchParameterService
   {
     private readonly IResourceServices IResourceServices;
+    private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly ICommonServices ICommonServices;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
@@ -27,9 +29,10 @@ namespace Pyro.Common.Service
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
 
-    public ServerSearchParameterService(IResourceServices IResourceServices, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public ServerSearchParameterService(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
     {
       this.IResourceServices = IResourceServices;
+      this.IRequestMetaFactory = IRequestMetaFactory;
       this.ICommonServices = ICommonServices;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
@@ -219,7 +222,6 @@ namespace Pyro.Common.Service
       {
         if (Parameters.Parameter != null || Parameters.Parameter.Count() == 0)
         {
-          IResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);
           Parameters ReturnParametersResource = new Parameters();
           ReturnParametersResource.Parameter = new List<Parameters.ParameterComponent>();
 
@@ -238,8 +240,8 @@ namespace Pyro.Common.Service
                     {
                       if (!FhirUri.IsOperation)
                       {
-                        var ResourceServiceOutcomeGetSearchParameterResource = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
-                        ResourceServiceOutcomeGetSearchParameterResource = IResourceServices.GetResourceInstance(FhirUri.ResourceId, RequestUri, ResourceServiceOutcomeGetSearchParameterResource);
+                        IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.SearchParameter.GetLiteral()}/{FhirUri.ResourceId}");
+                        IResourceServiceOutcome ResourceServiceOutcomeGetSearchParameterResource = IResourceServices.GetRead(FhirUri.ResourceId, RequestMeta);                        
                         if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                         {
                           TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
@@ -532,9 +534,9 @@ namespace Pyro.Common.Service
           }
         }
         if (LightList.Count() > 0)
-        {
-          IResourceServices.SetCurrentResourceType(ResourceName);
-          IResourceServices.AddResourceIndexs(LightList, RequestUri);
+        {          
+          ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(ResourceName);
+          IResourceServices.AddResourceIndexs(ResourceType, LightList, RequestUri);
         }
       }
 
@@ -571,14 +573,13 @@ namespace Pyro.Common.Service
     private List<CompairisonResult> CalculateDiff(List<ServiceSearchParameterHeavy> DbSearchParameterList, IPyroRequestUri RequestUri)
     {
       List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();
-      var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);
-      IResourceServices.SetCurrentResourceType(ResourceType.SearchParameter);
+      var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);      
 
       foreach (var OldList in GroupList)
-      {
-        var CurrentParameter = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
+      {        
         var FirstInstance = OldList.FirstOrDefault();
-        CurrentParameter = IResourceServices.GetResourceInstance(FirstInstance.SearchParameterResourceId, RequestUri, CurrentParameter);
+        IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.SearchParameter.GetLiteral()}/{FirstInstance.SearchParameterResourceId}");
+        IResourceServiceOutcome CurrentParameter = IResourceServices.GetRead(FirstInstance.SearchParameterResourceId, RequestMeta);        
         CompairisonResult Result;
         if (CurrentParameter.ResourceVersionNumber != FirstInstance.SearchParameterResourceVersion)
         {

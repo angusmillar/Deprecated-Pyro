@@ -767,8 +767,7 @@ namespace Pyro.Common.Service
 
     private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, IIhiSearchValidateOutcome HiServiceOutCome)
     {
-      IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;
-      IResourceServices.SetCurrentResourceType(FHIRAllTypes.Binary);
+      IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;     
       string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(SoapMessageId);
       IRequestMeta RequestMetaPut = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");      
       Binary SoapBinaryResource = GenerateSoapBinaryResource(SoapData, BinaryResourceId);

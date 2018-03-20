@@ -251,7 +251,6 @@
     <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Service\IBaseServices.cs" />
     <Compile Include="Interfaces\Service\ICommonServices.cs" />
-    <Compile Include="Interfaces\Service\IDefaultResourceServices.cs" />
     <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
     <Compile Include="Interfaces\Service\IResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />

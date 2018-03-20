@@ -11,6 +11,7 @@ using Pyro.Common.Search;
 using Pyro.Common.FhirOperation;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.Service
 {
@@ -19,13 +20,15 @@ namespace Pyro.Common.Service
     private readonly IResourceServices IResourceServices;    
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IRequestMetaFactory IRequestMetaFactory;
     private const string _ParameterName = "ResourceType";
 
-    public DeleteHistoryIndexesService(IResourceServices ResourceServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public DeleteHistoryIndexesService(IResourceServices ResourceServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IRequestMetaFactory IRequestMetaFactory)
     {
       this.IResourceServices = ResourceServices;      
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IRequestMetaFactory = IRequestMetaFactory;
     }
 
     public IResourceServiceOutcome DeleteMany(
@@ -99,15 +102,15 @@ namespace Pyro.Common.Service
           if (_ResourceList.Count > 0)
           {
             Parameters ParametersResult = new Parameters
-            {
-              //ParametersResult.Id = ParametersResource.Id + "-Response";
+            {             
               Parameter = new List<Parameters.ParameterComponent>()
             };
 
             foreach (string ResourceName in _ResourceList)
             {
-              IResourceServices.SetCurrentResourceType(ResourceName);
-              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = IResourceServices.DeleteHistoryIndexes(RequestUri, SearchParameterGeneric);
+              ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(ResourceName);
+              RequestMetadata.IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.GetLiteral()}");
+              IResourceServiceOutcome ResourceServiceOutcomeDeleteResourceIndex = IResourceServices.DeleteHistoryIndexes(RequestMeta);
               if (!ResourceServiceOutcomeDeleteResourceIndex.SuccessfulTransaction)
               {
                 return ResourceServiceOutcomeDeleteResourceIndex;
@@ -166,7 +169,9 @@ namespace Pyro.Common.Service
       if (SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric cannot be null.");
 
-      return IResourceServices.DeleteHistoryIndexes(RequestUri, SearchParameterGeneric);
+      RequestMetadata.IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(RequestUri, null, SearchParameterGeneric);
+
+      return IResourceServices.DeleteHistoryIndexes(RequestMeta);
     }
   }
 }
