@@ -46,7 +46,9 @@ namespace Pyro.Common.Tools.UriSupport
     public string ParseErrorMessage { get; set; }
     public bool ErrorInParseing { get; set; }
     public string ResourseName { get; set; }
+    public ResourceType? ResourceType { get; set; }
     public string CompartmentalisedResourseName { get; set; }
+    public ResourceType? CompartmentalisedResourseType { get; set; }
     public string ResourceId { get; set; }
     public string VersionId { get; set; }
     public string OperationName { get; set; }
@@ -264,6 +266,7 @@ namespace Pyro.Common.Tools.UriSupport
           if (IsResourceTypeString(Segment))
           {
             this.ResourseName = Segment;
+            this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
             Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
             return RemoveStartsWithSlash(Remainder);
           }
@@ -272,23 +275,7 @@ namespace Pyro.Common.Tools.UriSupport
             ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
             ErrorInParseing = true;
             return string.Empty;
-          }
-
-          //string FhirResourceRegexPattern = string.Empty;
-          //string RegexResourceDilimeter = "|";
-          //FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
-          //if (Regex.IsMatch(Segment, FhirResourceRegexPattern))
-          //{
-          //  this.ResourseName = Segment;
-          //  Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
-          //  return RemoveStartsWithSlash(Remainder);
-          //}
-          //else
-          //{
-          //  ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
-          //  ErrorInParseing = true;
-          //  return string.Empty;
-          //}
+          }         
         }
       }
       ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath} in URL {this.OriginalString}";
@@ -369,6 +356,7 @@ namespace Pyro.Common.Tools.UriSupport
             {
               //Is this a Compartment reference e.g ([base]/Patient/[id]/Condition?code:in=http://hspc.org/ValueSet/acute-concerns)
               this.CompartmentalisedResourseName = Segment;
+              this.CompartmentalisedResourseType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
               this.IsCompartment = true;
               Remainder = RemoveStartsWithSlash(Remainder.Substring(this.CompartmentalisedResourseName.Count(), Remainder.Count() - this.CompartmentalisedResourseName.Count()));
               return Remainder;

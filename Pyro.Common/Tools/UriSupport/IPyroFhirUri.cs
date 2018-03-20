@@ -1,4 +1,5 @@
 ﻿using System;
+using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
 
 namespace Pyro.Common.Tools.UriSupport
@@ -20,7 +21,9 @@ namespace Pyro.Common.Tools.UriSupport
     string Query { get; }
     string ResourceId { get; }
     string ResourseName { get; }
-    string CompartmentalisedResourseName { get; }
+    ResourceType? ResourceType { get; set; }
+    string CompartmentalisedResourseName { get; set; }
+    ResourceType? CompartmentalisedResourseType { get; set; }    
     string Urn { get; }
     UrnType? UrnType { get; }
     string VersionId { get; }
