@@ -268,7 +268,7 @@ namespace Pyro.Common.Service
           if (!String.IsNullOrWhiteSpace(ServiceMessage.SeverityType))
           {
             var ReasonParameter = new Parameters.ParameterComponent();
-            ReasonParameter.Name = "Reason";
+            ReasonParameter.Name = "SeverityType";
             ReasonParameter.Value = new Code() { Value = ServiceMessage.SeverityType };
             HiServiceMessageParameter.Part.Add(ReasonParameter);
           }
