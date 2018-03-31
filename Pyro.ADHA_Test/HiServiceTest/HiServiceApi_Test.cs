@@ -68,7 +68,7 @@ namespace Nehta.TestHiService
       //Test Enviroment
       IhiSearchValidateConfig.HiServiceEndpoint = "https://www5.medicareaustralia.gov.au/cert/soap/services/";      
       //Serial Number of the certificate in windows certificate store under the user acount's Personal store
-      IhiSearchValidateConfig.CertificateSerialNumber = "063c23";
+      IhiSearchValidateConfig.CertificateSerialNumber = "0608d9";
       //The product name must be registered with Medicare, must be registered for Test and Prod
       IhiSearchValidateConfig.ProductName = "NEHTA HIPS";
       //The product version must be registered with Medicare, must be registered for Test and Prod

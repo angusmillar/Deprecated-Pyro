@@ -126,7 +126,9 @@ namespace Pyro.ADHA.Api
           qualifier = IhiSearchValidateOutcome.RequestData.UserIdQualifier    // Eg: http://ns.yourcompany.com.au/id/yoursoftware/userid/1.0
         };
 
-        // Set up user identifier details
+        // Set up user HPI-O identifier
+        //The HPI-O is optional and only required if you are setup and using a CSP certificate, in this case you must pass the HPI-O
+        //of the orginisation you are making the call for.
         Pyro.ADHA.mcaR3.ConsumerSearchIHI.QualifiedId hpio = new Pyro.ADHA.mcaR3.ConsumerSearchIHI.QualifiedId()
         {
           id = "9344699237",                                              // HPIO internal to your system

@@ -4,6 +4,10 @@
   {
     string ServiceRootUrl { get; }
 
+    string ThisServersEntityCode { get; }
+    string ThisServersEntitySystem { get; }
+    string ThisServersManagingOrganizationResource { get; }
+
     bool ApplicationCacheServicesActive { get; }
 
     string ApplicationVersionInfo { get; }

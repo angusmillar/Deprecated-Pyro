@@ -9,58 +9,47 @@ namespace Pyro.Common.Cache
   {
     public static string ServiceBaseURL()
     {
-      try
+      Uri ServiceBaseURL = "ServiceBaseURL".AppSettingAsUriOrDefault(null);
+      if (ServiceBaseURL == null)
       {
-        return new Uri(ConfigurationManager.AppSettings["ServiceBaseURL"].ToString().TrimEnd('/')).ToString();
-      }
-      catch
-      {
-        string Msg = "The Web.Config file of the server has an invalid 'ServiceBaseURL' property value.";
+        string Msg = "The Web.Config file of the server has an invalid 'ServiceBaseURL' property value, it must conform to a Uri format.";
         throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
           Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Fatal, Hl7.Fhir.Model.OperationOutcome.IssueType.Exception, Msg), Msg);
       }
+      else
+      {
+        return ServiceBaseURL.ToString();
+      }      
+    }
+
+    public static string ThisServersEntityCode()
+    {
+      return "ThisServersEntityCode".AppSettingAsStringOrDefault("ThisServersEntityCode_HasNotBeenSet");            
+    }
+
+    public static string ThisServersEntitySystem()
+    {
+      return "ThisServersEntitySystem".AppSettingAsStringOrDefault("http://ThisServersEntitySystem.HasNot/BeenSet");
+    }
+
+    public static string ThisServersManagingOrganizationResource()
+    {
+      return "ThisServersManagingOrganizationResource".AppSettingAsStringOrDefault("http://ThisServersEntitySystem.HasNot/BeenSet");
     }
 
     public static bool ApplicationCacheServicesActive()
     {
-      try
-      {
-        string CacheServicesActive = ConfigurationManager.AppSettings["ApplicationCacheServicesActive"].ToString();
-        return StringSupport.StringToBoolean(CacheServicesActive);
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default to true;
-        return true;
-      }
+      return "ApplicationCacheServicesActive".AppSettingAsBoolOrDefault(true);      
     }
 
     public static bool FhirAuditEventLogRequestData()
     {
-      try
-      {
-        string FhirAuditEventLogRequestData = ConfigurationManager.AppSettings["FhirAuditEventLogRequestData"].ToString();
-        return StringSupport.StringToBoolean(FhirAuditEventLogRequestData);
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default to true;
-        return true;
-      }
+      return "FhirAuditEventLogRequestData".AppSettingAsBoolOrDefault(true);      
     }
 
     public static bool FhirAuditEventLogResponseData()
     {
-      try
-      {
-        string FhirAuditEventLogResponseData = ConfigurationManager.AppSettings["FhirAuditEventLogResponseData"].ToString();
-        return StringSupport.StringToBoolean(FhirAuditEventLogResponseData);
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default to true;
-        return true;
-      }
+      return "FhirAuditEventLogResponseData".AppSettingAsBoolOrDefault(true);      
     }
 
 
@@ -73,26 +62,8 @@ namespace Pyro.Common.Cache
     /// </summary>
     /// <returns>NumberOfRecordsPerPage integer</returns>
     public static int NumberOfRecordsPerPageDefault()
-    {
-      int SystemDefaultNumberOfRecordsPerPageString = 50;
-      try
-      {
-        string NumberOfRecordsPerPageString = ConfigurationManager.AppSettings["NumberOfRecordsPerPageDefault"].ToString();
-        int Value;
-        if (int.TryParse(NumberOfRecordsPerPageString, out Value))
-        {
-          return Value;
-        }
-        else
-        {
-          return SystemDefaultNumberOfRecordsPerPageString;
-        }
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default;
-        return SystemDefaultNumberOfRecordsPerPageString;
-      }
+    {      
+      return "NumberOfRecordsPerPageDefault".AppSettingAsIntOrDefault(50);      
     }
 
     /// <summary>
@@ -109,26 +80,14 @@ namespace Pyro.Common.Cache
     {
       const int AbsoluteMaxNumberOfRecordsPerPage = 5000;
       const int SystemDefaultMaxNumberOfRecordsPerPage = 500;
-      try
+      int MaxNumberOfRecordsPerPage = "MaxNumberOfRecordsPerPage".AppSettingAsIntOrDefault(SystemDefaultMaxNumberOfRecordsPerPage);
+      if (MaxNumberOfRecordsPerPage > AbsoluteMaxNumberOfRecordsPerPage)
       {
-        string MaxNumberOfRecordsPerPageString = ConfigurationManager.AppSettings["MaxNumberOfRecordsPerPage"].ToString();
-        int Value;
-        if (int.TryParse(MaxNumberOfRecordsPerPageString, out Value))
-        {
-          if (Value > AbsoluteMaxNumberOfRecordsPerPage)
-            return AbsoluteMaxNumberOfRecordsPerPage;
-          else
-            return Value;
-        }
-        else
-        {
-          return SystemDefaultMaxNumberOfRecordsPerPage;
-        }
+        return AbsoluteMaxNumberOfRecordsPerPage;
       }
-      catch (NullReferenceException)
+      else
       {
-        //if not set in file then default;
-        return SystemDefaultMaxNumberOfRecordsPerPage;
+        return MaxNumberOfRecordsPerPage;
       }
     }
 
@@ -139,16 +98,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static bool HIServiceConnectivityActive()
     {
-      try
-      {
-        string CacheServicesActive = ConfigurationManager.AppSettings["HIServiceConnectivityActive"].ToString();
-        return StringSupport.StringToBoolean(CacheServicesActive);
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default to false;
-        return false;
-      }
+      return "HIServiceConnectivityActive".AppSettingAsBoolOrDefault(false);      
     }
 
     /// <summary>
@@ -157,14 +107,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceCertificateSerialNumber()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceCertificateSerialNumber"].ToString();        
-      }
-      catch (NullReferenceException)
-      {        
-        return string.Empty;
-      }
+      return "HIServiceCertificateSerialNumber".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     /// <summary>
@@ -173,14 +116,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceEndpoint()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceEndpoint"].ToString();
-      }
-      catch (NullReferenceException)
-      {
-        return string.Empty;
-      }
+      return "HIServiceEndpoint".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     /// <summary>
@@ -190,14 +126,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceProductName()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceProductName"].ToString();
-      }
-      catch (NullReferenceException)
-      {
-        return string.Empty;
-      }
+      return "HIServiceProductName".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     /// <summary>
@@ -207,14 +136,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceProductVersion()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceProductVersion"].ToString();
-      }
-      catch (NullReferenceException)
-      {
-        return string.Empty;
-      }
+      return "HIServiceProductVersion".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     /// <summary>
@@ -224,14 +146,7 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceVendorId()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceVendorId"].ToString();
-      }
-      catch (NullReferenceException)
-      {
-        return string.Empty;
-      }
+      return "HIServiceVendorId".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     /// <summary>
@@ -242,42 +157,73 @@ namespace Pyro.Common.Cache
     /// <returns></returns>
     public static string HIServiceVendorIdQualifier()
     {
-      try
-      {
-        return ConfigurationManager.AppSettings["HIServiceVendorIdQualifier"].ToString();
-      }
-      catch (NullReferenceException)
-      {
-        return string.Empty;
-      }
+      return "HIServiceVendorIdQualifier".AppSettingAsStringOrDefault(string.Empty);      
     }
 
     public static int HIServiceIHIValidationPeriodDays()
-    {
-      int SystemDefaultHIServiceIHIValidationPeriodDays = 1;
-      try
-      {
-        string HIServiceIHIValidationPeriodDaysString = ConfigurationManager.AppSettings["HIServiceIHIValidationPeriodDays"].ToString();
-        int Value;
-        if (int.TryParse(HIServiceIHIValidationPeriodDaysString, out Value))
-        {
-          return Value;
-        }
-        else
-        {
-          return SystemDefaultHIServiceIHIValidationPeriodDays;
-        }
-      }
-      catch (NullReferenceException)
-      {
-        //if not set in file then default;
-        return SystemDefaultHIServiceIHIValidationPeriodDays;
-      }
+    {      
+      return "HIServiceIHIValidationPeriodDays".AppSettingAsIntOrDefault(1);      
     }
 
 
     
-
+    private static int AppSettingAsIntOrDefault(this string Key, int Default)
+    {
+      int Result;
+      string KeyValue = Key.AppSetting();
+      if (int.TryParse(KeyValue, out Result))
+      {
+        return Result;
+      }
+      else
+      {
+        return Default;
+      }
+    }
+    private static bool AppSettingAsBoolOrDefault(this string Key, bool Default)
+    {
+      string KeyValue = Key.AppSetting();
+      if (StringSupport.StringIsBoolean(KeyValue))
+      {
+        return StringSupport.StringToBoolean(KeyValue);
+      }
+      else
+      {
+        return Default;
+      }
+    }
+    private static Uri AppSettingAsUriOrDefault(this string Key, Uri Default)
+    {
+      string KeyValue = Key.AppSetting().TrimEnd('/');
+      Uri Temp;
+      if (Uri.TryCreate(KeyValue, UriKind.Absolute, out Temp))
+      {
+        return Temp;
+      }
+      else
+      {
+        return Default;
+      }      
+    }
+    private static string AppSettingAsStringOrDefault(this string Key, string Default)
+    {      
+      string Value = Key.AppSetting();
+      if (string.IsNullOrWhiteSpace(Value))
+      {
+        return Default;
+      }
+      else
+      {
+        return Value.Trim();
+      }
+    }
+    private static string AppSetting(this string Key)
+    {
+      string Result = string.Empty;
+      if (ConfigurationManager.AppSettings[Key] != null)
+        Result = ConfigurationManager.AppSettings[Key];
+      return Result;
+    }
 
   }
 }

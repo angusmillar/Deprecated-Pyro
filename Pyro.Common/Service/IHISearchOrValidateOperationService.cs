@@ -30,8 +30,9 @@ namespace Pyro.Common.Service
     const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
     private enum IdentiferType { IHI, Medicare, DVA }
     private bool ReturnSoapBinaryResourcesToFHIRCaller = false;
-    
-    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;        
+    private TimeSpan HiServiceCallTime;
+
+    private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IHiServiceApi HiServiceApi;
@@ -40,17 +41,17 @@ namespace Pyro.Common.Service
     private readonly IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser;
     private readonly IDVANumberParser IDVANumberParser;
 
-    public IHISearchOrValidateOperationService(     
-      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,      
+    public IHISearchOrValidateOperationService(
+      IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
       IResourceServices IResourceServices,
       IGlobalProperties GlobalProperties,
-      IHiServiceApi IHiServiceApi,      
+      IHiServiceApi IHiServiceApi,
       IRequestMetaFactory IRequestMetaFactory,
       IMedicareNumberParser IMedicareNumberParser,
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser,
       IDVANumberParser IDVANumberParser)
-    {      
-      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;            
+    {
+      this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
       this.GlobalProperties = GlobalProperties;
       this.IRequestMetaFactory = IRequestMetaFactory;
@@ -70,7 +71,7 @@ namespace Pyro.Common.Service
         throw new NullReferenceException("ResourceServices cannot be null.");
       if (RequestMeta == null)
         throw new NullReferenceException("RequestMeta cannot be null.");
-      if (RequestMeta.PyroRequestUri== null)
+      if (RequestMeta.PyroRequestUri == null)
         throw new NullReferenceException("RequestUri cannot be null.");
       if (RequestMeta.RequestHeader == null)
         throw new NullReferenceException("RequestHeaders cannot be null.");
@@ -133,12 +134,18 @@ namespace Pyro.Common.Service
         /// Perform HI Service requests in the order IHI, Medicare then DVA, as soon 
         /// as one is successful in finding a IHI we break, stop
 
+        System.Diagnostics.Stopwatch stopWatchHiServiceCall = new System.Diagnostics.Stopwatch();
+        
+
         // Make Hi Service Calls
         foreach (IhiRequestData IhiRequestData in IhiRequestDataList)
         {
           IsHIServiceFoundIHI = false;
           IsHIServiceError = false;
-          HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);
+          stopWatchHiServiceCall.Reset();
+          stopWatchHiServiceCall.Start();
+          HiServiceOutCome = HiServiceApi.SearchOrValidateIhi(IhiRequestData);          
+          stopWatchHiServiceCall.Stop();
           //Did a HI Error error occur?
           IsHIServiceError = !HiServiceOutCome.SuccessfulQuery;
           //Did we get an IHI Idneifier?
@@ -146,7 +153,7 @@ namespace Pyro.Common.Service
           if (IsHIServiceFoundIHI || IsHIServiceError)
             break;
         }
-
+        HiServiceCallTime = stopWatchHiServiceCall.Elapsed;
         if (IsHIServiceError)
         {
           //Some error from the HI Service libaray
@@ -156,26 +163,15 @@ namespace Pyro.Common.Service
           ResourceServiceOutcome.SuccessfulTransaction = true;
           return ResourceServiceOutcome;
         }
-        else 
+        else
         {
           //Handles both an IHI Found or not found
 
-          // We found a IHI number from HI Service so store the Soap as 
-          // Binary resources and form the response
-          IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary = null;
-          IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary = null;          
-          if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequest) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequestMessageId))
-          {
-            ResourceServiceOutcomeSoapRequestBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapRequestMessageId, HiServiceOutCome.QueryMetadata.SoapRequest, RequestMeta.PyroRequestUri, HiServiceOutCome);
-          }
-
-          if (!String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponse) && !String.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponseMessageId))
-          {
-            ResourceServiceOutcomeSoapResponseBinary = CommitBinaryResourceForSoapLogging(HiServiceOutCome.QueryMetadata.SoapResponseMessageId, HiServiceOutCome.QueryMetadata.SoapResponse, RequestMeta.PyroRequestUri, HiServiceOutCome);          
-          }
-
+          //Commit an AuditEvent FHIR resource for HI Service Auditing
+          IResourceServiceOutcome ResourceServiceOutcomeAuditEvent = CommitAuditResourceForHiServiceCall(HiServiceOutCome, HiServiceOutCome.SuccessfulQuery);
+                    
           //log all the soap requests, HI Conformance states all errors must be logged
-          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutCome, ResourceServiceOutcomeSoapRequestBinary, ResourceServiceOutcomeSoapResponseBinary);
+          Parameters ResponseParametersResource = GenerateReturnParametersResource(RequestParameters, HiServiceOutCome, ResourceServiceOutcomeAuditEvent);
 
           ResourceServiceOutcome.ResourceResult = ResponseParametersResource;
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
@@ -183,7 +179,7 @@ namespace Pyro.Common.Service
           ResourceServiceOutcome.LastModified = ResponseParametersResource.Meta.LastUpdated;
           ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
           return ResourceServiceOutcome;
-        }        
+        }
       }
       catch (Exception exec)
       {
@@ -193,10 +189,292 @@ namespace Pyro.Common.Service
         throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message, exec);
       }
     }
-   
+
+    private IResourceServiceOutcome CommitAuditResourceForHiServiceCall(IIhiSearchValidateOutcome HiServiceOutCome, bool SuccessfulQuery)
+    {
+      var Audit = new AuditEvent();
+      Audit.Type = new Coding()
+      {
+        Code = "HiServiceCallAudit",
+        Display = "Hi Service Call Audit",
+        System = "https://Pyrohealth.net/Codesystem/AuditEvent"
+      };
+      Audit.Action = AuditEvent.AuditEventAction.E;
+      Audit.Recorded = DateTimeOffset.Now;
+      if (SuccessfulQuery)
+      {
+        Audit.Outcome = AuditEvent.AuditEventOutcome.N0;
+      }
+      else
+      {
+        Audit.Outcome = AuditEvent.AuditEventOutcome.N4;
+      }
+
+      if (!string.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.ErrorMessge))
+      {
+        Audit.OutcomeDesc = $"{HiServiceOutCome.QueryMetadata.ErrorMessge}";
+      }
+      else if (HiServiceOutCome.QueryMetadata.ServiceMessage.Count > 0)
+      {
+        StringBuilder sb = new StringBuilder();
+        HiServiceOutCome.QueryMetadata.ServiceMessage.ForEach(x => sb.AppendLine($"Code: {x.Code}, Reason: {x.Reason}, SeverityType: {x.SeverityType.ToString()} "));
+        Audit.OutcomeDesc = sb.ToString();
+      }
+
+      Audit.PurposeOfEvent = new List<CodeableConcept>()
+      {
+        new CodeableConcept()
+        {
+           Coding = new List<Coding>()
+           {
+              new Coding()
+              {
+                 Code = "RECORDMGT",
+                  Display = "records management",
+                  System = "http://hl7.org/fhir/v3/ActReason"
+
+              },
+              new Coding()
+              {
+                 Code = "PATADMIN",
+                 Display = "patient administration",
+                 System = "http://hl7.org/fhir/v3/ActReason"
+              },
+              new Coding()
+              {
+                Code = "HSYSADMIN",
+                Display = "health system administration",
+                System = "http://hl7.org/fhir/v3/ActReason"
+              }
+           }
+        }
+      };
+
+      //User Agent (user making request)
+      Audit.Agent = new List<AuditEvent.AgentComponent>();
+      var AgentRequestUser = new AuditEvent.AgentComponent();
+      Audit.Agent.Add(AgentRequestUser);
+      AgentRequestUser.Role = new List<CodeableConcept>()
+      {
+         new CodeableConcept()
+         {
+           Coding = new List<Coding>()
+           {
+             new Coding()
+             {
+                Code ="110152",
+                Display="Destination Role ID",
+                System="http://dicom.nema.org/resources/ontology/DCM"
+             }
+           }
+         }
+      };
+      AgentRequestUser.UserId = new Identifier()
+      {
+        Value = HiServiceOutCome.RequestData.UserId,
+        System = HiServiceOutCome.RequestData.UserIdQualifier
+      };
+      AgentRequestUser.Name = "The user recorded as making the request to the HI Service";
+      AgentRequestUser.Requestor = true;
+
+      //System Agent (PyroServer)
+      var AgentSystemPyroServer = new AuditEvent.AgentComponent();
+      Audit.Agent.Add(AgentSystemPyroServer);
+      AgentSystemPyroServer.Role = new List<CodeableConcept>()
+      {
+         new CodeableConcept()
+         {
+           Coding = new List<Coding>()
+           {
+             new Coding()
+             {
+                Code ="110150",
+                Display="Application",
+                System ="http://dicom.nema.org/resources/ontology/DCM"
+             }
+           }
+         }
+      };
+      AgentSystemPyroServer.UserId = new Identifier()
+      {
+        Value = GlobalProperties.ThisServersEntityCode,
+        System = GlobalProperties.ThisServersEntitySystem
+      };
+      AgentSystemPyroServer.Name = "The intermediate system recorded as performing the request to the HI Service";
+      AgentSystemPyroServer.Requestor = false;
+      AgentSystemPyroServer.Network = new AuditEvent.NetworkComponent()
+      {
+        Address = GlobalProperties.ServiceRootUrl,
+        Type = AuditEvent.AuditEventAgentNetworkType.N5
+      };
+
+
+      //System Agent (HI Service) 
+      var AgentSystemHiService = new AuditEvent.AgentComponent();
+      Audit.Agent.Add(AgentSystemHiService);
+      AgentSystemHiService.Role = new List<CodeableConcept>()
+      {
+         new CodeableConcept()
+         {
+           Coding = new List<Coding>()
+           {
+             new Coding()
+             {
+                Code ="CN",
+                Display="national",
+                System = "http://hl7.org/fhir/v3/RoleCode"
+
+             },
+             new Coding()
+             {
+                Code ="110150",
+                Display="Application",
+                System ="http://dicom.nema.org/resources/ontology/DCM"
+             }
+           }
+         }
+      };
+      AgentSystemHiService.UserId = new Identifier()
+      {
+        Value = "HiService",
+        System = "http://ns.electronichealth.net.au/hi/svc"
+      };
+      AgentSystemHiService.Name = "The Australian National Health Identifer service (HI Service) source of identifier truth.";
+      AgentSystemHiService.Requestor = false;
+      AgentSystemHiService.Network = new AuditEvent.NetworkComponent()
+      {
+        Address = GlobalProperties.HIServiceEndpoint,
+        Type = AuditEvent.AuditEventAgentNetworkType.N5
+      };
+
+      Audit.Source = new AuditEvent.SourceComponent()
+      {
+        Identifier = new Identifier()
+        {
+          Value = GlobalProperties.ThisServersEntityCode,
+          System = GlobalProperties.ThisServersEntitySystem
+        },
+        Type = new List<Coding>()
+        {
+          new Coding()
+          {
+             Code = "4",
+             Display = "Application Server",
+             System = "http://hl7.org/fhir/security-source-type"
+          }
+        }
+      };
+
+      Audit.Entity = new List<AuditEvent.EntityComponent>();
+      
+      //Request
+      if (!string.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequestMessageId) && !string.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapRequest))
+      {
+        var EntityHiServiceRequest = new AuditEvent.EntityComponent();
+        Audit.Entity.Add(EntityHiServiceRequest);
+        EntityHiServiceRequest.Identifier = new Identifier()
+        {
+          Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingRequest",
+          System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
+        };
+        EntityHiServiceRequest.Type = new Coding()
+        {
+          Code = "2",
+          Display = "System Object",
+          System = "http://hl7.org/fhir/audit-entity-type"
+        };
+        EntityHiServiceRequest.Role = new Coding()
+        {
+          Code = "24",
+          Display = "Query",
+          System = "http://hl7.org/fhir/object-role"
+        };
+        EntityHiServiceRequest.SecurityLabel = new List<Coding>()
+        {
+          new Coding()
+          {
+             Code = "AUDIT",
+             Display = "audit",
+             System = "http://hl7.org/fhir/v3/ActCode"
+          }
+        };
+        //FHIR Specification Rule says either 'Name' or 'Query' but not both, so we are using 'Query'.
+        //EntityHiServiceRequest.Name = "Hi Service IHI Search SOAP Request";
+        EntityHiServiceRequest.Description = "HI Service IHI search or validate request SOAP data, base64 encoded, for the request being audited";
+        string MedicareNumberAndIRN = (HiServiceOutCome?.RequestData?.MedicareNumber == null ? string.Empty : HiServiceOutCome.RequestData.MedicareNumber) + (HiServiceOutCome?.RequestData?.MedicareIRN == null ? string.Empty : HiServiceOutCome.RequestData.MedicareIRN);
+        string QueryString = $"Family: {((HiServiceOutCome?.RequestData?.Family == null) ? string.Empty : HiServiceOutCome.RequestData.Family)}, Given: {((HiServiceOutCome?.RequestData?.Given == null) ? string.Empty : HiServiceOutCome.RequestData.Given)}, Gender: {((HiServiceOutCome?.RequestData?.SexChar == null) ? string.Empty : HiServiceOutCome.RequestData.SexChar.ToString())}, Dob: {((HiServiceOutCome?.RequestData?.Dob == null) ? string.Empty : HiServiceOutCome.RequestData.Dob.Value.ToString("DD/MM/YYYY"))}, Medicare: {MedicareNumberAndIRN}, DVA: {(HiServiceOutCome?.RequestData?.DVANumber == null ? string.Empty : HiServiceOutCome?.RequestData?.DVANumber)}, IHI: {(HiServiceOutCome?.RequestData?.IHINumber == null ? string.Empty : HiServiceOutCome?.RequestData?.IHINumber)}";
+        EntityHiServiceRequest.Query = System.Text.Encoding.Unicode.GetBytes(QueryString);
+        EntityHiServiceRequest.Detail = new List<AuditEvent.DetailComponent>()
+        {
+          new AuditEvent.DetailComponent()
+          {
+             Type = "Request SOAP",
+             Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapRequest)
+           }
+        };
+      }
+
+      //Response
+      if (!string.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponseMessageId) && !string.IsNullOrWhiteSpace(HiServiceOutCome.QueryMetadata.SoapResponse))
+      {
+        var EntityHiServiceResponse = new AuditEvent.EntityComponent();
+        Audit.Entity.Add(EntityHiServiceResponse);
+        EntityHiServiceResponse.Identifier = new Identifier()
+        {
+          Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingResponse",
+          System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
+        };
+        EntityHiServiceResponse.Type = new Coding()
+        {
+          Code = "2",
+          Display = "System Object",
+          System = "http://hl7.org/fhir/audit-entity-type"
+        };
+        EntityHiServiceResponse.Role = new Coding()
+        {
+          Code = "4",
+          Display = "Domain Resource",
+          System = "http://hl7.org/fhir/object-role"
+        };
+        EntityHiServiceResponse.SecurityLabel = new List<Coding>()
+        {
+          new Coding()
+          {
+             Code = "AUDIT",
+             Display = "audit",
+             System = "http://hl7.org/fhir/v3/ActCode"
+          }
+        };
+        EntityHiServiceResponse.Name = "Hi Service IHI Search or validate SOAP Response data";
+        EntityHiServiceResponse.Description = "HI Service IHI search or validate response SOAP data, base64 encoded, for the request being audited";        
+        EntityHiServiceResponse.Detail = new List<AuditEvent.DetailComponent>()
+        {
+          new AuditEvent.DetailComponent()
+          {
+             Type = "Response SOAP",
+             Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapResponse)
+           }
+        };
+      }
+
+      IResourceServiceOutcome AuditEventSoapBinaryAuditEvent;
+      string AuditEventResourceId = Pyro.Common.Tools.FhirGuid.FhirGuid.NewFhirGuid();
+      IRequestMeta RequestMetaPut = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.AuditEvent.GetLiteral()}/{AuditEventResourceId}");
+      Audit.Id = AuditEventResourceId;
+      AuditEventSoapBinaryAuditEvent = IResourceServices.Put(AuditEventResourceId, Audit, RequestMetaPut);
+      if (!AuditEventSoapBinaryAuditEvent.SuccessfulTransaction)
+      {
+        string Message = $"Internal Server error in trying to commit a AuditEvent resource to log a HI Service call";
+        var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
+        throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
+      }
+      return AuditEventSoapBinaryAuditEvent;
+    }
+
+
     private Parameters GenerateReturnParametersResource(
       Parameters RequestParameters, IIhiSearchValidateOutcome IhiServiceOutCome,
-      IResourceServiceOutcome ResourceServiceOutcomeSoapRequestBinary, IResourceServiceOutcome ResourceServiceOutcomeSoapResponseBinary)
+      IResourceServiceOutcome ResourceServiceOutcomeAuditEvent)
     {
       //we will use the request parameters to create the response
       RequestParameters.Meta = new Meta();
@@ -213,8 +491,8 @@ namespace Pyro.Common.Service
       if (IhiServiceOutCome.ResponseData != null)
       {
         IHIMatchFound = !String.IsNullOrWhiteSpace(IhiServiceOutCome.ResponseData.IHINumber);
-      }      
-      SuccessParameter.Value = new FhirBoolean(IHIMatchFound);            
+      }
+      SuccessParameter.Value = new FhirBoolean(IHIMatchFound);
       HiServiceResponseParameter.Part.Add(SuccessParameter);
 
       if (!IhiServiceOutCome.SuccessfulQuery)
@@ -242,7 +520,7 @@ namespace Pyro.Common.Service
         HiServiceMessageListParameter.Part = new List<Parameters.ParameterComponent>();
         HiServiceResponseParameter.Part.Add(HiServiceMessageListParameter);
 
-        foreach(var ServiceMessage in IhiServiceOutCome.QueryMetadata.ServiceMessage)
+        foreach (var ServiceMessage in IhiServiceOutCome.QueryMetadata.ServiceMessage)
         {
           var HiServiceMessageParameter = new Parameters.ParameterComponent();
           HiServiceMessageParameter.Name = "HiServiceMessage";
@@ -280,42 +558,34 @@ namespace Pyro.Common.Service
       HiServiceCallAuditParameter.Part = new List<Parameters.ParameterComponent>();
       HiServiceResponseParameter.Part.Add(HiServiceCallAuditParameter);
 
-      if (ResourceServiceOutcomeSoapRequestBinary != null && ResourceServiceOutcomeSoapRequestBinary.SuccessfulTransaction)
+      if (ResourceServiceOutcomeAuditEvent != null && ResourceServiceOutcomeAuditEvent.SuccessfulTransaction)
       {
-        var RequestSoapBinaryResourceReferenceParameter = new Parameters.ParameterComponent();
-        HiServiceCallAuditParameter.Part.Add(RequestSoapBinaryResourceReferenceParameter);
-        RequestSoapBinaryResourceReferenceParameter.Name = "RequestSoapBinaryResourceReference";
-        RequestSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
-
+        var RequestAuditEventResourceReferenceParameter = new Parameters.ParameterComponent();
+        HiServiceCallAuditParameter.Part.Add(RequestAuditEventResourceReferenceParameter);
+        RequestAuditEventResourceReferenceParameter.Name = "AuditEventReference";
+        RequestAuditEventResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeAuditEvent.ResourceResult.TypeName}/{ResourceServiceOutcomeAuditEvent.FhirResourceId}");
+        
         if (ReturnSoapBinaryResourcesToFHIRCaller)
         {
-          var RequestSoapBinaryResourceParameter = new Parameters.ParameterComponent();
-          HiServiceCallAuditParameter.Part.Add(RequestSoapBinaryResourceParameter);
-          RequestSoapBinaryResourceParameter.Name = "RequestSoapBinaryResource";
-          RequestSoapBinaryResourceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
-          RequestSoapBinaryResourceParameter.Resource = ResourceServiceOutcomeSoapRequestBinary.ResourceResult;
+          if (HiServiceCallTime != null)
+          {
+            var HiServiceRequestTimer = new Parameters.ParameterComponent();
+            HiServiceCallAuditParameter.Part.Add(HiServiceRequestTimer);
+            HiServiceRequestTimer.Name = "HiServiceCallTimeMilliseconds";
+            HiServiceRequestTimer.Value = new Hl7.Fhir.Model.FhirDecimal(System.Decimal.Round(Convert.ToDecimal(HiServiceCallTime.TotalMilliseconds)));
+          }
+
+          var RequestAuitEventResourceParameter = new Parameters.ParameterComponent();
+          HiServiceCallAuditParameter.Part.Add(RequestAuitEventResourceParameter);
+          RequestAuitEventResourceParameter.Name = "AuditEventResource";
+          //RequestSoapBinaryResourceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapRequestBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapRequestBinary.FhirResourceId}");
+          RequestAuitEventResourceParameter.Resource = ResourceServiceOutcomeAuditEvent.ResourceResult;
         }
 
       }
-
-      if (ResourceServiceOutcomeSoapResponseBinary != null && ResourceServiceOutcomeSoapResponseBinary.SuccessfulTransaction)
-      {
-        var ResponseSoapBinaryResourceReferenceParameter = new Parameters.ParameterComponent();
-        HiServiceCallAuditParameter.Part.Add(ResponseSoapBinaryResourceReferenceParameter);
-        ResponseSoapBinaryResourceReferenceParameter.Name = "ResponseSoapBinaryResourceReference";
-        ResponseSoapBinaryResourceReferenceParameter.Value = new FhirUri($"{ResourceServiceOutcomeSoapResponseBinary.ResourceResult.TypeName}/{ResourceServiceOutcomeSoapResponseBinary.FhirResourceId}");
-
-        if (ReturnSoapBinaryResourcesToFHIRCaller)
-        {
-          var ResponseSoapBinaryResourceReferenceParameterx = new Parameters.ParameterComponent();
-          HiServiceCallAuditParameter.Part.Add(ResponseSoapBinaryResourceReferenceParameterx);
-          ResponseSoapBinaryResourceReferenceParameterx.Name = "ResponseSoapBinaryResource";
-          ResponseSoapBinaryResourceReferenceParameterx.Resource = ResourceServiceOutcomeSoapResponseBinary.ResourceResult;
-        }
-      }
-
+      
       return RequestParameters;
-    }    
+    }
 
     private bool GetIhiRequestDataList(Parameters ParametersResource, List<IhiRequestData> ihiRequestDataList)
     {
@@ -363,8 +633,8 @@ namespace Pyro.Common.Service
       }
 
       //Return Soap binary Resource to caller
-      const string ReturnSoapRequestAndResponseParameter = "ReturnSoapRequestAndResponseData";
-      var ReturnSoapRequestAndResponse = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, ReturnSoapRequestAndResponseParameter, StringComparison.CurrentCultureIgnoreCase));
+      const string ReturnAuditEventParameter = "ReturnAuditEvent";
+      var ReturnSoapRequestAndResponse = ParametersResource.Parameter.SingleOrDefault(x => String.Equals(x.Name, ReturnAuditEventParameter, StringComparison.CurrentCultureIgnoreCase));
       //Set the Model to true always as this forces the HI Service API cal to return the soap
       ModelRequest.ReturnSoapRequestAndResponseData = true;
       if (ReturnSoapRequestAndResponse != null)
@@ -762,44 +1032,6 @@ namespace Pyro.Common.Service
             (x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value && x.Period.Start == null) ||
             (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value)
           );
-      }
-    }
-
-    private IResourceServiceOutcome CommitBinaryResourceForSoapLogging(string SoapMessageId, string SoapData, IPyroRequestUri RequestUri, IIhiSearchValidateOutcome HiServiceOutCome)
-    {
-      IResourceServiceOutcome ResourceServiceOutcomeSoapBinary;     
-      string BinaryResourceId = StripUrnUuidPrefixFromSoapMessageId(SoapMessageId);
-      IRequestMeta RequestMetaPut = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.Binary.GetLiteral()}/{BinaryResourceId}");      
-      Binary SoapBinaryResource = GenerateSoapBinaryResource(SoapData, BinaryResourceId);
-
-      ResourceServiceOutcomeSoapBinary = IResourceServices.Put(BinaryResourceId, SoapBinaryResource, RequestMetaPut);
-      if (!ResourceServiceOutcomeSoapBinary.SuccessfulTransaction)
-      {
-        string Message = $"Internal Server error in trying to commit a Binary resource to log a HI Service Soap Message Id: {SoapMessageId}";
-        var OptOut = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
-        throw new Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
-      }
-      return ResourceServiceOutcomeSoapBinary;
-    }
-
-    private Binary GenerateSoapBinaryResource(string SoapXml, string SoapMessageId)
-    {
-      Binary SoapBinary = new Binary();
-      SoapBinary.Id = SoapMessageId;
-      SoapBinary.ContentType = "application/soap+xml";
-      SoapBinary.Content = System.Text.Encoding.UTF8.GetBytes(SoapXml);
-      return SoapBinary;
-    }
-
-    private static string StripUrnUuidPrefixFromSoapMessageId(string SoapMesageId)
-    {
-      if (SoapMesageId.StartsWith("urn:uuid:"))
-      {
-        return SoapMesageId.Split(':')[2];
-      }
-      else
-      {
-        return SoapMesageId;
       }
     }
 

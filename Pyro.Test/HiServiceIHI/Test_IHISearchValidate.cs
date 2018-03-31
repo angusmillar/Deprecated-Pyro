@@ -215,10 +215,10 @@ namespace Pyro.Test.HiServiceIHI
       UserIdQualifierParam.Value = new FhirUri("http://ns.yourcompany.com.au/id/yoursoftware/userid/1.0");
       ParametersResource.Parameter.Add(UserIdQualifierParam);
 
-      var ReturnSoapRequestAndResponseDataParam = new Parameters.ParameterComponent();
-      ReturnSoapRequestAndResponseDataParam.Name = "ReturnSoapRequestAndResponseData";
-      ReturnSoapRequestAndResponseDataParam.Value = new FhirBoolean(true);
-      ParametersResource.Parameter.Add(ReturnSoapRequestAndResponseDataParam);
+      var ReturnAuditEventParam = new Parameters.ParameterComponent();
+      ReturnAuditEventParam.Name = "ReturnAuditEvent";
+      ReturnAuditEventParam.Value = new FhirBoolean(true);
+      ParametersResource.Parameter.Add(ReturnAuditEventParam);
 
       var RequestPatientParam = new Parameters.ParameterComponent();
       RequestPatientParam.Name = "RequestPatient";

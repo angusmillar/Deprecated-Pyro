@@ -89,6 +89,20 @@ namespace Pyro.Common.Tools
       }
     }
 
+    public static bool StringIsBoolean(string value)
+    {
+      value = ToLowerFast(value);
+      if ((value == "true") || (value == "yes") || (value == "on") || (value == "1") ||
+        (value == "false") || (value == "no") || (value == "off") || (value == "0"))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
     /// <summary>
     /// Returns the string removing http:// or https://
     /// </summary>

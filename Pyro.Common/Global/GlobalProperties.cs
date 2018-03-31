@@ -13,6 +13,10 @@ namespace Pyro.Common.Global
     {
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
 
+      _ThisServersEntityCode = WebConfigProperties.ThisServersEntityCode();
+      _ThisServersEntitySystem = WebConfigProperties.ThisServersEntitySystem();
+      _ThisServersManagingOrganizationResource = WebConfigProperties.ThisServersManagingOrganizationResource();
+
       _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();
 
       _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;
@@ -37,6 +41,31 @@ namespace Pyro.Common.Global
     public string ServiceRootUrl
     {
       get { return _ServiceRootUrl; }
+    }
+
+    private string _ThisServersEntityCode;
+    public string ThisServersEntityCode
+    {
+      get
+      {
+        return _ThisServersEntityCode;
+      }
+    }
+    private string _ThisServersEntitySystem;
+    public string ThisServersEntitySystem
+    {
+      get
+      {
+        return _ThisServersEntitySystem;
+      }
+    }
+    private string _ThisServersManagingOrganizationResource;
+    public string ThisServersManagingOrganizationResource
+    {
+      get
+      {
+        return _ThisServersManagingOrganizationResource;
+      }
     }
 
     private bool _ApplicationCacheServicesActive;
