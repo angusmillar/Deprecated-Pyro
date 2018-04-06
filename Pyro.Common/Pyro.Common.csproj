@@ -108,6 +108,10 @@
     <Compile Include="ADHA\Api\IhiRequestData.cs" />
     <Compile Include="ADHA\Api\IhiSearchValidateConfig.cs" />
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
+    <Compile Include="BackgroundTask\BackgroundTaskPayloadBase.cs" />
+    <Compile Include="BackgroundTask\IBackgroundTaskPayloadBase.cs" />
+    <Compile Include="BackgroundTask\Task\ITaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="BackgroundTask\Task\TaskPayloadHiServiceIHISearch.cs" />
     <Compile Include="BusinessEntities\Dto\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="CompositionRoot\IServerSearchParameterServiceFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
+    <Compile Include="ProductText\PyroText.cs" />
     <Compile Include="RequestMetadata\IRequestMeta.cs" />
     <Compile Include="RequestMetadata\RequestMeta.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />

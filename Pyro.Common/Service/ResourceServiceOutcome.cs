@@ -8,6 +8,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.BackgroundTask;
 
 namespace Pyro.Common.Service
 {
@@ -49,6 +50,7 @@ namespace Pyro.Common.Service
     public string FormatMimeType { get; set; }
     public SummaryType? SummaryType { get; set; }
     public bool SuccessfulTransaction { get; set; }
+    public IList<IBackgroundTaskPayloadBase> BackgroundTaskList { get; set; }
     #endregion
 
     #region Constructor
@@ -57,6 +59,7 @@ namespace Pyro.Common.Service
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
       this.SuccessfulTransaction = false;
+      this.BackgroundTaskList = new List<IBackgroundTaskPayloadBase>();
     }
     #endregion
 

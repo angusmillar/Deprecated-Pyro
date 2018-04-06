@@ -3,6 +3,8 @@ using Pyro.Common.Enum;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Tools.UriSupport;
+using System.Collections.Generic;
+using Pyro.Common.BackgroundTask;
 
 namespace Pyro.Common.Service
 {
@@ -19,5 +21,6 @@ namespace Pyro.Common.Service
     string FormatMimeType { get; set; }
     SummaryType? SummaryType { get; set; }
     bool SuccessfulTransaction { get; set; }
-  }
+    IList<IBackgroundTaskPayloadBase> BackgroundTaskList { get; set; }
+}
 }

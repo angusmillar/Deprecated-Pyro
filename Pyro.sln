@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.ADHA", "Pyro.ADHA\Pyro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.ADHA_Test", "Pyro.ADHA_Test\Pyro.ADHA_Test.csproj", "{67662B60-8C55-4955-92EF-DACE657B68E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Backburner", "Pyro.Backburner\Pyro.Backburner.csproj", "{FFE2C801-DFAD-4E95-A25E-289DF324477A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{67662B60-8C55-4955-92EF-DACE657B68E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67662B60-8C55-4955-92EF-DACE657B68E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67662B60-8C55-4955-92EF-DACE657B68E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

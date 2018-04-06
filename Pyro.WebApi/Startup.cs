@@ -8,7 +8,7 @@ using System.Web.Http;
 //using System.Web.Mvc;
 //using System.Web.Optimization;
 using System.Web.Routing;
-using System.Data.Entity;
+using Microsoft.AspNet.SignalR;
 
 [assembly: OwinStartup(typeof(Pyro.WebApi.Startup))]
 
@@ -20,6 +20,8 @@ namespace Pyro.WebApi
     protected RouteCollection _RouteCollection = RouteTable.Routes;
     public void Configuration(IAppBuilder app)
     {
+      RegisterSignalRHubs(app);
+
       app.Use(async (environment, next) =>
       {
         var QueryString = environment.Environment["owin.RequestQueryString"] as string;
@@ -59,6 +61,18 @@ namespace Pyro.WebApi
       //BundleConfig.RegisterBundles(BundleTable.Bundles);
       ConfigureAuth(app);
       app.UseWebApi(HttpConfiguration);
+    }
+
+    //Register the SignalR Hubs for notification messaging to background service.
+    private void RegisterSignalRHubs(IAppBuilder app)
+    {
+      var hubConfiguration = new HubConfiguration
+      {
+        EnableDetailedErrors = true,
+        EnableJavaScriptProxies = false
+      };
+      app.MapSignalR(hubConfiguration);
+      
     }
 
     public virtual void RegisterAllAreas()

@@ -9,20 +9,19 @@ using FhirModel = Hl7.Fhir.Model;
 using Pyro.Common.FhirHttpResponse;
 using Pyro.Common.Service;
 using Pyro.Common.Extentions;
+using System.Collections.Generic;
 
 namespace Pyro.WebApi.Controllers
 {
   [RoutePrefix(Pyro.Common.Web.StaticWebInfo.ServiceRoute)]
   public class FhirController : ApiController
-  {
-    private readonly IGlobalProperties IGlobalProperties;
+  {    
     private readonly IPyroService IPyroService;
     private readonly IFhirRestResponse IFhirRestResponse;
     private readonly Pyro.Common.Logging.ILog Log;
     //Constructor for dependence injection inject container into 
-    public FhirController(IPyroService IPyroService, IFhirRestResponse IFhirRestResponse, IGlobalProperties IGlobalProperties, Pyro.Common.Logging.ILog Log)
-    {
-      this.IGlobalProperties = IGlobalProperties;
+    public FhirController(IPyroService IPyroService, IFhirRestResponse IFhirRestResponse, Pyro.Common.Logging.ILog Log)
+    {    
       this.IPyroService = IPyroService;
       this.IFhirRestResponse = IFhirRestResponse;
       this.Log = Log;
@@ -81,7 +80,10 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
-      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
+
+      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
     // Get By id and _history vid
