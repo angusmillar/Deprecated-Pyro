@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceConfiguration\Configuration.cs" />
     <Compile Include="Service\ServiceTask.cs" />
-    <Compile Include="Task\HiService\HiServiceIhiSearchcs.cs" />
+    <Compile Include="TaskJob\HiService\HiServiceIhiSearchTask.cs" />
     <Compile Include="Tools\ConsoleSupport.cs" />
   </ItemGroup>
   <ItemGroup>

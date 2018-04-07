@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 using Pyro.Common.BackgroundTask.Task;
-using Pyro.Backburner.Task;
+using Pyro.Backburner.TaskJob;
 using System.Threading.Tasks;
 
 namespace Pyro.Backburner.Service
@@ -12,7 +12,7 @@ namespace Pyro.Backburner.Service
   {
     private HubConnection hubConnection;
     private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(10000);
-    private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(5000);
+    private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(1000);
     private Timer _timer;
     private Uri PyroServerConnectionUrl = new Uri("http://localhost:8888");
 
@@ -32,8 +32,9 @@ namespace Pyro.Backburner.Service
       // ========================================================================================
 
 
-      Console.WriteLine($" - {Task.HiService.HiServiceIhiSearchcs.TaskName}");
-      hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", HiServiceResolveIHIPayload => new Task.HiService.HiServiceIhiSearchcs().Process(HiServiceResolveIHIPayload));
+      Console.WriteLine($" - {Pyro.Backburner.TaskJob.HiService.HiServiceIhiSearchTask.TaskName}");
+      hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload 
+        => new Pyro.Backburner.TaskJob.HiService.HiServiceIhiSearchTask().Process(IHiServiceResolveIHIPayload));
 
 
       // ========================================================================================

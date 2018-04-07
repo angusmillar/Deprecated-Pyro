@@ -6,7 +6,7 @@ namespace Pyro.Backburner.Tools
   {
     public static void ConsoleWriteLine(string message)
     {
-      Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")}: {message}");
+      Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: {message}");
     }
     public static void DividingLine()
     {
