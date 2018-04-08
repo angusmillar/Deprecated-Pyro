@@ -15,29 +15,17 @@ namespace Pyro.Backburner.TaskJob.HiService
     public static string TaskName = "Hi Service IHI Search";
     public void Process(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
     {
-      ConsoleSupport.ConsoleWriteLine($"Before the task");
-      try
-      {
-        Task t = Task.Factory.StartNew(() => DoWork(TaskPayloadHiServiceIHISearch));
-      }
-      catch (Exception exec)
-      {
-        ConsoleSupport.ConsoleWriteLine("Out of thread: " + exec.Message);
-      }
-
+      //An exception thrown inside the DoWork task will not buble out to here and
+      //must therefore be handled in the DoWork task
+      Task task = Task.Factory.StartNew(() => DoWork(TaskPayloadHiServiceIHISearch));
+     
       ConsoleSupport.ConsoleWriteLine($"Post the task");
-      //ConsoleSupport.ConsoleWriteLine($"Task Recived: Hi Service IHI Search ");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test PayloadId: {TaskPayloadHiServiceIHISearch.Payloadid}");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test PatientId: {TaskPayloadHiServiceIHISearch.PatientId}");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test TaskId: {TaskPayloadHiServiceIHISearch.TaskId}");
     }
 
     private void DoWork(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
     {
       try
       {
-
-
         ConsoleSupport.ConsoleWriteLine($"Task Sleeep 10 Sec");
         Thread.Sleep(10000);
         ConsoleSupport.ConsoleWriteLine($"In the task");
