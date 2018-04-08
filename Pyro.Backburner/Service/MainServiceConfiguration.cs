@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using Topshelf;
 using Topshelf.Runtime;
 
-namespace Pyro.Backburner.ServiceConfiguration
+namespace Pyro.Backburner.Service
 {
-  internal static class Configuration
+  internal static class MainServiceConfiguration
   {
     internal static void Configure()
     {
       HostFactory.Run(configure =>
       {
-        configure.Service<ServiceTask>(service =>
+        configure.Service<MainService>(service =>
         {
-          service.ConstructUsing(s => new ServiceTask());
+          service.ConstructUsing(s => new MainService());
           service.WhenStarted(s => s.Start());
           service.WhenStopped(s => s.Stop());
           service.WhenPaused(s => s.Pause());

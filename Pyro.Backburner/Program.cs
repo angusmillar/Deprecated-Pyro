@@ -1,4 +1,4 @@
-﻿using Pyro.Backburner.ServiceConfiguration;
+﻿using Pyro.Backburner.Service;
 
 namespace Pyro.Backburner
 {
@@ -6,7 +6,7 @@ namespace Pyro.Backburner
   {
     static void Main(string[] args)
     {
-      Configuration.Configure();
+      MainServiceConfiguration.Configure();
     }
   }
 }

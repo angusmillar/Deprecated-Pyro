@@ -3,23 +3,50 @@
 using System;
 using System.Threading;
 using Pyro.Common.BackgroundTask.Task;
-using Pyro.Backburner.TaskJob;
-using System.Threading.Tasks;
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
+using Pyro.Backburner.ServiceTaskLaunch;
+using Pyro.Backburner.ServiceTask;
 
 namespace Pyro.Backburner.Service
 {
-  public class ServiceTask
+  public class MainService
   {
     private HubConnection hubConnection;
     private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(10000);
     private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(1000);
     private Timer _timer;
     private Uri PyroServerConnectionUrl = new Uri("http://localhost:8888");
+    private Container container;
 
-    public ServiceTask()
+    public MainService()
     {
     }
 
+    public void Start()
+    {
+      Console.Clear();
+      Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
+
+      container = new Container();
+      //container.Options.DefaultScopedLifestyle = new ThreadScopedLifestyle();
+      container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+      //Lifestyle.Singleton
+      container.Register<CompositionRoot.IIhiSearchServiceFactory, CompositionRoot.IhiSearchServiceFactory>(Lifestyle.Singleton);
+      container.Register<IIhiSearchServiceTaskLauncher, IhiSearchServiceTaskLauncher>(Lifestyle.Singleton);
+
+      //Lifestyle.Scoped
+      container.Register<ServiceTask.HiService.IOtherThing, ServiceTask.HiService.OtherThing>(Lifestyle.Scoped);
+      container.Register<ServiceTask.HiService.IIhiSearchService, ServiceTask.HiService.IhiSearchService>(Lifestyle.Scoped);
+      
+      
+      container.Verify();
+
+      _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);
+      //InitilizeHub();
+      // write code here that runs when the Windows Service starts up.  
+    }
 
     private void LoadTasks()
     {
@@ -32,9 +59,17 @@ namespace Pyro.Backburner.Service
       // ========================================================================================
 
 
-      Console.WriteLine($" - {Pyro.Backburner.TaskJob.HiService.HiServiceIhiSearchTask.TaskName}");
-      hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload 
-        => new Pyro.Backburner.TaskJob.HiService.HiServiceIhiSearchTask().Process(IHiServiceResolveIHIPayload));
+      //Console.WriteLine($" - {Pyro.Backburner.ServiceTask.HiService.HiServiceIhiSearchTask.TaskName}");
+      //hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload 
+      //  => new Pyro.Backburner.ServiceTask.HiService.HiServiceIhiSearchTask().Process(container, IHiServiceResolveIHIPayload));
+
+
+      //hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload
+      //  => container.GetInstance<ITestService>().DoSomthing(IHiServiceResolveIHIPayload));
+
+
+      hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload
+        => container.GetInstance<IIhiSearchServiceTaskLauncher>().Doit(IHiServiceResolveIHIPayload));
 
 
       // ========================================================================================
@@ -42,14 +77,7 @@ namespace Pyro.Backburner.Service
     }
 
 
-    public void Start()
-    {
-      Console.Clear();
-      Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
-      _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);
-      //InitilizeHub();
-      // write code here that runs when the Windows Service starts up.  
-    }
+    
     public void Stop()
     {
       hubConnection.Stop();
@@ -57,7 +85,7 @@ namespace Pyro.Backburner.Service
     }
     public void Pause()
     {
-      hubConnection.Stop();
+      hubConnection.Stop(); 
       // write code here that runs when the Windows Service Pauses.  
     }
     public void Continue()

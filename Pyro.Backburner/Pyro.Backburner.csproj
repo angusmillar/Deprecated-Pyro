@@ -54,11 +54,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositionRoot\IhiSearchServiceFactory.cs" />
+    <Compile Include="CompositionRoot\IIhiSearchServiceFactory.cs" />
+    <Compile Include="ServiceTaskLaunch\IIhiSearchServiceTaskLauncher.cs" />
+    <Compile Include="ServiceTask\HiService\IOtherThing.cs" />
+    <Compile Include="ServiceTask\HiService\IIhiSearchService.cs" />
+    <Compile Include="ServiceTaskLaunch\IhiSearchServiceTaskLauncher.cs" />
+    <Compile Include="ServiceTask\HiService\OtherThing.cs" />
+    <Compile Include="ServiceTask\HiService\IhiSearchService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceConfiguration\Configuration.cs" />
-    <Compile Include="Service\ServiceTask.cs" />
-    <Compile Include="TaskJob\HiService\HiServiceIhiSearchTask.cs" />
+    <Compile Include="Service\MainServiceConfiguration.cs" />
+    <Compile Include="Service\MainService.cs" />
     <Compile Include="Tools\ConsoleSupport.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,5 +78,6 @@
       <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
