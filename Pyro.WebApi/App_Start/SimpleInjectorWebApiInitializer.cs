@@ -4,7 +4,7 @@ namespace Pyro.WebApi.App_Start
   using System.Web.Http;
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
-  using Pyro.WebApi.Services;
+  //using Pyro.WebApi.Services;
   using Pyro.Engine.Services;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
@@ -39,6 +39,8 @@ namespace Pyro.WebApi.App_Start
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(HttpConfiguration configuration)
     {
+
+      
       var container = new Container();
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       InitializeContainer(container);
@@ -125,7 +127,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
-      container.Register<IServiceNegotiator, ServiceNegotiator>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, Pyro.WebApi.CompositionRoot.ResourceServiceFactory>(Lifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
       container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);

@@ -208,7 +208,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Response\FhirRestResponse.cs" />
-    <Compile Include="Services\ServiceNegotiator.cs" />
+    <Compile Include="CompositionRoot\ResourceServiceFactory.cs" />
     <Compile Include="SignalRHub\BackgroundProcessing.cs" />
     <Compile Include="SignalRHub\Broadcaster.cs" />
     <Compile Include="SignalRHub\BroadcastHub.cs" />
@@ -260,7 +260,9 @@
       <Name>Pyro.Identifiers</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

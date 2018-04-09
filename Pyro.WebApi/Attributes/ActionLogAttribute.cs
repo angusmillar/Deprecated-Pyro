@@ -36,10 +36,10 @@ namespace Pyro.WebApi.Attributes
 
     public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
     {
-      var _FhirServiceNegotiator = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IServiceNegotiator)) as IServiceNegotiator;
+      var IResourceServiceFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IResourceServiceFactory)) as IResourceServiceFactory;
       var IUnitOfWork = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IUnitOfWork)) as IUnitOfWork;
       var IRequestMetaFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IRequestMetaFactory)) as IRequestMetaFactory;
-      var IResourceServices = _FhirServiceNegotiator.Create<IResourceServices>();
+      var IResourceServices = IResourceServiceFactory.Create<IResourceServices>();
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;

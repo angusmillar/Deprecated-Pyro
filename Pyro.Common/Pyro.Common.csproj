@@ -125,7 +125,7 @@
     <Compile Include="CompositionRoot\IPyroFhirUriFactory.cs" />
     <Compile Include="CompositionRoot\IPyroRequestUriFactory.cs" />
     <Compile Include="CompositionRoot\IRequestHeaderFactory.cs" />
-    <Compile Include="CompositionRoot\FhirResourceInstanceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\IFhirResourceInstanceOperationServiceFactory.cs" />
     <Compile Include="CompositionRoot\IRequestMetaFactory.cs" />
     <Compile Include="CompositionRoot\IResourceServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\ISearchParameterGenericFactory.cs" />
@@ -256,7 +256,7 @@
     <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Service\IBaseServices.cs" />
     <Compile Include="Interfaces\Service\ICommonServices.cs" />
-    <Compile Include="Interfaces\Service\IFhirServiceNegotiator.cs" />
+    <Compile Include="CompositionRoot\IResourceServiceFactory.cs" />
     <Compile Include="Interfaces\Service\IResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />
     <Compile Include="Logging\ILog.cs" />
