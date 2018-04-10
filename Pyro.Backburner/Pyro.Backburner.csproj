@@ -32,6 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.STU3.Core, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.STU3.Specification, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Specification.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Specification.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Support.0.94.0\lib\net45\Hl7.Fhir.Support.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.FhirPath, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.FhirPath.0.94.0\lib\net45\Hl7.FhirPath.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
@@ -42,7 +60,12 @@
       <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,13 +77,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompositionRoot\IhiSearchServiceFactory.cs" />
-    <Compile Include="CompositionRoot\IIhiSearchServiceFactory.cs" />
-    <Compile Include="ServiceTaskLaunch\IIhiSearchServiceTaskLauncher.cs" />
-    <Compile Include="ServiceTask\HiService\IOtherThing.cs" />
+    <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
+    <Compile Include="CompositionRoot2\BundleTransactionServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\CommonFactory.cs" />
+    <Compile Include="CompositionRoot2\DatabaseOperationOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot2\DtoRootUrlStoreFactory.cs" />
+    <Compile Include="CompositionRoot2\FhirBaseOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\FhirResourceInstanceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\FhirResourceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\IndexSetterFactory.cs" />
+    <Compile Include="CompositionRoot2\MetadataServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\PyroFhirUriFactory.cs" />
+    <Compile Include="CompositionRoot2\PyroRequestUriFactory.cs" />
+    <Compile Include="CompositionRoot2\RequestHeaderFactory.cs" />
+    <Compile Include="CompositionRoot2\RequestMetaFactory.cs" />
+    <Compile Include="CompositionRoot2\ResourceRepositoryFactory.cs" />
+    <Compile Include="CompositionRoot2\ResourceServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\ResourceServiceOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot2\SearchParameterGenericFactory.cs" />
+    <Compile Include="CompositionRoot2\SearchParameterReferanceFactory.cs" />
+    <Compile Include="CompositionRoot2\SearchParameterServiceFactory.cs" />
+    <Compile Include="CompositionRoot2\SearchParametersServiceOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot2\ServerSearchParameterServiceFactory.cs" />
     <Compile Include="ServiceTask\HiService\IIhiSearchService.cs" />
     <Compile Include="ServiceTaskLaunch\IhiSearchServiceTaskLauncher.cs" />
-    <Compile Include="ServiceTask\HiService\OtherThing.cs" />
     <Compile Include="ServiceTask\HiService\IhiSearchService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,13 +109,37 @@
     <Compile Include="Tools\ConsoleSupport.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Pyro.ConsoleServer\App_Data\Connectons.config">
+      <Link>App_Data\Connectons.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Pyro.ConsoleServer\App_Data\PyroApp.config">
+      <Link>App_Data\PyroApp.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pyro.ADHA\Pyro.ADHA.csproj">
+      <Project>{e6f613e6-7245-4d83-9ed3-d316dc66d0de}</Project>
+      <Name>Pyro.ADHA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
       <Name>Pyro.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.DataLayer\Pyro.DataLayer.csproj">
+      <Project>{ed443624-3bca-44a2-ad32-cea9cd47e9a7}</Project>
+      <Name>Pyro.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
+      <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
+      <Name>Pyro.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
+      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
+      <Name>Pyro.Identifiers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

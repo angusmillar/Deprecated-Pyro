@@ -24,6 +24,7 @@ namespace Pyro.ConsoleServer
       {
         while (!StopServer)
         {
+          Console.Title = "Pyro.ConsoleServer";
           Console.WriteLine(PyroImage);
           Console.WriteLine("");
           Console.WriteLine("Endpoint: " + FhirEndpoint);

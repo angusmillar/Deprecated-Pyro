@@ -4,6 +4,6 @@ namespace Pyro.Backburner.ServiceTask.HiService
 {
   public interface IIhiSearchService
   {
-    void DoSomthing(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch);
+    void Run(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch);
   }
 }

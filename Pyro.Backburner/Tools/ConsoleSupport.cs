@@ -12,6 +12,10 @@ namespace Pyro.Backburner.Tools
     {
       Console.WriteLine("================================================================================");
     }
+    public static void RegisterTask(string TaskName)
+    {
+      Console.WriteLine($" - {TaskName}");
+    }
 
     
   }
