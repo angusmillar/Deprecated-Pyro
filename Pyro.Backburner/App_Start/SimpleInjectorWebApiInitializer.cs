@@ -40,13 +40,9 @@ namespace Pyro.Backburner.App_Start
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(Container container)
     {
-      //var container = new Container();
-      //container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.ThreadScopedLifestyle();
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       InitializeContainer(container);
-      //container.RegisterWebApiControllers(configuration);
       container.Verify();
-      //configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
     }
 
     private static void InitializeContainer(Container container)

@@ -2,6 +2,7 @@
 {
   public interface IBackgroundTaskPayloadBase
   {
-    string Payloadid { get; set; }
+    BackgroundTaskType TaskType { get; }
+    string TaskId { get; }    
   }
 }

@@ -6,11 +6,8 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Service;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Pyro.Common.Logging;
 
 namespace Pyro.Backburner.ServiceTask.HiService
 {
@@ -19,49 +16,41 @@ namespace Pyro.Backburner.ServiceTask.HiService
     private readonly IUnitOfWork IUnitOfWork;
     private readonly IResourceServices IResourceApiServices;    
     private readonly IRequestMetaFactory IRequestMetaFactory;
+    private readonly ILog ILog;
 
-    public IhiSearchService(IUnitOfWork IUnitOfWork, IResourceServices IResourceApiServices, IRequestMetaFactory IRequestMetaFactory)
+    public IhiSearchService(IUnitOfWork IUnitOfWork, IResourceServices IResourceApiServices, IRequestMetaFactory IRequestMetaFactory, ILog ILog)
     {
       this.IUnitOfWork = IUnitOfWork;      
       this.IResourceApiServices = IResourceApiServices;
-      this.IRequestMetaFactory  = IRequestMetaFactory;      
+      this.IRequestMetaFactory  = IRequestMetaFactory;
+      this.ILog = ILog;
     }
 
 
     public void Run(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
-    {
-
+    {     
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
-        {
-          //IRequestServiceRootValidate.Validate(BaseRequestUri);
+        {          
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set("Patient/IHIStatusExample");
           IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetRead("IHIStatusExample", RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           
           Transaction.Commit();
-          ConsoleSupport.ConsoleWriteLine($"Http Status Code: {ResourceServiceOutcome.HttpStatusCode.ToString()}");
-
+         
+          
+          ConsoleSupport.TimeStampWriteLine(LogMessageSupport.TaskOutCome(TaskPayloadHiServiceIHISearch, Hl7.Fhir.Model.Task.TaskStatus.Completed));
+          
         }
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          //ILog.Error(Exec, "PyroService.Get");
-          //throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
-          //  Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+          ConsoleSupport.TimeStampWriteLine(LogMessageSupport.TaskException(TaskPayloadHiServiceIHISearch, Hl7.Fhir.Model.Task.TaskStatus.Failed));
+          ILog.Error(Exec, $"FHIR Task ID: {TaskPayloadHiServiceIHISearch.TaskId}, FHIR Patient ID: {TaskPayloadHiServiceIHISearch.PatientId}");          
         }
       }
-      
-      //ConsoleSupport.ConsoleWriteLine($"Task Sleeep 10 Sec");
-      //IOtherThing.Thing();
-      //System.Threading.Thread.Sleep(10000);
-      //ConsoleSupport.ConsoleWriteLine($"In the task");
-      //ConsoleSupport.ConsoleWriteLine($"Task Recived: Hi Service IHI Search ");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test PayloadId: {TaskPayloadHiServiceIHISearch.Payloadid}");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test PatientId: {TaskPayloadHiServiceIHISearch.PatientId}");
-      //ConsoleSupport.ConsoleWriteLine($"HI Test TaskId: {TaskPayloadHiServiceIHISearch.TaskId}");
-     // throw new NullReferenceException("My exception ANgus");
+            
     }
   }
 }

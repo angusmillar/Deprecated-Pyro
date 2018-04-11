@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
@@ -13,10 +10,13 @@ namespace Pyro.WebApi.SignalRHub
   {
     private readonly Broadcaster _broadcaster = Broadcaster.Instance;
     
-    public override System.Threading.Tasks.Task OnConnected()
+    public override Task OnConnected()
     {
       if (Context != null)
-        System.Console.WriteLine($"Pyro Backburner service connected Id: {Context.ConnectionId}");     
+      {        
+        Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service connected:");
+        Console.WriteLine($" - Client connection Id: {Context.ConnectionId}");
+      }
       return base.OnConnected();
     }
 
@@ -25,14 +25,14 @@ namespace Pyro.WebApi.SignalRHub
       if (Context != null)
       {
         if (stopCalled)
-        {
-          System.Console.WriteLine($"Pyro Backburner service client has disconnected gracefully");
-          System.Console.WriteLine($"Client Id: {Context.ConnectionId}");
+        {          
+          Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service client has disconnected gracefully");
+          Console.WriteLine($"Client Id: {Context.ConnectionId}");
         }
         else
         {
-          System.Console.WriteLine($"Pyro Backburner service has lost connection to this server");
-          System.Console.WriteLine($"Client Id: {Context.ConnectionId}");
+          Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service has lost connection to this server");
+          Console.WriteLine($"Client Id: {Context.ConnectionId}");
         }
       }
         

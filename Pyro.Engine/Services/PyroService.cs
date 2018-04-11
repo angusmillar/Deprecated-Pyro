@@ -111,10 +111,10 @@ namespace Pyro.Engine.Services
           IRequestServiceRootValidate.Validate(BaseRequestUri);                             
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetRead(id, RequestMeta);
-         ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
+          ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
 
 
-          Common.BackgroundTask.Task.ITaskPayloadHiServiceIHISearch Payload = new Common.BackgroundTask.Task.TaskPayloadHiServiceIHISearch("Pat", "Task");
+          Common.BackgroundTask.Task.ITaskPayloadHiServiceIHISearch Payload = new Common.BackgroundTask.Task.TaskPayloadHiServiceIHISearch("ba58c03b-4ff6-4e86-8883-8851f40fb8f7", "92e74b38-1bb3-4e0c-b056-7ca7c1bd7810");
           ResourceServiceOutcome.BackgroundTaskList.Add(Payload);
 
           Transaction.Commit();

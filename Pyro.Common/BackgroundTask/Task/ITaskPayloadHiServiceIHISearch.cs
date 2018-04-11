@@ -2,7 +2,6 @@
 {
   public interface ITaskPayloadHiServiceIHISearch : IBackgroundTaskPayloadBase
   {
-    string PatientId { get; set; }    
-    string TaskId { get; set; }
+    string PatientId { get; set; }        
   }
 }

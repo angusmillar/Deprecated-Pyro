@@ -8,14 +8,13 @@ namespace Pyro.Common.BackgroundTask.Task
 {
   public class TaskPayloadHiServiceIHISearch : BackgroundTaskPayloadBase, ITaskPayloadHiServiceIHISearch
   {
-    public TaskPayloadHiServiceIHISearch(string PatientId, string TaskId) : base()
+    public TaskPayloadHiServiceIHISearch(string TaskId, string PatientId) : base(TaskId, BackgroundTaskType.HiServiceIHISearch)
     {
-      this.PatientId = PatientId;
-      this.TaskId = TaskId;
+      this.PatientId = PatientId;          
     }
-
+    
     public string PatientId { get; set; }
-    public string TaskId { get; set; }
-    public override string Payloadid { get; set; }
+    public override BackgroundTaskType TaskType { get; set; }
+    public override string TaskId { get; set; }
   }
 }

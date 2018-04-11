@@ -18,8 +18,8 @@ namespace Pyro.WebApi.SignalRHub
         foreach (IBackgroundTaskPayloadBase TaskPayload in TaskPayloadList)
         {
           if (TaskPayload is  ITaskPayloadHiServiceIHISearch Payload)
-          {            
-              Broadcaster.HiServiceResolveIHI(Payload);
+          {                          
+            Broadcaster.HiServiceResolveIHI(Payload);
           }
         }
       }

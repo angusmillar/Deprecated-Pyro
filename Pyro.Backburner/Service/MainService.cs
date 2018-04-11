@@ -3,6 +3,8 @@
 using System;
 using System.Threading;
 using Pyro.Common.BackgroundTask.Task;
+using Pyro.Common.BackgroundTask;
+using Pyro.Common.Enum;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using Pyro.Backburner.ServiceTaskLaunch;
@@ -30,7 +32,7 @@ namespace Pyro.Backburner.Service
       // write code here that runs when the Windows Service starts up.  
       Console.Clear();
       Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
-
+      ConsoleSupport.DateTimeStampWriteLine("Starting...");
       Container = new Container();
       App_Start.SimpleInjectorWebApiInitializer.Initialize(Container);
       
@@ -50,8 +52,8 @@ namespace Pyro.Backburner.Service
 
       // IHI Search Service
       var IhiSearchServiceTaskLauncher = new IhiSearchServiceTaskLauncher(Container);
-      ConsoleSupport.RegisterTask($" - {IhiSearchServiceTaskLauncher.TaskName}");
-      hubProxy.On<TaskPayloadHiServiceIHISearch>("HiServiceResolveIHI", IHiServiceResolveIHIPayload
+      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
+      hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), IHiServiceResolveIHIPayload
         => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
       
 
@@ -98,7 +100,7 @@ namespace Pyro.Backburner.Service
     }
     
     private void StartupHub()
-    {
+    {     
       ConsoleWriteLine($"Connecting to Pyro Server at : {PyroServerConnectionUrl.OriginalString}");
       try
       {
@@ -114,12 +116,14 @@ namespace Pyro.Backburner.Service
     {
       if (obj.NewState == ConnectionState.Connected)
       {
-        Console.Clear();
+        Console.Clear();        
         Console.WriteLine();
         Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
         Console.WriteLine();
-        ConsoleWriteLine($"Now Connected to Pyro Server");
-        ConsoleWriteLine($"At address: {PyroServerConnectionUrl.OriginalString}");    
+        ConsoleSupport.Line();
+        ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");        
+        ConsoleWriteLine($"At address: {PyroServerConnectionUrl.OriginalString}");
+        //ConsoleSupport.Line();
       }
       else
       {
@@ -171,7 +175,7 @@ namespace Pyro.Backburner.Service
 
     private void ConsoleWriteLine(string message)
     {
-      Pyro.Backburner.Tools.ConsoleSupport.ConsoleWriteLine(message);
+      ConsoleSupport.TimeStampWriteLine(message);
     }
 
   }
