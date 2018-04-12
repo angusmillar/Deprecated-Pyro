@@ -37,11 +37,30 @@ namespace Pyro.Common.Service
       IEnumerable<string> FhirIdList = null;
       //Work through each chain parameter in reverse
       bool PrimarySearchPerfomed = false;
-      foreach (ISearchParameterBase SearchParameterBase in SearchParameterReferance.ChainedSearchParameterList.Reverse<ISearchParameterBase>())
+      for (int i = SearchParameterReferance.ChainedSearchParameterList.Count - 1; i >= 0; i--)
       {
+        ISearchParameterBase SearchParameterBase = SearchParameterReferance.ChainedSearchParameterList[i];
+        //When the Chained parameter is a parameter for all resource types we need to switch the TypeModifierResource given for the 
+        //previous chain parameter or the root parameter 
+        //for example 'Observation?subject:Patient._id=FCC-PAT-0001'
+        //Here the _id is an all Resource type search parameter so it's SearchParameterBase.Resource = Resource, we need here to refer to the 
+        //given SearchParameterReferance.TypeModifierResource as seen in the search string ':Patient'
+        //Another example is 'DiagnosticReport?result:Observation.subject:Patient._id=FCC-PAT-00001' where the need to get the previous TypeModifierResource
+        //from the list of chain parameters or the root parameter when i = 0.
+        //so for this last example we need ':Patient' for the '_id' and ':Observation' for the 'subject'
+        string ResourceRequiredForRepository = string.Empty;
+        if (i > 0)
+        {
+          ResourceRequiredForRepository = ResolveResourceTypeFromSearchParameterResourceModifier(SearchParameterBase.Resource, SearchParameterReferance.ChainedSearchParameterList[i-1].TypeModifierResource);
+        }
+        else
+        {
+          ResourceRequiredForRepository = ResolveResourceTypeFromSearchParameterResourceModifier(SearchParameterBase.Resource, SearchParameterReferance.TypeModifierResource);
+        }
+        
         if (!PrimarySearchPerfomed)
         {
-          IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(SearchParameterBase.Resource));
+          IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceRequiredForRepository));
           PyroSearchParameters SearchParameters = new PyroSearchParameters();
           SearchParameters.SearchParametersList = new List<ISearchParameterBase>() { SearchParameterBase };
           FhirIdList = IResourceRepository.GetResourceFhirIdBySearchNoPaging(SearchParameters);
@@ -55,7 +74,7 @@ namespace Pyro.Common.Service
         }
         else
         {
-          IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(SearchParameterBase.Resource));
+          IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceRequiredForRepository));
           string ReferenceResourceTargetName = string.Empty;
           if (string.IsNullOrWhiteSpace(SearchParameterBase.TypeModifierResource))
           {
@@ -73,10 +92,12 @@ namespace Pyro.Common.Service
           }
         }
       }
+
       if (ChainTargetFound)
       {
         //We use the resource type from the first in the list which was the last above because we Reversed the list in the for each loop above.
-        SetSearchParameterValueList(FhirIdList, SearchParameterReferance.ChainedSearchParameterList[0].Resource, SearchParameterReferance);
+        string ResourceType = ResolveResourceTypeFromSearchParameterResourceModifier(SearchParameterReferance.ChainedSearchParameterList[0].Resource, SearchParameterReferance.TypeModifierResource);
+        SetSearchParameterValueList(FhirIdList, ResourceType, SearchParameterReferance);
       }
       return ChainTargetFound;
     }
@@ -104,6 +125,15 @@ namespace Pyro.Common.Service
       {
         throw new Exception($"Server Error: Cannot cast Chained search parameter as expected to SearchParameterReferance, type was {SearchParameterBase.GetType().ToString()}");
       }
+    }
+
+    private string ResolveResourceTypeFromSearchParameterResourceModifier(string SerachParameterResource, string TypeModifierResource)
+    {
+      if (SerachParameterResource == Hl7.Fhir.Model.ResourceType.Resource.GetLiteral())
+      {
+        return TypeModifierResource;
+      }
+      return SerachParameterResource;
     }
   }
 }
