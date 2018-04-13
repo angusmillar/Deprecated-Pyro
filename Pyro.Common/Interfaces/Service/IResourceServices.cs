@@ -21,6 +21,10 @@ namespace Pyro.Common.Interfaces.Service
     // GET: URL/FhirApi/Patient/5    
     IResourceServiceOutcome GetSearch(IRequestMeta RequestMeta);
 
+    // GET by Compartment Search
+    // GET: URL/FhirApi/Patient/123456/Observation?code=http://loinc.org|LA20343-2          
+    IResourceServiceOutcome GetCompartmentSearch(IRequestMeta RequestMeta);
+
     //History
     // GET: URL/FhirApi/Patient/5/_history    
     // GET: URL/FhirApi/Patient/5/_history/2    

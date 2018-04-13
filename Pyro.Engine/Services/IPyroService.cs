@@ -25,5 +25,6 @@ namespace Pyro.Engine.Services
     IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource, string FhirId);
     IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource);
     IResourceServiceOutcome Search(string BaseRequestUri, HttpRequestMessage Request, string ResourceName);
+    IResourceServiceOutcome CompartmentSearch(string BaseRequestUri, HttpRequestMessage Request, string Compartment, string id, string ResourceName);
   }
 }

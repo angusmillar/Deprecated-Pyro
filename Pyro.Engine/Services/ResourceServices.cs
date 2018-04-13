@@ -28,10 +28,11 @@ namespace Pyro.Engine.Services
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly IChainSearchingService IChainSearchingService;
     private readonly IIncludeService IIncludeService;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
 
     private IResourceRepository IResourceRepository = null;
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService)      
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory)      
     {      
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -39,6 +40,7 @@ namespace Pyro.Engine.Services
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
       this.IChainSearchingService = IChainSearchingService;
       this.IIncludeService = IIncludeService;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
     }
 
     //public DbContextTransaction BeginTransaction()
@@ -181,7 +183,69 @@ namespace Pyro.Engine.Services
       if (RequestMeta.SearchParameterGeneric == null)
         throw new NullReferenceException("SearchParameterGeneric can not be null.");
       if (RequestMeta.RequestHeader == null)
+        throw new NullReferenceException("RequestHeaders can not be null.");      
+
+      SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceType.Value);
+
+      IResourceServiceOutcome oServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
+      oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Read;
+
+      // GET by Search
+      // GET: URL//FhirApi/Patient?family=Smith&given=John           
+      ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessSearchParameters(RequestMeta.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, ServiceResourceType, null);
+      if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
+      {
+        oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
+        oServiceOperationOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
+        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        return oServiceOperationOutcome;
+      }
+      //If header Handling=strict then return search parameter errors if there are any
+      if (RequestMeta.RequestHeader.Prefer != null && RequestMeta.RequestHeader.Prefer.IsHandlingStrict && SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Count > 0)
+      {
+        oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcomeUnsupportedParameters;
+        oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
+        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        return oServiceOperationOutcome;
+      }
+
+      GetResourcesBySearch(RequestMeta.PyroRequestUri, SearchParametersServiceOutcome, oServiceOperationOutcome);
+
+      oServiceOperationOutcome.SuccessfulTransaction = true;
+      return oServiceOperationOutcome;
+    }
+
+    // GET by Compartment Search
+    // GET: URL/FhirApi/Patient/123456/Observation?code=http://loinc.org|LA20343-2          
+    public virtual IResourceServiceOutcome GetCompartmentSearch(IRequestMeta RequestMeta)
+    {
+      if (RequestMeta == null)
+        throw new NullReferenceException("RequestMeta can not be null.");
+      if (RequestMeta.PyroRequestUri == null)
+        throw new NullReferenceException("DtoFhirRequestUri can not be null.");
+      if (RequestMeta.PyroRequestUri.FhirRequestUri == null)
+        throw new NullReferenceException("FhirRequestUri can not be null.");
+      if (RequestMeta.PyroRequestUri.FhirRequestUri.ResourceType.HasValue == false)
+        throw new NullReferenceException("FhirRequestUri.ResourceType can not be null.");
+      if (RequestMeta.SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric can not be null.");
+      if (RequestMeta.RequestHeader == null)
         throw new NullReferenceException("RequestHeaders can not be null.");
+
+      //need to worek out new FHIRUri from Compartment URi and then call a new GetResourcesBySearch that manages the Bundle links correctly, not using the new FhirURI 
+      //but the orginal
+      if (RequestMeta.PyroRequestUri.FhirRequestUri.IsCompartment)
+      {
+        string temp = $"{RequestMeta.PyroRequestUri.FhirRequestUri.CompartmentalisedResourseName}?subject={RequestMeta.PyroRequestUri.FhirRequestUri.CompartmentalisedResourseType}/{RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId}&{RequestMeta.PyroRequestUri.FhirRequestUri.Query}";
+        IPyroFhirUri NewUri = IPyroFhirUriFactory.CreateFhirRequestUri();
+        if (NewUri.Parse(temp))
+        {
+
+        }
+      }
+
+
 
       SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceType.Value);
 

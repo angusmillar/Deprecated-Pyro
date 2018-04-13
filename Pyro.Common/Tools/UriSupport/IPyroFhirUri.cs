@@ -7,6 +7,7 @@ namespace Pyro.Common.Tools.UriSupport
   public interface IPyroFhirUri
   {
     bool IsContained { get; }
+    bool IsCompartment { get; set; }
     bool IsFormDataSearch { get; }
     bool IsHistoryReferance { get; }
     bool IsMetaData { get; }

@@ -176,6 +176,29 @@ namespace Pyro.Engine.Services
       }
     }
 
+    public IResourceServiceOutcome CompartmentSearch(string BaseRequestUri, HttpRequestMessage Request, string Compartment, string id, string ResourceName)
+    {
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
+      {
+        try
+        {
+          IRequestServiceRootValidate.Validate(BaseRequestUri);
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetCompartmentSearch(RequestMeta);
+          ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
+          Transaction.Commit();
+          return ResourceServiceOutcome;
+        }
+        catch (Exception Exec)
+        {
+          Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.CompartmentSearch");
+          throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
+            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+        }
+      }
+    }
+
     public IResourceServiceOutcome Post(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())

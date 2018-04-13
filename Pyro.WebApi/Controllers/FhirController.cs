@@ -107,27 +107,6 @@ namespace Pyro.WebApi.Controllers
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
-    // Get By Compartment
-    // GET URL/FhirApi/Patient/5/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
-    /// <summary>
-    /// Get a ResourceList by the Resource id's compartment 
-    /// For example:
-    /// http://SomeServer.net/fhirapi/Patient/5/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
-    /// </summary>
-    /// <param name="ResourceName">The name of a FHIR Resource, for example 'Patient'</param>
-    /// <param name="id">The FHIR Resource's id</param>
-    /// <param name="Compartment">The name of a FHIR Resource, for example 'Condition'</param>
-    /// <returns>Returns a bundle containing all resources in the Compartment. If search parameters are given then the returned resource are filtered to this search criteria.</returns>       
-    [HttpGet, Route("{ResourceName}/{id}/{Compartment}")]
-    [ActionLog]
-    public HttpResponseMessage GetCompartment(string ResourceName, string id, string Compartment)
-    {
-      throw new System.NotImplementedException("Compartment requests are not implemented on this server as yet.");
-      //string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      //IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
-      //return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
-    }
-
     //Search
     // GET: URL//FhirApi/Patient?family=Smith&given=John
     /// <summary>
@@ -145,6 +124,31 @@ namespace Pyro.WebApi.Controllers
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Search(BaseRequestUri, Request, ResourceName);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
+
+
+    //Compartment Search
+    // GET: URL/FhirApi/Patient/[id]/Observation?code=http://loinc.org|LA20343-2
+    /// <summary>
+    /// Search for FHIR resources in a Compartment using the Resources defined search parameters.
+    /// For example: 
+    /// http://SomeServer.net/fhir/Patient/123456/Observation?code=http://loinc.org|LA20343-2
+    /// This example would return all Observation resources with a code of LA20343-2 for the patient with a Patient resource id of 123456
+    /// Or to say it another way, this only searches for resources in the Patient id=123456 Compartment
+    /// </summary>
+    /// <param name="Compartment">The Compartment to search in, is a FHIR ResourceType, for example 'Patient'</param>
+    /// <param name="id">The Compartment's id, is a resource id for the Compartment container, for example '123456'</param>
+    /// <param name="ResourceName">The name of a FHIR Resource to search for, for example 'Observation'</param>
+    /// <returns></returns>
+    [HttpGet, Route("{Compartment}/{id}/{ResourceName}")]
+    [ActionLog]
+    public HttpResponseMessage GetCompartmentSearch(string Compartment, string id, string ResourceName)
+    {     
+      //throw new System.NotImplementedException("Compartment requests are not implemented on this server as yet.");
+      string BaseRequestUri = this.CalculateBaseURI("{Compartment}/{id}/{ResourceName}");      
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.CompartmentSearch(BaseRequestUri, Request, Compartment, id, ResourceName);
+      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+    }
+
 
     // Create
     // POST: URL/FhirApi/Patient
