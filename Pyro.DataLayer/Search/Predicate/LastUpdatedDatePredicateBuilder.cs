@@ -5,6 +5,7 @@ using Pyro.Common.Search;
 using Pyro.Common.Tools;
 using Pyro.DataLayer.DbModel.EntityBase;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Pyro.DataLayer.Search.Predicate
@@ -19,9 +20,9 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
   {
-    public static void Build(PyroSearchParameters DtoSearchParameters, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
+    public static void Build(List<ISearchParameterBase> SearchParametersList, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
-      var LastUpdatedSearchParamerterList = DtoSearchParameters.SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
+      var LastUpdatedSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       if (LastUpdatedSearchParamerterList != null)
       {
         ExpressionStarter<ResCurrentType> NewLastUpdatedPredicate = null;
@@ -82,7 +83,7 @@ namespace Pyro.DataLayer.Search.Predicate
           }
           MainPredicate.Extend<ResCurrentType>(NewLastUpdatedPredicate, PredicateOperator.And);
         }
-        DtoSearchParameters.SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
+        SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       }
     }
 

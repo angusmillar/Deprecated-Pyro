@@ -90,14 +90,26 @@ namespace Pyro.DataLayer.Repository
     //Used for Primary Chain Searching
     public string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters)
     {
-      var Predicate = PredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters);
+      
+      //var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+      //Predicate = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
+      //Predicate = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList, Predicate);
+      //Predicate = ANDSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList, Predicate);
+
+      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+      var PredicateOne = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
+      var PredicateTwo = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+      var PredicateThree = ANDSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+
+      Predicate = Predicate.And(PredicateOne);
+      Predicate = Predicate.And(PredicateTwo);
+      Predicate = Predicate.And(PredicateThree);
+
+
+
 
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
-
-      //Was just testing the query looked correct
-      //var Query2 = Query.Select(x => x.FhirId);
-      //string[] FhirIdResultArray = Query2.ToArray();
-
+      
       string[] FhirIdResultArray = Query.Select(x => x.FhirId).ToArray();
       return FhirIdResultArray;
     }
@@ -105,8 +117,81 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       SetNumberOfRecordsPerPage(DtoSearchParameters);
+      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+      var PredicateCurrentResources = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
+      var PredicateIdAndLastUpdated = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+      var PredicateSearchParameters = ANDSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+      
+      Predicate = Predicate.And(PredicateCurrentResources);
+      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateSearchParameters);
 
-      var Predicate = PredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters);
+      int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
+      var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
+
+      //Todo: Sort not implemented just defaulting to last update order      
+      Query = Query.OrderBy(x => x.LastUpdated);
+
+      int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+
+      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      var DtoResourceList = new List<DtoResource>();
+      if (WithXml)
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          Id = x.Id,
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType,
+          Xml = x.XmlBlob
+        }).ToList();
+      }
+      else
+      {
+        DtoResourceList = Query.Select(x => new DtoResource
+        {
+          Id = x.Id,
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType
+        }).ToList();
+      }
+
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
+      DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome GetResourceByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters DtoSearchParameters, bool WithXml = false)
+    {
+      SetNumberOfRecordsPerPage(DtoSearchParameters);
+
+      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+      var PredicateCurrentResources = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
+      var PredicateIdAndLastUpdated = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+      var PredicateSearchParameters = ANDSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
+      var PredicateCompartment = ORSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(CompartmentSearchParameters.SearchParametersList);
+
+      Predicate = Predicate.And(PredicateCurrentResources);
+      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateSearchParameters);
+      Predicate = Predicate.And(PredicateCompartment);
+
+
+
 
       int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);

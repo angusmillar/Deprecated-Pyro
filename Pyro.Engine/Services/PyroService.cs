@@ -184,7 +184,7 @@ namespace Pyro.Engine.Services
         {
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
-          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetCompartmentSearch(RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetCompartmentSearch(RequestMeta, Compartment, id, ResourceName);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();
           return ResourceServiceOutcome;
