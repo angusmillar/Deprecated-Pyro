@@ -82,7 +82,8 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, Pyro.Backburner.CompositionRoot2.FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, Pyro.Backburner.CompositionRoot2.FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, Pyro.Backburner.CompositionRoot2.ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
-      
+      container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Singleton);
+
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
@@ -90,6 +91,9 @@ namespace Pyro.Backburner.App_Start
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
       container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);
+
+      //Singleton: Automapper      
+      container.RegisterSingleton(() => container.GetInstance<CompositionRoot2.MapperProvider>().GetMapper());
 
 
       //========================================================================================================
@@ -167,6 +171,7 @@ namespace Pyro.Backburner.App_Start
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
+      container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
 
     }
   }

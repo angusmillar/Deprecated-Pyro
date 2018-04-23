@@ -40,23 +40,23 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.Quantity)
         .IsOptional()
-        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityPrecision,
-        StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityScale);
+        .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.QuantityPrecision,
+        StaticDatabaseInfo.BaseDatabaseFieldLength.QuantityScale);
 
       Property(x => x.Code)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.CodeMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
 
       Property(x => x.System)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_System") { IsUnique = false }));
 
       Property(x => x.Unit)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         .IsOptional();
 
       //High
@@ -64,19 +64,19 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.QuantityHigh)
         .IsOptional()
-        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityPrecision,
-        StaticDatabaseInfo.BaseResourceIndexConstatnts.QuantityScale);
+        .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.QuantityPrecision,
+        StaticDatabaseInfo.BaseDatabaseFieldLength.QuantityScale);
 
       Property(x => x.CodeHigh)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.CodeMaxLength)
         .IsOptional();
 
       Property(x => x.SystemHigh)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         .IsOptional();
 
       Property(x => x.UnitHigh)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.UnitMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.UnitMaxLength)
         .IsOptional();
 
     }

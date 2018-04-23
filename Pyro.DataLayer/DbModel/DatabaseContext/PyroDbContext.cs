@@ -13,22 +13,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //Below is only commented out for LinqPad Debug testing
       DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
     }
-
-    //public DbContextTransaction BeginTransaction()
-    //{
-    //  return base.Database.BeginTransaction();
-    //}
-
-    //public new int SaveChanges()
-    //{
-    //  return base.SaveChanges();
-    //}
-
-    //public new void Dispose()
-    //{
-    //  base.Dispose();
-    //}
-
+    
     public new System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity)
     {
       return base.Entry(entity);
@@ -42,6 +27,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
 
     public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
+    public DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
 
   }
 }

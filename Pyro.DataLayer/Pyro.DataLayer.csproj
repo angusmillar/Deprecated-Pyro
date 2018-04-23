@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -67,6 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentResourceProfile.cs" />
+    <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentProfile.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexReferenceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexQuantityContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexDateTimeContextConfig.cs" />
@@ -74,6 +80,8 @@
     <Compile Include="DbModel\DatabaseContextConfi\IndexTokenContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\IndexStringContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ResourceContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\ServiceCompartmentResourceContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfi\ServiceCompartmentContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterTargetResourceConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceSearchParameterConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfi\ServiceBaseUrlContextConfig.cs" />
@@ -111,6 +119,8 @@
     <Compile Include="DbModel\EntityGenerated\GeneratedResourceEntities.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DbModel\Entity\ServiceCompartment.cs" />
+    <Compile Include="DbModel\Entity\ServiceCompartmentResource.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameterTargetResource.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameter.cs" />
     <Compile Include="DbModel\Entity\ServiceBaseUrl.cs" />
@@ -166,6 +176,10 @@
     <Compile Include="Migrations\201712120810582_RenameServiceTables.Designer.cs">
       <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804210403261_ServiceCompartment.cs" />
+    <Compile Include="Migrations\201804210403261_ServiceCompartment.Designer.cs">
+      <DependentUpon>201804210403261_ServiceCompartment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -175,6 +189,7 @@
     <Compile Include="Migrations\DbSeeding\SeedServiceSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\ServiceCompartmentRepository.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CommonResourceRepository.cs" />
     <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
@@ -236,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712120810582_RenameServiceTables.resx">
       <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804210403261_ServiceCompartment.resx">
+      <DependentUpon>201804210403261_ServiceCompartment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

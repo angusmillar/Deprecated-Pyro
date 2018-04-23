@@ -26,12 +26,14 @@ namespace Pyro.DataLayer.Repository
   {
     protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     protected readonly IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory;
+    private readonly AutoMapper.IMapper IMapper;
     #region Constructor
-    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory, IGlobalProperties IGlobalProperties)
-      : base(IPyroDbContext, IGlobalProperties)
+    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory, AutoMapper.IMapper IMapper)
+      : base(IPyroDbContext)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IDtoRootUrlStoreFactory = IDtoRootUrlStoreFactory;
+      this.IMapper = IMapper;
     }
     #endregion
 
@@ -376,9 +378,11 @@ namespace Pyro.DataLayer.Repository
     public List<ServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
       var ReturnList = new List<ServiceSearchParameterLight>();
-
-      var List = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
+      
+      var List = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList)
+        .Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
         .Select(x => new { x.Id, x.Name, x.Expression, x.Resource, x.Type, x.TargetResourceTypeList }).ToList();
+      
       if (List != null)
       {
         foreach (var x in List)
@@ -605,6 +609,35 @@ namespace Pyro.DataLayer.Repository
     {
       return IPyroDbContext.ServiceSearchParameter.ToList();
     }
+
+    //---- ServiceCompartment---------------------------------------------------------------
+
+    public _ServiceCompartment GetServiceCompartment(string Code)
+    {
+      return IPyroDbContext.ServiceCompartment.SingleOrDefault(x => x.Code == Code);      
+    }
+
+    public _ServiceCompartment UpdateServiceCompartment(_ServiceCompartment ServiceCompartment)
+    {
+      DeleteServiceCompartment(ServiceCompartment.Code);
+      ServiceCompartment = IPyroDbContext.Set<_ServiceCompartment>().Add(ServiceCompartment);
+      this.Save();
+      return ServiceCompartment;
+
+    }
+
+    public bool DeleteServiceCompartment(string Code)
+    {
+      var Entity = IPyroDbContext.ServiceCompartment.SingleOrDefault(x => x.Code == Code);
+      if (Entity != null)
+      {
+        IPyroDbContext.ServiceCompartment.Remove(Entity);
+        this.Save();
+        return true;
+      }
+      return false;
+    }
+
     //---- Resource ---------------------------------------------------------------
 
     protected ResCurrentType DbGet<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Expression<Func<ResCurrentType, bool>> predicate)

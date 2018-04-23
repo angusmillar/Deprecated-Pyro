@@ -36,13 +36,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
 
       Property(x => x.Code)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.CodeMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.CodeMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
 
       Property(x => x.System)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.SystemMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_System") { IsUnique = false }));

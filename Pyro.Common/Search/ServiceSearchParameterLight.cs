@@ -10,7 +10,7 @@ using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Common.Search
 {
-  [Serializable]
+  
   public class ServiceSearchParameterLight : IServiceSearchParameterLight
   {
     public int Id { get; set; }
@@ -21,23 +21,6 @@ namespace Pyro.Common.Search
 
     public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
     public ServiceSearchParameterLight() { }
-    public ServiceSearchParameterLight(SerializationInfo info, StreamingContext context)
-    {
-      Id = info.GetInt32("Id");
-      Resource = info.GetString("Resource");
-      Name = info.GetString("Name");
-      Type = (SearchParamType)info.GetInt32("Type");
-      Expression = info.GetString("Expression");
-    }
 
-    //Implemented Serializable as this object goes into Cache
-    public void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-      info.AddValue("Id", Id);
-      info.AddValue("Resource", Resource);
-      info.AddValue("Name", Name);
-      info.AddValue("Type", (int)Type);
-      info.AddValue("Expression", Expression);
-    }
   }
 }

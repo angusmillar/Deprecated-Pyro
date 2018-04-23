@@ -114,7 +114,8 @@ namespace Pyro.ADHA.VendorLibrary.HI
 
             var envelope = new submitSearchIHIBatchRequest();
 
-            var mappedSearches = Mapper.Map<List<CommonSearchIHIRequestType>, List<SearchIHIRequestType>>(searches);
+            var mappedSearches = Mapper.Map<List<SearchIHIRequestType>>(searches);
+           //var mappedSearches = Mapper.Map<List<CommonSearchIHIRequestType>, List<SearchIHIRequestType>>(searches);
 
             envelope.submitSearchIHIBatch = mappedSearches.ToArray();
             envelope.product = product;

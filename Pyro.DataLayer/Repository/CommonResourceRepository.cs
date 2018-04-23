@@ -26,7 +26,7 @@ using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Dto;
-
+using AutoMapper;
 namespace Pyro.DataLayer.Repository
 {
   public class CommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> :
@@ -45,6 +45,9 @@ namespace Pyro.DataLayer.Repository
     private readonly IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
+    private int _NumberOfRecordsPerPage;
+    private int _MaxNumberOfRecordsPerPage;
+
 
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
@@ -52,12 +55,15 @@ namespace Pyro.DataLayer.Repository
       IServiceSearchParameterCache IServiceSearchParameterCache,
       IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
       IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory,
-      IGlobalProperties IGlobalProperties)
-      : base(Context, IPrimaryServiceRootCache, IDtoRootUrlStoreFactory, IGlobalProperties)
+      IGlobalProperties IGlobalProperties,
+      IMapper IMapper)
+      : base(Context, IPrimaryServiceRootCache, IDtoRootUrlStoreFactory, IMapper)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
+      _NumberOfRecordsPerPage = IGlobalProperties.NumberOfRecordsPerPageDefault;
+      _MaxNumberOfRecordsPerPage = IGlobalProperties.MaxNumberOfRecordsPerPage;
     }
 
     //Used for _include and _Revinclude
@@ -189,10 +195,7 @@ namespace Pyro.DataLayer.Repository
       Predicate = Predicate.And(PredicateIdAndLastUpdated);
       Predicate = Predicate.And(PredicateSearchParameters);
       Predicate = Predicate.And(PredicateCompartment);
-
-
-
-
+      
       int TotalRecordCount = DbGetALLCount<ResCurrentType>(Predicate);
       var Query = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
 

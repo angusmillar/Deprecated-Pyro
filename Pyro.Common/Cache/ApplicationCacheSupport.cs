@@ -71,6 +71,13 @@ namespace Pyro.Common.Cache
       }
     }
 
+    public void RemoveKey(string Key)
+    {
+      lock (ThreadLock)
+      {
+        MemoryCache.Default.Remove(Key);
+      }
+    }
   }
 
 }

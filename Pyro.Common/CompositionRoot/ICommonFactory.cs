@@ -20,6 +20,7 @@ namespace Pyro.Common.CompositionRoot
     IConnectathonAnswerService CreateConnectathonAnswerService();
     IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService();    
     IList<IResourceResolver> CreateResourceResolverList();
-    
+    ICompartmentOperationService CreateCompartmentOperationService();
+
   }
 }

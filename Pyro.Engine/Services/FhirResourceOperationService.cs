@@ -60,7 +60,7 @@ namespace Pyro.Engine.Services
       }
 
       var OperationDic = FhirOperationEnum.GetOperationTypeByString();
-      if (!OperationDic.ContainsKey(OperationName))
+      if (!OperationDic.ContainsKey(Pyro.Common.Tools.StringSupport.ToLowerFast(OperationName)))
       {
         string Message = $"The resource operation named ${OperationName} is not supported by the server.";
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Error, Hl7.Fhir.Model.OperationOutcome.IssueType.NotSupported, Message);
@@ -70,7 +70,7 @@ namespace Pyro.Engine.Services
         return ResourceServiceOutcome;
       }
 
-      var Op = OperationDic[OperationName];
+      var Op = OperationDic[Pyro.Common.Tools.StringSupport.ToLowerFast(OperationName)];
       OperationClass OperationClass = OperationClassFactory.OperationClassList.SingleOrDefault(x => x.Scope == FhirOperationEnum.OperationScope.Resource && x.Type == Op);
       if (OperationClass == null)
       {
@@ -98,6 +98,11 @@ namespace Pyro.Engine.Services
           {
             IIHISearchOrValidateOperationService IHISearchOrValidateOperationService = ICommonFactory.CreateIHISearchOrValidateOperationService();
             return IHISearchOrValidateOperationService.IHISearchOrValidate(OperationClass, Resource, RequestMeta);
+          }
+        case FhirOperationEnum.OperationType.xSetCompartment:
+          {
+            ICompartmentOperationService CompartmentOperationService = ICommonFactory.CreateCompartmentOperationService();
+            return CompartmentOperationService.Set(OperationClass, Resource, RequestMeta);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

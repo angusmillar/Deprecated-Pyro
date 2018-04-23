@@ -116,6 +116,9 @@
     <Compile Include="BusinessEntities\Dto\DtoIncludeResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
+    <Compile Include="Compartment\DtoServiceCompartment.cs" />
+    <Compile Include="Compartment\IServiceCompartmentCache.cs" />
+    <Compile Include="Compartment\ServiceCompartmentCache.cs" />
     <Compile Include="CompositionRoot\IBundleTransactionServiceFactory.cs" />
     <Compile Include="CompositionRoot\IDatabaseOperationOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\IDtoRootUrlStoreFactory.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="CompositionRoot\IServerSearchParameterServiceFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
+    <Compile Include="Interfaces\Repositories\IServiceCompartmentRepository.cs" />
     <Compile Include="ProductText\PyroText.cs" />
     <Compile Include="RequestMetadata\IRequestMeta.cs" />
     <Compile Include="RequestMetadata\RequestMeta.cs" />
@@ -143,6 +147,8 @@
     <Compile Include="Search\ServiceSearchParameterHeavy.cs" />
     <Compile Include="Search\ServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
+    <Compile Include="Service\CompartmentOperationService.cs" />
+    <Compile Include="Service\ICompartmentOperationService.cs" />
     <Compile Include="Service\IHISearchOrValidateOperationService.cs" />
     <Compile Include="Service\IChainSearchingService.cs" />
     <Compile Include="Service\IIHISearchOrValidateOperationService.cs" />

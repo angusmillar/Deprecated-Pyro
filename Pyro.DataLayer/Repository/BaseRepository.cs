@@ -13,19 +13,12 @@ namespace Pyro.DataLayer.Repository
 {
   public class BaseRepository : IBaseRepository
   {
-    internal IPyroDbContext IPyroDbContext = null;
-    private readonly IGlobalProperties IGlobalProperties;
+    internal IPyroDbContext IPyroDbContext = null;    
 
-    public BaseRepository(IPyroDbContext IPyroDbContext, IGlobalProperties IGlobalProperties)
+    public BaseRepository(IPyroDbContext IPyroDbContext)
     {
       this.IPyroDbContext = IPyroDbContext;
-      this.IGlobalProperties = IGlobalProperties;
-      _NumberOfRecordsPerPage = IGlobalProperties.NumberOfRecordsPerPageDefault;
-      _MaxNumberOfRecordsPerPage = IGlobalProperties.MaxNumberOfRecordsPerPage;
     }
-
-    protected int _NumberOfRecordsPerPage;
-    protected int _MaxNumberOfRecordsPerPage;
 
     /// <summary>
     /// Save method.

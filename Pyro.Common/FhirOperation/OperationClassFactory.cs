@@ -37,6 +37,8 @@ namespace Pyro.Common.FhirOperation
         //$x-IHISearchOrValidate (Resource)
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.xIHISearchOrValidate, Scope = FhirOperationEnum.OperationScope.Resource });
 
+        //$x-SetCompartment (Resource)
+        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.xSetCompartment, Scope = FhirOperationEnum.OperationScope.Resource });
 
         return List;
       }

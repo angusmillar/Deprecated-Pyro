@@ -84,7 +84,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
         var ResourceIndex = new ResIndexStringType();
-        ResourceIndex.String = FhirString.Value.TruncateLongString(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength);
+        ResourceIndex.String = FhirString.Value.TruncateLongString(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -93,7 +93,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
         var ResourceIndex = new ResIndexStringType();
-        ResourceIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim().TruncateLongString(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength));
+        ResourceIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim().TruncateLongString(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -102,7 +102,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
         var ResourceIndex = new ResIndexStringType();
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim().TruncateLongString(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength));
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim().TruncateLongString(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -122,7 +122,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (FullName != string.Empty)
       {
         var ResourceIndex = new ResIndexStringType();
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim().TruncateLongString(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength));
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim().TruncateLongString(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -152,7 +152,7 @@ namespace Pyro.DataLayer.IndexSetter
       if (FullAdddress != string.Empty)
       {
         var ResourceIndex = new ResIndexStringType();
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim().TruncateLongString(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength));
+        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim().TruncateLongString(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }

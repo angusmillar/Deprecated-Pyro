@@ -37,13 +37,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
 
       Property(x => x.DateTimeOffsetLow)
-      .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)
+      .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
       .IsOptional()
       .HasColumnAnnotation(IndexAnnotation.AnnotationName,
       new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetLow") { IsUnique = false }));
 
       Property(x => x.DateTimeOffsetHigh)
-        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)
+        .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetHigh") { IsUnique = false }));

@@ -10,5 +10,6 @@ namespace Pyro.Common.Cache
     void Set(string cacheKey, object value);
     object Get(string cacheKey);
     void RemoveAll();
+    void RemoveKey(string Key);
   }
 }

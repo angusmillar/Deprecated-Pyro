@@ -35,7 +35,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
 
-      Property(x => x.Uri).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.UriMaxLength)
+      Property(x => x.Uri).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         //.IsOptional()
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,

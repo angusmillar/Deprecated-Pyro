@@ -13,7 +13,6 @@ namespace Pyro.Common.Search
     string Resource { get; set; }
     List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
     SearchParamType Type { get; set; }
-
-    void GetObjectData(SerializationInfo info, StreamingContext context);
+    
   }
 }

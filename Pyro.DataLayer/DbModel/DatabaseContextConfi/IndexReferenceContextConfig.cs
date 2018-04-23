@@ -37,19 +37,19 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.ReferenceFhirId)
       .HasColumnAnnotation("CaseSensitive", true)
-      .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
+      .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
       .IsRequired()
       //.IsOptional()
       .HasColumnAnnotation(IndexAnnotation.AnnotationName,
       new IndexAnnotation(new IndexAttribute("ix_ReferenceFhirId") { IsUnique = false }));
 
-      Property(x => x.ReferenceResourceType).HasMaxLength(50)
+      Property(x => x.ReferenceResourceType).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength)
         .IsRequired();
       //.IsOptional();
 
       Property(x => x.ReferenceVersionId)
         .HasColumnAnnotation("CaseSensitive", true)
-        .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
         .IsOptional();
 
       HasOptional(x => x.ReferenceUrl);

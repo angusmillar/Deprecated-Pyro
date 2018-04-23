@@ -93,11 +93,14 @@
     <Compile Include="Services\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Services\FhirResourceOperationService.cs" />
     <Compile Include="Services\IPyroService.cs" />
+    <Compile Include="Services\IResourceTriggerService.cs" />
+    <Compile Include="Services\ResourceTriggerService.cs" />
     <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PyroService.cs" />
+    <Compile Include="TriggerServices\ITriggerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">

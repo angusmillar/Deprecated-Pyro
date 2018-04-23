@@ -29,10 +29,13 @@ namespace Pyro.Engine.Services
     private readonly IChainSearchingService IChainSearchingService;
     private readonly IIncludeService IIncludeService;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
+    private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
 
     private IResourceRepository IResourceRepository = null;
+
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory)      
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IResourceTriggerService IResourceTriggerService, IServiceCompartmentRepository IServiceCompartmentRepository)
     {      
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -41,6 +44,8 @@ namespace Pyro.Engine.Services
       this.IChainSearchingService = IChainSearchingService;
       this.IIncludeService = IIncludeService;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
+      this.IResourceTriggerService = IResourceTriggerService;
+      this.IServiceCompartmentRepository = IServiceCompartmentRepository;
     }
 
     //public DbContextTransaction BeginTransaction()
@@ -156,14 +161,7 @@ namespace Pyro.Engine.Services
         oServiceOperationOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
         oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
       }
-
-
-
-
-
-
-
-
+      
       oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
@@ -322,7 +320,26 @@ namespace Pyro.Engine.Services
       }
 
       //Now to contruct the Container parameters, these need to come from the Conatiner Resource
-      string ConatinerSerachString = $"subject:{Compartment}={id}&patient:{Compartment}={id}";
+
+      //Should be using Cache!!!
+      List<Common.Compartment.DtoServiceCompartmentResource> ServiceCompartment2 = IServiceCompartmentRepository.GetServiceCompartmentResourceList(Compartment, this.ServiceResourceType.GetLiteral());
+      Common.Compartment.DtoServiceCompartment ServiceCompartment = IServiceCompartmentRepository.GetServiceCompartment(Compartment);
+      string ConatinerSerachString = string.Empty;
+      if (ServiceCompartment != null)
+      {
+        IEnumerable<Common.Compartment.DtoServiceCompartmentResource> CompartmentSearchParameterList = ServiceCompartment.ResourceList.Where(x => x.Code == this.ServiceResourceType.GetLiteral());
+        var CompartmentParamQuery = new List<string>();
+        foreach (var CompartmentSearchParameter in CompartmentSearchParameterList)
+        {          
+          CompartmentParamQuery.Add($"{CompartmentSearchParameter.Param}:{Compartment}={id}");
+        }
+        ConatinerSerachString = String.Join("&", CompartmentParamQuery.ToArray());
+      }
+      else
+      {
+        //throw no such compartment
+      }
+      //string ConatinerSerachString = $"subject:{Compartment}={id}&patient:{Compartment}={id}";
       ISearchParameterGeneric ContainerSearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(ConatinerSerachString);
       ISearchParametersServiceOutcome ContainerSearchParametersServiceOutcome = SearchService.ProcessSearchParameters(ContainerSearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, ResourceNameType, null);
 
@@ -976,6 +993,15 @@ namespace Pyro.Engine.Services
 
     private IResourceServiceOutcome SetResourceCollectionAsDeleted(ICollection<string> ResourceIdCollection)
     {
+      if (ResourceIdCollection.Count > 0)
+      {
+        //We are about to delete these resource ids, so trigger
+        foreach(string ResourceId in ResourceIdCollection)
+        {
+          IResourceTriggerService.Trigger(RestEnum.CrudOperationType.Delete, ResourceId, this.ServiceResourceType);
+        }        
+      }
+
       IResourceServiceOutcome oPyroServiceOperationOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
       if (ResourceIdCollection.Count == 1)
       {
@@ -1067,6 +1093,10 @@ namespace Pyro.Engine.Services
           ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Created;
         if (CrudOperationType == RestEnum.CrudOperationType.Update)
           ServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+
+        //Raise Trigger for any work to be done based on this action
+        IResourceTriggerService.Trigger(CrudOperationType, ServiceOperationOutcome.ResourceResult);
+        
       }
       else
       {

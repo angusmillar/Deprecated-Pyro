@@ -35,18 +35,22 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Common.Exceptions;
 
   public static class SimpleInjectorWebApiInitializer
-  {
+  {    
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(HttpConfiguration configuration)
     {
-
-      
       var container = new Container();
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       InitializeContainer(container);
       container.RegisterWebApiControllers(configuration);
       container.Verify();
       configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
+    }
+
+    private static AutoMapper.IMapper GetMapper(Container container)
+    {
+      var mp = container.GetInstance<CompositionRoot.MapperProvider>();
+      return mp.GetMapper();
     }
 
     private static void InitializeContainer(Container container)
@@ -78,6 +82,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
+      container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Singleton);
       
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
@@ -87,6 +92,8 @@ namespace Pyro.WebApi.App_Start
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
       container.Register<ICacheClear, CacheClear>(Lifestyle.Singleton);
 
+      //Singleton: Automapper      
+      container.RegisterSingleton(() => container.GetInstance<CompositionRoot.MapperProvider>().GetMapper());
 
       //========================================================================================================
       //=================== Transient ==========================================================================            
@@ -150,11 +157,13 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
       container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
       container.Register<IConnectathonAnswerService, ConnectathonAnswerService>(Lifestyle.Scoped);
-      container.Register<IIHISearchOrValidateOperationService, IHISearchOrValidateOperationService>(Lifestyle.Scoped);      
+      container.Register<IIHISearchOrValidateOperationService, IHISearchOrValidateOperationService>(Lifestyle.Scoped);
+      container.Register<ICompartmentOperationService, CompartmentOperationService>(Lifestyle.Scoped);      
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
       container.Register<IServiceSearchParameterCache, ServiceSearchParameterCache>(Lifestyle.Scoped);
+      container.Register<Common.Compartment.IServiceCompartmentCache, Common.Compartment.ServiceCompartmentCache>(Lifestyle.Scoped);
 
       //Scoped: Load all the FHIR Validation Resolvers 
       container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
@@ -163,6 +172,7 @@ namespace Pyro.WebApi.App_Start
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
+      container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
 
     }
   }

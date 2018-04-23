@@ -11,7 +11,7 @@ namespace Pyro.Common.Cache
 
     public void ClearCache()
     {
-      IApplicationCacheSupport.RemoveAll();
+      IApplicationCacheSupport.RemoveAll();      
     }
   }
 }

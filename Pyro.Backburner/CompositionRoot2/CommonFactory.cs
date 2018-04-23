@@ -50,6 +50,10 @@ namespace Pyro.Backburner.CompositionRoot2
     {
       return Container.GetInstance<IIHISearchOrValidateOperationService>();
     }
-    
+
+    public ICompartmentOperationService CreateCompartmentOperationService()
+    {
+      return Container.GetInstance<ICompartmentOperationService>();      
+    }
   }
 }

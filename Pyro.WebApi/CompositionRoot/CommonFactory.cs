@@ -50,6 +50,11 @@ namespace Pyro.WebApi.CompositionRoot
     {
       return Container.GetInstance<IIHISearchOrValidateOperationService>();
     }
+
+    public ICompartmentOperationService CreateCompartmentOperationService()
+    {
+      return Container.GetInstance<ICompartmentOperationService>();
+    }
     
   }
 }

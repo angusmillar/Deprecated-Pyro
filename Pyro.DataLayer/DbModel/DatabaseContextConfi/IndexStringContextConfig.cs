@@ -30,7 +30,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
 
-      Property(x => x.String).HasMaxLength(StaticDatabaseInfo.BaseResourceIndexConstatnts.StringMaxLength)
+      Property(x => x.String).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)
         //.IsOptional()
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,

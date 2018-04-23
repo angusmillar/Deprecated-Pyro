@@ -45,19 +45,19 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(t => t.FhirId)
           .HasColumnAnnotation("CaseSensitive", true)
           .HasColumnName("FhirId")
-          .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
+          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
           .IsRequired()
           .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
 
       Property(t => t.VersionId)
          .HasColumnAnnotation("CaseSensitive", true)
          .HasColumnName("VersionId")
-         .HasMaxLength(StaticDatabaseInfo.BaseResourceConstatnts.FhirIdMaxLength)
+         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
          .IsRequired()
          .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 1);
 
       Property(x => x.LastUpdated)
-        .HasPrecision(StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetPrecision)
+        .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_LastUpdated")));
