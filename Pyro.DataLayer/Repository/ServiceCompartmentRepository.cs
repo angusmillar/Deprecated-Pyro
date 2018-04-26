@@ -12,43 +12,51 @@ namespace Pyro.DataLayer.Repository
   public class ServiceCompartmentRepository : BaseRepository, IServiceCompartmentRepository
   {
     private readonly IMapper IMapper;
-    
+
     public ServiceCompartmentRepository(IPyroDbContext IPyroDbContext, IMapper IMapper)
       : base(IPyroDbContext)
     {
-      this.IMapper = IMapper;      
+      this.IMapper = IMapper;
     }
 
     public DtoServiceCompartment GetServiceCompartment(string Code)
-    {      
-      _ServiceCompartment ServiceCompartment = IPyroDbContext.ServiceCompartment.Include(x => x.ResourceList).SingleOrDefault(x => x.Code == Code);      
+    {
+      _ServiceCompartment ServiceCompartment = IPyroDbContext.ServiceCompartment.Include(x => x.ResourceList).SingleOrDefault(x => x.Code == Code);
       if (ServiceCompartment != null)
       {
-        return IMapper.Map<DtoServiceCompartment>(ServiceCompartment);        
+        return IMapper.Map<DtoServiceCompartment>(ServiceCompartment);
       }
-      return null;      
-    }
-
-    public List<DtoServiceCompartmentResource> GetServiceCompartmentResourceList(string Code, string Resource)
-    {
-      List<_ServiceCompartmentResource> ServiceCompartment2 = IPyroDbContext.ServiceCompartment.Include(x => x.ResourceList).SingleOrDefault(x => x.Code == Code).ResourceList.Where(c => c.Code == Resource).ToList();
-      IQueryable<IEnumerable<_ServiceCompartmentResource>> ServiceCompartmentResource = IPyroDbContext.ServiceCompartment.Include(x => x.ResourceList).Where(b => b.Code == Code).Select(a => a.ResourceList.Where(y => y.Code == Resource));
-      var aaaa = ServiceCompartmentResource.ToList();
-
-      //if (ServiceCompartment != null)
-      //{
-      //  return IMapper.Map<DtoServiceCompartment>(ServiceCompartment);
-      //}
       return null;
     }
 
+
+    public DtoServiceCompartmentCached GetServiceCompartmentResourceParameterListForCache(string ServiceCompartmentCode, string Resource)
+    {
+      IQueryable<_ServiceCompartmentResource> ServiceCompartmentResource = IPyroDbContext.ServiceCompartmentResource.Where(x => x.ServiceCompartment.Code == ServiceCompartmentCode && x.Code == Resource);
+      var List = new List<DtoServiceCompartmentCached>();
+      var dbList = ServiceCompartmentResource.ToList();
+      if (dbList.Count > 0)
+      {
+        var ListItem = new DtoServiceCompartmentCached()
+        {
+          CompartmentCode = dbList[0].ServiceCompartment.Code,
+          ResourceName = dbList[0].Code,
+          ParamList = new List<DtoServiceCompartmentResourceCached>()
+        };
+        dbList.ForEach(x => ListItem.ParamList.Add(new DtoServiceCompartmentResourceCached() { Param = x.Param }));
+        return ListItem;
+      }
+      return null;
+    }
+
+
     public DtoServiceCompartment UpdateServiceCompartment(DtoServiceCompartment DtoServiceCompartment)
-    {      
-      _ServiceCompartment ServiceCompartment = IMapper.Map<_ServiceCompartment>(DtoServiceCompartment);     
+    {
+      _ServiceCompartment ServiceCompartment = IMapper.Map<_ServiceCompartment>(DtoServiceCompartment);
       DeleteServiceCompartment(ServiceCompartment.Code);
       ServiceCompartment = IPyroDbContext.Set<_ServiceCompartment>().Add(ServiceCompartment);
       this.Save();
-      return  IMapper.Map<DtoServiceCompartment>(ServiceCompartment);     
+      return IMapper.Map<DtoServiceCompartment>(ServiceCompartment);
     }
 
     public bool DeleteServiceCompartment(string Code)
@@ -65,5 +73,5 @@ namespace Pyro.DataLayer.Repository
 
   }
 
-  
+
 }

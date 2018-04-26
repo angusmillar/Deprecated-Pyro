@@ -96,6 +96,20 @@ namespace Pyro.Common.Service
           foreach (var ResourceComponent in CompartDef.Resource)
           {
             List<Search.ServiceSearchParameterLight> SupportedSerachParamList = IServiceSearchParameterCache.GetSearchParameterForResource(ResourceComponent.Code.GetLiteral());
+            if (ResourceComponent.Param.Count() == 0)
+            {
+              var CompatmentResource = new DtoServiceCompartmentResource()
+              {
+                Code = ResourceComponent.Code.GetLiteral(),
+                // '*' means no paramerter, which means all Resource of this type
+                //are in the compartment. 
+                //If there is no 'ResourceComponent' at all then that Resources type and all its instances 
+                //are not in the compartment
+                Param = "*"
+              };
+              NewServiceCompartment.ResourceList.Add(CompatmentResource);
+            }
+
             foreach (var Param in ResourceComponent.Param)
             {              
               var FoundParam = SupportedSerachParamList.SingleOrDefault(x => x.Name == Param.Split('.')[0]);
@@ -130,9 +144,12 @@ namespace Pyro.Common.Service
           
           //Commit or Update the compartment
           NewServiceCompartment = IServiceCompartmentRepository.UpdateServiceCompartment(NewServiceCompartment);
-          //Clear any level one cached instance  
-          IServiceCompartmentCache.ClearServiceCompartmentForCode(NewServiceCompartment.Code);
-
+          //Clear any level one cached instances for this compartment.  
+          ModelInfo.SupportedResources.ForEach(x =>
+          {
+            IServiceCompartmentCache.ClearServiceCompartmentForCompartmentCodeAndResource(NewServiceCompartment.Code, x);
+          });
+          
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
           ResourceServiceOutcome.IsDeleted = false;
           ResourceServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;

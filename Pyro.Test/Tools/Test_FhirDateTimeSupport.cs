@@ -231,9 +231,7 @@ namespace Pyro.Test.IndexSetters
       Assert.IsFalse(Result.IsValid);
     }
 
-
-
-
+    
     //[Test]
     //public void Test_Now()
     //{

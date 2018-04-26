@@ -117,6 +117,8 @@
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="Compartment\DtoServiceCompartment.cs" />
+    <Compile Include="Compartment\DtoServiceCompartmentResourceCached.cs" />
+    <Compile Include="Compartment\DtoServiceCompartmentResource.cs" />
     <Compile Include="Compartment\IServiceCompartmentCache.cs" />
     <Compile Include="Compartment\ServiceCompartmentCache.cs" />
     <Compile Include="CompositionRoot\IBundleTransactionServiceFactory.cs" />
@@ -148,7 +150,9 @@
     <Compile Include="Search\ServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
     <Compile Include="Service\CompartmentOperationService.cs" />
+    <Compile Include="Service\CompartmentSearchParameterService.cs" />
     <Compile Include="Service\ICompartmentOperationService.cs" />
+    <Compile Include="Service\ICompartmentSearchParameterService.cs" />
     <Compile Include="Service\IHISearchOrValidateOperationService.cs" />
     <Compile Include="Service\IChainSearchingService.cs" />
     <Compile Include="Service\IIHISearchOrValidateOperationService.cs" />

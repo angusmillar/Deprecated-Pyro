@@ -57,11 +57,21 @@ namespace Pyro.Common.Search
         (oSearchParameter as SearchParameterReferance).IsChained = IsChainedReferance;
       }
 
-      if (!oSearchParameter.TryParseValue(ParameterValue))
+      if (oSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
       {
-        oSearchParameter.IsValid = false;
+        if (!oSearchParameter.TryParseValue($"{oSearchParameter.TypeModifierResource}/{ParameterValue}"))
+        {
+          oSearchParameter.IsValid = false;
+        }
       }
-
+      else
+      {
+        if (!oSearchParameter.TryParseValue(ParameterValue))
+        {
+          oSearchParameter.IsValid = false;
+        }
+      }
+      
       return oSearchParameter;
     }
 

@@ -28,6 +28,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 
     public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
     public DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
+    public DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
 
   }
 }

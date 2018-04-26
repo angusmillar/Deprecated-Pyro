@@ -14,50 +14,93 @@ namespace Pyro.Common.Cache
     private Object ThreadLock = new object();
     public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class
     {
-
-      T item = MemoryCache.Default.Get(cacheKey) as T;
-      if (item == null)
+      var cacheItem = MemoryCache.Default.Get(cacheKey);
+      if (cacheItem is CacheNull)
       {
-        item = getItemCallback();
-        MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(20));
+        return null;
       }
-      return item;
+      else
+      {
+        T item = cacheItem as T;
+        if (item == null)
+        {
+          item = getItemCallback();
+          if (item == null)
+          {
+            MemoryCache.Default.Add(cacheKey, new CacheNull(), DateTime.Now.AddMinutes(20));
+            return null;
+          }
+          else
+          {
+            MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(20));
+          }
+        }
+        return item;
+      }
     }
 
     public void Set(string cacheKey, object value)
     {
-      MemoryCache.Default.Add(cacheKey, value, DateTime.Now.AddMinutes(20));
+      if (value == null)
+      {
+        MemoryCache.Default.Add(cacheKey, new CacheNull(), DateTime.Now.AddMinutes(20));
+      }
+      else
+      {
+        MemoryCache.Default.Add(cacheKey, value, DateTime.Now.AddMinutes(20));
+      }
     }
 
     public object Get(string cacheKey)
     {
-      return MemoryCache.Default.Get(cacheKey);
+      var cacheItem = MemoryCache.Default.Get(cacheKey);
+      if (cacheItem is CacheNull)
+      {
+        return null;
+      }
+      else
+      {
+        return cacheItem;
+      }
     }
 
     public T GetOrSet<T>(Expression<Func<T>> getItemCallback) where T : class
     {
-      string CacheKey = string.Empty;
+      string cacheKey = string.Empty;
       var methodcall = getItemCallback.Body as MethodCallExpression;
       if (methodcall != null)
       {
-        CacheKey = methodcall.Method.Name;
+        cacheKey = methodcall.Method.Name;
       }
       else
       {
         throw new NullReferenceException("Internal Server error: methodcall for call back is null.");
       }
-
-      T item = MemoryCache.Default.Get(CacheKey) as T;
-      if (item == null)
+      var cacheItem = MemoryCache.Default.Get(cacheKey);
+      if (cacheItem is CacheNull)
       {
-        Func<T> CompiledCall = getItemCallback.Compile();
-        item = CompiledCall();
-        if (item != null)
-        {
-          MemoryCache.Default.Add(CacheKey, item, DateTime.Now.AddMinutes(20));
-        }
+        return null;
       }
-      return item;
+      else
+      {
+        T item = cacheItem as T;        
+        if (item == null)
+        {
+          Func<T> CompiledCall = getItemCallback.Compile();
+          item = CompiledCall();
+
+          if (item == null)
+          {
+            MemoryCache.Default.Add(cacheKey, new CacheNull(), DateTime.Now.AddMinutes(20));
+            return null;
+          }
+          else
+          {
+            MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(20));            
+          }
+        }
+        return item;
+      }
     }
 
     public void RemoveAll()
@@ -80,4 +123,20 @@ namespace Pyro.Common.Cache
     }
   }
 
+  /// <summary>
+  /// CacheNull is a simple object stored when we wish to store a cache Key as null.
+  /// The MemoryCache cannot store null so we store this object instead and then
+  /// on any Get get check if what we got was the CacheNull object and if so return a
+  /// normal null.
+  /// Do not confuse this with a Get where the provided cache key has never been stored in the cache.
+  /// In this case the MemoryCache will return a normal null and not the CacheNull object.
+  /// </summary>
+  public class CacheNull
+  {
+    public CacheNull()
+    {
+      this.IsNull = true;
+    }
+    public bool IsNull { get; set; }
+  }
 }

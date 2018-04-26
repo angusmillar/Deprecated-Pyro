@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 using Pyro.Common.Service;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Search;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Service;
@@ -17,6 +15,7 @@ using System.Net;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
+using Pyro.Common.Compartment;
 
 namespace Pyro.Engine.Services
 {
@@ -30,12 +29,13 @@ namespace Pyro.Engine.Services
     private readonly IIncludeService IIncludeService;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IResourceTriggerService IResourceTriggerService;
-    private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
+    private readonly IServiceCompartmentCache IServiceCompartmentCache;
+    private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
 
     private IResourceRepository IResourceRepository = null;
 
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IResourceTriggerService IResourceTriggerService, IServiceCompartmentRepository IServiceCompartmentRepository)
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IResourceTriggerService IResourceTriggerService, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService)
     {      
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -45,7 +45,8 @@ namespace Pyro.Engine.Services
       this.IIncludeService = IIncludeService;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.IResourceTriggerService = IResourceTriggerService;
-      this.IServiceCompartmentRepository = IServiceCompartmentRepository;
+      this.IServiceCompartmentCache = IServiceCompartmentCache;
+      this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
     }
 
     //public DbContextTransaction BeginTransaction()
@@ -254,7 +255,7 @@ namespace Pyro.Engine.Services
 
     // GET by Compartment Search
     // GET: URL/FhirApi/Patient/123456/Observation?code=http://loinc.org|LA20343-2          
-    public virtual IResourceServiceOutcome GetCompartmentSearch(IRequestMeta RequestMeta, string Compartment, string id, string ResourceName)
+    public virtual IResourceServiceOutcome GetCompartmentSearch(IRequestMeta RequestMeta, string Compartment, string CompartmentId, string ResourceName)
     {
       if (RequestMeta == null)
         throw new NullReferenceException("RequestMeta can not be null.");
@@ -270,29 +271,12 @@ namespace Pyro.Engine.Services
         throw new NullReferenceException("RequestHeaders can not be null.");
       if (string.IsNullOrWhiteSpace(Compartment))
         throw new NullReferenceException("Compartment can not be null.");
-      if (string.IsNullOrWhiteSpace(id))
+      if (string.IsNullOrWhiteSpace(CompartmentId))
         throw new NullReferenceException("id can not be null.");
       if (string.IsNullOrWhiteSpace(ResourceName))
         throw new NullReferenceException("ResourceName can not be null.");
-
-      //I need to check that Compartment and ResourceName are actual FHIR Resource Types, the two lines
-      //below do that and throw Pyro Exception if they are not.
-      FHIRAllTypes CompartmentType = ResourceNameResolutionSupport.GetResourceFhirAllType(Compartment);
-      FHIRAllTypes ResourceNameType = ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceName);
-
-      //need to worek out new FHIRUri from Compartment URi and then call a new GetResourcesBySearch that manages the Bundle links correctly, not using the new FhirURI 
-      //but the orginal
-      if (RequestMeta.PyroRequestUri.FhirRequestUri.IsCompartment)
-      {
-        string temp = $"{RequestMeta.PyroRequestUri.FhirRequestUri.CompartmentalisedResourseName}?subject={RequestMeta.PyroRequestUri.FhirRequestUri.CompartmentalisedResourseType}/{RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId}&{RequestMeta.PyroRequestUri.FhirRequestUri.Query}";
-        IPyroFhirUri NewUri = IPyroFhirUriFactory.CreateFhirRequestUri();
-        if (NewUri.Parse(temp))
-        {
-
-        }
-      }
-
-      SetCurrentResourceType(ResourceNameType);
+      
+      SetCurrentResourceType(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceName));
 
       //First get the search parameters from the originl request, we will add the Compartment search parameters afterwards
       //e.g (subject:Patient=Patient/123456 or patient:Patient=Patient/123456)
@@ -319,35 +303,14 @@ namespace Pyro.Engine.Services
         return oServiceOperationOutcome;
       }
 
-      //Now to contruct the Container parameters, these need to come from the Conatiner Resource
-
-      //Should be using Cache!!!
-      List<Common.Compartment.DtoServiceCompartmentResource> ServiceCompartment2 = IServiceCompartmentRepository.GetServiceCompartmentResourceList(Compartment, this.ServiceResourceType.GetLiteral());
-      Common.Compartment.DtoServiceCompartment ServiceCompartment = IServiceCompartmentRepository.GetServiceCompartment(Compartment);
-      string ConatinerSerachString = string.Empty;
-      if (ServiceCompartment != null)
-      {
-        IEnumerable<Common.Compartment.DtoServiceCompartmentResource> CompartmentSearchParameterList = ServiceCompartment.ResourceList.Where(x => x.Code == this.ServiceResourceType.GetLiteral());
-        var CompartmentParamQuery = new List<string>();
-        foreach (var CompartmentSearchParameter in CompartmentSearchParameterList)
-        {          
-          CompartmentParamQuery.Add($"{CompartmentSearchParameter.Param}:{Compartment}={id}");
-        }
-        ConatinerSerachString = String.Join("&", CompartmentParamQuery.ToArray());
-      }
-      else
-      {
-        //throw no such compartment
-      }
-      //string ConatinerSerachString = $"subject:{Compartment}={id}&patient:{Compartment}={id}";
-      ISearchParameterGeneric ContainerSearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(ConatinerSerachString);
-      ISearchParametersServiceOutcome ContainerSearchParametersServiceOutcome = SearchService.ProcessSearchParameters(ContainerSearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, ResourceNameType, null);
+      //Now to contruct the Container search parameters, these are cached from the database Conatiner Resource      
+      PyroSearchParameters CompartmentSearchParameters = ICompartmentSearchParameterService.GetSearchParameters(Compartment, CompartmentId, ResourceName);
 
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
       //as the all resource search parameters e.g _id, _lastModified are removed from the list.
       Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(ContainerSearchParametersServiceOutcome.SearchParameters, SearchParametersServiceOutcome.SearchParameters);
+      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(CompartmentSearchParameters, SearchParametersServiceOutcome.SearchParameters, Compartment, CompartmentId);
       if (DatabaseOperationOutcome != null)
       {
         oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
@@ -1257,7 +1220,7 @@ namespace Pyro.Engine.Services
       return DatabaseOperationOutcome;
     }
 
-    private IDatabaseOperationOutcome GetResourcesByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters SearchParameters)
+    private IDatabaseOperationOutcome GetResourcesByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters SearchParameters, string Compartment, string CompartmentId)
     {
       //Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
 
@@ -1282,7 +1245,7 @@ namespace Pyro.Engine.Services
         //Add any _include or _revinclude Resources
         if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
         {
-          DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
+          DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList, Compartment, CompartmentId);
         }
       }
       return DatabaseOperationOutcome;

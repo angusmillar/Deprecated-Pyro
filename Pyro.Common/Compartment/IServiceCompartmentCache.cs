@@ -4,7 +4,7 @@ namespace Pyro.Common.Compartment
 {
   public interface IServiceCompartmentCache
   {
-    DtoServiceCompartment GetServiceCompartmentForCode(string Code);
-    void ClearServiceCompartmentForCode(string Code);
+    DtoServiceCompartmentCached GetServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource);
+    void ClearServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource);
   }
 }

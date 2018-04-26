@@ -477,6 +477,6 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.Query, "code:in=http://hspc.org/ValueSet/acute-concerns");
     }
 
-
+    
   }
 }

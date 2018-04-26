@@ -22,8 +22,8 @@ namespace Pyro.Common.Tools.UriSupport
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       if (Uri.TryCreate(this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig(), UriKind.RelativeOrAbsolute, out Uri TempUri))
       {
-        string RegexResourceDilimeter = "|";
-        _FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
+        //string RegexResourceDilimeter = "|";
+        //_FhirResourceRegexPattern += String.Join(RegexResourceDilimeter, ModelInfo.SupportedResources);
         this.PrimaryServiceRootServers = TempUri;
       }
       else
@@ -41,7 +41,7 @@ namespace Pyro.Common.Tools.UriSupport
     private const string _uuidName = "uuid";
     private const string _HttpName = "http";
     private const string _HttpsName = "https";
-    private string _FhirResourceRegexPattern;
+    //private string _FhirResourceRegexPattern;
 
     public string ParseErrorMessage { get; set; }
     public bool ErrorInParseing { get; set; }
@@ -83,6 +83,7 @@ namespace Pyro.Common.Tools.UriSupport
     }
     public Uri PrimaryServiceRootRemote { get; set; }
     public Uri PrimaryServiceRootServers { get; set; }
+
     public bool Parse(string RequestUri)
     {
       this.IsCompartment = false;
@@ -263,19 +264,28 @@ namespace Pyro.Common.Tools.UriSupport
         else
         {
           //This is a Resource referance          
-          if (IsResourceTypeString(Segment))
-          {
-            this.ResourseName = Segment;
-            this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
-            Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
-            return RemoveStartsWithSlash(Remainder);
-          }
-          else
-          {
-            ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
-            ErrorInParseing = true;
-            return string.Empty;
-          }         
+          this.ResourseName = Segment;
+          this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);                    
+          Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
+          return RemoveStartsWithSlash(Remainder);
+
+          //Changed this to above which only calls 'ResourceNameResolutionSupport.GetResourceType' 
+          //which will throw an exception if not a Resource type, that exception also
+          //provides detailed user info about the failure. 
+
+          //if (IsResourceTypeString(Segment))
+          //{
+          //  this.ResourseName = Segment;
+          //  this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
+          //  Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
+          //  return RemoveStartsWithSlash(Remainder);
+          //}
+          //else
+          //{
+          //  ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained or Compartment segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
+          //  ErrorInParseing = true;
+          //  return string.Empty;
+          //}         
         }
       }
       ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath} in URL {this.OriginalString}";
@@ -355,6 +365,7 @@ namespace Pyro.Common.Tools.UriSupport
             else if (IsResourceTypeString(Segment))
             {
               //Is this a Compartment reference e.g ([base]/Patient/[id]/Condition?code:in=http://hspc.org/ValueSet/acute-concerns)
+              //where 'Patient' is the compartment and 'Condition' is the resource.
               this.CompartmentalisedResourseName = Segment;
               this.CompartmentalisedResourseType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
               this.IsCompartment = true;
@@ -374,8 +385,8 @@ namespace Pyro.Common.Tools.UriSupport
     }
     private bool IsResourceTypeString(string value)
     {
-      //This is a valid Resource Type string     
-      if (Regex.IsMatch(value, _FhirResourceRegexPattern))
+      //This is a valid Resource Type string   
+      if (ModelInfo.IsKnownResource(value))      
       {
         return true;
       }

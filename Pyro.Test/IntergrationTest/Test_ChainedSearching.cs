@@ -242,6 +242,28 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
+    public void Test_Chain_Simple_NoTypeModifier()
+    {
+      //Get Observation resources where Patient family name is TestPatientChain 
+      //i.e subject.family=TestPatientChain ====================
+      //Bundle BundleResult = null;
+      var SearchParam = new SearchParams();
+      try
+      {
+        SearchParam.Add("subject.family", PatientOneFamily);
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        var ex = Assert.Throws<FhirOperationException>(() => clientFhir.Search<Observation>(SearchParam));
+        Assert.That(ex.Outcome, Is.Not.Null);
+        Assert.That(ex.Outcome.Issue.Count, Is.EqualTo(1));
+        Assert.That(ex.Outcome.Issue[0].Details.Text.Contains("you must specify the Resource type required using a search parameter Modifier"), Is.True);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }      
+    }
+
+    [Test]
     public void Test_Chain_X2()
     {
       //Get Observation resources where Patient's ManagingOrginisation's name = OrganizationOneName      

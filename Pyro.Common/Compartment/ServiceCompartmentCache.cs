@@ -26,23 +26,23 @@ namespace Pyro.Common.Compartment
       this.IGlobalProperties = IGlobalProperties;
     }
 
-    public DtoServiceCompartment GetServiceCompartmentForCode(string Code)
+    public DtoServiceCompartmentCached GetServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource)
     {      
       if (!IGlobalProperties.ApplicationCacheServicesActive)
       {
-        return IServiceCompartmentRepository.GetServiceCompartment(Code);
+        return IServiceCompartmentRepository.GetServiceCompartmentResourceParameterListForCache(CompartmentCode, Resource);
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet($"{CacheKey}.{Code}", () => IServiceCompartmentRepository.GetServiceCompartment(Code));
+        return IApplicationCacheSupport.GetOrSet($"{CacheKey}.{CompartmentCode}.{Resource}", () => IServiceCompartmentRepository.GetServiceCompartmentResourceParameterListForCache(CompartmentCode, Resource));
       }     
     }
 
-    public void ClearServiceCompartmentForCode(string Code)
+    public void ClearServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource)
     {
       if (IGlobalProperties.ApplicationCacheServicesActive)
       {
-        IApplicationCacheSupport.RemoveKey($"{CacheKey}.{Code}");
+        IApplicationCacheSupport.RemoveKey($"{CacheKey}.{CompartmentCode}.{Resource}");
       }
     }
   }

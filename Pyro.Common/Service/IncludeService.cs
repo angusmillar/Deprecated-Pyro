@@ -20,23 +20,34 @@ namespace Pyro.Common.Service
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly ICommonFactory ICommonFactory;
     private readonly ISearchParameterFactory ISearchParameterFactory;
-    private readonly int MaxRecursionDepth = 20; //This should really be in the Server config e.g (GlobalProperties)?
+    //private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
+    //private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
 
+    private readonly int MaxRecursionDepth = 20; //This should really be in the Server config e.g (GlobalProperties)?
+    private string _Compartment = string.Empty;
+    private string _CompartmentId = string.Empty;
     //Constructor for dependency injection
-    public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory)
+    public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory, ICompartmentSearchParameterService ICompartmentSearchParameterService)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.ICommonFactory = ICommonFactory;
       this.ISearchParameterFactory = ISearchParameterFactory;
+      //this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
+      this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
+      //this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
     }
 
-    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList)
+    public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList, string Compartment = "", string CompartmentId = "")
     {
       if (IncludeList == null)
         throw new NullReferenceException("IncludeList cannot be null");
 
       if (SourceInputResourceList == null)
         throw new NullReferenceException("SearchResourceList cannot be null");
+
+      this._Compartment = Compartment;
+      this._CompartmentId = CompartmentId;
 
       var TotalResourceList = new List<DtoResource>();
       TotalResourceList.AddRange(SourceInputResourceList);
@@ -181,7 +192,7 @@ namespace Pyro.Common.Service
               if (p.TargetResourceTypeList.Any(x => x.ResourceType.GetLiteral() == Resource.ResourceType.Value.GetLiteral()))
               {
                 IResourceRepository = IRepositorySwitcher.GetRepository(ResourceNameResolutionSupport.GetResourceFhirAllType(p.Resource));
-                //Construct the search parameter string
+                //Construct the search parameter string                
                 var ParameterString = new Tuple<string, string>(p.Name, $"{Resource.ResourceType.Value.GetLiteral()}/{Resource.FhirId}");
                 ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(p, ParameterString);
                 SearchParameters.SearchParametersList.Clear();
@@ -198,8 +209,20 @@ namespace Pyro.Common.Service
 
     private void AddIncludeResourceInstanceForRevIncludes(List<DtoResource> IncludeResourceList, HashSet<string> CacheResourceIDsAlreadyCollected, PyroSearchParameters SearchParameters)
     {
+      
+      //Here we need to add compartment search, if we have a Compartment and id
+      IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = null;
+      if (!string.IsNullOrWhiteSpace(this._Compartment) && !string.IsNullOrWhiteSpace(this._CompartmentId))
+      {        
+        PyroSearchParameters CompartmentSearchParameter = ICompartmentSearchParameterService.GetSearchParameters(this._Compartment, this._CompartmentId, IResourceRepository.RepositoryResourceType.GetLiteral());
+        DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameter, SearchParameters, true);
+      }
+      else
+      {
+        DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceBySearch(SearchParameters, true);
+      }
+
       //Don't source the same resource again from the Database if we already have it        
-      IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceBySearch(SearchParameters, true);
       if (DatabaseOperationOutcomeIncludes.ReturnedResourceList != null)
       {
         foreach (var Resource in DatabaseOperationOutcomeIncludes.ReturnedResourceList)
@@ -218,7 +241,27 @@ namespace Pyro.Common.Service
       //Don't source the same resource again from the Database if we already have it        
       if (!CacheResourceIDsAlreadyCollected.Contains($"{IResourceRepository.RepositoryResourceType.GetLiteral()}-{FhirId}"))
       {
-        IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceByFhirID(FhirId, true, false);
+        IDatabaseOperationOutcome DatabaseOperationOutcomeIncludes = null;
+        //Here we need to add compartment search, if we have a Compartment and id
+        if (!string.IsNullOrWhiteSpace(this._Compartment) && !string.IsNullOrWhiteSpace(this._CompartmentId))
+        {
+          //Here we need create a search parameter for _id={FhirId)
+          var IdSearchParameter = ServiceSearchParameterFactory.BaseResourceSearchParameters().SingleOrDefault(x => x.Name == "_id");
+          var IdParameterString = new Tuple<string, string>(IdSearchParameter.Name, FhirId);
+          ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(IdSearchParameter, IdParameterString);
+          PyroSearchParameters FhirIdSearchParameter = new PyroSearchParameters();
+          FhirIdSearchParameter.SearchParametersList = new List<ISearchParameterBase>();          
+          FhirIdSearchParameter.SearchParametersList.Add(SearchParam);
+
+          //And now the Compartmnet Search parameters
+          PyroSearchParameters CompartmentSearchParameter = ICompartmentSearchParameterService.GetSearchParameters(this._Compartment, this._CompartmentId, IResourceRepository.RepositoryResourceType.GetLiteral());          
+          DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameter, FhirIdSearchParameter, true);
+        }
+        else
+        {
+          DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceByFhirID(FhirId, true, false);          
+        }
+
         var DtoIncludeResourceList = new List<Common.BusinessEntities.Dto.DtoIncludeResource>();
         DatabaseOperationOutcomeIncludes.ReturnedResourceList.ForEach(x => DtoIncludeResourceList.Add(new Common.BusinessEntities.Dto.DtoIncludeResource(x)));
         IncludeResourceList.AddRange(DtoIncludeResourceList);
