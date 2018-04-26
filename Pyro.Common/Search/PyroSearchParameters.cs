@@ -22,11 +22,20 @@ namespace Pyro.Common.Search
     public int? CountOfRecordsRequested { get; set; }
     public string Format { get; set; }
     public SummaryType? SummaryType { get; set; }
-    public Uri SupportedSearchUrl(string RequestPrimaryServiceRoot)
+    public Uri SupportedSearchUrl(string RequestPrimaryServiceRoot, string Container = "", string ContainerId = "")
     {
       string UrlString = RequestPrimaryServiceRoot;
-      if (ResourceTarget.HasValue)
-        UrlString = $"{UrlString}/{ResourceTarget.GetLiteral()}";
+      if (!string.IsNullOrWhiteSpace(Container) && !string.IsNullOrWhiteSpace(ContainerId))
+      {
+        if (ResourceTarget.HasValue)
+          UrlString = $"{UrlString}/{Container}/{ContainerId}/{ResourceTarget.GetLiteral()}";
+      }
+      else
+      {
+        if (ResourceTarget.HasValue)
+          UrlString = $"{UrlString}/{ResourceTarget.GetLiteral()}";
+      }
+      
       bool FirstParameter = true;
       if ((SearchParametersList != null && SearchParametersList.Any()) || (IncludeList != null && IncludeList.Any()))
       {

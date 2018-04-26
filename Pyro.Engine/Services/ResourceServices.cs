@@ -49,12 +49,6 @@ namespace Pyro.Engine.Services
       this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
     }
 
-    //public DbContextTransaction BeginTransaction()
-    //{
-    //  return _UnitOfWork.BeginTransaction();      
-    //}
-
-
     private void SetCurrentResourceType(FHIRAllTypes ResourceType)
     {
       ServiceResourceType = ResourceType;
@@ -308,7 +302,7 @@ namespace Pyro.Engine.Services
 
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
       //as the all resource search parameters e.g _id, _lastModified are removed from the list.
-      Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
+      Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString, Compartment, CompartmentId);
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(CompartmentSearchParameters, SearchParametersServiceOutcome.SearchParameters, Compartment, CompartmentId);
       if (DatabaseOperationOutcome != null)
