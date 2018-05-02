@@ -56,6 +56,7 @@ namespace Pyro.Engine.Services
         ServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ServiceOperationOutcome;
       }
+      
       var Conformance = new CapabilityStatement();
       var ApplicationReleaseDate = new DateTimeOffset(2017, 10, 17, 6, 00, 00, new TimeSpan(8, 0, 0));
       string ServerName = "Pyro Server";
@@ -72,21 +73,7 @@ namespace Pyro.Engine.Services
       Conformance.Date = (new FhirDateTime(ApplicationReleaseDate)).Value;
       Conformance.Publisher = "PyroHealth.net";
 
-      var Contact = new ContactDetail();
-      Contact.Name = "Angus Millar";
-      Contact.Telecom = new List<ContactPoint>();
-      var PhoneContactPoint = new ContactPoint(ContactPoint.ContactPointSystem.Phone, ContactPoint.ContactPointUse.Mobile, "0481 059 995");
-      PhoneContactPoint.Rank = 1;
-      PhoneContactPoint.Period = new Period();
-      PhoneContactPoint.Period.StartElement = new FhirDateTime(new DateTimeOffset(2017, 12, 22, 8, 00, 00, new TimeSpan(8, 00, 00)));      
-      Contact.Telecom.Add(PhoneContactPoint);
-
-      var EmailContactPoint = new ContactPoint(ContactPoint.ContactPointSystem.Email, ContactPoint.ContactPointUse.Home, "angusbmillar@gmail.com");
-      EmailContactPoint.Rank = 1;
-      EmailContactPoint.Period = new Period();
-      EmailContactPoint.Period.StartElement = new FhirDateTime(new DateTimeOffset(2017, 12, 22, 8, 00, 00, new TimeSpan(8, 00, 00)));
-      Contact.Telecom.Add(EmailContactPoint);
-      Conformance.Contact = new List<ContactDetail>() { Contact };
+      Conformance.Contact = new List<ContactDetail>() { new Common.PyroHealthInformation.PyroHealthContactDetailAngusMillar() };
 
       Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
 

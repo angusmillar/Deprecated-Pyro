@@ -6,8 +6,10 @@ namespace Pyro.Common.Interfaces.Repositories
   public interface IServiceCompartmentRepository
   {
     bool DeleteServiceCompartment(string Code);
-    DtoServiceCompartment GetServiceCompartment(string Code);
+    DtoServiceCompartment GetServiceCompartmenByCompartmentCode(string Code);
+    DtoServiceCompartment GetServiceCompartmentByFhirId(string FhirId);
     DtoServiceCompartment UpdateServiceCompartment(DtoServiceCompartment DtoServiceCompartment);
-    DtoServiceCompartmentCached GetServiceCompartmentResourceParameterListForCache(string Code, string Resource);
+    DtoServiceCompartmentCached GetServiceCompartmentForCache(string ServiceCompartmentCode);
+    DtoServiceCompartmentResourceCached GetServiceCompartmentResourceParameterListForCache(string Code, string Resource);
   }
 }

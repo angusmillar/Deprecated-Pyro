@@ -1,6 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
+using Pyro.Engine.TriggerServices;
 
 namespace Pyro.Engine.Services
 {
@@ -13,7 +14,7 @@ namespace Pyro.Engine.Services
   /// This service is triggered post the resource being commited to the db context but before the 
   /// end of the transaction for Create and Update.
   /// For Delete it is tiggered just before the delete action on the db context, so any service can get the 
-  /// resource from the database to perform an action before it is deleted.
+  /// resource from the database to perform an action before it is deleted. Also deletes do not provide the Resource, you must go get it.
   /// Note:
   /// There are no triggers raised for Reads. This could be extended to support reads easily but there is no use
   /// case for this as yet.
@@ -21,18 +22,24 @@ namespace Pyro.Engine.Services
   /// </summary>
   public class ResourceTriggerService : IResourceTriggerService
   {
-    public ResourceTriggerService(){ }
+    private readonly ITriggerCompartmentDefinition ITriggerCompartmentDefinition;
 
+    public ResourceTriggerService(ITriggerCompartmentDefinition ITriggerCompartmentDefinition)
+    {
+      this.ITriggerCompartmentDefinition = ITriggerCompartmentDefinition;
+    }
+
+    public enum TriggerRaisedType { BeforeCommit, AfterCommit }
     /// <summary>
     /// Primarily used for Delete actions as their is no Resource given in the API call
-    /// However services can scource the resource being deletd from the database
+    /// However services can scource the resource being deleted from the database
     /// </summary>
     /// <param name="CrudOperationType"></param>
     /// <param name="ResourceId"></param>
     /// <param name="ResourceType"></param>
-    public void Trigger(RestEnum.CrudOperationType CrudOperationType, string ResourceId, FHIRAllTypes ResourceType)
+    public ITriggerOutcome Trigger(RestEnum.CrudOperationType CrudOperationType, TriggerRaisedType TriggerRaised, string ResourceId, FHIRAllTypes ResourceType)
     {
-      ProcessTrigger(CrudOperationType, ResourceId, ResourceType);
+      return ProcessTrigger(CrudOperationType, TriggerRaised, ResourceId, ResourceType);
     }
 
     /// <summary>
@@ -41,19 +48,20 @@ namespace Pyro.Engine.Services
     /// </summary>
     /// <param name="CrudOperationType"></param>
     /// <param name="Resource"></param>
-    public void Trigger(RestEnum.CrudOperationType CrudOperationType, Resource Resource)
-    {      
-      ProcessTrigger(CrudOperationType, Resource.Id, ResourceNameResolutionSupport.GetResourceFhirAllType(Resource.ResourceType), Resource);
+    public ITriggerOutcome Trigger(RestEnum.CrudOperationType CrudOperationType, TriggerRaisedType TriggerRaised, Resource Resource)
+    {
+      return ProcessTrigger(CrudOperationType, TriggerRaised, Resource.Id, ResourceNameResolutionSupport.GetResourceFhirAllType(Resource.ResourceType), Resource);
     }
 
-    private void ProcessTrigger(RestEnum.CrudOperationType CrudOperationType, string ResourceId, FHIRAllTypes ResourceType, Resource Resource = null)
+    private ITriggerOutcome ProcessTrigger(RestEnum.CrudOperationType CrudOperationType, TriggerRaisedType TriggerRaised, string ResourceId, FHIRAllTypes ResourceType, Resource Resource = null)
     {
       switch (ResourceType)
       {
         case FHIRAllTypes.CompartmentDefinition:
-          break;
+          return ITriggerCompartmentDefinition.ProcessTrigger(CrudOperationType, TriggerRaised, ResourceId, ResourceType, Resource);
         default:
-          break;
+          //Return Contiune if no trigger processing required.
+          return new TriggerOutcome() { TriggerOutcomeResult = TriggerOutcome.TriggerOutcomeType.Contiune };
       }
     }
 

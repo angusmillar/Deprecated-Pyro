@@ -5,7 +5,7 @@ namespace Pyro.Engine.Services
 {
   public interface IResourceTriggerService
   {
-    void Trigger(RestEnum.CrudOperationType CrudOperationType, Resource Resource);
-    void Trigger(RestEnum.CrudOperationType CrudOperationType, string ResourceId, FHIRAllTypes ResourceType);
+    TriggerServices.ITriggerOutcome Trigger(RestEnum.CrudOperationType CrudOperationType, ResourceTriggerService.TriggerRaisedType TriggerRaised, Resource Resource);
+    TriggerServices.ITriggerOutcome Trigger(RestEnum.CrudOperationType CrudOperationType, ResourceTriggerService.TriggerRaisedType TriggerRaised, string ResourceId, FHIRAllTypes ResourceType);
   }
 }

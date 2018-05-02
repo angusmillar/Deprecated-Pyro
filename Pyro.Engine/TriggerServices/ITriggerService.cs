@@ -1,10 +1,11 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
+using static Pyro.Engine.Services.ResourceTriggerService;
 
 namespace Pyro.Engine.TriggerServices
 {
   public interface ITriggerService
   {
-    void ProcessTrigger(RestEnum.CrudOperationType CrudOperationType, string ResourceId, FHIRAllTypes ResourceType, Resource Resource = null);
+    ITriggerOutcome ProcessTrigger(RestEnum.CrudOperationType CrudOperationType, TriggerRaisedType TriggerRaised, string ResourceId, FHIRAllTypes ResourceType, Resource Resource = null);
   }
 }

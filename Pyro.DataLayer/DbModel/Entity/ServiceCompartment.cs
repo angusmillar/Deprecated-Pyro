@@ -15,6 +15,7 @@ namespace Pyro.DataLayer.DbModel.Entity
   {
     public string Url { get; set; }
     public string CompartmentDefinitionResourceId { get; set; }
+    public string CompartmentDefinitionResourceVersion { get; set; }
     public string Name { get; set; }
     public string Title { get; set; }
     public string Code { get; set; }

@@ -17,7 +17,8 @@ namespace Pyro.Common.Compartment
     private readonly IServiceCompartmentRepository IServiceCompartmentRepository;    
     private readonly IApplicationCacheSupport IApplicationCacheSupport;
 
-    private readonly string CacheKey = "GetServiceCompartmentForCode";
+    private readonly string CacheKeyCompartmentResource = "GetServiceCompartmentResource";
+    private readonly string CacheKeyCompartment = "GetServiceCompartment";
 
     public ServiceCompartmentCache(IServiceCompartmentRepository IServiceCompartmentRepository, IApplicationCacheSupport IApplicationCacheSupport, IGlobalProperties IGlobalProperties)
     {
@@ -26,7 +27,19 @@ namespace Pyro.Common.Compartment
       this.IGlobalProperties = IGlobalProperties;
     }
 
-    public DtoServiceCompartmentCached GetServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource)
+    public DtoServiceCompartmentCached GetServiceCompartmentForCompartmentCode(string CompartmentCode)
+    {
+      if (!IGlobalProperties.ApplicationCacheServicesActive)
+      {
+        return IServiceCompartmentRepository.GetServiceCompartmentForCache(CompartmentCode);
+      }
+      else
+      {
+        return IApplicationCacheSupport.GetOrSet($"{CacheKeyCompartment}.{CompartmentCode}", () => IServiceCompartmentRepository.GetServiceCompartmentForCache(CompartmentCode));
+      }
+    }
+
+    public DtoServiceCompartmentResourceCached GetServiceCompartmentResourceForCompartmentCodeAndResource(string CompartmentCode, string Resource)
     {      
       if (!IGlobalProperties.ApplicationCacheServicesActive)
       {
@@ -34,16 +47,25 @@ namespace Pyro.Common.Compartment
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet($"{CacheKey}.{CompartmentCode}.{Resource}", () => IServiceCompartmentRepository.GetServiceCompartmentResourceParameterListForCache(CompartmentCode, Resource));
+        return IApplicationCacheSupport.GetOrSet($"{CacheKeyCompartmentResource}.{CompartmentCode}.{Resource}", () => IServiceCompartmentRepository.GetServiceCompartmentResourceParameterListForCache(CompartmentCode, Resource));
       }     
     }
 
-    public void ClearServiceCompartmentForCompartmentCodeAndResource(string CompartmentCode, string Resource)
+    public void ClearServiceCompartmentForCompartmentCode(string CompartmentCode)
     {
       if (IGlobalProperties.ApplicationCacheServicesActive)
       {
-        IApplicationCacheSupport.RemoveKey($"{CacheKey}.{CompartmentCode}.{Resource}");
+        IApplicationCacheSupport.RemoveKey($"{CacheKeyCompartment}.{CompartmentCode}");
       }
     }
+
+    public void ClearServiceCompartmentResourceForCompartmentCodeAndResource(string CompartmentCode, string Resource)
+    {
+      if (IGlobalProperties.ApplicationCacheServicesActive)
+      {
+        IApplicationCacheSupport.RemoveKey($"{CacheKeyCompartmentResource}.{CompartmentCode}.{Resource}");
+      }
+    }
+
   }
 }

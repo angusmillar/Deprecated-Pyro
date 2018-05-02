@@ -6,6 +6,7 @@ namespace Pyro.Common.Service
 {
   public interface ICompartmentOperationService
   {
-    IResourceServiceOutcome Set(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta);
+    IResourceServiceOutcome SetActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId);
+    IResourceServiceOutcome SetInActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId);
   }
 }

@@ -11,11 +11,13 @@ using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Compartment;
 using Pyro.Common.ServiceSearchParameter;
+using Pyro.Common.Interfaces.ITools;
 
 namespace Pyro.Common.Service
 {
   public class CompartmentOperationService : ICompartmentOperationService
   {
+    private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IResourceServices IResourceServices;
     private readonly IRequestMetaFactory IRequestMetaFactory;
@@ -26,31 +28,34 @@ namespace Pyro.Common.Service
     IResourceServiceOutcome ResourceServiceOutcome;
 
     //Pyro url compartments will override the standard HL7 compatments
-    private readonly string HL7OrgUrl = "http://hl7.org/fhir/CompartmentDefinition/patient";
-    private readonly string PyroOrgUrl = "https://Pyrohealth.net/Codesystem/CompartmentDefinition/patient";
+    private readonly string HL7OrgUrl = "http://hl7.org/fhir/CompartmentDefinition";
+    private string PyroOrgUrl = string.Empty;
 
     public CompartmentOperationService(
+      IRepositorySwitcher IRepositorySwitcher,
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
-      IResourceServices IResourceServices,      
+      IResourceServices IResourceServices,
       IRequestMetaFactory IRequestMetaFactory,
       IServiceCompartmentRepository IServiceCompartmentRepository,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      IServiceCompartmentCache IServiceCompartmentCache)      
+      IServiceCompartmentCache IServiceCompartmentCache)
     {
+      this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
       this.IServiceCompartmentRepository = IServiceCompartmentRepository;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
+
+      var PyroHealthCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      PyroOrgUrl = $"{PyroHealthCodeSystem.Url}/{PyroHealthInformation.PyroServerCodeSystem.Codes.CompartmentDefinition.GetPyroLiteral()}";
     }
 
-    public IResourceServiceOutcome Set(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta)
+    public IResourceServiceOutcome SetActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
     {
       if (OperationClass == null)
         throw new NullReferenceException("OperationClass cannot be null.");
-      if (Resource == null)
-        throw new NullReferenceException("Resource cannot be null.");
       if (IResourceServices == null)
         throw new NullReferenceException("ResourceServices cannot be null.");
       if (RequestMeta == null)
@@ -64,7 +69,9 @@ namespace Pyro.Common.Service
 
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
-      if (Resource is CompartmentDefinition CompartDef)
+      CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
+
+      if (CompartDef != null)
       {
         if (CompartDef.Status != PublicationStatus.Active)
         {
@@ -83,10 +90,11 @@ namespace Pyro.Common.Service
           return ResourceServiceOutcome;
         }
 
-        if (CompartDef.Url == HL7OrgUrl || CompartDef.Url == PyroOrgUrl)
+        if (CompartDef.Url.StartsWith(HL7OrgUrl) || CompartDef.Url.StartsWith(PyroOrgUrl))
         {
           DtoServiceCompartment NewServiceCompartment = new DtoServiceCompartment();
           NewServiceCompartment.CompartmentDefinitionResourceId = CompartDef.Id;
+          NewServiceCompartment.CompartmentDefinitionResourceVersion = CompartDef.Meta.VersionId;
           NewServiceCompartment.Code = CompartDef.Code.GetLiteral();
           NewServiceCompartment.LastUpdated = DateTimeOffset.Now;
           NewServiceCompartment.Name = CompartDef.Name;
@@ -111,7 +119,7 @@ namespace Pyro.Common.Service
             }
 
             foreach (var Param in ResourceComponent.Param)
-            {              
+            {
               var FoundParam = SupportedSerachParamList.SingleOrDefault(x => x.Name == Param.Split('.')[0]);
               if (FoundParam != null)
               {
@@ -132,7 +140,7 @@ namespace Pyro.Common.Service
                 ResourceServiceOutcome.SuccessfulTransaction = true;
                 return ResourceServiceOutcome;
               }
-              
+
               var CompatmentResource = new DtoServiceCompartmentResource()
               {
                 Code = ResourceComponent.Code.GetLiteral(),
@@ -141,15 +149,19 @@ namespace Pyro.Common.Service
               NewServiceCompartment.ResourceList.Add(CompatmentResource);
             }
           }
-          
+
           //Commit or Update the compartment
           NewServiceCompartment = IServiceCompartmentRepository.UpdateServiceCompartment(NewServiceCompartment);
-          //Clear any level one cached instances for this compartment.  
-          ModelInfo.SupportedResources.ForEach(x =>
-          {
-            IServiceCompartmentCache.ClearServiceCompartmentForCompartmentCodeAndResource(NewServiceCompartment.Code, x);
-          });
-          
+          ClearCompartmentCache(NewServiceCompartment.Code);
+          AddCompartmentActiveTag(CompartDef);
+
+          //Commit CompartmentDefinition with Active tag, disable triggers on doing so as the triggers will block
+          //the update. 
+          IRequestMeta RequestMetaUpdateCompartmentDef = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.CompartmentDefinition}/{CompartDef.Id}");
+          IResourceServices.TriggersActive = false;
+          var IResourceServicesOutcome = IResourceServices.Put(CompartDef.Id, CompartDef, RequestMetaUpdateCompartmentDef);
+          IResourceServices.TriggersActive = true;
+
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
           ResourceServiceOutcome.IsDeleted = false;
           ResourceServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
@@ -159,7 +171,7 @@ namespace Pyro.Common.Service
         else
         {
           ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
-          $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource url property must be either: '{HL7OrgUrl}' or '{PyroOrgUrl}'. The resource supplied has a url property of '{CompartDef.Url}'.");
+          $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource url property must start with either: '{HL7OrgUrl}' or '{PyroOrgUrl}'. The resource supplied has a url property of '{CompartDef.Url}'.");
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.SuccessfulTransaction = true;
           return ResourceServiceOutcome;
@@ -167,14 +179,94 @@ namespace Pyro.Common.Service
       }
       else
       {
+        //Not CompartmentDefinition Resource found
         ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
-        $"The resource supplied to the ${FhirOperationEnum.OperationType.xSetCompartment.GetPyroLiteral()} operation must be a {ResourceType.CompartmentDefinition.GetLiteral()} resource type. The resource type given was: {Resource.ResourceType.GetLiteral()}.");
-        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        $"The resource id supplied to the ${FhirOperationEnum.OperationType.xSetCompartmentActive.GetPyroLiteral()} operation was not found in the server at: {ResourceType.CompartmentDefinition.GetLiteral()}/{FhirId}");
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+        ResourceServiceOutcome.FhirResourceId = null;
+        ResourceServiceOutcome.LastModified = null;
+        ResourceServiceOutcome.IsDeleted = null;
+        ResourceServiceOutcome.OperationType = RestEnum.CrudOperationType.Read;
+        ResourceServiceOutcome.ResourceVersionNumber = null;
+        ResourceServiceOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
         ResourceServiceOutcome.SuccessfulTransaction = true;
         return ResourceServiceOutcome;
       }
-      
     }
-    
+
+    private static void AddCompartmentActiveTag(CompartmentDefinition CompartDef)
+    {
+      if (CompartDef.Meta == null)
+        CompartDef.Meta = new Meta();
+      if (CompartDef.Meta.Tag == null)
+        CompartDef.Meta.Tag = new List<Coding>();
+      var PyroCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      var PyroActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
+      CompartDef.Meta.Tag.Add(new Coding(PyroCodeSystem.Url, PyroActiveCode.Code, PyroActiveCode.Display));
+    }
+
+    public IResourceServiceOutcome SetInActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
+    {
+      ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
+      CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
+      if (CompartDef != null)
+      {
+        var DbServiceCompartment = IServiceCompartmentRepository.GetServiceCompartmentByFhirId(CompartDef.Id);
+        if (DbServiceCompartment != null)
+        {
+          IServiceCompartmentRepository.DeleteServiceCompartment(DbServiceCompartment.Code);
+          ClearCompartmentCache(DbServiceCompartment.Code);
+        }
+        //Regadless of the Compartment being there or not we return NoContent when it is deleted.
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
+        ResourceServiceOutcome.FhirResourceId = null;
+        ResourceServiceOutcome.LastModified = null;
+        ResourceServiceOutcome.IsDeleted = null;
+        ResourceServiceOutcome.OperationType = RestEnum.CrudOperationType.Delete;
+        ResourceServiceOutcome.ResourceVersionNumber = null;
+        ResourceServiceOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
+        ResourceServiceOutcome.SuccessfulTransaction = true;
+        return ResourceServiceOutcome;
+      }
+      else
+      {
+        //Not CompartmentDefinition Resource found
+        ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
+        $"The resource id supplied to the ${FhirOperationEnum.OperationType.xSetCompartmentActive.GetPyroLiteral()} operation was not found in the server at: {ResourceType.CompartmentDefinition.GetLiteral()}/{FhirId}");
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+        ResourceServiceOutcome.FhirResourceId = null;
+        ResourceServiceOutcome.LastModified = null;
+        ResourceServiceOutcome.IsDeleted = null;
+        ResourceServiceOutcome.OperationType = RestEnum.CrudOperationType.Read;
+        ResourceServiceOutcome.ResourceVersionNumber = null;
+        ResourceServiceOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+        ResourceServiceOutcome.SuccessfulTransaction = true;
+        return ResourceServiceOutcome;
+      }
+    }
+
+    private void ClearCompartmentCache(string Code)
+    {
+      //Clear the root ServiceCompartment from cache
+      IServiceCompartmentCache.ClearServiceCompartmentForCompartmentCode(Code);
+      //Clear the all ServiceCompartmentResource parameters from cache
+      ModelInfo.SupportedResources.ForEach(x =>
+      {
+        IServiceCompartmentCache.ClearServiceCompartmentResourceForCompartmentCodeAndResource(Code, x);
+      });
+    }
+
+    private CompartmentDefinition GetCompartmentResource(string CompartmentDefintionFhirId)
+    {
+      IResourceRepository IResourceRepository = IRepositorySwitcher.GetRepository(FHIRAllTypes.CompartmentDefinition);
+      var DatabaseOperation = IResourceRepository.GetResourceByFhirID(CompartmentDefintionFhirId, true, false);
+      if (DatabaseOperation.ReturnedResourceList.Count > 0)
+      {
+        return Tools.FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperation.ReturnedResourceList[0].Xml) as CompartmentDefinition;
+      }
+      return null;
+    }
   }
 }

@@ -35,8 +35,10 @@ namespace Pyro.Common.Enum
       Validate,
       [EnumLiteral("x-IHISearchOrValidate")]
       xIHISearchOrValidate,
-      [EnumLiteral("x-setcompartment")]
-      xSetCompartment,
+      [EnumLiteral("x-set-compartment-active")]
+      xSetCompartmentActive,
+      [EnumLiteral("x-set-compartment-inactive")]
+      xSetCompartmentInActive,
 
     }
 
@@ -52,7 +54,8 @@ namespace Pyro.Common.Enum
         {OperationType.ConnectathonAnswer.GetPyroLiteral(), OperationType.ConnectathonAnswer},
         {OperationType.Validate.GetPyroLiteral(), OperationType.Validate},
         {OperationType.xIHISearchOrValidate.GetPyroLiteral(), OperationType.xIHISearchOrValidate},
-        {OperationType.xSetCompartment.GetPyroLiteral(), OperationType.xSetCompartment},
+        {OperationType.xSetCompartmentActive.GetPyroLiteral(), OperationType.xSetCompartmentActive},
+        {OperationType.xSetCompartmentInActive.GetPyroLiteral(), OperationType.xSetCompartmentInActive},
       };
     }
     

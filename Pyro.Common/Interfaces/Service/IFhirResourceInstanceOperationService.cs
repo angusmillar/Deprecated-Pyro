@@ -6,6 +6,7 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IFhirResourceInstanceOperationService
   {
-    IResourceServiceOutcome Process(string OperationName, Resource Resource, IRequestMeta RequestMeta);
+    IResourceServiceOutcome ProcessPost(string ResourceName, string FhirId, string OperationName, IRequestMeta RequestMeta, Resource Resource);
+    IResourceServiceOutcome ProcessGet(string ResourceName, string FhirId, string OperationName, IRequestMeta RequestMeta);    
   }
 }

@@ -100,7 +100,11 @@
     <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PyroService.cs" />
+    <Compile Include="TriggerServices\ITriggerCompartmentDefinition.cs" />
+    <Compile Include="TriggerServices\ITriggerOutcome.cs" />
     <Compile Include="TriggerServices\ITriggerService.cs" />
+    <Compile Include="TriggerServices\TriggerCompartmentDefinition.cs" />
+    <Compile Include="TriggerServices\TriggerOutcome.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">

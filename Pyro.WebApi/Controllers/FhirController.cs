@@ -284,10 +284,10 @@ namespace Pyro.WebApi.Controllers
     /// <returns></returns>
     [HttpPost, Route("{ResourceName}/${operation}")]
     [ActionLog]
-    public HttpResponseMessage ResourceOperationWithParameters(string ResourceName, string operation, [FromBody] FhirModel.Resource Resource)
+    public HttpResponseMessage OperationPostResourceWithParameters(string ResourceName, string operation, [FromBody] FhirModel.Resource Resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.ResourceOperationWithParameters(BaseRequestUri, Request, ResourceName, operation, Resource);
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationPostResourceWithParameters(BaseRequestUri, Request, ResourceName, operation, Resource);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -303,10 +303,28 @@ namespace Pyro.WebApi.Controllers
     /// <returns></returns>
     [HttpPost, Route("{ResourceName}/{id}/${operation}")]
     [ActionLog]
-    public HttpResponseMessage ResourceOperationWithParameters(string ResourceName, string id, string operation, [FromBody] FhirModel.Resource Resource)
+    public HttpResponseMessage OperationPostResourceInstanceWithParameters(string ResourceName, string id, string operation, [FromBody] FhirModel.Resource Resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.ResourceInstanceOperationWithParameters(BaseRequestUri, Request, ResourceName, operation, Resource, id);
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationPostResourceInstanceWithParameters(BaseRequestUri, Request, ResourceName, operation, id, Resource);
+      return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
+    }
+
+    //Resource Operations
+    // GET: URL/FhirApi/CompartmentDefinition/5/$x-set-compartment-active
+    /// <summary>
+    /// Resource operation endpoint. This is for operations that are to be performed on a Resource type and Resource instance, for example: Patient/5/$my-operation-name
+    /// </summary>
+    /// <param name="ResourceName">The name of the FHIR resource that the operation applies to.</param>
+    /// <param name="id">The FHIR Resource's id</param>
+    /// <param name="operation">The name of the operation, must be prefixed with a '$'. For example: '$my-operation-name' </param>    
+    /// <returns></returns>
+    [HttpGet, Route("{ResourceName}/{id}/${operation}")]
+    [ActionLog]
+    public HttpResponseMessage OperationGetResourceInstanceWithParameters(string ResourceName, string id, string operation)
+    {
+      string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationGetResourceInstanceWithParameters(BaseRequestUri, Request, ResourceName, operation, id);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -319,11 +337,11 @@ namespace Pyro.WebApi.Controllers
     /// <param name="Resource">Must be a Parameters resource given in the body, even if no parameters are required</param>
     /// <returns></returns>
     [HttpPost, Route("${operation}")]
-    [ActionLog]
-    public HttpResponseMessage BaseOperationWithParameters(string operation, [FromBody] FhirModel.Resource Resource)
+    [ActionLog]                
+    public HttpResponseMessage OperationPostBaseWithParameters(string operation, [FromBody] FhirModel.Resource Resource)
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.BaseOperationWithParameters(BaseRequestUri, Request, operation, Resource);
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationPostBaseWithParameters(BaseRequestUri, Request, operation, Resource);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -336,15 +354,13 @@ namespace Pyro.WebApi.Controllers
     /// <returns></returns>
     [HttpGet, Route("${operation}")]
     [ActionLog]
-    public HttpResponseMessage BaseOperationWithParameters(string operation)
+    public HttpResponseMessage OperationGetBaseWithParameters(string operation)
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
-      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.BaseOperationWithOutParameters(BaseRequestUri, Request, operation);
+      IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationGetBaseWithParameters(BaseRequestUri, Request, operation);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
-
-
-
+    
   }
 
 

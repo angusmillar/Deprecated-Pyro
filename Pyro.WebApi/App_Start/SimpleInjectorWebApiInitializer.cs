@@ -82,9 +82,12 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, Pyro.WebApi.CompositionRoot.FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, Pyro.WebApi.CompositionRoot.ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
-      container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Singleton);
-  
       
+      
+      
+
+
+
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
@@ -175,6 +178,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
+
+      //Scoped Trigger Services
+      container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
+      container.Register<Pyro.Engine.TriggerServices.ITriggerCompartmentDefinition, Pyro.Engine.TriggerServices.TriggerCompartmentDefinition>(Lifestyle.Scoped);
     }
   }
 }

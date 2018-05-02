@@ -18,6 +18,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Url).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
       Property(x => x.CompartmentDefinitionResourceId).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
+      Property(x => x.CompartmentDefinitionResourceVersion).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
       Property(x => x.Name).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.NameMaxLength);
       Property(x => x.Title).IsOptional().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.DescriptionMaxLength);
 

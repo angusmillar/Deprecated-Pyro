@@ -2,15 +2,10 @@
 
 namespace Pyro.Common.Compartment
 {
-  public class DtoServiceCompartmentCached
+  public class DtoServiceCompartmentResourceCached
   {
     public string CompartmentCode { get; set; }
     public string ResourceName { get; set; }
-    public ICollection<DtoServiceCompartmentResourceCached> ParamList { get; set; }    
-  }
-
-  public class DtoServiceCompartmentResourceCached
-  {
-    public string Param { get; set; }
-  }
+    public ICollection<DtoServiceCompartmentParameterCached> ParamList { get; set; }    
+  }  
 }

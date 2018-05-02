@@ -11,8 +11,6 @@ namespace Pyro.Engine.Services
   public interface IPyroService
   {
     IResourceServiceOutcome Base(string BaseRequestUri, HttpRequestMessage Request, Resource resource);
-    IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName);
-    IResourceServiceOutcome BaseOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource);
     IResourceServiceOutcome ConditionalDelete(string BaseRequestUri, HttpRequestMessage Request, string ResourceName);
     IResourceServiceOutcome ConditionalPut(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource);
     IResourceServiceOutcome Delete(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id);
@@ -22,9 +20,15 @@ namespace Pyro.Engine.Services
     IResourceServiceOutcome Post(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, Resource resource);
     IResourceServiceOutcome PostFormSearch(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, IEnumerable<Tuple<string, string>> FormParameterList);
     IResourceServiceOutcome Put(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string id, Resource resource);
-    IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource, string FhirId);
-    IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource);
     IResourceServiceOutcome Search(string BaseRequestUri, HttpRequestMessage Request, string ResourceName);
     IResourceServiceOutcome CompartmentSearch(string BaseRequestUri, HttpRequestMessage Request, string Compartment, string id, string ResourceName);
+    
+    IResourceServiceOutcome OperationPostResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId, Resource Resource);
+    IResourceServiceOutcome OperationGetResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId);
+
+    IResourceServiceOutcome OperationPostResourceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource);
+    IResourceServiceOutcome OperationGetBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName);
+    IResourceServiceOutcome OperationPostBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource);
+
   }
 }

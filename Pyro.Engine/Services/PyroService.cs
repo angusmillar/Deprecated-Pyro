@@ -336,7 +336,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome BaseOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource)
+    public IResourceServiceOutcome OperationPostBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
@@ -364,7 +364,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome BaseOperationWithOutParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName)
+    public IResourceServiceOutcome OperationGetBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
@@ -392,7 +392,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome ResourceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource)
+    public IResourceServiceOutcome OperationPostResourceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
@@ -420,7 +420,7 @@ namespace Pyro.Engine.Services
       }
     }
 
-    public IResourceServiceOutcome ResourceInstanceOperationWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource, string FhirId)
+    public IResourceServiceOutcome OperationPostResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId, Resource Resource = null)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
@@ -429,7 +429,7 @@ namespace Pyro.Engine.Services
           IRequestServiceRootValidate.Validate(BaseRequestUri);
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IFhirResourceInstanceOperationService FhirResourceInstanceOperationService = IFhirResourceInstanceOperationServiceFactory.CreateFhirResourceInstanceOperationService();
-          IResourceServiceOutcome ResourceServiceOutcome = FhirResourceInstanceOperationService.Process(operation, Resource, RequestMeta);
+          IResourceServiceOutcome ResourceServiceOutcome = FhirResourceInstanceOperationService.ProcessPost(ResourceName, FhirId, operation, RequestMeta, Resource);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           if (ResourceServiceOutcome.SuccessfulTransaction)
             Transaction.Commit();
@@ -447,6 +447,34 @@ namespace Pyro.Engine.Services
         }
       }
     }
-    
+
+    public IResourceServiceOutcome OperationGetResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId)
+    {
+      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
+      {
+        try
+        {
+          IRequestServiceRootValidate.Validate(BaseRequestUri);
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);
+          IFhirResourceInstanceOperationService FhirResourceInstanceOperationService = IFhirResourceInstanceOperationServiceFactory.CreateFhirResourceInstanceOperationService();
+          IResourceServiceOutcome ResourceServiceOutcome = FhirResourceInstanceOperationService.ProcessGet(ResourceName, FhirId, operation, RequestMeta);
+          ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
+          if (ResourceServiceOutcome.SuccessfulTransaction)
+            Transaction.Commit();
+          else
+            Transaction.Rollback();
+
+          return ResourceServiceOutcome;
+        }
+        catch (Exception Exec)
+        {
+          Transaction.Rollback();
+          ILog.Error(Exec, "PyroService.ResourceInstanceOperationWithParameters");
+          throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
+            Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
+        }
+      }
+    }
+
   }
 }

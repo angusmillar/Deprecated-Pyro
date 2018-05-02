@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.CompositionRoot;
-using Pyro.Common.Search;
 using Pyro.Common.FhirOperation;
-using Pyro.Common.Tools.Headers;
 using Pyro.Common.Tools;
 using Pyro.Common.ADHA.Api;
 using Pyro.ADHA.Api;
@@ -18,6 +15,7 @@ using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
 using System.Text;
 using Pyro.Common.RequestMetadata;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.Service
 {
@@ -192,13 +190,16 @@ namespace Pyro.Common.Service
 
     private IResourceServiceOutcome CommitAuditResourceForHiServiceCall(IIhiSearchValidateOutcome HiServiceOutCome, bool SuccessfulQuery)
     {
+      var PyroHealthCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      var AuditCode = PyroHealthCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.HiServiceCallAudit.GetPyroLiteral());
       var Audit = new AuditEvent();
       Audit.Type = new Coding()
       {
-        Code = "HiServiceCallAudit",
-        Display = "Hi Service Call Audit",
-        System = "https://Pyrohealth.net/Codesystem/AuditEvent"
+        Code = AuditCode.Code,
+        Display = AuditCode.Display,
+        System = PyroHealthCodeSystem.Url
       };
+
       Audit.Action = AuditEvent.AuditEventAction.E;
       Audit.Recorded = DateTimeOffset.Now;
       if (SuccessfulQuery)

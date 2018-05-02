@@ -30,15 +30,36 @@ namespace Pyro.Engine.Services
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
     }
 
-    public IResourceServiceOutcome Process(
+    public IResourceServiceOutcome ProcessPost(
+      string ResourceName,
+      string FhirId,
       string OperationName,
-      Resource Resource,
-      IRequestMeta RequestMeta)
+      IRequestMeta RequestMeta,
+      Resource Resource)
     {
-      if (string.IsNullOrWhiteSpace(OperationName))
-        throw new NullReferenceException("OperationName cannot be null.");
       if (Resource == null)
         throw new NullReferenceException("Resource cannot be null.");
+      return Process(ResourceName, FhirId, OperationName, RequestMeta, Resource);
+    }
+
+    public IResourceServiceOutcome ProcessGet(
+      string ResourceName,
+      string FhirId,
+      string OperationName,
+      IRequestMeta RequestMeta)
+    {     
+      return Process(ResourceName, FhirId, OperationName, RequestMeta, null);
+    }
+
+    private IResourceServiceOutcome Process(
+      string ResourceName, 
+      string FhirId, 
+      string OperationName,      
+      IRequestMeta RequestMeta,
+      Resource Resource = null)
+    {
+      if (string.IsNullOrWhiteSpace(OperationName))
+        throw new NullReferenceException("OperationName cannot be null.");      
       if(RequestMeta == null)
         throw new NullReferenceException("RequestMeta cannot be null.");
       if (RequestMeta.RequestHeader == null)
@@ -95,6 +116,16 @@ namespace Pyro.Engine.Services
           {
             IFhirValidateOperationService FhirValidateOperationService = ICommonFactory.CreateFhirValidateOperationService();
             return FhirValidateOperationService.ValidateResourceInstance(OperationClass, Resource, RequestMeta);
+          }
+        case FhirOperationEnum.OperationType.xSetCompartmentActive:
+          {
+            ICompartmentOperationService CompartmentOperationService = ICommonFactory.CreateCompartmentOperationService();
+            return CompartmentOperationService.SetActive(OperationClass, RequestMeta, FhirId);
+          }
+        case FhirOperationEnum.OperationType.xSetCompartmentInActive:
+          {
+            ICompartmentOperationService CompartmentOperationService = ICommonFactory.CreateCompartmentOperationService();
+            return CompartmentOperationService.SetInActive(OperationClass, RequestMeta, FhirId);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

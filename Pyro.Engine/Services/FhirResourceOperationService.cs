@@ -99,11 +99,6 @@ namespace Pyro.Engine.Services
             IIHISearchOrValidateOperationService IHISearchOrValidateOperationService = ICommonFactory.CreateIHISearchOrValidateOperationService();
             return IHISearchOrValidateOperationService.IHISearchOrValidate(OperationClass, Resource, RequestMeta);
           }
-        case FhirOperationEnum.OperationType.xSetCompartment:
-          {
-            ICompartmentOperationService CompartmentOperationService = ICommonFactory.CreateCompartmentOperationService();
-            return CompartmentOperationService.Set(OperationClass, Resource, RequestMeta);
-          }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));
       }

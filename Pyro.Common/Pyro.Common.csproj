@@ -117,6 +117,8 @@
     <Compile Include="BusinessEntities\Dto\DtoResource.cs" />
     <Compile Include="BusinessEntities\Dto\DtoRootUrlStore.cs" />
     <Compile Include="Compartment\DtoServiceCompartment.cs" />
+    <Compile Include="Compartment\DtoServiceCompartmentCached.cs" />
+    <Compile Include="Compartment\DtoServiceCompartmentParameterCached.cs" />
     <Compile Include="Compartment\DtoServiceCompartmentResourceCached.cs" />
     <Compile Include="Compartment\DtoServiceCompartmentResource.cs" />
     <Compile Include="Compartment\IServiceCompartmentCache.cs" />
@@ -142,6 +144,8 @@
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
     <Compile Include="Interfaces\Repositories\IServiceCompartmentRepository.cs" />
     <Compile Include="ProductText\PyroText.cs" />
+    <Compile Include="PyroHealthInformation\PyroHealthContactList.cs" />
+    <Compile Include="PyroHealthInformation\PyroServerCodesysem.cs" />
     <Compile Include="RequestMetadata\IRequestMeta.cs" />
     <Compile Include="RequestMetadata\RequestMeta.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />

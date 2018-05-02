@@ -14,6 +14,7 @@ namespace Pyro.DataLayer.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Url = c.String(nullable: false, maxLength: 450),
                         CompartmentDefinitionResourceId = c.String(nullable: false, maxLength: 128),
+                        CompartmentDefinitionResourceVersion = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false, maxLength: 128),
                         Title = c.String(maxLength: 256),
                         Code = c.String(nullable: false, maxLength: 50),
