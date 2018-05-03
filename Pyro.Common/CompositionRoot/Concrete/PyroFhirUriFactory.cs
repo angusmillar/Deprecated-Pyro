@@ -1,7 +1,7 @@
 ﻿using Pyro.Common.CompositionRoot;
 using Pyro.Common.Tools.UriSupport;
 
-namespace Pyro.Backburner.CompositionRoot2
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class PyroFhirUriFactory : IPyroFhirUriFactory
   {

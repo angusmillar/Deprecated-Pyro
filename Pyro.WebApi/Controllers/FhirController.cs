@@ -80,9 +80,8 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
-
+      //Below is only testing at this stage. No real tasks going as yet.
       SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
-
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 

@@ -1,7 +1,7 @@
 ﻿using Pyro.Common.Service;
 using Pyro.Common.CompositionRoot;
 
-namespace Pyro.Backburner.CompositionRoot2
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class ResourceServiceOutcomeFactory : IResourceServiceOutcomeFactory
   {

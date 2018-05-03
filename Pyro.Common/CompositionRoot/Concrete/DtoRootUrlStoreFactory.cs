@@ -2,7 +2,7 @@
 using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.Tools.UriSupport;
 
-namespace Pyro.WebApi.CompositionRoot
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class DtoRootUrlStoreFactory : IDtoRootUrlStoreFactory
   {

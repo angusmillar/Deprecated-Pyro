@@ -2,7 +2,7 @@
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
 
-namespace Pyro.WebApi.CompositionRoot
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class RequestMetaFactory : IRequestMetaFactory
   {

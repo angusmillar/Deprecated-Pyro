@@ -1,7 +1,7 @@
 ﻿using Pyro.Common.Service;
 using Pyro.Common.CompositionRoot;
 
-namespace Pyro.WebApi.CompositionRoot
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class SearchParameterServiceFactory : ISearchParameterServiceFactory
   {

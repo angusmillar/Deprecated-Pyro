@@ -3,8 +3,9 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Interfaces.Service;
 
-namespace Pyro.WebApi.CompositionRoot
-{
+namespace Pyro.Common.CompositionRoot.Concrete
+{ 
+
   public class FhirResourceInstanceOperationServiceFactory : IFhirResourceInstanceOperationServiceFactory
   {
     private readonly SimpleInjector.Container Container;

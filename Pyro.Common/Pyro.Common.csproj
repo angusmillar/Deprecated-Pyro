@@ -77,6 +77,9 @@
     <Reference Include="SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=64eb6448c87dfed9, processorArchitecture=MSIL">
       <HintPath>..\packages\p3-sharpcompress.0.10.5.2\lib\net40\SharpCompress.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -123,6 +126,25 @@
     <Compile Include="Compartment\DtoServiceCompartmentResource.cs" />
     <Compile Include="Compartment\IServiceCompartmentCache.cs" />
     <Compile Include="Compartment\ServiceCompartmentCache.cs" />
+    <Compile Include="CompositionRoot\Concrete\BundleTransactionServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\CommonFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\DatabaseOperationOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\DtoRootUrlStoreFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\FhirBaseOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\FhirResourceInstanceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\FhirResourceOperationServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\MetadataServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\PyroFhirUriFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\PyroRequestUriFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\RequestHeaderFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\RequestMetaFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\ResourceServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\ResourceServiceOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\SearchParameterGenericFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\SearchParameterReferanceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\SearchParameterServiceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\SearchParametersServiceOutcomeFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\ServerSearchParameterServiceFactory.cs" />
     <Compile Include="CompositionRoot\IBundleTransactionServiceFactory.cs" />
     <Compile Include="CompositionRoot\IDatabaseOperationOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\IDtoRootUrlStoreFactory.cs" />

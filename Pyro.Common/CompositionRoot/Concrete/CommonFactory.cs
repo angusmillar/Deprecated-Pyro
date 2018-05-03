@@ -5,7 +5,7 @@ using Pyro.Common.Service;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
 
-namespace Pyro.Backburner.CompositionRoot2
+namespace Pyro.Common.CompositionRoot.Concrete
 {
   public class CommonFactory : ICommonFactory
   {

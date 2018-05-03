@@ -96,29 +96,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Pyro.WebApi\CompositionRoot\IndexSetterFactory.cs">
+      <Link>CompositionRoot\IndexSetterFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Pyro.WebApi\CompositionRoot\MapperProvider.cs">
+      <Link>CompositionRoot\MapperProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Pyro.WebApi\CompositionRoot\ResourceRepositoryFactory.cs">
+      <Link>CompositionRoot\ResourceRepositoryFactory.cs</Link>
+    </Compile>
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
-    <Compile Include="CompositionRoot2\BundleTransactionServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\CommonFactory.cs" />
-    <Compile Include="CompositionRoot2\DatabaseOperationOutcomeFactory.cs" />
-    <Compile Include="CompositionRoot2\DtoRootUrlStoreFactory.cs" />
-    <Compile Include="CompositionRoot2\FhirBaseOperationServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\FhirResourceInstanceOperationServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\FhirResourceOperationServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\IndexSetterFactory.cs" />
-    <Compile Include="CompositionRoot2\MapperProvider.cs" />
-    <Compile Include="CompositionRoot2\MetadataServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\PyroFhirUriFactory.cs" />
-    <Compile Include="CompositionRoot2\PyroRequestUriFactory.cs" />
-    <Compile Include="CompositionRoot2\RequestHeaderFactory.cs" />
-    <Compile Include="CompositionRoot2\RequestMetaFactory.cs" />
-    <Compile Include="CompositionRoot2\ResourceRepositoryFactory.cs" />
-    <Compile Include="CompositionRoot2\ResourceServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\ResourceServiceOutcomeFactory.cs" />
-    <Compile Include="CompositionRoot2\SearchParameterGenericFactory.cs" />
-    <Compile Include="CompositionRoot2\SearchParameterReferanceFactory.cs" />
-    <Compile Include="CompositionRoot2\SearchParameterServiceFactory.cs" />
-    <Compile Include="CompositionRoot2\SearchParametersServiceOutcomeFactory.cs" />
-    <Compile Include="CompositionRoot2\ServerSearchParameterServiceFactory.cs" />
     <Compile Include="ServiceTask\HiService\IIhiSearchService.cs" />
     <Compile Include="ServiceTaskLaunch\IhiSearchServiceTaskLauncher.cs" />
     <Compile Include="ServiceTask\HiService\IhiSearchService.cs" />
