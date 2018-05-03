@@ -190,7 +190,7 @@ namespace Pyro.Common.Service
 
     private IResourceServiceOutcome CommitAuditResourceForHiServiceCall(IIhiSearchValidateOutcome HiServiceOutCome, bool SuccessfulQuery)
     {
-      var PyroHealthCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      var PyroHealthCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
       var AuditCode = PyroHealthCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.HiServiceCallAudit.GetPyroLiteral());
       var Audit = new AuditEvent();
       Audit.Type = new Coding()

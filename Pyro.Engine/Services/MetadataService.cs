@@ -72,8 +72,8 @@ namespace Pyro.Engine.Services
       Conformance.Experimental = true;
       Conformance.Date = (new FhirDateTime(ApplicationReleaseDate)).Value;
       Conformance.Publisher = "PyroHealth.net";
-
-      Conformance.Contact = new List<ContactDetail>() { new Common.PyroHealthInformation.PyroHealthContactDetailAngusMillar() };
+      var AngusContactDetail = Common.PyroHealthInformation.PyroHealthContactDetailAngusMillar.GetContactDetail();
+      Conformance.Contact = new List<ContactDetail>() { AngusContactDetail };
 
       Conformance.Description = new Markdown("Conformance statement for the " + ServerName);
 

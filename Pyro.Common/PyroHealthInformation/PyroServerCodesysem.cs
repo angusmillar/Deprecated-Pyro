@@ -10,7 +10,7 @@ using Pyro.Common.Attributes;
 
 namespace Pyro.Common.PyroHealthInformation
 {
-  public class PyroServerCodeSystem : Hl7.Fhir.Model.CodeSystem
+  public class PyroServerCodeSystem
   {
     public enum Codes
     {
@@ -24,54 +24,56 @@ namespace Pyro.Common.PyroHealthInformation
       ServerInstance,      
     }
 
-    public PyroServerCodeSystem()
+   
+    public static CodeSystem GetCodeSystem()
     {
-      this.Id = "pyroserver";
-      this.Url = "https://pyrohealth.net/CodeSystem/pyroserver";
-      this.Version = "1.00";
-      this.Name = "PyroServerCodeSystem";
-      this.Title = "The Pyro Server CodeSystem";
-      this.Status = PublicationStatus.Active;
-      this.Experimental = false;
+      var CodeSys = new CodeSystem();
+      CodeSys.Id = "pyroserver";
+      CodeSys.Url = "https://pyrohealth.net/CodeSystem/pyroserver";
+      CodeSys.Version = "1.00";
+      CodeSys.Name = "PyroServerCodeSystem";
+      CodeSys.Title = "The Pyro Server CodeSystem";
+      CodeSys.Status = PublicationStatus.Active;
+      CodeSys.Experimental = false;
       //When the CodeSystem was last editied
-      this.DateElement = new FhirDateTime(new DateTimeOffset(2018, 05, 01, 10, 00, 00, new TimeSpan(8, 0, 0)));
-      this.Publisher = "Pyrohealth.net";
-      this.Contact = new List<ContactDetail>() { new PyroHealthContactDetailAngusMillar() };
-      this.Description = new Markdown("List of codes used throughout the Pyro FHIR Server to identity concepts key to the operation of the server.");
-      this.CaseSensitive = true;
-      this.Compositional = false;
-      this.Count = this.Concept.Count;
-      this.Content = CodeSystemContentMode.Complete;
-      this.Concept = new List<ConceptDefinitionComponent>()
+      CodeSys.DateElement = new FhirDateTime(new DateTimeOffset(2018, 05, 01, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      CodeSys.Publisher = "Pyrohealth.net";
+      var AngusContactDetail = Common.PyroHealthInformation.PyroHealthContactDetailAngusMillar.GetContactDetail();
+      CodeSys.Contact = new List<ContactDetail>() { AngusContactDetail };
+      CodeSys.Description = new Markdown("List of codes used throughout the Pyro FHIR Server to identity concepts key to the operation of the server.");
+      CodeSys.CaseSensitive = true;
+      CodeSys.Compositional = false;
+      CodeSys.Count = CodeSys.Concept.Count;
+      CodeSys.Content = CodeSystem.CodeSystemContentMode.Complete;
+      CodeSys.Concept = new List<CodeSystem.ConceptDefinitionComponent>()
       {
-        new ConceptDefinitionComponent()
+        new CodeSystem.ConceptDefinitionComponent()
         {
            Code = Codes.ActiveCompartment.GetPyroLiteral(),
            Display = "Active Compartment",
-           Definition = "Used to indicate that a CompartmentDefinition Resource is used as an active Compartment in the FHIR server.",          
+           Definition = "Used to indicate that a CompartmentDefinition Resource is used as an active Compartment in the FHIR server.",
         },
-        new ConceptDefinitionComponent()
+        new CodeSystem.ConceptDefinitionComponent()
         {
            Code = Codes.CompartmentDefinition.GetPyroLiteral(),
            Display = "CompartmentDefinition",
            Definition = "A FHIR CompartmentDefinition resource definied for use in a Pyro FHIR server",
         },
-        new ConceptDefinitionComponent()
+        new CodeSystem.ConceptDefinitionComponent()
         {
            Code = Codes.HiServiceCallAudit.GetPyroLiteral(),
            Display = "HI Service Call Audit",
            Definition = "An Audit event in response to a web service call made to the Australian Healthcare Identifer Service (HI Service) by a Pyro FHIR server",
         },
-        new ConceptDefinitionComponent()
+        new CodeSystem.ConceptDefinitionComponent()
         {
            Code = Codes.ServerInstance.GetPyroLiteral(),
            Display = "Server Instance",
            Definition = "An instance of a Pyro FHIR server",
         },
       };
-
+      return CodeSys;
     }
-    
   }
 
   

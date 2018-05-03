@@ -48,7 +48,7 @@ namespace Pyro.Common.Service
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
 
-      var PyroHealthCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      var PyroHealthCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
       PyroOrgUrl = $"{PyroHealthCodeSystem.Url}/{PyroHealthInformation.PyroServerCodeSystem.Codes.CompartmentDefinition.GetPyroLiteral()}";
     }
 
@@ -217,7 +217,7 @@ namespace Pyro.Common.Service
         CompartDef.Meta = new Meta();
       if (CompartDef.Meta.Tag == null)
         CompartDef.Meta.Tag = new List<Coding>();
-      var PyroCodeSystem = new PyroHealthInformation.PyroServerCodeSystem();
+      var PyroCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
       var PyroActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
       CompartDef.Meta.Tag.Add(new Coding(PyroCodeSystem.Url, PyroActiveCode.Code, PyroActiveCode.Display));
     }

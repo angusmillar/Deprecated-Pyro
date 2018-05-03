@@ -98,7 +98,7 @@ namespace Pyro.Engine.TriggerServices
       {
         if (Resource.Meta.Tag != null)
         {
-          var PyroCodeSystem = new Common.PyroHealthInformation.PyroServerCodeSystem();
+          var PyroCodeSystem = Common.PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
           var ActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == Common.PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
           var TagCode = Resource.Meta.Tag.SingleOrDefault(x => x.System == PyroCodeSystem.Url && x.Code == ActiveCode.Code);
           if (TagCode != null)
