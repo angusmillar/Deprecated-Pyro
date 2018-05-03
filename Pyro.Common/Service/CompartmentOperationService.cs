@@ -120,13 +120,14 @@ namespace Pyro.Common.Service
 
             foreach (var Param in ResourceComponent.Param)
             {
-              var FoundParam = SupportedSerachParamList.SingleOrDefault(x => x.Name == Param.Split('.')[0]);
-              if (FoundParam != null)
+              //The Resource param value equals {def} then thnis shoudl be the same Resource as that of the Compartment its self
+              //in this case there are no search parameters
+              if (Param.ToLower() == "{def}")
               {
-                if (FoundParam.Type != SearchParamType.Reference)
+                if (ResourceComponent.Code.GetLiteral() != CompartDef.Code.GetLiteral())
                 {
                   ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
-                  $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource has a search parameter that is not a Reference search parameter type. The parameter in question is '{Param}' for the resource '{ResourceComponent.Code.GetLiteral()}'");
+                   $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource has a search parameter that has a value of '{{def}}' which should indicate that this Resource is the target of the Compatment it's self, Yet they do not match, Compartment is: '{ResourceComponent.Code.GetLiteral()}' and '{{def}}' parametrer is found for ResourceType {ResourceComponent.Code.GetLiteral()}");
                   ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                   ResourceServiceOutcome.SuccessfulTransaction = true;
                   return ResourceServiceOutcome;
@@ -134,19 +135,34 @@ namespace Pyro.Common.Service
               }
               else
               {
-                ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
-                  $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource has a search parameter that is not supported by the server. The parameter in question is '{Param}' for the resource '{ResourceComponent.Code.GetLiteral()}'");
-                ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-                ResourceServiceOutcome.SuccessfulTransaction = true;
-                return ResourceServiceOutcome;
-              }
+                var FoundParam = SupportedSerachParamList.SingleOrDefault(x => x.Name == Param.Split('.')[0].Split(':')[0]);
+                if (FoundParam != null)
+                {
+                  if (FoundParam.Type != SearchParamType.Reference)
+                  {
+                    ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
+                    $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource has a search parameter that is not a Reference search parameter type. The parameter in question is '{Param}' for the resource '{ResourceComponent.Code.GetLiteral()}'");
+                    ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                    ResourceServiceOutcome.SuccessfulTransaction = true;
+                    return ResourceServiceOutcome;
+                  }
+                }
+                else
+                {
+                  ResourceServiceOutcome.ResourceResult = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported,
+                    $"The {ResourceType.CompartmentDefinition.GetLiteral()} resource has a search parameter that is not supported by the server. The parameter in question is '{Param}' for the resource '{ResourceComponent.Code.GetLiteral()}'");
+                  ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                  ResourceServiceOutcome.SuccessfulTransaction = true;
+                  return ResourceServiceOutcome;
+                }
 
-              var CompatmentResource = new DtoServiceCompartmentResource()
-              {
-                Code = ResourceComponent.Code.GetLiteral(),
-                Param = Param
-              };
-              NewServiceCompartment.ResourceList.Add(CompatmentResource);
+                var CompatmentResource = new DtoServiceCompartmentResource()
+                {
+                  Code = ResourceComponent.Code.GetLiteral(),
+                  Param = Param
+                };
+                NewServiceCompartment.ResourceList.Add(CompatmentResource);
+              }
             }
           }
 

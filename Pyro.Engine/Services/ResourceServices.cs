@@ -1268,8 +1268,6 @@ namespace Pyro.Engine.Services
 
     private IDatabaseOperationOutcome GetResourcesByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters SearchParameters, string Compartment, string CompartmentId)
     {
-      //Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
-
       bool ChainTargetFound = true;
       //Resolve any chained search parameters
       foreach (SearchParameterReferance Chain in SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
@@ -1279,14 +1277,21 @@ namespace Pyro.Engine.Services
           break;
       }
 
-      //If any chain Search parameter exists and resolves to no target ChainTargetFound = false and the whole search resolves to no resources
+      //Now for any Compartment chain search parameters. These are all 'Or' statments so we need to use them regardless of fouund or not unlike the 
+      //normal chain parameters from above.            
+      //Note to self: rememeber that the call to ResolveChain undates the SearchParameterReferance passed in.
+      foreach (SearchParameterReferance Chain in CompartmentSearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
+      {
+        IChainSearchingService.ResolveChain(Chain);        
+      }
+
+      //If any normal search parameter chain Search parameter exists and resolves to no target ChainTargetFound = false and the whole search resolves to no resources
       //therefore no need to continue hitting the database for the other search parameters. 
+      //Yet CompartmentSearchParameters should always pass though to the search which occures because ChainTargetFound is defaulted to true at the begingning.
       IDatabaseOperationOutcome DatabaseOperationOutcome = null;
       if (ChainTargetFound)
-      {
-        //DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters, true);
+      {        
         DatabaseOperationOutcome = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameters, SearchParameters, true);
-
 
         //Add any _include or _revinclude Resources
         if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
