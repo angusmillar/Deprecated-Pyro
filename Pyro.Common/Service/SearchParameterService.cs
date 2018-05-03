@@ -103,7 +103,8 @@ namespace Pyro.Common.Service
       _SearchParametersServiceOutcome.SearchParameters.SearchParametersList = new List<ISearchParameterBase>();
       _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
       _SearchParametersServiceOutcome.SearchParameters.CountOfRecordsRequested = SearchParameterGeneric.Count;
-      
+      _SearchParametersServiceOutcome.SearchParameters.SummaryType = SearchParameterGeneric.SummaryType;
+
       //Parse Include and RevInclude parameters
       ProcessIncludeSearchParameters(SearchParameterGeneric.Include);
       ProcessIncludeSearchParameters(SearchParameterGeneric.RevInclude);

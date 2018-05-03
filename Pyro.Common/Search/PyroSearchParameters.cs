@@ -37,7 +37,7 @@ namespace Pyro.Common.Search
       }
       
       bool FirstParameter = true;
-      if ((SearchParametersList != null && SearchParametersList.Any()) || (IncludeList != null && IncludeList.Any() || RequiredPageNumber > 0))
+      if ((SearchParametersList != null && SearchParametersList.Any()) || (IncludeList != null && IncludeList.Any() || RequiredPageNumber > 0 || SummaryType.HasValue))
       {
         UrlString += "?";
       }
@@ -85,6 +85,13 @@ namespace Pyro.Common.Search
           UrlString += $"page={RequiredPageNumber.ToString()}";
         else
           UrlString += $"&page={RequiredPageNumber.ToString()}";
+      }
+      if (SummaryType.HasValue)
+      {
+        if (FirstParameter)
+          UrlString += $"_summary={SummaryType.Value.GetLiteral()}";
+        else
+          UrlString += $"&_summary={SummaryType.Value.GetLiteral()}";
       }
       try
       {
