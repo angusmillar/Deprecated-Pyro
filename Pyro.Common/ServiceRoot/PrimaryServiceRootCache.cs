@@ -11,6 +11,8 @@ namespace Pyro.Common.ServiceRoot
     private readonly ICommonServices CommonServices;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IApplicationCacheSupport IApplicationCacheSupport;
+    private readonly string CacheKey = "PrimaryServiceRootUrl";
+
     public PrimaryServiceRootCache(ICommonServices CommonServices, IGlobalProperties GlobalProperties, IApplicationCacheSupport ApplicationCacheSupport)
     {
       this.CommonServices = CommonServices;
@@ -27,7 +29,7 @@ namespace Pyro.Common.ServiceRoot
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(() => CommonServices.GetPrimaryServiceRootUrl());
+        return IApplicationCacheSupport.GetOrSet(CacheKey, () => CommonServices.GetPrimaryServiceRootUrl());        
       }
     }
 
@@ -39,8 +41,17 @@ namespace Pyro.Common.ServiceRoot
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(() => WebConfigProperties.ServiceBaseURL());
+        return IApplicationCacheSupport.GetOrSet(CacheKey, () => WebConfigProperties.ServiceBaseURL());        
       }
     }
+
+    public void ClearPrimaryRootUrlFromCache()
+    {
+      if (GlobalProperties.ApplicationCacheServicesActive)
+      {
+        IApplicationCacheSupport.RemoveKey(CacheKey);
+      }
+    }
+
   }
 }

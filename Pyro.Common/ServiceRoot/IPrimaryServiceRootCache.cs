@@ -7,5 +7,6 @@ namespace Pyro.Common.ServiceRoot
   {
     IDtoRootUrlStore GetPrimaryRootUrlFromDatabase();
     string GetPrimaryRootUrlFromWebConfig();
+    void ClearPrimaryRootUrlFromCache();
   }
 }
