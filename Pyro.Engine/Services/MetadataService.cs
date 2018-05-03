@@ -16,6 +16,7 @@ using Pyro.Common.Global;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Service;
 using Pyro.Common.RequestMetadata;
+using Pyro.Common.Interfaces.Repositories;
 
 namespace Pyro.Engine.Services
 {
@@ -24,12 +25,13 @@ namespace Pyro.Engine.Services
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ICommonServices ICommonServices;
-    
+    private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
+
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
 
-    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceCompartmentRepository IServiceCompartmentRepository)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IGlobalProperties = IGlobalProperties;
@@ -37,6 +39,7 @@ namespace Pyro.Engine.Services
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;      
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
+      this.IServiceCompartmentRepository = IServiceCompartmentRepository;
     }
 
     public IResourceServiceOutcome GetServersConformanceResource(IRequestMeta RequestMeta)
@@ -117,6 +120,14 @@ namespace Pyro.Engine.Services
       RestComponent.Interaction.Add(SystemInteractionComponent);
       SystemInteractionComponent.Code = CapabilityStatement.SystemRestfulInteraction.Transaction;
       SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
+
+      var CompartmentList = IServiceCompartmentRepository.GetAllServiceCompartments();
+      if (CompartmentList != null && CompartmentList.Count > 0)
+      {
+        var CompartmentUrlList = new List<string>();
+        CompartmentList.ForEach(x => CompartmentUrlList.Add(x.Url));
+        RestComponent.Compartment = CompartmentUrlList;
+      }      
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 

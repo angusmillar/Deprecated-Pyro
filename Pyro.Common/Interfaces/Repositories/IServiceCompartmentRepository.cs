@@ -8,6 +8,7 @@ namespace Pyro.Common.Interfaces.Repositories
     bool DeleteServiceCompartment(string Code);
     DtoServiceCompartment GetServiceCompartmenByCompartmentCode(string Code);
     DtoServiceCompartment GetServiceCompartmentByFhirId(string FhirId);
+    List<DtoServiceCompartment> GetAllServiceCompartments();
     DtoServiceCompartment UpdateServiceCompartment(DtoServiceCompartment DtoServiceCompartment);
     DtoServiceCompartmentCached GetServiceCompartmentForCache(string ServiceCompartmentCode);
     DtoServiceCompartmentResourceCached GetServiceCompartmentResourceParameterListForCache(string Code, string Resource);

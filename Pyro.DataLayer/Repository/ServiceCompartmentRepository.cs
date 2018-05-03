@@ -39,6 +39,16 @@ namespace Pyro.DataLayer.Repository
       return null;
     }
 
+    public List<DtoServiceCompartment> GetAllServiceCompartments()
+    {
+      List<_ServiceCompartment> ServiceCompartmentList = IPyroDbContext.ServiceCompartment.ToList();
+      if (ServiceCompartmentList != null)
+      {
+        return IMapper.Map<List<DtoServiceCompartment>>(ServiceCompartmentList);
+      }
+      return null;
+    }
+
     public DtoServiceCompartmentCached GetServiceCompartmentForCache(string ServiceCompartmentCode)
     {
       _ServiceCompartment ServiceCompartment = IPyroDbContext.ServiceCompartment.SingleOrDefault(x => x.Code == ServiceCompartmentCode);
