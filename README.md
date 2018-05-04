@@ -8,11 +8,12 @@ See the offical specification page here: http://hl7.org/fhir/STU3/index.html
 
 See the production Pyro Server instance running here: https://pyrohealth.net/
 
-This server implements the following elements: 
+**This server implements the following elements** 
 
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
 * RestFul CRUD
+* Compartments (implemented from dynamic CompartmentDefinition resources)
 * Chained parameters
 * _includes & _revinclude
 * Custom Search parameters
@@ -23,6 +24,28 @@ This server implements the following elements:
 * Conditional Delete  
 * Operation: Validate a resource
 * Bundle Transaction
+* Operations ()
+
+**Operations**
+
+Base Operations:
+* $server-indexes-delete-history-indexes    
+* $server-indexes-set      
+* $server-indexes-index      
+* $server-indexes-report      
+* $server-resource-report   
+
+Resource Operations:
+* $server-indexes-delete-history-indexes (All ResourceTypes)  
+* $validate (All ResourceTypes)
+* $x-ihisearchorvalidate (Patient ResourceTypes)
+
+Resource Instance Operations:
+* $validate (All ResourceTypes)
+* $x-set-compartment-active (CompartmentDefinition ResourceTypes)
+* $x-set-compartment-inactive (CompartmentDefinition ResourceTypes)
+
+
 
 ## Requirements ##
 
