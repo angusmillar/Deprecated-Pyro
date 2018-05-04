@@ -56,6 +56,11 @@ Visual Studio 2017
 SQL Server 2016 Management Studio Express 64 Bit
 
 ## How do I get this solution up and running ##
+
+First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
+Then right click the main Pyro Solution and select "Restore Nuget packages".
+You will then need to configure to your enviroment the Database connection strings and the FHIR Service Base URL. Read on for this information.
+
 There are two key projects you will need to understand to simply run the server in your development enviroment and production enviroment. They are as follows:
 
 **Development Enviroment: Pyro.ConsoleServer (Project)**
