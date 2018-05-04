@@ -14,4 +14,4 @@
 //The Major is to stay wiht the Major FHIR Spec version STU3 = 3, STU4 = 4
 //The rest is for our use and a Build inrement means DB chnage
 // I do want  to align this with the EF Migration history in future.
-[assembly: AssemblyFileVersion("3.0.2.00")]
+[assembly: AssemblyFileVersion("3.0.2.01")]

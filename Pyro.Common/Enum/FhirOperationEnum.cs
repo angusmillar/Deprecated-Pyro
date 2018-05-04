@@ -33,7 +33,7 @@ namespace Pyro.Common.Enum
       ConnectathonAnswer,      
       [EnumLiteral(Hl7.Fhir.Rest.RestOperation.VALIDATE_RESOURCE)]
       Validate,
-      [EnumLiteral("x-IHISearchOrValidate")]
+      [EnumLiteral("x-ihisearchorvalidate")]
       xIHISearchOrValidate,
       [EnumLiteral("x-set-compartment-active")]
       xSetCompartmentActive,
