@@ -9,7 +9,7 @@ See the offical specification page here: http://hl7.org/fhir/STU3/index.html
 See the production Pyro Server instance running here: https://pyrohealth.net/
 
 **This server implements the following elements** 
-* Or do a get metadata of the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata*
+> Or get the server's CapabilityStatement from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
 
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
