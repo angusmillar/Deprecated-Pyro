@@ -110,7 +110,21 @@ You may need to check this directory is valid in your enviroment or change the l
 
 ## Full Solution Project Description ##
 
+**Pyro.ADHA (Project)**
+
+This project contains the logic and libraries from the Australian Digital Health Agency to perform HI Service searches for the Australian Individual Healthcare Identifier (IHI) which is the Australian National identifier for healthcare
+
+**Pyro.ADHA_Test (Project)**
+
+This project holds test cases for the HI Service searches for IHI identifer
+
+**Pyro.Backburner (Project)**
+
+This project is a windows service that can be installed and run to perform long-running asynchronous tasks for the FHIR Pyro Server. It connects to the main server via SingnalR to receive notifications of tasks to perform. Currently still in development.
+
 **Pyro.CodeGeneration (Project)**
+
+This project holds the code generation logic used to generate new classes for when a new version of the FHIR specification is released i.e update from STU3 to R4. It interrogates the FHIR .NET API to get the source specification information.
 
 When a new version of the FHIR is released (e.g STU3 to STU4) and the external fhir-net-api package 
 updated and loaded (use Nuget package manager) you can then run the T4 tempate located in this project 
@@ -140,22 +154,6 @@ Note that no database upgrades have been implemented for this type of modificati
 to delete the database which will be recreated as the first call is made to the FHIR endpoint.
 
 Please note: You don't need to do this just to get the server running this is only for future development purposes when a new FHIR release is available'
-
-**Pyro.ADHA (Project)**
-
-This project contains the logic and libraries from the Australian Digital Health Agency to perform HI Service searches for the Australian Individual Healthcare Identifier (IHI) which is the Australian National identifier for healthcare
-
-**Pyro.ADHA_Test (Project)**
-
-This project holds test cases for the HI Service searches for IHI identifer
-
-**Pyro.Backburner (Project)**
-
-This project is a windows service that can be installed and run to perform long-running asynchronous tasks for the FHIR Pyro Server. It connects to the main server via SingnalR to receive notifications of tasks to perform. Currently still in development.
-
-**Pyro.CodeGeneration (Project)**
-
-This project holds the code generation logic used to generate new classes for when a new version of the FHIR specification is released i.e update from STU3 to R4. It interrogates the FHIR .NET API to get the source specification information.
 
 **Pyro.Common (Project)**
 
