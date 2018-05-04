@@ -10,6 +10,7 @@ See the production Pyro Server instance running here: https://pyrohealth.net/
 
 **This server implements the following elements** 
 > Or get the server's CapabilityStatement from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
+> Or read the web rendered CapabilityStatement here: https://pyrohealth.net/metadata-content
 
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
