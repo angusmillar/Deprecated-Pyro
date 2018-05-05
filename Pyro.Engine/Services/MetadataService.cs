@@ -252,38 +252,48 @@ namespace Pyro.Engine.Services
       Heading.AppendChild(XDoc.CreateTextNode(Conformance.Name + " FHIR Conformance Statement"));
       Xroot.AppendChild(Heading);
 
-      var PublishDate = XDoc.CreateElement("p");
-      Xroot.AppendChild(PublishDate);
-      var PublishDateBold = XDoc.CreateElement("b");
-      PublishDateBold.AppendChild(XDoc.CreateTextNode("Date Published: "));
-      PublishDate.AppendChild(PublishDateBold);
-      var normal = PublishDate.AppendChild(XDoc.CreateTextNode(Conformance.Date));
-      PublishDate.AppendChild(normal);
+      //var PublishDate = XDoc.CreateElement("p");
+      //Xroot.AppendChild(PublishDate);
+      //var PublishDateBold = XDoc.CreateElement("b");
+      //PublishDateBold.AppendChild(XDoc.CreateTextNode("Date Published: "));
+      //PublishDate.AppendChild(PublishDateBold);
+      //var normal = PublishDate.AppendChild(XDoc.CreateTextNode(Conformance.Date));
+      //PublishDate.AppendChild(normal);
 
-      var ServerVersion = XDoc.CreateElement("p");
-      Xroot.AppendChild(ServerVersion);
-      var ServerVersionBold = XDoc.CreateElement("b");
-      ServerVersionBold.AppendChild(XDoc.CreateTextNode("Server Version: "));
-      ServerVersion.AppendChild(ServerVersionBold);
-      normal = ServerVersion.AppendChild(XDoc.CreateTextNode(Conformance.Version));
-      ServerVersion.AppendChild(normal);
+      
+      CreateValuePairHTML("Name", Conformance.Name, XDoc, Xroot);
+      CreateValuePairHTML("Description", Conformance.Description.Value, XDoc, Xroot);
+      CreateValuePairHTML("Publisher", Conformance.Publisher, XDoc, Xroot);
+      CreateValuePairHTML("Copyright", Conformance.Copyright.Value, XDoc, Xroot);
+      CreateValuePairHTML("Date Published", Conformance.Date, XDoc, Xroot);
+      CreateValuePairHTML("CapabilityStatment Url", Conformance.Url, XDoc, Xroot);
+      CreateValuePairHTML("Server Version", Conformance.Version, XDoc, Xroot);
+      CreateValuePairHTML("Fhir Version", Conformance.FhirVersion, XDoc, Xroot);
+      CreateValuePairHTML("Status", Conformance.Status.GetLiteral(), XDoc, Xroot);
+      CreateValuePairHTML("Experimental", Conformance.Experimental?.ToString(), XDoc, Xroot);
+      CreateValuePairHTML("Purpose", Conformance.Purpose?.Value, XDoc, Xroot);
+      CreateValuePairHTML("Kind", Conformance.Kind?.GetLiteral(), XDoc, Xroot);
+      CreateValuePairHTML("AcceptUnknown", Conformance.AcceptUnknown?.GetLiteral(), XDoc, Xroot);      
+      var SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == CapabilityStatement.SystemRestfulInteraction.Transaction);
+      CreateValuePairHTML("Interactions", SystemInteractionComponent.Code.GetLiteral(), XDoc, Xroot);
+      
+      var Compartments = XDoc.CreateElement("p");
+      Xroot.AppendChild(Compartments);
+      var CompartmentsBold = XDoc.CreateElement("b");
+      CompartmentsBold.AppendChild(XDoc.CreateTextNode("Active Compartments (CompartmentDefinition Urls)"));
+      Compartments.AppendChild(CompartmentsBold);
+      var CompartmentList = XDoc.CreateElement("ul");
+      Compartments.AppendChild(CompartmentList);
 
-      var FhirVersion = XDoc.CreateElement("p");
-      Xroot.AppendChild(FhirVersion);
-      var FhirVersionBold = XDoc.CreateElement("b");
-      FhirVersionBold.AppendChild(XDoc.CreateTextNode("Fhir Version: "));
-      FhirVersion.AppendChild(FhirVersionBold);
-      normal = FhirVersion.AppendChild(XDoc.CreateTextNode(Conformance.FhirVersion));
-      FhirVersion.AppendChild(normal);
-
-      var Interactions = XDoc.CreateElement("p");
-      Xroot.AppendChild(Interactions);
-      var InteractionsBold = XDoc.CreateElement("b");
-      InteractionsBold.AppendChild(XDoc.CreateTextNode("Interactions: "));
-      Interactions.AppendChild(InteractionsBold);
-      CapabilityStatement.SystemInteractionComponent SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == CapabilityStatement.SystemRestfulInteraction.Transaction);
-      normal = Interactions.AppendChild(XDoc.CreateTextNode(SystemInteractionComponent.Code.ToString()));
-      Interactions.AppendChild(normal);
+      foreach (var Comp in Conformance.Rest[0].Compartment)
+      {
+        var CompartmetListItem = XDoc.CreateElement("li");
+        var CompartmentsListItemLabelBold = XDoc.CreateElement("b");
+        CompartmentsListItemLabelBold.AppendChild(XDoc.CreateTextNode("Url: "));
+        CompartmetListItem.AppendChild(CompartmentsListItemLabelBold);
+        CompartmetListItem.AppendChild(XDoc.CreateTextNode(Comp));
+        CompartmentList.AppendChild(CompartmetListItem);
+      }
 
       var ResourceTable = XDoc.CreateElement("table");
       Xroot.AppendChild(ResourceTable);
@@ -330,6 +340,17 @@ namespace Pyro.Engine.Services
       Conformance.Text = new Narrative();
       Conformance.Text.Div = XDoc.OuterXml;
       Conformance.Text.Status = Narrative.NarrativeStatus.Generated;
+    }
+
+    private static void CreateValuePairHTML(string Label, string Value, XmlDocument XDoc, XmlElement Xroot)
+    {      
+      var BoldElement = XDoc.CreateElement("p");
+      Xroot.AppendChild(BoldElement);
+      var BoldLabelElement = XDoc.CreateElement("b");
+      BoldLabelElement.AppendChild(XDoc.CreateTextNode($"{Label}: "));
+      BoldElement.AppendChild(BoldLabelElement);
+      var ValueElement = BoldElement.AppendChild(XDoc.CreateTextNode(Value));
+      BoldElement.AppendChild(ValueElement);      
     }
   }
 }
