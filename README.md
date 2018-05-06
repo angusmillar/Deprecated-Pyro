@@ -2,16 +2,17 @@
 
 ## Pyro FHIR Server ##
 
-This is a FHIR server implmenting FHIR STU-3.0.1
+This is a C# .NET Framework 4.6, MSSQL, FHIR server implementing FHIR Version STU-3.0.1 
 
-See the offical specification page here: http://hl7.org/fhir/STU3/index.html
+See the official FHIR specification page here: [FHIR specification STU-3.0.1](http://hl7.org/fhir/STU3/index.html)
 
-See the production Pyro Server instance running here: https://pyrohealth.net/
+See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](https://pyrohealth.net/)
 
-**This server implements the following elements** 
-> Or get the server's CapabilityStatement from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
+**This server implements the following FHIR specification components** 
 
-> Or read the web rendered CapabilityStatement here: https://pyrohealth.net/metadata-content
+> Or get the server's CapabilityStatement resource from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
+
+> Or read the web rendered CapabilityStatement here: [Pyro FHIR Server CapabilityStatement](https://pyrohealth.net/metadata-content)
 
 * All Resources Types
 * All Resources search parameters (except for composite parameters)
@@ -25,8 +26,8 @@ See the production Pyro Server instance running here: https://pyrohealth.net/
 * Conditional Update 
 * Conditional Read 
 * Conditional Delete  
-* Operation: Validate a resource
 * Bundle Transaction
+* Operations
 
 **Operations**
 
@@ -53,22 +54,24 @@ Resource Instance Operations:
 
 Visual Studio 2017
 
-SQL Server 2016 Management Studio Express 64 Bit
+.NET Framework 4.6
+  
+Microsoft SQL Server 2016 or higher
 
 ## How do I get this solution up and running ##
 
 First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
 
-Right click the main Pyro Solution and select "Restore Nuget packages".
+Right click the main Pyro Solution and select "Restore Nuget packages" and then F5 to compile.
 
-You will then need to configure to your enviroment the database connection strings and the FHIR Service Base URL. Read on for this information.
+You will then need to configure to your environment by updating the database connection strings and the FHIR 'Service Base URL'. Read on for this information.
 
-There are two key projects you will need to understand to simply run the server in your development enviroment and production enviroment. They are as follows:
+There are two key projects you will need to understand to run the server in your development environment and production environment. They are as follows:
 
-**Development Enviroment: Pyro.ConsoleServer (Project)**
+**Development Environment**
 
-The Pyro.ConsoleServer will run the server in console mode and is the primary way to use the server if in a development enviroment. Its quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
-Before you run this project you will need to change the connection string for the Pyro.ConsoleServer. This can be found in the file:
+The `Pyro.ConsoleServer` project will run the server in console mode and is the primary way to use the server if in a development environment. It's quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
+Before you run this project you will need to change the connection string for the `Pyro.ConsoleServer` project. This can be found in the file:
 
 `Pyro.ConsoleServer\App_Data\Connectons.config`
 
@@ -78,39 +81,41 @@ You will also need to set the `ServiceBaseURL` property in the file:
 
 `Pyro.ConsoleServer\App_Data\PyroApp.config`
 
-Below is the documentation of this property:
+Below is the documentation about this property:
 
 **Command:** ServiceBaseURL
 
 **Value:** URL String
 
 **Description:** This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
-Simply changing the setting here does not initate the updating of all these referances.
+Simply changing the setting here does not initiate the updating of all these references.
 
-**Production Enviroment: Pyro.WebApi (Project)**
+**Production Enviroment**
 
-The Pyro.WebApi will run the server in IIS Express. This is primarily used for when the server is deployed in production in a production IIS instance. It does not provide any webpage only the FHIR API endpoints hosted in IIS. 
+The `Pyro.WebApi` project will run the server in Internet Information Services (IIS). This is primarily used for when the server is deployed in a production IIS instance. It does not provide any webpage, only the FHIR API endpoints accessible and hosted in IIS. 
 
-There is a seperate independent javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: [PyroWeb WebSite](https://bitbucket.org/angusmillar/pyro-web) .
+There is a separate independent Javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: [PyroWeb WebSite](https://github.com/angusmillar/PyroWeb).
 
-Before you run the Pyro.WebApi project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
+Before you run the `Pyro.WebApi` project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
 Just change the `ConnectionString` element to meet your database.
-You will also need to set the `ServiceBaseURL` property in the file (See doco above in Pyro.ConsoleServer for this property)
+You will also need to set the `ServiceBaseURL` property in the file below (See the same documentation above in "Development Environment" for this property)
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
-Both projects Pyro.WebApi and Pyro.ConsoleServer when first run will create a database at the given ConnectionString.
-This will actualy only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to tigger this to occur.
+Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, when first run will create a database at the given ConnectionString.
+This will actually only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to trigger this to occur.
 Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
 
-In general, you would only use Pyro.Console in your development enviroment and configure its connectionstrings and ServiceBaseURL to suit. You would then only configure the Pyro.WebApi connectionstrings and ServiceBaseURL to be for your production instance ready for deployment. 
+In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
 **Logging**
-The solution also uses NLog for logging and it is configured to log to C:\PyroLogs. 
-You may need to check this directory is valid in your enviroment or change the loging directory which can be done in the file:
+The solution uses the [NLog](http://nlog-project.org/) logging framework. By default, this is configured to log to the console and to AWS Cloudwatch logs.
+You may wish to reconfigure this for your needs. There is already a commented out config to have it log to the file system.
+
+All configuration lives in the file below and the [NLog Configuration Documentation](https://github.com/nlog/NLog/wiki/Configuration-file) is at this link. 
 
 `Pyro.WebApi\NLog.config` (Just search for LogFilePath)
 
@@ -123,26 +128,31 @@ This project contains the logic and libraries from the Australian Digital Health
 
 **Pyro.ADHA_Test (Project)**
 
-This project holds test cases for the HI Service searches for IHI identifer
+This project holds test cases for the HI Service searches for IHI identifier
 
 **Pyro.Backburner (Project)**
 
-This project is a windows service that can be installed and run to perform long-running asynchronous tasks for the FHIR Pyro Server. It connects to the main server via SingnalR to receive notifications of tasks to perform. Currently still in development.
+This project is a windows service that can be installed and run to perform long-running, out-of-band, asynchronous tasks for the FHIR Pyro Server. There is no hard dependency for this service to be running to use the Pyro FHIR Server. When running it connects to the main Pyro FHIR server via SingnalR to receive notifications of tasks to perform. This is currently in development but in future will manage background task such as Subscription notifications and possibly long-running Patient merge operations.
+
+This windows service uses the [TopShelf](http://topshelf-project.com/) framework and in as easy to install on the command line as follows: 
+
+`C:\BackburnerService\Pyro.Backburner.exe install`  
+
+See [TopShelf Command Documentation](https://topshelf.readthedocs.io/en/latest/overview/commandline.html) for more info.
 
 **Pyro.CodeGeneration (Project)**
 
+Please note: You don't need to do the following to get the server running, this is only for future development purposes when a new FHIR release is available'
+
 This project holds the code generation logic used to generate new classes for when a new version of the FHIR specification is released i.e update from STU3 to R4. It interrogates the FHIR .NET API to get the source specification information.
 
-When a new version of the FHIR is released (e.g STU3 to STU4) and the external fhir-net-api package 
-updated and loaded (use Nuget package manager) you can then run the T4 tempate located in this project 
-at `Pyro.CodeGeneration.Template.MainTemplate.tt`. 
+When a new version of the FHIR is released (e.g STU3 to STU4) and the external fhir-net-api package updated and loaded (use NuGet package manager) you can then run the T4 template located in this project at `Pyro.CodeGeneration.Template.MainTemplate.tt`. 
 
-This will update the the key classes in the `Pyro.DataLayer` & `Pyro.Common` projects to adapt to
+This will update the key classes in the `Pyro.DataLayer` & `Pyro.Common` projects to adapt to
 the new fhir-net-api and FHIR release bringing in any new FHIR resources and base standard search 
 parameters.
 
-Before running the T4 template `MainTemplate.tt` you will need to manually update the static Assembly 
-references within this file to point to the new packages as updated by Nuget package manager. 
+Before running the T4 template `MainTemplate.tt` you will need to manually update the static assembly references within this file to point to the new packages as updated by Nuget package manager. 
 Below are examples of the four references discussed: 
 
 `<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll"#>`
@@ -153,22 +163,19 @@ Below are examples of the four references discussed:
 
 `<#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.4.2\lib\net45\Hl7.FhirPath.dll"#>`
 
-Once these are updated first build the project `Pyro.CodeGeneration` in debug and then right click the 
-`MainTemplate.tt` file and select 'Run Custom Tool'. This will generate the code classes as discusssed.
+Once these are updated first build the project `Pyro.CodeGeneration` in debug and then right-click the 
+`MainTemplate.tt` file and select 'Run Custom Tool'. This will generate the code classes as discussed.
 You may need to delete all contents in the sub T4 file `MainTemplate.cs` if you receive a compile error. 
 
-Note that no database upgrades have been implemented for this type of modification so post this process you will need 
-to delete the database which will be recreated as the first call is made to the FHIR endpoint.
-
-Please note: You don't need to do this just to get the server running this is only for future development purposes when a new FHIR release is available'
+Note that no database upgrades have been implemented for this type of modification so post this process you will need to delete the database which will be recreated as the first call is made to the FHIR endpoint.
 
 **Pyro.Common (Project)**
 
-This project holds all common cross cutting code used by the entire solution.
+This project holds all common cross-cutting code used by the entire solution.
 
 **Pyro.ConsoleServer (Project)**
 
-This project allows the server to be started up in a console window and is te primary way to run the server in a development enviroment.
+This project allows the server to be started up in a console window and is te primary way to run the server in a development environment.
 This is the project to set as start-up when running in Visual Studio.
 
 **Pyro.DataLayer (Project)**
@@ -177,7 +184,7 @@ This is the data layer project which handles all database access
 
 **Pyro.Engine (Project)**
 
-This is the bussiness logic layer
+This is the business logic layer
 
 **Pyro.Identifiers (Project)**
 
@@ -189,7 +196,7 @@ This project holds test cases for the Pyro.Identifiers project.
 
 **Pyro.Smart (Project)**
 
-This project implments SMART (SMART on FHIR) elements. Currently under development and not used by the server as yet.
+This project implements SMART (SMART on FHIR) elements. Currently under development and not used by the server as yet.
 
 **Pyro.Smart_Test (Project)**
 
@@ -211,7 +218,7 @@ When you first start the service for the first time it will appear to be running
 
 **First FHIR query speed poor, later fast**
 
-When you then stop the server and restart it once again the first query will be slow, 2 to 3 minutes, but then all subsequent queries will be fast (200 - 300 ms). this is a common problem with Entity Framework (EF) as it loads the entire database model into memory on startup, once loaded it is fine. I need to do more work here to try and improve this first query speed. Such as: https://msdn.microsoft.com/en-us/magazine/jj883952.aspx
+When you then stop the server and restart it once again the first query will be slow, 2 to 3 minutes, but then all subsequent queries will be fast (200 - 300 ms). this is a common problem with Entity Framework (EF) as it loads the entire database model into memory on startup, once loaded it is fine. I need to do more work here to try and improve this first query speed. Such as https://msdn.microsoft.com/en-us/magazine/jj883952.aspx
 
 **SMART on FHIR and Authentication**
 I am slowly progressing to an Authentication system for the server with key elements beginning to fall in place to finally implement. I now have a SMART parser and FHIR compartments. Need to start work on the OAuth component possibly using Identity server: https://www.nuget.org/packages/IdentityServer4/
