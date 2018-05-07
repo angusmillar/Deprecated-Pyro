@@ -250,16 +250,7 @@ namespace Pyro.Engine.Services
 
       var Heading = XDoc.CreateElement("h1");
       Heading.AppendChild(XDoc.CreateTextNode(Conformance.Name + " FHIR Conformance Statement"));
-      Xroot.AppendChild(Heading);
-
-      //var PublishDate = XDoc.CreateElement("p");
-      //Xroot.AppendChild(PublishDate);
-      //var PublishDateBold = XDoc.CreateElement("b");
-      //PublishDateBold.AppendChild(XDoc.CreateTextNode("Date Published: "));
-      //PublishDate.AppendChild(PublishDateBold);
-      //var normal = PublishDate.AppendChild(XDoc.CreateTextNode(Conformance.Date));
-      //PublishDate.AppendChild(normal);
-
+      Xroot.AppendChild(Heading);     
       
       CreateValuePairHTML("Name", Conformance.Name, XDoc, Xroot);
       CreateValuePairHTML("Description", Conformance.Description.Value, XDoc, Xroot);
