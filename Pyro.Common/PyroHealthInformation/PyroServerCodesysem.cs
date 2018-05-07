@@ -21,15 +21,18 @@ namespace Pyro.Common.PyroHealthInformation
       [EnumLiteral("HiServiceCallAudit")]
       HiServiceCallAudit,
       [EnumLiteral("ServerInstance")]
-      ServerInstance,      
+      ServerInstance,
+      [EnumLiteral("Protected")]
+      Protected,
     }
+    public static readonly string System = "";
 
-   
+
     public static CodeSystem GetCodeSystem()
     {
       var CodeSys = new CodeSystem();
       CodeSys.Id = "pyroserver";
-      CodeSys.Url = "https://pyrohealth.net/CodeSystem/pyroserver";
+      CodeSys.Url = PyroServerCodeSystem.System;      
       CodeSys.Version = "1.00";
       CodeSys.Name = "PyroServerCodeSystem";
       CodeSys.Title = "The Pyro Server CodeSystem";
@@ -70,6 +73,12 @@ namespace Pyro.Common.PyroHealthInformation
            Code = Codes.ServerInstance.GetPyroLiteral(),
            Display = "Server Instance",
            Definition = "An instance of a Pyro FHIR server",
+        },
+        new CodeSystem.ConceptDefinitionComponent()
+        {
+           Code = Codes.Protected.GetPyroLiteral(),
+           Display = "Protected",
+           Definition = "Protected entities and resource can not be updated or deleted",
         },
       };
       return CodeSys;
