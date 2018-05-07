@@ -185,7 +185,6 @@
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
     <Compile Include="Migrations\DbSeeding\IPyroSeedService.cs" />
     <Compile Include="Migrations\DbSeeding\SeedPyroDatabase.cs" />
-    <Compile Include="Migrations\DbSeeding\SeedServiceOperationValidate.cs" />
     <Compile Include="Migrations\DbSeeding\SeedServiceSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />

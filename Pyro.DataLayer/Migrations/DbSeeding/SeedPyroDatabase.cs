@@ -15,18 +15,22 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
     {
       _Context = Context;
       SeedServiceList = new List<IPyroSeedService>();
-      SeedServiceList.Add(new PyroSeedServiceSearchParameters(_Context));
-      SeedServiceList.Add(new SeedServiceOperationValidate(_Context));
+      SeedServiceList.Add(new PyroSeedServiceSearchParameters(_Context));      
     }
 
     public void Seed()
     {
       foreach (var SeedService in SeedServiceList)
       {
+        //Console.WriteLine($"Checking Seed Service: {SeedService.ServiceName}");
         try
         {
           if (SeedService.DoesSeedNeedToRun())
+          {
+            Console.WriteLine($"Seed Service: {SeedService.ServiceName} Running.");
             SeedService.Seed();
+            Console.WriteLine($"Seed Service: {SeedService.ServiceName} Completed.");
+          }
         }
         catch (Exception Exec)
         {
