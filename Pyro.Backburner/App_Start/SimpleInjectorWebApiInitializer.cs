@@ -21,7 +21,6 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools.FhirResourceValidation;
   using Hl7.Fhir.Specification.Source;
-  using Pyro.DataLayer.Repository.Interfaces;
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
   using Pyro.Common.Cache;
@@ -29,7 +28,7 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.Tools.FhirNarrative;
   using Pyro.Common.FhirHttpResponse;
   using Pyro.Common.Interfaces.Tools.HtmlSupport;
-  using Pyro.Common.CompositionRoot.Concrete;  
+  using Pyro.Common.CompositionRoot.Concrete;
 
   public static class SimpleInjectorWebApiInitializer
   {
