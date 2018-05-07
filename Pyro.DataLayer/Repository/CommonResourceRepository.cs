@@ -48,7 +48,6 @@ namespace Pyro.DataLayer.Repository
     private int _NumberOfRecordsPerPage;
     private int _MaxNumberOfRecordsPerPage;
 
-
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
