@@ -5,6 +5,6 @@ namespace Pyro.Common.Search
 {
   public interface ISearchParameterFactory
   {
-    ISearchParameterBase CreateSearchParameter(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameterbool, bool IsChainedReferance = false);
+    ISearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameterbool, bool IsChainedReferance = false);
   }
 }

@@ -18,7 +18,7 @@ namespace Pyro.Common.Search
     public IncludeType Type { get; private set; }
     protected readonly string _RecurseName = "recurse";
     public FHIRAllTypes SourceResourceType { get; set; }
-    public List<ServiceSearchParameterLight> SearchParameterList { get; set; }
+    public List<DtoServiceSearchParameterLight> SearchParameterList { get; set; }
     public FHIRAllTypes? SearchParameterTargetResourceType { get; set; }
     public bool IsRecurse { get; set; }
 

@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.RequestMetadata;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Cache;
 
@@ -19,8 +16,8 @@ namespace Pyro.Common.Service
   public class ServerSearchParameterService : IServerSearchParameterService
   {
     private readonly IResourceServices IResourceServices;
-    private readonly IRequestMetaFactory IRequestMetaFactory;
-    private readonly ICommonServices ICommonServices;
+    private readonly IRequestMetaFactory IRequestMetaFactory;    
+    private readonly IServiceSearchParameterService IServiceSearchParameterService;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
@@ -29,15 +26,15 @@ namespace Pyro.Common.Service
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
 
-    public ServerSearchParameterService(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory)
+    public ServerSearchParameterService(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceSearchParameterService IServiceSearchParameterService)
     {
       this.IResourceServices = IResourceServices;
-      this.IRequestMetaFactory = IRequestMetaFactory;
-      this.ICommonServices = ICommonServices;
+      this.IRequestMetaFactory = IRequestMetaFactory;      
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.ICacheClear = ICacheClear;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IServiceSearchParameterService = IServiceSearchParameterService;
     }
 
     public IResourceServiceOutcome ProcessIndex(
@@ -66,7 +63,7 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      List<ServiceSearchParameterHeavy> DbSearchParameterList = ICommonServices.GetServiceSearchParametersHeavy(true);
+      List<DtoServiceSearchParameterHeavy> DbSearchParameterList = IServiceSearchParameterService.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList, RequestUri);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -97,7 +94,7 @@ namespace Pyro.Common.Service
           {
             foreach (var Del3 in Del2.Value)
             {
-              ICommonServices.DeleteServiceSearchParameters(Del3.Id);
+              IServiceSearchParameterService.DeleteServiceSearchParameters(Del3.Id);
             }
           }
         }
@@ -109,7 +106,7 @@ namespace Pyro.Common.Service
           {
             foreach (var Create3 in Create2.Value)
             {
-              Create3.Id = ICommonServices.AddServiceSearchParametersHeavy(Create3).Id;
+              Create3.Id = IServiceSearchParameterService.AddServiceSearchParametersHeavy(Create3).Id;
             }
           }
         }
@@ -253,9 +250,9 @@ namespace Pyro.Common.Service
 
                             foreach (var Item in List)
                             {
-                              var DbSearchParamListForResource = ICommonServices.GetServiceSearchParametersHeavyForResource(Item.Resource);
+                              var DbSearchParamListForResource = IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(Item.Resource);
                               if (Item.Resource != ResourceType.Resource.GetLiteral())
-                                DbSearchParamListForResource.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+                                DbSearchParamListForResource.AddRange(IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
 
                               var CodeAlreadyIndexed = DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code && x.SearchParameterResourceId != null);
                               if (CodeAlreadyIndexed != null)
@@ -283,7 +280,7 @@ namespace Pyro.Common.Service
                             }
                             //Add the new SearchParameterIndex to the database
                             foreach (var Item in List)
-                              ICommonServices.AddServiceSearchParametersHeavy(Item);
+                              IServiceSearchParameterService.AddServiceSearchParametersHeavy(Item);
                           }
                           else
                           {
@@ -424,7 +421,7 @@ namespace Pyro.Common.Service
         return ResourceServiceOutcome;
       }
 
-      List<ServiceSearchParameterHeavy> DbSearchParameterList = ICommonServices.GetServiceSearchParametersHeavy(true);
+      List<DtoServiceSearchParameterHeavy> DbSearchParameterList = IServiceSearchParameterService.GetServiceSearchParametersHeavy(true);
       List<CompairisonResult> CompairisonResultList = CalculateDiff(DbSearchParameterList, RequestUri);
       var ErrorList = CompairisonResultList.Where(x => x.OperationOutcome != null).ToList();
       if (ErrorList.Count() > 0)
@@ -521,7 +518,7 @@ namespace Pyro.Common.Service
       var CreateList = CompairisonResultList.Where(x => x.CreateIndexList.Count > 0);
       foreach (string ResourceName in ModelInfo.SupportedResources)
       {
-        List<ServiceSearchParameterLight> LightList = new List<ServiceSearchParameterLight>();
+        List<DtoServiceSearchParameterLight> LightList = new List<DtoServiceSearchParameterLight>();
         foreach (var Item in CreateList)
         {
           var ResourceIndexCreateList = Item.CreateIndexList.Where(y => y.Key == ResourceName || y.Key == ResourceType.Resource.GetLiteral());
@@ -529,7 +526,7 @@ namespace Pyro.Common.Service
           {
             foreach (var Item3 in Item2.Value)
             {
-              LightList.Add(Item3 as ServiceSearchParameterLight);
+              LightList.Add(Item3 as DtoServiceSearchParameterLight);
             }
           }
         }
@@ -548,7 +545,7 @@ namespace Pyro.Common.Service
           foreach (var Updated2 in Updated.Value)
           {
             Updated2.IsIndexed = true;
-            ICommonServices.UpdateServiceSearchParametersHeavy(Updated2);
+            IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(Updated2);
           }
         }
       }
@@ -563,14 +560,14 @@ namespace Pyro.Common.Service
           {
             Updated2.New.Id = Updated2.Old.Id;
             Updated2.New.IsIndexed = Updated2.Old.IsIndexed;
-            ICommonServices.UpdateServiceSearchParametersHeavy(Updated2.New);
+            IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(Updated2.New);
           }
         }
       }
 
     }
 
-    private List<CompairisonResult> CalculateDiff(List<ServiceSearchParameterHeavy> DbSearchParameterList, IPyroRequestUri RequestUri)
+    private List<CompairisonResult> CalculateDiff(List<DtoServiceSearchParameterHeavy> DbSearchParameterList, IPyroRequestUri RequestUri)
     {
       List<CompairisonResult> CompairisonResultList = new List<CompairisonResult>();
       var GroupList = DbSearchParameterList.GroupBy(x => x.SearchParameterResourceId);      
@@ -600,7 +597,7 @@ namespace Pyro.Common.Service
             var ValadationOperationOutCome = ValidateSearchParameterResource(NewSearchParameterResource);
             if (ValadationOperationOutCome == null)
             {
-              List<ServiceSearchParameterHeavy> NewList = GenerateDbSearchParameterList(NewSearchParameterResource);
+              List<DtoServiceSearchParameterHeavy> NewList = GenerateDbSearchParameterList(NewSearchParameterResource);
               Result = GetCompairisonResult(OldList.ToList(), NewList);
               CompairisonResultList.Add(Result);
             }
@@ -631,7 +628,7 @@ namespace Pyro.Common.Service
       return CompairisonResultList;
     }
 
-    private CompairisonResult GetCompairisonResult(List<ServiceSearchParameterHeavy> OldList, List<ServiceSearchParameterHeavy> NewList)
+    private CompairisonResult GetCompairisonResult(List<DtoServiceSearchParameterHeavy> OldList, List<DtoServiceSearchParameterHeavy> NewList)
     {
       CompairisonResult CompairisonResult = new CompairisonResult();
       //OldList = OldList.OrderBy(x => x.Resource).ToList();
@@ -790,12 +787,12 @@ namespace Pyro.Common.Service
       }
     }
 
-    private List<ServiceSearchParameterHeavy> GenerateDbSearchParameterList(SearchParameter SearchParameterResource)
+    private List<DtoServiceSearchParameterHeavy> GenerateDbSearchParameterList(SearchParameter SearchParameterResource)
     {
-      var ReturnList = new List<ServiceSearchParameterHeavy>();
+      var ReturnList = new List<DtoServiceSearchParameterHeavy>();
       foreach (var Base in SearchParameterResource.Base)
       {
-        var New = new ServiceSearchParameterHeavy();
+        var New = new DtoServiceSearchParameterHeavy();
         if (SearchParameterResource.Description != null)
           New.Description = SearchParameterResource.Description.Value;
         New.Expression = SearchParameterResource.Expression;
@@ -824,20 +821,20 @@ namespace Pyro.Common.Service
 
     private class CompairisonResult
     {
-      public void AddIndexDelete(ServiceSearchParameterHeavy item)
+      public void AddIndexDelete(DtoServiceSearchParameterHeavy item)
       {
         AddToList(this.DeleteIndexList, item);
       }
-      public void AddCreateIndex(ServiceSearchParameterHeavy item)
+      public void AddCreateIndex(DtoServiceSearchParameterHeavy item)
       {
         AddToList(this.CreateIndexList, item);
       }
 
-      public void AddCreateSearchParameter(ServiceSearchParameterHeavy item)
+      public void AddCreateSearchParameter(DtoServiceSearchParameterHeavy item)
       {
         AddToList(this.CreateSearchParameterList, item);
       }
-      public void AddUpdateSearchParameter(ServiceSearchParameterHeavy Old, ServiceSearchParameterHeavy New)
+      public void AddUpdateSearchParameter(DtoServiceSearchParameterHeavy Old, DtoServiceSearchParameterHeavy New)
       {
         var Update = new Update();
         Update.Old = Old;
@@ -854,20 +851,20 @@ namespace Pyro.Common.Service
 
 
       }
-      public void AddDeleteSearchParameter(ServiceSearchParameterHeavy item)
+      public void AddDeleteSearchParameter(DtoServiceSearchParameterHeavy item)
       {
         AddToList(this.DeleteSearchParameterList, item);
       }
 
       public OperationOutcome OperationOutcome { get; set; }
-      public Dictionary<string, List<ServiceSearchParameterHeavy>> DeleteIndexList;
-      public Dictionary<string, List<ServiceSearchParameterHeavy>> CreateIndexList;
+      public Dictionary<string, List<DtoServiceSearchParameterHeavy>> DeleteIndexList;
+      public Dictionary<string, List<DtoServiceSearchParameterHeavy>> CreateIndexList;
 
-      public Dictionary<string, List<ServiceSearchParameterHeavy>> CreateSearchParameterList;
+      public Dictionary<string, List<DtoServiceSearchParameterHeavy>> CreateSearchParameterList;
       public Dictionary<string, List<Update>> UpdateSearchParameterList;
-      public Dictionary<string, List<ServiceSearchParameterHeavy>> DeleteSearchParameterList;
+      public Dictionary<string, List<DtoServiceSearchParameterHeavy>> DeleteSearchParameterList;
 
-      private void AddToList(Dictionary<string, List<ServiceSearchParameterHeavy>> List, ServiceSearchParameterHeavy item)
+      private void AddToList(Dictionary<string, List<DtoServiceSearchParameterHeavy>> List, DtoServiceSearchParameterHeavy item)
       {
         if (List.ContainsKey(item.Resource))
         {
@@ -875,24 +872,24 @@ namespace Pyro.Common.Service
         }
         else
         {
-          List.Add(item.Resource, new List<ServiceSearchParameterHeavy>() { item });
+          List.Add(item.Resource, new List<DtoServiceSearchParameterHeavy>() { item });
         }
       }
 
       public CompairisonResult()
       {
-        this.DeleteIndexList = new Dictionary<string, List<ServiceSearchParameterHeavy>>();
-        this.CreateIndexList = new Dictionary<string, List<ServiceSearchParameterHeavy>>();
+        this.DeleteIndexList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
+        this.CreateIndexList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
 
-        this.CreateSearchParameterList = new Dictionary<string, List<ServiceSearchParameterHeavy>>();
+        this.CreateSearchParameterList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
         this.UpdateSearchParameterList = new Dictionary<string, List<Update>>();
-        this.DeleteSearchParameterList = new Dictionary<string, List<ServiceSearchParameterHeavy>>();
+        this.DeleteSearchParameterList = new Dictionary<string, List<DtoServiceSearchParameterHeavy>>();
       }
 
       public class Update
       {
-        public ServiceSearchParameterHeavy Old { get; set; }
-        public ServiceSearchParameterHeavy New { get; set; }
+        public DtoServiceSearchParameterHeavy Old { get; set; }
+        public DtoServiceSearchParameterHeavy New { get; set; }
       }
     }
 

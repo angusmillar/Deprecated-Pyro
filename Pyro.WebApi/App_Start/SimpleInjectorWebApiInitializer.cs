@@ -156,6 +156,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
       container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
+      container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
@@ -190,6 +191,7 @@ namespace Pyro.WebApi.App_Start
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
       container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
+      container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);      
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
 

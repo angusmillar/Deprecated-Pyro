@@ -22,7 +22,7 @@ namespace Pyro.Common.Service
     private readonly ISearchParameterFactory ISearchParameterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
 
-    private List<ServiceSearchParameterLight> _DtoSupportedSearchParametersList = null;
+    private List<DtoServiceSearchParameterLight> _DtoSupportedSearchParametersList = null;
     private ISearchParametersServiceOutcome _SearchParametersServiceOutcome = null;
     private FHIRAllTypes? _ResourceType = null;
     private OperationClass _OperationClass = null;
@@ -132,7 +132,7 @@ namespace Pyro.Common.Service
         foreach (var SortItem in SearchParameterGeneric.Sort)
         {
           string SearchParameterName = SortItem.Item1.Trim();
-          ServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
+          DtoServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
           _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new PyroSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
         }
       }
@@ -241,7 +241,7 @@ namespace Pyro.Common.Service
           }
         }
 
-        ServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+        DtoServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
 
         if (oSupportedSearchParameter != null)
         {
@@ -308,7 +308,7 @@ namespace Pyro.Common.Service
     {
       _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, _ResourceType);
 
-      ServiceSearchParameterLight oSupportedSearchParameter;
+      DtoServiceSearchParameterLight oSupportedSearchParameter;
       //Remove modifiers
       var SearchParameterNameString = Parameter.Item1.Split(SearchParams.SEARCH_MODIFIERSEPARATOR)[0].Trim();
       oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterNameString);
@@ -434,7 +434,7 @@ namespace Pyro.Common.Service
           if (valueSplitArray.Count() > 1)
           {
             string SearchTerm = valueSplitArray[1].Trim();
-            List<ServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType.Resource, null, SearchParameterInclude.SourceResourceType.GetLiteral());
+            List<DtoServiceSearchParameterLight> DtoSupportedSearchParametersList = GetSupportedSearchParameters(SearchParameterServiceType.Resource, null, SearchParameterInclude.SourceResourceType.GetLiteral());
             if (SearchTerm == "*")
             {
               if (SearchParameterInclude.SearchParameterTargetResourceType != null)
@@ -448,7 +448,7 @@ namespace Pyro.Common.Service
             }
             else
             {
-              ServiceSearchParameterLight DtoServiceSearchParameterLight = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchTerm);
+              DtoServiceSearchParameterLight DtoServiceSearchParameterLight = DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchTerm);
               if (DtoServiceSearchParameterLight != null)
               {
                 if (DtoServiceSearchParameterLight.Type == SearchParamType.Reference)
@@ -465,7 +465,7 @@ namespace Pyro.Common.Service
                       });
                     }
                   }
-                  SearchParameterInclude.SearchParameterList = new List<ServiceSearchParameterLight>();
+                  SearchParameterInclude.SearchParameterList = new List<DtoServiceSearchParameterLight>();
                   SearchParameterInclude.SearchParameterList.Add(DtoServiceSearchParameterLight);
                 }
                 else
@@ -501,9 +501,9 @@ namespace Pyro.Common.Service
         }
       }
     }
-    private List<ServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, string ResourceType)
+    private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, string ResourceType)
     {
-      List<ServiceSearchParameterLight> DtoSupportedServiceSearchParameterList = new List<ServiceSearchParameterLight>();
+      List<DtoServiceSearchParameterLight> DtoSupportedServiceSearchParameterList = new List<DtoServiceSearchParameterLight>();
       //For non Resource URL values, e.g _format, _summary
       if ((SearchParameterServiceType & SearchParameterServiceType.Base) == SearchParameterServiceType.Base)
       {
@@ -529,7 +529,7 @@ namespace Pyro.Common.Service
 
       return DtoSupportedServiceSearchParameterList;
     }
-    private List<ServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
+    private List<DtoServiceSearchParameterLight> GetSupportedSearchParameters(SearchParameterServiceType SearchParameterServiceType, OperationClass OperationClass, FHIRAllTypes? ResourceType)
     {
       string ResourceString = string.Empty;
       if (ResourceType.HasValue)
@@ -573,7 +573,7 @@ namespace Pyro.Common.Service
 
       return false;
     }
-    private bool ValidateSearchParameterSupported(ServiceSearchParameterLight oSupported, ISearchParameterBase oInboundSearchParameter, IList<UnspportedSearchParameter> UnspportedSearchParameterList)
+    private bool ValidateSearchParameterSupported(DtoServiceSearchParameterLight oSupported, ISearchParameterBase oInboundSearchParameter, IList<UnspportedSearchParameter> UnspportedSearchParameterList)
     {
       UnspportedSearchParameter DtoUnspportedSearchParameter = null;
 

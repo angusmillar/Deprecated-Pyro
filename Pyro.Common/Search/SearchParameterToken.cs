@@ -90,7 +90,7 @@ namespace Pyro.Common.Search
       else
         return true;
     }
-    public override bool ValidatePrefixes(ServiceSearchParameterLight DtoSupportedSearchParameters)
+    public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       //Token search parameters do not contain prefixes, so return true      
       return true;

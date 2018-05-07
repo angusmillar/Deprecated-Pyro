@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Service;
-using Hl7.Fhir.Introspection;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.Global;
 using Pyro.Common.CompositionRoot;
@@ -24,18 +20,18 @@ namespace Pyro.Engine.Services
   {
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IGlobalProperties IGlobalProperties;
-    private readonly ICommonServices ICommonServices;
+    private readonly IServiceSearchParameterService IServiceSearchParameterService;
     private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
 
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
 
-    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, ICommonServices ICommonServices, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceCompartmentRepository IServiceCompartmentRepository)
+    public MetadataService(IPrimaryServiceRootCache IPrimaryServiceRootCache, IGlobalProperties IGlobalProperties, IServiceSearchParameterService IServiceSearchParameterService, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceCompartmentRepository IServiceCompartmentRepository)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IGlobalProperties = IGlobalProperties;
-      this.ICommonServices = ICommonServices;
+      this.IServiceSearchParameterService = IServiceSearchParameterService;
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;      
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -131,7 +127,7 @@ namespace Pyro.Engine.Services
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
-      List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = ICommonServices.GetServiceSearchParametersHeavy(false);
+      List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavy(false);
 
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType ResourceType in ResourceTypeList)
@@ -165,7 +161,7 @@ namespace Pyro.Engine.Services
         ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Local);
         ResourceComponent.ReferencePolicy = ReferenceHandlingPolicyList;
         
-        List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
+        List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
 
         //List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
         //DtoServiceSearchParameterHeavyForResourceList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));

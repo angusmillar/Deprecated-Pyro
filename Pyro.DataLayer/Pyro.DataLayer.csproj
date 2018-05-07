@@ -192,6 +192,7 @@
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CommonResourceRepository.cs" />
     <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
+    <Compile Include="Repository\ServiceSearchParameterRepository.cs" />
     <Compile Include="Search\ExpressionSupport\DateTimePeriodExpression.cs" />
     <Compile Include="Search\ExpressionSupport\DecimalExpression.cs" />
     <Compile Include="Search\Predicate\LastUpdatedDatePredicateBuilder.cs" />

@@ -103,7 +103,7 @@ namespace Pyro.Common.Service
           NewServiceCompartment.ResourceList = new List<DtoServiceCompartmentResource>();
           foreach (var ResourceComponent in CompartDef.Resource)
           {
-            List<Search.ServiceSearchParameterLight> SupportedSerachParamList = IServiceSearchParameterCache.GetSearchParameterForResource(ResourceComponent.Code.GetLiteral());
+            List<Search.DtoServiceSearchParameterLight> SupportedSerachParamList = IServiceSearchParameterCache.GetSearchParameterForResource(ResourceComponent.Code.GetLiteral());
             if (ResourceComponent.Param.Count() == 0)
             {
               var CompatmentResource = new DtoServiceCompartmentResource()

@@ -25,35 +25,35 @@ namespace Pyro.Engine.Services
       return _UnitOfWork.CommonRepository.SetPrimaryRootUrlStore(RootUrl);
     }
 
-    public List<ServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
-    {
-      return _UnitOfWork.CommonRepository.GetServiceSearchParametersLightForResource(ResourceType);
-    }
+    //public List<ServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType)
+    //{
+    //  return _UnitOfWork.CommonRepository.GetServiceSearchParametersLightForResource(ResourceType);
+    //}
 
-    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
-    {
-      return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy(CustomOnly);
-    }
+    //public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
+    //{
+    //  return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavy(CustomOnly);
+    //}
 
-    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
-    {
-      return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
-    }
+    //public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    //{
+    //  return _UnitOfWork.CommonRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
+    //}
 
-    public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
-    {
-      return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
-    }
+    //public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    //{
+    //  return _UnitOfWork.CommonRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
+    //}
 
-    public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
-    {
-      return _UnitOfWork.CommonRepository.UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
-    }
+    //public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    //{
+    //  return _UnitOfWork.CommonRepository.UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy);
+    //}
 
-    public void DeleteServiceSearchParameters(int Id)
-    {
-      _UnitOfWork.CommonRepository.DeleteServiceSearchParameters(Id);
-    }
+    //public void DeleteServiceSearchParameters(int Id)
+    //{
+    //  _UnitOfWork.CommonRepository.DeleteServiceSearchParameters(Id);
+    //}
 
   }
 }

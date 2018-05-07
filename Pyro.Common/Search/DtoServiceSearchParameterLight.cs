@@ -11,7 +11,7 @@ using Pyro.Common.Interfaces.Dto;
 namespace Pyro.Common.Search
 {
   
-  public class ServiceSearchParameterLight : IServiceSearchParameterLight
+  public class DtoServiceSearchParameterLight : IServiceSearchParameterLight
   {
     public int Id { get; set; }
     public string Resource { get; set; }
@@ -20,7 +20,7 @@ namespace Pyro.Common.Search
     public string Expression { get; set; }
 
     public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
-    public ServiceSearchParameterLight() { }
+    public DtoServiceSearchParameterLight() { }
 
   }
 }

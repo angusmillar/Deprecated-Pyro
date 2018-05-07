@@ -19,7 +19,7 @@ namespace Pyro.DataLayer.IndexSetter
     
   {
     public DateTimeSetter() { }
-    public IList<ResIndexDateTimeType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexDateTimeType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResIndexDateTimeType>();
       int ServiceSearchParameterId = SearchParameter.Id;

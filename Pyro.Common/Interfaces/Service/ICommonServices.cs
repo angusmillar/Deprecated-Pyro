@@ -13,12 +13,12 @@ namespace Pyro.Common.Interfaces.Service
   {
     IDtoRootUrlStore GetPrimaryServiceRootUrl();
     IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl);
-    List<ServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType);
-    List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
-    List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
-    ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
-    ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
-    void DeleteServiceSearchParameters(int Id);
+    //List<ServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType);
+    //List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
+    //List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
+    //ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
+    //ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy);
+    //void DeleteServiceSearchParameters(int Id);
 
   }
 }

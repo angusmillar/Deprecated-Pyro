@@ -447,7 +447,7 @@ namespace Pyro.DataLayer.Repository
         return null;
     }
 
-    public void AddCurrentResourceIndex(List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
+    public void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
     {
       int ChunkSize = 100;
       int ProgressCount = 0;
@@ -532,20 +532,20 @@ namespace Pyro.DataLayer.Repository
 
     public void PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      IList<ServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
+      IList<DtoServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    public void AddResourceIndexes(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParmeters)
+    public void AddResourceIndexes(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParmeters)
     {
       _PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri, SearchParmeters);
     }
 
-    private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<ServiceSearchParameterLight> SearchParametersList)
+    private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri, IList<DtoServiceSearchParameterLight> SearchParametersList)
     {
       Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
-      foreach (ServiceSearchParameterLight SearchParameter in SearchParametersList)
+      foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
       {
         //Todo: Composite searchParameters are not supported as yet, need to do work to read 
         // the sub search parameters of the composite directly fro the SearchParameter resources.

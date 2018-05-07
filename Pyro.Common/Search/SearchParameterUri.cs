@@ -71,7 +71,7 @@ namespace Pyro.Common.Search
         return false;
       }
     }
-    public override bool ValidatePrefixes(ServiceSearchParameterLight DtoSupportedSearchParameters)
+    public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       //String Search parameter types never have prefixes so always return true.
       return true;

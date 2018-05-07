@@ -12,7 +12,7 @@ using Pyro.Common.Service;
 namespace Pyro.Common.Search
 {
 
-  public abstract class SearchParameterBase : ServiceSearchParameterLight, ISearchParameterBase
+  public abstract class SearchParameterBase : DtoServiceSearchParameterLight, ISearchParameterBase
   {
     protected const char OrDelimiter = ',';
     public string RawValue { get; set; }
@@ -25,7 +25,7 @@ namespace Pyro.Common.Search
     public Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore { get; set; }
 
     public abstract bool TryParseValue(string Value);
-    public abstract bool ValidatePrefixes(ServiceSearchParameterLight DtoSupportedSearchParameters);
+    public abstract bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters);
     public abstract object CloneDeep();
     public virtual object CloneDeep(SearchParameterBase Clone)
     {

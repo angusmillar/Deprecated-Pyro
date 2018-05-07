@@ -375,256 +375,256 @@ namespace Pyro.DataLayer.Repository
 
     //---- ServiceSearchParameters ---------------------------------------------------------------
 
-    public List<ServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
-    {
-      var ReturnList = new List<ServiceSearchParameterLight>();
+    //public List<ServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
+    //{
+    //  var ReturnList = new List<ServiceSearchParameterLight>();
       
-      var List = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList)
-        .Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
-        .Select(x => new { x.Id, x.Name, x.Expression, x.Resource, x.Type, x.TargetResourceTypeList }).ToList();
+    //  var List = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList)
+    //    .Where(x => x.Resource == ResourceType & x.IsIndexed == true & x.Status == PublicationStatus.Active)
+    //    .Select(x => new { x.Id, x.Name, x.Expression, x.Resource, x.Type, x.TargetResourceTypeList }).ToList();
       
-      if (List != null)
-      {
-        foreach (var x in List)
-        {
-          var Light = new ServiceSearchParameterLight();
-          Light.Id = x.Id;
-          Light.Name = x.Name;
-          Light.Expression = x.Expression;
-          Light.Type = x.Type;
-          Light.Resource = x.Resource;
-          Light.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
-          if (x.TargetResourceTypeList != null)
-          {
-            foreach (var Target in x.TargetResourceTypeList)
-              Light.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-          }
-          ReturnList.Add(Light);
-        }
-      }
+    //  if (List != null)
+    //  {
+    //    foreach (var x in List)
+    //    {
+    //      var Light = new ServiceSearchParameterLight();
+    //      Light.Id = x.Id;
+    //      Light.Name = x.Name;
+    //      Light.Expression = x.Expression;
+    //      Light.Type = x.Type;
+    //      Light.Resource = x.Resource;
+    //      Light.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+    //      if (x.TargetResourceTypeList != null)
+    //      {
+    //        foreach (var Target in x.TargetResourceTypeList)
+    //          Light.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //      }
+    //      ReturnList.Add(Light);
+    //    }
+    //  }
 
-      return ReturnList;
-    }
+    //  return ReturnList;
+    //}
 
-    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
-    {
-      var ReturnList = new List<ServiceSearchParameterHeavy>();
+    //public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
+    //{
+    //  var ReturnList = new List<ServiceSearchParameterHeavy>();
 
-      List<_ServiceSearchParameter> ResourceServiceSearchParameterList;
-      if (CustomOnly)
-      {
-        ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.SearchParameterResourceId != null).ToList();
-      }
-      else
-      {
-        ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
-      }
+    //  List<_ServiceSearchParameter> ResourceServiceSearchParameterList;
+    //  if (CustomOnly)
+    //  {
+    //    ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(x => x.SearchParameterResourceId != null).ToList();
+    //  }
+    //  else
+    //  {
+    //    ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
+    //  }
 
-      foreach (var x in ResourceServiceSearchParameterList)
-      {
-        var Heavy = new ServiceSearchParameterHeavy();
-        Heavy.Id = x.Id;
-        Heavy.Name = x.Name;
-        Heavy.Expression = x.Expression;
-        Heavy.Resource = x.Resource;
-        Heavy.Type = x.Type;
-        Heavy.Description = x.Description;
-        Heavy.Url = x.Url;
-        Heavy.XPath = x.XPath;
-        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
-        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
-        Heavy.Status = x.Status;
-        Heavy.IsIndexed = x.IsIndexed;
-        Heavy.LastUpdated = x.LastUpdated;
-        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
-        foreach (var Target in x.TargetResourceTypeList.ToList())
-          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-        ReturnList.Add(Heavy);
-      }
-      return ReturnList;
-    }
+    //  foreach (var x in ResourceServiceSearchParameterList)
+    //  {
+    //    var Heavy = new ServiceSearchParameterHeavy();
+    //    Heavy.Id = x.Id;
+    //    Heavy.Name = x.Name;
+    //    Heavy.Expression = x.Expression;
+    //    Heavy.Resource = x.Resource;
+    //    Heavy.Type = x.Type;
+    //    Heavy.Description = x.Description;
+    //    Heavy.Url = x.Url;
+    //    Heavy.XPath = x.XPath;
+    //    Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+    //    Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+    //    Heavy.Status = x.Status;
+    //    Heavy.IsIndexed = x.IsIndexed;
+    //    Heavy.LastUpdated = x.LastUpdated;
+    //    Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+    //    foreach (var Target in x.TargetResourceTypeList.ToList())
+    //      Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //    ReturnList.Add(Heavy);
+    //  }
+    //  return ReturnList;
+    //}
 
-    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
-    {
-      var ReturnList = new List<ServiceSearchParameterHeavy>();
+    //public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
+    //{
+    //  var ReturnList = new List<ServiceSearchParameterHeavy>();
 
-      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
-      foreach (var x in ResourceServiceSearchParameterList)
-      {
-        var Heavy = new ServiceSearchParameterHeavy();
-        Heavy.Id = x.Id;
-        Heavy.Name = x.Name;
-        Heavy.Expression = x.Expression;
-        Heavy.Resource = x.Resource;
-        Heavy.Type = x.Type;
-        Heavy.Description = x.Description;
-        Heavy.Url = x.Url;
-        Heavy.XPath = x.XPath;
-        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
-        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
-        Heavy.Status = x.Status;
-        Heavy.IsIndexed = x.IsIndexed;
-        Heavy.LastUpdated = x.LastUpdated;
-        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
-        foreach (var Target in x.TargetResourceTypeList.ToList())
-          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-        ReturnList.Add(Heavy);
-      }
-      return ReturnList;
-    }
+    //  var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
+    //  foreach (var x in ResourceServiceSearchParameterList)
+    //  {
+    //    var Heavy = new ServiceSearchParameterHeavy();
+    //    Heavy.Id = x.Id;
+    //    Heavy.Name = x.Name;
+    //    Heavy.Expression = x.Expression;
+    //    Heavy.Resource = x.Resource;
+    //    Heavy.Type = x.Type;
+    //    Heavy.Description = x.Description;
+    //    Heavy.Url = x.Url;
+    //    Heavy.XPath = x.XPath;
+    //    Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+    //    Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+    //    Heavy.Status = x.Status;
+    //    Heavy.IsIndexed = x.IsIndexed;
+    //    Heavy.LastUpdated = x.LastUpdated;
+    //    Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+    //    foreach (var Target in x.TargetResourceTypeList.ToList())
+    //      Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //    ReturnList.Add(Heavy);
+    //  }
+    //  return ReturnList;
+    //}
 
-    public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
-    {
-      var ReturnList = new List<ServiceSearchParameterHeavy>();
+    //public List<ServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
+    //{
+    //  var ReturnList = new List<ServiceSearchParameterHeavy>();
 
-      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Where(x => x.Resource == ResourceType).Include(x => x.TargetResourceTypeList).ToList();
-      foreach (var x in ResourceServiceSearchParameterList)
-      {
-        var Heavy = new ServiceSearchParameterHeavy();
-        Heavy.Id = x.Id;
-        Heavy.Name = x.Name;
-        Heavy.Expression = x.Expression;
-        Heavy.Resource = x.Resource;
-        Heavy.Type = x.Type;
-        Heavy.Description = x.Description;
-        Heavy.Url = x.Url;
-        Heavy.XPath = x.XPath;
-        Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
-        Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
-        Heavy.Status = x.Status;
-        Heavy.IsIndexed = x.IsIndexed;
-        Heavy.LastUpdated = x.LastUpdated;
-        Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
-        foreach (var Target in x.TargetResourceTypeList.ToList())
-          Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-        ReturnList.Add(Heavy);
-      }
-      return ReturnList;
+    //  var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Where(x => x.Resource == ResourceType).Include(x => x.TargetResourceTypeList).ToList();
+    //  foreach (var x in ResourceServiceSearchParameterList)
+    //  {
+    //    var Heavy = new ServiceSearchParameterHeavy();
+    //    Heavy.Id = x.Id;
+    //    Heavy.Name = x.Name;
+    //    Heavy.Expression = x.Expression;
+    //    Heavy.Resource = x.Resource;
+    //    Heavy.Type = x.Type;
+    //    Heavy.Description = x.Description;
+    //    Heavy.Url = x.Url;
+    //    Heavy.XPath = x.XPath;
+    //    Heavy.SearchParameterResourceId = x.SearchParameterResourceId;
+    //    Heavy.SearchParameterResourceVersion = x.SearchParameterResourceVersion;
+    //    Heavy.Status = x.Status;
+    //    Heavy.IsIndexed = x.IsIndexed;
+    //    Heavy.LastUpdated = x.LastUpdated;
+    //    Heavy.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+    //    foreach (var Target in x.TargetResourceTypeList.ToList())
+    //      Heavy.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //    ReturnList.Add(Heavy);
+    //  }
+    //  return ReturnList;
 
-    }
+    //}
 
-    public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
-    {
-      if (ServiceSearchParameterHeavy == null)
-        return null;
+    //public ServiceSearchParameterHeavy AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    //{
+    //  if (ServiceSearchParameterHeavy == null)
+    //    return null;
 
-      var DbSearchParameter = new _ServiceSearchParameter();
-      DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
-      DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
-      DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
-      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
-      DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
-      DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
-      DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
-      DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
-      DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
-      DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
-      DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
-      DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
-      if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
-      {
-        DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
-        foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
-          DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-      }
-      _ServiceSearchParameter value = AddServiceSearchParameters(DbSearchParameter);
-      ServiceSearchParameterHeavy.Id = value.Id;
-      this.Save();
-      return ServiceSearchParameterHeavy;
-    }
+    //  var DbSearchParameter = new _ServiceSearchParameter();
+    //  DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
+    //  DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
+    //  DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
+    //  DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+    //  DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
+    //  DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
+    //  DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
+    //  DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
+    //  DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
+    //  DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
+    //  DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
+    //  DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
+    //  if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
+    //  {
+    //    DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
+    //    foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
+    //      DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //  }
+    //  _ServiceSearchParameter value = AddServiceSearchParameters(DbSearchParameter);
+    //  ServiceSearchParameterHeavy.Id = value.Id;
+    //  this.Save();
+    //  return ServiceSearchParameterHeavy;
+    //}
 
-    public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
-    {
-      if (ServiceSearchParameterHeavy == null)
-        return null;
+    //public ServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(ServiceSearchParameterHeavy ServiceSearchParameterHeavy)
+    //{
+    //  if (ServiceSearchParameterHeavy == null)
+    //    return null;
 
-      var DbSearchParameter = new _ServiceSearchParameter();
-      DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
-      DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
-      DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
-      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
-      DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
-      DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
-      DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
-      DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
-      DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
-      DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
-      DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
-      DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
-      if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
-      {
-        DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
-        foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
-          DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
-      }
-      _ServiceSearchParameter value = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
-      ServiceSearchParameterHeavy.Id = value.Id;
-      return ServiceSearchParameterHeavy;
-    }
+    //  var DbSearchParameter = new _ServiceSearchParameter();
+    //  DbSearchParameter.Description = ServiceSearchParameterHeavy.Description;
+    //  DbSearchParameter.Expression = ServiceSearchParameterHeavy.Expression;
+    //  DbSearchParameter.IsIndexed = ServiceSearchParameterHeavy.IsIndexed;
+    //  DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+    //  DbSearchParameter.Name = ServiceSearchParameterHeavy.Name;
+    //  DbSearchParameter.Resource = ServiceSearchParameterHeavy.Resource;
+    //  DbSearchParameter.SearchParameterResourceId = ServiceSearchParameterHeavy.SearchParameterResourceId;
+    //  DbSearchParameter.SearchParameterResourceVersion = ServiceSearchParameterHeavy.SearchParameterResourceVersion;
+    //  DbSearchParameter.Status = ServiceSearchParameterHeavy.Status;
+    //  DbSearchParameter.Type = ServiceSearchParameterHeavy.Type;
+    //  DbSearchParameter.Url = ServiceSearchParameterHeavy.Url;
+    //  DbSearchParameter.XPath = ServiceSearchParameterHeavy.XPath;
+    //  if (ServiceSearchParameterHeavy.TargetResourceTypeList != null)
+    //  {
+    //    DbSearchParameter.TargetResourceTypeList = new List<_ServiceSearchParameterTargetResource>();
+    //    foreach (var Target in ServiceSearchParameterHeavy.TargetResourceTypeList)
+    //      DbSearchParameter.TargetResourceTypeList.Add(new _ServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
+    //  }
+    //  _ServiceSearchParameter value = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
+    //  ServiceSearchParameterHeavy.Id = value.Id;
+    //  return ServiceSearchParameterHeavy;
+    //}
 
-    public void DeleteServiceSearchParameters(int Id)
-    {
-      var Entity = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
-      if (Entity != null)
-      {
-        IPyroDbContext.ServiceSearchParameter.Remove(Entity);
-        this.Save();
-      }
-    }
+    //public void DeleteServiceSearchParameters(int Id)
+    //{
+    //  var Entity = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
+    //  if (Entity != null)
+    //  {
+    //    IPyroDbContext.ServiceSearchParameter.Remove(Entity);
+    //    this.Save();
+    //  }
+    //}
 
-    protected _ServiceSearchParameter AddServiceSearchParameters(_ServiceSearchParameter ServiceSearchParameter)
-    {
-      ServiceSearchParameter = IPyroDbContext.Set<_ServiceSearchParameter>().Add(ServiceSearchParameter);
-      this.Save();
-      return ServiceSearchParameter;
-    }
+    //protected _ServiceSearchParameter AddServiceSearchParameters(_ServiceSearchParameter ServiceSearchParameter)
+    //{
+    //  ServiceSearchParameter = IPyroDbContext.Set<_ServiceSearchParameter>().Add(ServiceSearchParameter);
+    //  this.Save();
+    //  return ServiceSearchParameter;
+    //}
 
-    protected _ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
-    {
-      return IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
-    }
+    //protected _ServiceSearchParameter GetServiceSearchParameters(string ResourceType, string Name)
+    //{
+    //  return IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Resource == ResourceType & x.Name == Name);
+    //}
 
-    protected _ServiceSearchParameter UpdateServiceSearchParameters(int Id, _ServiceSearchParameter SearchParameter)
-    {
-      var DbSearchParameter = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
-      DbSearchParameter.Description = SearchParameter.Description;
-      DbSearchParameter.Expression = SearchParameter.Expression;
-      DbSearchParameter.IsIndexed = SearchParameter.IsIndexed;
-      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
-      DbSearchParameter.Name = SearchParameter.Name;
-      DbSearchParameter.Resource = SearchParameter.Resource;
-      DbSearchParameter.SearchParameterResourceId = SearchParameter.SearchParameterResourceId;
-      DbSearchParameter.SearchParameterResourceVersion = SearchParameter.SearchParameterResourceVersion;
-      DbSearchParameter.Status = SearchParameter.Status;
-      DbSearchParameter.TargetResourceTypeList = SearchParameter.TargetResourceTypeList;
-      DbSearchParameter.Type = SearchParameter.Type;
-      DbSearchParameter.Url = SearchParameter.Url;
-      DbSearchParameter.XPath = SearchParameter.XPath;
-      IPyroDbContext.Entry(DbSearchParameter).State = EntityState.Modified;
-      this.Save();
-      return DbSearchParameter;
-    }
+    //protected _ServiceSearchParameter UpdateServiceSearchParameters(int Id, _ServiceSearchParameter SearchParameter)
+    //{
+    //  var DbSearchParameter = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(x => x.Id == Id);
+    //  DbSearchParameter.Description = SearchParameter.Description;
+    //  DbSearchParameter.Expression = SearchParameter.Expression;
+    //  DbSearchParameter.IsIndexed = SearchParameter.IsIndexed;
+    //  DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+    //  DbSearchParameter.Name = SearchParameter.Name;
+    //  DbSearchParameter.Resource = SearchParameter.Resource;
+    //  DbSearchParameter.SearchParameterResourceId = SearchParameter.SearchParameterResourceId;
+    //  DbSearchParameter.SearchParameterResourceVersion = SearchParameter.SearchParameterResourceVersion;
+    //  DbSearchParameter.Status = SearchParameter.Status;
+    //  DbSearchParameter.TargetResourceTypeList = SearchParameter.TargetResourceTypeList;
+    //  DbSearchParameter.Type = SearchParameter.Type;
+    //  DbSearchParameter.Url = SearchParameter.Url;
+    //  DbSearchParameter.XPath = SearchParameter.XPath;
+    //  IPyroDbContext.Entry(DbSearchParameter).State = EntityState.Modified;
+    //  this.Save();
+    //  return DbSearchParameter;
+    //}
 
-    protected List<_ServiceSearchParameter> GetAllServiceSearchParameters()
-    {
-      return IPyroDbContext.ServiceSearchParameter.ToList();
-    }
+    //protected List<_ServiceSearchParameter> GetAllServiceSearchParameters()
+    //{
+    //  return IPyroDbContext.ServiceSearchParameter.ToList();
+    //}
 
     //---- ServiceCompartment---------------------------------------------------------------
 
-    public _ServiceCompartment GetServiceCompartment(string Code)
-    {
-      return IPyroDbContext.ServiceCompartment.SingleOrDefault(x => x.Code == Code);      
-    }
+    //public _ServiceCompartment GetServiceCompartment(string Code)
+    //{
+    //  return IPyroDbContext.ServiceCompartment.SingleOrDefault(x => x.Code == Code);      
+    //}
 
-    public _ServiceCompartment UpdateServiceCompartment(_ServiceCompartment ServiceCompartment)
-    {
-      DeleteServiceCompartment(ServiceCompartment.Code);
-      ServiceCompartment = IPyroDbContext.Set<_ServiceCompartment>().Add(ServiceCompartment);
-      this.Save();
-      return ServiceCompartment;
+    //public _ServiceCompartment UpdateServiceCompartment(_ServiceCompartment ServiceCompartment)
+    //{
+    //  DeleteServiceCompartment(ServiceCompartment.Code);
+    //  ServiceCompartment = IPyroDbContext.Set<_ServiceCompartment>().Add(ServiceCompartment);
+    //  this.Save();
+    //  return ServiceCompartment;
 
-    }
+    //}
 
     public bool DeleteServiceCompartment(string Code)
     {

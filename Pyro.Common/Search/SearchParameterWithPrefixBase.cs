@@ -14,7 +14,7 @@ namespace Pyro.Common.Search
   public abstract class SearchParameterValueWithPrefix : SearchParameterValueBase
   {
     public SearchParameter.SearchComparator? Prefix { get; set; }
-    public bool ValidatePreFix(ServiceSearchParameterLight DtoSupportedSearchParameters)
+    public bool ValidatePreFix(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       if (this.Prefix.HasValue == false)
       {

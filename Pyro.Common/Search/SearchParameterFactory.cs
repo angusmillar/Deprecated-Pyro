@@ -29,7 +29,7 @@ namespace Pyro.Common.Search
       this.ISearchParameterReferanceFactory = ISearchParameterReferanceFactory;
     }
 
-    public ISearchParameterBase CreateSearchParameter(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, bool IsChainedReferance = false)
+    public ISearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, bool IsChainedReferance = false)
     {
 
       ISearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
@@ -76,7 +76,7 @@ namespace Pyro.Common.Search
     }
 
     //Old Method for chaining, not in use
-    public ISearchParameterBase CreateSearchParameter_OLD(ServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
+    public ISearchParameterBase CreateSearchParameter_OLD(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter)
     {
 
       ISearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);

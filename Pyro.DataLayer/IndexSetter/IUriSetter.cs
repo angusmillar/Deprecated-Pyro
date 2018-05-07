@@ -15,6 +15,6 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     
   {
-    IList<ResIndexUriType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter);
+    IList<ResIndexUriType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter);
   }
 }

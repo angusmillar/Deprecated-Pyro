@@ -111,7 +111,7 @@ namespace Pyro.Common.Search
 
     public class Sort
     {
-      public ServiceSearchParameterLight Value { get; set; }
+      public DtoServiceSearchParameterLight Value { get; set; }
       public Hl7.Fhir.Rest.SortOrder SortOrderType { get; set; }
     }
   }

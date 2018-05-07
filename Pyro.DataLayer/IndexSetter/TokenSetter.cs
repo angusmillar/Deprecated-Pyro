@@ -20,7 +20,7 @@ namespace Pyro.DataLayer.IndexSetter
 
   {
     public TokenSetter() { }
-    public IList<ResIndexTokenType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexTokenType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResIndexTokenType>();
       var ServiceSearchParameterId = SearchParameter.Id;

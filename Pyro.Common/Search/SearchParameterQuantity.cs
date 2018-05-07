@@ -96,7 +96,7 @@ namespace Pyro.Common.Search
       else
         return true;
     }
-    public override bool ValidatePrefixes(ServiceSearchParameterLight DtoSupportedSearchParameters)
+    public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       foreach (var Value in ValueList)
       {

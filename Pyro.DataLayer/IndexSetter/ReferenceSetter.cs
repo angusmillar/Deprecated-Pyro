@@ -33,7 +33,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
     }
 
-    public IList<ResIndexReferenceType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexReferenceType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResIndexReferenceType>();
       var ServiceSearchParameterId = SearchParameter.Id;

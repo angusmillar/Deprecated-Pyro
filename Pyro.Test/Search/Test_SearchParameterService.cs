@@ -46,9 +46,9 @@ namespace Pyro.Test.IndexSetters
       var MokIServiceSearchParameterCache = new Moq.Mock<IServiceSearchParameterCache>();
 
       //Search Parameters for DiagnosticReport Resource ---------------------------------------
-      List<ServiceSearchParameterLight> DiagnosticReportServiceSearchParameterLightList = new List<ServiceSearchParameterLight>();
+      List<DtoServiceSearchParameterLight> DiagnosticReportServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_DiagnosticReportSubject = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_DiagnosticReportSubject = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_DiagnosticReportSubject.Expression = "Test_Expression for subject";
       ServiceSearchParameterLight_DiagnosticReportSubject.Id = 1;
       ServiceSearchParameterLight_DiagnosticReportSubject.Name = "subject";
@@ -73,7 +73,7 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_DiagnosticReportSubject.Type = SearchParamType.Reference;
       DiagnosticReportServiceSearchParameterLightList.Add(ServiceSearchParameterLight_DiagnosticReportSubject);
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_DiagnosticReportIdentifier = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_DiagnosticReportIdentifier = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_DiagnosticReportIdentifier.Expression = "Test_Expression for identifier";
       ServiceSearchParameterLight_DiagnosticReportIdentifier.Id = 11;
       ServiceSearchParameterLight_DiagnosticReportIdentifier.Name = "identifier";
@@ -84,9 +84,9 @@ namespace Pyro.Test.IndexSetters
       MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("DiagnosticReport")).Returns(DiagnosticReportServiceSearchParameterLightList);
 
       //Search Parameters for Patient Resource ---------------------------------------
-      List<ServiceSearchParameterLight> PatientServiceSearchParameterLightList = new List<ServiceSearchParameterLight>();
+      List<DtoServiceSearchParameterLight> PatientServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_PatientOrganization = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_PatientOrganization = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_PatientOrganization.Expression = "Test_Expression for organization";
       ServiceSearchParameterLight_PatientOrganization.Id = 2;
       ServiceSearchParameterLight_PatientOrganization.Name = "organization";
@@ -97,7 +97,7 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_PatientOrganization.Type = SearchParamType.Reference;
       PatientServiceSearchParameterLightList.Add(ServiceSearchParameterLight_PatientOrganization);
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_PatientFamily = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_PatientFamily = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_PatientFamily.Expression = "Test_Expression for family";
       ServiceSearchParameterLight_PatientFamily.Id = 22;
       ServiceSearchParameterLight_PatientFamily.Name = "family";
@@ -108,9 +108,9 @@ namespace Pyro.Test.IndexSetters
       MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("Patient")).Returns(PatientServiceSearchParameterLightList);
 
       //Search Parameters for Organization Resource ---------------------------------------
-      List<ServiceSearchParameterLight> OrganizationServiceSearchParameterLightList = new List<ServiceSearchParameterLight>();
+      List<DtoServiceSearchParameterLight> OrganizationServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_OrganizationEndpoint = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_OrganizationEndpoint = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_OrganizationEndpoint.Expression = "Test_Expression for endpoint";
       ServiceSearchParameterLight_OrganizationEndpoint.Id = 3;
       ServiceSearchParameterLight_OrganizationEndpoint.Name = "endpoint";
@@ -125,9 +125,9 @@ namespace Pyro.Test.IndexSetters
       MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("Organization")).Returns(OrganizationServiceSearchParameterLightList);
 
       //Search Parameters for Endpoint Resource ---------------------------------------
-      List<ServiceSearchParameterLight> EndpointServiceSearchParameterLightList = new List<ServiceSearchParameterLight>();
+      List<DtoServiceSearchParameterLight> EndpointServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
 
-      ServiceSearchParameterLight ServiceSearchParameterLight_EndpointName = new ServiceSearchParameterLight();
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_EndpointName = new DtoServiceSearchParameterLight();
       ServiceSearchParameterLight_EndpointName.Expression = "Test_Expression for Endpoint";
       ServiceSearchParameterLight_EndpointName.Id = 4;
       ServiceSearchParameterLight_EndpointName.Name = "name";

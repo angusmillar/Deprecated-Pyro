@@ -19,6 +19,6 @@ namespace Pyro.Common.Search
     string TypeModifierResource { get; set; }
 
     bool TryParseValue(string Value);
-    bool ValidatePrefixes(ServiceSearchParameterLight DtoSupportedSearchParameters);
+    bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters);
   }
 }

@@ -59,7 +59,7 @@ namespace Pyro.Common.Interfaces.Service
     IResourceServiceOutcome DeleteHistoryIndexes(IRequestMeta RequestMeta);
     
     //Add the given ServiceSearchParameterLight to the current resource instance
-    void AddResourceIndexs(ResourceType ResourceType, List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
+    void AddResourceIndexs(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
     
     //Get the dateTime that the last instance of this ResourceType was Added, Updated, Deleted in the server
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType);

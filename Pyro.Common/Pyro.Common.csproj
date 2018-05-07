@@ -165,6 +165,8 @@
     <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
     <Compile Include="Interfaces\Repositories\IServiceCompartmentRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IServiceSearchParameterRepository.cs" />
+    <Compile Include="Interfaces\Service\IServiceSearchParameterService.cs" />
     <Compile Include="ProductText\PyroText.cs" />
     <Compile Include="PyroHealthInformation\PyroHealthContactList.cs" />
     <Compile Include="PyroHealthInformation\PyroServerCodesysem.cs" />
@@ -172,9 +174,10 @@
     <Compile Include="RequestMetadata\RequestMeta.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
     <Compile Include="Search\SearchParameterInclude.cs" />
-    <Compile Include="Search\ServiceSearchParameterHeavy.cs" />
-    <Compile Include="Search\ServiceSearchParameterLight.cs" />
+    <Compile Include="Search\DtoServiceSearchParameterHeavy.cs" />
+    <Compile Include="Search\DtoServiceSearchParameterLight.cs" />
     <Compile Include="Search\DtoServiceSearchParameterTargetResource.cs" />
+    <Compile Include="Service\ServerInitializeOperationService.cs" />
     <Compile Include="Service\CompartmentOperationService.cs" />
     <Compile Include="Service\CompartmentSearchParameterService.cs" />
     <Compile Include="Service\ICompartmentOperationService.cs" />

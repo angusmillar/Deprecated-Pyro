@@ -932,7 +932,7 @@ namespace Pyro.Engine.Services
       return ServiceOutcome;
     }
 
-    public virtual void AddResourceIndexs(ResourceType ResourceType, List<ServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
+    public virtual void AddResourceIndexs(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
     {
       SetCurrentResourceType(ResourceType);
       IResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);

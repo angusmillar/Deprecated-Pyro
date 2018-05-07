@@ -23,7 +23,7 @@ namespace Pyro.DataLayer.IndexSetter
     private const string ItemDelimeter = " ";
     public StringSetter() { }
 
-    public IList<ResIndexStringType> Set(IElementNavigator oElement, ServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexStringType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<ResIndexStringType>();
       var ServiceSearchParameterId = SearchParameter.Id;

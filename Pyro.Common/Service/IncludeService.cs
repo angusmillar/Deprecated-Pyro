@@ -169,7 +169,7 @@ namespace Pyro.Common.Service
             if (Resource.ResourceType.Value == RevInclude.SearchParameterTargetResourceType.Value)
             {
               IResourceRepository = IRepositorySwitcher.GetRepository(RevInclude.SourceResourceType);
-              foreach (ServiceSearchParameterLight p in RevInclude.SearchParameterList)
+              foreach (DtoServiceSearchParameterLight p in RevInclude.SearchParameterList)
               {
                 //Check the current search Parameter has a Target == to the Resource we are targeting
                 if (p.TargetResourceTypeList.Any(x => x.ResourceType.GetLiteral() == Resource.ResourceType.Value.GetLiteral()))
@@ -187,7 +187,7 @@ namespace Pyro.Common.Service
           }
           else
           {
-            foreach (ServiceSearchParameterLight p in RevInclude.SearchParameterList)
+            foreach (DtoServiceSearchParameterLight p in RevInclude.SearchParameterList)
             {
               if (p.TargetResourceTypeList.Any(x => x.ResourceType.GetLiteral() == Resource.ResourceType.Value.GetLiteral()))
               {
