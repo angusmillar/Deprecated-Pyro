@@ -34,13 +34,13 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
       }
     }
 
-    public IDtoCommonRepository CommonRepository
-    {
-      get
-      {
-        return IResourceRepositoryFactory.CreateDtoCommonRepository();
-      }
-    }
+    //public IDtoCommonRepository CommonRepository
+    //{
+    //  get
+    //  {
+    //    return IResourceRepositoryFactory.CreateDtoCommonRepository();
+    //  }
+    //}
 
     #region Implementing IDiosposable...
 

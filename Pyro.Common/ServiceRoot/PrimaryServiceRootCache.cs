@@ -8,14 +8,14 @@ namespace Pyro.Common.ServiceRoot
 {
   public class PrimaryServiceRootCache : IPrimaryServiceRootCache
   {
-    private readonly ICommonServices CommonServices;
+    private readonly IServicePrimaryBaseUrlService IServiceBaseUrlService;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IApplicationCacheSupport IApplicationCacheSupport;
     private readonly string CacheKey = "PrimaryServiceRootUrl";
 
-    public PrimaryServiceRootCache(ICommonServices CommonServices, IGlobalProperties GlobalProperties, IApplicationCacheSupport ApplicationCacheSupport)
+    public PrimaryServiceRootCache(IServicePrimaryBaseUrlService IServiceBaseUrlService, IGlobalProperties GlobalProperties, IApplicationCacheSupport ApplicationCacheSupport)
     {
-      this.CommonServices = CommonServices;
+      this.IServiceBaseUrlService = IServiceBaseUrlService;
       this.GlobalProperties = GlobalProperties;
       this.IApplicationCacheSupport = ApplicationCacheSupport;
     }
@@ -25,11 +25,11 @@ namespace Pyro.Common.ServiceRoot
       //At Runtime get the URL from the database and then Cache it
       if (!GlobalProperties.ApplicationCacheServicesActive)
       {
-        return CommonServices.GetPrimaryServiceRootUrl();
+        return IServiceBaseUrlService.GetPrimaryServiceRootUrl();
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(CacheKey, () => CommonServices.GetPrimaryServiceRootUrl());        
+        return IApplicationCacheSupport.GetOrSet(CacheKey, () => IServiceBaseUrlService.GetPrimaryServiceRootUrl());        
       }
     }
 

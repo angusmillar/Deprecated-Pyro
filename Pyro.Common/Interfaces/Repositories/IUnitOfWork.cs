@@ -10,8 +10,6 @@ namespace Pyro.Common.Interfaces.Repositories
   public partial interface IUnitOfWork
   {
     DbContextTransaction BeginTransaction();
-
-    IDtoCommonRepository CommonRepository { get; }
   }
 }
 

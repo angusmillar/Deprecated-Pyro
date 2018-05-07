@@ -22,18 +22,15 @@ using Pyro.Common.Global;
 
 namespace Pyro.DataLayer.Repository
 {
-  public class CommonRepository : BaseRepository, IDtoCommonRepository, Interfaces.ICommonRepository
+  public class CommonRepository : BaseRepository
   {
     protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
-    protected readonly IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory;
-    private readonly AutoMapper.IMapper IMapper;
+    
     #region Constructor
-    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache, IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory, AutoMapper.IMapper IMapper)
+    public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache)
       : base(IPyroDbContext)
     {
-      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
-      this.IDtoRootUrlStoreFactory = IDtoRootUrlStoreFactory;
-      this.IMapper = IMapper;
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;          
     }
     #endregion
 
@@ -300,78 +297,78 @@ namespace Pyro.DataLayer.Repository
     }
 
     //---- PrimaryRootUrlStore -------------------------------------------------------------------
-    public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
-    {
-      RootUrl = StringSupport.ToLowerFast(RootUrl.StripHttp());
-      _ServiceBaseUrl ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
-      if (ExsistingPrimaryRootURL != null)
-      {
-        ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;
-      }
-      _ServiceBaseUrl ExsistingNonPrimaryRootURL = this.GetPyro_RootUrlStore(RootUrl);
-      if (ExsistingNonPrimaryRootURL != null)
-      {
-        ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;
-      }
-      else
-      {
-        _ServiceBaseUrl Pyro_RootUrlStore = new _ServiceBaseUrl();
-        Pyro_RootUrlStore.IsServersPrimaryUrlRoot = true;
-        Pyro_RootUrlStore.Url = RootUrl;
-        IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
-      }
-      this.Save();
-      return this.GetPrimaryRootUrlStore();
-    }
+    //public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
+    //{
+    //  RootUrl = StringSupport.ToLowerFast(RootUrl.StripHttp());
+    //  _ServiceBaseUrl ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
+    //  if (ExsistingPrimaryRootURL != null)
+    //  {
+    //    ExsistingPrimaryRootURL.IsServersPrimaryUrlRoot = false;
+    //  }
+    //  _ServiceBaseUrl ExsistingNonPrimaryRootURL = this.GetPyro_RootUrlStore(RootUrl);
+    //  if (ExsistingNonPrimaryRootURL != null)
+    //  {
+    //    ExsistingNonPrimaryRootURL.IsServersPrimaryUrlRoot = true;
+    //  }
+    //  else
+    //  {
+    //    _ServiceBaseUrl Pyro_RootUrlStore = new _ServiceBaseUrl();
+    //    Pyro_RootUrlStore.IsServersPrimaryUrlRoot = true;
+    //    Pyro_RootUrlStore.Url = RootUrl;
+    //    IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
+    //  }
+    //  this.Save();
+    //  return this.GetPrimaryRootUrlStore();
+    //}
 
-    public IDtoRootUrlStore GetPrimaryRootUrlStore()
-    {
-      IDtoRootUrlStore DtoRootUrlStore = null;
-      _ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
-      if (oServiceBaseUrl != null)
-      {
-        DtoRootUrlStore = IDtoRootUrlStoreFactory.CreateDtoRootUrlStore();
-        DtoRootUrlStore.Id = oServiceBaseUrl.Id;
-        DtoRootUrlStore.Url = oServiceBaseUrl.Url;
-        DtoRootUrlStore.IsServersPrimaryUrlRoot = oServiceBaseUrl.IsServersPrimaryUrlRoot;
-      }
-      return DtoRootUrlStore;
-    }
+    //public IDtoRootUrlStore GetPrimaryRootUrlStore()
+    //{
+    //  IDtoRootUrlStore DtoRootUrlStore = null;
+    //  _ServiceBaseUrl oServiceBaseUrl = GetPrimaryPyro_RootUrlStore();
+    //  if (oServiceBaseUrl != null)
+    //  {
+    //    DtoRootUrlStore = IDtoRootUrlStoreFactory.CreateDtoRootUrlStore();
+    //    DtoRootUrlStore.Id = oServiceBaseUrl.Id;
+    //    DtoRootUrlStore.Url = oServiceBaseUrl.Url;
+    //    DtoRootUrlStore.IsServersPrimaryUrlRoot = oServiceBaseUrl.IsServersPrimaryUrlRoot;
+    //  }
+    //  return DtoRootUrlStore;
+    //}
 
-    /// <summary>
-    /// Gets the ServiceBaseUrl Instance if found or creates a new instance if not found 
-    /// </summary>
-    /// <param name="UrlString"></param>
-    /// <returns></returns>
-    public _ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
-    {
-      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
-      _ServiceBaseUrl Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
-      if (Pyro_RootUrlStore == null)
-      {
-        Pyro_RootUrlStore = new _ServiceBaseUrl();
-        Pyro_RootUrlStore.IsServersPrimaryUrlRoot = false;
-        Pyro_RootUrlStore.Url = ServiceRootUrl;
-        Pyro_RootUrlStore = IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
-        this.Save();
-        return Pyro_RootUrlStore;
-      }
-      else
-      {
-        return Pyro_RootUrlStore;
-      }
-    }
+    ///// <summary>
+    ///// Gets the ServiceBaseUrl Instance if found or creates a new instance if not found 
+    ///// </summary>
+    ///// <param name="UrlString"></param>
+    ///// <returns></returns>
+    //public _ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
+    //{
+    //  ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
+    //  _ServiceBaseUrl Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
+    //  if (Pyro_RootUrlStore == null)
+    //  {
+    //    Pyro_RootUrlStore = new _ServiceBaseUrl();
+    //    Pyro_RootUrlStore.IsServersPrimaryUrlRoot = false;
+    //    Pyro_RootUrlStore.Url = ServiceRootUrl;
+    //    Pyro_RootUrlStore = IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
+    //    this.Save();
+    //    return Pyro_RootUrlStore;
+    //  }
+    //  else
+    //  {
+    //    return Pyro_RootUrlStore;
+    //  }
+    //}
 
-    protected _ServiceBaseUrl GetPrimaryPyro_RootUrlStore()
-    {
-      return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
-    }
+    //protected _ServiceBaseUrl GetPrimaryPyro_RootUrlStore()
+    //{
+    //  return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.IsServersPrimaryUrlRoot == true);
+    //}
 
-    protected _ServiceBaseUrl GetPyro_RootUrlStore(string ServiceRootUrl)
-    {
-      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
-      return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl);
-    }
+    //protected _ServiceBaseUrl GetPyro_RootUrlStore(string ServiceRootUrl)
+    //{
+    //  ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
+    //  return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl);
+    //}
 
     //---- ServiceSearchParameters ---------------------------------------------------------------
 

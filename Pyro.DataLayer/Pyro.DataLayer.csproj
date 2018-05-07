@@ -188,10 +188,11 @@
     <Compile Include="Migrations\DbSeeding\SeedServiceSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\Interfaces\IServiceBaseUrlRepository.cs" />
+    <Compile Include="Repository\ServiceBaseUrlRepository.cs" />
     <Compile Include="Repository\ServiceCompartmentRepository.cs" />
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CommonResourceRepository.cs" />
-    <Compile Include="Repository\Interfaces\ICommonRepository.cs" />
     <Compile Include="Repository\ServiceSearchParameterRepository.cs" />
     <Compile Include="Search\ExpressionSupport\DateTimePeriodExpression.cs" />
     <Compile Include="Search\ExpressionSupport\DecimalExpression.cs" />

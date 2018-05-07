@@ -164,8 +164,10 @@
     <Compile Include="CompositionRoot\IServerSearchParameterServiceFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
+    <Compile Include="Interfaces\Repositories\IServicePrimaryBaseUrlRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceCompartmentRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceSearchParameterRepository.cs" />
+    <Compile Include="Interfaces\Service\IServicePrimaryBaseUrlService.cs" />
     <Compile Include="Interfaces\Service\IServiceSearchParameterService.cs" />
     <Compile Include="ProductText\PyroText.cs" />
     <Compile Include="PyroHealthInformation\PyroHealthContactList.cs" />
@@ -230,7 +232,6 @@
     <Compile Include="Interfaces\Service\IFhirResourceInstanceOperationService.cs" />
     <Compile Include="Interfaces\Service\IFhirResourceOperationService.cs" />
     <Compile Include="Interfaces\Service\IMetadataService.cs" />
-    <Compile Include="Interfaces\Service\IResourceInstanceOperationsServiceRequest.cs" />
     <Compile Include="Service\IFhirValidateOperationService.cs" />
     <Compile Include="Service\ISearchParametersServiceRequest.cs" />
     <Compile Include="Service\IServerResourceReportService.cs" />
@@ -292,9 +293,7 @@
     <Compile Include="Interfaces\Repositories\IBaseRepository.cs" />
     <Compile Include="Service\IResourceServiceOutcome.cs" />
     <Compile Include="Interfaces\Service\IDatabaseOperationOutcome.cs" />
-    <Compile Include="Interfaces\Repositories\IDtoCommonRepository.cs" />
     <Compile Include="Interfaces\Service\IBaseServices.cs" />
-    <Compile Include="Interfaces\Service\ICommonServices.cs" />
     <Compile Include="CompositionRoot\IResourceServiceFactory.cs" />
     <Compile Include="Interfaces\Service\IResourceServices.cs" />
     <Compile Include="Interfaces\Service\IResourceValidationOperationOutcome.cs" />

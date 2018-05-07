@@ -1,9 +1,8 @@
-﻿using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.DataLayer.DbModel.Entity;
+﻿using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.Repository.Interfaces
 {
-  public interface ICommonRepository
+  public interface IServiceBaseUrlRepository
   {
     _ServiceBaseUrl GetAndOrAddService_RootUrlStore(string ServiceRootUrl);
   }

@@ -12,7 +12,7 @@ namespace Pyro.Common.Service
     public SearchParameterService.SearchParameterServiceType SearchParameterServiceType { get; set; }
     public OperationClass OperationClass { get; set; }
     public FHIRAllTypes? ResourceType { get; set; }
-    public ICommonServices CommonServices { get; set; }
+    //public ICommonServices CommonServices { get; set; }
     public IPyroRequestUri RequestUri { get; set; }
 
     internal SearchParametersServiceRequest() { }

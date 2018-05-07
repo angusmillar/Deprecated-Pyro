@@ -97,9 +97,9 @@
     <Compile Include="Services\ResourceTriggerService.cs" />
     <Compile Include="Services\ResourceServices.cs" />
     <Compile Include="Services\BaseServices.cs" />
-    <Compile Include="Services\CommonServices.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Services\PyroService.cs" />
+    <Compile Include="Services\ServiceBaseUrlService.cs" />
     <Compile Include="Services\ServiceSearchParameterService.cs" />
     <Compile Include="TriggerServices\ITriggerCompartmentDefinition.cs" />
     <Compile Include="TriggerServices\ITriggerOutcome.cs" />

@@ -22,13 +22,13 @@ namespace Pyro.DataLayer.IndexSetter
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
 
   {
-    private readonly ICommonRepository ICommonRepository;
+    private readonly IServiceBaseUrlRepository IServiceBaseUrlRepository;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
 
-    public ReferenceSetter(ICommonRepository ICommonRepository, IPyroFhirUriFactory IPyroFhirUriFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
+    public ReferenceSetter(IServiceBaseUrlRepository IServiceBaseUrlRepository, IPyroFhirUriFactory IPyroFhirUriFactory, IPrimaryServiceRootCache IPrimaryServiceRootCache, ICommonFactory ICommonFactory)
     {
-      this.ICommonRepository = ICommonRepository;
+      this.IServiceBaseUrlRepository = IServiceBaseUrlRepository;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
     }
@@ -158,7 +158,7 @@ namespace Pyro.DataLayer.IndexSetter
             }
             else
             {
-              ResourceIndex.ReferenceUrl = ICommonRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString);
+              ResourceIndex.ReferenceUrl = IServiceBaseUrlRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString);
             }
             ResourceIndexList.Add(ResourceIndex);
           }

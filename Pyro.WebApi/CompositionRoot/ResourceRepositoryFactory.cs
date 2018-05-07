@@ -21,9 +21,9 @@ namespace Pyro.WebApi.CompositionRoot
       return CommonResourceRepository;
     }
 
-    public IDtoCommonRepository CreateDtoCommonRepository()
-    {
-      return (IDtoCommonRepository)Container.GetInstance<ICommonRepository>();
-    }
+    //public IDtoCommonRepository CreateDtoCommonRepository()
+    //{
+    //  return (IDtoCommonRepository)Container.GetInstance<ICommonRepository>();
+    //}
   }
 }

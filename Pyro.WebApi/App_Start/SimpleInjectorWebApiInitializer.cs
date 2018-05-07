@@ -154,9 +154,9 @@ namespace Pyro.WebApi.App_Start
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, ResourceServiceFactory>(Lifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
-      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
-      container.Register<ICommonServices, CommonServices>(Lifestyle.Scoped);
+      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);      
       container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
+      container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
@@ -189,8 +189,11 @@ namespace Pyro.WebApi.App_Start
 
       //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
-      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
-      container.Register<ICommonRepository, CommonRepository>(Lifestyle.Scoped);
+      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);      
+
+      container.Register<IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
+      container.Register<IServicePrimaryBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
+
       container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);      
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
