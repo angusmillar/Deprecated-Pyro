@@ -53,11 +53,9 @@ namespace Pyro.DataLayer.Repository
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
-      IDtoRootUrlStoreFactory IDtoRootUrlStoreFactory,
-      IGlobalProperties IGlobalProperties,
-      IMapper IMapper)
-      : base(Context, IPrimaryServiceRootCache, IDtoRootUrlStoreFactory, IMapper)
+      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,      
+      IGlobalProperties IGlobalProperties)
+      : base(Context, IPrimaryServiceRootCache)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
