@@ -6,9 +6,9 @@ namespace Pyro.ConsoleServer
 {
   public partial class StartupConsole : Pyro.WebApi.Startup
   {
-    public override void RegisterAllAreas()
-    {
-      //For ConsoleStartup we don't want to RegisterAllAreas
-    }
+    //public override void RegisterAllAreas()
+    //{
+    //  //For ConsoleStartup we don't want to RegisterAllAreas
+    //}
   }
 }
