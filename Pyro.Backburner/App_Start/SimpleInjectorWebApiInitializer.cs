@@ -123,6 +123,10 @@ namespace Pyro.Backburner.App_Start
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Transient);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Transient);
+
+
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
@@ -142,7 +146,9 @@ namespace Pyro.Backburner.App_Start
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, ResourceServiceFactory>(Lifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
-      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);      
+      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
+      container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
+      container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
@@ -175,14 +181,19 @@ namespace Pyro.Backburner.App_Start
 
       //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
-      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);     
+      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
+
+      container.Register<Pyro.DataLayer.Repository.Interfaces.IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
+      container.Register<IServicePrimaryBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
+
+      container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.TriggerServices.ITriggerCompartmentDefinition, Pyro.Engine.TriggerServices.TriggerCompartmentDefinition>(Lifestyle.Scoped);
-    }    
+    }
 
   }
 }

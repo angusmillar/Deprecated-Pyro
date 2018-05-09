@@ -21,6 +21,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Identifiers.Australian.MedicareNumber;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
 using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
+using Pyro.Identifiers.Support.StandardsInformation.Australian;
 using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Test.HiServiceIHI
@@ -156,6 +157,9 @@ namespace Pyro.Test.HiServiceIHI
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser = new IndividualHealthcareIdentifierParser();
       IDVANumberParser IDVANumberParser = new DVANumberParser();
       IRequestMetaFactory RequestMetaFactory = CommonTestSetup.TestSetupMocks.GetIRequestMetaFactory();
+      INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo = new NationalHealthcareIdentifierInfo();
+      IMedicareNumberInfo IMedicareNumberInfo = new MedicareNumberInfo();
+
 
       IHISearchOrValidateOperationService IHISearchOrValidateOperationService = new IHISearchOrValidateOperationService(        
         IResourceServiceOutcomeFactory,
@@ -165,7 +169,9 @@ namespace Pyro.Test.HiServiceIHI
         RequestMetaFactory,
         IMedicareNumberParser,
         IIndividualHealthcareIdentifierParser, 
-        IDVANumberParser);
+        IDVANumberParser,
+        INationalHealthcareIdentifierInfo,
+        IMedicareNumberInfo);
 
       OperationClass OperationClass = new OperationClass()
       {

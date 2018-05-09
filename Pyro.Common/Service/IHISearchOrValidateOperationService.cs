@@ -13,6 +13,7 @@ using Pyro.Common.Global;
 using Pyro.Identifiers.Australian.MedicareNumber;
 using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
+using Pyro.Identifiers.Support.StandardsInformation.Australian;
 using System.Text;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Enum;
@@ -23,9 +24,9 @@ namespace Pyro.Common.Service
   {
     List<OperationOutcome.IssueComponent> IssueList = null;
     IResourceServiceOutcome ResourceServiceOutcome;
-    const string MedicareNumberFhirSystem = "http://ns.electronichealth.net.au/id/medicare-number";
-    const string DVANumberFhirSystem = "http://ns.electronichealth.net.au/id/dva";
-    const string IHINumberFhirSystem = "http://ns.electronichealth.net.au/id/hi/ihi/1.0";
+    
+    const string DVANumberFhirSystem = "http://ns.electronichealth.net.au/id/dva";   
+    
     private enum IdentiferType { IHI, Medicare, DVA }
     private bool ReturnSoapBinaryResourcesToFHIRCaller = false;
     private TimeSpan HiServiceCallTime;
@@ -38,6 +39,8 @@ namespace Pyro.Common.Service
     private readonly IMedicareNumberParser IMedicareNumberParser;
     private readonly IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser;
     private readonly IDVANumberParser IDVANumberParser;
+    private readonly INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo;
+    private readonly IMedicareNumberInfo IMedicareNumberInfo;
 
     public IHISearchOrValidateOperationService(
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
@@ -47,7 +50,9 @@ namespace Pyro.Common.Service
       IRequestMetaFactory IRequestMetaFactory,
       IMedicareNumberParser IMedicareNumberParser,
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser,
-      IDVANumberParser IDVANumberParser)
+      IDVANumberParser IDVANumberParser,
+      INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo,
+      IMedicareNumberInfo IMedicareNumberInfo)
     {
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
@@ -57,6 +62,9 @@ namespace Pyro.Common.Service
       this.IDVANumberParser = IDVANumberParser;
       this.IIndividualHealthcareIdentifierParser = IIndividualHealthcareIdentifierParser;
       this.HiServiceApi = IHiServiceApi;
+      this.INationalHealthcareIdentifierInfo = INationalHealthcareIdentifierInfo;
+      this.IMedicareNumberInfo = IMedicareNumberInfo;
+      
     }
 
     public IResourceServiceOutcome IHISearchOrValidate(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta)
@@ -671,17 +679,17 @@ namespace Pyro.Common.Service
         }
 
         //Only use valid by period Medicare or DVA numbers, or if no period at all
-        MedicareList = GetValidByDateIdentifierList(PatientRequest.Identifier, MedicareNumberFhirSystem, NowDate);
+        MedicareList = GetValidByDateIdentifierList(PatientRequest.Identifier, IMedicareNumberInfo.FhirSystemUri, NowDate);
         DVAByList = GetValidByDateIdentifierList(PatientRequest.Identifier, DVANumberFhirSystem, NowDate);
         //Get IHI regardless of period as they will mostlikley be unvalid by period because we are trying to revalidate them
-        IHIList = GetValidByDateIdentifierList(PatientRequest.Identifier, IHINumberFhirSystem, null);
+        IHIList = GetValidByDateIdentifierList(PatientRequest.Identifier, INationalHealthcareIdentifierInfo.IHIValueFhirSystem, null);
 
         //Check we have at least one identifer
         if (IHIList.Count() + MedicareList.Count() + DVAByList.Count() == 0)
         {
           //No suitable Identifers 
           IssueList.Add(FhirOperationOutcomeSupport.CreateIssue(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Required,
-            $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a least one identifier of type Medicare Number using the system '{MedicareNumberFhirSystem}' or DVA Number using the system '{DVANumberFhirSystem}' or IHI using the system {IHINumberFhirSystem}. The Medicare Number or DVA number identifier Period (start & end) must be current or not provided."));
+            $"The supplied {ResourceType.Patient.GetLiteral()} resource must have a least one identifier of type Medicare Number using the system '{IMedicareNumberInfo.FhirSystemUri}' or DVA Number using the system '{DVANumberFhirSystem}' or IHI using the system {INationalHealthcareIdentifierInfo.IHIValueFhirSystem}. The Medicare Number or DVA number identifier Period (start & end) must be current or not provided."));
           return false;
         }
 
@@ -1076,7 +1084,7 @@ namespace Pyro.Common.Service
         Identifier IhiIdentifier = new Identifier();
         ResponsePatient.Identifier.Add(IhiIdentifier);
         IhiIdentifier.Value = ihiServiceOutCome.ResponseData.IHINumber;
-        IhiIdentifier.System = IHINumberFhirSystem;
+        IhiIdentifier.System = INationalHealthcareIdentifierInfo.IHIValueFhirSystem;
         var Start = DateTimeOffset.Now;
         //Set the re-validation period based on web config period
         IhiIdentifier.Period = new Period(new FhirDateTime(Start), new FhirDateTime(Start.AddDays(GlobalProperties.HIServiceIHIValidationPeriodDays)));
@@ -1091,15 +1099,15 @@ namespace Pyro.Common.Service
 
         //IHI Status
         if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIStatus))
-        {
-          Coding IhiStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-status/1.0.0", ihiServiceOutCome.ResponseData.IHIStatus, ihiServiceOutCome.ResponseData.IHIStatus);
+        {          
+          Coding IhiStatusCoding = new Coding(INationalHealthcareIdentifierInfo.IHIStatusFhirSystem, ihiServiceOutCome.ResponseData.IHIStatus, ihiServiceOutCome.ResponseData.IHIStatus);
           IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-status", IhiStatusCoding, false);
         }
 
         //IHI Record Status
         if (!String.IsNullOrWhiteSpace(ihiServiceOutCome.ResponseData.IHIRecordStatus))
         {
-          Coding IhiRecordStatusCoding = new Coding("http://ns.electronichealth.net.au/fhir/CodeSystem/hi/ihi/ihi-record-status/1.0.0", ihiServiceOutCome.ResponseData.IHIRecordStatus, ihiServiceOutCome.ResponseData.IHIRecordStatus);
+          Coding IhiRecordStatusCoding = new Coding(INationalHealthcareIdentifierInfo.IHIRecordStatusFhirSystem, ihiServiceOutCome.ResponseData.IHIRecordStatus, ihiServiceOutCome.ResponseData.IHIRecordStatus);
           IhiIdentifier.AddExtension("http://hl7.org.au/fhir/StructureDefinition/ihi-record-status", IhiRecordStatusCoding, false);
         }
       }
@@ -1120,7 +1128,7 @@ namespace Pyro.Common.Service
         {
           MedicareIdentifier.Value = ihiServiceOutCome.ResponseData.MedicareNumber;
         }
-        MedicareIdentifier.System = MedicareNumberFhirSystem;
+        MedicareIdentifier.System = IMedicareNumberInfo.FhirSystemUri;
         MedicareIdentifier.Type = new CodeableConcept();
         MedicareIdentifier.Type.Coding = new List<Coding>();
         MedicareIdentifier.Type.Text = "Medicare Number";

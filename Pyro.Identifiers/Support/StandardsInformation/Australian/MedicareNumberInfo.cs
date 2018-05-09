@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Pyro.Identifiers.Support.StandardsInformation.Australian
 {
-  public class MedicareNumberInfo
+  public class MedicareNumberInfo : IMedicareNumberInfo
   {
     /// <summary>
     ///Assigning Authority code for MedicareNumber in a HL7 V2 CX data type,(i.e PID-3.4 for instance)

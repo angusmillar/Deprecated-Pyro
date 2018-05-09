@@ -13,10 +13,16 @@ namespace Pyro.Identifiers.Support.StandardsInformation.Australian
     public string AssigningAuthority { get { return "AUSHICPR"; } }
     
     /// <summary>
-    /// System for a Medicare Number in a FHIR identitfer data type
+    /// System for a Medicare Privider Number in a FHIR identitfer data type
     /// </summary>
-    public string FhirSystemUri { get { return "http://ns.electronichealth.net.au/id/XXXXXX"; } }
+    public string FhirSystemUri { get { return " http://ns.electronichealth.net.au/id/medicare-provider-number"; } }
 
+
+    /// <summary>
+    ///e.g: HL7 V2 table 0203 extended for Australian use (Medicare Provider)
+    /// </summary>
+    public string IdentifierTypeCode { get { return "UPIN"; } }
+    
 
   }
 }

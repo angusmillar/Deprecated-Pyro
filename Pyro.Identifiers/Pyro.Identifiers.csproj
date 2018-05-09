@@ -81,6 +81,8 @@
     <Compile Include="CheckDigitAlgorithm\Luhn.cs" />
     <Compile Include="CheckDigitAlgorithm\MedicareNumberCheckDigit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\StandardsInformation\Australian\IMedicareNumberInfo.cs" />
+    <Compile Include="Support\StandardsInformation\Australian\INationalHealthcareIdentifierInfo.cs" />
     <Compile Include="Support\StandardsInformation\Australian\MedicareNumberInfo.cs" />
     <Compile Include="Support\StandardsInformation\Australian\MedicareProviderNumberInfo.cs" />
     <Compile Include="Support\StandardsInformation\Australian\NationalHealthcareIdentifierInfo.cs" />

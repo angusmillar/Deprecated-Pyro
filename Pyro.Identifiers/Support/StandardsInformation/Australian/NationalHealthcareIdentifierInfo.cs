@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Pyro.Identifiers.Support.StandardsInformation.Australian
 {
-  public class NationalHealthcareIdentifierInfo
+  public class NationalHealthcareIdentifierInfo : INationalHealthcareIdentifierInfo
   {
     /// <summary>
     ///e.g: PID-3.4 (Ordering Provider)
@@ -58,6 +58,26 @@ namespace Pyro.Identifiers.Support.StandardsInformation.Australian
     ///CDA
     ///root="1.2.36.1.2001.1003.0.8003623233356541" assigningAuthorityName="HPI-O"
     /// </summary>
-    public string AssigningAuthorityName { get { return "HPI-O"; } }
+    public string HPIOAssigningAuthorityName { get { return "HPI-O"; } }
+
+    /// <summary>
+    ///FHIR IHI Value System
+    ///root="1.2.36.1.2001.1003.0.8003623233356541" assigningAuthorityName="IHI"
+    /// </summary>
+    public string IHIValueFhirSystem { get { return " http://ns.electronichealth.net.au/id/hi/ihi/1.0"; } }
+
+    /// <summary>
+    ///FHIR IHI Status System
+    ///root="1.2.36.1.2001.1003.0.8003623233356541" assigningAuthorityName="IHI"
+    /// </summary>
+    public string IHIStatusFhirSystem { get { return "https://healthterminologies.gov.au/fhir/ValueSet/ihi-status-1"; } }
+
+    /// <summary>
+    ///FHIR IHI Record Status System
+    ///root="1.2.36.1.2001.1003.0.8003623233356541" assigningAuthorityName="IHI"
+    /// </summary>
+    public string IHIRecordStatusFhirSystem { get { return "https://healthterminologies.gov.au/fhir/CodeSystem/ihi-record-status-1"; } }
+
+
   }
 }

@@ -23,8 +23,7 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Common.RequestMetadata;
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools.FhirResourceValidation;
-  using Hl7.Fhir.Specification.Source;
-  using Pyro.DataLayer.Repository.Interfaces;
+  using Hl7.Fhir.Specification.Source; 
   using Pyro.DataLayer.Repository;
   using Pyro.DataLayer.IndexSetter;
   using Pyro.Common.Cache;
@@ -135,6 +134,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Transient);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Transient);
+      
+
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
@@ -191,7 +194,7 @@ namespace Pyro.WebApi.App_Start
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);      
 
-      container.Register<IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
+      container.Register<Pyro.DataLayer.Repository.Interfaces.IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
 
       container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);      
