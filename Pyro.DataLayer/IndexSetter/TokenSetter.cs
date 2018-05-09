@@ -256,18 +256,21 @@ namespace Pyro.DataLayer.IndexSetter
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = ContactPoint.Value.Trim();
         ResourceIndex.System = ContactPoint.System.GetLiteral();
+        ResourceIndexList.Add(ResourceIndex);
       }
       else if (!string.IsNullOrWhiteSpace(ContactPoint.Value))
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = ContactPoint.Value.Trim();
         ResourceIndex.System = null;
+        ResourceIndexList.Add(ResourceIndex);
       }
-      if (ContactPoint.System != null)
+      else if (ContactPoint.System != null)
       {
         var ResourceIndex = new ResIndexTokenType();
         ResourceIndex.Code = null;
         ResourceIndex.System = ContactPoint.System.GetLiteral();
+        ResourceIndexList.Add(ResourceIndex);
       }
     }
     private void SetCoding(Coding Coding, List<ResIndexTokenType> ResourceIndexList)
@@ -302,6 +305,7 @@ namespace Pyro.DataLayer.IndexSetter
         {
           var ResourceIndex = new ResIndexTokenType();
           ResourceIndex.Code = CodeableConcept.Text;
+          ResourceIndexList.Add(ResourceIndex);
         }
       }
       else
