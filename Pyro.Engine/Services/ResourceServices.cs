@@ -1,22 +1,23 @@
-﻿using System;
+﻿using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using Pyro.Common.Compartment;
+using Pyro.Common.CompositionRoot;
+using Pyro.Common.Enum;
+using Pyro.Common.Interfaces.ITools;
+using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.Interfaces.Service;
+using Pyro.Common.RequestMetadata;
+using Pyro.Common.Search;
+using Pyro.Common.Service;
+using Pyro.Common.Tools;
+using Pyro.Common.Tools.Headers;
+using Pyro.Common.Tools.Paging;
+using Pyro.Common.Tools.UriSupport;
+using Pyro.Engine.TriggerServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pyro.Common.Service;
-using Pyro.Common.Search;
-using Pyro.Common.Tools.UriSupport;
-using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.Interfaces.ITools;
-using Pyro.Common.Enum;
-using Pyro.Common.Tools;
-using Hl7.Fhir.Model;
-using Hl7.Fhir.Utility;
 using System.Net;
-using Pyro.Common.Tools.Headers;
-using Pyro.Common.CompositionRoot;
-using Pyro.Common.RequestMetadata;
-using Pyro.Common.Compartment;
-using Pyro.Engine.TriggerServices;
 
 namespace Pyro.Engine.Services
 {
@@ -32,11 +33,12 @@ namespace Pyro.Engine.Services
     private readonly IServiceCompartmentCache IServiceCompartmentCache;
     private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
     private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly IPagingSupport IPagingSupport;
 
     private IResourceRepository IResourceRepository = null;
 
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService)
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService, IPagingSupport IPagingSupport)
     {
       this.TriggersActive = true;
       this.IRepositorySwitcher = IRepositorySwitcher;
@@ -49,6 +51,7 @@ namespace Pyro.Engine.Services
       this.IServiceCompartmentCache = IServiceCompartmentCache;
       this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
       this.IResourceTriggerService = IResourceTriggerService;
+      this.IPagingSupport = IPagingSupport;
     }
 
     private void SetCurrentResourceType(FHIRAllTypes ResourceType)
@@ -208,9 +211,8 @@ namespace Pyro.Engine.Services
       }
 
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
-      //as the all resource search parameters e.g _id, _lastModified are removed from the list.
-      Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
-
+      //as the all resource search parameters e.g _id, _lastModified are removed from the list.      
+      Uri SelfLink = IPagingSupport.GetSelfLink(SearchParametersServiceOutcome.SearchParameters, RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
       IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesBySearch(SearchParametersServiceOutcome.SearchParameters);
       if (DatabaseOperationOutcome != null)
       {
@@ -220,8 +222,8 @@ namespace Pyro.Engine.Services
                                                                                                DatabaseOperationOutcome.SearchTotal,
                                                                                                DatabaseOperationOutcome.PagesTotal,
                                                                                                DatabaseOperationOutcome.PageRequested,
+                                                                                               IPagingSupport,
                                                                                                SelfLink);
-
       }
       else
       {
@@ -234,6 +236,7 @@ namespace Pyro.Engine.Services
                                                                                              0, //SearchTotal
                                                                                              0, //PagesTotal
                                                                                              SearchParametersServiceOutcome.SearchParameters.RequiredPageNumber,
+                                                                                             IPagingSupport,
                                                                                              SelfLink);
       }
 
@@ -305,8 +308,8 @@ namespace Pyro.Engine.Services
       PyroSearchParameters CompartmentSearchParameters = ICompartmentSearchParameterService.GetSearchParameters(Compartment, CompartmentId, ResourceName);
 
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
-      //as the all resource search parameters e.g _id, _lastModified are removed from the list.
-      Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString, Compartment, CompartmentId);
+      //as the all resource search parameters e.g _id, _lastModified are removed from the list.      
+      Uri SelfLink = IPagingSupport.GetSelfLink(SearchParametersServiceOutcome.SearchParameters, RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString, Compartment, CompartmentId);
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(CompartmentSearchParameters, SearchParametersServiceOutcome.SearchParameters, Compartment, CompartmentId);
       if (DatabaseOperationOutcome != null)
@@ -317,6 +320,7 @@ namespace Pyro.Engine.Services
                                                                                                DatabaseOperationOutcome.SearchTotal,
                                                                                                DatabaseOperationOutcome.PagesTotal,
                                                                                                DatabaseOperationOutcome.PageRequested,
+                                                                                               IPagingSupport,
                                                                                                SelfLink);
 
       }
@@ -331,6 +335,7 @@ namespace Pyro.Engine.Services
                                                                                              0, //SearchTotal
                                                                                              0, //PagesTotal
                                                                                              SearchParametersServiceOutcome.SearchParameters.RequiredPageNumber,
+                                                                                             IPagingSupport,
                                                                                              SelfLink);
       }
 
@@ -1135,6 +1140,7 @@ namespace Pyro.Engine.Services
                                                                                            DatabaseOperationOutcome.SearchTotal,
                                                                                            DatabaseOperationOutcome.PagesTotal,
                                                                                            DatabaseOperationOutcome.PageRequested,
+                                                                                           IPagingSupport,
                                                                                            SupportedSearchSelfLink);
       oPyroServiceOperationOutcome.FhirResourceId = string.Empty;
       oPyroServiceOperationOutcome.LastModified = null;
@@ -1239,8 +1245,6 @@ namespace Pyro.Engine.Services
 
     private IDatabaseOperationOutcome GetResourcesBySearch(PyroSearchParameters SearchParameters)
     {
-      //Uri SelfLink = SearchParametersServiceOutcome.SearchParameters.SupportedSearchUrl(RequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
-
       bool ChainTargetFound = true;
       //Resolve any chained search parameters
       foreach (SearchParameterReferance Chain in SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))

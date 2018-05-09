@@ -15,14 +15,14 @@ namespace Pyro.Common.Tools.Bundles
 {
   public static class FhirBundleSupport
   {
-    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IPyroRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested, Uri SearchPerformedUri = null)
+    public static Bundle CreateBundle(ICollection<DtoResource> ResourceList, Bundle.BundleType BundleType, IPyroRequestUri RequestUri, int SearchTotal, int PagesTotal, int PageRequested, Paging.IPagingSupport IPagingSupport, Uri SearchPerformedUri = null)
     {
       var FhirBundle = new Bundle() { Type = Bundle.BundleType.Searchset };
       FhirBundle.Type = BundleType;
       FhirBundle.Total = SearchTotal;
 
       //Paging           
-      PagingSupport.SetBundlePagnation(FhirBundle, RequestUri.FhirRequestUri.OriginalString, PagesTotal, PageRequested, SearchPerformedUri);
+      IPagingSupport.SetBundlePagnation(FhirBundle, RequestUri.FhirRequestUri.OriginalString, PagesTotal, PageRequested, SearchPerformedUri);
 
       foreach (DtoResource DtoResource in ResourceList)
       {

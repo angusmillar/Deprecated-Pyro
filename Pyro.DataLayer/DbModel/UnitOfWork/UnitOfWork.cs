@@ -2,7 +2,6 @@
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.DataLayer.DbModel.DatabaseContext;
-using Pyro.DataLayer.Repository;
 using Pyro.Common.Exceptions;
 using System;
 using System.Data.Entity;

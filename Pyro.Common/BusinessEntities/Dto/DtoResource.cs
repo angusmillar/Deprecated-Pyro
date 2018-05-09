@@ -8,6 +8,7 @@ namespace Pyro.Common.BusinessEntities.Dto
   {
     public int Id { get; set; }
     public string FhirId { get; set; }
+    public int FhirReleaseId { get; set; }
     public bool IsCurrent { get; set; }
     public string Xml { get; set; }
     public string Version { get; set; }

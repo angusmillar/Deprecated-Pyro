@@ -10,9 +10,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.ServiceRoot;
 using Pyro.Common.Extentions;
 using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.DataLayer.DbModel.UnitOfWork;
 using Pyro.DataLayer.IndexSetter;
-using Pyro.DataLayer.Repository.Interfaces;
 using Pyro.DataLayer.Search.Extentions;
 using Pyro.DataLayer.Support;
 using System;
@@ -25,8 +23,9 @@ using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Global;
-using Pyro.Common.Interfaces.Dto;
-using AutoMapper;
+using Pyro.Common.FhirRelease;
+using Pyro.Common.Tools.Paging;
+
 namespace Pyro.DataLayer.Repository
 {
   public class CommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> :
@@ -44,23 +43,24 @@ namespace Pyro.DataLayer.Repository
     public FHIRAllTypes RepositoryResourceType { get; set; }
     private readonly IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
+    private readonly IFhirReleaseCache IFhirReleaseCache;
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
-    private int _NumberOfRecordsPerPage;
-    private int _MaxNumberOfRecordsPerPage;
+    private readonly IPagingSupport IPagingSupport;
 
     public CommonResourceRepository(IPyroDbContext Context,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,      
-      IGlobalProperties IGlobalProperties)
+      IFhirReleaseCache IFhirReleaseCache,
+      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,            
+      IPagingSupport IPagingSupport)
       : base(Context, IPrimaryServiceRootCache)
     {
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
+      this.IFhirReleaseCache = IFhirReleaseCache;
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
-      _NumberOfRecordsPerPage = IGlobalProperties.NumberOfRecordsPerPageDefault;
-      _MaxNumberOfRecordsPerPage = IGlobalProperties.MaxNumberOfRecordsPerPage;
+      this.IPagingSupport = IPagingSupport;
     }
 
     //Used for _include and _Revinclude
@@ -119,7 +119,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
-      SetNumberOfRecordsPerPage(DtoSearchParameters);
+      //SetNumberOfRecordsPerPage(DtoSearchParameters);
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
       var PredicateIdAndLastUpdated = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList);
@@ -135,9 +135,9 @@ namespace Pyro.DataLayer.Repository
       //Todo: Sort not implemented just defaulting to last update order      
       Query = Query.OrderBy(x => x.LastUpdated);
 
-      int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
 
-      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
       var DtoResourceList = new List<DtoResource>();
       if (WithXml)
       {
@@ -172,7 +172,7 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount); ;
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
@@ -180,7 +180,7 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome GetResourceByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
-      SetNumberOfRecordsPerPage(DtoSearchParameters);
+      //SetNumberOfRecordsPerPage(DtoSearchParameters);
 
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
@@ -199,9 +199,9 @@ namespace Pyro.DataLayer.Repository
       //Todo: Sort not implemented just defaulting to last update order      
       Query = Query.OrderBy(x => x.LastUpdated);
 
-      int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
 
-      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
+      Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
       var DtoResourceList = new List<DtoResource>();
       if (WithXml)
       {
@@ -236,7 +236,7 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount); ;
+      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount); 
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
@@ -308,7 +308,7 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
 
-      SetNumberOfRecordsPerPage(DtoSearchParameters);
+      //SetNumberOfRecordsPerPage(DtoSearchParameters);
 
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       Predicate = Predicate.And(x => x.FhirId == FhirResourceId);
@@ -323,9 +323,9 @@ namespace Pyro.DataLayer.Repository
       //Query = Query.OrderBy(x => x.LastUpdated);
       Query = Query.OrderByDescending(x => x.LastUpdated);
 
-      int ClaculatedPageRequired = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
-      Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-      int PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
+      int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
+      Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
+      int PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
 
       //Query for Resources
       var HistoryEntityList = Query.ToList();
@@ -337,8 +337,8 @@ namespace Pyro.DataLayer.Repository
 
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      DatabaseOperationOutcome.PagesTotal = Common.Tools.PagingSupport.CalculateTotalPages(_NumberOfRecordsPerPage, TotalRecordCount);
-      DatabaseOperationOutcome.PageRequested = Common.Tools.PagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
+      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
+      DatabaseOperationOutcome.PageRequested = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
     }
@@ -346,7 +346,8 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri)
     {
       var ResourceEntity = new ResCurrentType();
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST);
+      DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST, DtoFhirRelease.Id);
       this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
       ResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceEntity);
@@ -361,7 +362,8 @@ namespace Pyro.DataLayer.Repository
       var NewResourceEntity = new ResCurrentType();
       var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
       ResourceHistoryEntity.IsCurrent = false;
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT);
+      DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
       this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
       NewResourceEntity.IsCurrent = true;
       this.DbAddEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(NewResourceEntity);
@@ -515,17 +517,17 @@ namespace Pyro.DataLayer.Repository
       return RowsRemovedCount;
     }
 
-    public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResCurrentType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
-    {
-      var HistoryEntityList = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate)
-         .OrderByDescending(x => x.LastUpdated)
-         .Skip(StartRecord)
-         .Take(_NumberOfRecordsPerPage)
-         .ToList();
+    //public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResCurrentType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
+    //{
+    //  var HistoryEntityList = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate)
+    //     .OrderByDescending(x => x.LastUpdated)
+    //     .Skip(StartRecord)
+    //     .Take(_NumberOfRecordsPerPage)
+    //     .ToList();
 
-      if (HistoryEntityList != null)
-        HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
-    }
+    //  if (HistoryEntityList != null)
+    //    HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
+    //}
 
     public void PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
@@ -638,19 +640,19 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
-    private void SetNumberOfRecordsPerPage(PyroSearchParameters DtoSearchParameters)
-    {
-      if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
-      {
-        if (DtoSearchParameters.CountOfRecordsRequested.Value <= _MaxNumberOfRecordsPerPage)
-        {
-          _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
-        }
-        else
-        {
-          _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
-        }
-      }
-    }
+    //private void SetNumberOfRecordsPerPage(PyroSearchParameters DtoSearchParameters)
+    //{
+    //  if (DtoSearchParameters.CountOfRecordsRequested.HasValue)
+    //  {
+    //    if (DtoSearchParameters.CountOfRecordsRequested.Value <= _MaxNumberOfRecordsPerPage)
+    //    {
+    //      _NumberOfRecordsPerPage = DtoSearchParameters.CountOfRecordsRequested.Value;
+    //    }
+    //    else
+    //    {
+    //      _NumberOfRecordsPerPage = _MaxNumberOfRecordsPerPage;
+    //    }
+    //  }
+    //}
   }
 }

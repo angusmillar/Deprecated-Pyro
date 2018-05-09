@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Pyro.Common.BusinessEntities.Dto;
-using Pyro.Common.Tools.UriSupport;
-using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.EntityBase;
-using Pyro.DataLayer.Repository;
 //using Pyro.DataModel.IndexSetter;
 
 
@@ -17,7 +10,7 @@ namespace Pyro.DataLayer.Support
   public static class IndexSettingSupport
   {
 
-    private static void SetResourceBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Resource Resource, ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
+    private static void SetResourceBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Resource Resource, ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string FhirResourceId, string Version, bool IsDeleted, Bundle.HTTPVerb Method, int FhirReleaseId)
       where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
@@ -27,6 +20,7 @@ namespace Pyro.DataLayer.Support
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
     {
+      ResourceCurrentBase.FhirReleaseId = FhirReleaseId;
       ResourceCurrentBase.IsDeleted = IsDeleted;
       ResourceCurrentBase.VersionId = Version;
       ResourceCurrentBase.Method = Method;
@@ -53,8 +47,9 @@ namespace Pyro.DataLayer.Support
       where ResourceBaseType : ResourceBase
     {
       var DtoResource = new DtoResource();
-
+      
       DtoResource.FhirId = ResourceBase.FhirId;
+      DtoResource.FhirReleaseId = ResourceBase.FhirReleaseId;
       DtoResource.IsCurrent = ResourceBase.IsCurrent;
       DtoResource.IsDeleted = ResourceBase.IsDeleted;
       DtoResource.Received = ResourceBase.LastUpdated;
@@ -65,7 +60,7 @@ namespace Pyro.DataLayer.Support
       return DtoResource;
     }
 
-    public static void SetResourceBaseAsDelete<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method)
+    public static void SetResourceBaseAsDelete<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string FhirResourceId, string Version, Bundle.HTTPVerb Method, int FhirReleaseId)
       where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
@@ -75,10 +70,10 @@ namespace Pyro.DataLayer.Support
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
     {
-      SetResourceBase(null, ResourceCurrentBase, FhirResourceId, Version, true, Method);
+      SetResourceBase(null, ResourceCurrentBase, FhirResourceId, Version, true, Method, FhirReleaseId);
     }
 
-    public static void SetResourceBaseAddOrUpdate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Resource Resource, ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method)
+    public static void SetResourceBaseAddOrUpdate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Resource Resource, ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, string Version, bool IsDeleted, Bundle.HTTPVerb Method, int FhirReleaseId)
       where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
@@ -88,7 +83,7 @@ namespace Pyro.DataLayer.Support
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
     {
-      SetResourceBase(Resource, ResourceCurrentBase, null, Version, false, Method);
+      SetResourceBase(Resource, ResourceCurrentBase, null, Version, false, Method, FhirReleaseId);
     }
 
     public static void ResetResourceEntityBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase)
@@ -102,6 +97,7 @@ namespace Pyro.DataLayer.Support
       
     {
       ResourceCurrentBase.IsCurrent = false;
+      ResourceCurrentBase.FhirReleaseId = 0;
       ResourceCurrentBase.FhirId = null;
       ResourceCurrentBase.IsDeleted = false;
       ResourceCurrentBase.LastUpdated = DateTimeOffset.MinValue;
@@ -121,6 +117,7 @@ namespace Pyro.DataLayer.Support
       
     {
       ResourceHistoryBase.IsCurrent = false;
+      ResourceHistoryBase.FhirReleaseId = ResourceCurrentBase.FhirReleaseId;
       ResourceHistoryBase.FhirId = ResourceCurrentBase.FhirId;
       ResourceHistoryBase.IsDeleted = ResourceCurrentBase.IsDeleted;
       ResourceHistoryBase.XmlBlob = ResourceCurrentBase.XmlBlob;

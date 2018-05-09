@@ -93,6 +93,10 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Singleton);
+      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Singleton);
+
 
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
@@ -123,8 +127,6 @@ namespace Pyro.Backburner.App_Start
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
-      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Transient);
-      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Transient);
 
 
 
@@ -175,6 +177,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
       container.Register<IServiceSearchParameterCache, ServiceSearchParameterCache>(Lifestyle.Scoped);
       container.Register<Common.Compartment.IServiceCompartmentCache, Common.Compartment.ServiceCompartmentCache>(Lifestyle.Scoped);
+      container.Register<Common.FhirRelease.IFhirReleaseCache, Common.FhirRelease.FhirReleaseCache>(Lifestyle.Scoped);
 
       //Scoped: Load all the FHIR Validation Resolvers 
       container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
@@ -189,6 +192,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
+      container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);

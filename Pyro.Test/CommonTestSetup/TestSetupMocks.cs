@@ -81,8 +81,8 @@ namespace Pyro.Test.CommonTestSetup
     {
       Mock<IGlobalProperties> MokIGlobalProperties = new Mock<IGlobalProperties>();
       MokIGlobalProperties.Setup(x => x.HIServiceConnectivityActive).Returns(true);
-
-      
+      MokIGlobalProperties.Setup(x => x.NumberOfRecordsPerPageDefault).Returns(50);
+      MokIGlobalProperties.Setup(x => x.MaxNumberOfRecordsPerPage).Returns(100);
       return MokIGlobalProperties.Object;
     }
     

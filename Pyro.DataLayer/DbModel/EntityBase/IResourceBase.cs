@@ -1,5 +1,6 @@
 ﻿using System;
 using Hl7.Fhir.Model;
+using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
@@ -12,5 +13,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     Bundle.HTTPVerb Method { get; set; }
     string VersionId { get; set; }
     string XmlBlob { get; set; }
+    _FhirRelease FhirRelease { get; set; }
+    int FhirReleaseId { get; set; }
   }
 }

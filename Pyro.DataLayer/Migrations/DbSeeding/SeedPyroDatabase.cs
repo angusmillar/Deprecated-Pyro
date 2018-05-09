@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 
 namespace Pyro.DataLayer.Migrations.DbSeeding
@@ -15,7 +12,8 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
     {
       _Context = Context;
       SeedServiceList = new List<IPyroSeedService>();
-      SeedServiceList.Add(new PyroSeedServiceSearchParameters(_Context));      
+      SeedServiceList.Add(new PyroSeedServiceSearchParameters(_Context));
+      SeedServiceList.Add(new SeedServiceFhirReleaseSTU301(_Context));      
     }
 
     public void Seed()

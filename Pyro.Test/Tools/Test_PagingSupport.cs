@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
+using Moq;
 
 namespace Pyro.Test.Tools
 {
@@ -10,6 +11,16 @@ namespace Pyro.Test.Tools
   [Category("Tools")]
   class Test_PagingSupport
   {
+
+    private Pyro.Common.Tools.Paging.IPagingSupport IPagingSupport;
+
+    [SetUp]
+    public void Setup()
+    {
+      Common.Global.IGlobalProperties MokIGlobalProperties = Pyro.Test.CommonTestSetup.TestSetupMocks.GetIGlobalProperties();
+      IPagingSupport = new Pyro.Common.Tools.Paging.PagingSupport(MokIGlobalProperties);
+    }
+
     [Test]
     public void Test_FirstPage()
     {
@@ -17,7 +28,7 @@ namespace Pyro.Test.Tools
       int Expected = 1;
 
       //Act
-      int Result = PagingSupport.GetFirstPageNumber();
+      int Result = IPagingSupport.GetFirstPageNumber();
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -32,13 +43,12 @@ namespace Pyro.Test.Tools
       int TotalPages = 101;
 
       //Act
-      int Result = PagingSupport.GetLastPageNumber(TotalPages);
+      int Result = IPagingSupport.GetLastPageNumber(TotalPages);
 
       //Assert
       Assert.AreEqual(Expected, Result);
     }
-
-
+    
     [Test]
     public void Test_CalculatePageRequired_OuterEdge()
     {
@@ -48,13 +58,12 @@ namespace Pyro.Test.Tools
       int NumberOfRecordsPerPage = 10;
       int Expected = 11;
       //Act
-      int Result = PagingSupport.CalculatePageRequired(RequiredPageNumber, NumberOfRecordsPerPage, TotalRecordCount);
+      int Result = IPagingSupport.CalculatePageRequired(RequiredPageNumber, NumberOfRecordsPerPage, TotalRecordCount);
 
       //Assert
       Assert.AreEqual(Expected, Result);
     }
-
-
+    
     [Test]
     public void Test_CalculatePageRequired_Mid()
     {
@@ -64,7 +73,7 @@ namespace Pyro.Test.Tools
       int NumberOfRecordsPerPage = 10;
       int Expected = 5;
       //Act
-      int Result = PagingSupport.CalculatePageRequired(RequiredPageNumber, NumberOfRecordsPerPage, TotalRecordCount);
+      int Result = IPagingSupport.CalculatePageRequired(RequiredPageNumber, NumberOfRecordsPerPage, TotalRecordCount);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -78,7 +87,7 @@ namespace Pyro.Test.Tools
       int NumberOfRecordsPerPage = 10;
       int Expected = 11;
       //Act
-      int Result = PagingSupport.CalculateTotalPages(NumberOfRecordsPerPage, TotalRecordCount);
+      int Result = IPagingSupport.CalculateTotalPages(NumberOfRecordsPerPage, TotalRecordCount);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -92,13 +101,12 @@ namespace Pyro.Test.Tools
       int PagesTotal = 10;
       int? Expected = null;
       //Act
-      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = IPagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
     }
-
-
+    
     [Test]
     public void Test_GetNextPageNumber_TestMid()
     {
@@ -107,7 +115,7 @@ namespace Pyro.Test.Tools
       int PagesTotal = 10;
       int Expected = 6;
       //Act
-      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = IPagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -121,13 +129,12 @@ namespace Pyro.Test.Tools
       int PagesTotal = 10;
       int? Expected = null;
       //Act
-      int? Result = PagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
+      int? Result = IPagingSupport.GetNextPageNumber(PageCurrentlyRequired, PagesTotal);
 
       //Assert
       Assert.AreEqual(Expected, Result);
     }
-
-
+    
     [Test]
     public void Test_GetPageNavigationUri()
     {
@@ -137,7 +144,7 @@ namespace Pyro.Test.Tools
       Uri Expected = new Uri("http://localhost:50579/fhirapi/Patient/Angus7/_history?page=2&_count=2");
 
       //Act
-      Uri Result = PagingSupport.GetPageNavigationUri(RequestUri.OriginalString, NewPageNumber);
+      Uri Result = IPagingSupport.GetPageNavigationUri(RequestUri.OriginalString, NewPageNumber);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -151,7 +158,7 @@ namespace Pyro.Test.Tools
       int Expected = 9;
       int TotalPages = 15;
       //Act
-      int? Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
+      int? Result = IPagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -165,7 +172,7 @@ namespace Pyro.Test.Tools
       int? Expected = null;
       int TotalPages = 15;
       //Act
-      int? Result = PagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
+      int? Result = IPagingSupport.GetPreviousPageNumber(PageCurrentlyRequired, TotalPages);
 
       //Assert
       Assert.AreEqual(Expected, Result);
@@ -181,7 +188,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient";
 
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
@@ -200,7 +207,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient";
 
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
@@ -208,8 +215,7 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Bundle.NextLink, "http://someserver.net/fhir/Patient?page=2");
       Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?page=10");
     }
-
-
+    
     [Test]
     public void Test_SetBundlePagnation_Mid()
     {
@@ -220,7 +226,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient";
 
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
@@ -239,7 +245,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient";
 
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
@@ -258,7 +264,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient";
 
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=1");
@@ -277,7 +283,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient?given=testman&page=" + PageCurrentlyRequired;
       Uri SearchPerformedUri = new Uri(RequestUriString);
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 1.ToString());
@@ -296,7 +302,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient?page=" + PageCurrentlyRequired + "&given=testman";
       Uri SearchPerformedUri = new Uri(RequestUriString);
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?page=" + 1.ToString() + "&given=testman");
@@ -315,7 +321,7 @@ namespace Pyro.Test.Tools
       string RequestUriString = "http://someserver.net/fhir/Patient?given=testman";
       Uri SearchPerformedUri = new Uri(RequestUriString);
       //Act
-      PagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
+      IPagingSupport.SetBundlePagnation(Bundle, RequestUriString, TotalPages, PageCurrentlyRequired, SearchPerformedUri);
 
       //Assert
       Assert.AreEqual(Bundle.FirstLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 1.ToString());
@@ -323,9 +329,6 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Bundle.NextLink, null);
       Assert.AreEqual(Bundle.LastLink, "http://someserver.net/fhir/Patient?given=testman&page=" + 10.ToString());
     }
-
-
-
-
+    
   }
 }

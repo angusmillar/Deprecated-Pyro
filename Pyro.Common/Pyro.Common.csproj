@@ -166,7 +166,11 @@
     <Compile Include="CompositionRoot\ISearchParametersServiceOutcomeFactory.cs" />
     <Compile Include="CompositionRoot\IServerSearchParameterServiceFactory.cs" />
     <Compile Include="Extentions\CollectionExtentions.cs" />
+    <Compile Include="FhirRelease\DtoFhirRelease.cs" />
+    <Compile Include="FhirRelease\FhirReleaseCache.cs" />
+    <Compile Include="FhirRelease\IFhirReleaseCache.cs" />
     <Compile Include="Interfaces\Clone\ICloneDeep.cs" />
+    <Compile Include="Interfaces\Repositories\IFhirReleaseRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServicePrimaryBaseUrlRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceCompartmentRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceSearchParameterRepository.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Interfaces\Service\IServiceSearchParameterService.cs" />
     <Compile Include="ProductText\PyroText.cs" />
     <Compile Include="PyroHealthInformation\PyroHealthContactList.cs" />
+    <Compile Include="PyroHealthInformation\PyroHealthSystemUser.cs" />
     <Compile Include="PyroHealthInformation\PyroServerCodesysem.cs" />
     <Compile Include="RequestMetadata\IRequestMeta.cs" />
     <Compile Include="RequestMetadata\RequestMeta.cs" />
@@ -214,6 +219,7 @@
     <Compile Include="Service\IConnectathonAnswerService.cs" />
     <Compile Include="Service\ISearchParameterService.cs" />
     <Compile Include="Tools\IntegerExtensions.cs" />
+    <Compile Include="Tools\Paging\IPagingSupport.cs" />
     <Compile Include="Tools\ResourceNameResolutionSupport.cs" />
     <Compile Include="Tools\UriSupport\PyroRequestUri.cs" />
     <Compile Include="Tools\UriSupport\PyroFhirUri.cs" />
@@ -332,7 +338,7 @@
     <Compile Include="Tools\IDateTimeIndex.cs" />
     <Compile Include="Interfaces\ITools\IRepositorySwitcher.cs" />
     <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Tools\PagingSupport.cs" />
+    <Compile Include="Tools\Paging\PagingSupport.cs" />
     <Compile Include="Tools\ReflectionHelper.cs" />
     <Compile Include="Tools\RepositorySwitcher.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>

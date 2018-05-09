@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Model;
+using Pyro.DataLayer.DbModel.Entity;
 
 namespace Pyro.DataLayer.DbModel.EntityBase
 {
@@ -16,5 +17,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public DateTimeOffset LastUpdated { get; set; }
     public string XmlBlob { get; set; }
     public Bundle.HTTPVerb Method { get; set; }
+    public virtual _FhirRelease FhirRelease { get; set; }
+    public int FhirReleaseId { get; set; }
   }
 }
