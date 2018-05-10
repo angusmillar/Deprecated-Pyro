@@ -107,7 +107,7 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 
 Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, when first run will create a database at the given ConnectionString.
 This will actually only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to trigger this to occur.
-Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return. All subsequent calls will be much faster.
+Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return, 4 min last time I did it. All subsequent calls will be much faster.
 
 In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
@@ -214,11 +214,11 @@ This is the project used when hosting in a production IIS instance. It is this p
 
 **Very first startup and DB creation**
 
-When you first start the service for the first time it will appear to be running very quickly as the console window will appear with the Pyro logo. You will then make your first HTTP query, such as `GET: [base]/Patient`. This first query will set off the database creation and seeding and will take some 5 to 6 minutes to run before the query returns successfully (OK 200). The server is now ready to run and all further queries will be fast.
+When you first start the service for the first time it will appear to be running very quickly as the console window will appear with the Pyro logo. You will then make your first HTTP query, such as `GET: [base]/Patient`. This first query will set off the database creation and seeding and will take some 4 minutes to run before the query returns successfully (OK 200). The server is now ready to run and all further queries will be fast.
 
 **First FHIR query speed poor, later fast**
 
-When you then stop the server and restart it once again the first query will be slow, 2 to 3 minutes, but then all subsequent queries will be fast (200 - 300 ms). this is a common problem with Entity Framework (EF) as it loads the entire database model into memory on startup, once loaded it is fine. I need to do more work here to try and improve this first query speed. Such as https://msdn.microsoft.com/en-us/magazine/jj883952.aspx
+When the server is stopped and restarted the first query will be slow, roughly 1 to 2 minutes, but then all subsequent queries will be fast (200 - 300 ms). this is a common problem with Entity Framework (EF) as it loads the entire database model into memory on startup, once loaded it is fine. I need to do more work here to try and improve this first query speed. Such as https://msdn.microsoft.com/en-us/magazine/jj883952.aspx
 
 **SMART on FHIR and Authentication**
 I am slowly progressing to an Authentication system for the server with key elements beginning to fall in place to finally implement. I now have a SMART parser and FHIR compartments. Need to start work on the OAuth component possibly using Identity server: https://www.nuget.org/packages/IdentityServer4/

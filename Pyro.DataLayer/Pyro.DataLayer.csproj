@@ -194,9 +194,17 @@
     <Compile Include="Migrations\201805080344516_AddTable_FhirRelease.Designer.cs">
       <DependentUpon>201805080344516_AddTable_FhirRelease.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805080923455_AddForeignKeyToFhirReleaseTableToResources.cs" />
-    <Compile Include="Migrations\201805080923455_AddForeignKeyToFhirReleaseTableToResources.Designer.cs">
-      <DependentUpon>201805080923455_AddForeignKeyToFhirReleaseTableToResources.cs</DependentUpon>
+    <Compile Include="Migrations\201805100414292_AddFhirReleaseIdToResources.cs" />
+    <Compile Include="Migrations\201805100414292_AddFhirReleaseIdToResources.Designer.cs">
+      <DependentUpon>201805100414292_AddFhirReleaseIdToResources.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs" />
+    <Compile Include="Migrations\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.Designer.cs">
+      <DependentUpon>201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100431553_SetForgienKeyToFhirReleaseForResource.cs" />
+    <Compile Include="Migrations\201805100431553_SetForgienKeyToFhirReleaseForResource.Designer.cs">
+      <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
@@ -281,8 +289,14 @@
     <EmbeddedResource Include="Migrations\201805080344516_AddTable_FhirRelease.resx">
       <DependentUpon>201805080344516_AddTable_FhirRelease.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805080923455_AddForeignKeyToFhirReleaseTableToResources.resx">
-      <DependentUpon>201805080923455_AddForeignKeyToFhirReleaseTableToResources.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805100414292_AddFhirReleaseIdToResources.resx">
+      <DependentUpon>201805100414292_AddFhirReleaseIdToResources.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.resx">
+      <DependentUpon>201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100431553_SetForgienKeyToFhirReleaseForResource.resx">
+      <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

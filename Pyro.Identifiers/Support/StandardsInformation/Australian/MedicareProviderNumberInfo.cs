@@ -15,7 +15,7 @@ namespace Pyro.Identifiers.Support.StandardsInformation.Australian
     /// <summary>
     /// System for a Medicare Privider Number in a FHIR identitfer data type
     /// </summary>
-    public string FhirSystemUri { get { return " http://ns.electronichealth.net.au/id/medicare-provider-number"; } }
+    public string FhirSystemUri { get { return "http://ns.electronichealth.net.au/id/medicare-provider-number"; } }
 
 
     /// <summary>

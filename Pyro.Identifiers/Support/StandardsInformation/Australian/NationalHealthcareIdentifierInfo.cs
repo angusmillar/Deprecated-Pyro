@@ -64,7 +64,7 @@ namespace Pyro.Identifiers.Support.StandardsInformation.Australian
     ///FHIR IHI Value System
     ///root="1.2.36.1.2001.1003.0.8003623233356541" assigningAuthorityName="IHI"
     /// </summary>
-    public string IHIValueFhirSystem { get { return " http://ns.electronichealth.net.au/id/hi/ihi/1.0"; } }
+    public string IHIValueFhirSystem { get { return "http://ns.electronichealth.net.au/id/hi/ihi/1.0"; } }
 
     /// <summary>
     ///FHIR IHI Status System

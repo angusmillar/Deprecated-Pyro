@@ -136,7 +136,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       HasMany(c => c.TestScriptList).WithRequired(c => c.FhirRelease).HasForeignKey(m => m.FhirReleaseId).WillCascadeOnDelete(false);
       HasMany(c => c.ValueSetList).WithRequired(c => c.FhirRelease).HasForeignKey(m => m.FhirReleaseId).WillCascadeOnDelete(false);
       HasMany(c => c.VisionPrescriptionList).WithRequired(c => c.FhirRelease).HasForeignKey(m => m.FhirReleaseId).WillCascadeOnDelete(false);
-              
+
     }
   }
 }

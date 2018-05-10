@@ -7,13 +7,13 @@ namespace Pyro.DataLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddForeignKeyToFhirReleaseTableToResources : IMigrationMetadata
+    public sealed partial class AddFhirReleaseIdToResources : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddForeignKeyToFhirReleaseTableToResources));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddFhirReleaseIdToResources));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805080923455_AddForeignKeyToFhirReleaseTableToResources"; }
+            get { return "201805100414292_AddFhirReleaseIdToResources"; }
         }
         
         string IMigrationMetadata.Source

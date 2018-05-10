@@ -70,9 +70,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       HasMany(c => c.IndexReferenceList).WithOptional(i => i.Resource).HasForeignKey(q => q.ResourceId).WillCascadeOnDelete(true);
       HasMany(d => d.IndexStringList).WithOptional(j => j.Resource).HasForeignKey(r => r.ResourceId).WillCascadeOnDelete(true);
       HasMany(e => e.IndexTokenList).WithOptional(k => k.Resource).HasForeignKey(s => s.ResourceId).WillCascadeOnDelete(true);
-      HasMany(f => f.IndexUriList).WithOptional(l => l.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
-
-      //HasMany(c => c.IndexList).WithOptional(c => c.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);
+      HasMany(f => f.IndexUriList).WithOptional(l => l.Resource).HasForeignKey(c => c.ResourceId).WillCascadeOnDelete(true);      
 
     }
   }
