@@ -146,7 +146,8 @@ namespace Pyro.Engine.Services.Metadata
           new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update},
           new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread},
           new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
-          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance }
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance },
+          new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryType }
             //new Conformance.ResourceInteractionComponent() { Code = Conformance.TypeRestfulInteraction.HistoryType},        
         };
         ResourceComponent.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
@@ -156,6 +157,7 @@ namespace Pyro.Engine.Services.Metadata
         ResourceComponent.ConditionalRead = CapabilityStatement.ConditionalReadStatus.FullSupport;
         ResourceComponent.ConditionalUpdate = true;
         ResourceComponent.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.Multiple;
+        
 
         var ReferenceHandlingPolicyList = new List<CapabilityStatement.ReferenceHandlingPolicy?>();
         ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Literal);
