@@ -44,7 +44,7 @@ namespace Pyro.WebApi
       config.MapHttpAttributeRoutes();
 
       //You need to add the compression handler as the last applied message handler on outgoing requests, and the first one on incoming requests.
-      GlobalConfiguration.Configuration.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
+      config.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 
       //config.MapHttpAttributeRoutes();
 
