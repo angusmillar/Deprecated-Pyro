@@ -8,6 +8,8 @@ using Newtonsoft.Json.Serialization;
 using System.Web.Http.Cors;
 using Pyro.Common.Tools.FhirNarrative;
 using Pyro.Common.Exceptions;
+using Microsoft.AspNet.WebApi.Extensions.Compression.Server;
+using System.Net.Http.Extensions.Compression.Core.Compressors;
 
 namespace Pyro.WebApi
 {
@@ -40,6 +42,9 @@ namespace Pyro.WebApi
 
 
       config.MapHttpAttributeRoutes();
+
+      //You need to add the compression handler as the last applied message handler on outgoing requests, and the first one on incoming requests.
+      GlobalConfiguration.Configuration.MessageHandlers.Insert(0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 
       //config.MapHttpAttributeRoutes();
 
