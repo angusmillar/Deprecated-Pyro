@@ -1,6 +1,6 @@
 ﻿using Pyro.Common.RequestMetadata;
 using Pyro.Common.Search;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 
 namespace Pyro.Common.Interfaces.Service
 {

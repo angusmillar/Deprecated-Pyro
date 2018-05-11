@@ -1,4 +1,4 @@
-﻿using Pyro.Common.Search;
+﻿using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.CompositionRoot
 {

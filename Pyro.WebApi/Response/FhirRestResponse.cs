@@ -7,7 +7,7 @@ using Pyro.Common.Exceptions;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 
 namespace Pyro.WebApi.Response
 {

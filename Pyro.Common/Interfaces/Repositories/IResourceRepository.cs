@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Search;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Interfaces.Service;

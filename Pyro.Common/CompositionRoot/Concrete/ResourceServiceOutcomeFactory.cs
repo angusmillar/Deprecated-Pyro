@@ -1,4 +1,4 @@
-﻿using Pyro.Common.Service;
+﻿using Pyro.Common.Service.ResourceService;
 using Pyro.Common.CompositionRoot;
 
 namespace Pyro.Common.CompositionRoot.Concrete

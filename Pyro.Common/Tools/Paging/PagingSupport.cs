@@ -5,6 +5,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Global;
 using Pyro.Common.Search;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.Tools.Paging
 {

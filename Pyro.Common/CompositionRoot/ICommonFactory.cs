@@ -1,12 +1,13 @@
 ﻿using Hl7.Fhir.Specification.Source;
-using Pyro.Common.Service;
-using Pyro.Common.Search;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Tools.Headers;
-using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.Service.ResourceService;
 using System.Collections.Generic;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
+using Pyro.Common.FhirOperation.Validate;
+using Pyro.Common.FhirOperation.IhiSearch;
+using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
+using Pyro.Common.FhirOperation.ResourceReport;
+using Pyro.Common.FhirOperation.Compartment;
+using Pyro.Common.FhirOperation.ConnectathonAnswer;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -14,13 +15,13 @@ namespace Pyro.Common.CompositionRoot
   {
     
     IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();    
-    IDeleteHistoryIndexesService CreateDeleteHistoryIndexesService();    
-    IServerResourceReportService CreateServerResourceReportService();
-    IFhirValidateOperationService CreateFhirValidateOperationService();
-    IConnectathonAnswerService CreateConnectathonAnswerService();
-    IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService();    
+    IDeleteHistoryIndexesOperation CreateDeleteHistoryIndexesOperation();    
+    IResourceReportOperation CreateResourceReportOperation();
+    IFhirValidateOperation CreateFhirValidateOperation();
+    IConnectathonAnswerOperation CreateConnectathonAnswerOperation();
+    IIHISearchOrValidateOperation CreateIHISearchOrValidateOperation();    
     IList<IResourceResolver> CreateResourceResolverList();
-    ICompartmentOperationService CreateCompartmentOperationService();
+    ICompartmentOperation CreateCompartmentOperation();
 
   }
 }

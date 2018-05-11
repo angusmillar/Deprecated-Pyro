@@ -2,13 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using Pyro.Common.Enum;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.Rest;
+using Pyro.Common.Service.SearchParameters;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.Search
 {

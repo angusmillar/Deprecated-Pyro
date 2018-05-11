@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.Service;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.Service.ResourceService;
+using Pyro.Common.DtoEntity;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Search;
+using Pyro.Common.Service.SearchParameters;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.Search
 {
@@ -41,7 +43,7 @@ namespace Pyro.Common.Search
           };
           if (SearchParameter.Target != null && SearchParameter.Target.Count() > 0)
           {
-            DtoServiceSearchParameter.TargetResourceTypeList = new List<Common.Interfaces.Dto.IServiceSearchParameterTargetResource>();
+            DtoServiceSearchParameter.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
             foreach (var ResourceType in SearchParameter.Target)
               DtoServiceSearchParameter.TargetResourceTypeList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = ResourceType });
           }

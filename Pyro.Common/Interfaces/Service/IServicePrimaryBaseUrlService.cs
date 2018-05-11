@@ -1,4 +1,4 @@
-﻿using Pyro.Common.Interfaces.Dto;
+﻿using Pyro.Common.ServiceRoot;
 
 namespace Pyro.Common.Interfaces.Service
 { 

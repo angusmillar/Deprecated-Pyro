@@ -1,5 +1,5 @@
 ﻿using Pyro.Common.CompositionRoot;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 using Pyro.Common.Tools.UriSupport;
 
 namespace Pyro.Common.CompositionRoot.Concrete

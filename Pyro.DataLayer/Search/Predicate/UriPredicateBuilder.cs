@@ -4,6 +4,7 @@ using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.Tools;
 using Pyro.Common.Search;
 using Hl7.Fhir.Model;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.DataLayer.Search.Predicate
 {

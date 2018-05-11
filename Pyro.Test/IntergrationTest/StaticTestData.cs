@@ -15,7 +15,7 @@ namespace Pyro.Test.IntergrationTest
     public static System.IDisposable StartupServer()
     {
       System.Threading.Thread.Sleep(1000 * 3);
-      Uri FhirEndpointUri = new Uri(Pyro.Common.Cache.WebConfigProperties.ServiceBaseURL());
+      Uri FhirEndpointUri = new Uri(Pyro.Common.Global.WebConfigProperties.ServiceBaseURL());
       string ServerEndPoint = $"{FhirEndpointUri.Scheme}://{FhirEndpointUri.Authority}";
       string FhirEndpoint = $"{ServerEndPoint}/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}";
       return WebApp.Start<TestStartup>(ServerEndPoint);

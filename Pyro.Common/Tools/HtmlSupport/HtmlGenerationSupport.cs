@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Pyro.Common.Interfaces.ITools;
 
 namespace Pyro.Common.Interfaces.Tools.HtmlSupport
 {

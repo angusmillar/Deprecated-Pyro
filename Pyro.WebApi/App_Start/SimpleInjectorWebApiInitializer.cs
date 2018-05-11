@@ -1,37 +1,57 @@
 //[assembly: WebActivator.PostApplicationStartMethod(typeof(Pyro.WebApi.App_Start.SimpleInjectorWebApiInitializer), "Initialize")]
 namespace Pyro.WebApi.App_Start
 {
-  using System.Web.Http;
-  using SimpleInjector;
-  using SimpleInjector.Integration.WebApi;
-  using Pyro.Engine.Services;
+  using Hl7.Fhir.Specification.Source;
+  using Pyro.Common.DtoEntity;
+  using Pyro.Common.Cache;
+  using Pyro.Common.CompositionRoot.Concrete;
+  using Pyro.Common.Exceptions;
+  using Pyro.Common.FhirHttpResponse;
+  using Pyro.Common.FhirOperation.BundleTransaction;
+  using Pyro.Common.FhirOperation.Compartment;
+  using Pyro.Common.FhirOperation.ConnectathonAnswer;
+  using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
+  using Pyro.Common.FhirOperation.IhiSearch;
+  using Pyro.Common.FhirOperation.ResourceReport;
+  using Pyro.Common.FhirOperation.ServerSearchParameter;
+  using Pyro.Common.FhirOperation.Validate;
+  using Pyro.Common.Global;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
-  using Pyro.Common.Service;
-  using Pyro.DataLayer.DbModel.UnitOfWork;
-  using Pyro.DataLayer.DbModel.DatabaseContext;
-  using Pyro.Common.Global;
-  using Pyro.Common.Interfaces.ITools;
-  using Pyro.Common.Tools;
+  using Pyro.Common.Interfaces.Operation;
+  using Pyro.Common.Interfaces.Tools.HtmlSupport;
   using Pyro.Common.Logging;
+  using Pyro.Common.RequestMetadata;
+  using Pyro.Common.Search;
+  using Pyro.Common.Service.ResourceService;
+  using Pyro.Common.Service.ChainSearching;
+  using Pyro.Common.Service.CompartmentSearchParameter;
+  using Pyro.Common.Service.Include;
+  using Pyro.Common.Service.SearchParameters;
   using Pyro.Common.ServiceRoot;
+  using Pyro.Common.ServiceSearchParameter;
+  using Pyro.Common.Tools;
+  using Pyro.Common.Tools.FhirNarrative;
+  using Pyro.Common.Tools.FhirResourceValidation;
   using Pyro.Common.Tools.Headers;
   using Pyro.Common.Tools.UriSupport;
-  using Pyro.Common.Interfaces.Dto;
-  using Pyro.Common.Search;
-  using Pyro.Common.RequestMetadata;
-  using Pyro.Common.ServiceSearchParameter;
-  using Pyro.Common.Tools.FhirResourceValidation;
-  using Hl7.Fhir.Specification.Source; 
-  using Pyro.DataLayer.Repository;
+  using Pyro.DataLayer.DbModel.DatabaseContext;
+  using Pyro.DataLayer.DbModel.UnitOfWork;
   using Pyro.DataLayer.IndexSetter;
-  using Pyro.Common.Cache;
-  using Pyro.Common.BusinessEntities.Dto;
-  using Pyro.Common.Tools.FhirNarrative;
-  using Pyro.Common.FhirHttpResponse;
-  using Pyro.Common.Interfaces.Tools.HtmlSupport;
-  using Pyro.Common.Exceptions;
-  using Pyro.Common.CompositionRoot.Concrete;
+  using Pyro.DataLayer.Repository;
+  using Pyro.Engine.Services;
+  using Pyro.Engine.Services.Metadata;
+  using Pyro.Engine.Services.PyroServiceApi;
+  using Pyro.Engine.Services.ResourceTrigger;
+  using Pyro.Engine.Services.Resources;
+  using Pyro.Engine.Services.ServiceBaseUrl;
+  using Pyro.Engine.Services.ServiceSearchParameter;
+  using Pyro.Engine.TriggerServices.CompartmentDefinitionResource;
+  using Pyro.Engine.Operation;
+  using SimpleInjector;
+  using SimpleInjector.Integration.WebApi;
+  using System.Web.Http;
+  using Pyro.Common.Search.SearchParameterEntity;
 
   public static class SimpleInjectorWebApiInitializer
   {    
@@ -94,7 +114,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.ISearchParameterServiceFactory, SearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.ISearchParametersServiceOutcomeFactory, SearchParametersServiceOutcomeFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IMetadataServiceFactory, MetadataServiceFactory>(Lifestyle.Singleton);
-      container.Register<Pyro.Common.CompositionRoot.IBundleTransactionServiceFactory, BundleTransactionServiceFactory>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.CompositionRoot.IBundleTransactionOperationFactory, BundleTransactionOperationFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirBaseOperationServiceFactory, FhirBaseOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
@@ -128,7 +148,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirRestResponse, FhirRestResponse>(Lifestyle.Transient);
       container.Register<IRequestMeta, RequestMeta>(Lifestyle.Transient);
 
-      container.Register<IBundleTransactionService, BundleTransactionService>(Lifestyle.Transient);
+      container.Register<IBundleTransactionOperation, BundleTransactionOperation>(Lifestyle.Transient);
       container.Register<IMetadataService, MetadataService>(Lifestyle.Transient);
 
       container.Register<ISearchParameterService, SearchParameterService>(Lifestyle.Transient);
@@ -174,14 +194,14 @@ namespace Pyro.WebApi.App_Start
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceOperationService, FhirResourceOperationService>(Lifestyle.Scoped);
       //Scoped: Operations
-      container.Register<IDeleteHistoryIndexesService, DeleteHistoryIndexesService>(Lifestyle.Scoped);
-      container.Register<IServerSearchParameterService, ServerSearchParameterService>(Lifestyle.Scoped);
-      container.Register<IServerResourceReportService, ServerResourceReportService>(Lifestyle.Scoped);
-      container.Register<IFhirValidateOperationService, FhirValidateOperationService>(Lifestyle.Scoped);
+      container.Register<IDeleteHistoryIndexesOperation, DeleteHistoryIndexesOperation>(Lifestyle.Scoped);
+      container.Register<IServerSearchParameterOperation, ServerSearchParameterOperation>(Lifestyle.Scoped);
+      container.Register<IResourceReportOperation, ResourceReportOperation>(Lifestyle.Scoped);
+      container.Register<IFhirValidateOperation, FhirValidateOperation>(Lifestyle.Scoped);
       container.Register<IFhirValidationSupport, FhirValidationSupport>(Lifestyle.Scoped);
-      container.Register<IConnectathonAnswerService, ConnectathonAnswerService>(Lifestyle.Scoped);
-      container.Register<IIHISearchOrValidateOperationService, IHISearchOrValidateOperationService>(Lifestyle.Scoped);
-      container.Register<ICompartmentOperationService, CompartmentOperationService>(Lifestyle.Scoped);
+      container.Register<IConnectathonAnswerOperation, ConnectathonAnswerOperation>(Lifestyle.Scoped);
+      container.Register<IIHISearchOrValidateOperation, IHISearchOrValidateOperation>(Lifestyle.Scoped);
+      container.Register<ICompartmentOperation, CompartmentOperation>(Lifestyle.Scoped);
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
@@ -206,7 +226,7 @@ namespace Pyro.WebApi.App_Start
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
-      container.Register<Pyro.Engine.TriggerServices.ITriggerCompartmentDefinition, Pyro.Engine.TriggerServices.TriggerCompartmentDefinition>(Lifestyle.Scoped);
+      container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
     }
 
   }

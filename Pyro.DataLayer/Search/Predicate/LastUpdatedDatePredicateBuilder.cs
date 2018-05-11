@@ -2,6 +2,7 @@
 using Hl7.Fhir.Utility;
 using LinqKit;
 using Pyro.Common.Search;
+using Pyro.Common.Search.SearchParameterEntity;
 using Pyro.Common.Tools;
 using Pyro.DataLayer.DbModel.EntityBase;
 using System;

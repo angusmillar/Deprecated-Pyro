@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using System.Data.SqlClient;
 using Hl7.Fhir.Model;
 

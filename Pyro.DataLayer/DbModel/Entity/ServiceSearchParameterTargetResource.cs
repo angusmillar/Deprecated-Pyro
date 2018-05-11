@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pyro.Common.Interfaces.Dto;
+﻿using Pyro.Common.Search;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.Model;
 

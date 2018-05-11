@@ -1,6 +1,6 @@
 ﻿using System;
 using Hl7.Fhir.Model;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.DataLayer.DbModel.EntityBase;
 //using Pyro.DataModel.IndexSetter;
 

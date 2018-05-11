@@ -1,5 +1,5 @@
 ﻿using Pyro.Common.CompositionRoot;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Tools;
 using Pyro.DataLayer.DbModel.DatabaseContext;

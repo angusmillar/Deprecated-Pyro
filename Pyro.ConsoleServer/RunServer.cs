@@ -1,12 +1,7 @@
 ﻿using Microsoft.Owin.Hosting;
-using Owin;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Pyro.WebApi;
-using Pyro.Common.Cache;
+using Pyro.Common.Global;
 
 namespace Pyro.ConsoleServer
 {

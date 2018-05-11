@@ -1,5 +1,5 @@
-﻿using Pyro.Common.Search;
-using Pyro.Common.CompositionRoot;
+﻿using Pyro.Common.CompositionRoot;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.CompositionRoot.Concrete
 {

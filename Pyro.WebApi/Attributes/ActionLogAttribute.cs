@@ -14,7 +14,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Logging;
 using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Repositories;

@@ -1,7 +1,8 @@
 ﻿using Pyro.Common.Search;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
+using Pyro.Common.FhirOperation.ServerSearchParameter;
 
 namespace Pyro.Common.CompositionRoot.Concrete
 {
@@ -14,9 +15,9 @@ namespace Pyro.Common.CompositionRoot.Concrete
       this.Container = Container;
     }
 
-    public IServerSearchParameterService CreateServerSearchParameterService()
+    public IServerSearchParameterOperation CreateServerSearchParameterService()
     {
-      return Container.GetInstance<IServerSearchParameterService>();
+      return Container.GetInstance<IServerSearchParameterOperation>();
     }
   }
 }

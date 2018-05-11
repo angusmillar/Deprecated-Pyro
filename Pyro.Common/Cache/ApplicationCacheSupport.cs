@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
 using System.Linq.Expressions;
-using Pyro.Common.Interfaces.ITools;
+using Pyro.Common.Tools;
 
 namespace Pyro.Common.Cache
 {

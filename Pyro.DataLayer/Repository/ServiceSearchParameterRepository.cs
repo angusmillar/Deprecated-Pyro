@@ -1,5 +1,5 @@
 ﻿using Hl7.Fhir.Model;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 using Pyro.Common.Search;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using System;

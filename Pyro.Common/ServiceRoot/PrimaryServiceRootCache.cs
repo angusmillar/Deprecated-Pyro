@@ -1,7 +1,6 @@
 ﻿using Pyro.Common.Global;
 using Pyro.Common.Cache;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.ITools;
+using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Common.ServiceRoot

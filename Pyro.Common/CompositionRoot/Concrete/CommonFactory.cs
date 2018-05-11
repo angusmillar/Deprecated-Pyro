@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Specification.Source;
-using Pyro.Common.Service;
-using Pyro.Common.CompositionRoot;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
+using Pyro.Common.FhirOperation.Validate;
+using Pyro.Common.FhirOperation.IhiSearch;
+using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
+using Pyro.Common.FhirOperation.ResourceReport;
+using Pyro.Common.FhirOperation.Compartment;
+using Pyro.Common.FhirOperation.ConnectathonAnswer;
 
 namespace Pyro.Common.CompositionRoot.Concrete
 {
@@ -16,19 +21,19 @@ namespace Pyro.Common.CompositionRoot.Concrete
       this.Container = Container;
     }
     
-    public IDeleteHistoryIndexesService CreateDeleteHistoryIndexesService()
+    public IDeleteHistoryIndexesOperation CreateDeleteHistoryIndexesOperation()
     {
-      return Container.GetInstance<IDeleteHistoryIndexesService>();
+      return Container.GetInstance<IDeleteHistoryIndexesOperation>();
     }
     
-    public IServerResourceReportService CreateServerResourceReportService()
+    public IResourceReportOperation CreateResourceReportOperation()
     {
-      return Container.GetInstance<IServerResourceReportService>();
+      return Container.GetInstance<IResourceReportOperation>();
     }
 
-    public IFhirValidateOperationService CreateFhirValidateOperationService()
+    public IFhirValidateOperation CreateFhirValidateOperation()
     {
-      return Container.GetInstance<IFhirValidateOperationService>();
+      return Container.GetInstance<IFhirValidateOperation>();
     }
     
     public IList<IResourceResolver> CreateResourceResolverList()
@@ -41,19 +46,19 @@ namespace Pyro.Common.CompositionRoot.Concrete
       return Container.GetInstance<IHtmlGenerationSupport>();
     }
 
-    public IConnectathonAnswerService CreateConnectathonAnswerService()
+    public IConnectathonAnswerOperation CreateConnectathonAnswerOperation()
     {
-      return Container.GetInstance<IConnectathonAnswerService>();
+      return Container.GetInstance<IConnectathonAnswerOperation>();
     }
 
-    public IIHISearchOrValidateOperationService CreateIHISearchOrValidateOperationService()
+    public IIHISearchOrValidateOperation CreateIHISearchOrValidateOperation()
     {
-      return Container.GetInstance<IIHISearchOrValidateOperationService>();
+      return Container.GetInstance<IIHISearchOrValidateOperation>();
     }
 
-    public ICompartmentOperationService CreateCompartmentOperationService()
+    public ICompartmentOperation CreateCompartmentOperation()
     {
-      return Container.GetInstance<ICompartmentOperationService>();      
+      return Container.GetInstance<ICompartmentOperation>();      
     }
   }
 }

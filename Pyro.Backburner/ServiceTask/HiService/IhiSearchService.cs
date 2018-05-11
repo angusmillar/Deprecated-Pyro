@@ -4,7 +4,7 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.RequestMetadata;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using System;
 using System.Data.Entity;
 using Pyro.Common.Logging;

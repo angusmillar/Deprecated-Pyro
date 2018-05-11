@@ -1,5 +1,6 @@
 ﻿using System;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Common.Search
 {

@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Net;
 using System.Net.Http;
 using System.Data.SqlClient;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Pyro.Common.Logging;

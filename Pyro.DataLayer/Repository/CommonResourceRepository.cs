@@ -2,7 +2,7 @@
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Search;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
@@ -246,7 +246,7 @@ namespace Pyro.DataLayer.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = true;
-      Pyro.Common.BusinessEntities.Dto.DtoResource DtoResource = null;
+      DtoResource DtoResource = null;
       if (WithXml)
       {
         if (IncludeDeleted)
@@ -296,7 +296,7 @@ namespace Pyro.DataLayer.Repository
         //int ClaculatedPageRequired = PaginationSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, _NumberOfRecordsPerPage, TotalRecordCount);
 
         //Query = Query.Paging(ClaculatedPageRequired, _NumberOfRecordsPerPage);
-        var DtoResourceList = new List<Common.BusinessEntities.Dto.DtoResource>();
+        var DtoResourceList = new List<DtoResource>();
         Query.ToList().ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource<ResourceBase>(x, this.RepositoryResourceType)));
 
       }

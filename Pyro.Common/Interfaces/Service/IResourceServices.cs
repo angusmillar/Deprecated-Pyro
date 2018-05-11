@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.Tools.Headers;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Enum;
 

@@ -5,6 +5,8 @@ using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.Common.Search;
 using Hl7.Fhir.Model;
 using Pyro.Common.Tools;
+using Pyro.Common.ServiceRoot;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.DataLayer.Search.Predicate
 {
@@ -18,7 +20,7 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
 
   {
-    public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem, Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore)
+    public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem, IDtoRootUrlStore PrimaryRootUrlStore)
     {
       if (SearchItem is SearchParameterReferance SearchTypeReference)
       {
@@ -98,7 +100,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static bool IsServiceUrlPrimary(Common.Interfaces.Dto.IDtoRootUrlStore PrimaryRootUrlStore, SearchParameterReferanceValue SearchValue)
+    private static bool IsServiceUrlPrimary(IDtoRootUrlStore PrimaryRootUrlStore, SearchParameterReferanceValue SearchValue)
     {
       if (!string.IsNullOrWhiteSpace(SearchValue.FhirRequestUri.UriPrimaryServiceRoot.OriginalString))
       {

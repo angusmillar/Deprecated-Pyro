@@ -4,14 +4,13 @@ using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 using Pyro.Common.Search;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 using Pyro.Common.CompositionRoot;
 using Pyro.DataLayer.DbModel.Entity;
 using Pyro.Common.Service;
 using Pyro.Common.ServiceSearchParameter;
 using System.Collections.Generic;
 using Pyro.Test.IntergrationTest;
-using Pyro.Common.ServiceRoot;
 using Pyro.Common.Tools.UriSupport;
 
 namespace Pyro.Test.IndexSetters

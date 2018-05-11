@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.Tools;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Exceptions;
 using Pyro.Common.Tools.UriSupport;
 using Hl7.Fhir.Model;

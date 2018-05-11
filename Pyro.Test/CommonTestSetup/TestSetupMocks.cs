@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Pyro.Test.IntergrationTest;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Tools.Headers;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Global;
 
 namespace Pyro.Test.CommonTestSetup

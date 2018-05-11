@@ -7,7 +7,7 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.ServiceRoot;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Search;
 using Pyro.Common.RequestMetadata;

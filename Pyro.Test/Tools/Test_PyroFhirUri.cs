@@ -6,7 +6,6 @@ using NUnit.Framework.Constraints;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Extentions;
 using Pyro.Common.ServiceRoot;
-using Pyro.Common.Interfaces.Dto;
 
 namespace Pyro.Test.Tools
 {

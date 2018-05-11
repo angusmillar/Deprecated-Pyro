@@ -4,7 +4,6 @@ using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using NUnit.Framework.Constraints;
 using Pyro.Common.Search;
-using Pyro.Common.Interfaces.Dto;
 using Pyro.Common.CompositionRoot;
 using Pyro.DataLayer.DbModel.Entity;
 using Pyro.Common.Service;
@@ -15,6 +14,8 @@ using Pyro.Common.ServiceRoot;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Test.CommonTestSetup;
 using Hl7.Fhir.Utility;
+using Pyro.Common.Service.SearchParameters;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.Test.IndexSetters
 {

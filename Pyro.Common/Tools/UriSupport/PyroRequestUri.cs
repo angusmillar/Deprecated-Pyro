@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyro.Common.Interfaces.Dto;
-using Pyro.Common.Interfaces.Service;
 using Pyro.Common.ServiceRoot;
+using Pyro.Common.Interfaces.Service;
 
 namespace Pyro.Common.Tools.UriSupport
 {

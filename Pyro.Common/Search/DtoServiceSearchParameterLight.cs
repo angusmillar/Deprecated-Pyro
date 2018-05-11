@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using System.Runtime.Serialization;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 
 namespace Pyro.Common.Search
 {

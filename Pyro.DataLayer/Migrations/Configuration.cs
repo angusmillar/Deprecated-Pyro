@@ -1,4 +1,4 @@
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using System;
 using System.Data.Entity;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Exceptions;
-using Pyro.Common.Interfaces.Dto;
+using Pyro.Common.ServiceRoot;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Tools;
 using Pyro.Common.Logging;

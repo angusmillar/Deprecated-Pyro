@@ -1,4 +1,4 @@
-﻿using Pyro.Common.Interfaces.Service;
+﻿using Pyro.Common.Interfaces.Operation;
 
 namespace Pyro.Common.CompositionRoot
 {

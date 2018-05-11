@@ -89,22 +89,21 @@
     </Compile>
     <Compile Include="Interfaces\IResourceValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\FhirBaseOperationService.cs" />
-    <Compile Include="Services\FhirResourceInstanceOperationService.cs" />
-    <Compile Include="Services\FhirResourceOperationService.cs" />
-    <Compile Include="Services\IPyroService.cs" />
-    <Compile Include="Services\IResourceTriggerService.cs" />
-    <Compile Include="Services\ResourceTriggerService.cs" />
-    <Compile Include="Services\ResourceServices.cs" />
-    <Compile Include="Services\BaseServices.cs" />
-    <Compile Include="Services\MetadataService.cs" />
-    <Compile Include="Services\PyroService.cs" />
-    <Compile Include="Services\ServiceBaseUrlService.cs" />
-    <Compile Include="Services\ServiceSearchParameterService.cs" />
-    <Compile Include="TriggerServices\ITriggerCompartmentDefinition.cs" />
+    <Compile Include="Operation\FhirBaseOperationService.cs" />
+    <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
+    <Compile Include="Operation\FhirResourceOperationService.cs" />
+    <Compile Include="Services\PyroServiceApi\IPyroService.cs" />
+    <Compile Include="Services\ResourceTrigger\IResourceTriggerService.cs" />
+    <Compile Include="Services\ResourceTrigger\ResourceTriggerService.cs" />
+    <Compile Include="Services\Resources\ResourceServices.cs" />
+    <Compile Include="Services\Metadata\MetadataService.cs" />
+    <Compile Include="Services\PyroServiceApi\PyroService.cs" />
+    <Compile Include="Services\ServiceBaseUrl\ServiceBaseUrlService.cs" />
+    <Compile Include="Services\ServiceSearchParameter\ServiceSearchParameterService.cs" />
+    <Compile Include="TriggerServices\CompartmentDefinitionResource\ITriggerCompartmentDefinition.cs" />
     <Compile Include="TriggerServices\ITriggerOutcome.cs" />
     <Compile Include="TriggerServices\ITriggerService.cs" />
-    <Compile Include="TriggerServices\TriggerCompartmentDefinition.cs" />
+    <Compile Include="TriggerServices\CompartmentDefinitionResource\TriggerCompartmentDefinition.cs" />
     <Compile Include="TriggerServices\TriggerOutcome.cs" />
   </ItemGroup>
   <ItemGroup>

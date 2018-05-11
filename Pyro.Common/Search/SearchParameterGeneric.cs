@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hl7.Fhir.Rest;
-using Pyro.Common.Interfaces.Dto;
 using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.Search

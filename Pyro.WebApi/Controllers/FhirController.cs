@@ -1,15 +1,13 @@
-﻿using Pyro.Common.Global;
+﻿using Pyro.Common.Extentions;
+using Pyro.Common.FhirHttpResponse;
+using Pyro.Common.Service.ResourceService;
+using Pyro.Engine.Services.PyroServiceApi;
 using Pyro.WebApi.Attributes;
 using Pyro.WebApi.Extensions;
-using Pyro.Engine.Services;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
-using Pyro.Common.FhirHttpResponse;
-using Pyro.Common.Service;
-using Pyro.Common.Extentions;
-using System.Collections.Generic;
 
 namespace Pyro.WebApi.Controllers
 {

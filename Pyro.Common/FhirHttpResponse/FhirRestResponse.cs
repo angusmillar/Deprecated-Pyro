@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Pyro.Common.Interfaces.Service;
 using System.Net.Http;
 using System.Net;
-using Pyro.Common.BusinessEntities.Dto;
+using Pyro.Common.DtoEntity;
 using Pyro.Common.Enum;
 using Pyro.Common.Tools;
 using Pyro.Common.Exceptions;
 using Hl7.Fhir.Model;
 using Pyro.Common.Tools.FhirNarrative;
-using Pyro.Common.Service;
+using Pyro.Common.Service.ResourceService;
 
 namespace Pyro.Common.FhirHttpResponse
 {

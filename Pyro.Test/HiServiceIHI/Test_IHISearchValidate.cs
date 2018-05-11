@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using NUnit.Framework.Constraints;
 using NUnit.Framework;
 using Moq;
 using Pyro.ADHA.Api;
@@ -11,13 +7,12 @@ using Pyro.Common.CompositionRoot;
 using Pyro.Common.FhirOperation;
 using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Service;
-using Pyro.Common.Tools.Headers;
+using Pyro.Common.Service.ResourceService;
 using Pyro.Test.IntergrationTest;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
-using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.FhirOperation.IhiSearch;
 using Pyro.Identifiers.Australian.MedicareNumber;
 using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
 using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
@@ -161,7 +156,7 @@ namespace Pyro.Test.HiServiceIHI
       IMedicareNumberInfo IMedicareNumberInfo = new MedicareNumberInfo();
 
 
-      IHISearchOrValidateOperationService IHISearchOrValidateOperationService = new IHISearchOrValidateOperationService(        
+      IHISearchOrValidateOperation IHISearchOrValidateOperationService = new IHISearchOrValidateOperation(        
         IResourceServiceOutcomeFactory,
         IResourceServices, 
         IGlobalProperties, 

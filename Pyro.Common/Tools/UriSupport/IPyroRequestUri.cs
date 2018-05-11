@@ -1,5 +1,5 @@
-﻿using System;
-using Pyro.Common.Interfaces.Dto;
+﻿using Pyro.Common.ServiceRoot;
+using System;
 
 namespace Pyro.Common.Tools.UriSupport
 {
