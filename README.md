@@ -58,21 +58,22 @@ Visual Studio 2017
   
 Microsoft SQL Server 2016 or higher
 
-## How do I get this solution up and running fast##
+## How do I get this solution up and running fast ##
 
 1. First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
 2. Right click the main Solution 'Pyro' and select 'Restore Nuget packages' and then 'F6' to Build Solution.
 3. You will then need to configure to your development environment database connection string by editing this file: `Pyro.ConsoleServer\App_Data\Connectons.config`
 4. The right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
 5. Hit 'F5' to start the project.
-6. You will see a console window open with the Pyro logo stating that the FHIR endpoint is running at 'http://localhost:8888/fhir'. You should then do a Http GET on any thing, for instance `GET: http://localhost:8888/fhir/metadata` as this will trigger the first time initialisation of the database. Please be patient as the database initialisation will take 4 to 5 min while it creates the database and seeds data.
+6. You will see a console window open with the Pyro logo stating that the FHIR endpoint is running at 'http://localhost:8888/fhir'. 
+   You should then do a Http GET on any thing, for instance `GET: http://localhost:8888/fhir/metadata` as this will trigger the first time initialisation of the database. Please be patient as the database initialisation will take 4 to 5 min while it creates the database and seeds data.
 7. Once the call retuns with a Http: 200 OK your server is now ready for use. 
 
-## Understanding the solution a little deeper##
+## Understanding the solution a little deeper ##
 
 There are two key projects you will need to understand, the development environment and the production environment. They are as follows:
 
-#Development Environment#
+**Development Environment**
 
 The `Pyro.ConsoleServer` project will run the server in console mode and is the primary way to use the server if in a development environment. It's quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
 Before you run this project you will need to change the connection string for the `Pyro.ConsoleServer` project. This can be found in the file:
@@ -94,7 +95,7 @@ Value: URL String
 Description: This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
 Simply changing the setting here does not initiate the updating of all these references.
 
-#Production Enviroment#
+**Production Enviroment**
 
 The `Pyro.WebApi` project will run the server in Internet Information Services (IIS). This is primarily used for when the server is deployed in a production IIS instance. It does not provide any webpage, only the FHIR API endpoints accessible and hosted in IIS. 
 
@@ -115,7 +116,7 @@ Be patient as this first call will be slow as it must create all the database ta
 
 In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
-_Logging_
+_Logging:_
 The solution uses the [NLog](http://nlog-project.org/) logging framework. By default, this is configured to log to the console and to AWS Cloudwatch logs.
 You may wish to reconfigure this for your needs. There is already a commented out config to have it log to the file system.
 
