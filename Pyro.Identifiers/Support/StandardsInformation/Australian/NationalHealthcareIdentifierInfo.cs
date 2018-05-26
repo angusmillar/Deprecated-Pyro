@@ -23,9 +23,9 @@ namespace Pyro.Identifiers.Support.StandardsInformation.Australian
     public string HPIIAssigningAuthority => "AUSHIC";
 
     /// <summary>
-    /// e.g OBR-16.14 (Ordering Provider)
+    /// e.g OBR-16.13 (Ordering Provider)
     /// </summary>
-    public string HPIIAssigningFacility => "NPI";
+    public string HPIIIdentifierTypeCode => "NPI";
 
     ///e.g: ORC-21.7 (Ordering Facility Name)
     /// </summary>
