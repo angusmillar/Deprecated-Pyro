@@ -55,11 +55,15 @@ namespace Pyro.WebApi
       HttpConfiguration = new HttpConfiguration();
       App_Start.SimpleInjectorWebApiInitializer.Initialize(HttpConfiguration);
       WebApiConfig.Register(HttpConfiguration);
-      RegisterAllAreas();
+      
       //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-      RegisterRoutes();
+    
       //BundleConfig.RegisterBundles(BundleTable.Bundles);
       ConfigureAuth(app);
+
+      // require authentication for all controllers
+      HttpConfiguration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
+
       app.UseWebApi(HttpConfiguration);
     }
 
@@ -74,15 +78,6 @@ namespace Pyro.WebApi
       app.MapSignalR(hubConfiguration);
       
     }
-
-    public virtual void RegisterAllAreas()
-    {
-      //AreaRegistration.RegisterAllAreas();
-    }
-
-    public virtual void RegisterRoutes()
-    {
-      //RouteConfig.RegisterRoutes(_RouteCollection);
-    }
+    
   }
 }
