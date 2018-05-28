@@ -30,8 +30,9 @@ namespace Pyro.Test.IntergrationTest
       Server.Dispose();
     }
 
-    [Test]
-    public void Test_BundleTransaction()
+    [TestCase(Bundle.BundleType.Transaction)]
+    [TestCase(Bundle.BundleType.Batch)]
+    public void Test_BundleTransaction(Bundle.BundleType bundleType)
     {
 
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
@@ -43,7 +44,7 @@ namespace Pyro.Test.IntergrationTest
 
       Bundle TransBundle = new Bundle();
       TransBundle.Id = Guid.NewGuid().ToString();
-      TransBundle.Type = Bundle.BundleType.Transaction;
+      TransBundle.Type = bundleType;
       TransBundle.Entry = new List<Bundle.EntryComponent>();
       string PatientOneMRNIdentifer = Guid.NewGuid().ToString();
       string OrganizationOneMRNIdentifer = Guid.NewGuid().ToString();
@@ -98,6 +99,19 @@ namespace Pyro.Test.IntergrationTest
       catch (Exception Exec)
       {
         Assert.True(false, "Exception thrown on POST Transaction bundle: " + Exec.Message);
+      }
+
+      if (bundleType == Bundle.BundleType.Batch)
+      {
+        Assert.True(TransactionResult.Type == Bundle.BundleType.BatchResponse);
+      }
+      else if (bundleType == Bundle.BundleType.Transaction)
+      {
+        Assert.True(TransactionResult.Type == Bundle.BundleType.TransactionResponse);
+      }
+      else
+      {
+        Assert.Fail();
       }
 
       Assert.IsTrue(TransactionResult.Entry[0].Response.Status.Contains(System.Net.HttpStatusCode.Created.ToString()));
