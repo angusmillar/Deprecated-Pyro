@@ -65,7 +65,7 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
         _ServiceOperationOutcome.OperationType = Enum.RestEnum.CrudOperationType.Create;
         return _ServiceOperationOutcome;
       }
-      else if (bundle.Type != Bundle.BundleType.Transaction || (bundle.Type != Bundle.BundleType.Transaction && bundle.Type != Bundle.BundleType.Batch))
+      else if (bundle.Type != Bundle.BundleType.Transaction && bundle.Type != Bundle.BundleType.Batch)
       {
         var Message = $"The FHIR server's service root endpoint can only accept Bundle resources of Bundle.type = 'Transaction' or Bundle.type = 'Batch'. Type found was {bundle.Type.ToString()}";
         var OpOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Invalid, Message);
@@ -77,7 +77,7 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
       else
       {
 
-        bundle.Type = Bundle.BundleType.TransactionResponse;
+        bundle.Type = bundle.Type == Bundle.BundleType.Transaction ? Bundle.BundleType.TransactionResponse : Bundle.BundleType.BatchResponse;
         bundle.Id = Guid.NewGuid().ToString();
         if (bundle.Meta == null)
           bundle.Meta = new Meta();
