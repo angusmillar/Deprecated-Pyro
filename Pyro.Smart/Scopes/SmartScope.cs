@@ -11,7 +11,6 @@ namespace Pyro.Smart.Scopes
   {    
     public SmartEnum.Entity Entity { get; set; }
     public FHIRAllTypes Resource { get; set; }
-    public SmartEnum.Action Action { get; set; }
-    
+    public SmartEnum.Action Action { get; set; }    
   }
 }

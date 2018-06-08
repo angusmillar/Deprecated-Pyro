@@ -12,6 +12,7 @@ using Pyro.WebApi.Providers;
 using Pyro.WebApi.Models;
 using IdentityServer3.AccessTokenValidation;
 
+
 namespace Pyro.WebApi
 {
   public partial class Startup
@@ -32,24 +33,29 @@ namespace Pyro.WebApi
 
       //app.UseCookieAuthentication(new CookieAuthenticationOptions());
       //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+      if (Pyro.Common.Global.WebConfigProperties.FHIRApiAuthentication())
+      {
+        //Forces this AuthorizationAttribute on all controlers
+        HttpConfiguration.Filters.Add(new Pyro.WebApi.Authorization.SwitchableAuthorizationAttribute());
 
-      app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
-      {        
-        ClientId = "PyroFhirApi",        
-        ClientSecret = "prometheus.apiResource",
-        Authority = "https://localhost:50000/",
-        ValidationMode = ValidationMode.Both,
-        RequiredScopes = new[]
+        //Connects to the external Authorization service
+        string AuthorityUrl = "https://localhost:50000/";
+        try
         {
-          "user/*.*",
-          "user/*.read",
-          "user/*.write",
-          "patient/*.*",
-          "patient/Patient.read",
-          "patient/*.write"
-        },
-        
-      });
+          app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
+          {
+            ClientId = "PyroFhirApi",
+            ClientSecret = "prometheus.apiResource",
+            Authority = "https://localhost:50000/",
+            ValidationMode = ValidationMode.Both,
+            RequiredScopes = Pyro.Smart.Scopes.ScopeStringGenerator.GetAllUserAndPatientScopes()            
+          });
+        }
+        catch(Exception Exec)
+        {          
+          Common.Logging.Logger.Log.Fatal(Exec, $"The Pyro FHIR server is unable to connect to the Token Authentication service at: {AuthorityUrl}");
+        }
+      }
       
     }
   }

@@ -15,6 +15,7 @@ using FhirModel = Hl7.Fhir.Model;
 namespace Pyro.WebApi.Controllers
 {
   [RoutePrefix(Pyro.Common.Web.StaticWebInfo.ServiceRoute)]
+  //[AllowAnonymous]
   public class FhirController : ApiController
   {    
     private readonly IPyroService IPyroService;
@@ -42,7 +43,6 @@ namespace Pyro.WebApi.Controllers
 
       return Json(claims);
     }
-
 
 
     //Service Root Base
@@ -92,12 +92,10 @@ namespace Pyro.WebApi.Controllers
     /// <param name="id">The FHIR Resource's id</param>
     /// <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}")]
-    [ActionLog]   
-    //[SwitchableAuthorizationAttribute]
-    [CustomAuthorizationFilterAttribute(AccessLevel = "ResId")]
+    [ActionLog]       
     public HttpResponseMessage GetId(string ResourceName, string id)
     {
-      var caller = User as ClaimsPrincipal;
+      //var caller = User as ClaimsPrincipal;
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
       //Below is only testing at this stage. No real tasks going as yet.

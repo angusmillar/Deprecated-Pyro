@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using Pyro.Common.Global;
 
 namespace Pyro.WebApi.Authorization
 {
@@ -12,16 +13,22 @@ namespace Pyro.WebApi.Authorization
   {
     protected override bool IsAuthorized(HttpActionContext actionContext)
     {
-      bool disableAuthentication = false;
+      //bool DisableAuthentication = false;
 
-      #if DEBUG
-      disableAuthentication = true;
-      #endif
+      ////#if DEBUG
+      ////      disableAuthentication = true;
+      ////#endif
+      
+      ////FHIRApiAuthentication is set in Web.Config file and defaults to True, meaning Authentication must occur, if false the their is open access to the FHIR API
+      //var IGlobalProperties = actionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
+      //if (!IGlobalProperties.FHIRApiAuthentication)
+      //  DisableAuthentication = true;
 
-      if (disableAuthentication)
-        return true;
+      //if (DisableAuthentication)
+      //  return true;
 
+      
       return base.IsAuthorized(actionContext);
-    }    
+    }
   }
 }

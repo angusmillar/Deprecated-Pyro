@@ -60,10 +60,7 @@ namespace Pyro.WebApi
     
       //BundleConfig.RegisterBundles(BundleTable.Bundles);
       ConfigureAuth(app);
-
-      // require authentication for all controllers
-      HttpConfiguration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
-
+      
       app.UseWebApi(HttpConfiguration);
     }
 

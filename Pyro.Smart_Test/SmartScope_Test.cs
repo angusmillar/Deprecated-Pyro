@@ -154,7 +154,7 @@ namespace Pyro.Smart_Test
       Assert.IsTrue(ParseOk);
       Assert.AreEqual(SmartEnum.Entity.Patient, SmartScope.Entity);
       Assert.AreEqual(FHIRAllTypes.Observation, SmartScope.Resource);
-      Assert.AreEqual(SmartEnum.Action.ReadWrite, SmartScope.Action);
+      Assert.AreEqual(SmartEnum.Action.All, SmartScope.Action);
     }
 
     [Test]
@@ -171,7 +171,7 @@ namespace Pyro.Smart_Test
       Assert.IsTrue(ParseOk);
       Assert.AreEqual(SmartEnum.Entity.Patient, SmartScope.Entity);
       Assert.AreEqual(FHIRAllTypes.Resource, SmartScope.Resource);
-      Assert.AreEqual(SmartEnum.Action.ReadWrite, SmartScope.Action);
+      Assert.AreEqual(SmartEnum.Action.All, SmartScope.Action);
     }
 
     [Test]

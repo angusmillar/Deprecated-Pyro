@@ -212,6 +212,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="Authorization\CustomAuthorizationFilterAttribute.cs" />
+    <Compile Include="Authorization\PyroCustomAuthorization.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />
     <Compile Include="CompositionRoot\MapperProvider.cs" />
     <Compile Include="CompositionRoot\IndexSetterFactory.cs" />
@@ -274,6 +275,10 @@
     <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
       <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
       <Name>Pyro.Identifiers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.Smart\Pyro.Smart.csproj">
+      <Project>{afdcdf8c-9233-446d-88af-4f3374a1a309}</Project>
+      <Name>Pyro.Smart</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

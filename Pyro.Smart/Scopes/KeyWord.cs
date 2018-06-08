@@ -12,7 +12,7 @@ namespace Pyro.Smart.Scopes
     public const string User = "user";
     public const string Read = "read";
     public const string Write = "write";
-    public const string ReadWrite = "*";
+    public const string All = "*";
     public const char SlashDelimiter = '/';
     public const char DotDelimiter = '.';
   }

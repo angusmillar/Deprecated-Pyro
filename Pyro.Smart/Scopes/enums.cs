@@ -8,8 +8,17 @@ namespace Pyro.Smart.Scopes
 {
   public static class SmartEnum
   {
-    public enum Entity { Patient, User };
-    public enum Action { Read, Write, ReadWrite };
+    public enum Entity
+    {      
+      Patient,     
+      User
+    };
+    public enum Action
+    {     
+      Read,     
+      Write,     
+      All
+    };
   }
 
 }
