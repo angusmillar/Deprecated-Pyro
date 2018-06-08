@@ -3,15 +3,19 @@ using Pyro.Common.FhirHttpResponse;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Engine.Services.PyroServiceApi;
 using Pyro.WebApi.Attributes;
+using Pyro.WebApi.Authorization;
 using Pyro.WebApi.Extensions;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Security.Claims;
 using System.Web.Http;
 using FhirModel = Hl7.Fhir.Model;
 
 namespace Pyro.WebApi.Controllers
 {
   [RoutePrefix(Pyro.Common.Web.StaticWebInfo.ServiceRoute)]
+  //[AllowAnonymous]
   public class FhirController : ApiController
   {    
     private readonly IPyroService IPyroService;
@@ -25,6 +29,21 @@ namespace Pyro.WebApi.Controllers
       this.Log = Log;
       //Log.Info($"Test logging");
     }
+
+    [HttpGet, Route("claims")]
+    public IHttpActionResult Get()
+    {
+      var user = User as ClaimsPrincipal;
+      var claims = from c in user.Claims
+                   select new
+                   {
+                     type = c.Type,
+                     value = c.Value
+                   };
+
+      return Json(claims);
+    }
+
 
     //Service Root Base
     //// POST: URL//FhirApi
@@ -73,9 +92,10 @@ namespace Pyro.WebApi.Controllers
     /// <param name="id">The FHIR Resource's id</param>
     /// <returns>Returns the single FHIR Resource identified by the id given or status code 400 (Not found) </returns>
     [HttpGet, Route("{ResourceName}/{id}")]
-    [ActionLog]
+    [ActionLog]       
     public HttpResponseMessage GetId(string ResourceName, string id)
     {
+      //var caller = User as ClaimsPrincipal;
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
       //Below is only testing at this stage. No real tasks going as yet.

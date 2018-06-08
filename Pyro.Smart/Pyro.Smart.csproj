@@ -64,6 +64,7 @@
     <Compile Include="Scopes\KeyWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scopes\ScopeParse.cs" />
+    <Compile Include="Scopes\ScopeStringGenerator.cs" />
     <Compile Include="Scopes\SmartScope.cs" />
   </ItemGroup>
   <ItemGroup>

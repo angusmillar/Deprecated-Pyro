@@ -4,7 +4,7 @@
   {
     string HPIIAssigningAuthority { get; }
     string HPIIAssigningAuthorityName { get; }
-    string HPIIAssigningFacility { get; }
+    string HPIIIdentifierTypeCode { get; }
     string HPIOAssigningAuthorityName { get; }
     string HPIOAssigningFacilityID { get; }
     string HPIOIdentifierTypeCode { get; }

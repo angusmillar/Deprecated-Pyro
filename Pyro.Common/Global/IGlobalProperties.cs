@@ -4,6 +4,8 @@
   {
     string ServiceRootUrl { get; }
 
+    bool FHIRApiAuthentication { get; }
+
     string ThisServersEntityCode { get; }
     string ThisServersEntitySystem { get; }
     string ThisServersManagingOrganizationResource { get; }

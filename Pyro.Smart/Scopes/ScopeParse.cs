@@ -35,7 +35,7 @@ namespace Pyro.Smart.Scopes
         {
           //Parse the resource
           string ResourceName = DotSplit[0].Trim();
-          if (ResourceName == KeyWord.ReadWrite)
+          if (ResourceName == KeyWord.All)
           {
             SmartScope.Resource = FHIRAllTypes.Resource;
           }
@@ -61,8 +61,8 @@ namespace Pyro.Smart.Scopes
             case KeyWord.Write:
               SmartScope.Action = SmartEnum.Action.Write;
               break;
-            case KeyWord.ReadWrite:
-              SmartScope.Action = SmartEnum.Action.ReadWrite;
+            case KeyWord.All:
+              SmartScope.Action = SmartEnum.Action.All;
               break;
             default:
               return false;

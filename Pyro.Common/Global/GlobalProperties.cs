@@ -13,6 +13,8 @@ namespace Pyro.Common.Global
     {
       _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
 
+      _FHIRApiAuthentication = WebConfigProperties.FHIRApiAuthentication();
+
       _ThisServersEntityCode = WebConfigProperties.ThisServersEntityCode();
       _ThisServersEntitySystem = WebConfigProperties.ThisServersEntitySystem();
       _ThisServersManagingOrganizationResource = WebConfigProperties.ThisServersManagingOrganizationResource();
@@ -41,6 +43,12 @@ namespace Pyro.Common.Global
     public string ServiceRootUrl
     {
       get { return _ServiceRootUrl; }
+    }
+
+    private bool _FHIRApiAuthentication;
+    public bool FHIRApiAuthentication
+    {
+      get { return _FHIRApiAuthentication; }
     }
 
     private string _ThisServersEntityCode;

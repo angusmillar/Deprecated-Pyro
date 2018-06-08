@@ -21,6 +21,11 @@ namespace Pyro.Common.Global
         return ServiceBaseURL.ToString();
       }      
     }
+    
+    public static bool FHIRApiAuthentication()
+    {
+      return "FHIRApiAuthentication".AppSettingAsBoolOrDefault(true);
+    }
 
     public static string ThisServersEntityCode()
     {

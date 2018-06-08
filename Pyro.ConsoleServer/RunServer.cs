@@ -19,21 +19,26 @@ namespace Pyro.ConsoleServer
       {
         while (!StopServer)
         {
+          
           Console.Title = "Pyro.ConsoleServer";
           Console.WriteLine(PyroImage);
+          Console.ForegroundColor = ConsoleColor.Cyan;
           Console.WriteLine("");
           Console.WriteLine("Endpoint: " + FhirEndpoint);
           Console.WriteLine("");
           Console.WriteLine("(Hit any key to stop the server)");
           Console.ReadKey();
           Console.Clear();
+          Console.ForegroundColor = ConsoleColor.Yellow;
           Console.WriteLine("Are you sure you want to stop the server? ");
           Console.WriteLine("");
           Console.WriteLine("Hit [Enter] for Yes or any key for No.");
           Console.WriteLine("");
+          Console.ResetColor();
           ConsoleKeyInfo info = Console.ReadKey();
           if (info.Key == ConsoleKey.Enter)
           {
+            Console.ForegroundColor = ConsoleColor.Red;
             StopServer = true;
             Console.WriteLine("Server is Stopping, Bye!");            
             Console.WriteLine("");
@@ -47,6 +52,7 @@ namespace Pyro.ConsoleServer
             Console.Write("..1");
             System.Threading.Thread.Sleep(500);
             Console.WriteLine("........Bye!");
+            Console.ResetColor();
           }
           else
           {

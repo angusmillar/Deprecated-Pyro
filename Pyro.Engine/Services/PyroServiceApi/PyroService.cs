@@ -73,7 +73,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Base");
+          ILog.Error(Exec, $"PyroService.Base, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -97,7 +97,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Metadata");
+          ILog.Error(Exec, $"PyroService.Metadata, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -110,6 +110,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       {
         try
         {
+          System.Security.Principal.IPrincipal x = System.Threading.Thread.CurrentPrincipal;
+          
+
           IRequestServiceRootValidate.Validate(BaseRequestUri);                             
           IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request);          
           IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetRead(id, RequestMeta);
@@ -125,7 +128,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Get");
+          ILog.Error(Exec, $"PyroService.Get, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -148,7 +151,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.History");
+          ILog.Error(Exec, $"PyroService.History, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -171,7 +174,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Search");
+          ILog.Error(Exec, $"PyroService.Search, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -194,7 +197,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.CompartmentSearch");
+          ILog.Error(Exec, $"PyroService.CompartmentSearch, Request: {Request.RequestUri.OriginalString}" );
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -217,7 +220,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Post");
+          ILog.Error(Exec, $"PyroService.Post, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -239,7 +242,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.PostFormSearch");
+          ILog.Error(Exec, $"PyroService.PostFormSearch, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -262,7 +265,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Put");
+          ILog.Error(Exec, $"PyroService.Put, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -285,7 +288,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.ConditionalPut");
+          ILog.Error(Exec, $"PyroService.ConditionalPut, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -308,7 +311,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.Delete");
+          ILog.Error(Exec, $"PyroService.Delete, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -331,7 +334,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.ConditionalDelete");
+          ILog.Error(Exec, $"PyroService.ConditionalDelete, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -359,7 +362,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.BaseOperationWithParameters");
+          ILog.Error(Exec, $"PyroService.BaseOperationWithParameters, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -387,7 +390,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.BaseOperationWithOutParameters");
+          ILog.Error(Exec, $"PyroService.BaseOperationWithOutParameters, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -415,7 +418,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.ResourceOperationWithParameters");
+          ILog.Error(Exec, $"PyroService.ResourceOperationWithParameters, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -443,7 +446,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.ResourceInstanceOperationWithParameters");
+          ILog.Error(Exec, $"PyroService.ResourceInstanceOperationWithParameters, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
@@ -471,7 +474,7 @@ namespace Pyro.Engine.Services.PyroServiceApi
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, "PyroService.ResourceInstanceOperationWithParameters");
+          ILog.Error(Exec, $"PyroService.ResourceInstanceOperationWithParameters, Request: {Request.RequestUri.OriginalString}");
           throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
             Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Exception, Exec.Message), Exec.Message);
         }
