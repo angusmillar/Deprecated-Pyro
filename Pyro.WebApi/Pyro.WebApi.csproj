@@ -211,8 +211,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
-    <Compile Include="Authorization\CustomAuthorizationFilterAttribute.cs" />
-    <Compile Include="Authorization\PyroCustomAuthorization.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />
     <Compile Include="CompositionRoot\MapperProvider.cs" />
     <Compile Include="CompositionRoot\IndexSetterFactory.cs" />
