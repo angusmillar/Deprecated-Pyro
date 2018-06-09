@@ -121,6 +121,13 @@
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="DtoEntity\DtoIncludeResource.cs" />
     <Compile Include="DtoEntity\DtoResource.cs" />
+    <Compile Include="Global\DbGlobalProperties.cs" />
+    <Compile Include="Global\WebConfigPropertiesNames.cs" />
+    <Compile Include="Global\WebConfigPropertiesDefaults.cs" />
+    <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
+    <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
+    <Compile Include="ProductText\PyroWarmUpMessages.cs" />
+    <Compile Include="ServiceConfigration\DtoServiceConfigration.cs" />
     <Compile Include="ServiceRoot\DtoRootUrlStore.cs" />
     <Compile Include="Compartment\DtoServiceCompartment.cs" />
     <Compile Include="Compartment\DtoServiceCompartmentCached.cs" />

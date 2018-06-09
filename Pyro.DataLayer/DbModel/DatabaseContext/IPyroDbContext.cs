@@ -11,6 +11,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     DbSet<TEntity> Set<TEntity>() where TEntity : class;
     System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity);
     DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
+    DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }
     DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
     DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
     DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }

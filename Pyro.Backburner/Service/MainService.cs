@@ -17,10 +17,10 @@ namespace Pyro.Backburner.Service
   public class MainService
   {
     private HubConnection hubConnection;
-    private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(10000);
-    private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(1000);
+    private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(1000 * 5); //5 secs
+    private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(1000 * 1); //1 sec
     private Timer _timer;
-    private Uri PyroServerConnectionUrl = new Uri("http://localhost:8888");
+    private string PyroServerConnectionUrl = string.Empty;
     private Container Container;
 
     public MainService()
@@ -31,11 +31,21 @@ namespace Pyro.Backburner.Service
     {
       // write code here that runs when the Windows Service starts up.  
       Console.Clear();
+      Console.ForegroundColor = ConsoleColor.DarkYellow;
       Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
+      Console.ResetColor();
       ConsoleSupport.DateTimeStampWriteLine("Starting...");
       Container = new Container();
       App_Start.SimpleInjectorWebApiInitializer.Initialize(Container);
-      
+
+
+      // IHI Search Service
+      var FhirApiDiscoveryTaskLauncher = new FhirApiDiscoveryTaskLauncher(Container);
+      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask("FhirApiDiscoveryTaskLauncher"));
+      PyroServerConnectionUrl = FhirApiDiscoveryTaskLauncher.Launch();
+
+
+
       _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);
             
     }
@@ -47,14 +57,14 @@ namespace Pyro.Backburner.Service
       Console.WriteLine("Registered Tasks:");
 
       // ========================================================================================
-      // ==============  Registered each task Launchr to run ====================================
+      // ==============  Registered each task Launcher to run ====================================
       // ========================================================================================
 
       // IHI Search Service
       var IhiSearchServiceTaskLauncher = new IhiSearchServiceTaskLauncher(Container);
       ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
-      hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), IHiServiceResolveIHIPayload
-        => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
+      hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), 
+        IHiServiceResolveIHIPayload => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
       
 
       // ========================================================================================
@@ -86,8 +96,29 @@ namespace Pyro.Backburner.Service
     {
       //stop the timer
       _timer.Change(Timeout.Infinite, Timeout.Infinite);
+      
+      StartupHub();
+    }
+    
+    private void StartupHub()
+    {
 
-      hubConnection = new HubConnection(PyroServerConnectionUrl.OriginalString);
+      //We don't actualy know if the pyro server is running with TLS or not so we first try https and is not connected we try http next time
+      if (PyroServerConnectionUrl.ToLower().StartsWith("https://"))
+      {
+        PyroServerConnectionUrl = "http://" + PyroServerConnectionUrl.Substring(8, PyroServerConnectionUrl.Length - 8);
+      }
+      else if (PyroServerConnectionUrl.ToLower().StartsWith("http://"))
+      {
+        PyroServerConnectionUrl = "https://" + PyroServerConnectionUrl.Substring(7, PyroServerConnectionUrl.Length - 7);
+      }
+      else
+      {
+        PyroServerConnectionUrl = "https://" + PyroServerConnectionUrl;
+      }
+
+      hubConnection = new HubConnection(PyroServerConnectionUrl);
+
       hubConnection.Closed += HubConnection_Closed;
       hubConnection.ConnectionSlow += HubConnection_ConnectionSlow;
       hubConnection.Error += HubConnection_Error;
@@ -96,12 +127,8 @@ namespace Pyro.Backburner.Service
       hubConnection.Reconnecting += HubConnection_Reconnecting;
       hubConnection.StateChanged += HubConnection_StateChanged;
       LoadTasks();
-      StartupHub();
-    }
-    
-    private void StartupHub()
-    {     
-      ConsoleWriteLine($"Connecting to Pyro Server at : {PyroServerConnectionUrl.OriginalString}");
+
+      ConsoleWriteLine($"Connecting to Pyro Server at : {PyroServerConnectionUrl}");
       try
       {
         hubConnection.Start();
@@ -122,7 +149,7 @@ namespace Pyro.Backburner.Service
         Console.WriteLine();
         ConsoleSupport.Line();
         ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");        
-        ConsoleWriteLine($"At address: {PyroServerConnectionUrl.OriginalString}");
+        ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
         //ConsoleSupport.Line();
       }
       else
@@ -135,7 +162,7 @@ namespace Pyro.Backburner.Service
 
     private void HubConnection_Reconnecting()
     {
-      ConsoleWriteLine($"Reconnecting to Pyro Server at : {PyroServerConnectionUrl.OriginalString}");
+      ConsoleWriteLine($"Reconnecting to Pyro Server at : {PyroServerConnectionUrl}");
     }
 
     private void HubConnection_Reconnected()

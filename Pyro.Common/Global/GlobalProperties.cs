@@ -11,24 +11,17 @@ namespace Pyro.Common.Global
   {
     public GlobalProperties()
     {
-      _ServiceRootUrl = WebConfigProperties.ServiceBaseURL();
-
-      _FHIRApiAuthentication = WebConfigProperties.FHIRApiAuthentication();
-
+      _ServiceBaseURL = WebConfigProperties.ServiceBaseURL();
+      _FHIRApiAuthentication = WebConfigProperties.FHIRApiAuthentication();    
       _ThisServersEntityCode = WebConfigProperties.ThisServersEntityCode();
       _ThisServersEntitySystem = WebConfigProperties.ThisServersEntitySystem();
       _ThisServersManagingOrganizationResource = WebConfigProperties.ThisServersManagingOrganizationResource();
-
-      _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();
-
-      _ApplicationVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;
-
+      _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();      
+      _ApplicationVersionInfo = WebConfigPropertiesDefaults.ApplicationVersionInfo;
       _NumberOfRecordsPerPageDefault = WebConfigProperties.NumberOfRecordsPerPageDefault();
       _MaxNumberOfRecordsPerPage = WebConfigProperties.MaxNumberOfRecordsPerPage();
-
       _FhirAuditEventLogRequestData = WebConfigProperties.FhirAuditEventLogRequestData();
       _FhirAuditEventLogResponseData = WebConfigProperties.FhirAuditEventLogResponseData();
-
       _HIServiceCertificateSerialNumber = WebConfigProperties.HIServiceCertificateSerialNumber();
       _HIServiceConnectivityActive = WebConfigProperties.HIServiceConnectivityActive();
       _HIServiceEndpoint = WebConfigProperties.HIServiceEndpoint();
@@ -39,10 +32,10 @@ namespace Pyro.Common.Global
       _HIServiceIHIValidationPeriodDays = WebConfigProperties.HIServiceIHIValidationPeriodDays();
     }
 
-    private string _ServiceRootUrl;
-    public string ServiceRootUrl
+    private string _ServiceBaseURL;
+    public string ServiceBaseURL
     {
-      get { return _ServiceRootUrl; }
+      get { return _ServiceBaseURL; }
     }
 
     private bool _FHIRApiAuthentication;

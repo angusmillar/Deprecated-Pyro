@@ -52,6 +52,7 @@ namespace Pyro.WebApi.App_Start
   using SimpleInjector.Integration.WebApi;
   using System.Web.Http;
   using Pyro.Common.Search.SearchParameterEntity;
+  using Pyro.Engine.Services.ServiceConfiguration;
 
   public static class SimpleInjectorWebApiInitializer
   {    
@@ -99,6 +100,8 @@ namespace Pyro.WebApi.App_Start
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
+      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDtoRootUrlStoreFactory, DtoRootUrlStoreFactory>(Lifestyle.Singleton);

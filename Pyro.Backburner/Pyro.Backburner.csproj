@@ -109,6 +109,9 @@
       <Link>CompositionRoot\ResourceRepositoryFactory.cs</Link>
     </Compile>
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
+    <Compile Include="ServiceTaskLaunch\FhirApiDiscoveryTaskLauncher.cs" />
+    <Compile Include="ServiceTask\FhirApiDiscovery\FhirApiDiscoveryService.cs" />
+    <Compile Include="ServiceTask\FhirApiDiscovery\IFhirApiDiscoveryService.cs" />
     <Compile Include="ServiceTask\HiService\IIhiSearchService.cs" />
     <Compile Include="ServiceTaskLaunch\IhiSearchServiceTaskLauncher.cs" />
     <Compile Include="ServiceTask\HiService\IhiSearchService.cs" />

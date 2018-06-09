@@ -133,7 +133,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
       {
         var Entry = new Bundle.EntryComponent();
         Entry.Request = new Bundle.RequestComponent();
-        Entry.FullUrl = $"{IGlobalProperties.ServiceRootUrl}/{Res.ResourceType.GetLiteral()}/{Res.Id}";
+        Entry.FullUrl = $"{IGlobalProperties.ServiceBaseURL}/{Res.ResourceType.GetLiteral()}/{Res.Id}";
         Entry.Request.Method = Bundle.HTTPVerb.PUT;
         Entry.Request.Url = $"{Res.ResourceType.GetLiteral()}/{Res.Id}";
         Entry.Resource = Res;

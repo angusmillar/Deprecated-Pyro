@@ -49,6 +49,7 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Engine.Operation;
   using SimpleInjector;
   using Pyro.Common.Search.SearchParameterEntity;
+  using Pyro.Engine.Services.ServiceConfiguration;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -73,6 +74,8 @@ namespace Pyro.Backburner.App_Start
 
       //Lifestyle.Scoped      
       container.Register<ServiceTask.HiService.IIhiSearchService, ServiceTask.HiService.IhiSearchService>(Lifestyle.Scoped);
+      container.Register<ServiceTask.FhirApiDiscovery.IFhirApiDiscoveryService, ServiceTask.FhirApiDiscovery.FhirApiDiscoveryService>(Lifestyle.Scoped);
+      
 
     }
 
@@ -89,6 +92,8 @@ namespace Pyro.Backburner.App_Start
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
       container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
+      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
 
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDtoRootUrlStoreFactory, DtoRootUrlStoreFactory>(Lifestyle.Singleton);
@@ -183,7 +188,6 @@ namespace Pyro.Backburner.App_Start
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceOperationService, FhirResourceOperationService>(Lifestyle.Scoped);
-
       //Scoped: Operations
       container.Register<IDeleteHistoryIndexesOperation, DeleteHistoryIndexesOperation>(Lifestyle.Scoped);
       container.Register<IServerSearchParameterOperation, ServerSearchParameterOperation>(Lifestyle.Scoped);

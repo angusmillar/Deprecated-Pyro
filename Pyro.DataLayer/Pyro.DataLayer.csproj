@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbModel\AutoMapperProfile\FhirReleaseProfile.cs" />
+    <Compile Include="DbModel\AutoMapperProfile\ServiceConfigurationProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentResourceProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentProfile.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\DatabaseContextConfigGenerated.cs">
@@ -84,6 +85,7 @@
     <Compile Include="DbModel\DatabaseContextConfig\IndexTokenContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\IndexStringContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ResourceContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfig\ServiceConfigurationContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceCompartmentResourceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceCompartmentContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceSearchParameterTargetResourceConfig.cs" />
@@ -129,6 +131,7 @@
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
     <Compile Include="DbModel\Entity\IConfigEntityBase.cs" />
+    <Compile Include="DbModel\Entity\ServiceConfiguration.cs" />
     <Compile Include="DbModel\Entity\ServiceCompartment.cs" />
     <Compile Include="DbModel\Entity\ServiceCompartmentResource.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameterTargetResource.cs" />
@@ -206,6 +209,10 @@
     <Compile Include="Migrations\201805100431553_SetForgienKeyToFhirReleaseForResource.Designer.cs">
       <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806080859237_ServiceConfigurationTable.cs" />
+    <Compile Include="Migrations\201806080859237_ServiceConfigurationTable.Designer.cs">
+      <DependentUpon>201806080859237_ServiceConfigurationTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -215,6 +222,7 @@
     <Compile Include="Migrations\DbSeeding\SeedServiceSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\ServiceConfigurationRepository.cs" />
     <Compile Include="Repository\Interfaces\IServiceBaseUrlRepository.cs" />
     <Compile Include="Repository\ServiceBaseUrlRepository.cs" />
     <Compile Include="Repository\FhirReleaseRepository.cs" />
@@ -297,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805100431553_SetForgienKeyToFhirReleaseForResource.resx">
       <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806080859237_ServiceConfigurationTable.resx">
+      <DependentUpon>201806080859237_ServiceConfigurationTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

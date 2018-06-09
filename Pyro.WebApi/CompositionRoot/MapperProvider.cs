@@ -27,7 +27,8 @@ namespace Pyro.WebApi.CompositionRoot
       MapperConfigurationExpression.AddProfile<ServiceCompartmentProfile>();
       MapperConfigurationExpression.AddProfile<ServiceCompartmentResourceProfile>();
       MapperConfigurationExpression.AddProfile<FhirReleaseProfile>();
-      
+      MapperConfigurationExpression.AddProfile<ServiceConfigurationProfile>();      
+
       var MapperConfiguration = new MapperConfiguration(MapperConfigurationExpression);
       
       //Validates the map profiles

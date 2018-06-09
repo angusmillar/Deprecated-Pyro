@@ -313,7 +313,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       AgentSystemPyroServer.Requestor = false;
       AgentSystemPyroServer.Network = new AuditEvent.NetworkComponent()
       {
-        Address = GlobalProperties.ServiceRootUrl,
+        Address = GlobalProperties.ServiceBaseURL,
         Type = AuditEvent.AuditEventAgentNetworkType.N5
       };
 

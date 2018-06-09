@@ -2,24 +2,17 @@
 {
   public interface IGlobalProperties
   {
-    string ServiceRootUrl { get; }
-
+    string ServiceBaseURL { get; }
     bool FHIRApiAuthentication { get; }
-
     string ThisServersEntityCode { get; }
     string ThisServersEntitySystem { get; }
     string ThisServersManagingOrganizationResource { get; }
-
     bool ApplicationCacheServicesActive { get; }
-
     string ApplicationVersionInfo { get; }
-
     int NumberOfRecordsPerPageDefault { get; }
     int MaxNumberOfRecordsPerPage { get; }
-
     bool FhirAuditEventLogRequestData { get; }
     bool FhirAuditEventLogResponseData { get; }
-
     bool HIServiceConnectivityActive { get; }
     string HIServiceCertificateSerialNumber { get; }
     string HIServiceEndpoint { get; }
@@ -27,9 +20,6 @@
     string HIServiceProductVersion { get; }
     string HIServiceVendorId { get; }
     string HIServiceVendorIdQualifier { get; }
-    int HIServiceIHIValidationPeriodDays { get; }
-    
-
-
+    int HIServiceIHIValidationPeriodDays { get; }    
   }
 }

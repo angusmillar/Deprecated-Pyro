@@ -9,10 +9,12 @@ namespace Pyro.Common.Global
   {
     public static string ServiceBaseURL()
     {
-      Uri ServiceBaseURL = "ServiceBaseURL".AppSettingAsUriOrDefault(null);
+      Uri ServiceBaseURL = WebConfigPropertiesNames.ServiceBaseURL
+        .AppSettingAsUriOrDefault(null);
+
       if (ServiceBaseURL == null)
       {
-        string Msg = "The Web.Config file of the server has an invalid 'ServiceBaseURL' property value, it must conform to a Uri format.";
+        string Msg = $"The Web.Config file of the server has an invalid '{WebConfigPropertiesNames.ServiceBaseURL}' property value, it must conform to a Uri format.";
         throw new PyroException(System.Net.HttpStatusCode.InternalServerError,
           Common.Tools.FhirOperationOutcomeSupport.Create(Hl7.Fhir.Model.OperationOutcome.IssueSeverity.Fatal, Hl7.Fhir.Model.OperationOutcome.IssueType.Exception, Msg), Msg);
       }
@@ -24,37 +26,44 @@ namespace Pyro.Common.Global
     
     public static bool FHIRApiAuthentication()
     {
-      return "FHIRApiAuthentication".AppSettingAsBoolOrDefault(true);
+      return WebConfigPropertiesNames.FHIRApiAuthentication
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.FHIRApiAuthentication);
     }
 
     public static string ThisServersEntityCode()
     {
-      return "ThisServersEntityCode".AppSettingAsStringOrDefault("ThisServersEntityCode_HasNotBeenSet");            
+      return WebConfigPropertiesNames.ThisServersEntityCode
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.ThisServersEntityCode);            
     }
 
     public static string ThisServersEntitySystem()
     {
-      return "ThisServersEntitySystem".AppSettingAsStringOrDefault("http://ThisServersEntitySystem.HasNot/BeenSet");
+      return WebConfigPropertiesNames.ThisServersEntitySystem
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.ThisServersEntitySystem);
     }
 
     public static string ThisServersManagingOrganizationResource()
     {
-      return "ThisServersManagingOrganizationResource".AppSettingAsStringOrDefault("http://ThisServersEntitySystem.HasNot/BeenSet");
+      return WebConfigPropertiesNames.ThisServersManagingOrganizationResource
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.ThisServersManagingOrganizationResource);
     }
 
     public static bool ApplicationCacheServicesActive()
     {
-      return "ApplicationCacheServicesActive".AppSettingAsBoolOrDefault(true);      
+      return WebConfigPropertiesNames.ApplicationCacheServicesActive
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.ApplicationCacheServicesActive);      
     }
 
     public static bool FhirAuditEventLogRequestData()
     {
-      return "FhirAuditEventLogRequestData".AppSettingAsBoolOrDefault(true);      
+      return WebConfigPropertiesNames.FhirAuditEventLogRequestData
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.FhirAuditEventLogRequestData);      
     }
 
     public static bool FhirAuditEventLogResponseData()
     {
-      return "FhirAuditEventLogResponseData".AppSettingAsBoolOrDefault(true);      
+      return WebConfigPropertiesNames.FhirAuditEventLogResponseData
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.FhirAuditEventLogResponseData);      
     }
 
 
@@ -68,7 +77,8 @@ namespace Pyro.Common.Global
     /// <returns>NumberOfRecordsPerPage integer</returns>
     public static int NumberOfRecordsPerPageDefault()
     {      
-      return "NumberOfRecordsPerPageDefault".AppSettingAsIntOrDefault(50);      
+      return WebConfigPropertiesNames.NumberOfRecordsPerPageDefault
+        .AppSettingAsIntOrDefault(WebConfigPropertiesDefaults.NumberOfRecordsPerPageDefault);      
     }
 
     /// <summary>
@@ -82,13 +92,13 @@ namespace Pyro.Common.Global
     /// </summary>
     /// <returns>NumberOfRecordsPerPage integer</returns>
     public static int MaxNumberOfRecordsPerPage()
-    {
-      const int AbsoluteMaxNumberOfRecordsPerPage = 5000;
-      const int SystemDefaultMaxNumberOfRecordsPerPage = 500;
-      int MaxNumberOfRecordsPerPage = "MaxNumberOfRecordsPerPage".AppSettingAsIntOrDefault(SystemDefaultMaxNumberOfRecordsPerPage);
-      if (MaxNumberOfRecordsPerPage > AbsoluteMaxNumberOfRecordsPerPage)
+    {      
+      int MaxNumberOfRecordsPerPage = WebConfigPropertiesNames.MaxNumberOfRecordsPerPage
+        .AppSettingAsIntOrDefault(WebConfigPropertiesDefaults.SystemDefaultMaxNumberOfRecordsPerPage);
+
+      if (MaxNumberOfRecordsPerPage > WebConfigPropertiesDefaults.AbsoluteMaxNumberOfRecordsPerPage)
       {
-        return AbsoluteMaxNumberOfRecordsPerPage;
+        return WebConfigPropertiesDefaults.AbsoluteMaxNumberOfRecordsPerPage;
       }
       else
       {
@@ -103,7 +113,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static bool HIServiceConnectivityActive()
     {
-      return "HIServiceConnectivityActive".AppSettingAsBoolOrDefault(false);      
+      return WebConfigPropertiesNames.HIServiceConnectivityActive
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.HIServiceConnectivityActive);      
     }
 
     /// <summary>
@@ -112,7 +123,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceCertificateSerialNumber()
     {
-      return "HIServiceCertificateSerialNumber".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceCertificateSerialNumber
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceCertificateSerialNumber);      
     }
 
     /// <summary>
@@ -121,7 +133,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceEndpoint()
     {
-      return "HIServiceEndpoint".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceEndpoint
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceEndpoint);      
     }
 
     /// <summary>
@@ -131,7 +144,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceProductName()
     {
-      return "HIServiceProductName".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceProductName
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceProductName);      
     }
 
     /// <summary>
@@ -141,7 +155,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceProductVersion()
     {
-      return "HIServiceProductVersion".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceProductVersion
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceProductVersion);      
     }
 
     /// <summary>
@@ -151,7 +166,8 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceVendorId()
     {
-      return "HIServiceVendorId".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceVendorId
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceVendorId);      
     }
 
     /// <summary>
@@ -162,15 +178,15 @@ namespace Pyro.Common.Global
     /// <returns></returns>
     public static string HIServiceVendorIdQualifier()
     {
-      return "HIServiceVendorIdQualifier".AppSettingAsStringOrDefault(string.Empty);      
+      return WebConfigPropertiesNames.HIServiceVendorIdQualifier
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.HIServiceVendorIdQualifier);      
     }
 
     public static int HIServiceIHIValidationPeriodDays()
     {      
-      return "HIServiceIHIValidationPeriodDays".AppSettingAsIntOrDefault(1);      
+      return WebConfigPropertiesNames.HIServiceIHIValidationPeriodDays
+        .AppSettingAsIntOrDefault(WebConfigPropertiesDefaults.HIServiceIHIValidationPeriodDays);      
     }
-
-
     
     private static int AppSettingAsIntOrDefault(this string Key, int Default)
     {

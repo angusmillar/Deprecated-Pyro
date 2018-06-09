@@ -99,6 +99,7 @@
     <Compile Include="Services\Metadata\MetadataService.cs" />
     <Compile Include="Services\PyroServiceApi\PyroService.cs" />
     <Compile Include="Services\ServiceBaseUrl\ServiceBaseUrlService.cs" />
+    <Compile Include="Services\ServiceConfiguration\ServiceConfigurationService.cs" />
     <Compile Include="Services\ServiceSearchParameter\ServiceSearchParameterService.cs" />
     <Compile Include="TriggerServices\CompartmentDefinitionResource\ITriggerCompartmentDefinition.cs" />
     <Compile Include="TriggerServices\ITriggerOutcome.cs" />

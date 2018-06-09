@@ -37,8 +37,8 @@ namespace Pyro.WebApi
       config.Formatters.Add(new System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter());
 
       //Add Exception Handler
-      var IFhirExceptionFilter = (IFhirExceptionFilter)config.DependencyResolver.GetService(typeof(IFhirExceptionFilter));
-      config.Filters.Add(IFhirExceptionFilter);
+      //var IFhirExceptionFilter = (IFhirExceptionFilter)config.DependencyResolver.GetService(typeof(IFhirExceptionFilter));
+      //config.Filters.Add(IFhirExceptionFilter);
 
 
       config.MapHttpAttributeRoutes();

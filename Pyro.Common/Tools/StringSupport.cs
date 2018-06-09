@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -131,6 +132,11 @@ namespace Pyro.Common.Tools
     public static bool IsEqualUri(this string left, string Uri)
     {
       return (left.StripHttp() == Uri.StripHttp());
+    }
+
+    public static string GetPropertyName<TValue>(Expression<Func<TValue>> propertyId)
+    {
+      return ((MemberExpression)propertyId.Body).Member.Name;
     }
 
   }

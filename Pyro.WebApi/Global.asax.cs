@@ -11,8 +11,8 @@ namespace Pyro.WebApi
   {
     protected void Application_Start()
     {
-      Pyro.WebApi.App_Start.SimpleInjectorWebApiInitializer.Initialize(GlobalConfiguration.Configuration);
-      GlobalConfiguration.Configure(Pyro.WebApi.WebApiConfig.Register);
+      //Pyro.WebApi.App_Start.SimpleInjectorWebApiInitializer.Initialize(GlobalConfiguration.Configuration);
+      //GlobalConfiguration.Configure(Pyro.WebApi.WebApiConfig.Register);
     }
   }
 }
