@@ -36,11 +36,11 @@ namespace Pyro.Common.ServiceRoot
     {
       if (!GlobalProperties.ApplicationCacheServicesActive)
       {
-        return WebConfigProperties.ServiceBaseURL();
+        return GlobalProperties.ServiceBaseURL;
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(CacheKey, () => WebConfigProperties.ServiceBaseURL());        
+        return IApplicationCacheSupport.GetOrSet(CacheKey, () => GlobalProperties.ServiceBaseURL);        
       }
     }
 
