@@ -53,9 +53,12 @@ namespace Pyro.WebApi.App_Start
   using System.Web.Http;
   using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Engine.Services.ServiceConfiguration;
+  using Pyro.Common.Enum;
 
   public static class SimpleInjectorWebApiInitializer
-  {    
+  {
+    private static PyroProject.PyroProjectType ProjectType = PyroProject.PyroProjectType.FhirApi;
+
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(HttpConfiguration configuration)
     {
@@ -88,10 +91,32 @@ namespace Pyro.WebApi.App_Start
     }
 
     /// <summary>
+    /// Services that are Conditional on which Project is runnning. For instance a different concreate implementation maybe used for the same Interface    
+    /// </summary>
+    private static void InitializeConditionalServicesInContainer(Container container)
+    {
+      switch (ProjectType)
+      {
+        case PyroProject.PyroProjectType.FhirApi:
+          {
+            container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+          }
+          break;
+        case PyroProject.PyroProjectType.Backburner:
+          {
+            container.Register<IGlobalProperties, DbGlobalProperties>(Lifestyle.Scoped);
+          }
+          break;
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(ProjectType.GetPyroLiteral(), (int)ProjectType, typeof(PyroProject.PyroProjectType));          
+      }
+    }
+
+    /// <summary>
     /// Services that are common to Pyro.WebApi & Pyro.Backburner
     /// (The whole method can be cut & pasted from Pyro.WebApi.App_Start.SimpleInjectorWebApiInitializer class to here and and vice versa)
     /// </summary>
-
+    /// <param name="container"></param>
     private static void InitializePyroServerServicesInContainer(Container container)
     {
       //========================================================================================================
@@ -99,7 +124,6 @@ namespace Pyro.WebApi.App_Start
       //========================================================================================================
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
-      container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
       container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
       container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
 
@@ -128,8 +152,8 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Singleton);
-      container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Singleton);
-      
+      container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Scoped);
+
 
       //Singleton: Cache      
       container.Register<IApplicationCacheSupport, ApplicationCacheSupport>(Lifestyle.Singleton);
@@ -160,7 +184,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<ISearchParametersServiceOutcome, SearchParametersServiceOutcome>(Lifestyle.Transient);
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
-      
+
 
 
       //========================================================================================================
@@ -181,7 +205,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, ResourceServiceFactory>(Lifestyle.Scoped);
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
-      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);      
+      container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
@@ -217,15 +241,15 @@ namespace Pyro.WebApi.App_Start
 
       //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
-      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);      
+      container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
 
       container.Register<Pyro.DataLayer.Repository.Interfaces.IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
 
-      container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);      
+      container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
-      container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);      
+      container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);

@@ -2,6 +2,7 @@
 namespace Pyro.Backburner.App_Start
 {
   using Hl7.Fhir.Specification.Source;
+  using Pyro.Common.Enum;
   using Pyro.Common.DtoEntity;
   using Pyro.Common.Cache;
   using Pyro.Common.CompositionRoot.Concrete;
@@ -51,14 +52,18 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Engine.Services.ServiceConfiguration;
 
+  
   public static class SimpleInjectorWebApiInitializer
   {
+    private static PyroProject.PyroProjectType ProjectType = PyroProject.PyroProjectType.Backburner;
+
     /// <summary>Initialise the container and register it as Web API Dependency Resolver.</summary>
     public static void Initialize(Container container)
     {
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       InitializeBackburnerServicesInContainer(container);
       InitializePyroServerServicesInContainer(container);
+      InitializeConditionalServicesInContainer(container);      
       container.Verify();
     }
 
@@ -80,6 +85,29 @@ namespace Pyro.Backburner.App_Start
     }
 
     /// <summary>
+    /// Services that are Conditional on which Project is runnning. For instance a different concreate implementation maybe used for the same Interface    
+    /// </summary>    
+    private static void InitializeConditionalServicesInContainer(Container container)
+    {
+      switch (ProjectType)
+      {
+        case PyroProject.PyroProjectType.FhirApi:
+          {
+            container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
+          }
+          break;
+        case PyroProject.PyroProjectType.Backburner:
+          {
+            container.Register<IGlobalProperties, DbGlobalProperties>(Lifestyle.Scoped);
+          }
+          break;
+        default:
+          throw new System.ComponentModel.InvalidEnumArgumentException(ProjectType.GetPyroLiteral(), (int)ProjectType, typeof(PyroProject.PyroProjectType));
+      }
+    }
+
+
+    /// <summary>
     /// Services that are common to Pyro.WebApi & Pyro.Backburner
     /// (The whole method can be cut & pasted from Pyro.WebApi.App_Start.SimpleInjectorWebApiInitializer class to here and and vice versa)
     /// </summary>
@@ -91,7 +119,6 @@ namespace Pyro.Backburner.App_Start
       //========================================================================================================
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
-      container.Register<IGlobalProperties, GlobalProperties>(Lifestyle.Singleton);
       container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
       container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
 
@@ -120,7 +147,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Singleton);
-      container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Singleton);
+      container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Scoped);
 
 
       //Singleton: Cache      
@@ -223,6 +250,5 @@ namespace Pyro.Backburner.App_Start
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
     }
-
   }
 }
