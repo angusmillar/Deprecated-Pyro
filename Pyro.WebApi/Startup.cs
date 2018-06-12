@@ -22,35 +22,65 @@ namespace Pyro.WebApi
     public void Configuration(IAppBuilder app)
     {
       RegisterSignalRHubs(app);
-
+      int RequestCounter = 1;
       app.Use(async (environment, next) =>
       {
         var QueryString = environment.Environment["owin.RequestQueryString"] as string;
         var HttpMethod = environment.Environment["owin.RequestMethod"] as string;
         string RequestRoot = $"{environment.Request.Uri.Scheme}://{environment.Request.Uri.Authority}{environment.Request.Uri.AbsolutePath}";
         IHeaderDictionary HeaderDic = environment.Request.Headers;
-
-        Console.WriteLine("----------------------------------- Request -----------------------------------");
+        Console.Clear();
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Cyan;        
+        Console.WriteLine($"----------------------------------- Request ({RequestCounter.ToString().PadLeft(4, '0')}) ----------------------------");        
         Console.WriteLine("");
-        Console.WriteLine($"Received : {DateTimeOffset.Now.ToString()}");
-        Console.WriteLine($"Method   : {HttpMethod}");
-        Console.WriteLine($"Request  : {RequestRoot}");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"Received : ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"{DateTimeOffset.Now.ToString()}");        
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"Method   : ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"{HttpMethod}");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"Request  : ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"{RequestRoot}");
         if (!string.IsNullOrWhiteSpace(QueryString))
-          Console.WriteLine($"Query    : {QueryString}");
+        {
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.Write($"Query    : ");
+          Console.ForegroundColor = ConsoleColor.White;
+          Console.WriteLine($"{QueryString}");
+        }
         Console.WriteLine("");
-        Console.WriteLine("----------------------------------- Headers -----------------------------------");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("----------------------------------- Headers -----------------------------------");        
         Console.WriteLine("");
         foreach (var Head in HeaderDic)
         {
-          Console.WriteLine($"{Head.Key.PadRight(16, ' ')}: {string.Join(",", Head.Value)}");
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.Write($"{Head.Key.PadRight(16, ' ')}: ");
+          Console.ForegroundColor = ConsoleColor.White;
+          Console.WriteLine($"{string.Join(",", Head.Value)}");
+          Console.ForegroundColor = ConsoleColor.Cyan;
         }
         Console.WriteLine("");
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("-------------------------------------------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("");
         await next();
-        Console.WriteLine("----------------------------------- Response ----------------------------------");
-        Console.WriteLine($"Response : {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
+        Console.ForegroundColor = ConsoleColor.Magenta;        
+        Console.WriteLine($"----------------------------------- Response ({RequestCounter.ToString().PadLeft(4, '0')}) ---------------------------");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"Response : ");
+        Console.ForegroundColor = GetResponseColor(environment.Response.StatusCode);
+        Console.WriteLine($" {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
+        Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("-------------------------------------------------------------------------------");
+        Console.ResetColor();
+        RequestCounter++;
       });
 
       HttpConfiguration = new HttpConfiguration();
@@ -76,11 +106,27 @@ namespace Pyro.WebApi
       app.UseWebApi(HttpConfiguration);
     }
 
+    private ConsoleColor GetResponseColor(int StatusCode)
+    {
+      if (StatusCode > 0 && StatusCode < 200)
+        return ConsoleColor.Cyan;
+      if (StatusCode >= 200 && StatusCode < 300)
+        return ConsoleColor.Green;
+      if (StatusCode >= 300 && StatusCode < 400)
+        return ConsoleColor.Magenta;
+      if (StatusCode >= 400 && StatusCode < 500)
+        return ConsoleColor.Yellow;
+      if (StatusCode >= 500 && StatusCode < 600)
+        return ConsoleColor.Red;
+      else
+        return ConsoleColor.Cyan;
+    }
+
     //Warn up the database and show some warm messages while Synchronizeing the Database and Web.config file.
     private static void WarmUpDatabaseAndSychWebConfiguration()
     {
       var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
-      WarmUpMessages.Start();
+      WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");      
       System.Threading.Tasks.Task<bool> TaskResults = System.Threading.Tasks.Task<bool>.Factory.StartNew(() =>
       {
         try

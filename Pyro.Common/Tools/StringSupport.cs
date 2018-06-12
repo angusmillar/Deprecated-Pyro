@@ -72,9 +72,13 @@ namespace Pyro.Common.Tools
       }
     }
 
-    public static string TruncateLongString(this string str, int maxLength)
+    public static string Truncate(this string str, int maxLength)
     {
-      return str.Substring(0, Math.Min(str.Length, maxLength));
+      if (str.Length > maxLength)
+      {
+        return str.Substring(0, maxLength);
+      }
+      return str;      
     }
 
     public static bool StringToBoolean(string value)
@@ -138,6 +142,6 @@ namespace Pyro.Common.Tools
     {
       return ((MemberExpression)propertyId.Body).Member.Name;
     }
-
+    
   }
 }

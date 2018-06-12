@@ -15,10 +15,14 @@ namespace Pyro.Common.ProductText
     private List<string> MessageList;
     private string FirstMessage = "Fhiring up the database server";
     private string CurrentMessage = string.Empty;
+    private string ProductName = "Unknown Product";
+    private string ServiceVersion = "Unknown Version";
     private System.Diagnostics.Stopwatch Stopwatch;
 
-    public void Start()
+    public void Start(string ProductName, string ServiceVersion)
     {
+      this.ProductName = ProductName;
+      this.ServiceVersion = ServiceVersion;
       TimeSpan _updateInterval = TimeSpan.FromMilliseconds(1000 * 1); // secs
       RefreashCounter = 0;
       FirstWarmMessageDisplayed = false;
@@ -33,6 +37,8 @@ namespace Pyro.Common.ProductText
       _Timer.Change(Timeout.Infinite, Timeout.Infinite);
       _Timer = null;
       Stopwatch.Stop();
+      Console.ResetColor();
+      Console.Clear();
     }
 
     private List<string> GetMessageList()
@@ -80,27 +86,30 @@ namespace Pyro.Common.ProductText
         }
       }
       
-      Console.Clear();
-      Console.CursorVisible = false;
+      Console.Clear();      
       Console.ForegroundColor = ConsoleColor.Yellow;
-      Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Server  "));
+      Console.Write(PyroText.PyroTextLogo(this.ProductName, this.ServiceVersion));
       Console.ResetColor();
       Console.WriteLine("");
       WriteFullLine(CurrentMessage);      
       RefreashCounter++;
+      Console.CursorTop = 0;
+      Console.CursorVisible = false;
     }
 
     private void WriteFullLine(string value)
     {
+      string time = $"Time elapsed: { Stopwatch.Elapsed.Minutes.ToString()} min, { Stopwatch.Elapsed.Seconds.ToString()} secs";
       Console.BackgroundColor = ConsoleColor.Yellow;
       Console.ForegroundColor = ConsoleColor.Black;
-      Console.WriteLine($"Please wait while the database schema loads. Time elapsed: {Stopwatch.Elapsed.Minutes.ToString()} min, {Stopwatch.Elapsed.Seconds.ToString()} secs".PadRight(Console.WindowWidth - 1));
-      Console.WriteLine("".PadRight(Console.WindowWidth - 1));
-      Console.WriteLine(value.PadRight(Console.WindowWidth - 1));
-      Console.WriteLine("".PadRight(Console.WindowWidth - 1));
-      Console.WriteLine("".PadRight(Console.WindowWidth - 1));      
+      Console.Write($"Please wait while the database schema loads.".PadRight(Console.WindowWidth));
+      Console.Write("".PadRight(Console.WindowWidth));
+      Console.Write(value.PadRight(Console.WindowWidth));
+      Console.Write("".PadRight(Console.WindowWidth));
+      Console.Write(time.PadLeft(Console.WindowWidth));
       Console.ResetColor();
     }
+
 
   }
 }

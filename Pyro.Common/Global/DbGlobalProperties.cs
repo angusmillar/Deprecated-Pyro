@@ -13,16 +13,10 @@ namespace Pyro.Common.Global
     private readonly IServiceConfigurationService IServiceConfigurationService;
     private Dictionary<string, string> GlobalPropertiesDictionary;
     
-    public void RefreashFromDatabase()
-    {
-      GlobalPropertiesDictionary.Clear();
-      GlobalPropertiesDictionary = this.IServiceConfigurationService.GetServiceConfigrationDictionary();
-    }
-
     public DbGlobalProperties(IServiceConfigurationService IServiceConfigurationService)
     {
       this.IServiceConfigurationService = IServiceConfigurationService;
-      GlobalPropertiesDictionary = this.IServiceConfigurationService.GetServiceConfigrationDictionary();
+      GlobalPropertiesDictionary = this.IServiceConfigurationService.GetServiceConfigrationDictionary();      
     }
     
     public string ServiceBaseURL { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ServiceBaseURL, string.Empty); } }
@@ -41,13 +35,7 @@ namespace Pyro.Common.Global
     
     public int NumberOfRecordsPerPageDefault { get { return GetIntPropertyValueOrDefault(WebConfigPropertiesNames.NumberOfRecordsPerPageDefault, WebConfigPropertiesDefaults.NumberOfRecordsPerPageDefault); } }
     
-    public int MaxNumberOfRecordsPerPage
-    {
-      get
-      {
-        return GetIntPropertyValueOrDefault(WebConfigPropertiesNames.MaxNumberOfRecordsPerPage, WebConfigPropertiesDefaults.SystemDefaultMaxNumberOfRecordsPerPage);
-      }
-    }
+    public int MaxNumberOfRecordsPerPage { get { return GetIntPropertyValueOrDefault(WebConfigPropertiesNames.MaxNumberOfRecordsPerPage, WebConfigPropertiesDefaults.SystemDefaultMaxNumberOfRecordsPerPage);} }
     
     public bool FhirAuditEventLogRequestData { get { return GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.FhirAuditEventLogRequestData, WebConfigPropertiesDefaults.FhirAuditEventLogRequestData); } }
     

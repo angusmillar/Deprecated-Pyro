@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Pyro.Common.Tools;
 
 namespace Pyro.Common.ProductText
 {
@@ -14,14 +15,19 @@ namespace Pyro.Common.ProductText
     /// </summary>
     /// <param name="ServiceName"></param>
     /// <returns></returns>
-    public static string PyroTextLogo(string ServiceName)
+    public static string PyroTextLogo(string ServiceName, string ServiceVersion)
     {
+      //Truncate if to long
+      ServiceName = ServiceName.Truncate(29).PadRight(29, ' ');
+      ServiceVersion = ServiceVersion.Truncate(25).PadRight(25, ' ');
+
       StringBuilder sb = new StringBuilder();
       sb.AppendLine("                                 `:+syhhhhys+:`");
-      sb.AppendLine($" {ServiceName}              .odNNNNNNNNNNNNNNdo.");
+      sb.AppendLine($" {ServiceName}.odNNNNNNNNNNNNNNdo.");
       //sb.AppendLine(" PYRO FHIR Server              .odNNNNNNNNNNNNNNdo.");
       sb.AppendLine("                             `+++oshNNNNNNNmhso+++.");
-      sb.AppendLine(" FHIR Release 3.0.1        .-------::/dNNd:::-------.");
+      sb.AppendLine($" {ServiceVersion} .-------::/dNNd:::-------.");
+      //sb.AppendLine(" FHIR Release 3.0.1        .-------::/dNNd:::-------.");
       sb.AppendLine("                           -        `o.Nm`o`        -");
       sb.AppendLine("                          .`         s`Nm`o         .`");
       sb.AppendLine("                          .`        :/+NN/+-        ..");
@@ -40,6 +46,7 @@ namespace Pyro.Common.ProductText
 
       return sb.ToString();
     }
+
 
 
   }

@@ -11,18 +11,19 @@ using Pyro.Backburner.ServiceTaskLaunch;
 using Pyro.Backburner.ServiceTask;
 using System.Threading.Tasks;
 using Pyro.Backburner.Tools;
+using Pyro.Common.Global;
 
 namespace Pyro.Backburner.Service
 {
   public class MainService
   {
     private HubConnection hubConnection;
-    private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(1000 * 5); //5 secs
+    private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(1000 * 10); //5 secs
     private readonly TimeSpan _StartupDelay = TimeSpan.FromMilliseconds(1000 * 1); //1 sec
     private Timer _timer;
     private string PyroServerConnectionUrl = string.Empty;
     private Container Container;
-
+    
     public MainService()
     {
     }
@@ -32,30 +33,27 @@ namespace Pyro.Backburner.Service
       // write code here that runs when the Windows Service starts up.  
       Console.Clear();
       Console.ForegroundColor = ConsoleColor.DarkYellow;
-      Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
-      Console.ResetColor();
+      Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
+      Console.ResetColor();         
       ConsoleSupport.DateTimeStampWriteLine("Starting...");
+      var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
+      WarmUpMessages.Start("Pyro Backburner", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
       Container = new Container();
       App_Start.SimpleInjectorWebApiInitializer.Initialize(Container);
+      WarmUpMessages.Stop();
+      Console.ForegroundColor = ConsoleColor.Cyan;
+      GetPyroServerConnectionUrl();
 
+      
 
-      // IHI Search Service
-      var FhirApiDiscoveryTaskLauncher = new FhirApiDiscoveryTaskLauncher(Container);
-      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask("FhirApiDiscoveryTaskLauncher"));
-      PyroServerConnectionUrl = FhirApiDiscoveryTaskLauncher.Launch();
-
-
-
-      _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);
-            
+      ConsoleSupport.DateTimeStampWriteLine("Database schema loaded...");
+      _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);            
     }
 
     private void LoadTasks()
     {
       var hubProxy = hubConnection.CreateHubProxy("BroadcastHub");
-      Console.WriteLine("");
-      Console.WriteLine("Registered Tasks:");
-
+      Tools.ConsoleSupport.TimeStampWriteLine("Registered Tasks:");      
       // ========================================================================================
       // ==============  Registered each task Launcher to run ====================================
       // ========================================================================================
@@ -65,10 +63,9 @@ namespace Pyro.Backburner.Service
       ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
       hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), 
         IHiServiceResolveIHIPayload => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
-      
-
+     
       // ========================================================================================
-      Console.WriteLine("");
+      
     }
     
     public void Stop()
@@ -95,28 +92,12 @@ namespace Pyro.Backburner.Service
     private void InitilizeHub(object state)
     {
       //stop the timer
-      _timer.Change(Timeout.Infinite, Timeout.Infinite);
-      
+      _timer.Change(Timeout.Infinite, Timeout.Infinite);      
       StartupHub();
     }
     
     private void StartupHub()
-    {
-
-      //We don't actualy know if the pyro server is running with TLS or not so we first try https and is not connected we try http next time
-      if (PyroServerConnectionUrl.ToLower().StartsWith("https://"))
-      {
-        PyroServerConnectionUrl = "http://" + PyroServerConnectionUrl.Substring(8, PyroServerConnectionUrl.Length - 8);
-      }
-      else if (PyroServerConnectionUrl.ToLower().StartsWith("http://"))
-      {
-        PyroServerConnectionUrl = "https://" + PyroServerConnectionUrl.Substring(7, PyroServerConnectionUrl.Length - 7);
-      }
-      else
-      {
-        PyroServerConnectionUrl = "https://" + PyroServerConnectionUrl;
-      }
-
+    {      
       hubConnection = new HubConnection(PyroServerConnectionUrl);
 
       hubConnection.Closed += HubConnection_Closed;
@@ -142,22 +123,30 @@ namespace Pyro.Backburner.Service
     private void HubConnection_StateChanged(StateChange obj)
     {
       if (obj.NewState == ConnectionState.Connected)
-      {
-        Console.Clear();        
+      {        
+        Console.Clear();
         Console.WriteLine();
-        Console.Write(Common.ProductText.PyroText.PyroTextLogo(" Pyro Backburner "));
+        Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
         Console.WriteLine();
         ConsoleSupport.Line();
-        ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");        
+        ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
         ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
-        //ConsoleSupport.Line();
+                
       }
       else
       {
         ConsoleWriteLine($"Contection state changed:");
         ConsoleWriteLine($"  Old state: {obj.OldState.ToString()}");
-        ConsoleWriteLine($"  New state: {obj.NewState.ToString()}");
+        ConsoleWriteLine($"  New state: {obj.NewState.ToString()}");        
       }
+    }
+    
+    private void GetPyroServerConnectionUrl()
+    {
+      // FhirApiDiscoveryTask
+      var FhirApiDiscoveryTaskLauncher = new FhirApiDiscoveryTaskLauncher(Container);
+      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask("FhirApiDiscoveryTaskLauncher"));
+      PyroServerConnectionUrl = FhirApiDiscoveryTaskLauncher.Launch();
     }
 
     private void HubConnection_Reconnecting()

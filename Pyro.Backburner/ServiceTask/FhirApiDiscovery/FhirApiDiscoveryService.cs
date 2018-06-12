@@ -9,6 +9,7 @@ using System;
 using System.Data.Entity;
 using Pyro.Common.Logging;
 using Pyro.Common.ServiceRoot;
+using Pyro.Common.Global;
 
 namespace Pyro.Backburner.ServiceTask.FhirApiDiscovery
 {
@@ -17,19 +18,60 @@ namespace Pyro.Backburner.ServiceTask.FhirApiDiscovery
     //private readonly IUnitOfWork IUnitOfWork;
     //private readonly IResourceServices IResourceApiServices;    
     //private readonly IRequestMetaFactory IRequestMetaFactory;
-    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    //private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    private readonly IGlobalProperties IGlobalProperties;
     private readonly ILog ILog;
 
-    public FhirApiDiscoveryService(ILog ILog, IPrimaryServiceRootCache IPrimaryServiceRootCache)
-    {    
-      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+    public FhirApiDiscoveryService(ILog ILog, IGlobalProperties IGlobalProperties)
+    {
+      this.IGlobalProperties = IGlobalProperties;
+      //this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.ILog = ILog;
     }
 
 
     public string Run()
     {
-      return "localhost:8888";
+      //return "localhost:8888";
+      //"https://stu3.test.pyrohealth.net/fhir"
+      
+      //if (this.IGlobalProperties is IDbGlobalPropertiesRefresh DbGlobalPropertiesRefresh)
+      //{
+      //  DbGlobalPropertiesRefresh.RefreashFromDatabase();
+      //}
+
+      string ServiceBaseURL = this.IGlobalProperties.ServiceBaseURL;
+        
+      if (!string.IsNullOrWhiteSpace(ServiceBaseURL))
+      {
+        //examples: 
+        //localhost:8888/fhir
+        //stu3.test.pyrohealth.net/fhir
+
+        if (ServiceBaseURL.EndsWith($"/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}"))
+        {
+          return ServiceBaseURL.Substring(0, ServiceBaseURL.Length - (Pyro.Common.Web.StaticWebInfo.ServiceRoute.Length + 1));
+        }
+        else
+        {
+          string message = $"The Pyro FHIR Server database 'ServiceConfiguraton' table parameter 'ServiceBaseURL' does not conform to what was expected, it should end with '{Pyro.Common.Web.StaticWebInfo.ServiceRoute}'. " +
+                           "If this message is seen then perhaps the administrator of the Pyro FHIR Server has modified its web.config file command 'ServiceBaseURL' incorrectly by not ending the URL with '/fhir'. ";
+          
+          var Exec = new FormatException(message);
+          ILog.Fatal(Exec, $"Failed to match the 'ServiceConfiguraton' table parameter 'ServiceBaseURL' of '{Pyro.Common.Web.StaticWebInfo.ServiceRoute}' with what was expected in code. It must end with '/{Common.Web.StaticWebInfo.ServiceRoute}'");
+          throw Exec;
+        }
+
+      }
+      else
+      {
+        throw new Exception("ServiceBaseURL was empty or null.");
+      }
+
+
+
+
+
 
       //IDtoRootUrlStore RootUrlStore = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase();
       //if (RootUrlStore != null)
@@ -37,7 +79,7 @@ namespace Pyro.Backburner.ServiceTask.FhirApiDiscovery
       //  //examples: 
       //  //localhost:8888/fhir
       //  //stu3.test.pyrohealth.net/fhir
-        
+
       //  if (RootUrlStore.Url.EndsWith($"/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}"))
       //  {
       //    return RootUrlStore.Url.Substring(0, RootUrlStore.Url.Length - (Pyro.Common.Web.StaticWebInfo.ServiceRoute.Length + 1));
@@ -59,7 +101,7 @@ namespace Pyro.Backburner.ServiceTask.FhirApiDiscovery
       //{
       //  throw new Exception("Failed");
       //}
-            
+
     }
   }
 }
