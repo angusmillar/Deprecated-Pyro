@@ -66,6 +66,7 @@ namespace Pyro.WebApi.App_Start
       container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
       InitializePyroWebApiServicesInContainer(container);
       InitializePyroServerServicesInContainer(container);
+      InitializeConditionalServicesInContainer(container);
       container.RegisterWebApiControllers(configuration);
       container.Verify();
       configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
