@@ -30,6 +30,7 @@ namespace Pyro.Test.IntergrationTest
       Server.Dispose();
     }
 
+    [Test]
     [TestCase(Bundle.BundleType.Transaction)]
     [TestCase(Bundle.BundleType.Batch)]
     public void Test_BundleTransaction(Bundle.BundleType bundleType)
