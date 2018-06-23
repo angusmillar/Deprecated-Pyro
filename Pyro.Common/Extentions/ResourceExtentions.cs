@@ -6,8 +6,6 @@ namespace Pyro.Common.Extentions
 {
   static class ResourceExtentions
   {
-    //private static Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
-
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
     {      
       //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entrie list
