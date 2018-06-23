@@ -6,22 +6,19 @@ namespace Pyro.Common.Extentions
 {
   static class ResourceExtentions
   {
-    private static Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
+    //private static Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache;
 
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
-    {
-      //Cache
-      if (ClassPropertyMappingListCache == null)
-      {
-        ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
-      }
+    {      
+      //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entrie list
+      var ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
 
       var ReferenceResultList = new List<ResourceReference>();
       foreach (var Entry in EntryComponentList)
       {
         if (Entry.Resource != null)
         {
-          ReferenceResultList.AddRange(Entry.Resource.AllReferences());          
+          ReferenceResultList.AddRange(Entry.Resource.AllBaseReferences(ClassPropertyMappingListCache));          
         }
       }
       return ReferenceResultList;
@@ -29,17 +26,12 @@ namespace Pyro.Common.Extentions
 
     public static List<ResourceReference> AllReferences(this Resource Resource)
     {
-      return Resource.AllBaseReferences();
+      var ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
+      return Resource.AllBaseReferences(ClassPropertyMappingListCache);
     }    
 
-    private static List<ResourceReference> AllBaseReferences(this Base FhirBase)
+    private static List<ResourceReference> AllBaseReferences(this Base FhirBase, Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>> ClassPropertyMappingListCache)
     {
-      //Cache
-      if (ClassPropertyMappingListCache == null)
-      {
-        ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();        
-      }
-
       var ReferenceResultList = new List<ResourceReference>();
       if (FhirBase == null)
         return ReferenceResultList;
@@ -73,13 +65,13 @@ namespace Pyro.Common.Extentions
             foreach (var CollectionItem in PropertyCollection)
             {
               var BackboneElement = CollectionItem as BackboneElement;
-              ReferenceResultList.AddRange(BackboneElement.AllBaseReferences());
+              ReferenceResultList.AddRange(BackboneElement.AllBaseReferences(ClassPropertyMappingListCache));
             }
           }
           else
           {
             var BackboneElement = PropertyItem.GetValue(FhirBase) as BackboneElement;
-            ReferenceResultList.AddRange(BackboneElement.AllBaseReferences());
+            ReferenceResultList.AddRange(BackboneElement.AllBaseReferences(ClassPropertyMappingListCache));
           }
         }
         else
