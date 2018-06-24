@@ -18,18 +18,20 @@ namespace Pyro.Common.ProductText
     private string ProductName = "Unknown Product";
     private string ServiceVersion = "Unknown Version";
     private System.Diagnostics.Stopwatch Stopwatch;
+    private Random RandomGenerator;
 
     public void Start(string ProductName, string ServiceVersion)
     {
       this.ProductName = ProductName;
       this.ServiceVersion = ServiceVersion;
-      TimeSpan _updateInterval = TimeSpan.FromMilliseconds(1000 * 1); // secs
+      TimeSpan _updateInterval = TimeSpan.FromMilliseconds(500 * 1); // secs
       RefreashCounter = 0;
       FirstWarmMessageDisplayed = false;
       MessageList = GetMessageList();
       Stopwatch = new System.Diagnostics.Stopwatch();
       Stopwatch.Start();
       _Timer = new Timer(InitilizeServerMessages, null, _updateInterval, _updateInterval);
+      RandomGenerator = new Random();
     }
 
     public void Stop()
@@ -67,6 +69,8 @@ namespace Pyro.Common.ProductText
 
     private void InitilizeServerMessages(object state)
     {
+
+      int RandomNewMessageChnageInt = RandomGenerator.Next(6, 15);
       if (!FirstWarmMessageDisplayed)
       {
         CurrentMessage = FirstMessage;
@@ -74,11 +78,10 @@ namespace Pyro.Common.ProductText
       }
       else
       {
-        if (RefreashCounter % 6 == 0)
-        {
-          Random RandomGenerator = new Random();
-          int RandomInt = RandomGenerator.Next(0, MessageList.Count);
-          CurrentMessage = MessageList[RandomInt];
+        if (RefreashCounter % RandomNewMessageChnageInt == 0)
+        {          
+          int RandomMessageInt = RandomGenerator.Next(0, MessageList.Count);
+          CurrentMessage = MessageList[RandomMessageInt];
         }
         else
         {
@@ -86,15 +89,19 @@ namespace Pyro.Common.ProductText
         }
       }
       
-      Console.Clear();      
+      
+      Console.Clear();
+      Console.CursorVisible = false;
+      Console.CursorTop = 0;
       Console.ForegroundColor = ConsoleColor.Yellow;
       Console.Write(PyroText.PyroTextLogo(this.ProductName, this.ServiceVersion));
       Console.ResetColor();
       Console.WriteLine("");
-      WriteFullLine(CurrentMessage);      
-      RefreashCounter++;
-      Console.CursorTop = 0;
+      WriteFullLine(CurrentMessage);
       Console.CursorVisible = false;
+      Console.CursorTop = 0;
+      RefreashCounter++;
+      
     }
 
     private void WriteFullLine(string value)
