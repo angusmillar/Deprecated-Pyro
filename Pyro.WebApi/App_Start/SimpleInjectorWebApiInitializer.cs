@@ -54,6 +54,7 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Engine.Services.ServiceConfiguration;
   using Pyro.Common.Enum;
+  using Pyro.Common.Service.Smart;
 
   public static class SimpleInjectorWebApiInitializer
   {
@@ -89,6 +90,8 @@ namespace Pyro.WebApi.App_Start
       //========================================================================================================
 
       container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Transient);
+      container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
+      
     }
 
     /// <summary>

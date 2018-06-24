@@ -9,7 +9,8 @@ namespace Pyro.Common.Global
   public static class WebConfigPropertiesNames
   {
     public static string ServiceBaseURL { get; } = "ServiceBaseURL";
-    public static string FHIRApiAuthentication { get; } = "FHIRApiAuthentication";    
+    public static string FHIRApiAuthentication { get; } = "FHIRApiAuthentication";
+    public static string AuthenticationServerUrl { get; } = "AuthenticationServerUrl";    
     public static string ThisServersEntityCode { get; } = "ThisServersEntityCode";    
     public static string ThisServersEntitySystem { get; } = "ThisServersEntitySystem";    
     public static string ThisServersManagingOrganizationResource { get; } = "ThisServersManagingOrganizationResource";

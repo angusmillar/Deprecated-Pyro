@@ -12,7 +12,8 @@ namespace Pyro.Common.Global
     public GlobalProperties()
     {
       _ServiceBaseURL = WebConfigProperties.ServiceBaseURL();
-      _FHIRApiAuthentication = WebConfigProperties.FHIRApiAuthentication();    
+      _FHIRApiAuthentication = WebConfigProperties.FHIRApiAuthentication();
+      _AuthenticationServerUrl = WebConfigProperties.AuthenticationServerUrl();
       _ThisServersEntityCode = WebConfigProperties.ThisServersEntityCode();
       _ThisServersEntitySystem = WebConfigProperties.ThisServersEntitySystem();
       _ThisServersManagingOrganizationResource = WebConfigProperties.ThisServersManagingOrganizationResource();
@@ -42,6 +43,12 @@ namespace Pyro.Common.Global
     public bool FHIRApiAuthentication
     {
       get { return _FHIRApiAuthentication; }
+    }
+
+    private string _AuthenticationServerUrl;
+    public string AuthenticationServerUrl
+    {
+      get { return _AuthenticationServerUrl; }
     }
 
     private string _ThisServersEntityCode;

@@ -206,6 +206,10 @@
     <Compile Include="Service\Include\IIncludeService.cs" />
     <Compile Include="Service\ChainSearching\ChainSearchingService.cs" />
     <Compile Include="Service\Include\IncludeService.cs" />
+    <Compile Include="Service\Smart\ISmartScopeOutcome.cs" />
+    <Compile Include="Service\Smart\ISmartScopeService.cs" />
+    <Compile Include="Service\Smart\SmartScopeOutcome.cs" />
+    <Compile Include="Service\Smart\SmartScopeService.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\Headers\IPreferHeader.cs" />
@@ -372,6 +376,10 @@
     <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
       <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
       <Name>Pyro.Identifiers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.Smart\Pyro.Smart.csproj">
+      <Project>{AFDCDF8C-9233-446D-88AF-4F3374A1A309}</Project>
+      <Name>Pyro.Smart</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -24,6 +24,8 @@ using Pyro.Common.Service.CompartmentSearchParameter;
 using Pyro.Common.Service.SearchParameters;
 using Pyro.Common.DtoEntity;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.Service.Smart;
+
 
 namespace Pyro.Engine.Services.Resources
 {
@@ -40,11 +42,12 @@ namespace Pyro.Engine.Services.Resources
     private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
     private readonly IResourceTriggerService IResourceTriggerService;
     private readonly IPagingSupport IPagingSupport;
+    private readonly ISmartScopeService ISmartScopeService;
 
     private IResourceRepository IResourceRepository = null;
 
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService, IPagingSupport IPagingSupport)
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService, IPagingSupport IPagingSupport, ISmartScopeService ISmartScopeService)
     {
       this.TriggersActive = true;
       this.IRepositorySwitcher = IRepositorySwitcher;
@@ -58,6 +61,7 @@ namespace Pyro.Engine.Services.Resources
       this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
       this.IResourceTriggerService = IResourceTriggerService;
       this.IPagingSupport = IPagingSupport;
+      this.ISmartScopeService = ISmartScopeService;
     }
 
     private void SetCurrentResourceType(FHIRAllTypes ResourceType)
@@ -71,7 +75,7 @@ namespace Pyro.Engine.Services.Resources
       SetCurrentResourceType(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceType));
     }
 
-    private FHIRAllTypes ServiceResourceType { get; set; } = FHIRAllTypes.AuditEvent;
+    private FHIRAllTypes ServiceResourceType { get; set; } = FHIRAllTypes.Resource;
 
     public bool TriggersActive { get; set; }
 
@@ -215,6 +219,17 @@ namespace Pyro.Engine.Services.Resources
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return oServiceOperationOutcome;
       }
+
+      //Is this where we check SMART on FHIR scopes, if FHIRApiAuthentication = false this returns OK?
+      ISmartScopeOutcome SmartScopeOutcome = ISmartScopeService.ProcessScopes(SearchParametersServiceOutcome.SearchParameters, ServiceResourceType, true, false);
+      if (!SmartScopeOutcome.ScopesOK)
+      {
+        oServiceOperationOutcome.ResourceResult = SmartScopeOutcome.OperationOutcome;
+        oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Forbidden;
+        oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        return oServiceOperationOutcome;
+      }
+
 
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
       //as the all resource search parameters e.g _id, _lastModified are removed from the list.      

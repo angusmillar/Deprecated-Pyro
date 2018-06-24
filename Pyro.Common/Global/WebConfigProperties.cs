@@ -30,6 +30,13 @@ namespace Pyro.Common.Global
         .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.FHIRApiAuthentication);
     }
 
+    public static string AuthenticationServerUrl()
+    {
+      return WebConfigPropertiesNames.AuthenticationServerUrl
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.AuthenticationServerUrl);
+    }
+    
+
     public static string ThisServersEntityCode()
     {
       return WebConfigPropertiesNames.ThisServersEntityCode

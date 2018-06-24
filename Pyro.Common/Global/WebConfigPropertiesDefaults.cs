@@ -9,6 +9,8 @@ namespace Pyro.Common.Global
   public static class WebConfigPropertiesDefaults
   {
     public static bool FHIRApiAuthentication { get; } = true;
+
+    public static string AuthenticationServerUrl { get; } = string.Empty;
     
     public static string ThisServersEntityCode { get; } = "ThisServersEntityCode_HasNotBeenSet";
     

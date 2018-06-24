@@ -22,7 +22,9 @@ namespace Pyro.Common.Global
     public string ServiceBaseURL { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ServiceBaseURL, string.Empty); } }
     
     public bool FHIRApiAuthentication { get { return GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.FHIRApiAuthentication, WebConfigPropertiesDefaults.FHIRApiAuthentication); } }
-    
+
+    public string AuthenticationServerUrl { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.AuthenticationServerUrl, WebConfigPropertiesDefaults.AuthenticationServerUrl); } }
+
     public string ThisServersEntityCode { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ThisServersEntityCode, WebConfigPropertiesDefaults.ThisServersEntityCode); } }
 
     public string ThisServersEntitySystem { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ThisServersEntitySystem, WebConfigPropertiesDefaults.ThisServersEntitySystem); } }

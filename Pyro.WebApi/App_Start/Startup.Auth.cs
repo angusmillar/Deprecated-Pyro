@@ -12,22 +12,13 @@ using Pyro.WebApi.Providers;
 using Pyro.WebApi.Models;
 using IdentityServer3.AccessTokenValidation;
 
-
 namespace Pyro.WebApi
 {
   public partial class Startup
-  {
-    //public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-
-    //public static string PublicClientId { get; private set; }
-
+  {    
     // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
     public void ConfigureAuth(IAppBuilder app)
     {
-      // Configure the db context and user manager to use a single instance per request
-      //app.CreatePerOwinContext(ApplicationDbContext.Create);
-      //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
       // Enable the application to use a cookie to store information for the signed in user
       // and to use a cookie to temporarily store information about a user logging in with a third party login provider
 
@@ -39,24 +30,24 @@ namespace Pyro.WebApi
         HttpConfiguration.Filters.Add(new Pyro.WebApi.Authorization.SwitchableAuthorizationAttribute());
 
         //Connects to the external Authorization service
-        string AuthorityUrl = "https://localhost:50000/";
+        string AuthorityUrl = Pyro.Common.Global.WebConfigProperties.AuthenticationServerUrl();
         try
         {
           app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
           {
             ClientId = "PyroFhirApi",
             ClientSecret = "prometheus.apiResource",
-            Authority = "https://localhost:50000/",
-            ValidationMode = ValidationMode.Both,
-            RequiredScopes = Pyro.Smart.Scopes.ScopeStringGenerator.GetAllUserAndPatientScopes()            
+            Authority = AuthorityUrl,
+            ValidationMode = ValidationMode.Local,
+            RequiredScopes = Pyro.Smart.Scopes.ScopeStringGenerator.GetAllUserAndPatientScopes()
           });
         }
-        catch(Exception Exec)
-        {          
+        catch (Exception Exec)
+        {
           Common.Logging.Logger.Log.Fatal(Exec, $"The Pyro FHIR server is unable to connect to the Token Authentication service at: {AuthorityUrl}");
         }
       }
-      
+
     }
   }
 }
