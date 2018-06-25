@@ -65,8 +65,8 @@ Microsoft SQL Server 2016 or higher
 3. You will then need to configure to your development environment database connection string by editing this file: `Pyro.ConsoleServer\App_Data\Connectons.config`
 4. The right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
 5. Hit 'F5' to start the project.
-6. A console window open with the Pyro logo in yellow and the message "Please wait while database schema loads". If this is the first time runnig the application the database will be created at this stage and seeded with referance data. This may take take 4 to 5 min to complete. All subsequent starts only the database schema is loaded which may take just over 1 minute.     
-7. Once the console changes from yellow to blue the server is ready for calls to its FHRI API and the console will state the FHIR endpoint. The default is `http://localhost:8888/fhir` 
+6. A console window open with the Pyro logo in yellow and the message "Please wait while database schema loads". If this is the first time running the application the database will be created at this stage and seeded with referance data. This may take take 4 to 5 min to complete. On all subsequent starts only the database schema is loaded which takes just over 1 minute to complete.     
+7. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
 
 ## Understanding the solution a little deeper ##
 
