@@ -110,8 +110,7 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 `Pyro.WebApi\App_Data\PyroApp.config`
 
 Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, when first run will create a database at the given ConnectionString.
-This will actually only occur when the first call is made to the FHIR API. So you can do a simple GET: http://yourdomain/fhir/Patient to trigger this to occur.
-Be patient as this first call will be slow as it must create all the database tables and populate the seed data before the call will return, roughly 4 to 5 min on my machine. All subsequent calls will be much faster.
+Be patient as the first time the application is run it must create all the database tables and populate them with seed data before it is ready to be used. This will take roughly 4 to 5 min. All subsequent startups still need to load the database schema which takes roughly 1 min.
 
 In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
@@ -136,13 +135,16 @@ This project holds test cases for the HI Service searches for IHI identifier
 
 **Pyro.Backburner (Project)**
 
-This project is a windows service that can be installed and run to perform long-running, out-of-band, asynchronous tasks for the FHIR Pyro Server. There is no hard dependency for this service to be running to use the Pyro FHIR Server. When running it connects to the main Pyro FHIR server via SingnalR to receive notifications of tasks to perform. This is currently in development but in future will manage background task such as Subscription notifications and possibly long-running Patient merge operations.
+This project is a windows service that can be installed and run to perform long-running, out-of-band, asynchronous tasks for the FHIR Pyro Server. There is no hard dependency for this service to be running to use the Pyro FHIR Server. When running, it connects to the main Pyro FHIR server via SingnalR to receive notifications of tasks to perform. This is currently in development but in future will manage background task such as Subscription notifications and possibly long-running Patient merge operations.
 
 This windows service uses the [TopShelf](http://topshelf-project.com/) framework and in as easy to install on the command line as follows: 
 
 `C:\BackburnerService\Pyro.Backburner.exe install`  
 
 See [TopShelf Command Documentation](https://topshelf.readthedocs.io/en/latest/overview/commandline.html) for more info.
+
+The only configration this project requires is the database connection string for the Pyro FHIR server configured here: `Pyro.Backburner\App_Data\Connections.config`
+
 
 **Pyro.CodeGeneration (Project)**
 
@@ -215,14 +217,6 @@ This project houses all unit tests and integration tests for the FHIR server.
 This is the project used when hosting in a production IIS instance. It is this project that you publish from for your production instance.
 
 ## Other General Information ##
-
-**Very first startup and DB creation**
-
-When you first start the service for the first time it will appear to be running very quickly as the console window will appear with the Pyro logo. You will then make your first HTTP query, such as `GET: [base]/Patient`. This first query will set off the database creation and seeding and will take some 4 minutes to run before the query returns successfully (OK 200). The server is now ready to run and all further queries will be fast.
-
-**First FHIR query speed poor, later fast**
-
-When the server is stopped and restarted the first query will be slow, roughly 1 to 2 minutes, but then all subsequent queries will be fast (200 - 300 ms). this is a common problem with Entity Framework (EF) as it loads the entire database model into memory on startup, once loaded it is fine. I need to do more work here to try and improve this first query speed. Such as https://msdn.microsoft.com/en-us/magazine/jj883952.aspx
 
 **SMART on FHIR and Authentication**
 I am slowly progressing to an Authentication system for the server with key elements beginning to fall in place to finally implement. I now have a SMART parser and FHIR compartments. Need to start work on the OAuth component possibly using Identity server: https://www.nuget.org/packages/IdentityServer4/
