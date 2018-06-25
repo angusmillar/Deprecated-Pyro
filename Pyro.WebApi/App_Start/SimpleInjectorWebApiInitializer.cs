@@ -89,8 +89,7 @@ namespace Pyro.WebApi.App_Start
       //=================== Pyro Web Api Only ==================================================================            
       //========================================================================================================
 
-      container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Transient);
-      container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
+      container.Register<IFhirExceptionFilter, FhirExceptionFilter>(Lifestyle.Transient);      
       
     }
 
@@ -213,6 +212,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
+      container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<IChainSearchingService, ChainSearchingService>(Lifestyle.Scoped);

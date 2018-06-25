@@ -51,8 +51,8 @@ namespace Pyro.Backburner.App_Start
   using SimpleInjector;
   using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Engine.Services.ServiceConfiguration;
+  using Pyro.Common.Service.Smart;
 
-  
   public static class SimpleInjectorWebApiInitializer
   {
     private static PyroProject.PyroProjectType ProjectType = PyroProject.PyroProjectType.Backburner;
@@ -204,6 +204,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
+      container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<IChainSearchingService, ChainSearchingService>(Lifestyle.Scoped);

@@ -127,11 +127,10 @@
       <Link>App_Data\Connectons.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\Pyro.ConsoleServer\App_Data\PyroApp.config">
-      <Link>App_Data\PyroApp.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="App.config" />
+    <None Include="App_Data\BackBurnerApp.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
