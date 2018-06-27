@@ -212,14 +212,24 @@ namespace Pyro.ADHA.VendorLibrary.HI
           headerSignatureElement.AppendChild(signatureNode);
         }
 
+        
 
         // Get serialized text (Not necessary, just for the hell of it...)  
-        Stream tempStream = new MemoryStream(ASCIIEncoding.Default.GetBytes(root.OuterXml));
+        Stream tempStream = new MemoryStream(Encoding.UTF8.GetBytes(root.OuterXml));
         StreamReader sr = new StreamReader(tempStream);
         outboundXml = sr.ReadToEnd();
         bool isValid = VerifyXML(outboundXml);
 
-        Stream memoryStream = new MemoryStream(ASCIIEncoding.Default.GetBytes(root.OuterXml));
+        Stream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(root.OuterXml));
+
+        //Chnaged to UTF-8 which works fine but HI Service ca not accept Funny UTF-8 Charaters like 'é'
+        //// Get serialized text (Not necessary, just for the hell of it...)  
+        //Stream tempStream = new MemoryStream(ASCIIEncoding.Default.GetBytes(root.OuterXml));
+        //StreamReader sr = new StreamReader(tempStream);
+        //outboundXml = sr.ReadToEnd();
+        //bool isValid = VerifyXML(outboundXml);
+
+        //Stream memoryStream = new MemoryStream(ASCIIEncoding.Default.GetBytes(root.OuterXml));
         XmlDictionaryReader dictionaryReader = XmlDictionaryReader.CreateTextReader(memoryStream, new XmlDictionaryReaderQuotas());
 
         Message newMessage = Message.CreateMessage(dictionaryReader, int.MaxValue, requestMessage.Version);
