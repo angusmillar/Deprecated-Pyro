@@ -17,7 +17,7 @@ namespace Pyro.WebApi
 {
   public partial class Startup
   {
-    public static HttpConfiguration HttpConfiguration { get; private set; }    
+    public static HttpConfiguration HttpConfiguration { get; private set; }
     protected RouteCollection _RouteCollection = RouteTable.Routes;
     public void Configuration(IAppBuilder app)
     {
@@ -25,61 +25,68 @@ namespace Pyro.WebApi
       int RequestCounter = 1;
       app.Use(async (environment, next) =>
       {
-        var QueryString = environment.Environment["owin.RequestQueryString"] as string;
-        var HttpMethod = environment.Environment["owin.RequestMethod"] as string;
-        string RequestRoot = $"{environment.Request.Uri.Scheme}://{environment.Request.Uri.Authority}{environment.Request.Uri.AbsolutePath}";
-        IHeaderDictionary HeaderDic = environment.Request.Headers;
-        Console.Clear();
-        Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Cyan;        
-        Console.WriteLine($"----------------------------------- Request ({RequestCounter.ToString().PadLeft(4, '0')}) ----------------------------");        
-        Console.WriteLine("");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write($"Received : ");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"{DateTimeOffset.Now.ToString()}");        
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write($"Method   : ");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"{HttpMethod}");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write($"Request  : ");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"{RequestRoot}");
-        if (!string.IsNullOrWhiteSpace(QueryString))
+        //Note: Console.IsOutputRedirected is true in IIS, check becasue if you fiddel with the console buffer while in IIS you get an exception.
+        if (!Console.IsOutputRedirected)
         {
+          var QueryString = environment.Environment["owin.RequestQueryString"] as string;
+          var HttpMethod = environment.Environment["owin.RequestMethod"] as string;
+          string RequestRoot = $"{environment.Request.Uri.Scheme}://{environment.Request.Uri.Authority}{environment.Request.Uri.AbsolutePath}";
+          IHeaderDictionary HeaderDic = environment.Request.Headers;
+          Console.Clear();
+          Console.ResetColor();
           Console.ForegroundColor = ConsoleColor.Cyan;
-          Console.Write($"Query    : ");
+          Console.WriteLine($"----------------------------------- Request ({RequestCounter.ToString().PadLeft(4, '0')}) ----------------------------");
+          Console.WriteLine("");
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.Write($"Received : ");
           Console.ForegroundColor = ConsoleColor.White;
-          Console.WriteLine($"{QueryString}");
-        }
-        Console.WriteLine("");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("----------------------------------- Headers -----------------------------------");        
-        Console.WriteLine("");
-        foreach (var Head in HeaderDic)
-        {
+          Console.WriteLine($"{DateTimeOffset.Now.ToString()}");
           Console.ForegroundColor = ConsoleColor.Cyan;
-          Console.Write($"{Head.Key.PadRight(16, ' ')}: ");
+          Console.Write($"Method   : ");
           Console.ForegroundColor = ConsoleColor.White;
-          Console.WriteLine($"{string.Join(",", Head.Value)}");
+          Console.WriteLine($"{HttpMethod}");
           Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.Write($"Request  : ");
+          Console.ForegroundColor = ConsoleColor.White;
+          Console.WriteLine($"{RequestRoot}");
+          if (!string.IsNullOrWhiteSpace(QueryString))
+          {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"Query    : ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{QueryString}");
+          }
+          Console.WriteLine("");
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.WriteLine("----------------------------------- Headers -----------------------------------");
+          Console.WriteLine("");
+          foreach (var Head in HeaderDic)
+          {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"{Head.Key.PadRight(16, ' ')}: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{string.Join(",", Head.Value)}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+          }
+          Console.WriteLine("");
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.WriteLine("-------------------------------------------------------------------------------");
+          Console.ForegroundColor = ConsoleColor.White;
+          Console.WriteLine("");
         }
-        Console.WriteLine("");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("-------------------------------------------------------------------------------");
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("");
         await next();
-        Console.ForegroundColor = ConsoleColor.Magenta;        
-        Console.WriteLine($"----------------------------------- Response ({RequestCounter.ToString().PadLeft(4, '0')}) ---------------------------");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write($"Response : ");
-        Console.ForegroundColor = GetResponseColor(environment.Response.StatusCode);
-        Console.WriteLine($" {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("-------------------------------------------------------------------------------");
-        Console.ResetColor();
+        if (!Console.IsOutputRedirected)
+        {
+          Console.ForegroundColor = ConsoleColor.Magenta;
+          Console.WriteLine($"----------------------------------- Response ({RequestCounter.ToString().PadLeft(4, '0')}) ---------------------------");
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.Write($"Response : ");
+          Console.ForegroundColor = GetResponseColor(environment.Response.StatusCode);
+          Console.WriteLine($" {environment.Response.StatusCode} : {environment.Response.ReasonPhrase}");
+          Console.ForegroundColor = ConsoleColor.Magenta;
+          Console.WriteLine("-------------------------------------------------------------------------------");
+          Console.ResetColor();
+        }
         RequestCounter++;
       });
 
@@ -90,12 +97,13 @@ namespace Pyro.WebApi
       var IFhirExceptionFilter = (Pyro.Common.Exceptions.IFhirExceptionFilter)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Exceptions.IFhirExceptionFilter));
       HttpConfiguration.Filters.Add(IFhirExceptionFilter);
 
-      
-      Console.Title = "Pyro.ConsoleServer";
-
+      if (!Console.IsOutputRedirected)
+      {
+        Console.Title = "Pyro.ConsoleServer";
+      }
       //Warn up the database and show some warm messages while Synchronizeing the Database and Web.config file.
-      WarmUpDatabaseAndSychWebConfiguration();      
-      
+      WarmUpDatabaseAndSychWebConfiguration();
+
       WebApiConfig.Register(HttpConfiguration);
 
       //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -126,43 +134,46 @@ namespace Pyro.WebApi
     private static void WarmUpDatabaseAndSychWebConfiguration()
     {
       var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
-      WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");      
+      if (!Console.IsOutputRedirected)
+      {
+        WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
+      }
       System.Threading.Tasks.Task<bool> TaskResults = System.Threading.Tasks.Task<bool>.Factory.StartNew(() =>
       {
-        try
+      try
+      {
+        using (HttpConfiguration.DependencyResolver.BeginScope())
         {
-          using (HttpConfiguration.DependencyResolver.BeginScope())
+          Pyro.Common.Interfaces.Repositories.IUnitOfWork UnitOfWork = (Pyro.Common.Interfaces.Repositories.IUnitOfWork)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Repositories.IUnitOfWork));
+          Pyro.Common.Global.IGlobalProperties GlobalProperties = (Pyro.Common.Global.IGlobalProperties)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Global.IGlobalProperties));
+          Pyro.Common.Interfaces.Service.IServiceConfigurationService ServiceConfigurationService = (Pyro.Common.Interfaces.Service.IServiceConfigurationService)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Service.IServiceConfigurationService));
+          bool WasUpdated = false;
+          using (System.Data.Entity.DbContextTransaction Transaction = UnitOfWork.BeginTransaction())
           {
-            Pyro.Common.Interfaces.Repositories.IUnitOfWork UnitOfWork = (Pyro.Common.Interfaces.Repositories.IUnitOfWork)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Repositories.IUnitOfWork));
-            Pyro.Common.Global.IGlobalProperties GlobalProperties = (Pyro.Common.Global.IGlobalProperties)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Global.IGlobalProperties));
-            Pyro.Common.Interfaces.Service.IServiceConfigurationService ServiceConfigurationService = (Pyro.Common.Interfaces.Service.IServiceConfigurationService)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Service.IServiceConfigurationService));
-            bool WasUpdated = false;
-            using (System.Data.Entity.DbContextTransaction Transaction = UnitOfWork.BeginTransaction())
+            try
             {
-              try
+              WasUpdated = ServiceConfigurationService.SynchronizeServiceConfigrationWithGlobalProperties(GlobalProperties);
+              if (WasUpdated)
               {
-                WasUpdated = ServiceConfigurationService.SynchronizeServiceConfigrationWithGlobalProperties(GlobalProperties);
-                if (WasUpdated)
-                {
-                  Pyro.Common.Logging.Logger.Log.Info("GlobalProperties were updated in ServiceConfiguration db table");
-                }
-                Transaction.Commit();
-                return WasUpdated;
+                Pyro.Common.Logging.Logger.Log.Info("GlobalProperties were updated in ServiceConfiguration db table");
               }
-              catch (Exception Exec)
-              {
-                Transaction.Rollback();
-                Pyro.Common.Logging.Logger.Log.Error(Exec, $"Could not synch ServiceConfiguration with Web.config file.");
-                throw Exec;
-              }
+              Transaction.Commit();
+              return WasUpdated;
+            }
+            catch (Exception Exec)
+            {
+              Transaction.Rollback();
+              Pyro.Common.Logging.Logger.Log.Error(Exec, $"Could not synch ServiceConfiguration with Web.config file.");
+              throw Exec;
             }
           }
         }
-        catch (Exception Exec)
-        {
-          Pyro.Common.Logging.Logger.Log.Error(Exec, "SynchronizeServiceConfigrationWithGlobalProperties failed.");
-          throw Exec;
-        }
+      }
+      catch (Exception Exec)
+      {
+        Pyro.Common.Logging.Logger.Log.Error(Exec, "SynchronizeServiceConfigrationWithGlobalProperties failed.");
+        throw Exec;
+      }
         //End of Task Thread.
       });
 
@@ -178,9 +189,13 @@ namespace Pyro.WebApi
         Pyro.Common.Logging.Logger.Log.Fatal(Exec, ExecMessage);
         throw new Exception(ExecMessage, Exec);
       }
-      WarmUpMessages.Stop();
-      Console.Clear();
+      if (!Console.IsOutputRedirected)
+      {
+        WarmUpMessages.Stop();
+        Console.Clear();
+      }
     }
+
 
     //Register the SignalR Hubs for notification messaging to background service.
     private void RegisterSignalRHubs(IAppBuilder app)
