@@ -9,6 +9,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     int SaveChanges();
     void Dispose();
     DbSet<TEntity> Set<TEntity>() where TEntity : class;
+    DbSet Set(System.Type entityType);
     System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity);
     DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
     DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }

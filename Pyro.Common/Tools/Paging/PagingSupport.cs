@@ -195,16 +195,11 @@ namespace Pyro.Common.Tools.Paging
       {
         if (SearchParameters.SearchParametersList[i] is SearchParameterReferance SearchParameterReferance && SearchParameterReferance.IsChained)
         {
-          ////Chained parameters
-          string temp = SearchParameterReferance.RawValue;
-          foreach (var Chain in SearchParameterReferance.ChainedSearchParameterList)
-          {
-            temp += Chain.RawValue;
-          }
+          //Chained parameters         
           if (FirstParameter)
-            UrlString += $"{temp}";
+            UrlString += ResolveChainParameterString(SearchParameterReferance, string.Empty);
           else
-            UrlString += $"&{UrlString}{temp}";
+            UrlString += $"&{ResolveChainParameterString(SearchParameterReferance, string.Empty)}";
           FirstParameter = false;
         }
         else
@@ -259,6 +254,21 @@ namespace Pyro.Common.Tools.Paging
       catch (UriFormatException)
       {
         return null;
+      }
+    }
+
+    private string ResolveChainParameterString(ISearchParameterBase SearchParameter, string ParameterString)
+    {
+      if (SearchParameter.ChainedSearchParameter != null)
+      {
+        ParameterString += SearchParameter.RawValue;
+        ParameterString = ResolveChainParameterString(SearchParameter.ChainedSearchParameter, ParameterString);
+        return ParameterString;
+      }
+      else
+      {
+        ParameterString += SearchParameter.RawValue;
+        return ParameterString;
       }
     }
 

@@ -22,14 +22,18 @@ using System.Linq.Expressions;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.CompositionRoot;
-using Pyro.Common.Global;
 using Pyro.Common.FhirRelease;
 using Pyro.Common.Tools.Paging;
+using Pyro.Common.Tools;
+using Pyro.DataLayer.DbModel.EntityGenerated;
+using LinqKit;
+using Pyro.Common.Search.SearchParameterEntity;
 
 namespace Pyro.DataLayer.Repository
 {
   public class CommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> :
     BaseRepository,
+    ICommonResourcePredicate,
     ICommonResourceRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>,
     IResourceRepository
     where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
@@ -43,27 +47,31 @@ namespace Pyro.DataLayer.Repository
     public FHIRAllTypes RepositoryResourceType { get; set; }
     private readonly IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
+    private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IFhirReleaseCache IFhirReleaseCache;
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
     private readonly IPagingSupport IPagingSupport;
+    private readonly IRepositorySwitcher IRepositorySwitcher;
 
-    private CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
-   
+    private readonly CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
+
     public CommonResourceRepository(IPyroDbContext IPyroDbContext,
       IPrimaryServiceRootCache IPrimaryServiceRootCache,
       IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
       IFhirReleaseCache IFhirReleaseCache,
-      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,            
-      IPagingSupport IPagingSupport)
+      IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
+      IPagingSupport IPagingSupport,
+      IRepositorySwitcher IRepositorySwitcher)
       : base(IPyroDbContext)
     {
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
       this.IIndexSetterFactory = IIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IFhirReleaseCache = IFhirReleaseCache;
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
       this.IPagingSupport = IPagingSupport;
-    
+      this.IRepositorySwitcher = IRepositorySwitcher;
       this.CommonRepository = new CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(IPyroDbContext, IPrimaryServiceRootCache);
     }
 
@@ -97,14 +105,8 @@ namespace Pyro.DataLayer.Repository
     //Used for Primary Chain Searching
     public string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters)
     {
-      
-      //var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      //Predicate = PredicateCurrentNotDeleted<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate);
-      //Predicate = PredicateResourceIdAndLastUpdatedDate<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList, Predicate);
-      //Predicate = ANDSearchParameterListPredicateGenerator<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(DtoSearchParameters.SearchParametersList, Predicate);
-
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      
+
       var PredicateOne = this.CommonRepository.PredicateCurrentNotDeleted();
       var PredicateTwo = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(DtoSearchParameters.SearchParametersList);
       var PredicateThree = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
@@ -117,19 +119,175 @@ namespace Pyro.DataLayer.Repository
 
 
       var Query = this.CommonRepository.DbGetAll(Predicate);
-      
+
       string[] FhirIdResultArray = Query.Select(x => x.FhirId).ToArray();
       return FhirIdResultArray;
     }
 
+    public IQueryable<OtherResCurrentType> ChainRecursion<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>
+      (IQueryable<OtherResCurrentType> OtherResourceContext, ISearchParameterBase ChainedSearchParameter)
+      where OtherResCurrentType : ResourceCurrentBase<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexStringType : ResourceIndexString<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexTokenType : ResourceIndexToken<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexUriType : ResourceIndexUri<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexReferenceType : ResourceIndexReference<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexQuantityType : ResourceIndexQuantity<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+      where OtherResIndexDateTimeType : ResourceIndexDateTime<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
+    {
+      // This method is recursive and works through each chain in the chain serach parameter
+      //For debug the query example is:
+      //[base]/DiagnosticReport?result:Observation.performer:Organization.name = Friday Computer Club Organisation
+      // Which in this method results in the follow setup:
+      //  OtherResourceContext = DiagnosticReport  
+      //  ResCurrentTypeContext = Observation
+      //  RootChainSearch = Orginsation 
+
+      if (ChainedSearchParameter.ChainedSearchParameter != null)
+      {
+        //Recursivly move through each child chain search parameter until at the end and child is null
+        //The last one is the root search at the end of the chain, performer:Organization.name from the example. 
+        string DummayResourceName = ChainedSearchParameter.ChainedSearchParameter.Resource;
+        FHIRAllTypes InnnerResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceFhirAllType(Common.Tools.ResourceNameResolutionSupport.GetResourceType(DummayResourceName));
+        var InnnerResourceRepository = this.IRepositorySwitcher.GetRepository(InnnerResourceType);
+
+        if (InnnerResourceRepository is ICommonResourcePredicate InnerResourcePredicate)
+        {
+          IQueryable<ResCurrentType> ResCurrentTypeContext = IPyroDbContext.Set<ResCurrentType>();
+          ResCurrentTypeContext = InnerResourcePredicate.ChainRecursion<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
+            (ResCurrentTypeContext, ChainedSearchParameter.ChainedSearchParameter);
+
+          string ReferenceResourceName = ChainedSearchParameter.TypeModifierResource;
+          int ReferenceSearchParameterId = ChainedSearchParameter.Id;
+          int ReferencePrimaryServiceRootUrlId = this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
+          
+          //The Chain Reference Query
+          OtherResourceContext = OtherResourceContext
+            .Where(x => x.IndexReferenceList
+              .Any(c => ResCurrentTypeContext
+                .Where(a => a.IsCurrent == true & a.IsDeleted == false & a.IndexReferenceList.Any(f => f.ReferenceResourceType == ReferenceResourceName & f.ServiceSearchParameterId == ReferenceSearchParameterId & f.ReferenceVersionId == null & f.ReferenceServiceBaseUrlId == ReferencePrimaryServiceRootUrlId))
+                  .Select(v => v.FhirId)
+                    .Contains(c.ReferenceFhirId)));
+
+          return OtherResourceContext;
+        }
+        else
+        {
+          throw new InvalidCastException("Internal Server error: Unable to cast InnnerResourceRepository to ICommonResourcePredicate for chain searching.");
+        }        
+      }
+      else
+      {
+        // The last search in the chain search parameter chain.
+        var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+        Predicate = Predicate.And(this.CommonRepository.PredicateCurrentNotDeleted());
+        var ChainParanmeterList = new List<ISearchParameterBase>() { ChainedSearchParameter };
+        Predicate = Predicate.And(this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(ChainParanmeterList));
+        Predicate = Predicate.And(this.CommonRepository.ANDSearchParameterListPredicateGenerator(ChainParanmeterList));
+        
+        IQueryable<ResCurrentType> ResCurrentTypeContext = IPyroDbContext.Set<ResCurrentType>();
+        ResCurrentTypeContext = ResCurrentTypeContext.Where(Predicate);
+        OtherResourceContext = OtherResourceContext
+          .Where(x => x.IndexReferenceList
+            .Any(c => ResCurrentTypeContext
+              .Select(v => v.FhirId)
+                .Contains(c.ReferenceFhirId)));
+
+        return OtherResourceContext;
+      }
+    }
+
+    private IQueryable<ResCurrentType> Chaining(IQueryable<ResCurrentType> CurrentResourceContext, ISearchParameterBase ChainedSearchParameter)
+    {
+      string DummayResourceName = ChainedSearchParameter.ChainedSearchParameter.Resource;
+      FHIRAllTypes InnnerResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceFhirAllType(Common.Tools.ResourceNameResolutionSupport.GetResourceType(DummayResourceName));
+      var InnnerResourceRepository = this.IRepositorySwitcher.GetRepository(InnnerResourceType);
+
+      if (InnnerResourceRepository is ICommonResourcePredicate InnerResourcePredicate)
+      {
+        return InnerResourcePredicate.ChainRecursion<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
+          (CurrentResourceContext, ChainedSearchParameter.ChainedSearchParameter);
+      }
+      else
+      {
+        throw new InvalidCastException("Internal Server error: Unable to cast InnnerResourceRepository to ICommonResourcePredicate for chain searching.");
+      }
+    }
+
     public IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
+    {
+      List<ISearchParameterBase> ChainedSearchParametersList = DtoSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameter != null).ToList();
+      List<ISearchParameterBase> NoChainedSearchParametersList = DtoSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameter == null).ToList();
+
+      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
+      var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
+      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(NoChainedSearchParametersList);
+      var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(NoChainedSearchParametersList);
+
+      Predicate = Predicate.And(PredicateCurrentResources);
+      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateSearchParameters);
+
+      IQueryable<ResCurrentType> CurrentResourceContext = IPyroDbContext.Set<ResCurrentType>();
+      CurrentResourceContext = CurrentResourceContext.Where(Predicate);
+      
+      //Add Chain Search Parameters
+      foreach (var Chain in ChainedSearchParametersList)
+        CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
+
+      int TotalRecordCount = CurrentResourceContext.Count();
+
+      CurrentResourceContext = CurrentResourceContext.OrderBy(x => x.LastUpdated);
+      int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
+      CurrentResourceContext = CurrentResourceContext.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
+
+      var DtoResourceList = new List<DtoResource>();
+      if (WithXml)
+      {
+        DtoResourceList = CurrentResourceContext.Select(x => new DtoResource
+        {
+          Id = x.Id,
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType,
+          Xml = x.XmlBlob
+        }).ToList();
+      }
+      else
+      {
+        DtoResourceList = CurrentResourceContext.Select(x => new DtoResource
+        {
+          Id = x.Id,
+          FhirId = x.FhirId,
+          IsDeleted = x.IsDeleted,
+          IsCurrent = true,
+          Version = x.VersionId,
+          Received = x.LastUpdated,
+          Method = x.Method,
+          ResourceType = this.RepositoryResourceType
+        }).ToList();
+      }
+
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
+      DatabaseOperationOutcome.SingleResourceRead = false;
+      DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
+      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount); ;
+      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
+      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome GetResourceBySearchOld(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       //SetNumberOfRecordsPerPage(DtoSearchParameters);
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
       var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(DtoSearchParameters.SearchParametersList);
       var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
-      
+
       Predicate = Predicate.And(PredicateCurrentResources);
       Predicate = Predicate.And(PredicateIdAndLastUpdated);
       Predicate = Predicate.And(PredicateSearchParameters);
@@ -186,31 +344,51 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome GetResourceByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
       //SetNumberOfRecordsPerPage(DtoSearchParameters);
+      List<ISearchParameterBase> ChainedSearchParametersList = DtoSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameter != null).ToList();
+      List<ISearchParameterBase> NoChainedSearchParametersList = DtoSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameter == null).ToList();
+
 
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(DtoSearchParameters.SearchParametersList);
-      var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
+      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(NoChainedSearchParametersList);
+      var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(NoChainedSearchParametersList);
       var PredicateCompartment = this.CommonRepository.ORSearchParameterListPredicateGenerator(CompartmentSearchParameters.SearchParametersList);
 
       Predicate = Predicate.And(PredicateCurrentResources);
       Predicate = Predicate.And(PredicateIdAndLastUpdated);
       Predicate = Predicate.And(PredicateSearchParameters);
       Predicate = Predicate.And(PredicateCompartment);
+
+      IQueryable<ResCurrentType> CurrentResourceContext = IPyroDbContext.Set<ResCurrentType>();
+      CurrentResourceContext = CurrentResourceContext.Where(Predicate);
       
-      int TotalRecordCount = this.CommonRepository.DbGetALLCount<ResCurrentType>(Predicate);
-      var Query = this.CommonRepository.DbGetAll(Predicate);
+      //Add Chain Search Parameters
+      foreach (var Chain in ChainedSearchParametersList)
+        CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
 
-      //Todo: Sort not implemented just defaulting to last update order      
-      Query = Query.OrderBy(x => x.LastUpdated);
+      int TotalRecordCount = CurrentResourceContext.Count();
 
+      CurrentResourceContext = CurrentResourceContext.OrderBy(x => x.LastUpdated);
       int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
+      CurrentResourceContext = CurrentResourceContext.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
 
-      Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
+
+
+
+
+      //int TotalRecordCount = this.CommonRepository.DbGetALLCount<ResCurrentType>(Predicate);
+      //var Query = this.CommonRepository.DbGetAll(Predicate);
+
+      ////Todo: Sort not implemented just defaulting to last update order      
+      //Query = Query.OrderBy(x => x.LastUpdated);
+
+      //int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
+
+      //Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
       var DtoResourceList = new List<DtoResource>();
       if (WithXml)
       {
-        DtoResourceList = Query.Select(x => new DtoResource
+        DtoResourceList = CurrentResourceContext.Select(x => new DtoResource
         {
           Id = x.Id,
           FhirId = x.FhirId,
@@ -225,7 +403,7 @@ namespace Pyro.DataLayer.Repository
       }
       else
       {
-        DtoResourceList = Query.Select(x => new DtoResource
+        DtoResourceList = CurrentResourceContext.Select(x => new DtoResource
         {
           Id = x.Id,
           FhirId = x.FhirId,
@@ -241,7 +419,7 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       DatabaseOperationOutcome.SingleResourceRead = false;
       DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount); 
+      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
@@ -645,6 +823,9 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
-    
+    public LinqKit.ExpressionStarter<ResCurrentType> Predicate()
+    {
+      return this.CommonRepository.PredicateCurrentNotDeleted();
+    }
   }
 }

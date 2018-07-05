@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace Pyro.Common.Search.SearchParameterEntity
 {
   public interface ISearchParameterBase : IServiceSearchParameterLight, ICloneDeep
-  {
-    List<ISearchParameterBase> ChainedSearchParameterList { get; set; }
+  {    
+    ISearchParameterBase ChainedSearchParameter { get; set; }
     bool HasLogicalOrProperties { get; set; }
     string InvalidMessage { get; set; }
     bool IsValid { get; set; }

@@ -24,6 +24,11 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       return base.Set<TEntity>();
     }
 
+    public new DbSet Set(System.Type entityType)
+    {
+      return base.Set(entityType);
+    }
+
     public DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
     public DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }    
     public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }

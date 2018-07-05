@@ -18,8 +18,8 @@ namespace Pyro.Common.Search.SearchParameterEntity
     protected const char OrDelimiter = ',';
     public string RawValue { get; set; }
     public SearchParameter.SearchModifierCode? Modifier { get; set; }
-    public string TypeModifierResource { get; set; }
-    public List<ISearchParameterBase> ChainedSearchParameterList { get; set; }
+    public string TypeModifierResource { get; set; }    
+    public ISearchParameterBase ChainedSearchParameter { get; set; }
     public bool HasLogicalOrProperties { get; set; }
     public bool IsValid { get; set; }
     public string InvalidMessage { get; set; }
@@ -30,8 +30,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
     public abstract object CloneDeep();
     public virtual object CloneDeep(SearchParameterBase Clone)
     {
-      Clone.ChainedSearchParameterList = new List<ISearchParameterBase>();
-      Clone.ChainedSearchParameterList.AddRange(this.ChainedSearchParameterList);
+      Clone.ChainedSearchParameter = this.ChainedSearchParameter;
       Clone.Expression = this.Expression;
       Clone.HasLogicalOrProperties = this.HasLogicalOrProperties;
       Clone.Id = this.Id;
@@ -55,8 +54,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
     public SearchParameterBase()
     {
       this.HasLogicalOrProperties = false;
-      this.IsValid = true;
-      this.ChainedSearchParameterList = new List<ISearchParameterBase>();
+      this.IsValid = true;      
     }
   }
 }

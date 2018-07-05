@@ -201,10 +201,8 @@
     <Compile Include="FhirOperation\Compartment\ICompartmentOperation.cs" />
     <Compile Include="Service\CompartmentSearchParameter\ICompartmentSearchParameterService.cs" />
     <Compile Include="FhirOperation\IhiSearch\IHISearchOrValidateOperation.cs" />
-    <Compile Include="Service\ChainSearching\IChainSearchingService.cs" />
     <Compile Include="FhirOperation\IhiSearch\IIHISearchOrValidateOperation.cs" />
     <Compile Include="Service\Include\IIncludeService.cs" />
-    <Compile Include="Service\ChainSearching\ChainSearchingService.cs" />
     <Compile Include="Service\Include\IncludeService.cs" />
     <Compile Include="Service\Smart\ISmartScopeOutcome.cs" />
     <Compile Include="Service\Smart\ISmartScopeService.cs" />

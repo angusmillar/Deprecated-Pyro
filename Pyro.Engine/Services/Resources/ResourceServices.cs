@@ -9,7 +9,6 @@ using Pyro.Common.RequestMetadata;
 using Pyro.Common.Search;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Include;
-using Pyro.Common.Service.ChainSearching;
 using Pyro.Common.Tools;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.Tools.Paging;
@@ -35,7 +34,6 @@ namespace Pyro.Engine.Services.Resources
     private readonly IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory;
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
-    private readonly IChainSearchingService IChainSearchingService;
     private readonly IIncludeService IIncludeService;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IServiceCompartmentCache IServiceCompartmentCache;
@@ -47,14 +45,13 @@ namespace Pyro.Engine.Services.Resources
     private IResourceRepository IResourceRepository = null;
 
     //Constructor for dependency injection
-    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IChainSearchingService IChainSearchingService, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService, IPagingSupport IPagingSupport, ISmartScopeService ISmartScopeService)
+    public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IResourceTriggerService IResourceTriggerService, IPagingSupport IPagingSupport, ISmartScopeService ISmartScopeService)
     {
       this.TriggersActive = true;
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
-      this.IChainSearchingService = IChainSearchingService;
       this.IIncludeService = IIncludeService;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
@@ -1006,7 +1003,7 @@ namespace Pyro.Engine.Services.Resources
         }
       }
 
-      
+
       if (ResourceIdCollection.Count == 1)
       {
         //Delete one resource that is not already deleted 
@@ -1091,7 +1088,7 @@ namespace Pyro.Engine.Services.Resources
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = null;
       if (CrudOperationType == RestEnum.CrudOperationType.Update)
-      {        
+      {
         DatabaseOperationOutcome = IResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);
       }
       else if (CrudOperationType == RestEnum.CrudOperationType.Create)
@@ -1125,7 +1122,7 @@ namespace Pyro.Engine.Services.Resources
         ServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
         ServiceOperationOutcome.OperationType = CrudOperationType;
         ServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcome.ReturnedResourceList[0].Version;
-        ServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;        
+        ServiceOperationOutcome.RequestUri = RequestUri.FhirRequestUri;
         ServiceOperationOutcome.FormatMimeType = null;
         if (CrudOperationType == RestEnum.CrudOperationType.Create)
           ServiceOperationOutcome.HttpStatusCode = HttpStatusCode.Created;
@@ -1266,64 +1263,25 @@ namespace Pyro.Engine.Services.Resources
 
     private IDatabaseOperationOutcome GetResourcesBySearch(PyroSearchParameters SearchParameters)
     {
-      bool ChainTargetFound = true;
-      //Resolve any chained search parameters
-      foreach (SearchParameterReferance Chain in SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
+      IDatabaseOperationOutcome DatabaseOperationOutcome = DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters, true);
+      //Add any _include or _revinclude Resources
+      if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
       {
-        ChainTargetFound = IChainSearchingService.ResolveChain(Chain);
-        if (!ChainTargetFound)
-          break;
-      }
-
-      //If any chain Search parameter exists and resolves to no target ChainTargetFound = false and the whole search resolves to no resources
-      //therefore no need to continue hitting the database for the other search parameters. 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = null;
-      if (ChainTargetFound)
-      {
-        DatabaseOperationOutcome = IResourceRepository.GetResourceBySearch(SearchParameters, true);
-
-        //Add any _include or _revinclude Resources
-        if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
-        {
-          DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
-        }
+        DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList);
       }
       return DatabaseOperationOutcome;
     }
 
     private IDatabaseOperationOutcome GetResourcesByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters SearchParameters, string Compartment, string CompartmentId)
-    {
-      bool ChainTargetFound = true;
-      //Resolve any chained search parameters
-      foreach (SearchParameterReferance Chain in SearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
+    {     
+      IDatabaseOperationOutcome DatabaseOperationOutcome = null;     
+      DatabaseOperationOutcome = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameters, SearchParameters, true);
+
+      //Add any _include or _revinclude Resources
+      if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
       {
-        ChainTargetFound = IChainSearchingService.ResolveChain(Chain);
-        if (!ChainTargetFound)
-          break;
-      }
-
-      //Now for any Compartment chain search parameters. These are all 'Or' statments so we need to use them regardless of fouund or not unlike the 
-      //normal chain parameters from above.            
-      //Note to self: rememeber that the call to ResolveChain undates the SearchParameterReferance passed in.
-      foreach (SearchParameterReferance Chain in CompartmentSearchParameters.SearchParametersList.OfType<SearchParameterReferance>().Where(x => x.IsChained == true))
-      {
-        IChainSearchingService.ResolveChain(Chain);        
-      }
-
-      //If any normal search parameter chain Search parameter exists and resolves to no target ChainTargetFound = false and the whole search resolves to no resources
-      //therefore no need to continue hitting the database for the other search parameters. 
-      //Yet CompartmentSearchParameters should always pass though to the search which occures because ChainTargetFound is defaulted to true at the begingning.
-      IDatabaseOperationOutcome DatabaseOperationOutcome = null;
-      if (ChainTargetFound)
-      {        
-        DatabaseOperationOutcome = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameters, SearchParameters, true);
-
-        //Add any _include or _revinclude Resources
-        if (SearchParameters != null && SearchParameters.IncludeList != null && DatabaseOperationOutcome.ReturnedResourceList != null)
-        {
-          DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList, Compartment, CompartmentId);
-        }
-      }
+        DatabaseOperationOutcome.ReturnedResourceList = IIncludeService.ResolveIncludeResourceList(SearchParameters.IncludeList, DatabaseOperationOutcome.ReturnedResourceList, Compartment, CompartmentId);
+      }     
       return DatabaseOperationOutcome;
     }
 

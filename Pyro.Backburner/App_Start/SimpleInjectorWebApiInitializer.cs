@@ -24,7 +24,6 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.RequestMetadata;
   using Pyro.Common.Search;
   using Pyro.Common.Service.ResourceService;
-  using Pyro.Common.Service.ChainSearching;
   using Pyro.Common.Service.CompartmentSearchParameter;
   using Pyro.Common.Service.Include;
   using Pyro.Common.Service.SearchParameters;
@@ -206,8 +205,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
-      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
-      container.Register<IChainSearchingService, ChainSearchingService>(Lifestyle.Scoped);
+      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);      
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
 

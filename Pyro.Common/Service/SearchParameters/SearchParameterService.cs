@@ -140,20 +140,23 @@ namespace Pyro.Common.Service.SearchParameters
 
       return _SearchParametersServiceOutcome;
     }
-
+    
     private void ChainSearchProcessing(Tuple<string, string> Parameter)
     {
       _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, _ResourceType);
 
       ISearchParameterBase ParentChainSearchParameter = null;
       ISearchParameterBase PreviousChainSearchParameter = null;
+
       string[] ChaimedParameterSplit = Parameter.Item1.Split(SearchParams.SEARCH_CHAINSEPARATOR);
       bool ErrorInSearchParameterProcessing = false;
       for (int i = 0; i < ChaimedParameterSplit.Length; i++)
       {
+        DtoServiceSearchParameterLight oSupportedSearchParameter = null;
         string ParameterName = Parameter.Item1.Split(SearchParams.SEARCH_CHAINSEPARATOR)[i];
         string ParameterValue = string.Empty;
-        //There is no valid Value for a chained reference parameter unless it is the last in a series of chains, so don't set it. 
+        //There is no valid Value for a chained reference parameter unless it is the last in a series 
+        //of chains, so don't set it. 
         //Only set the last parameter 
         if (i == ChaimedParameterSplit.Count() - 1)
           ParameterValue = Parameter.Item2;
@@ -163,7 +166,7 @@ namespace Pyro.Common.Service.SearchParameters
         string ParameterNameNoModifier = ParameterName;
         string ParameterModifierTypedResource = string.Empty;
 
-        //Check for a deal with modifiers e.g subject:Patient.family=millar
+        //Check for and deal with modifiers e.g 'Patient' in th example: subject:Patient.family=millar
         if (ParameterName.Contains(SearchParams.SEARCH_MODIFIERSEPARATOR))
         {
           string[] ParameterModifierSplit = ParameterName.Split(SearchParams.SEARCH_MODIFIERSEPARATOR);
@@ -178,32 +181,74 @@ namespace Pyro.Common.Service.SearchParameters
             }
           }
         }
-
-        if (PreviousChainSearchParameter != null)
+        
+        if (PreviousChainSearchParameter == null)
+        {
+          oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+          //ParameterModifierTypedResource = _ResourceType.GetLiteral();
+        }
+        else 
         {
           if (string.IsNullOrWhiteSpace(PreviousChainSearchParameter.TypeModifierResource))
           {
             if (PreviousChainSearchParameter.TargetResourceTypeList != null)
             {
               if (PreviousChainSearchParameter.TargetResourceTypeList.Count == 1)
-              {
-                _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, PreviousChainSearchParameter.TargetResourceTypeList[0].ResourceType.GetLiteral());
+              {                
+                List<DtoServiceSearchParameterLight> _DtoSupportedSearchParametersListForTarget = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, PreviousChainSearchParameter.TargetResourceTypeList[0].ResourceType.GetLiteral());
+                DtoServiceSearchParameterLight oSupportedSearchParameterForTarget = _DtoSupportedSearchParametersListForTarget.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+                //PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;
+                PreviousChainSearchParameter.TypeModifierResource = oSupportedSearchParameterForTarget.Resource;
+                oSupportedSearchParameter = oSupportedSearchParameterForTarget;                
+                
               }
               else
-              {
-                //There is more than on target on the previous and yet the user has not given a modifier type to select one of them.
-                var DtoUnspportedSearchParameter = new UnspportedSearchParameter();
-                DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
-                string ResourceName = string.Empty;
-                if (_ResourceType.HasValue)
-                  ResourceName = _ResourceType.Value.ToString();
-                DtoUnspportedSearchParameter.ReasonMessage = $"The search parameter '{Parameter.Item1}' is not supported by this server for the resource type '{ResourceName}'. ";
-                DtoUnspportedSearchParameter.ReasonMessage += $"Additional information: ";
-                DtoUnspportedSearchParameter.ReasonMessage += $"This search parameter was a chained search parameter. The part that was not recognised was '{PreviousChainSearchParameter.Name}.{ParameterName}' because the reference search parameter '{PreviousChainSearchParameter.Name}' can resolve to more than one target resource type. In this case you must specify the Resource type required using a search parameter Modifier. For example '{PreviousChainSearchParameter.Name}:{PreviousChainSearchParameter.TargetResourceTypeList[0].ResourceType.GetLiteral()}.{ParameterName}'.";
-                _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-                ErrorInSearchParameterProcessing = true;
-                break;
-              }
+              {                
+                List<DtoServiceSearchParameterLight> oMultiChainedSupportedSearchParameter = new List<DtoServiceSearchParameterLight>();
+                foreach (var TargetResourceType in PreviousChainSearchParameter.TargetResourceTypeList)
+                {
+                  FHIRAllTypes TargetResource = Tools.ResourceNameResolutionSupport.GetResourceFhirAllType(TargetResourceType.ResourceType);
+                  List<DtoServiceSearchParameterLight> _DtoSupportedSearchParametersListForTarget = GetSupportedSearchParameters(SearchParameterServiceType.Resource, null, TargetResource);
+                  DtoServiceSearchParameterLight oSupportedSearchParameterForTarget = _DtoSupportedSearchParametersListForTarget.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+                  if (oSupportedSearchParameterForTarget != null)
+                  {
+                    oMultiChainedSupportedSearchParameter.Add(oSupportedSearchParameterForTarget);
+                  }
+                }
+                if (oMultiChainedSupportedSearchParameter.Count() == 1)
+                {                  
+                  PreviousChainSearchParameter.TypeModifierResource = oMultiChainedSupportedSearchParameter[0].Resource;                 
+                  oSupportedSearchParameter = oMultiChainedSupportedSearchParameter[0];
+                }
+                else
+                {
+                  //Need to do work here!!
+                  //oSupportedSearchParameter this needs to be set but we now have many!
+                  //the many is the list in oMultiChainedSupportedSearchParameter
+                  //PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;
+                  //PreviousChainSearchParameter.TypeModifierResource = oMultiChainedSupportedSearchParameter[0].Resource;
+                  string RefResources = string.Empty;
+                  oMultiChainedSupportedSearchParameter.ForEach(x => RefResources += ", " + x.Resource);
+                  var DtoUnspportedSearchParameter = new UnspportedSearchParameter();
+                  DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
+                  string ResourceName = string.Empty;
+                  if (_ResourceType.HasValue)
+                    ResourceName = _ResourceType.Value.ToString();
+                  DtoUnspportedSearchParameter.ReasonMessage = $"The chained search parameter '{Parameter.Item1}' is ambiguous. ";
+                  DtoUnspportedSearchParameter.ReasonMessage += $"Additional information: ";
+                  DtoUnspportedSearchParameter.ReasonMessage += $"The search parameter '{oMultiChainedSupportedSearchParameter[0].Name}' can referance the following resource types ({RefResources.TrimStart(',').Trim()}). ";
+                  DtoUnspportedSearchParameter.ReasonMessage += $"To correct this you must prefix the search parameter with a Type modifier, for example: '{PreviousChainSearchParameter.Name}:{oMultiChainedSupportedSearchParameter[0].Resource}.{oMultiChainedSupportedSearchParameter[0].Name}' ";
+                  DtoUnspportedSearchParameter.ReasonMessage += $"If the '{oMultiChainedSupportedSearchParameter[0].Resource}' resource was the intended referance for the search parameter '{oMultiChainedSupportedSearchParameter[0].Name}'.";
+                  _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+                  ErrorInSearchParameterProcessing = true;
+
+
+
+
+                  //ParameterModifierTypedResource = oMultiChainedSupportedSearchParameter[0].Resource;
+                  //throw new Exception("This is then case where we must search for matches as we have many possiable search parameters");
+                }
+              }              
             }
             else
             {
@@ -224,6 +269,8 @@ namespace Pyro.Common.Service.SearchParameters
           else if (CheckModifierTypeResourceValidForSearchParameter(PreviousChainSearchParameter.TypeModifierResource, PreviousChainSearchParameter.TargetResourceTypeList))
           {
             _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, PreviousChainSearchParameter.TypeModifierResource);
+            oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);            
+            PreviousChainSearchParameter.TypeModifierResource = oSupportedSearchParameter.Resource;            
           }
           else
           {
@@ -242,7 +289,11 @@ namespace Pyro.Common.Service.SearchParameters
           }
         }
 
-        DtoServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+
+
+        _DtoSupportedSearchParametersList.Clear();
+        
+
 
         if (oSupportedSearchParameter != null)
         {
@@ -260,12 +311,24 @@ namespace Pyro.Common.Service.SearchParameters
           {
             if (!IsSingularSearchParameter(oSearchParameter, _SearchParametersServiceOutcome))
             {
-              if (ParentChainSearchParameter == null)
-                ParentChainSearchParameter = oSearchParameter.CloneDeep() as ISearchParameterBase;
-              else
-                ParentChainSearchParameter.ChainedSearchParameterList.Add(oSearchParameter.CloneDeep() as ISearchParameterBase);
+              ISearchParameterBase Temp = oSearchParameter.CloneDeep() as ISearchParameterBase;
 
-              PreviousChainSearchParameter = oSearchParameter.CloneDeep() as ISearchParameterBase;
+              if (ParentChainSearchParameter == null)
+              {
+                ParentChainSearchParameter = Temp;
+              }
+              else
+              {
+                if (ParentChainSearchParameter.ChainedSearchParameter == null)
+                {
+                  ParentChainSearchParameter.ChainedSearchParameter = Temp;
+                }                
+                PreviousChainSearchParameter.ChainedSearchParameter = Temp;                                
+              }
+              
+              PreviousChainSearchParameter = Temp;
+              if (i != ChaimedParameterSplit.Count() - 1)
+                PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;              
             }
           }
           else
@@ -301,9 +364,12 @@ namespace Pyro.Common.Service.SearchParameters
           break;
         }
       }
+
+      
       if (!ErrorInSearchParameterProcessing)
         _SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(ParentChainSearchParameter);
     }
+
 
     private void NormalSearchProcessing(Tuple<string, string> Parameter)
     {

@@ -261,31 +261,17 @@ namespace Pyro.Common.Tools.UriSupport
           Remainder = RequestRelativePath.Substring(_MetadataName.Count(), RequestRelativePath.Count() - _MetadataName.Count());
           return RemoveStartsWithSlash(Remainder);
         }
-        else
+        else if (SplitParts.Count() > 1 || this.OriginalString.Contains('/'))
         {
-          //This is a Resource referance          
+          //This is a Resource referance where Patient/123456          
           this.ResourseName = Segment;
-          this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);                    
+          this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
           Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
           return RemoveStartsWithSlash(Remainder);
-
-          //Changed this to above which only calls 'ResourceNameResolutionSupport.GetResourceType' 
-          //which will throw an exception if not a Resource type, that exception also
-          //provides detailed user info about the failure. 
-
-          //if (IsResourceTypeString(Segment))
-          //{
-          //  this.ResourseName = Segment;
-          //  this.ResourceType = ResourceNameResolutionSupport.GetResourceType(this.ResourseName);
-          //  Remainder = RequestRelativePath.Substring(this.ResourseName.Count(), RequestRelativePath.Count() - this.ResourseName.Count());
-          //  return RemoveStartsWithSlash(Remainder);
-          //}
-          //else
-          //{
-          //  ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained or Compartment segment or does not begin with http:// or https://. Found invalid segment: {Segment} in URL: {this.OriginalString}";
-          //  ErrorInParseing = true;
-          //  return string.Empty;
-          //}         
+        }
+        else if (SplitParts.Count() == 1)
+        {
+          return Segment;
         }
       }
       ParseErrorMessage = $"The URI has no Resource or metadata or $Operation or #Contained segment. Found invalid segment: {RequestRelativePath} in URL {this.OriginalString}";

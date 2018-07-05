@@ -476,6 +476,61 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.Query, "code:in=http://hspc.org/ValueSet/acute-concerns");
     }
 
-    
+    [Test]
+    public void Test_ReferanceWithNoResource()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhirapi/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      //Just the resource id from a resource reference with no Resource patient=TheResourceId rather than patient=Patient/TheResourceId
+      string Request = "TheResourceId";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, null);
+      Assert.AreEqual(Result.ResourceId, Request);
+      Assert.IsFalse(Result.IsCompartment);
+      Assert.AreEqual(Result.CompartmentalisedResourseName, null);
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, false);
+      Assert.AreEqual(Result.OperationType, null);
+      Assert.AreEqual(Result.OperationName, null);
+      Assert.AreEqual(Result.Query, null);
+    }
+
+    [Test]
+    public void Test_PostUrl()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhirapi/Patient/10/Condition?code:in=http://hspc.org/ValueSet/acute-concerns
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      //Just the resource id from a resource reference with no Resource patient=TheResourceId rather than patient=Patient/TheResourceId
+      string Request = $"{HttpsPrimaryServiceRootLocal}/Patient";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, "Patient");
+      Assert.AreEqual(Result.ResourceId, null);
+      Assert.IsFalse(Result.IsCompartment);
+      Assert.AreEqual(Result.CompartmentalisedResourseName, null);
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, false);
+      Assert.AreEqual(Result.OperationType, null);
+      Assert.AreEqual(Result.OperationName, null);
+      Assert.AreEqual(Result.Query, null);
+    }
+
+
+
   }
 }

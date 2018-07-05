@@ -82,16 +82,17 @@ namespace Pyro.Common.Service.Smart
             }
           }
 
-          var SearchParametersThatHaveChainParametersList = PyroSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameterList.Count() != 0);
+          var SearchParametersThatHaveChainParametersList = PyroSearchParameters.SearchParametersList.Where(x => x.ChainedSearchParameter != null);
           if (SearchParametersThatHaveChainParametersList != null && SearchParametersThatHaveChainParametersList.Count() > 0)
           {
 
             foreach (ISearchParameterBase Chain in SearchParametersThatHaveChainParametersList)
             {
-              if (!RecursiveChainScoped(Chain, ScopeList, SmartAction))
+              string ResourceWithNoScopeAccess = RecursiveChainScoped(Chain, ScopeList, SmartAction);
+              if (!string.IsNullOrWhiteSpace(ResourceWithNoScopeAccess))
               {
                 //Reject
-                string Message = $"You do not have permission to access one of the Resources found within your chained search parameters.";
+                string Message = $"You do not have permission to access {ResourceWithNoScopeAccess} resources types which was one of the resources types within your chained search parameter.";
                 var OpOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Forbidden, Message);
                 SmartScopeOutcome.OperationOutcome = OpOut;
                 SmartScopeOutcome.ScopesOK = false;
@@ -135,23 +136,27 @@ namespace Pyro.Common.Service.Smart
       }
     }
     
-    private bool RecursiveChainScoped(ISearchParameterBase ParentChain, List<ISmartScope> ScopeList, SmartEnum.Action SmartAction)
+    private string RecursiveChainScoped(ISearchParameterBase ParentChain, List<ISmartScope> ScopeList, SmartEnum.Action SmartAction)
     {
       IEnumerable<ISmartScope> FoundScopesList = ScopeList.Where(x => x.Resource.GetLiteral() == ParentChain.Resource && (x.Action == SmartAction || x.Action == SmartEnum.Action.All));
       if (FoundScopesList.Count() > 0)
       {
-        foreach (ISearchParameterBase ChildChain in ParentChain.ChainedSearchParameterList)
+        if (ParentChain.ChainedSearchParameter != null)
         {
-          return RecursiveChainScoped(ChildChain, ScopeList, SmartAction);
+          //Test the next search parameter
+          return RecursiveChainScoped(ParentChain.ChainedSearchParameter, ScopeList, SmartAction);
         }
-        //We have reached the end of the list and all had valid scopes
-        return true;
+        else
+        {
+          //If the scopes are fine and allowed then we return empty string as suscess
+          return string.Empty;
+        }        
       }
       else
       {
-        //We have found a chain that does not have a scope, reject call
-        return false;
-      }
+        //If we are unable to find a scope for a given resource type we return the Resource name for error reporting. 
+        return ParentChain.Resource;
+      }      
     }
 
     private SmartEnum.Action GetActionEnum(bool Read, bool Write)

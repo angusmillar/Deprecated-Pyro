@@ -28,8 +28,7 @@ namespace Pyro.Test.IndexSetters
       return new SearchParameterReferance(TestSetupMocks.GetIPyroFhirUriFactory());
     }
 
-    [Test]
-    public void Test_RecursiveChainSearch()
+    private SearchParameterService SetupMockedSearchParameterService()
     {
       //Arrange     
       Moq.Mock<ISearchParameterGenericFactory> MokISearchParameterGenericFactory = new Moq.Mock<ISearchParameterGenericFactory>();
@@ -108,6 +107,25 @@ namespace Pyro.Test.IndexSetters
 
       MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("Patient")).Returns(PatientServiceSearchParameterLightList);
 
+
+      //Search Parameters for Location Resource ---------------------------------------
+      List<DtoServiceSearchParameterLight> LocationServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
+
+      DtoServiceSearchParameterLight ServiceSearchParameterLight_LocationName = new DtoServiceSearchParameterLight();
+      ServiceSearchParameterLight_LocationName.Expression = "Test_Expression for Location name";
+      ServiceSearchParameterLight_LocationName.Id = 2;
+      ServiceSearchParameterLight_LocationName.Name = "name";
+      ServiceSearchParameterLight_LocationName.Resource = "Location";
+      //var oTargetResourceTypeListOrganization = new List<IServiceSearchParameterTargetResource>();
+      //oTargetResourceTypeListOrganization.Add(new _ServiceSearchParameterTargetResource() { Id = 22, ResourceType = ResourceType.Organization, ServiceSearchParameter = null, ServiceSearchParameterId = 222 });
+      ServiceSearchParameterLight_LocationName.TargetResourceTypeList = oTargetResourceTypeListOrganization;
+      ServiceSearchParameterLight_LocationName.Type = SearchParamType.String;
+      LocationServiceSearchParameterLightList.Add(ServiceSearchParameterLight_LocationName);
+      
+      MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("Location")).Returns(LocationServiceSearchParameterLightList);
+
+
+
       //Search Parameters for Organization Resource ---------------------------------------
       List<DtoServiceSearchParameterLight> OrganizationServiceSearchParameterLightList = new List<DtoServiceSearchParameterLight>();
 
@@ -150,7 +168,13 @@ namespace Pyro.Test.IndexSetters
       // A factor used by the SearchParameterService when processing chained parameters recursively
       MokISearchParameterServiceFactory.Setup(x => x.CreateSearchParameterService()).Returns(SearchParameterService);
       //====================================================
+      return SearchParameterService;
+    }
 
+    [Test]
+    public void Test_RecursiveChainSearchWithModifiers()
+    {
+      var SearchParameterService = SetupMockedSearchParameterService();      
       string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
       var DtoSearchParameterGeneric = new SearchParameterGeneric();
       DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
@@ -167,27 +191,90 @@ namespace Pyro.Test.IndexSetters
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Name, "subject");
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Resource, FHIRAllTypes.DiagnosticReport.GetLiteral());
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].TypeModifierResource, FHIRAllTypes.Patient.GetLiteral());
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList.Count, 3, "Should have 3 chained search parameters");
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  paramerter does not have a child chain parameter");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] is SearchParameterReferance), true, "Expected SearchParameterReferance type cast");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] as SearchParameterReferance).IsChained, true, "Expected IsChained = true");
 
-      //Patient.organization
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[0].Type, SearchParamType.Reference, "First chain should be type Referance");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[0].Name, "organization", "First chain must have name of organization");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[0].Resource, FHIRAllTypes.Patient.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Patient.GetLiteral()}");
+      //Patient.organization      
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Type, SearchParamType.Reference, "First chain should be type Referance");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Name, "organization", "First chain must have name of organization");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Resource, FHIRAllTypes.Patient.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Patient.GetLiteral()}");
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter, "The 'organization' search  paramerter does not have a child chain parameter");
 
       //Organization.endpoint
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[1].Type, SearchParamType.Reference, "First chain should be type Reference");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[1].Name, "endpoint", "First chain must have name of endpoint");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[1].Resource, FHIRAllTypes.Organization.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Organization.GetLiteral()}");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.TypeModifierResource, FHIRAllTypes.Endpoint.GetLiteral());
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Type, SearchParamType.Reference, "First chain should be type Reference");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Name, "endpoint", "First chain must have name of endpoint");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Organization.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Organization.GetLiteral()}");
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
 
       //Endpoint.name=AcmeMail
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2].Type, SearchParamType.String, "First chain should be type String");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2].Name, "name", "First chain must have name of name");
-      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2].Resource, FHIRAllTypes.Endpoint.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Endpoint.GetLiteral()}");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2] as SearchParameterString).ValueList.Count, 2, $"Must 1 and only one value");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2] as SearchParameterString).ValueList[0].Value, "AcmeMail", $"Value should be a string of 'AcmeMail'");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameterList[2] as SearchParameterString).ValueList[1].Value, "AcmeMail2", $"Value should be a string of 'AcmeMail2'");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Type, SearchParamType.String, "First chain should be type String");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Name, "name", "First chain must have name of name");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Endpoint.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Endpoint.GetLiteral()}");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList.Count, 2, $"Must 1 and only one value");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "AcmeMail", $"Value should be a string of 'AcmeMail'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "AcmeMail2", $"Value should be a string of 'AcmeMail2'");
+      Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
+
+      //DiagnosticReport.identifier
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[1].Type, SearchParamType.Token, "First chain should be type Token");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[1].Name, "identifier", "First chain must have name of identifier");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[1].Resource, FHIRAllTypes.DiagnosticReport.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Organization.GetLiteral()}");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[1] is SearchParameterToken), true, "Expected SearchParameterToken type cast");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[1] as SearchParameterToken).ValueList.Count, 1, "Expected ValueList count = 1");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[1] as SearchParameterToken).ValueList[0].Code, "123", "Expected ValueList[0] to be '123'");
+
+
+
+    }
+
+    [Test]
+    public void Test_RecursiveChainSearchNoResourceModifier()
+    {
+      var SearchParameterService = SetupMockedSearchParameterService();
+    //string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
+      string UrlSearchParametersString = "?subject.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
+      var DtoSearchParameterGeneric = new SearchParameterGeneric();
+      DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
+
+      //Act    
+      ISearchParametersServiceOutcome Result = SearchParameterService.ProcessResourceSearchParameters(DtoSearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, FHIRAllTypes.DiagnosticReport);
+
+      //Assert
+      Assert.NotNull(Result, "Test returned null");
+      Assert.NotNull(Result.SearchParameters, "SearchParameters returned null");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList.Count, 2, "SearchParametersList must have 3 items");
+
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Type, SearchParamType.Reference);
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Name, "subject");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Resource, FHIRAllTypes.DiagnosticReport.GetLiteral());
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].TypeModifierResource, FHIRAllTypes.Patient.GetLiteral());
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  paramerter does not have a child chain parameter");      
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] is SearchParameterReferance), true, "Expected SearchParameterReferance type cast");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] as SearchParameterReferance).IsChained, true, "Expected IsChained = true");
+
+      //Patient.organization      
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Type, SearchParamType.Reference, "First chain should be type Referance");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Name, "organization", "First chain must have name of organization");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.Resource, FHIRAllTypes.Patient.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Patient.GetLiteral()}");
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter, "The 'organization' search  paramerter does not have a child chain parameter");
+
+      //Organization.endpoint
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.TypeModifierResource, FHIRAllTypes.Endpoint.GetLiteral());
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Type, SearchParamType.Reference, "First chain should be type Reference");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Name, "endpoint", "First chain must have name of endpoint");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Organization.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Organization.GetLiteral()}");
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
+
+      //Endpoint.name=AcmeMail
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Type, SearchParamType.String, "First chain should be type String");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Name, "name", "First chain must have name of name");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Endpoint.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Endpoint.GetLiteral()}");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList.Count, 2, $"Must 1 and only one value");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "AcmeMail", $"Value should be a string of 'AcmeMail'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "AcmeMail2", $"Value should be a string of 'AcmeMail2'");
+      Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
 
       //DiagnosticReport.identifier
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[1].Type, SearchParamType.Token, "First chain should be type Token");
@@ -200,7 +287,35 @@ namespace Pyro.Test.IndexSetters
 
     }
 
+    [Test]
+    public void Test_NegativeRecursiveChainSearchNoResourceModifier()
+    {
+      var SearchParameterService = SetupMockedSearchParameterService();
+      //string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
+      string UrlSearchParametersString = "?subject.organization.endpoint.name=AcmeMail,AcmeMail2&identifier=123";
+      var DtoSearchParameterGeneric = new SearchParameterGeneric();
+      DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
 
+      //Act    
+      ISearchParametersServiceOutcome Result = SearchParameterService.ProcessResourceSearchParameters(DtoSearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Resource, FHIRAllTypes.DiagnosticReport);
+
+      //Assert
+      Assert.NotNull(Result, "Test returned null");
+      Assert.NotNull(Result.SearchParameters, "SearchParameters returned null");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList.Count, 1, "SearchParametersList must have 3 items");
+      Assert.IsNotNull(Result.SearchParameters.UnspportedSearchParameterList, "There should be a UnSupported Search Parameter for the failed chain parameter");
+      Assert.AreEqual(Result.SearchParameters.UnspportedSearchParameterList.Count, 2, "There should 2 UnSupported Search Parameter messages");
+
+      //DiagnosticReport.identifier
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Type, SearchParamType.Token, "First chain should be type Token");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Name, "identifier", "First chain must have name of identifier");
+      Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Resource, FHIRAllTypes.DiagnosticReport.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Organization.GetLiteral()}");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] is SearchParameterToken), true, "Expected SearchParameterToken type cast");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] as SearchParameterToken).ValueList.Count, 1, "Expected ValueList count = 1");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] as SearchParameterToken).ValueList[0].Code, "123", "Expected ValueList[0] to be '123'");
+      Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  should not have a child chain parameter");
+
+    }
 
   }
 }
