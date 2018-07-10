@@ -13,6 +13,8 @@ using Pyro.Common.Tools;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.Tools.Paging;
 using Pyro.Common.Tools.UriSupport;
+//using Pyro.Engine.TriggerServices;
+//using Pyro.Engine.Services.ResourceTrigger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,8 @@ namespace Pyro.Engine.Services.Resources
     private readonly IIncludeService IIncludeService;
     private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
     private readonly IServiceCompartmentCache IServiceCompartmentCache;
-    private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;    
+    private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
+    //private readonly IResourceTriggerService IResourceTriggerService;
     private readonly IPagingSupport IPagingSupport;
     private readonly ISmartScopeService ISmartScopeService;
 
@@ -43,7 +46,8 @@ namespace Pyro.Engine.Services.Resources
 
     //Constructor for dependency injection
     public ResourceServices(IRepositorySwitcher IRepositorySwitcher, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, IIncludeService IIncludeService, IPyroFhirUriFactory IPyroFhirUriFactory, IServiceCompartmentCache IServiceCompartmentCache, ICompartmentSearchParameterService ICompartmentSearchParameterService, IPagingSupport IPagingSupport, ISmartScopeService ISmartScopeService)
-    {      
+    {
+      //this.TriggersActive = true;
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
@@ -51,7 +55,8 @@ namespace Pyro.Engine.Services.Resources
       this.IIncludeService = IIncludeService;
       this.IPyroFhirUriFactory = IPyroFhirUriFactory;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
-      this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;      
+      this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
+      //this.IResourceTriggerService = IResourceTriggerService;
       this.IPagingSupport = IPagingSupport;
       this.ISmartScopeService = ISmartScopeService;
     }
@@ -68,7 +73,8 @@ namespace Pyro.Engine.Services.Resources
     }
 
     private FHIRAllTypes ServiceResourceType { get; set; } = FHIRAllTypes.Resource;
-    
+
+    //public bool TriggersActive { get; set; }
 
     //GET Read   
     // Get: URL/Fhir/Patient/1
@@ -165,7 +171,7 @@ namespace Pyro.Engine.Services.Resources
         oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
       }
 
-      oServiceOperationOutcome.SuccessfulTransaction = true;
+      //oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -261,7 +267,7 @@ namespace Pyro.Engine.Services.Resources
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.OK;
 
-      oServiceOperationOutcome.SuccessfulTransaction = true;
+      //oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -360,7 +366,7 @@ namespace Pyro.Engine.Services.Resources
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
       oServiceOperationOutcome.HttpStatusCode = HttpStatusCode.OK;
 
-      oServiceOperationOutcome.SuccessfulTransaction = true;
+      //oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -411,7 +417,7 @@ namespace Pyro.Engine.Services.Resources
 
         GetResourceHistoryInFull(ResourceId, RequestMeta.PyroRequestUri, SearchParametersServiceOutcome, oServiceOperationOutcome);
 
-        oServiceOperationOutcome.SuccessfulTransaction = true;
+        //oServiceOperationOutcome.SuccessfulTransaction = true;
         return oServiceOperationOutcome;
       }
       else
@@ -432,7 +438,7 @@ namespace Pyro.Engine.Services.Resources
 
         GetResourceHistoryInstance(ResourceId, VersionId, RequestMeta.PyroRequestUri, oServiceOperationOutcome);
 
-        oServiceOperationOutcome.SuccessfulTransaction = true;
+        //oServiceOperationOutcome.SuccessfulTransaction = true;
         return oServiceOperationOutcome;
       }
     }
@@ -516,7 +522,7 @@ namespace Pyro.Engine.Services.Resources
           oServiceOperationOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-          oServiceOperationOutcome.SuccessfulTransaction = true;
+          //oServiceOperationOutcome.SuccessfulTransaction = true;
           return oServiceOperationOutcome;
         }
         else if (DatabaseOperationOutcomeIfNoneExist.SearchTotal > 1)
@@ -532,7 +538,6 @@ namespace Pyro.Engine.Services.Resources
           oServiceOperationOutcome.RequestUri = RequestMeta.PyroRequestUri.FhirRequestUri;
           oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
-          oServiceOperationOutcome.SuccessfulTransaction = false;
           return oServiceOperationOutcome;
         }
       }
@@ -554,7 +559,7 @@ namespace Pyro.Engine.Services.Resources
       //All good commit the resource.
       oServiceOperationOutcome = SetResource(Resource, RequestMeta.PyroRequestUri, RestEnum.CrudOperationType.Create);
       oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcomeBase.SearchParameters.Format;
-      oServiceOperationOutcome.SuccessfulTransaction = true;
+      //oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
 
@@ -628,7 +633,7 @@ namespace Pyro.Engine.Services.Resources
           Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version);
 
           oServiceOperationOutcome = SetResource(Resource, RequestMeta.PyroRequestUri, RestEnum.CrudOperationType.Update);
-          oServiceOperationOutcome.SuccessfulTransaction = true;
+          //oServiceOperationOutcome.SuccessfulTransaction = true;
           //If the found resource is IsDeleted = true then need to return Status = 201 (Created) after 
           //performing to update, not 201 (OK)
           if (DatabaseOperationOutcomeGet.ReturnedResourceList[0].IsDeleted)
@@ -644,7 +649,6 @@ namespace Pyro.Engine.Services.Resources
           string Message = $"Version aware update conflict. HTTP Header 'If-Match: {RequestMeta.RequestHeader.IfMatch}' used, and no previous resource can be found in the server.";
           oServiceOperationOutcome.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Conflict, Message);
           oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.Conflict;
-          oServiceOperationOutcome.SuccessfulTransaction = false;
           return oServiceOperationOutcome;
         }
         else
@@ -652,7 +656,7 @@ namespace Pyro.Engine.Services.Resources
           //This is a new resource so update its version number as 1 and create
           Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.FirstVersion();
           oServiceOperationOutcome = SetResource(Resource, RequestMeta.PyroRequestUri, RestEnum.CrudOperationType.Create);
-          oServiceOperationOutcome.SuccessfulTransaction = true;
+          //oServiceOperationOutcome.SuccessfulTransaction = true;
         }
       }
 
@@ -689,7 +693,6 @@ namespace Pyro.Engine.Services.Resources
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
         oServiceOperationOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-        oServiceOperationOutcome.SuccessfulTransaction = false;
         return oServiceOperationOutcome;
       }
       else
@@ -710,7 +713,7 @@ namespace Pyro.Engine.Services.Resources
         oServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
         oServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeGet.ReturnedResourceList[0].Version;
         oServiceOperationOutcome.RequestUri = null;
-        oServiceOperationOutcome.SuccessfulTransaction = true;
+        //oServiceOperationOutcome.SuccessfulTransaction = true;
         oServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
         return oServiceOperationOutcome;
       }
@@ -757,20 +760,15 @@ namespace Pyro.Engine.Services.Resources
         ServiceOperationOutcomeConditionalPut.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcome;
         ServiceOperationOutcomeConditionalPut.HttpStatusCode = SearchParametersServiceOutcomeAll.HttpStatusCode;
         ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
-        ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = false;
         return ServiceOperationOutcomeConditionalPut;
-      }
-      else
-      {
-        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
       }
 
       //If header Handling=strict then return search parameter errors if there are any
       if (RequestMeta.RequestHeader.Prefer != null && RequestMeta.RequestHeader.Prefer.IsHandlingStrict && SearchParametersServiceOutcomeAll.SearchParameters.UnspportedSearchParameterList.Count > 0)
       {
         ServiceOperationOutcomeConditionalPut.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
-        ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.Forbidden;        
-        ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = false;
+        ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.Forbidden;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalPut;
       }
 
@@ -782,7 +780,8 @@ namespace Pyro.Engine.Services.Resources
         //No resource found so do a normal Create, first clear any Resource Id that may 
         //be in the resource
         Resource.Id = string.Empty;
-        ServiceOperationOutcomeConditionalPut = this.Post(Resource, RequestMeta, null);        
+        ServiceOperationOutcomeConditionalPut = this.Post(Resource, RequestMeta, null);
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         //Don't set to true below as the POST above will set the bool based on it's own result
         //oServiceOperationOutcome.SuccessfulTransaction = true;
         return ServiceOperationOutcomeConditionalPut;
@@ -795,8 +794,8 @@ namespace Pyro.Engine.Services.Resources
           {
             string Message = "The single Resource located by the conditional PUT search has a different Resource Id to that which was found in the Resource given. Either, remove the Id from the Resource given or re-evaluate the search parameters.";
             ServiceOperationOutcomeConditionalPut.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.BusinessRule, Message);
-            ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.BadRequest;            
-            ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = false;
+            ServiceOperationOutcomeConditionalPut.HttpStatusCode = HttpStatusCode.BadRequest;
+            ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
             return ServiceOperationOutcomeConditionalPut;
           }
         }
@@ -812,7 +811,8 @@ namespace Pyro.Engine.Services.Resources
         //A database resource has been found so update the new resource's version number based on the older resource              
         Resource.Meta.VersionId = Common.Tools.ResourceVersionNumber.Increment(DatabaseOperationOutcomeSearch.ReturnedResourceList[0].Version);
         ServiceOperationOutcomeConditionalPut = SetResource(Resource, RequestMeta.PyroRequestUri, RestEnum.CrudOperationType.Update);
-        ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = true;        
+        //ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = true;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalPut;
       }
       else
@@ -824,9 +824,9 @@ namespace Pyro.Engine.Services.Resources
         ServiceOperationOutcomeConditionalPut.IsDeleted = true;
         ServiceOperationOutcomeConditionalPut.OperationType = RestEnum.CrudOperationType.Update;
         ServiceOperationOutcomeConditionalPut.ResourceVersionNumber = null;
-        ServiceOperationOutcomeConditionalPut.RequestUri = null;        
+        ServiceOperationOutcomeConditionalPut.RequestUri = null;
+        ServiceOperationOutcomeConditionalPut.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         ServiceOperationOutcomeConditionalPut.HttpStatusCode = System.Net.HttpStatusCode.PreconditionFailed;
-        ServiceOperationOutcomeConditionalPut.SuccessfulTransaction = false;
         return ServiceOperationOutcomeConditionalPut;
       }
     }
@@ -865,7 +865,6 @@ namespace Pyro.Engine.Services.Resources
         ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcome;
         ServiceOperationOutcomeConditionalDelete.HttpStatusCode = SearchParametersServiceOutcomeAll.HttpStatusCode;
         ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
-        ServiceOperationOutcomeConditionalDelete.SuccessfulTransaction = false;
         return ServiceOperationOutcomeConditionalDelete;
       }
       else
@@ -878,7 +877,7 @@ namespace Pyro.Engine.Services.Resources
       {
         ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcomeUnsupportedParameters;
         ServiceOperationOutcomeConditionalDelete.HttpStatusCode = HttpStatusCode.Forbidden;
-        ServiceOperationOutcomeConditionalDelete.SuccessfulTransaction = false;
+        //ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalDelete;
       }
 
@@ -901,7 +900,7 @@ namespace Pyro.Engine.Services.Resources
         }
         ServiceOperationOutcomeConditionalDelete.ResourceResult = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.BusinessRule, Message);
         ServiceOperationOutcomeConditionalDelete.HttpStatusCode = HttpStatusCode.PreconditionFailed;
-        ServiceOperationOutcomeConditionalDelete.SuccessfulTransaction = false;
+        //ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
         return ServiceOperationOutcomeConditionalDelete;
       }
 
@@ -909,7 +908,9 @@ namespace Pyro.Engine.Services.Resources
 
       //There are zero or many or one to be deleted, note that GetResourceBySearch never returns deleted resource.
       ICollection<string> ResourceIdsToBeDeleted = DatabaseOperationOutcomeSearch.ReturnedResourceList.Select(x => x.FhirId).ToArray();
-      ServiceOperationOutcomeConditionalDelete = SetResourceCollectionAsDeleted(ResourceIdsToBeDeleted);            
+      ServiceOperationOutcomeConditionalDelete = SetResourceCollectionAsDeleted(ResourceIdsToBeDeleted);
+      //ServiceOperationOutcomeConditionalDelete.FormatMimeType = SearchParametersServiceOutcomeAll.SearchParameters.Format;
+      //ServiceOperationOutcomeConditionalDelete.SuccessfulTransaction = true;
       return ServiceOperationOutcomeConditionalDelete;
     }
 
@@ -941,16 +942,12 @@ namespace Pyro.Engine.Services.Resources
         ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
         return ServiceOutcome;
       }
-      else
-      {
-        ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
-      }
 
       int NumberOfIndexRowsDeleted = IResourceRepository.DeleteNonCurrentResourceIndexes();
 
       ServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
       ServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
-      ServiceOutcome.SuccessfulTransaction = true;
+      //ServiceOutcome.SuccessfulTransaction = true;
       Parameters ParametersResult = new Parameters();
       ParametersResult.Id = this.ServiceResourceType.GetLiteral() + "_Response";
       ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
@@ -960,7 +957,8 @@ namespace Pyro.Engine.Services.Resources
       var Count = new FhirDecimal();
       Count.Value = NumberOfIndexRowsDeleted;
       Param.Value = Count;
-      ServiceOutcome.ResourceResult = ParametersResult;      
+      ServiceOutcome.ResourceResult = ParametersResult;
+      ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
       return ServiceOutcome;
     }
 
@@ -1001,8 +999,7 @@ namespace Pyro.Engine.Services.Resources
           oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
           oPyroServiceOperationOutcome.ResourceVersionNumber = null;
           oPyroServiceOperationOutcome.RequestUri = null;
-          oPyroServiceOperationOutcome.HttpStatusCode = DatabaseOperationOutcomeDelete.TriggerOutCome.HttpStatusCode;
-          oPyroServiceOperationOutcome.SuccessfulTransaction = false;
+          oPyroServiceOperationOutcome.HttpStatusCode = DatabaseOperationOutcomeDelete.TriggerOutCome.HttpStatusCode;          
           return oPyroServiceOperationOutcome;
         }
 
@@ -1014,8 +1011,7 @@ namespace Pyro.Engine.Services.Resources
         oPyroServiceOperationOutcome.ResourceVersionNumber = DatabaseOperationOutcomeDelete.ReturnedResourceList[0].Version;
         oPyroServiceOperationOutcome.RequestUri = null;
         oPyroServiceOperationOutcome.FormatMimeType = null;
-        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
-        oPyroServiceOperationOutcome.SuccessfulTransaction = true;
+        oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;        
         return oPyroServiceOperationOutcome;
       }
       else if (ResourceIdCollection.Count > 1)
@@ -1032,8 +1028,7 @@ namespace Pyro.Engine.Services.Resources
           oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
           oPyroServiceOperationOutcome.ResourceVersionNumber = null;
           oPyroServiceOperationOutcome.RequestUri = null;
-          oPyroServiceOperationOutcome.HttpStatusCode = DatabaseOperationOutcomeDeleteMany.TriggerOutCome.HttpStatusCode;
-          oPyroServiceOperationOutcome.SuccessfulTransaction = false;
+          oPyroServiceOperationOutcome.HttpStatusCode = DatabaseOperationOutcomeDeleteMany.TriggerOutCome.HttpStatusCode;          
           return oPyroServiceOperationOutcome;
         }
       }
@@ -1046,8 +1041,7 @@ namespace Pyro.Engine.Services.Resources
       oPyroServiceOperationOutcome.OperationType = RestEnum.CrudOperationType.Delete;
       oPyroServiceOperationOutcome.ResourceVersionNumber = null;
       oPyroServiceOperationOutcome.RequestUri = null;
-      oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;
-      oPyroServiceOperationOutcome.SuccessfulTransaction = true;
+      oPyroServiceOperationOutcome.HttpStatusCode = System.Net.HttpStatusCode.NoContent;      
       return oPyroServiceOperationOutcome;
     }
 

@@ -210,7 +210,7 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
     }
     private bool PostProcessing(Bundle.EntryComponent PostEntry, int PostEntryIndex)
     {
-    IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PostEntry.Request);
+      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(PostEntry.Request);
       if (RequestMeta.PyroRequestUri.FhirRequestUri.IsOperation)
       {
         var Message = $"The FHIR server does not support the use of Operations within Transaction Bundles, found Operation request type of : '{RequestMeta.PyroRequestUri.FhirRequestUri.OperationName}'.";

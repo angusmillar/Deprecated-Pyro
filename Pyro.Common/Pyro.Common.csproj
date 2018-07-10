@@ -121,6 +121,7 @@
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="DtoEntity\DtoIncludeResource.cs" />
     <Compile Include="DtoEntity\DtoResource.cs" />
+    <Compile Include="DtoEntity\DtoTokenIndex.cs" />
     <Compile Include="Enum\PyroProject.cs" />
     <Compile Include="Global\DbGlobalProperties.cs" />
     <Compile Include="Global\WebConfigPropertiesNames.cs" />
@@ -208,6 +209,15 @@
     <Compile Include="Service\Smart\ISmartScopeService.cs" />
     <Compile Include="Service\Smart\SmartScopeOutcome.cs" />
     <Compile Include="Service\Smart\SmartScopeService.cs" />
+    <Compile Include="Service\Trigger\IResourceTriggerService.cs" />
+    <Compile Include="Service\Trigger\ITriggerInput.cs" />
+    <Compile Include="Service\Trigger\ITriggerOutcome.cs" />
+    <Compile Include="Service\Trigger\ITriggerService.cs" />
+    <Compile Include="Service\Trigger\ResourceTriggerService.cs" />
+    <Compile Include="Service\Trigger\TriggerInput.cs" />
+    <Compile Include="Service\Trigger\TriggerOutcome.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\ITriggerCompartmentDefinition.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\Headers\IPreferHeader.cs" />

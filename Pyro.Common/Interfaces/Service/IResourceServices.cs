@@ -13,9 +13,6 @@ namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServices
   {
-    //TriggersActive
-    //defaults to True and can be set to flase to disable any resource triggers from being fired
-    bool TriggersActive { get; set; }
     
     //Read
     // GET: URL/FhirApi/Patient/5    

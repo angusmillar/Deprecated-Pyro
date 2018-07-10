@@ -27,12 +27,25 @@ namespace Pyro.DataLayer.Support
       if (!IsDeleted)
       {
         ResourceCurrentBase.FhirId = Resource.Id;
-        Hl7.Fhir.Serialization.FhirXmlSerializer FhirXmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
+        Hl7.Fhir.Serialization.FhirXmlSerializer FhirXmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();        
         ResourceCurrentBase.XmlBlob = FhirXmlSerializer.SerializeToString(Resource);
+        
+        // Zip to byte[]
+        //byte[] inputBytes = FhirXmlSerializer.SerializeToBytes(Resource);
 
-        //Now obsolete in FHIR .NET API
-        //ResourceCurrentBase.XmlBlob = Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(Resource);
+        //using (var outputStream = new System.IO.MemoryStream())
+        //{
+        //  using (var gZipStream = new System.IO.Compression.GZipStream(outputStream, System.IO.Compression.CompressionMode.Compress))
+        //    gZipStream.Write(inputBytes, 0, inputBytes.Length);
 
+        //  var outputBytes = outputStream.ToArray();
+
+        //  var outputbase64 = Convert.ToBase64String(outputBytes);
+          
+        //  // TODO do something with the outputStream
+        //}
+
+        
         ResourceCurrentBase.LastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
       }
       else
@@ -42,6 +55,7 @@ namespace Pyro.DataLayer.Support
         ResourceCurrentBase.LastUpdated = DateTimeOffset.Now;
       }
     }
+    
 
     public static DtoResource SetDtoResource<ResourceBaseType>(ResourceBaseType ResourceBase, FHIRAllTypes ResourceType)
       where ResourceBaseType : ResourceBase
@@ -123,7 +137,7 @@ namespace Pyro.DataLayer.Support
       ResourceHistoryBase.XmlBlob = ResourceCurrentBase.XmlBlob;
       ResourceHistoryBase.LastUpdated = ResourceCurrentBase.LastUpdated;
       ResourceHistoryBase.VersionId = ResourceCurrentBase.VersionId;
-      ResourceHistoryBase.Method = ResourceCurrentBase.Method;
+      ResourceHistoryBase.Method = ResourceCurrentBase.Method;      
     }
 
   }

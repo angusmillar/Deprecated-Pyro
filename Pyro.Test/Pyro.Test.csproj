@@ -129,6 +129,7 @@
     <Compile Include="IntergrationTest\Test_ConditionalRequests.cs" />
     <Compile Include="IntergrationTest\Test_OperationDeleteHistoryIndexes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\Test_SearchParameterParse.cs" />
     <Compile Include="Search\Test_SearchParameterService.cs" />
     <Compile Include="Search\Test_DtoSearchParameterGeneric.cs" />
     <Compile Include="Tools\Test_DateTimeSupport.cs" />

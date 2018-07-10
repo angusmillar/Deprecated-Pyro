@@ -12,6 +12,7 @@ using Pyro.Common.Compartment;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.Tools;
 using Pyro.Common.Service.ResourceService;
+using Pyro.Common.Service.Trigger;
 
 namespace Pyro.Common.FhirOperation.Compartment
 {
@@ -24,6 +25,7 @@ namespace Pyro.Common.FhirOperation.Compartment
     private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly IServiceCompartmentCache IServiceCompartmentCache;
+    private readonly IResourceTriggerService IResourceTriggerService;
 
     IResourceServiceOutcome ResourceServiceOutcome;
 
@@ -38,7 +40,8 @@ namespace Pyro.Common.FhirOperation.Compartment
       IRequestMetaFactory IRequestMetaFactory,
       IServiceCompartmentRepository IServiceCompartmentRepository,
       IServiceSearchParameterCache IServiceSearchParameterCache,
-      IServiceCompartmentCache IServiceCompartmentCache)
+      IServiceCompartmentCache IServiceCompartmentCache,
+      IResourceTriggerService IResourceTriggerService)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -47,6 +50,7 @@ namespace Pyro.Common.FhirOperation.Compartment
       this.IServiceCompartmentRepository = IServiceCompartmentRepository;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
+      this.IResourceTriggerService = IResourceTriggerService;
 
       var PyroHealthCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
       PyroOrgUrl = $"{PyroHealthCodeSystem.Url}/{PyroHealthInformation.PyroServerCodeSystem.Codes.CompartmentDefinition.GetPyroLiteral()}";
@@ -174,9 +178,10 @@ namespace Pyro.Common.FhirOperation.Compartment
           //Commit CompartmentDefinition with Active tag, disable triggers on doing so as the triggers will block
           //the update. 
           IRequestMeta RequestMetaUpdateCompartmentDef = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.CompartmentDefinition}/{CompartDef.Id}");
-          IResourceServices.TriggersActive = false;
+          //IResourceServices.TriggersActive = false;
+          this.IResourceTriggerService.TriggersActive = false;
           var IResourceServicesOutcome = IResourceServices.Put(CompartDef.Id, CompartDef, RequestMetaUpdateCompartmentDef);
-          IResourceServices.TriggersActive = true;
+          this.IResourceTriggerService.TriggersActive = true;
 
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
           ResourceServiceOutcome.IsDeleted = false;

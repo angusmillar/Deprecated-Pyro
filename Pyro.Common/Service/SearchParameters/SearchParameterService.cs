@@ -140,7 +140,7 @@ namespace Pyro.Common.Service.SearchParameters
 
       return _SearchParametersServiceOutcome;
     }
-    
+
     private void ChainSearchProcessing(Tuple<string, string> Parameter)
     {
       _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, _ResourceType);
@@ -181,29 +181,27 @@ namespace Pyro.Common.Service.SearchParameters
             }
           }
         }
-        
+
         if (PreviousChainSearchParameter == null)
         {
           oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
-          //ParameterModifierTypedResource = _ResourceType.GetLiteral();
         }
-        else 
+        else
         {
           if (string.IsNullOrWhiteSpace(PreviousChainSearchParameter.TypeModifierResource))
           {
             if (PreviousChainSearchParameter.TargetResourceTypeList != null)
             {
               if (PreviousChainSearchParameter.TargetResourceTypeList.Count == 1)
-              {                
+              {
                 List<DtoServiceSearchParameterLight> _DtoSupportedSearchParametersListForTarget = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, PreviousChainSearchParameter.TargetResourceTypeList[0].ResourceType.GetLiteral());
                 DtoServiceSearchParameterLight oSupportedSearchParameterForTarget = _DtoSupportedSearchParametersListForTarget.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
-                //PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;
                 PreviousChainSearchParameter.TypeModifierResource = oSupportedSearchParameterForTarget.Resource;
-                oSupportedSearchParameter = oSupportedSearchParameterForTarget;                
-                
+                oSupportedSearchParameter = oSupportedSearchParameterForTarget;
+
               }
               else
-              {                
+              {
                 List<DtoServiceSearchParameterLight> oMultiChainedSupportedSearchParameter = new List<DtoServiceSearchParameterLight>();
                 foreach (var TargetResourceType in PreviousChainSearchParameter.TargetResourceTypeList)
                 {
@@ -216,8 +214,8 @@ namespace Pyro.Common.Service.SearchParameters
                   }
                 }
                 if (oMultiChainedSupportedSearchParameter.Count() == 1)
-                {                  
-                  PreviousChainSearchParameter.TypeModifierResource = oMultiChainedSupportedSearchParameter[0].Resource;                 
+                {
+                  PreviousChainSearchParameter.TypeModifierResource = oMultiChainedSupportedSearchParameter[0].Resource;
                   oSupportedSearchParameter = oMultiChainedSupportedSearchParameter[0];
                 }
                 else
@@ -229,26 +227,29 @@ namespace Pyro.Common.Service.SearchParameters
                   //PreviousChainSearchParameter.TypeModifierResource = oMultiChainedSupportedSearchParameter[0].Resource;
                   string RefResources = string.Empty;
                   oMultiChainedSupportedSearchParameter.ForEach(x => RefResources += ", " + x.Resource);
-                  var DtoUnspportedSearchParameter = new UnspportedSearchParameter();
-                  DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
+                  //var DtoUnspportedSearchParameter = new UnspportedSearchParameter();
+                  //DtoUnspportedSearchParameter.RawParameter = $"{Parameter.Item1}={Parameter.Item2}";
                   string ResourceName = string.Empty;
                   if (_ResourceType.HasValue)
                     ResourceName = _ResourceType.Value.ToString();
-                  DtoUnspportedSearchParameter.ReasonMessage = $"The chained search parameter '{Parameter.Item1}' is ambiguous. ";
-                  DtoUnspportedSearchParameter.ReasonMessage += $"Additional information: ";
-                  DtoUnspportedSearchParameter.ReasonMessage += $"The search parameter '{oMultiChainedSupportedSearchParameter[0].Name}' can referance the following resource types ({RefResources.TrimStart(',').Trim()}). ";
-                  DtoUnspportedSearchParameter.ReasonMessage += $"To correct this you must prefix the search parameter with a Type modifier, for example: '{PreviousChainSearchParameter.Name}:{oMultiChainedSupportedSearchParameter[0].Resource}.{oMultiChainedSupportedSearchParameter[0].Name}' ";
-                  DtoUnspportedSearchParameter.ReasonMessage += $"If the '{oMultiChainedSupportedSearchParameter[0].Resource}' resource was the intended referance for the search parameter '{oMultiChainedSupportedSearchParameter[0].Name}'.";
-                  _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+                  string Message = string.Empty;
+                  Message = $"The chained search parameter '{Parameter.Item1}' is ambiguous. ";
+                  Message += $"Additional information: ";
+                  Message += $"The search parameter '{oMultiChainedSupportedSearchParameter[0].Name}' can referance the following resource types ({RefResources.TrimStart(',').Trim()}). ";
+                  Message += $"To correct this you must prefix the search parameter with a Type modifier, for example: '{PreviousChainSearchParameter.Name}:{oMultiChainedSupportedSearchParameter[0].Resource}.{oMultiChainedSupportedSearchParameter[0].Name}' ";
+                  Message += $"If the '{oMultiChainedSupportedSearchParameter[0].Resource}' resource was the intended referance for the search parameter '{oMultiChainedSupportedSearchParameter[0].Name}'.";
+                  if (_SearchParametersServiceOutcome.FhirOperationOutcome == null)
+                  {
+                    _SearchParametersServiceOutcome.FhirOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Processing, Message);
+                  }
+                  else
+                  {
+                    Common.Tools.FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Processing, Message, _SearchParametersServiceOutcome.FhirOperationOutcome);
+                  }
+                  _SearchParametersServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                   ErrorInSearchParameterProcessing = true;
-
-
-
-
-                  //ParameterModifierTypedResource = oMultiChainedSupportedSearchParameter[0].Resource;
-                  //throw new Exception("This is then case where we must search for matches as we have many possiable search parameters");
                 }
-              }              
+              }
             }
             else
             {
@@ -269,8 +270,12 @@ namespace Pyro.Common.Service.SearchParameters
           else if (CheckModifierTypeResourceValidForSearchParameter(PreviousChainSearchParameter.TypeModifierResource, PreviousChainSearchParameter.TargetResourceTypeList))
           {
             _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, PreviousChainSearchParameter.TypeModifierResource);
-            oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);            
-            PreviousChainSearchParameter.TypeModifierResource = oSupportedSearchParameter.Resource;            
+            oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == ParameterNameNoModifier);
+            if (oSupportedSearchParameter.Resource == FHIRAllTypes.Resource.GetLiteral())
+            {
+              oSupportedSearchParameter.Resource = PreviousChainSearchParameter.TypeModifierResource;
+            }
+            PreviousChainSearchParameter.TypeModifierResource = oSupportedSearchParameter.Resource;
           }
           else
           {
@@ -292,7 +297,7 @@ namespace Pyro.Common.Service.SearchParameters
 
 
         _DtoSupportedSearchParametersList.Clear();
-        
+
 
 
         if (oSupportedSearchParameter != null)
@@ -322,13 +327,13 @@ namespace Pyro.Common.Service.SearchParameters
                 if (ParentChainSearchParameter.ChainedSearchParameter == null)
                 {
                   ParentChainSearchParameter.ChainedSearchParameter = Temp;
-                }                
-                PreviousChainSearchParameter.ChainedSearchParameter = Temp;                                
+                }
+                PreviousChainSearchParameter.ChainedSearchParameter = Temp;
               }
-              
+
               PreviousChainSearchParameter = Temp;
               if (i != ChaimedParameterSplit.Count() - 1)
-                PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;              
+                PreviousChainSearchParameter.Modifier = SearchParameter.SearchModifierCode.Type;
             }
           }
           else
@@ -365,7 +370,7 @@ namespace Pyro.Common.Service.SearchParameters
         }
       }
 
-      
+
       if (!ErrorInSearchParameterProcessing)
         _SearchParametersServiceOutcome.SearchParameters.SearchParametersList.Add(ParentChainSearchParameter);
     }
@@ -383,6 +388,40 @@ namespace Pyro.Common.Service.SearchParameters
       if (oSupportedSearchParameter != null)
       {
         ISearchParameterBase oSearchParameter = ISearchParameterFactory.CreateSearchParameter(oSupportedSearchParameter, Parameter);
+
+        if (oSearchParameter is SearchParameterReferance SearchParameterReferance)
+        {
+          foreach (var x in SearchParameterReferance.ValueList)
+          {
+            if (x.FhirRequestUri != null && string.IsNullOrWhiteSpace(x.FhirRequestUri.ResourseName))
+            {
+              //After parsing the search parameter of type reference thewre is no Resource Type for the reference
+              //e.g no Patient is the example 'Patient/123456'
+              string RefResources = string.Empty;
+              SearchParameterReferance.TargetResourceTypeList.ForEach(v => RefResources += ", " + v.ResourceType.GetLiteral());
+              string ResourceName = string.Empty;
+              if (_ResourceType.HasValue)
+                ResourceName = _ResourceType.Value.ToString();
+              string Message = string.Empty;
+              Message = $"The search parameter '{Parameter.Item1}' is ambiguous. ";
+              Message += $"Additional information: ";
+              Message += $"The search parameter '{SearchParameterReferance.Name}' can referance the following resource types ({RefResources.TrimStart(',').Trim()}). ";
+              Message += $"To correct this you must prefix the search parameter with a Type modifier, for example: '{SearchParameterReferance.Name}={SearchParameterReferance.TargetResourceTypeList[0].ResourceType.GetLiteral()}/{x.FhirRequestUri.ResourceId}' ";
+              Message += $"or: '{SearchParameterReferance.Name}:{SearchParameterReferance.TargetResourceTypeList[0].ResourceType.GetLiteral()}={x.FhirRequestUri.ResourceId}' ";
+              Message += $"If the '{SearchParameterReferance.TargetResourceTypeList[0].ResourceType.GetLiteral()}' resource was the intended referance for the search parameter '{SearchParameterReferance.Name}'.";
+              if (_SearchParametersServiceOutcome.FhirOperationOutcome == null)
+              {
+                _SearchParametersServiceOutcome.FhirOperationOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Processing, Message);
+              }
+              else
+              {
+                Common.Tools.FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Processing, Message, _SearchParametersServiceOutcome.FhirOperationOutcome);
+              }
+              _SearchParametersServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+            }
+          }
+        }
+
         var UnspportedSearchParameterList = new List<UnspportedSearchParameter>();
         if (ValidateSearchParameterSupported(oSupportedSearchParameter, oSearchParameter, UnspportedSearchParameterList))
         {
@@ -406,6 +445,7 @@ namespace Pyro.Common.Service.SearchParameters
           }
           _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
         }
+
       }
       else
       {
@@ -658,15 +698,16 @@ namespace Pyro.Common.Service.SearchParameters
           DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
           DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The parameter's modifier: '{oInboundSearchParameter.Modifier.ToString()}' is not supported by this server for the resource type '{oInboundSearchParameter.Resource.ToString()}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}', ";
         }
-        if (oInboundSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
-        {
+        //I feel we already do this when parseing the Referance Paramerter
+        //if (oInboundSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
+        //{
 
-          if (!ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
-          {
-            DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
-            DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The search parameter modifier was expected to be a Fhir resource type that is supported for this search parameter. The Resource given was: {oInboundSearchParameter.TypeModifierResource} which is not supported for the search parameter '{oInboundSearchParameter.Name}.', ";
-          }
-        }
+        //  if (!ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
+        //  {
+        //    DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
+        //    DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The search parameter modifier was expected to be a Fhir resource type that is supported for this search parameter. The Resource given was: {oInboundSearchParameter.TypeModifierResource} which is not supported for the search parameter '{oInboundSearchParameter.Name}.', ";
+        //  }
+        //}
       }
 
       if (!oInboundSearchParameter.ValidatePrefixes(oSupported))
@@ -685,14 +726,15 @@ namespace Pyro.Common.Service.SearchParameters
         DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + $"The one or more of the search parameter prefixes are not supported by this server against resource type of :'{oInboundSearchParameter.Resource.ToString()}', the whole parameter given was : '{DtoUnspportedSearchParameter.RawParameter}'. The prefixes that are supported are: {PreFixListString}, ";
       }
 
-      if (oInboundSearchParameter.TypeModifierResource != null)
-      {
-        if (!ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
-        {
-          DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
-          DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the Resource type given as the Modifier is not supported. Resource type: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);
-        }
-      }
+      //I feel we already do this when parseing the Referance Paramerter
+      //if (oInboundSearchParameter.TypeModifierResource != null)
+      //{
+      //  if (!ServiceSearchParameterFactory.GetSearchParameterTargetResourceList(oInboundSearchParameter).Contains(oInboundSearchParameter.TypeModifierResource))
+      //  {
+      //    DtoUnspportedSearchParameter = InitaliseUnspportedParamerter(oInboundSearchParameter, DtoUnspportedSearchParameter);
+      //    DtoUnspportedSearchParameter.ReasonMessage = DtoUnspportedSearchParameter.ReasonMessage + String.Format("Unsupported search, the Resource type given as the Modifier is not supported. Resource type: '{0}' in parameter '{1}'., ", oInboundSearchParameter.TypeModifierResource.ToString(), oInboundSearchParameter.RawValue);
+      //  }
+      //}
 
       if (DtoUnspportedSearchParameter != null)
       {

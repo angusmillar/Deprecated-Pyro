@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyro.Common.Service.Trigger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Pyro.Common.DtoEntity
     public bool SingleResourceRead { get; set; }
     public bool RecourceIsDeleted { get; set; }
     public int ResourceVersionNumber { get; set; }
+    public ITriggerOutcome TriggerOutCome { get; set; }
 
     public DtoDatabaseOperationOutcome()
     {
@@ -23,6 +25,7 @@ namespace Pyro.Common.DtoEntity
       this.RecourceIsDeleted = false;
       this.ResourceVersionNumber = 0;
       SingleResourceRead = false;
+      TriggerOutCome = null;
     }
   }
 }

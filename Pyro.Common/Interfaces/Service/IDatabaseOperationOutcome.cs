@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.DtoEntity;
 using System.Net;
+using Pyro.Common.Service.Trigger;
 
 namespace Pyro.Common.Interfaces.Service
 {
@@ -15,5 +16,6 @@ namespace Pyro.Common.Interfaces.Service
     int PagesTotal { get; set; }
     List<DtoResource> ReturnedResourceList { get; set; }
     bool SingleResourceRead { get; set; }
+    ITriggerOutcome TriggerOutCome { get; set; }
   }
 }

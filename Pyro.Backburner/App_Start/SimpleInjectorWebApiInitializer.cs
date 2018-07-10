@@ -2,10 +2,10 @@
 namespace Pyro.Backburner.App_Start
 {
   using Hl7.Fhir.Specification.Source;
-  using Pyro.Common.Enum;
-  using Pyro.Common.DtoEntity;
   using Pyro.Common.Cache;
   using Pyro.Common.CompositionRoot.Concrete;
+  using Pyro.Common.DtoEntity;
+  using Pyro.Common.Enum;
   using Pyro.Common.FhirHttpResponse;
   using Pyro.Common.FhirOperation.BundleTransaction;
   using Pyro.Common.FhirOperation.Compartment;
@@ -16,17 +16,21 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.FhirOperation.ServerSearchParameter;
   using Pyro.Common.FhirOperation.Validate;
   using Pyro.Common.Global;
+  using Pyro.Common.Interfaces.Operation;
   using Pyro.Common.Interfaces.Repositories;
   using Pyro.Common.Interfaces.Service;
-  using Pyro.Common.Interfaces.Operation;
   using Pyro.Common.Interfaces.Tools.HtmlSupport;
   using Pyro.Common.Logging;
   using Pyro.Common.RequestMetadata;
   using Pyro.Common.Search;
-  using Pyro.Common.Service.ResourceService;
+  using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Common.Service.CompartmentSearchParameter;
   using Pyro.Common.Service.Include;
+  using Pyro.Common.Service.ResourceService;
   using Pyro.Common.Service.SearchParameters;
+  using Pyro.Common.Service.Smart;
+  using Pyro.Common.Service.Trigger;
+  using Pyro.Common.Service.Trigger.TriggerServices;
   using Pyro.Common.ServiceRoot;
   using Pyro.Common.ServiceSearchParameter;
   using Pyro.Common.Tools;
@@ -38,19 +42,14 @@ namespace Pyro.Backburner.App_Start
   using Pyro.DataLayer.DbModel.UnitOfWork;
   using Pyro.DataLayer.IndexSetter;
   using Pyro.DataLayer.Repository;
-  using Pyro.Engine.Services;
+  using Pyro.Engine.Operation;
   using Pyro.Engine.Services.Metadata;
   using Pyro.Engine.Services.PyroServiceApi;
-  using Pyro.Engine.Services.ResourceTrigger;
   using Pyro.Engine.Services.Resources;
   using Pyro.Engine.Services.ServiceBaseUrl;
-  using Pyro.Engine.Services.ServiceSearchParameter;
-  using Pyro.Engine.TriggerServices.CompartmentDefinitionResource;
-  using Pyro.Engine.Operation;
-  using SimpleInjector;
-  using Pyro.Common.Search.SearchParameterEntity;
   using Pyro.Engine.Services.ServiceConfiguration;
-  using Pyro.Common.Service.Smart;
+  using Pyro.Engine.Services.ServiceSearchParameter;
+  using SimpleInjector;
 
   public static class SimpleInjectorWebApiInitializer
   {

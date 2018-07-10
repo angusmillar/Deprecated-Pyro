@@ -37,6 +37,88 @@ namespace Pyro.Common.Search.SearchParameterEntity
       return Clone;
     }
 
+    //public override bool TryParseValueOLD(string Values)
+    //{
+    //  this.ValueList = new List<SearchParameterReferanceValue>();
+    //  foreach (string Value in Values.Split(OrDelimiter))
+    //  {
+    //    var DtoSearchParameterReferanceValue = new SearchParameterReferanceValue();
+    //    if (this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing)
+    //    {
+    //      bool? IsMissing = DtoSearchParameterReferanceValue.ParseModifierEqualToMissing(Value);
+    //      if (IsMissing.HasValue)
+    //      {
+    //        DtoSearchParameterReferanceValue.IsMissing = IsMissing.Value;
+    //        this.ValueList.Add(DtoSearchParameterReferanceValue);
+    //      }
+    //      else
+    //      {
+    //        return false;
+    //      }
+    //    }
+    //    else if (!this.IsChained) // If IsChained then there is no value to check
+    //    {
+    //      IPyroFhirUri RequestUri = IPyroFhirUriFactory.CreateFhirRequestUri();
+    //      if (RequestUri.Parse(Value.Trim()))
+    //      {
+    //        DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri;
+    //      }
+    //      else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
+    //      {
+    //        IPyroFhirUri RequestUri2 = IPyroFhirUriFactory.CreateFhirRequestUri();
+    //        if (RequestUri2.Parse($"{this.TypeModifierResource}/{Value.Trim()}"))
+    //        {
+    //          DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri2;
+    //        }
+    //        else
+    //        {
+    //          this.InvalidMessage = $"Unable to parse the Resource reference search parameter. {RequestUri2.ParseErrorMessage}";
+    //          return false;
+    //        }
+    //      }
+    //      else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.AllowedReferanceResourceList.Count() == 1)
+    //      {
+    //        IPyroFhirUri RequestUri3 = IPyroFhirUriFactory.CreateFhirRequestUri();
+    //        if (RequestUri3.Parse($"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}"))
+    //        {
+    //          DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri3;
+    //        }
+    //        else
+    //        {
+    //          this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to. {RequestUri3.ParseErrorMessage}";
+    //          return false;
+    //        }
+    //      }
+    //      else
+    //      {
+    //        this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to.";
+    //        return false;
+    //      }
+
+    //      if (!this.AllowedReferanceResourceList.Contains(DtoSearchParameterReferanceValue.FhirRequestUri.ResourseName))
+    //      {
+    //        this.InvalidMessage = $"The Resource Name used in the reference search parameter is not allowed for this search parameter against this Resource.";
+    //        return false;
+    //      }
+    //      else
+    //      {
+    //        this.ValueList.Add(DtoSearchParameterReferanceValue);
+    //      }
+    //    }
+
+    //  }
+    //  if (this.ValueList.Count() > 1)
+    //    this.HasLogicalOrProperties = true;
+    //  if (this.IsChained || this.ValueList.Count > 0)
+    //  {
+    //    return true;
+    //  }
+    //  else
+    //  {
+    //    return false;
+    //  }
+    //}
+
     public override bool TryParseValue(string Values)
     {
       this.ValueList = new List<SearchParameterReferanceValue>();
@@ -59,43 +141,28 @@ namespace Pyro.Common.Search.SearchParameterEntity
         else if (!this.IsChained) // If IsChained then there is no value to check
         {
           IPyroFhirUri RequestUri = IPyroFhirUriFactory.CreateFhirRequestUri();
-          if (RequestUri.Parse(Value.Trim()))
+          if (!Value.Contains('/') && !string.IsNullOrWhiteSpace(Value.Trim()) && this.AllowedReferanceResourceList.Count() == 1)
           {
+            //If only one allowed Resource type then use this
+            string ParseValue = $"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}";
+            if (RequestUri.Parse(ParseValue))
+            {
+              DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri;
+            }
+          }          
+          else if (RequestUri.Parse(Value.Trim()))
+          {
+            //Mostlikley an absolute for relitive so just parse it 
             DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri;
-          }
-          else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.Modifier.HasValue && this.Modifier == Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Type && !string.IsNullOrWhiteSpace(this.TypeModifierResource))
-          {
-            IPyroFhirUri RequestUri2 = IPyroFhirUriFactory.CreateFhirRequestUri();
-            if (RequestUri2.Parse($"{this.TypeModifierResource}/{Value.Trim()}"))
-            {
-              DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri2;
-            }
-            else
-            {
-              this.InvalidMessage = $"Unable to parse the Resource reference search parameter. {RequestUri2.ParseErrorMessage}";
-              return false;
-            }
-          }
-          else if (!string.IsNullOrWhiteSpace(Value.Trim()) && this.AllowedReferanceResourceList.Count() == 1)
-          {
-            IPyroFhirUri RequestUri3 = IPyroFhirUriFactory.CreateFhirRequestUri();
-            if (RequestUri3.Parse($"{this.AllowedReferanceResourceList[0]}/{Value.Trim()}"))
-            {
-              DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri3;
-            }
-            else
-            {
-              this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to. {RequestUri3.ParseErrorMessage}";
-              return false;
-            }
-          }
+          }                    
           else
           {
-            this.InvalidMessage = $"The Resource Name was not given as a Type modifier in the reference search parameter and the search parameter supports many Resource types. You must specify the resource name the reference relates to.";
+            this.InvalidMessage = $"Unable to parse the reference search parameter of: '{Value}'";
             return false;
           }
 
-          if (!this.AllowedReferanceResourceList.Contains(DtoSearchParameterReferanceValue.FhirRequestUri.ResourseName))
+          //Check the Resource type we resolved to is allowed for the search parameter
+          if (!string.IsNullOrWhiteSpace(DtoSearchParameterReferanceValue.FhirRequestUri.ResourseName) && !this.AllowedReferanceResourceList.Contains(DtoSearchParameterReferanceValue.FhirRequestUri.ResourseName))
           {
             this.InvalidMessage = $"The Resource Name used in the reference search parameter is not allowed for this search parameter against this Resource.";
             return false;
@@ -105,7 +172,6 @@ namespace Pyro.Common.Search.SearchParameterEntity
             this.ValueList.Add(DtoSearchParameterReferanceValue);
           }
         }
-
       }
       if (this.ValueList.Count() > 1)
         this.HasLogicalOrProperties = true;
@@ -118,6 +184,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
         return false;
       }
     }
+
     public override bool ValidatePrefixes(DtoServiceSearchParameterLight DtoSupportedSearchParameters)
     {
       //String Search parameter types never have prefixes so always return true.

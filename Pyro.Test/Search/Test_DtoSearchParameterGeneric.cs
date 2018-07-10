@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using Pyro.Test.IntergrationTest;
 using Pyro.Common.Tools.UriSupport;
 
-namespace Pyro.Test.IndexSetters
+namespace Pyro.Test.Search
 {
   [TestFixture]
   [Category("Search")]

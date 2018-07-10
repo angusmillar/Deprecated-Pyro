@@ -17,14 +17,15 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Service.SearchParameters;
 using Pyro.Common.Search.SearchParameterEntity;
 
-namespace Pyro.Test.IndexSetters
+namespace Pyro.Test.Search
 {
   [TestFixture]
   [Category("Search")]
   class Test_SearchParameterService
   {
+
     private SearchParameterReferance GetMokedSearchParameterReferance()
-    {     
+    {
       return new SearchParameterReferance(TestSetupMocks.GetIPyroFhirUriFactory());
     }
 
@@ -121,7 +122,7 @@ namespace Pyro.Test.IndexSetters
       ServiceSearchParameterLight_LocationName.TargetResourceTypeList = oTargetResourceTypeListOrganization;
       ServiceSearchParameterLight_LocationName.Type = SearchParamType.String;
       LocationServiceSearchParameterLightList.Add(ServiceSearchParameterLight_LocationName);
-      
+
       MokIServiceSearchParameterCache.Setup(x => x.GetSearchParameterForResource("Location")).Returns(LocationServiceSearchParameterLightList);
 
 
@@ -174,7 +175,7 @@ namespace Pyro.Test.IndexSetters
     [Test]
     public void Test_RecursiveChainSearchWithModifiers()
     {
-      var SearchParameterService = SetupMockedSearchParameterService();      
+      var SearchParameterService = SetupMockedSearchParameterService();
       string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
       var DtoSearchParameterGeneric = new SearchParameterGeneric();
       DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
@@ -233,7 +234,7 @@ namespace Pyro.Test.IndexSetters
     public void Test_RecursiveChainSearchNoResourceModifier()
     {
       var SearchParameterService = SetupMockedSearchParameterService();
-    //string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
+      //string UrlSearchParametersString = "?subject:Patient.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
       string UrlSearchParametersString = "?subject.organization.endpoint:Endpoint.name=AcmeMail,AcmeMail2&identifier=123";
       var DtoSearchParameterGeneric = new SearchParameterGeneric();
       DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
@@ -250,7 +251,7 @@ namespace Pyro.Test.IndexSetters
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Name, "subject");
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Resource, FHIRAllTypes.DiagnosticReport.GetLiteral());
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].TypeModifierResource, FHIRAllTypes.Patient.GetLiteral());
-      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  paramerter does not have a child chain parameter");      
+      Assert.IsNotNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  paramerter does not have a child chain parameter");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] is SearchParameterReferance), true, "Expected SearchParameterReferance type cast");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0] as SearchParameterReferance).IsChained, true, "Expected IsChained = true");
 
@@ -303,8 +304,8 @@ namespace Pyro.Test.IndexSetters
       Assert.NotNull(Result, "Test returned null");
       Assert.NotNull(Result.SearchParameters, "SearchParameters returned null");
       Assert.AreEqual(Result.SearchParameters.SearchParametersList.Count, 1, "SearchParametersList must have 3 items");
-      Assert.IsNotNull(Result.SearchParameters.UnspportedSearchParameterList, "There should be a UnSupported Search Parameter for the failed chain parameter");
-      Assert.AreEqual(Result.SearchParameters.UnspportedSearchParameterList.Count, 2, "There should 2 UnSupported Search Parameter messages");
+      Assert.IsNotNull(Result.FhirOperationOutcome, "There should be an operationoutcome as this is a hard fault");
+      Assert.AreEqual(Result.FhirOperationOutcome.Issue.Count, 1, "There should 1 Issue ");
 
       //DiagnosticReport.identifier
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].Type, SearchParamType.Token, "First chain should be type Token");
@@ -316,6 +317,6 @@ namespace Pyro.Test.IndexSetters
       Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter, "The root search  should not have a child chain parameter");
 
     }
-
+    
   }
 }

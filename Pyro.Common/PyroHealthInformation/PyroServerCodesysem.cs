@@ -25,21 +25,33 @@ namespace Pyro.Common.PyroHealthInformation
       [EnumLiteral("Protected")]
       Protected,
     }
-    public static readonly string System = "";
-
+    public static readonly string System = "https://pyrohealth.net/fhir/CodeSystem/pyrofhirserver";
+    public static Coding Protected
+    {
+      get
+      {
+        return new Coding() { Code = Codes.Protected.GetPyroLiteral(), Display = "Protected Resource", System = PyroServerCodeSystem.System };
+      }
+    }
 
     public static CodeSystem GetCodeSystem()
     {
+      var CodeSystemUpdateDate = new DateTimeOffset(2018, 07, 06, 10, 00, 00, new TimeSpan(8, 0, 0));
       var CodeSys = new CodeSystem();
-      CodeSys.Id = "pyroserver";
-      CodeSys.Url = PyroServerCodeSystem.System;      
+      CodeSys.Id = "pyrofhirserver";
+      CodeSys.Meta = new Meta();
+      //When the CodeSystem was last editied key to driving the update in prod servers
+      CodeSys.Meta.LastUpdated = CodeSystemUpdateDate;
+      CodeSys.Meta.Tag = new List<Coding>();
+      //Protected Resource
+      CodeSys.Meta.Tag.Add(PyroServerCodeSystem.Protected);
+      CodeSys.Url = PyroServerCodeSystem.System;
       CodeSys.Version = "1.00";
-      CodeSys.Name = "PyroServerCodeSystem";
+      CodeSys.Name = "PyroFHIRServerCodeSystem";
       CodeSys.Title = "The Pyro Server CodeSystem";
       CodeSys.Status = PublicationStatus.Active;
       CodeSys.Experimental = false;
-      //When the CodeSystem was last editied
-      CodeSys.DateElement = new FhirDateTime(new DateTimeOffset(2018, 05, 01, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      CodeSys.DateElement = new FhirDateTime(CodeSystemUpdateDate);
       CodeSys.Publisher = "Pyrohealth.net";
       var AngusContactDetail = Common.PyroHealthInformation.PyroHealthContactDetailAngusMillar.GetContactDetail();
       CodeSys.Contact = new List<ContactDetail>() { AngusContactDetail };
@@ -77,7 +89,7 @@ namespace Pyro.Common.PyroHealthInformation
         new CodeSystem.ConceptDefinitionComponent()
         {
            Code = Codes.Protected.GetPyroLiteral(),
-           Display = "Protected",
+           Display = "Protected Resource",
            Definition = "Protected entities and resource can not be updated or deleted",
         },
       };
@@ -85,5 +97,5 @@ namespace Pyro.Common.PyroHealthInformation
     }
   }
 
-  
+
 }

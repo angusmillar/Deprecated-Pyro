@@ -28,6 +28,7 @@ using Pyro.Common.Tools;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using LinqKit;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.Service.Trigger;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -52,6 +53,7 @@ namespace Pyro.DataLayer.Repository
     private readonly IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory;
     private readonly IPagingSupport IPagingSupport;
     private readonly IRepositorySwitcher IRepositorySwitcher;
+    private readonly IResourceTriggerService IResourceTriggerService;
 
     private readonly CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
 
@@ -62,7 +64,8 @@ namespace Pyro.DataLayer.Repository
       IFhirReleaseCache IFhirReleaseCache,
       IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
       IPagingSupport IPagingSupport,
-      IRepositorySwitcher IRepositorySwitcher)
+      IRepositorySwitcher IRepositorySwitcher,
+      IResourceTriggerService IResourceTriggerService)
       : base(IPyroDbContext)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
@@ -72,6 +75,7 @@ namespace Pyro.DataLayer.Repository
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
       this.IPagingSupport = IPagingSupport;
       this.IRepositorySwitcher = IRepositorySwitcher;
+      this.IResourceTriggerService = IResourceTriggerService;
       this.CommonRepository = new CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(IPyroDbContext, IPrimaryServiceRootCache);
     }
 
@@ -159,7 +163,7 @@ namespace Pyro.DataLayer.Repository
           string ReferenceResourceName = ChainedSearchParameter.TypeModifierResource;
           int ReferenceSearchParameterId = ChainedSearchParameter.Id;
           int ReferencePrimaryServiceRootUrlId = this.IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
-          
+
           //The Chain Reference Query
           OtherResourceContext = OtherResourceContext
             .Where(x => x.IndexReferenceList
@@ -173,7 +177,7 @@ namespace Pyro.DataLayer.Repository
         else
         {
           throw new InvalidCastException("Internal Server error: Unable to cast InnnerResourceRepository to ICommonResourcePredicate for chain searching.");
-        }        
+        }
       }
       else
       {
@@ -183,7 +187,7 @@ namespace Pyro.DataLayer.Repository
         var ChainParanmeterList = new List<ISearchParameterBase>() { ChainedSearchParameter };
         Predicate = Predicate.And(this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(ChainParanmeterList));
         Predicate = Predicate.And(this.CommonRepository.ANDSearchParameterListPredicateGenerator(ChainParanmeterList));
-        
+
         IQueryable<ResCurrentType> ResCurrentTypeContext = IPyroDbContext.Set<ResCurrentType>();
         ResCurrentTypeContext = ResCurrentTypeContext.Where(Predicate);
         OtherResourceContext = OtherResourceContext
@@ -229,7 +233,7 @@ namespace Pyro.DataLayer.Repository
 
       IQueryable<ResCurrentType> CurrentResourceContext = IPyroDbContext.Set<ResCurrentType>();
       CurrentResourceContext = CurrentResourceContext.Where(Predicate);
-      
+
       //Add Chain Search Parameters
       foreach (var Chain in ChainedSearchParametersList)
         CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
@@ -361,7 +365,7 @@ namespace Pyro.DataLayer.Repository
 
       IQueryable<ResCurrentType> CurrentResourceContext = IPyroDbContext.Set<ResCurrentType>();
       CurrentResourceContext = CurrentResourceContext.Where(Predicate);
-      
+
       //Add Chain Search Parameters
       foreach (var Chain in ChainedSearchParametersList)
         CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
@@ -528,61 +532,93 @@ namespace Pyro.DataLayer.Repository
 
     public IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      var ResourceEntity = new ResCurrentType();
-      DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST, DtoFhirRelease.Id);
-      this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
-      ResourceEntity.IsCurrent = true;
-      this.CommonRepository.DbAddEntity(ResourceEntity);
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType));
-      return DatabaseOperationOutcome;
+
+      ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
+      TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Create;
+      TriggerInput.InboundResource = Resource;
+      TriggerInput.InboundResourceId = Resource.Id;
+      TriggerInput.ResourceType = Resource.ResourceType;
+      TriggerInput.DbTokenIndexList = null;
+      ITriggerOutcome TriggerOutcomeBeforeUpdate = IResourceTriggerService.ProcessTrigger(TriggerInput);
+      if (TriggerOutcomeBeforeUpdate.Report)
+      {
+        DatabaseOperationOutcome.TriggerOutCome = TriggerOutcomeBeforeUpdate;
+        return DatabaseOperationOutcome;
+      }
+      else
+      {
+        var ResourceEntity = new ResCurrentType();
+        DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+        IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST, DtoFhirRelease.Id);
+        this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
+        ResourceEntity.IsCurrent = true;
+        this.CommonRepository.DbAddEntity(ResourceEntity);        
+        DatabaseOperationOutcome.SingleResourceRead = true;
+        DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(ResourceEntity, this.RepositoryResourceType));
+        return DatabaseOperationOutcome;
+      }      
     }
 
     public IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
-      var NewResourceEntity = new ResCurrentType();
-      var ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
-      ResourceHistoryEntity.IsCurrent = false;
-      DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
-      IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
-      this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
-      NewResourceEntity.IsCurrent = true;
-      this.CommonRepository.DbAddEntity(NewResourceEntity);
-      //this.Save();
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = true;
-      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
-      return DatabaseOperationOutcome;
+      ResCurrentType NewResourceEntity = new ResCurrentType();
+      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id);
+
+      ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
+      TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Update;
+      TriggerInput.InboundResource = Resource;
+      TriggerInput.InboundResourceId = Resource.Id;
+      TriggerInput.ResourceType = Resource.ResourceType;
+      TriggerInput.DbTokenIndexList = new List<DtoTokenIndex>();
+      foreach (var Token in ResourceHistoryEntity.IndexTokenList)
+      {
+        TriggerInput.DbTokenIndexList.Add(new DtoTokenIndex() { ServiceSearchParameterId = Token.ServiceSearchParameterId, Code = Token.Code, System = Token.System });
+      }
+      ITriggerOutcome TriggerOutcome = IResourceTriggerService.ProcessTrigger(TriggerInput);
+      if (TriggerOutcome.Report)
+      {
+        DatabaseOperationOutcome.TriggerOutCome = TriggerOutcome;
+        return DatabaseOperationOutcome;
+      }
+      else
+      {
+        ResourceHistoryEntity.IsCurrent = false;
+        DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+        IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
+        this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
+        NewResourceEntity.IsCurrent = true;
+        this.CommonRepository.DbAddEntity(NewResourceEntity);
+        //this.Save();        
+        DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
+        DatabaseOperationOutcome.SingleResourceRead = true;
+        return DatabaseOperationOutcome;
+      }
     }
 
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirId)
     {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);
-      var NewResourceEntity = new ResCurrentType();
-      IndexSettingSupport.SetHistoryResourceEntity(OldResourceEntity, NewResourceEntity);
-      string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
-      NewResourceEntity.IsCurrent = true;
-      NewResourceEntity.IsDeleted = true;
-      NewResourceEntity.LastUpdated = DateTimeOffset.Now;
-      NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
-      NewResourceEntity.XmlBlob = string.Empty;
-      NewResourceEntity.VersionId = NewDeletedResourceVersion;
-      this.CommonRepository.DbAddEntity(NewResourceEntity);
-      OldResourceEntity.IsCurrent = false;
-      //this.Save();
-      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
-      return DatabaseOperationOutcome;
-    }
 
-    public IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection)
-    {
-      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      foreach (string ResourceId in ResourceIdCollection)
+      ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
+      TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Delete;
+      TriggerInput.InboundResource = null;
+      TriggerInput.InboundResourceId = FhirId;
+      TriggerInput.ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(this.RepositoryResourceType.GetLiteral());
+      TriggerInput.DbTokenIndexList = new List<DtoTokenIndex>();
+      foreach (var Token in OldResourceEntity.IndexTokenList)
       {
-        var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);
+        TriggerInput.DbTokenIndexList.Add(new DtoTokenIndex() { ServiceSearchParameterId = Token.ServiceSearchParameterId, Code = Token.Code, System = Token.System });
+      }
+      ITriggerOutcome TriggerOutcome = IResourceTriggerService.ProcessTrigger(TriggerInput);
+      if (TriggerOutcome.Report)
+      {
+        DatabaseOperationOutcome.TriggerOutCome = TriggerOutcome;
+      }
+      else
+      {
         var NewResourceEntity = new ResCurrentType();
         IndexSettingSupport.SetHistoryResourceEntity(OldResourceEntity, NewResourceEntity);
         string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
@@ -594,10 +630,56 @@ namespace Pyro.DataLayer.Repository
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
         this.CommonRepository.DbAddEntity(NewResourceEntity);
         OldResourceEntity.IsCurrent = false;
-
+        //this.Save();
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       }
-      //this.Save();
+      return DatabaseOperationOutcome;
+    }
+
+    public IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection)
+    {
+      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
+      List<ResCurrentType> OldResourceEntityList = new List<ResCurrentType>();
+      //Get each from the database and check for any issues from the triggers
+      foreach (string ResourceId in ResourceIdCollection)
+      {
+        var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);        
+        OldResourceEntityList.Add(OldResourceEntity);
+
+        ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
+        TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Delete;
+        TriggerInput.InboundResource = null;
+        TriggerInput.InboundResourceId = ResourceId;
+        TriggerInput.ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(this.RepositoryResourceType.GetLiteral());
+        TriggerInput.DbTokenIndexList = new List<DtoTokenIndex>();
+        foreach (var Token in OldResourceEntity.IndexTokenList)
+        {
+          TriggerInput.DbTokenIndexList.Add(new DtoTokenIndex() { ServiceSearchParameterId = Token.ServiceSearchParameterId, Code = Token.Code, System = Token.System });
+        }
+        ITriggerOutcome TriggerOutcome = IResourceTriggerService.ProcessTrigger(TriggerInput);
+        if (TriggerOutcome.Report)
+        {
+          DatabaseOperationOutcome.TriggerOutCome = TriggerOutcome;
+          return DatabaseOperationOutcome;
+        }
+      }
+
+      //We have checked all Triggers and no isse so now delete the list.
+      foreach (var OLdEntry in OldResourceEntityList)
+      {
+        var NewResourceEntity = new ResCurrentType();
+        IndexSettingSupport.SetHistoryResourceEntity(OLdEntry, NewResourceEntity);
+        string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OLdEntry.VersionId);
+        NewResourceEntity.IsCurrent = true;
+        NewResourceEntity.IsDeleted = true;
+        NewResourceEntity.LastUpdated = DateTimeOffset.Now;
+        NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
+        NewResourceEntity.XmlBlob = string.Empty;
+        NewResourceEntity.VersionId = NewDeletedResourceVersion;
+        this.CommonRepository.DbAddEntity(NewResourceEntity);
+        OLdEntry.IsCurrent = false;
+        DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
+      }
       return DatabaseOperationOutcome;
     }
 
