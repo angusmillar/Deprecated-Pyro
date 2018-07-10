@@ -247,6 +247,7 @@ namespace Pyro.Backburner.App_Start
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
+      container.Register<ITriggerProtectedResource, TriggerProtectedResource>(Lifestyle.Scoped);
     }
   }
 }

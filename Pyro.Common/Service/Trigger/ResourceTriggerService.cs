@@ -22,6 +22,7 @@ namespace Pyro.Common.Service.Trigger
   public class ResourceTriggerService : IResourceTriggerService
   {
     private readonly ITriggerCompartmentDefinition ITriggerCompartmentDefinition;
+    private readonly ITriggerProtectedResource ITriggerProtectedResource;
 
     private bool _TriggersActive;
 
@@ -31,9 +32,10 @@ namespace Pyro.Common.Service.Trigger
       set { _TriggersActive = value; }
     }
 
-    public ResourceTriggerService(ITriggerCompartmentDefinition ITriggerCompartmentDefinition)
+    public ResourceTriggerService(ITriggerCompartmentDefinition ITriggerCompartmentDefinition, ITriggerProtectedResource ITriggerProtectedResource)
     {
       this.ITriggerCompartmentDefinition = ITriggerCompartmentDefinition;
+      this.ITriggerProtectedResource = ITriggerProtectedResource;
       _TriggersActive = true;
     }
 
@@ -52,14 +54,14 @@ namespace Pyro.Common.Service.Trigger
       if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.None)
         throw new System.NullReferenceException("TriggerInput.CrudOperationType cannot be None");
 
-      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Create || 
+      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Create ||
           TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update)
       {
         if (TriggerInput.InboundResource == null)
-          throw new System.NullReferenceException("TriggerInput.InboundResource cannot be null");               
+          throw new System.NullReferenceException("TriggerInput.InboundResource cannot be null");
       }
 
-      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Create || 
+      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Create ||
           TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update ||
           TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Delete)
       {
@@ -69,24 +71,69 @@ namespace Pyro.Common.Service.Trigger
           throw new System.NullReferenceException("TriggerInput.ResourceType cannot be equal to 'Resource'");
       }
 
-      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update || 
+      if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update ||
           TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Delete)
       {
         if (TriggerInput.DbTokenIndexList == null)
           throw new System.NullReferenceException("TriggerInput.DbTokenIndexList cannot be null for Update or Delete actions");
       }
 
-
+      ITriggerOutcome TriggerOutcomeMain = null;
+      
+      //Resource Specific
       switch (TriggerInput.ResourceType)
       {
         case ResourceType.CompartmentDefinition:
-          return ITriggerCompartmentDefinition.ProcessTrigger(TriggerInput);
-        default:
-          //Return Contiune if no trigger processing required.
-          return new TriggerOutcome() { Report = false };
+          {
+            TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, ITriggerCompartmentDefinition.ProcessTrigger(TriggerInput));
+            break;
+          }
+          
+      }
+
+      //All Triggers
+      TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, ITriggerProtectedResource.ProcessTrigger(TriggerInput));
+
+      return TriggerOutcomeMain;
+    }
+    
+    private ITriggerOutcome CollateOutcomes(ITriggerOutcome TriggerOutcomeMain, ITriggerOutcome TriggerOutcomeNew)
+    {
+      if (TriggerOutcomeMain == null)
+      {
+        return TriggerOutcomeNew;
+      }
+      else
+      {
+        if (!TriggerOutcomeMain.Report && TriggerOutcomeNew.Report)
+        {
+          //The main does not need to report but the new one does so just return the new one
+          return TriggerOutcomeNew;
+        }
+        else if (TriggerOutcomeMain.Report && TriggerOutcomeNew.Report)
+        {
+          //Both Main and New need to report so collate the OperationOutcome Issue lists into a single OperationOutcome.
+          if (TriggerOutcomeMain.Resource != null && TriggerOutcomeMain.Resource is OperationOutcome OptOutMain)
+          {
+            if (TriggerOutcomeNew.Resource != null && TriggerOutcomeNew.Resource is OperationOutcome OptOut)
+            {
+              OptOutMain.Issue.AddRange(OptOut.Issue);
+              return TriggerOutcomeMain;
+            }
+          }
+          throw new System.InvalidCastException("Internal Server Error: ITriggerOutcome Resource is not an OperationOutcome");
+        }
+        else if (TriggerOutcomeMain.Report && !TriggerOutcomeNew.Report)
+        {
+          //The new does not need to report but the Main does so return only the Main
+          return TriggerOutcomeMain;
+        }
+        else
+        {
+          //Both do not need to report so just return the New as it will not be null;
+          return TriggerOutcomeNew;
+        }
       }
     }
-
-    
   }
 }

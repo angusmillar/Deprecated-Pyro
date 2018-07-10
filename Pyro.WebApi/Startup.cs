@@ -106,9 +106,6 @@ namespace Pyro.WebApi
 
       WebApiConfig.Register(HttpConfiguration);
 
-      //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-
-      //BundleConfig.RegisterBundles(BundleTable.Bundles);
       ConfigureAuth(app);
 
       app.UseWebApi(HttpConfiguration);

@@ -17,6 +17,7 @@ using Pyro.Common.Interfaces.Tools.HtmlSupport;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Logging;
 using Pyro.Common.Global;
+using Pyro.Common.Service.Trigger;
 using Pyro.Common.Interfaces.Repositories;
 
 namespace Pyro.WebApi.Attributes
@@ -43,6 +44,7 @@ namespace Pyro.WebApi.Attributes
       var ICommonFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ICommonFactory)) as ICommonFactory;
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
+      var IResourceTriggerService = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IResourceTriggerService)) as IResourceTriggerService;
       //var ILog = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ILog)) as ILog;
 
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
@@ -74,6 +76,8 @@ namespace Pyro.WebApi.Attributes
 
           // Create the Security Event Object
           AuditEvent Audit = new AuditEvent();
+          Audit.Meta = new Meta();
+          Audit.Meta.Tag = new List<Coding>() { Common.PyroHealthInformation.PyroServerCodeSystem.Protected };
           if (actionExecutedContext.Request.Method == HttpMethod.Put)
             Audit.Action = AuditEvent.AuditEventAction.U;
           else if (actionExecutedContext.Request.Method == HttpMethod.Post)
@@ -285,7 +289,9 @@ namespace Pyro.WebApi.Attributes
 
           //Commit to Database          
           Pyro.Common.RequestMetadata.IRequestMeta IRequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.AuditEvent}");
+          IResourceTriggerService.TriggersActive = false;
           IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.Post(Audit, IRequestMeta);
+          IResourceTriggerService.TriggersActive = true;
           //IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.SetResource(Audit, DtoRequestUri, RestEnum.CrudOperationType.Create);
           Transaction.Commit();
         }

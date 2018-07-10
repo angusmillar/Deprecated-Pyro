@@ -217,6 +217,8 @@
     <Compile Include="Service\Trigger\TriggerInput.cs" />
     <Compile Include="Service\Trigger\TriggerOutcome.cs" />
     <Compile Include="Service\Trigger\TriggerServices\ITriggerCompartmentDefinition.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\ITriggerProtectedResource.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\TriggerProtectedResource.cs" />
     <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
